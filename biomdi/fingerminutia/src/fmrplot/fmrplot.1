@@ -1,0 +1,73 @@
+.\""
+.Dd February 15, 2006
+.Dt FMRPLOT 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm fmrplot
+.Nd Plot M1 Finger Minutiae Over an Image
+.Sh SYNOPSIS
+.Nm
+.Fl f
+.Ar m1file
+.Op Fl f Ar m1file2
+.Op Fl f Ar m1file3
+.Op Fl i Ar imgin
+.Fl o
+.Ar imgout
+.Op Fl p
+.Op Fl v Ar num
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to plot the minutiae contained in ANSI/INCITS 378-2004 
+compliant files over a fingerprint image. The image is contained in a file
+as raw format (8-bit grayscale). If the image file name is not given, then
+the minutiae are plotted on a single color background.
+The output file is a JPEG or PNG file
+containing the original image and plotted minutiae. Multiple M1 input files
+can be given.
+.Pp
+The colors used to draw the minutiae are based on the type of
+minutiae, and a different set of colors is used for each input file.
+The color sets used are: {Red, Blue, Green}; {Brown, Cyan, Yellow};
+{Orange, Magenta, Purple}. For example, the first input file will have
+type Other plotted in Red, type Ridge Ending in Blue, and type Bifurcation
+in Green.
+The center-of-mass for the minutiae is plotted with a cross.
+.Pp
+.Bd -literal
+fmrplot -f m1.raw -i img.raw -o m1plotted.jpg
+.Ed
+.Pp
+The options are as follows:
+.Bl -tag -width -indent
+.It Fl f\ \&m1file
+Specifies the file containing a complete M1 Finger Minutiae Format as specified
+by ANSI/INCITS 378-2004. Up to three M1 files can be used as input.
+.It Fl i\ \&imgin
+Specifies the file containing the raw fingerprint image.
+.It Fl o\ \&imgout
+Specifies the file to contain the output image.
+.It Fl p\ \&
+Create the output file in PNG format.
+.It Fl v\ \&num
+Plot the minutiae from the finger view specified. The view numbering starts
+at ``1'' (one), and the value must be less than the number of views in the file.
+If not given, the first view is plotted.
+.El
+.Sh EXAMPLES
+fmrplot -f m1.raw -i img.raw -o m1plotted.jpg -v2
+.Pp
+Produces a JPEG image with the minutiae from the input M1 file's second
+finger view plotted.
+.Pp
+fmrplot -p -f m1-1.raw -f m1-2.raw -f m1-3.raw -i img.raw -o m1plotted.jpg
+.Pp
+Produces a PNG image with the minutiae from the three input M1 files plotted.
+.Pp
+.Sh SEE ALSO
+.Xr prfmr 1 .
+.Sh HISTORY
+Created May 16th, 2005 by NIST.
+PNG option added February 15th, 2006.

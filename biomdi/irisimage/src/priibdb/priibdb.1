@@ -1,0 +1,45 @@
+.\""
+.Dd November 05, 2007.
+.Dt PRIIBDB 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm priibdb
+.Nd Print, in human-readable form, the ISO/IEC 19794-6 Iris Image Biometric
+Data Blocks that are contained within a single file.
+.Sh SYNOPSIS
+.Nm
+.Op Fl v
+.Ar infile
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to print, and optionally validate, the ISO/IEC 19794-6:2005
+compliant iris image data records that are contained within a single file.
+.Pp
+The options are as follows:
+.Bl -tag -width -indent
+.It Fl v
+causes the file records to be validated before printing.
+.El
+.Pp
+.Sh RETURN VALUES
+The
+.Nm
+command returns EXIT_SUCCESS (0) if the input file was sucessfully read,
+EXIT_FAILURE if an error occurs when accessing the file, or memory allocation
+fails.
+.Sh EXAMPLES
+.Nm
+-v sample.iid
+.Pp
+Print and validate all the iris data records contained within the file.
+.Pp
+.Sh SEE ALSO
+.Xr iibdbv 1 ,
+.Xr exit 3 .
+.Sh STANDARDS
+``Information technology - Biometric data interchange formats - Part 6: Iris
+image data'', ISO/IEC 19794-6:2005, June 1, 2005.
+.Sh HISTORY
+Created November 5th, 2007 by NIST.

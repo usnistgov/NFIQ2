@@ -1,0 +1,153 @@
+.\""
+.Dd May 23, 2005
+.Dt MKFRF 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm mkfrf
+.Nd Create ANSI/INCITS 385-2004 Face Recognition Format Records
+.Sh SYNOPSIS
+.Nm
+.Fl h
+.Ar hdrinfo
+.Fl f
+.Ar fdbinfo
+.Fl o
+.Ar outfile
+.Op Fl p
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to create a ANSI/ICITS 385-2004 compliant Face Recognition
+Format records from a set of ASCII text files and images. The resulting
+records are written to the output file.
+.Pp
+.Pp
+.Bd -literal
+mkfrf -h hdr.txt -f fdb.txt -o 385.raw
+.Ed
+.Pp
+The options are as follows:
+.Bl -tag -width -indent
+.It Fl h\ \&hdrinfo
+Specifies the file containing header info, single line, in this form:
+.Bl -tag -width "Number of Faces " -compact
+.It Cm Format ID
+Char ("FAC")
+.It Cm Version
+Char ("010")
+.It Cm Record Length
+Decimal (not currently used)
+.It Cm Number of Faces
+Decimal
+.El
+.Pp
+.It Fl f\ \&fdbinfo
+Specifies the file containing the facial data block (FDB). The FDB contains 
+all the information for a one or more facial information blocks (FIB), 
+feature blocks, and image information blocks (IIB).
+.Pp
+The FDB input file contains multiple sets of lines in a strict order.
+Each set corresponds to one grouping of FDB, FIB, feature blocks, and IIB.
+The first line of each set contains the data for the FIB in this form:
+.Bl -tag -width "Pose Angle Uncertainty Pitch" -compact
+.It Cm Number Feature Points
+Decimal
+.It Cm Gender
+Decimal
+.It Cm Eye Color
+Decimal
+.It Cm Hair Color
+Decimal
+.It Cm Feature Mask
+Hex
+.It Cm Expression
+Hex
+.It Cm Pose Angle Yaw
+Decimal
+.It Cm Pose Angle Pitch
+Decimal
+.It Cm Pose Angle Roll
+Decimal
+.It Cm Pose Angle Uncertainty Yaw
+Decimal
+.It Cm Pose Angle Uncertainty Pitch
+Decimal
+.It Cm Pose Angle Uncertainty Roll
+Decimal
+.El
+.Pp
+If there are feature points, lines 2 .. (Number Feature Points + 1)
+contain feauture point information. (If there are no feature points, the
+Image Information Block starts on line 2; see next section).
+Each feature point line is of this form:
+.Bl -tag -width "Feature Point" -compact
+.It Cm Type
+Decimal
+.It Cm Feature Point
+Decimal.Decimal (i.e. 3.6)
+.It Cm X Coordinate
+Decimal
+.It Cm Y Coordinate
+Decimal
+.El
+.Pp
+The next line contains the Image Information Block in this form:
+.Bl -tag -width "Image Color Space" -compact
+.It Cm Facial Image Type
+Decimal
+.It Cm Image Data Type
+Decimal
+.It Cm Width
+Decimal
+.It Cm Height
+Decimal
+.It Cm Image Color Space
+Decimal
+.It Cm Source Type
+Decimal
+.It Cm Device Type
+Decimal
+.It Cm Quality
+Decimal
+.El
+.Pp
+The last line of the Facial Data Block set contains the name of the file
+that contains the image:
+.Bl -tag -width "Image Filename" -compact
+.It Cm Image Filename
+String
+.El
+.Pp
+.It Fl p
+causes the created record(s) to be printed to the screen
+.El
+.Sh EXAMPLES
+.Pp
+\'mkfrf -h hdr.txt -f fdb.txt -o 385.raw -p'
+.Pp
+Produces a file containing the face recognition format record(s), and prints
+the resulting record to the terminal.
+.Pp
+.Sh FILES
+Example header info file:
+.Bd -literal -compact
+FAC 010 0 2
+.Ed
+.Pp
+In this example facial data block file, there are two feature points associated 
+with the first facial data block, and none associated with the second:
+.Bd -literal -compact
+2 1 01 03 000003 04 10 5 10 5 5 5
+0 0 288 352 1 2 0 0
+1 3.6 100 100
+1 9.15 125 126
+testimg.jpg
+0 1 02 01 000004 04 15 2 15 3 4 5
+0 0 352 288 1 2 0 0
+testimg2.jpg
+.Ed
+.Sh SEE ALSO
+.Xr prfrf 1 .
+.Sh HISTORY
+Created May 23rd, 2005 by NIST.

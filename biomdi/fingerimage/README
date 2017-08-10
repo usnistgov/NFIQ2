@@ -1,0 +1,18 @@
+This distribution contains the source for the Finger Image library and utility
+programs. Currently, records conforming to the ANSI-INCITS 381-2004 and
+ISO/IEC 19794-4:2004 standards are processed.
+
+Gnu make is required to build and install this distribution.
+
+Installation steps:
+	make
+	make install
+
+The top-level Makefile can be changed to specify the installation directories
+for the binaries, libraries, and man pages. The make variables are 
+INCPATH, LIBPATH, BINPATH, and MANPATH.
+
+On some systems (Linux, for example), it may be required to reload the 
+dynamic linker cache after installation by running the 'ldconfig' command.
+
+'make clean' will remove the local build directories and intermediate files.

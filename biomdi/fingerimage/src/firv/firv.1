@@ -1,0 +1,59 @@
+.\""
+.Dd August 23, 2006
+.Dt FIRV 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm firv
+.Nd Validate the ANSI or ISO Finger Image-Based Records contained within
+a single file.
+.Sh SYNOPSIS
+.Nm
+.Oo Fl ti Ar type Oc
+.Ar file
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to validate ANSI and ISO Finger Image Format records
+that are contained within a single file. Exit codes are set based on the
+result of the validation.
+.Pp
+The options are as follows:
+.Bl -tag
+.It Fl ti\ \&type
+Specifies the input file type.
+.Pp
+Valid types for the input file are:
+.Bl -tag -width "ANSI" -compact
+.It Cm ANSI
+ANSI/INCITS 381-2004 format;
+.It Cm ISO
+ISO/IEC 19794-4:2005 format.
+.El
+The default input type is ANSI.
+.El
+.Sh RETURN VALUES
+The
+.Nm
+command returns 0 if the finger image records are valid, 1 if they are invalid,
+or if some other error occurs (failure to open the input file, for example).
+.Sh EXAMPLES
+firv lfing.381
+.Pp
+firv -ti ISO lfing.ISO
+.Pp
+Validate the finger image records.
+.Pp
+.Sh SEE ALSO
+.Xr mkfir 1 ,
+.Xr prfir 1 .
+.Sh STANDARDS
+``Finger Image-Based Data Interchange Format'', ANSI/INCITS 381-2004,
+May 13, 2004.
+.Pp
+``Information technology - Biometrita interchange formats - Part 4:
+Finger image data'', ISO/IEC 19794-4:2004, 2005-06-01.
+.Sh HISTORY
+Created August 23rd, 2006 by NIST.
+.Pp
+Added support for ISO/IEC 19794-4:2004, August 28 2008 by NIST.

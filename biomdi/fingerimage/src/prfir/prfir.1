@@ -1,0 +1,71 @@
+.\""
+.Dd August 11, 2006
+.Dt PRFIR 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm prfir
+.Nd Prints a Finger Image Record in human-readable form.
+.Sh SYNOPSIS
+.Nm
+.Op Fl v
+.Oo Fl ti Ar type Oc
+.Ar file
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to print ANSI or ISO finger image records
+in human-readable form. The output is sent to stdout, while error messages
+are sent to stderr. A file can contain multiple finger image records.
+The
+.Nm
+program will attempt to read an ANSI format record unless another type is
+specified with the
+.Fl ti
+option.
+.Pp
+The image record can be optionally verified, which means the certain fields 
+in the record are checked against constraints given in the ANSI or ISO
+specification.
+.Pp
+The options are as follows:
+.Bl -tag
+.It Fl v
+causes the image file to be verified before printing.
+.It Fl ti\ \&type
+Specifies the input file type.
+.Pp
+Valid types for the input file are:
+.Bl -tag -width "ANSI" -compact
+.It Cm ANSI
+ANSI/INCITS 381-2004 format;
+.It Cm ISO
+ISO/IEC 19794-4:2005 format.
+.El
+The default input type is ANSI.
+.El
+.Sh EXAMPLES
+prfir lfing.381
+.Pp
+Print the finger image records in the file.
+.Pp
+prfir -v -ti ISO lfing.ISO
+.Pp
+Verify, and if successful, print the ISO finger image records.
+.Pp
+.Sh SEE ALSO
+.Xr prfmr 1 ,
+.Xr mkfir 1 ,
+.Xr firv 1 .
+.Sh BUGS
+There should be a way to extract the image data.
+.Sh STANDARDS
+``Finger Image-Based Data Interchange Format'', ANSI/INCITS 381-2004,
+May 13, 2004.
+.Pp
+``Information technology - Biometrita interchange formats - Part 4:
+Finger image data'', ISO/IEC 19794-4:2004, 2005-06-01.
+.Sh HISTORY
+Created August 11th, 2006 by NIST.
+.Pp
+Added support for ISO/IEC 19794-4:2004, August 28 2008 by NIST.

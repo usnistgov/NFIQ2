@@ -1,0 +1,54 @@
+.\""
+.Dd June 16, 2005
+.Dt AN2K2FMR 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm an2k2fmr
+.Nd Convert ANSI/NIST 2000 Format Type-9 records to ANSI-378 M1 fingerprint 
+minutiae records.
+.Sh SYNOPSIS
+.Nm
+.Fl i
+.Ar an2kfile
+.Fl o
+.Ar m1file
+.Op Fl v
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to convert an ANSI/NIST 1-2000 compliant record 
+to an ANSI/INCITS 378-2004 Finger Minutiae Format record. The minutiae
+(X,Y,Theta), ridge count, core and delta information is converted.
+.Pp
+.Pp
+.Bd -literal
+an2k2fmr -i m1.raw -o an2k.raw
+.Ed
+.Pp
+The options are as follows:
+.Bl -tag -width -indent
+.It Fl i\ \&an2kfile
+Specifies the input file containing ANSI/NIST records.
+.It Fl o\ \&fmrkfile
+Specifies the output file that will contain the M1 records.
+.It Fl v
+causes the M1 file to be verified after creating the output file.
+.El
+.Sh EXAMPLES
+\'an2k2fmr -i an2k.raw -o m1.raw'
+.Pp
+Produces an M1 file containing the minutiae, ridge count, and 
+core/delta information placed into the proper records.
+.Pp
+.Sh SEE ALSO
+.Xr mkfmr 1 ,
+.Xr prfmr 1 ,
+.Xr fmr2an2k 1 ,
+.Xr an2k2iaf 1 .
+.Sh STANDARDS
+``Data Format for the Interchange of Fingerprint, Facial, Scar Mark & Tatto 
+(SMT) Information'', ANSI/NIST-ITL 1-2000.
+``Finger Minutiae Format for Data Interchange'', ANSI/INCITS 378-2004.
+.Sh HISTORY
+Created June 16th, 2005 by NIST.

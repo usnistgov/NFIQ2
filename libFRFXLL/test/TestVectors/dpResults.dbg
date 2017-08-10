@@ -1,0 +1,53 @@
+/*
+    FingerJetFX OSE -- Fingerprint Feature Extractor, Open Source Edition
+
+    Copyright (c) 2011 by DigitalPersona, Inc. All rights reserved.
+
+    DigitalPersona, FingerJet, and FingerJetFX are registered trademarks 
+    or trademarks of DigitalPersona, Inc. in the United States and other
+    countries.
+
+    FingerJetFX OSE is open source software that you may modify and/or
+    redistribute under the terms of the GNU Lesser General Public License
+    as published by the Free Software Foundation, either version 3 of the 
+    License, or (at your option) any later version, provided that the 
+    conditions specified in the COPYRIGHT.txt file provided with this 
+    software are met.
+ 
+    For more information, please visit digitalpersona.com/fingerjetfx.
+*/ 
+/*
+      LIBRARY: dpfrtexll.a - Fingerprint Feature Extractor - Low Level API
+
+      ALGORITHM:      Alexander Ivanisov
+                      Yi Chen
+                      Salil Prabhakar
+      IMPLEMENTATION: Alexander Ivanisov
+                      Jacob Kaminsky
+                      Lixin Wei
+      DATE:           11/08/2011
+*/
+
+//
+// This file maps message Id values in to a text string that contains
+// the symbolic name used for the message Id.  Useful for debugging
+// output.
+//
+
+struct {
+    FRFXLL_RESULT MessageId;
+    char *SymbolicName;
+} dpResultsSymbolicNames[] = {
+ (FRFXLL_RESULT) FRFXLL_OK, "FRFXLL_OK",
+ (FRFXLL_RESULT) FRFXLL_ERR_FB_TOO_SMALL_AREA, "FRFXLL_ERR_FB_TOO_SMALL_AREA",
+ (FRFXLL_RESULT) FRFXLL_ERR_INVALID_PARAM, "FRFXLL_ERR_INVALID_PARAM",
+ (FRFXLL_RESULT) FRFXLL_ERR_NO_MEMORY, "FRFXLL_ERR_NO_MEMORY",
+ (FRFXLL_RESULT) FRFXLL_ERR_MORE_DATA, "FRFXLL_ERR_MORE_DATA",
+ (FRFXLL_RESULT) FRFXLL_ERR_INTERNAL, "FRFXLL_ERR_INTERNAL",
+ (FRFXLL_RESULT) FRFXLL_ERR_INVALID_BUFFER, "FRFXLL_ERR_INVALID_BUFFER",
+ (FRFXLL_RESULT) FRFXLL_ERR_INVALID_HANDLE, "FRFXLL_ERR_INVALID_HANDLE",
+ (FRFXLL_RESULT) FRFXLL_ERR_INVALID_IMAGE, "FRFXLL_ERR_INVALID_IMAGE",
+ (FRFXLL_RESULT) FRFXLL_ERR_INVALID_DATA, "FRFXLL_ERR_INVALID_DATA",
+ (FRFXLL_RESULT) FRFXLL_ERR_NO_FP, "FRFXLL_ERR_NO_FP",
+ (FRFXLL_RESULT) 0xFFFFFFFF, NULL
+};

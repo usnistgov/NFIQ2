@@ -1,0 +1,58 @@
+.\""
+.Dd March 7, 2007
+.Dt FMRISOCOMPACT 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm fmrisocompact
+.Nd Convert some aspects of an INCITS 378 Finger Minutiae Record (FMR) to the
+ISO Finger Minutiae Card Format, then back.
+.Sh SYNOPSIS
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to simulate the conversion of an INCITS M1 FMR
+to the equivalent ISO Finger Minutiae Card Format, then back to M1 format.
+The conversion
+is accomplished by modifying certain values in the minutiae records based
+on constraints in the ISO standard. For example, the minutia angle is
+represented in six bits, so passing the angle value through a six-bit value
+then back to the M1 eight-bit equivalent may cause a loss of precision.
+.Pp
+Currently, only the angle values are constrained.
+.Pp
+The options are as follows:
+.Bl -tag -width -indent
+.It Fl i\ \&m1infile
+Specifies the file containing a complete M1 Finger Minutiae Format as specified
+by ANSI/INCITS 378-2004.
+.It Fl o\ \&m1outfile
+Specifies the file that will contain the modified minutiae, in M1 format.
+This file must not exist prior to execution of
+.Nm .
+.El
+.Sh EXAMPLES
+.Nm
+-i m1.raw -o newm1.raw
+.Pp
+Produces a new file containing the same minutia records as the input file,
+after passing through the simulated conversions.
+.Pp
+.Sh SEE ALSO
+.Xr mkfmr 1 ,
+.Xr fmrplot 1 ,
+.Xr fmrprune 1 ,
+.Xr prfmr 1 .
+.Sh STANDARDS
+``Finger Minutiae Format for Data Interchange'', ANSI/INCITS 378-2004,
+February 20, 2004.
+
+``Information Technology - Biometric data interchange formats - Part 2: 
+Finger minuitae data'', ISO/IEC 19794-2, September 2005.
+.Sh HISTORY
+Created March 7th, 2007 by NIST.

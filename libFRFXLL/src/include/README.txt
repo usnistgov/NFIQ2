@@ -1,0 +1,1 @@
+This folder contains the configuration files for the external components.

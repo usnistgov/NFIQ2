@@ -1,0 +1,37 @@
+.\""
+.Dd August 23, 2006
+.Dt FRFV 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm frfv
+.Nd Validate the ANSI-385 Face Recognition Format records contained within
+a single file.
+.Sh SYNOPSIS
+.Nm
+.Ar file
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to validate ANSI/INCITS 385-2004 Face Recognition Format
+record that are contained within a single file. Exit codes are set based on the
+result of the validation.
+.Pp
+.Sh RETURN VALUES
+The
+.Nm
+command returns 0 if the finger image records are valid, 1 if they are invalid,
+and -1 if some other error occurs (failure to open the input file, for example).
+.Sh EXAMPLES
+\'frfv 385.raw'
+.Pp
+Validate the finger image records.
+.Pp
+.Sh SEE ALSO
+.Xr mkfir 1 ,
+.Xr prfir 1 ,
+.Sh STANDARDS
+``Face Recognition Format for Data Interchange'', ANSI/INCITS 385-2004,
+May 13, 2004.
+.Sh HISTORY
+Created August 23rd, 2006 by NIST.

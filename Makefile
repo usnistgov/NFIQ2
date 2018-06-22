@@ -33,3 +33,6 @@ clean:
 	@for subdir in $(SUBDIRS); do \
 		(cd $$subdir && $(MAKE) clean) || exit 1; \
 	done
+
+docker:
+	docker build -t nfiq2 .

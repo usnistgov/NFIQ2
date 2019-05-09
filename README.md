@@ -16,7 +16,10 @@ The major innovation of NFIQ was linking image quality to operational recognitio
 This had several immediate benefits; it allowed quality values to be tightly defined and then numerically calibrated.
 This, in turn, allowed for the standardization needed to support a worldwide deployment of fingerprint sensors with
 universally interpretable image qualities. NFIQ 2.0 is the basis for a revision of the 
-Technical Report [ISO/IEC 29794-4 Biometric sample quality -- Part 4:Finger image data:2010](http://www.iso.org/iso/catalogue_detail.htm?csnumber=50911) into an international standard.  Specifically, NFIQ quality features are being formally standardized as part of [ISO/IEC 29794-4 Biometric sample quality -- Part 4: Finger image data](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791) and NFIQ source code serves as the reference implementation of the standard.
+Technical Report [ISO/IEC 29794-4 Biometric sample quality -- Part 4:Finger image data:2010](http://www.iso.org/iso/catalogue_detail.htm?csnumber=50911) 
+into an international standard.  Specifically, NFIQ quality features are being formally standardized as part of 
+[ISO/IEC 29794-4 Biometric sample quality -- Part 4: Finger image data](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791) and 
+NFIQ source code serves as the reference implementation of the standard.
 
 Operationally, NFIQ has increased the reliability, accuracy, and interoperability  of fingerprint recognition 
 systems by identifying the samples that are likely to cause recognition failure.
@@ -25,50 +28,36 @@ If you would like more information please read the [NFIQ 2.0 Report](https://www
 
 How to Build
 ------------
-If all requirements have been met, building is as simple as:
-```bash
-make
-sudo make install
-```
+The build process is based on CMAKE (https://cmake.org/) which is available for all major platforms. For convenients, a shell script and a powershell 
+script (for Windows MSVC) are available at the root folder.
 
-Library Path for `libbiomdi` will need to be set to run the binary.
+During the CMake process all the external artefacts (biomdi, fingerjetfxose, opencv) will be downloaded from their official distribution location.
 
-Requirements
-------------
- * A supported operating system:
-    * RHEL/CentOS >= 6.x
-    * Ubuntu
-    * macOS >= 10.11
+After CMake generated the according make solution or files, NFIQ2 can be build from the dedicated "build" folder. All generated artefacts will be 
+placed in a dedicated "dist" folder.
 
- * System packages
+The build process has been tested for the following platforms
 
-System Packages
----------------
-Some modules require system packages that may not be installed by default on
-all operating systems. Package names are listed below for RHEL/CentOS, Ubuntu and macOS
-(via [MacPorts](https://www.macports.org)). Other operating systems may use
-similarly-named packages.
+| OS        | Bitness  | Compiler   | CMake Script command | remark                                                                                               |
+|:---------:|:--------:|:----------------------------------------------------:|:---------------------------------------------------------------------------------:|
+| Windows   | 32       | MSVC 2017  | runCmake.ps1                            | builds Visual Studio Solution, use release configuration                          |
+| Windows   | 64       | MSVC 2017  | runCmake.ps1                            | builds Visual Studio Solution, use release configuration                          |
+| Windows   | 32       | MSYS2/GCC  | runCmake.sh x32                         | make files @ ./build/MinGw-x86_64/x32/, artefacts @ ./dist/MinGw-x86_64/x32/GCC/  |
+| Windows   | 64       | MSYS2/GCC  | runCmake.sh x64                         | make files @ ./build/MinGw-x86_64/x64/, artefacts @ ./dist/MinGw-x86_64/x64/GCC/  |
+| Linux     | 32       | GCC        | runCmake.sh x32                         | make files @ ./build/Linux-x86_64/x32/, artefacts @ ./dist/Linux-x86_64/x32/GCC/  |
+| Linux     | 64       | GCC        | runCmake.sh x64                         | make files @ ./build/Linux-x86_64/x64/, artefacts @ ./dist/Linux-x86_64/x64/GCC/  |
+| Mac OSX   | 32       | AppleClang | runCmake.sh x32                         | make files @ ./build/.../x32/, artefacts @ ./dist/.../x32/GCC/  |
+| Mac OSX   | 64       | AppleClang | runCmake.sh x64                         | make files @ ./build/.../x64/, artefacts @ ./dist/.../x64/GCC/  |
+| Android P | 32       | Clang/GCC  | runCmake.sh android-arm32 <path to NDK> | make files @ ./build/android-arm32/, artefacts @ ./dist/android-arm32/Clang/      |
+| Android P | 64       | Clang/GCC  | runCmake.sh android-arm64 <path to NDK> | make files @ ./build/android-arm64/, artefacts @ ./dist/android-arm64/Clang/      |
 
-| Name      | RHEL/CentOS         | MacPorts                | Ubuntu             |
-|:---------:|:-------------------:|:-----------------------:|:------------------:|
-| gcc       | `gcc`               | n/a (requires  [Command Line Tools](https://developer.apple.com/download/more/))| `gcc-6`        |
-| g++       | `gcc-c++`           | n/a (requires  [Command Line Tools](https://developer.apple.com/download/more/))| `g++-6`        |
-| CMAKE     | `cmake`             | `cmake`                 | `cmake`            |
-| OpenCV    | `opencv-devel`      | Build from source included | `libopencv-dev` |
+Due to the specifics of an Android build, a modified (GCC support) NDK needs to be used, which is not part of this NFIQ2 distribution.
 
-*** A minimum version of OpenCV 2.4.2 is required and OpenCV 3.0 => is not supported at this time. ***
+OpenCV version
+--------------
 
-*** MacOS users running 10.12 must use OpenCV 2.4.13.2 ***
-
-####OpenCV build steps if building locally
-
-```bash
- mkdir libOpenCV && cd libOpenCV && cmake -D CMAKE_MAKE_PROGRAM=make ../OpenCV && make opencv_core opencv_ts opencv_imgproc opencv_highgui opencv_flann opencv_features2d opencv_calib3d opencv_ml opencv_video opencv_objdetect opencv_contrib opencv_nonfree opencv_gpu opencv_photo opencv_stitching opencv_videostab
- sudo make install
-```
-
-If you do not have root access or do not wish to install OpenCV you will need to set the Library Path for OpenCV
-
+The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.5.
+the open CV version can be changed within the top level Cmake file (see: set( OPENCV_VERSION "2.4.13.6")).
 
 Communication
 -------------

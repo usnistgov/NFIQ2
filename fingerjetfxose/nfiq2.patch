@@ -1,0 +1,40 @@
+diff -ruN download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/FeatureExtraction.h download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/FeatureExtraction.h
+--- download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/FeatureExtraction.h	2018-04-17 12:53:54.265095500 +0200
++++ download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/FeatureExtraction.h	2018-04-18 15:23:55.286027100 +0200
+@@ -71,16 +71,19 @@
+       yoffs = std::min(y0, int16(y1 - yMax));
+       md.offset.y += yoffs;
+     }
+-    //size_t j = 0;
++    Minutia minutia[md.Capacity];
++    memset( minutia, 0, md.Capacity * sizeof(Minutia));
++    size_t j = 0;
+     for (i = 0; i < md.size(); i++) {
+       int16 x = md.minutia[i].position.x -= xoffs;
+       int16 y = md.minutia[i].position.y -= yoffs;
+-      if (x < 0 || x > xMax || y < 0 || y > yMax) {
+-        memcpy(md.minutia + i, md.minutia + i + 1, ((md.size() - (i + 1)) * sizeof(*md.minutia)));
+-        i--;
+-        md.numMinutia--;
++      if (x >= 0 && x <= xMax && y >= 0 && y <= yMax) {
++        minutia[j] = minutia[i];
++        j++;
+       }
+     }
++    memcpy( md.minutia, minutia, j * sizeof(Minutia));
++    md.numMinutia = j;
+   }
+ 
+   struct FeatureExtractionBase {
+diff -ruN .download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/matchData.h
+--- download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/matchData.h	2018-04-17 12:53:54.281126600 +0200
++++ download/FingerJetFXOSE-master/src/libFRFXLL/src/algorithm/matchData.h	2018-04-18 15:20:58.861109900 +0200
+@@ -275,7 +275,7 @@
+     return CompareMinutiaByConfidence(mp1, mp2);
+   }
+ 
+-  struct MatchData : public MinutiaPoints<76> {
++  struct MatchData : public MinutiaPoints<255> {
+     Footprint footprint;
+     Point offset;
+ 

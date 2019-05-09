@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IHEAD_H
-#define _IHEAD_H
+#ifndef IHEAD_H
+#define IHEAD_H
 
 /************************************************************/
 /*         File Name: IHead.h                               */
@@ -166,4 +166,4 @@ extern int valid_compression(int);
 /* writihdr.c */
 extern void writeihdr(FILE *, IHEAD *);
 
-#endif  /* !_IHEAD_H */
+#endif  /* !IHEAD_H */

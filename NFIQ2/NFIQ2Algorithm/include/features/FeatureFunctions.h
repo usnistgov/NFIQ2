@@ -3,8 +3,7 @@
 
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
+#include "include/InterfaceDefinitions.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 

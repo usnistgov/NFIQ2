@@ -23,12 +23,23 @@
 
 #define QUALITY_SCORE_NOT_AVAILABLE 255
 
+#if defined(__linux) && defined(__i386__)
+void set_fpu (unsigned int mode)
+{
+  asm ("fldcw %0" : : "m" (*&mode));
+}
+#endif
+
+
 using namespace NFIQ;
 using namespace std;
 using namespace cv;
 
 NFIQ2Algorithm::NFIQ2Algorithm()
 {
+    #if defined(__linux) && defined(__i386__)
+    set_fpu (0x27F); /* use double-precision rounding */
+    #endif
 	// init RF module that takes some time to load the parameters
 	m_RandomForestML.initModule();
 }

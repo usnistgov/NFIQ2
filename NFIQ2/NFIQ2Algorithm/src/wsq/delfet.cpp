@@ -67,7 +67,7 @@ of the software.
 #include <util.h>
 
 /*********************************************************************/
-void deletefet(char *feature, FET *fet)
+void deletefet(const char *feature, FET *fet)
 {
   int item;
 
@@ -83,13 +83,13 @@ void deletefet(char *feature, FET *fet)
       fet->names[item-1] = fet->names[item];
       fet->values[item-1] = fet->values[item];
   }
-  fet->names[fet->num-1] = '\0';
-  fet->values[fet->num-1] = '\0';
+  fet->names[fet->num-1] = NULL;
+  fet->values[fet->num-1] = NULL;
   (fet->num)--;
 }
 
 /*********************************************************************/
-int deletefet_ret(char *feature, FET *fet)
+int deletefet_ret(const char *feature, FET *fet)
 {
   int item;
 
@@ -108,8 +108,8 @@ int deletefet_ret(char *feature, FET *fet)
       fet->names[item-1] = fet->names[item];
       fet->values[item-1] = fet->values[item];
   }
-  fet->names[fet->num-1] = '\0';
-  fet->values[fet->num-1] = '\0';
+  fet->names[fet->num-1] = NULL;
+  fet->values[fet->num-1] = NULL;
   (fet->num)--;
 
   return(0);

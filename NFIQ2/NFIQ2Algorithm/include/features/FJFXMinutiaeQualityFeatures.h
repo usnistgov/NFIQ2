@@ -7,15 +7,13 @@
 #include <vector>
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
-#include <FingerprintImageData.h>
-#include <features/BaseFeature.h>
+#include "include/InterfaceDefinitions.h"
+#include "include/FingerprintImageData.h"
+#include "include/features/BaseFeature.h"
 
-#include <FRFXLL.h>
+#include "FRFXLL.h"
 
-#ifdef LINUX
-#define _XOPEN_SOURCE   1
+#if defined LINUX || defined __ANDROID__ || __APPLE__
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -25,6 +23,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <stdint.h>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -35,14 +34,14 @@
 #define IDEALMEAN    127
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
+#if defined WINDOWS || defined WIN32
+#include <sys/queue.h>
+#endif
 extern "C"
 {
 #include <biomdimacro.h>
 #include <fmr.h>
 }
-#if defined WINDOWS || defined WIN32
-#include <sys/queue.h>
-#endif
 #endif
 
 class FJFXMinutiaeQualityFeature : BaseFeature

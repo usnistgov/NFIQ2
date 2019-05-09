@@ -7,10 +7,9 @@
 #include <vector>
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
-#include <FingerprintImageData.h>
-#include <features/BaseFeature.h>
+#include "include/InterfaceDefinitions.h"
+#include "include/FingerprintImageData.h"
+#include "include/features/BaseFeature.h"
 
 static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85, 0.87 };
 

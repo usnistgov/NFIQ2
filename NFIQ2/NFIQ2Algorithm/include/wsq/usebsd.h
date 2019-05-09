@@ -60,11 +60,11 @@ of the software.
       compiler flag is not in use.
 
 ***********************************************************************/
-#ifndef _USEBSD_H
-#define _USEBSD_H
+#ifndef USEBSD_H
+#define USEBSD_H
 
-#if defined(__linux__) && !defined(_BSD_SOURCE)
-#define _BSD_SOURCE
+#if defined(__linux__) && !defined(BSD_SOURCE)
+#define BSD_SOURCE
 #elif defined(__CYGWIN__) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__
 #endif
@@ -75,4 +75,4 @@ of the software.
 /* included here at the end of this file */
 #include <stdio.h>
 
-#endif /* !_USEBSD_H */
+#endif /* !USEBSD_H */

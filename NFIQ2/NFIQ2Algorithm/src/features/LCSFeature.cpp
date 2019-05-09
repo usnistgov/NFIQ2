@@ -247,7 +247,7 @@ double loclar(Mat& block, const double orientation, const int v1sz_x, const int 
 	uint8_t begrid = ridval[0]; //% begining with ridge?
 	std::vector<uint8_t> change;
 	int j;
-	for (int i = 0; i < ridval.size(); i++) {
+	for (unsigned int i = 0; i < ridval.size(); i++) {
 		// circular shift from back to front
 		if (i == 0) j = ridval.size()-1;
 		else j = i-1;
@@ -260,7 +260,7 @@ double loclar(Mat& block, const double orientation, const int v1sz_x, const int 
 	}
 
 	std::vector<uint8_t> changeIndex;
-	for (int i = 1; i < change.size(); i++) {  // skip the first element, same effect
+	for (unsigned int i = 1; i < change.size(); i++) {  // skip the first element, same effect
 		// as "change(1) = []" in Matlab.
 		if(change[i] == 1) {
 			changeIndex.push_back(i-1);
@@ -274,7 +274,7 @@ double loclar(Mat& block, const double orientation, const int v1sz_x, const int 
 		//    Wrv = change - change1r; % ridge and valley thickness
 		std::vector<uint8_t> Wrv;
 		Wrv.push_back(changeIndex[0]);
-		for (int i = 1; i < changeIndex.size(); i++) {
+		for (unsigned int i = 1; i < changeIndex.size(); i++) {
 			Wrv.push_back(changeIndex[i] - changeIndex[i-1]);
 		}
 
@@ -309,21 +309,21 @@ double loclar(Mat& block, const double orientation, const int v1sz_x, const int 
 		std::vector<double> NWr, NWv;
 		double rtemp, vtemp;
 		if (begrid) {
-			for (int i = 0; i < Wrv.size(); i+=2) {
+			for (unsigned int i = 0; i < Wrv.size(); i+=2) {
 				rtemp = static_cast<double>(Wrv[i])/RscaleNorm;
 				NWr.push_back(rtemp);   // Matlab "odd" indices
 			}
-			for (int i = 0; i < Wrv.size()-1; i+=2) {
+			for (unsigned int i = 0; i < Wrv.size()-1; i+=2) {
 				vtemp = static_cast<double>(Wrv[i+1])/VscaleNorm;
 				NWv.push_back(vtemp); // Matlab "even" indices
 			}
 		}
 		else {
-			for (int i = 0; i < Wrv.size(); i+=2) {
+			for (unsigned int i = 0; i < Wrv.size(); i+=2) {
 				vtemp = static_cast<double>(Wrv[i])/VscaleNorm;
 				NWv.push_back(vtemp);   // Matlab "odd" indices
 			}
-			for (int i = 0; i < Wrv.size()-1; i+=2) {
+			for (unsigned int i = 0; i < Wrv.size()-1; i+=2) {
 				rtemp = static_cast<double>(Wrv[i+1])/RscaleNorm;
 				NWr.push_back(rtemp); // Matlab "even" indices
 			}

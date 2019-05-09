@@ -113,7 +113,7 @@ void updatefet(char *feature, char *value, FET *fet)
 }
 
 /***********************************************************************/
-int updatefet_ret(char *feature, char *value, FET *fet)
+int updatefet_ret(const char *feature, const char *value, FET *fet)
 {
   int ret, item;
   int increased, incr;

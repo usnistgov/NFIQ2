@@ -608,6 +608,7 @@ int wsq_dehuff_mem(
       return(ret);
    }
 
+   ihsize = 0;
    found_dqt = 0;
    found_dtt = 0;
    

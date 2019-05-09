@@ -41,8 +41,8 @@ of the software.
 
 *******************************************************************************/
 
-#ifndef _DEFS_H
-#define _DEFS_H
+#ifndef DEFS_H
+#define DEFS_H
 
 /*********************************************************************/
 /*          General Purpose Defines                                  */
@@ -79,4 +79,4 @@ of the software.
 #define CHUNKS          100
 #endif
 
-#endif /* !_DEFS_H */
+#endif /* !DEFS_H */

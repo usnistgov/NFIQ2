@@ -73,7 +73,7 @@ of the software.
 #endif
 
 /*****************************************************************/
-FET *readfetfile(char *file)
+FET *readfetfile(const char *file)
 {
    FILE *fp;
    FET *fet;
@@ -103,7 +103,7 @@ FET *readfetfile(char *file)
 }
 
 /*****************************************************************/
-int readfetfile_ret(FET **ofet, char *file)
+int readfetfile_ret(FET **ofet, const char *file)
 {
    int ret;
    FILE *fp;

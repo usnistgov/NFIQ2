@@ -10,7 +10,14 @@
 #include <windows.h>
 #include <float.h>
 
+#if _MSC_VER && !__INTEL_COMPILER
 #define isnan _isnan // re-define isnan
+#endif
+
+#endif
+
+#if defined __ANDROID__
+#define isnan std::isnan // re-define isnan to avoid ambigious linkage
 #endif
 
 #ifndef M_PI
@@ -125,8 +132,8 @@ cv::Mat QualityMapFeatures::computeOrientationMap(cv::Mat & img, bool bFilterByR
 	{
 		for (int j = 0; j < img.cols; j += bs)
 		{
-			unsigned int actualBS_X = ((img.cols - j) < (int)bs) ? (img.cols - j) : bs;
-			unsigned int actualBS_Y = ((img.rows - i) < (int)bs) ? (img.rows - i) : bs;
+			int actualBS_X = ((img.cols - j) < (int)bs) ? (img.cols - j) : bs;
+			int actualBS_Y = ((img.rows - i) < (int)bs) ? (img.rows - i) : bs;
 
 			// take all blocks (even those of not full block size)
 			int mx = 0;
@@ -152,9 +159,9 @@ cv::Mat QualityMapFeatures::computeOrientationMap(cv::Mat & img, bool bFilterByR
 
 				if (!bBlockFound)
 				{
-					for (unsigned int k = i; k < (i + actualBS_Y); k++)
+					for (int k = i; k < (i + actualBS_Y); k++)
 					{
-						for (unsigned int l = j; l < (j + actualBS_X); l++)
+						for (int l = j; l < (j + actualBS_X); l++)
 						{
 							omImg.at<uchar>(k,l) = 255; // set value of block to white
 						}
@@ -181,9 +188,9 @@ cv::Mat QualityMapFeatures::computeOrientationMap(cv::Mat & img, bool bFilterByR
 			// angle in degrees = greyvalue of block
 			// is in range [0..180] degrees
 			int angleDegree = (int)((angle * 180 / M_PI)+ 0.5);
-			for (unsigned int k = i; k < (i + actualBS_Y); k++)
+			for (int k = i; k < (i + actualBS_Y); k++)
 			{
-				for (unsigned int l = j; l < (j + actualBS_X); l++)
+				for (int l = j; l < (j + actualBS_X); l++)
 				{
 					omImg.at<uchar>(k,l) = angleDegree; // set to angle value
 				}
@@ -264,19 +271,22 @@ bool QualityMapFeatures::getAngleOfBlock(const cv::Mat & block, double & angle, 
 
 cv::Mat QualityMapFeatures::computeNumericalGradientX(const cv::Mat & mat)
 {
-	cv::Mat out(mat.rows, mat.cols, CV_64F);
+	cv::Mat out(mat.rows, mat.cols, CV_64F, Scalar(0));
 
 	for (int y = 0; y < mat.rows; ++y)
 	{
 		const uchar * in_r = mat.ptr<uchar>(y);
 		double* out_r = out.ptr<double>(y);
 
-		out_r[0] = in_r[1] - in_r[0];
-		for (int x = 1; x < mat.cols - 1; ++x)
+		if( mat.cols > 1)
 		{
-			out_r[x] = (in_r[x+1] - in_r[x-1])/2.0;
+			out_r[0] = in_r[1] - in_r[0];
+			for (int x = 1; x < mat.cols - 1; ++x)
+			{
+				out_r[x] = (in_r[x+1] - in_r[x-1])/2.0;
+			}
+			out_r[mat.cols-1] = in_r[mat.cols-1] - in_r[mat.cols-2];
 		}
-		out_r[mat.cols-1] = in_r[mat.cols-1] - in_r[mat.cols-2];
 	}
 	return out;
 }

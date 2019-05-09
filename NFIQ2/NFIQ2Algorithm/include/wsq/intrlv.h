@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _INTRLV_H
-#define _INTRLV_H
+#ifndef INTRLV_H
+#define INTRLV_H
 
 #ifndef MAX_CMPNTS
 #define MAX_CMPNTS   4
@@ -65,4 +65,4 @@ extern int pad_component_planes(unsigned char *, int *, int *, int *,
 extern int test_image_size(const int, const int, const int, int *, int *,
                    const int, const int);
 
-#endif /* !_INTRLV_H */
+#endif /* !INTRLV_H */

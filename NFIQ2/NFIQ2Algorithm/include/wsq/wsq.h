@@ -41,21 +41,12 @@ of the software.
 
 *******************************************************************************/
 
+#ifndef WSQ_H
+#define WSQ_H
 
-#ifndef _WSQ_H
-#define _WSQ_H
-
-#ifndef _STDIO_H
 #include <stdio.h>
-#endif
-
-#ifndef _IHEAD_H
 #include <ihead.h>
-#endif
-
-#ifndef _JPEGL_H
 #include <jpegl.h>
-#endif
 
 #ifndef TRUE
 #define TRUE  1
@@ -337,4 +328,4 @@ extern void free_wsq_decoder_resources(void);
 
 extern int delete_comments_wsq(unsigned char **, int *, unsigned char *, int);
 
-#endif /* !_WSQ_H */
+#endif /* !WSQ_H */

@@ -1,5 +1,5 @@
-#include "FeatureFunctions.h"
 #include "FDAFeature.h"
+#include "FeatureFunctions.h"
 #include "include/NFIQException.h"
 #include "include/Timer.hpp"
 
@@ -270,7 +270,7 @@ double fda(const Mat& block, const double orientation, const int v1sz_x, const i
 	double mVal;
 	Point mLoc;
 	minMaxLoc(amp, 0, &mVal, 0, &mLoc);
-	Mat ampDenom(amp, Rect(0, 0, floor((double)(amp.cols / 2)), 1));
+	Mat ampDenom(amp, Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
 	Scalar iqmDenom = sum(ampDenom);
 	if (mLoc.x == 0 || mLoc.x + 1 >= amp.cols) {
 		// ?????? FIXME

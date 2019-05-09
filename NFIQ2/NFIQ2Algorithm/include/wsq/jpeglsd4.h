@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _JPEGLSD4_H
-#define _JPEGLSD4_H
+#ifndef JPEGLSD4_H
+#define JPEGLSD4_H
 
 #include <jpegl.h>
 
@@ -52,4 +52,4 @@ of the software.
 extern int jpegl_sd4_decode_mem(unsigned char *, const int, const int,
                  const int, const int, unsigned char *);
 
-#endif /* !_JPEGLSD4_H */
+#endif /* !JPEGLSD4_H */

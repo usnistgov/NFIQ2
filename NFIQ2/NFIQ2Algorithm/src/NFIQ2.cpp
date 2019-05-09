@@ -251,7 +251,7 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 				else if (imageFormat.compare("WSQ") == 0)
 					rawImage.fromWSQ(fpImage);
 			}
-			catch (NFIQException)
+			catch (const NFIQException&)
 			{
 				// do not quit if exception occurs, e.g. file not found or not readable
 				std::cout << "       " << vecLines.at(i) << ": NFIQ2 score = N/A" << std::endl;
@@ -345,12 +345,15 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 				sfs << std::setprecision(3) << time;
 			}
 			
-			// log actionable quality feedback
-			std::list<NFIQ::ActionableQualityFeedback>::iterator it_aq;
-			for (it_aq = actionableQuality.begin(); it_aq != actionableQuality.end(); ++it_aq)
-			{
-				ofs << ";" << std::setprecision(5) << it_aq->actionableQualityValue;
-			}
+#if false 
+				// log actionable quality feedback
+				// dont know why this is in here, due its not in the complinace test set!
+				std::list<NFIQ::ActionableQualityFeedback>::iterator it_aq;
+				for (it_aq = actionableQuality.begin(); it_aq != actionableQuality.end(); ++it_aq)
+				{
+					ofs << ";" << std::setprecision(5) << it_aq->actionableQualityValue;
+				}
+#endif
 
 			if (bOutputFeatureData)
 			{
@@ -392,12 +395,73 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 	return 0;
 }
 
+#ifdef WIN32
+int executeRunModeDll(const HINSTANCE hLib, std::string fpImagePath, std::string imageFormat)
+{
+	try
+	{
+		std::cout << "NFIQ2: Compute quality score for fingerprint image " << fpImagePath << std::endl;
+
+		// read fingerprint image
+		NFIQ::FingerprintImageData fpImage;
+		fpImage.readFromFile(fpImagePath);
+		NFIQ::FingerprintImageData rawImage;
+		if (imageFormat.compare("BMP") == 0)
+			rawImage.fromBMP(fpImage);
+		else if (imageFormat.compare("WSQ") == 0)
+			rawImage.fromWSQ(fpImage);
+		else
+		{
+			std::cerr << "ERROR => Unknown image format specified" << std::endl;
+			return -1;
+		}
+		int qualityScore = 0;
+		if( hLib != nullptr )
+		{
+	        typedef void (__stdcall *pFct1 )( int*, int*, int*, int*, const char** );
+	        pFct1 entryPoint1 = ( pFct1 )GetProcAddress( hLib, "GetNfiq2Version" );
+	        if( entryPoint1 != nullptr)
+	        {
+	        	int major, minor, evolution, increment;
+            const char* ocv;
+            (*entryPoint1)( &major, &minor, &evolution, &increment, &ocv );
+            std::cout << "NFIQ2: version " << major << "." << minor << "." << evolution << "." << increment << " using OpenCV " << ocv << std::endl;
+	        }
+
+            std::cout << "NFIQ2: initializing" << std::endl;
+	        typedef void (__stdcall *pFct2 )( void );
+	        pFct2 entryPoint2 = ( pFct2 )GetProcAddress( hLib, "InitNfiq2" );
+	        if( entryPoint2 != nullptr)
+	        {
+	        	(*entryPoint2)();
+	        }
+            std::cout << "NFIQ2: computing" << std::endl;
+	        typedef int (__stdcall *pFct3 )( int, const unsigned char*, int, int, int, int );
+	        pFct3 entryPoint3 = ( pFct3 )GetProcAddress( hLib, "ComputeNfiq2Score" );
+	        if( entryPoint3 != nullptr)
+	        {
+	        	qualityScore = (*entryPoint3)( rawImage.m_FingerCode, rawImage.data(), rawImage.size(), rawImage.m_ImageWidth, rawImage.m_ImageHeight, rawImage.m_ImageDPI);
+	        }
+		}
+
+		std::cout << "NFIQ2: Achieved quality score: " << qualityScore << std::endl << std::endl;
+	}
+	catch (NFIQException& ex)
+	{
+		// exceptions may occur e.g. if fingerprint image cannot be read or parsed
+		std::cerr << "ERROR => Return code [" << ex.getReturnCode() << "]: " << ex.getErrorMessage() << std::endl;
+		return -1;
+	}
+	return 0;
+}
+#endif
+
 int main(int argc, const char* argv[])
 {
 	try
 	{
 		// parse input arguments
-		if (argc < 6)
+		if (argc < 4)
 		{
 			printUsage();
 			return -1;
@@ -447,6 +511,30 @@ int main(int argc, const char* argv[])
 			return executeRunModeBatch(fpImageListPath, imageFormat, resultListPath,
 				bOutputFeatureData, bOutputSpeed, speedOutputPath);			
 		}
+#ifdef WIN32
+		else if (runMode == "DLL")
+		{
+			if (argc < 4)
+			{
+				printUsage();
+				return -1;
+			}
+            HINSTANCE hLib = LoadLibrary( "Nfiq2Api" );
+			std::string imageFormat = std::string(argv[2]);
+            int rc = 0;
+            for( int i=3; i<argc; i++ )
+            {
+                std::string fpImagePath = std::string(argv[i]);
+                rc = executeRunModeDll(hLib, fpImagePath, imageFormat);
+                if( rc != 0 )
+                {
+                    break;
+                }
+            }
+            FreeLibrary( hLib );
+			return rc;
+		}
+#endif
 		else
 		{
 			std::cerr << "ERROR => Wrong run mode entered" << std::endl;

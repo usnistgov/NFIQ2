@@ -74,7 +74,7 @@ of the software.
 
 
 /*******************************************************************/
-char *extractfet(char *feature, FET *fet)
+char *extractfet(const char *feature, FET *fet)
 {
   int item;
   char *value;
@@ -95,7 +95,7 @@ char *extractfet(char *feature, FET *fet)
 }
 
 /*******************************************************************/
-int extractfet_ret(char **ovalue, char *feature, FET *fet)
+int extractfet_ret(char **ovalue, const char *feature, FET *fet)
 {
   int item;
   char *value;

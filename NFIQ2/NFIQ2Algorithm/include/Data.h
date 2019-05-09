@@ -6,8 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <stdint.h>
-#include <NFIQException.h>
+#include "include/NFIQException.h"
 
 namespace NFIQ
 {
@@ -43,7 +42,7 @@ namespace NFIQ
 		/**
 		* @brief Copy constructor
 		*/
-		Data(const std::basic_string<uint8_t>& otherData); 
+		explicit Data(const std::basic_string<uint8_t>& otherData); 
 
 		/**
 		* @brief Destructor

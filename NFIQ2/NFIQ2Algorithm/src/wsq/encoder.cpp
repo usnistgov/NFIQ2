@@ -105,7 +105,8 @@ int wsq_encode_mem(unsigned char **odata, int *olen, const float r_bitrate,
    }
 
    /* Convert image pixels to floating point. */
-   if(ret = conv_img_2_flt_ret(fdata, &m_shift, &r_scale, idata, num_pix)) {
+   ret = conv_img_2_flt_ret(fdata, &m_shift, &r_scale, idata, num_pix);
+   if(ret) {
       free(fdata);
       return(ret);
    }
@@ -598,7 +599,7 @@ int compress_block(
                ++rcnt;
                break;
             }
-            if (rcnt <= MaxZRun) {
+            if (rcnt <= (unsigned int)MaxZRun) {
                /* log zero run length */
                write_bits( &optr, (unsigned short) codes[rcnt].code,
                            codes[rcnt].size, &outbit, &bits, &bytes );
@@ -672,7 +673,7 @@ int compress_block(
       }
    }
    if (state == RUN_CODE) {
-      if (rcnt <= MaxZRun) {
+      if (rcnt <= (unsigned int)MaxZRun) {
          write_bits( &optr, (unsigned short) codes[rcnt].code,
                      codes[rcnt].size, &outbit, &bits, &bytes );
       }
@@ -763,7 +764,7 @@ int count_block(
                break;
             }
                /* limit rcnt to avoid EOF problem in bitio.c */
-            if(rcnt <= MaxZRun)
+            if(rcnt <= (unsigned int)MaxZRun)
                counts[rcnt]++;  /** log zero run length **/
             else if(rcnt <= 0xFF)
                counts[105]++;
@@ -800,7 +801,7 @@ int count_block(
       }
    }
    if(state == RUN_CODE){ /** log zero run length **/
-      if(rcnt <= MaxZRun)
+      if(rcnt <= (unsigned int)MaxZRun)
          counts[rcnt]++;
       else if(rcnt <= 0xFF)
          counts[105]++;

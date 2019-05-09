@@ -7,10 +7,9 @@
 #include <vector>
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
-#include <FingerprintImageData.h>
-#include <features/BaseFeature.h>
+#include "include/InterfaceDefinitions.h"
+#include "include/FingerprintImageData.h"
+#include "include/features/BaseFeature.h"
 
 static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 

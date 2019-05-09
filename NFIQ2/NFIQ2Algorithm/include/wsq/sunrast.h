@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _SUNRAST_H
-#define _SUNRAST_H
+#ifndef SUNRAST_H
+#define SUNRAST_H
 
 /************************************************************/
 /*         File Name: Sunrast.h                             */
@@ -94,4 +94,4 @@ extern int ReadSunRaster(const char *, SUNHEAD **, unsigned char **, int *,
 extern int WriteSunRaster(char *, unsigned char *, const int, const int,
                          const int);
 
-#endif
+#endif /* !SUNRAST_H */

@@ -11,15 +11,19 @@
 #include <windows.h>
 #include <float.h>
 
+#if _MSC_VER && !__INTEL_COMPILER
 #define isnan _isnan // re-define isnan
-#else
-#ifndef isnan
-#define isnan(x) ((x) != (x))
 #endif
+
+#endif
+
+#if defined __ANDROID__
+#define isnan std::isnan // re-define isnan to avoid ambigious linkage
 #endif
 
 using namespace NFIQ;
 using namespace cv;
+using namespace std;
 
 void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
 			 bool padFlag, std::vector<double>& ratios, std::vector<uint8_t>& Nans);
@@ -241,7 +245,7 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1
 	//changeIndex = find(change == 1);    % find indices where changes
 	std::vector<uint8_t> change;
 	int j;
-	for (int i = 0; i < ridval.size()-1; i++) {
+	for (unsigned int i = 0; i < ridval.size()-1; i++) {
 		// circular shift from back to front
 		if (i == 0) j = ridval.size()-1;
 		else j = i-1;
@@ -254,7 +258,7 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1
 	}
 
 	std::vector<uint8_t> changeIndex;
-	for (int i = 1; i < change.size(); i++) {  // skip the first element, same effect
+	for (unsigned int i = 1; i < change.size(); i++) {  // skip the first element, same effect
 		// as "change(1) = []" in Matlab.
 		if(change[i] == 1) {
 			changeIndex.push_back(i-1);
@@ -275,7 +279,7 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1
 		//	Matlab: changeIndexComplete = changeIndex - changeIndex(1);
 		//	        changeIndexComplete(1) = [];// % removing first value
 		std::vector<uint8_t> changeIndexComplete;
-		for (int i = 1; i < changeIndex.size(); i++) {  // skip the first value
+		for (unsigned int i = 1; i < changeIndex.size(); i++) {  // skip the first value
 			changeIndexComplete.push_back(changeIndex[i] - changeIndex[0]);
 		}
 
@@ -313,7 +317,7 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1
 				// end;
 
 				double r;
-				for (int m=0; m < changeComplete2.size()-1; m++) {
+				for (unsigned int m=0; m < changeComplete2.size()-1; m++) {
 					r = static_cast<double>(changeComplete2[m])/static_cast<double>(changeComplete2[m+1]);
 					ratios.push_back(r);
 					//Create a mask vector that is a 1 if r is not a NaN, 0 if it is.
@@ -324,13 +328,13 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1
 				}
 
 				//    ratios(begrid+1:2:end) = 1 ./ ratios(begrid+1:2:end);
-				for (int i = begrid; i < ratios.size(); i+=2) {
+				for (unsigned int i = begrid; i < ratios.size(); i+=2) {
 					ratios[i] = 1/ratios[i];
 				}
 			}
 
 			if (!ratios.empty()) {
-				for (int i = 0; i < ratios.size(); i++)
+				for (unsigned int i = 0; i < ratios.size(); i++)
 					rvures.push_back(ratios[i]);
 			}
 		}

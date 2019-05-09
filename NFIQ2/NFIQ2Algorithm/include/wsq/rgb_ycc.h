@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _RGB_YCC_H
-#define _RGB_YCC_H
+#ifndef RGB_YCC_H
+#define RGB_YCC_H
 
 #ifndef MAX_CMPNTS
 #define MAX_CMPNTS   4
@@ -82,4 +82,4 @@ extern void fill_window(const unsigned char, unsigned char *,
                        const int, const int, const int, const int);
 extern int test_evenmult_sampfctrs(int *, int *, int *, int *, const int);
 
-#endif /* !_RGB_YCC_H */
+#endif /* !RGB_YCC_H */

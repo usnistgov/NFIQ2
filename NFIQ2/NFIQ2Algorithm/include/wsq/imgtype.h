@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IMGTYPE_H
-#define _IMGTYPE_H
+#ifndef IMGTYPE_H
+#define IMGTYPE_H
 
 /* UPDATED: 03/15/2005 by MDG */
 /* UPDATED: 01/24/2008 by Kenneth Ko */
@@ -82,4 +82,4 @@ extern int jpeg_type(int *, unsigned char *, const int);
 	extern int is_jp2(unsigned char *, const int);
 #endif
 
-#endif /* !_IMGTYPE_H */
+#endif /* !IMGTYPE_H */

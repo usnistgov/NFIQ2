@@ -4,8 +4,6 @@
 #include <exception>
 #include <string>
 
-#include <stdint.h>
-
 namespace NFIQ
 {
 	/**
@@ -73,7 +71,7 @@ namespace NFIQ
 		/**
 		* @brief Constructor which uses supplied error code and default message
 		*/
-		NFIQException(uint32_t returnCode);
+		explicit NFIQException(uint32_t returnCode);
 
 		/**
 		* @brief Constructor which uses supplied error code and user-defined message
@@ -83,7 +81,7 @@ namespace NFIQ
 		/**
 		* @brief Destructo
 		*/
-		virtual ~NFIQException() throw ();
+		virtual ~NFIQException() noexcept;
 
 		/******************************************************************************/
 		// --- General Framework Functions --- //
@@ -94,21 +92,21 @@ namespace NFIQ
 		* @brief Inherited function from std::exception
 		* @return The exception message
 		*/
-		virtual const char* what() const throw();
+		virtual const char* what() const noexcept;
 
 		/**
 		* @fn getReturnCode
 		* @brief Returns the return code of the exception
 		* @return The return code
 		*/
-		uint32_t getReturnCode() { return m_ReturnCode; }
+		uint32_t getReturnCode() const { return m_ReturnCode; }
 
 		/**
 		* @fn getErrorMessage
 		* @brief Returns the error message of the exception
 		* @return The error message
 		*/
-		std::string getErrorMessage() { return m_ErrorMessage; }
+		std::string getErrorMessage() const { return m_ErrorMessage; }
 
 	private:
 		uint32_t	m_ReturnCode;		///< The return code of the exception

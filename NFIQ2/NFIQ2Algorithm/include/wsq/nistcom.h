@@ -42,17 +42,13 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _NISTCOM_H
-#define _NISTCOM_H
+#ifndef NISTCOM_H
+#define NISTCOM_H
 
-#ifndef _IHEAD_H
 #include <ihead.h>
-#endif
 
-#ifndef _FET_H
 #include <fet.h>
 typedef FET NISTCOM;
-#endif
 
 #define NCM_EXT         "ncm"
 #define NCM_HEADER      "NIST_COM"        /* manditory */
@@ -105,4 +101,4 @@ extern int get_sd_class(char *, const int, char *);
 extern int get_class_from_ncic_class_string(char *, const int, char *);
 
 
-#endif /* !_NISTCOM_H */
+#endif /* !NISTCOM_H */

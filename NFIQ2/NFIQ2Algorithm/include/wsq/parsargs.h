@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _PARSARGS_H
-#define _PARSARGS_H
+#ifndef PARSARGS_H
+#define PARSARGS_H
 
 /* UDPATED: 03/15/2005 by MDG */
 
@@ -57,4 +57,4 @@ extern void parse_h_v_sampfctrs(char *, char *, int *, int *, int *);
 /* provided by application */
 extern void print_usage(char *);
 
-#endif
+#endif /* !PARSARGS_H */

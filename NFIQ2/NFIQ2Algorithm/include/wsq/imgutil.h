@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IMGUTIL_H
-#define _IMGUTIL_H
+#ifndef IMGUTIL_H
+#define IMGUTIL_H
 
 
 /* imageops.c */
@@ -77,4 +77,4 @@ extern void PutNchar (int, int, unsigned char **, int *, int);
 extern void rldecomp(unsigned char *, int, unsigned char *, int *, int);
 extern void RLL_putc (unsigned char **, unsigned char, int, int *);
 
-#endif /* !_IMGUTIL_H */
+#endif /* !IMGUTIL_H */

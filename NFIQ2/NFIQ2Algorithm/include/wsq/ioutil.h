@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IOUTIL_H
-#define _IOUTIL_H
+#ifndef IOUTIL_H
+#define IOUTIL_H
 
 #ifndef True
 #define True	1
@@ -73,4 +73,4 @@ extern void newextlong(char **, char *);
 extern int read_strstr_file(char *, char ***, char ***, int *, const int);
 extern int read_fltflt_file(char *, float **, float **, int *, const int);
 
-#endif /* !_IOUTIL_H */
+#endif /* !IOUTIL_H */

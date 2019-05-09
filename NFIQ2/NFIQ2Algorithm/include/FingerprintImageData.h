@@ -1,12 +1,11 @@
 #ifndef FINGERPRINTIMAGEDATA_H
 #define FINGERPRINTIMAGEDATA_H
 
-#include <Data.h>
+#include "include/Data.h"
 
 #if defined WIN32 || defined WINDOWS
 #include <windows.h>
 #else
-#include <stdint.h>
 typedef uint8_t BYTE;
 typedef uint16_t WORD;
 typedef uint32_t DWORD;

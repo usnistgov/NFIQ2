@@ -78,12 +78,12 @@ m_ErrorMessage(errorMessage)
 {
 }
 
-NFIQException::~NFIQException() throw()
+NFIQException::~NFIQException() noexcept
 {
 
 }
 
-const char* NFIQException::what() const throw()
+const char* NFIQException::what() const noexcept
 {
 	return m_ErrorMessage.c_str();
 }

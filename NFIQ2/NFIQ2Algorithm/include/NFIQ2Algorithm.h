@@ -7,12 +7,11 @@
 #include <iostream>
 #include <list>
 
-#include <stdint.h>
-#include <NFIQException.h>
-#include <FingerprintImageData.h>
-#include <InterfaceDefinitions.h>
+#include "include/NFIQException.h"
+#include "include/FingerprintImageData.h"
+#include "include/InterfaceDefinitions.h"
 
-#include <prediction/RandomForestML.h>
+#include "RandomForestML.h"
 
 #include <opencv/cv.h>
 

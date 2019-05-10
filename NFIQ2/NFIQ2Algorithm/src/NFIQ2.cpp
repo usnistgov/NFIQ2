@@ -10,6 +10,14 @@
 #include "include/FingerprintImageData.h"
 #include "include/NFIQ2Algorithm.h"
 
+#ifdef _WIN32
+# define LIBHANDLE HINSTANCE
+#else
+# include <dlfcn.h>
+# define __stdcall
+# define LIBHANDLE void*
+#endif
+
 using namespace NFIQ;
 
 void printUsage()
@@ -45,6 +53,14 @@ void printUsage()
 	std::cout << "    <outputSpeed>: if to compute the speed of NFIQ2 computation" << std::endl;
 	std::cout << "             true, false" << std::endl;
 	std::cout << "    <speedResultList>: path and filename of another CSV output file that will contain the NFIQ2 speed values (optional argument, only applied if outputSpeed = true)" << std::endl;
+
+	std::cout << "  run mode SHARED:" << std::endl;
+	std::cout << "  ----------------" << std::endl;
+	std::cout << "  NFIQ2 SHARED <imageFormat> <fingerprintImage> <fingerprintImage> ..." << std::endl << std::endl;
+	
+	std::cout << "    <imageFormat>: one of following values describing the fingerprint image format" << std::endl;
+	std::cout << "              BMP, WSQ" << std::endl;
+	std::cout << "    <fingerprintImage>: path and filename to a fingerprint image, or multiple images" << std::endl;
 
 }
 
@@ -395,8 +411,7 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 	return 0;
 }
 
-#ifdef WIN32
-int executeRunModeDll(const HINSTANCE hLib, std::string fpImagePath, std::string imageFormat)
+int executeRunModeShared(LIBHANDLE hLib, std::string fpImagePath, std::string imageFormat)
 {
 	try
 	{
@@ -416,34 +431,55 @@ int executeRunModeDll(const HINSTANCE hLib, std::string fpImagePath, std::string
 			return -1;
 		}
 		int qualityScore = 0;
-		if( hLib != nullptr )
-		{
-	        typedef void (__stdcall *pFct1 )( int*, int*, int*, int*, const char** );
-	        pFct1 entryPoint1 = ( pFct1 )GetProcAddress( hLib, "GetNfiq2Version" );
-	        if( entryPoint1 != nullptr)
-	        {
-	        	int major, minor, evolution, increment;
-            const char* ocv;
-            (*entryPoint1)( &major, &minor, &evolution, &increment, &ocv );
-            std::cout << "NFIQ2: version " << major << "." << minor << "." << evolution << "." << increment << " using OpenCV " << ocv << std::endl;
-	        }
-
-            std::cout << "NFIQ2: initializing" << std::endl;
-	        typedef void (__stdcall *pFct2 )( void );
-	        pFct2 entryPoint2 = ( pFct2 )GetProcAddress( hLib, "InitNfiq2" );
-	        if( entryPoint2 != nullptr)
-	        {
-	        	(*entryPoint2)();
-	        }
-            std::cout << "NFIQ2: computing" << std::endl;
-	        typedef int (__stdcall *pFct3 )( int, const unsigned char*, int, int, int, int );
-	        pFct3 entryPoint3 = ( pFct3 )GetProcAddress( hLib, "ComputeNfiq2Score" );
-	        if( entryPoint3 != nullptr)
-	        {
-	        	qualityScore = (*entryPoint3)( rawImage.m_FingerCode, rawImage.data(), rawImage.size(), rawImage.m_ImageWidth, rawImage.m_ImageHeight, rawImage.m_ImageDPI);
-	        }
-		}
-
+    typedef void (__stdcall *pFct1 )( int*, int*, int*, int*, const char** );
+#ifdef WIN32
+    pFct1 entryPoint1 = ( pFct1 )GetProcAddress( hLib, "GetNfiq2Version" );
+#else
+    pFct1 entryPoint1 = ( pFct1 )dlsym( hLib, "GetNfiq2Version" );
+#endif
+    if( entryPoint1 != nullptr)
+    {
+      std::cout << "NFIQ2: reading version information" << std::endl;
+      int major, minor, evolution, increment;
+      const char* ocv;
+      (*entryPoint1)( &major, &minor, &evolution, &increment, &ocv );
+      std::cout << "NFIQ2: version " << major << "." << minor << "." << evolution << "." << increment << " using OpenCV " << ocv << std::endl;
+    }
+    else
+    {
+      std::cerr << "NFIQ2: entrypoint 'GetNfiq2Version' not found." << std::endl;
+    }
+    
+    typedef void (__stdcall *pFct2 )( void );
+#ifdef WIN32
+    pFct2 entryPoint2 = ( pFct2 )GetProcAddress( hLib, "InitNfiq2" );
+#else
+    pFct2 entryPoint2 = ( pFct2 )dlsym( hLib, "InitNfiq2" );
+#endif
+    if( entryPoint2 != nullptr)
+    {
+      std::cout << "NFIQ2: initializing" << std::endl;
+      (*entryPoint2)();
+    }
+    else
+    {
+      std::cerr << "NFIQ2: entrypoint 'InitNfiq2' not found." << std::endl;
+    }
+    typedef int (__stdcall *pFct3 )( int, const unsigned char*, int, int, int, int );
+#ifdef WIN32
+    pFct3 entryPoint3 = ( pFct3 )GetProcAddress( hLib, "ComputeNfiq2Score" );
+#else
+    pFct3 entryPoint3 = ( pFct3 )dlsym( hLib, "ComputeNfiq2Score" );
+#endif
+    if( entryPoint3 != nullptr)
+    {
+      std::cout << "NFIQ2: computing" << std::endl;
+      qualityScore = (*entryPoint3)( rawImage.m_FingerCode, rawImage.data(), rawImage.size(), rawImage.m_ImageWidth, rawImage.m_ImageHeight, rawImage.m_ImageDPI);
+    }
+    else
+    {
+      std::cerr << "NFIQ2: entrypoint 'ComputeNfiq2Score' not found." << std::endl;
+    }
 		std::cout << "NFIQ2: Achieved quality score: " << qualityScore << std::endl << std::endl;
 	}
 	catch (NFIQException& ex)
@@ -454,7 +490,7 @@ int executeRunModeDll(const HINSTANCE hLib, std::string fpImagePath, std::string
 	}
 	return 0;
 }
-#endif
+
 
 int main(int argc, const char* argv[])
 {
@@ -511,30 +547,48 @@ int main(int argc, const char* argv[])
 			return executeRunModeBatch(fpImageListPath, imageFormat, resultListPath,
 				bOutputFeatureData, bOutputSpeed, speedOutputPath);			
 		}
-#ifdef WIN32
-		else if (runMode == "DLL")
+		else if (runMode == "SHARED")
 		{
 			if (argc < 4)
 			{
 				printUsage();
 				return -1;
 			}
-            HINSTANCE hLib = LoadLibrary( "Nfiq2Api" );
-			std::string imageFormat = std::string(argv[2]);
-            int rc = 0;
-            for( int i=3; i<argc; i++ )
-            {
-                std::string fpImagePath = std::string(argv[i]);
-                rc = executeRunModeDll(hLib, fpImagePath, imageFormat);
-                if( rc != 0 )
-                {
-                    break;
-                }
-            }
-            FreeLibrary( hLib );
-			return rc;
-		}
+#ifdef WIN32
+      LIBHANDLE hLib = LoadLibrary( "Nfiq2Api" );
+#else
+      LIBHANDLE hLib = dlopen( "libNfiq2Api.so", RTLD_LAZY );
 #endif
+      if( hLib != nullptr )
+      {
+        std::string imageFormat = std::string(argv[2]);
+        int rc = 0;
+        for( int i=3; i<argc; i++ )
+        {
+            std::string fpImagePath = std::string(argv[i]);
+            rc = executeRunModeShared(hLib, fpImagePath, imageFormat);
+            if( rc != 0 )
+            {
+                break;
+            }
+        }
+#ifdef WIN32
+        FreeLibrary( hLib );
+#el
+# ifndef __ANDROID__
+        dlclose( hLib );
+# endif
+#endif
+        return rc;
+      }
+      else
+      {
+#ifdef WIN32
+#else
+        std::cerr << dlerror() << std::endl;
+#endif
+      }
+		}
 		else
 		{
 			std::cerr << "ERROR => Wrong run mode entered" << std::endl;
@@ -547,6 +601,5 @@ int main(int argc, const char* argv[])
 		std::cerr << "ERROR => Unknown error occurred" << std::endl;
 		return -1;
 	}
-		
 	return 0;
 }

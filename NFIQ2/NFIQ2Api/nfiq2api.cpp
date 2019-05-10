@@ -49,6 +49,8 @@ void __attribute__( ( destructor ) ) my_unload( void );
 
 void my_load( void )
 {
+  std::cout << "load Nfiq2Api" << std::endl;
+#ifndef __ANDROID__
   // iterate thru all loaded  modules
   using UnknownStruct = struct unknown_struct
   {
@@ -77,7 +79,18 @@ void my_load( void )
     }
     map = map->l_next;
   }
+#endif
 }
+
+void my_unload( void )
+{
+  std::cout << "unload Nfiq2Api" << std::endl;
+  if( g_nfiq2.get() != nullptr )
+  {
+    g_nfiq2.reset();
+  }
+}
+
 #endif
 
 #include <cstdlib>

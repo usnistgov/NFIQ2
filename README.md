@@ -31,10 +31,28 @@ How to Build
 The build process is based on CMAKE (https://cmake.org/) which is available for all major platforms. For convenients, a shell script and a powershell 
 script (for Windows MSVC) are available at the root folder.
 
-During the CMake process all the external artefacts (biomdi, fingerjetfxose, opencv) will be downloaded from their official distribution location.
+The build process is a two step process.
 
-After CMake generated the according make solution or files, NFIQ2 can be build from the dedicated "build" folder. All generated artefacts will be 
-placed in a dedicated "dist" folder.
+1.) Using CMAKE (https://cmake.org/) to generate the compiler makefiles (makefiles, project files etc)
+
+    This step can be started by executing the runCMake.ps1 or runCMake.sh script
+    For Visual Studio use runCMake.ps1
+      When using CMAKE for Visual Studio, the solutions is configured for a release build only, even the project contains the Debug option too. 
+    For all other compilers (GCC, Clang) use runCmake.sh 
+      Requires as argument eihter x32 or x64 as argument for the script (see table below). Only the release configuration will be configured.
+
+    During the CMAKE step all the required dependencies will be downbloaded
+      - biomdi              downloaded from http://nigos.nist.gov:8080/nist/biomdi/biomdi_current.zip
+      - fingerjetfx (OSE)   downloaded from https://github.com/FingerJetFXOSE/FingerJetFXOSE/archive/master.zip
+      - opencv              downloaded from https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+                            the open CV version is controlled by the variable ${OPENCV_VERSION}, which is defined in 
+                            the top level cmake file (default is "2.4.13.6")
+    After the download the downloaded files can be found in the according subfolder download. 
+    Remark: CMAKE will skip the download if the according subfolder already exists!
+
+2.) CMAKE will generate the make files or project files according your compiler settings. The table below note the according directories.
+    After CMake generated the according make solution or files, NFIQ2 can be build from the dedicated "build" folder. All generated artefacts will be 
+    placed in a dedicated "dist" folder.
 
 The build process has been tested for the following platforms
 

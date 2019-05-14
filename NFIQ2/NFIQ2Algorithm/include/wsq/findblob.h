@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _FINDBLOB_H
-#define _FINDBLOB_H
+#ifndef FINDBLOB_H
+#define FINDBLOB_H
 
 /************************************************************/
 /*         File Name: Findblob.h                            */
@@ -113,4 +113,4 @@ extern int findblob_stats_cl(unsigned char *, int, int, int *, int *,
                              int *, int *, int *, int *);
 extern void end_findblobs(void);
 
-#endif  /* !_FINDBLOB_H */
+#endif  /* !FINDBLOB_H */

@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _GRP4COMP_H
-#define _GRP4COMP_H
+#ifndef GRP4COMP_H
+#define GRP4COMP_H
 
 
 /*********************************************************************/
@@ -182,4 +182,4 @@ extern unsigned int flush_buffer(void);
 extern void write_run_length(SHORT, SHORT);
 extern void process_char(unsigned char, struct parameters *);
 
-#endif /* !_GRP4COMP_H */
+#endif /* !GRP4COMP_H */

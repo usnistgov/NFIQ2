@@ -66,7 +66,7 @@ of the software.
 #include <fet.h>
 
 /*****************************************************************/
-void writefetfile(char *file, FET *fet)
+void writefetfile(const char *file, FET *fet)
 {
    FILE *fp = (FILE *)NULL;
    int item;
@@ -83,7 +83,7 @@ void writefetfile(char *file, FET *fet)
 }
 
 /*****************************************************************/
-int writefetfile_ret(char *file, FET *fet)
+int writefetfile_ret(const char *file, FET *fet)
 {
    FILE *fp = (FILE *)NULL;
    int item;

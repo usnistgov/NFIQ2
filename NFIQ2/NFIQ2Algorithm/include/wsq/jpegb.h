@@ -42,16 +42,13 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _JPEGB_H
-#define _JPEGB_H
+#ifndef JPEGB_H
+#define JPEGB_H
 
 #include <jpeglib.h>
 #include <jerror.h>
 #include <jconfig.h>
-
-#ifndef _NISTCOM_H
 #include <nistcom.h>
-#endif
 
 #define SOI   0xffd8
 #define EOI   0xffd9
@@ -92,4 +89,4 @@ extern void jpeg_membuf_src(j_decompress_ptr, JOCTET *, size_t);
 /* ppi.c */
 extern int get_ppi_jpegb(int *, j_decompress_ptr);
 
-#endif /* !_JPEGB_H */
+#endif /* !JPEGB_H */

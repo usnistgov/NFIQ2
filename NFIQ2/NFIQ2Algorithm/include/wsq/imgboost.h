@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IMGBOOST_H
-#define _IMGBOOST_H
+#ifndef IMGBOOST_H
+#define IMGBOOST_H
 
 #define BIN_TOO_LOW       10
 #define LONG_LOW_BIN_RUN  5
@@ -52,4 +52,4 @@ extern void trim_histtails_contrast_boost(unsigned char *,
                                           const int, const int);
 
 
-#endif /* !_IMGBOOST_H */
+#endif /* !IMGBOOST_H */

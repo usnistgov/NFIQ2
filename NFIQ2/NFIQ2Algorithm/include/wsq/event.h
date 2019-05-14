@@ -41,6 +41,8 @@ of the software.
 
 *******************************************************************************/
 
+#ifndef EVENT_H
+#define EVENT_H
 
 /***************************************************/
 /* This include file defines a macros used to      */
@@ -60,3 +62,4 @@ do{ \
    XNextEvent(display,&event); \
 }while(event.type != (_type));
 
+#endif /* !EVENT_H */

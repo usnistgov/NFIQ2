@@ -94,10 +94,10 @@ of the software.
 
 ***********************************************************************/
 
+#include <nistcom.h>
 #include <stdio.h>
 #include <string.h>
 #include <ihead.h>
-#include <nistcom.h>
 
 /*****************************************************************/
 int combine_nistcom(NISTCOM **onistcom, const int w, const int h,
@@ -363,7 +363,8 @@ int combine_jpegb_nistcom(NISTCOM **onistcom, const int w, const int h,
 {
    int ret, allocflag;
    NISTCOM *nistcom;
-   char cbuff[MAXFETLENGTH], *cptr;
+   char cbuff[MAXFETLENGTH];
+   const char *cptr;
 
    if(*onistcom == (NISTCOM *)NULL)
       allocflag = 1;
@@ -538,7 +539,7 @@ int sd_ihead_to_nistcom(NISTCOM **nistcom, IHEAD *ihead, int sd_id)
                  "ERROR : sd_ihead_to_nistcom : invalid database id = %d\n",
                  sd_id);
          fprintf(stderr, "        expecting SD 4,9,10,14, or 18\n");
-         *nistcom = '\0';
+         *nistcom = NULL;
          return(-2);
    }
 }
@@ -550,7 +551,7 @@ int sd4_ihead_to_nistcom(NISTCOM **onistcom, IHEAD *ihead)
 {
    char *hst, *fname, *class_str, class_, *sex, *pname;
    int ret, hst_sz;
-   NISTCOM *nistcom;
+   NISTCOM *nistcom = NULL;
    char cbuff[11], id_str[BUFSIZE];
 
    /** Get information needed from NIST IHEAD Structure **/

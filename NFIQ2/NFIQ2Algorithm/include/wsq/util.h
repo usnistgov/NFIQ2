@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _UTIL_H
-#define _UTIL_H
+#ifndef UTIL_H
+#define UTIL_H
 
 /* UPDATED: 03/15/2005 by MDG */
 #if defined __MSYS__ || defined WIN32 || defined WINDOWS
@@ -66,7 +66,7 @@ extern int bres_line_alloc(const int, const int, const int, const int, int **,
 extern void bubble_sort_int(int *, const int);
 
 /* fatalerr.c */
-extern void fatalerr(char *, char *, char *);
+extern void fatalerr(const char *, const char *, const char *);
 
 /* invbytes.h */
 extern void inv_bytes(unsigned char *, int);
@@ -77,7 +77,7 @@ extern double ssx_variance(const double, const double, const int);
 extern double ssx(const double, const double, const int);
 
 /* syserr.c */
-extern void syserr(char *, char *, char *);
+extern void syserr(const char *, const char *, const char *);
 
 /* ticks.c */
 extern clock_t ticks(void);
@@ -96,4 +96,4 @@ extern char *index(const char *, int);
 extern void sleep (const int);
 #endif
 */
-#endif /* !_UTIL_H */
+#endif /* !UTIL_H */

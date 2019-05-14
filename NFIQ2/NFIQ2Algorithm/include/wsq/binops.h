@@ -41,8 +41,8 @@ of the software.
 
 *******************************************************************************/
 
-#ifndef _BINOPS_H
-#define _BINOPS_H
+#ifndef BINOPS_H
+#define BINOPS_H
 
 /************************************************************/
 /*         File Name: Binops.h                              */
@@ -91,4 +91,4 @@ extern int binary_image_pad(unsigned char **, unsigned int, unsigned int,
 extern int binary_image_mpad(unsigned char **, unsigned int *, unsigned int *,
                    unsigned int, unsigned int, int);
 
-#endif  /* !_BINOPS_H */
+#endif  /* !BINOPS_H */

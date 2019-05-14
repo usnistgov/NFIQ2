@@ -4,11 +4,15 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 
-#define _USE_MATH_DEFINES
+#define USE_MATH_DEFINES
 #include <math.h>
 #include <limits>
 #include <iostream>
 #include <cstring>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 static const int maxSampleCount = 50;
 
@@ -304,7 +308,7 @@ void getRotatedBlock(const Mat& block, const double orientation, bool padFlag, M
 		//   Matlab:  blockRotated = imrotate(block, rad2deg(orientation), 'nearest', 'crop');
 		rotatedBlock.create( block.rows, block.cols, block.type() );
 		double orientDegrees = orientation*Rad2Deg;
-		Point2f center((Inblock.cols/2), (Inblock.rows/2));
+		Point2f center(((float)Inblock.cols/2.0f), ((float)Inblock.rows/2.0f));
 		rot_mat = getRotationMatrix2D( center, orientDegrees, 1);
 		warpAffine(Inblock, rotatedBlock, rot_mat, rotatedBlock.size(), INTER_NEAREST);
 	}
@@ -367,7 +371,7 @@ void getRidgeValleyStructure (const Mat& blockCropped, std::vector<uint8_t>& rid
 	}
 	// ridval = (v3 < dt)'; % ridges = 1, valleys = 0
 
-	for (int i = 0; i < dt.size(); i++) {
+	for (unsigned int i = 0; i < dt.size(); i++) {
 		if (v3.at<double>(i,0) < dt[i]) {
 			ridval.push_back(1);
 		}
@@ -543,7 +547,7 @@ void addHistogramFeatures(std::list<NFIQ::QualityFeatureResult> & featureDataLis
 	std::sort(dataVector.begin(), dataVector.end());
 
 	int* bins = new int[binCount];
-	for (unsigned int i = 0; i < binCount; i++)
+	for (int i = 0; i < binCount; i++)
 		bins[i] = 0;
 	int currentBucket = 0;
 	double currentBound = binBoundaries.at(currentBucket);

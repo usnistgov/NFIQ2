@@ -6,10 +6,9 @@
 #include <vector>
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
-#include <FingerprintImageData.h>
-#include <features/BaseFeature.h>
+#include "include/InterfaceDefinitions.h"
+#include "include/FingerprintImageData.h"
+#include "include/features/BaseFeature.h"
 
 /**
 ******************************************************************************

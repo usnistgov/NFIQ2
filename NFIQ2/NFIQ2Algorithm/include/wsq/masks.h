@@ -41,5 +41,9 @@ of the software.
 
 *******************************************************************************/
 
+#ifndef MASK_H
+#define MASK_H
 
 extern unsigned char bit_masks[8];
+
+#endif /* !MASK_H */

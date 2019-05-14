@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IMG_IO_H
-#define _IMG_IO_H
+#ifndef IMG_IO_H
+#define IMG_IO_H
 
 /* UPDATED: 03/15/2005 by MDG */
 /* UPDATED: 12/22/2008 by Gregory Fiumara */
@@ -86,4 +86,4 @@ extern void writeihdrsubimage(char *, unsigned char *, int, int, int,
 extern void write_fields(char *, char **, int, IHEAD **, unsigned char **,
                          int, int);
 
-#endif /* !_IMG_IO_H */
+#endif /* !IMG_IO_H */

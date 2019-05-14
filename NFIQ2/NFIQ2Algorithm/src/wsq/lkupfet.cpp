@@ -69,7 +69,7 @@ of the software.
 #endif
 
 /*******************************************************************/
-int lookupfet(char **ovalue, char *feature, FET *fet)
+int lookupfet(char **ovalue, const char *feature, FET *fet)
 {
   int item;
   char *value;

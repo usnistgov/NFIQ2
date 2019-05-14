@@ -63,7 +63,7 @@ of the software.
 #include <stdio.h>
 #include <stdlib.h>
 
-void fatalerr(char *s1, char *s2, char *s3)
+void fatalerr(const char *s1, const char *s2, const char *s3)
 {
 
   (void) fflush(stdout);

@@ -7,8 +7,7 @@
 #include <vector>
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
+#include "include/InterfaceDefinitions.h"
 
 #include <opencv/cv.h>
 #include <opencv/ml.h>
@@ -31,7 +30,11 @@ public:
 		double & deviation);
 
 private:
-	CvRTrees* m_pTrainedRF;
+#		if CV_MAJOR_VERSION == 3
+		cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
+#		else
+		CvRTrees* m_pTrainedRF;
+#		endif
 	std::string joinRFTrainedParamsString();
 };
 

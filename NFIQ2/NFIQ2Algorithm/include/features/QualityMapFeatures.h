@@ -7,11 +7,10 @@
 #include <vector>
 #include <list>
 
-#include <stdint.h>
-#include <InterfaceDefinitions.h>
-#include <FingerprintImageData.h>
-#include <features/BaseFeature.h>
-#include <features/ImgProcROIFeature.h>
+#include "include/InterfaceDefinitions.h"
+#include "include/FingerprintImageData.h"
+#include "include/features/BaseFeature.h"
+#include "ImgProcROIFeature.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>

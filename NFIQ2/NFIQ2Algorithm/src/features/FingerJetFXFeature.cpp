@@ -63,6 +63,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 	timer.startTimer();
 
 	// create context for feature extraction
+	// the created context function is modified to override default settings
 	FRFXLL_HANDLE hCtx = NULL, hFeatureSet = NULL;
 	if (createContext(&hCtx) != FRFXLL_OK)
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError_FJFX_CannotCreateContext, "Cannot create context of feature extraction (create context failed).");
@@ -70,20 +71,21 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError_FJFX_CannotCreateContext, "Cannot create context of feature extraction (hCtx is NULL).");
 
 	// extract feature set
-	if (FRFXLLCreateFeatureSetInPlaceFromRaw(hCtx, (unsigned char*)localFingerprintImage.data(),
-		localFingerprintImage.size(), localFingerprintImage.m_ImageWidth, localFingerprintImage.m_ImageHeight,
-		localFingerprintImage.m_ImageDPI, FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet) != FRFXLL_OK)
+	FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetInPlaceFromRaw(hCtx, (unsigned char*)localFingerprintImage.data(),
+	    localFingerprintImage.size(), localFingerprintImage.m_ImageWidth, localFingerprintImage.m_ImageHeight,
+	    localFingerprintImage.m_ImageDPI, FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet);
+	if ( fxRes != FRFXLL_OK)
 	{
 		FRFXLLCloseHandle(hCtx);
 
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble = 0; // no minutiae found
 		res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
-		res_min_cnt_comrect200x200.returnCode = 0;
+		res_min_cnt_comrect200x200.returnCode = fxRes;
 		featureDataList.push_back(res_min_cnt_comrect200x200);
 
 		fd_min_cnt.featureDataDouble = 0; // no minutiae found
-		res_min_cnt.returnCode = 0;
+		res_min_cnt.returnCode = fxRes;
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
 
@@ -110,7 +112,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 
 	// export ISO template from handle
 
-	unsigned int dpcm = ((unsigned int)localFingerprintImage.m_ImageDPI * 100 + 50) / 254;
+	unsigned short dpcm = ((unsigned int)localFingerprintImage.m_ImageDPI * 100 + 50) / 254;
 	FRFXLL_OUTPUT_PARAM_ISO_ANSI param = {sizeof(FRFXLL_OUTPUT_PARAM_ISO_ANSI), CBEFF, localFingerprintImage.m_FingerCode, 0, dpcm, dpcm, 
 		(unsigned short)localFingerprintImage.m_ImageWidth, (unsigned short)localFingerprintImage.m_ImageHeight, 0, 0, 0 /*live-scan plain*/};
 	if (FRFXLLExport(hFeatureSet, FRFXLL_DT_ISO_FEATURE_SET, &param, templateData, &templateSize) != FRFXLL_OK)
@@ -234,7 +236,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 	{
 		if (roiResults.vecNoOfMinutiaeInRectangular.at(i).comType == e_COMType_MinutiaeLocation)
 		{
-			if (roiResults.vecNoOfMinutiaeInRectangular.at(i).width = 200 && roiResults.vecNoOfMinutiaeInRectangular.at(i).height == 200)
+			if (roiResults.vecNoOfMinutiaeInRectangular.at(i).width == 200 && roiResults.vecNoOfMinutiaeInRectangular.at(i).height == 200)
 				noOfMinInRect200x200 = roiResults.vecNoOfMinutiaeInRectangular.at(i).noOfMinutiae;
 		}
 	}

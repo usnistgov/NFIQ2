@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _GRP4DECO_H
-#define _GRP4DECO_H
+#ifndef GRP4DECO_H
+#define GRP4DECO_H
 
 /*********************************************************************/
 /* grp4deco.h                                                        */
@@ -154,4 +154,4 @@ extern void prepare_to_read_bits(char *);
 extern SHORT read_bit(void);
 extern SHORT find_run_length_code(SHORT);
 
-#endif /* !_GRP4DECO_H */
+#endif /* !GRP4DECO_H */

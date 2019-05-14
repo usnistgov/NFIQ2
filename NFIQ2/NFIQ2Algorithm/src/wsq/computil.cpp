@@ -61,9 +61,8 @@ of the software.
 #cat:           JPEGB, JPEGL, or WSQ marker in the given memory buffer.
 
 ***********************************************************************/
-#include <stdio.h>
-#include <dataio.h>
 #include <computil.h>
+#include <dataio.h>
 
 /*****************************************************************/
 /* Skips the segment data following a JPEGB, JPEGL, or WSQ       */

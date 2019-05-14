@@ -45,6 +45,9 @@ of the software.
 /* Source proted from Jaguar by Michael D. Garris onto Bell Box */
 /* magi display.h */
 
+#ifndef DISPLAY_H
+#define DISPLAY_H
+
 #include <math.h>
 #include <memory.h>
 
@@ -253,3 +256,5 @@ int _sxb,_dbw,_sbw,_dindex=0,_sindex,_i; \
      } \
   } \
 }
+
+#endif /* !DISPLAY_H */

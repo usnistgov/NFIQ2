@@ -263,7 +263,7 @@ NFIQ::FingerprintImageData FingerprintImageData::toWSQ(float compressionRate)
 	wsqData.m_ImageHeight = this->m_ImageHeight;
 	wsqData.m_ImageWidth = this->m_ImageWidth;
 	// check for image dimensions
-	if (this->m_ImageHeight < 256 || this->m_ImageHeight < 256)
+	if (this->m_ImageHeight < 256 || this->m_ImageWidth < 256)
 		throw NFIQ::NFIQException(NFIQ::e_Error_ImageConversionError, "Image conversion error: Image dimensions must be at least 256 pixels");
 
 	// check for compression rate
@@ -334,7 +334,7 @@ void FingerprintImageData::fromWSQ(NFIQ::FingerprintImageData & wsqData)
 
 NFIQ::FingerprintImageData FingerprintImageData::removeWhiteFrameAroundFingerprint()
 {
-	// make local copy of internal fingerprint image
+  // make local copy of internal fingerprint image
 	NFIQ::FingerprintImageData localFingerprintImage(this->m_ImageWidth, this->m_ImageHeight, 
 		this->m_FingerCode, this->m_ImageDPI);
 	// copy data now
@@ -420,11 +420,17 @@ NFIQ::FingerprintImageData FingerprintImageData::removeWhiteFrameAroundFingerpri
 
 	// now crop image according to detected border indices
 	int width = rightIndex - leftIndex + 1;
-	if (width < 0)
+	if (width <= 0)
+	{
+		leftIndex = 0;
 		width = img.cols;
+	}
 	int height = bottomRowIndex - topRowIndex + 1;
-	if (height < 0)
+	if (height <= 0)
+	{
+		topRowIndex = 0;
 		height = img.rows;
+	}
 	cv::Rect roi(leftIndex, topRowIndex, width, height);
 	cv::Mat roiImg = img(roi);
 

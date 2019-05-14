@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _SWAP_H
-#define _SWAP_H
+#ifndef SWAP_H
+#define SWAP_H
 
 #define swap_uint_bytes(_ui_) \
 { \
@@ -134,4 +134,4 @@ of the software.
 	   _b_ = _t_; \
 	}
 
-#endif /* !_SWAP_H */
+#endif /* !SWAP_H */

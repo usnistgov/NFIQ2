@@ -49,6 +49,9 @@ of the software.
 /*         Date:      9/27/89                               */
 /************************************************************/
 
+#ifndef BITS_H
+#define BITS_H
+
 #define LOG_COPY	0
 #define LOG_OR		1
 #define LOG_AND		2
@@ -61,3 +64,5 @@ if((_p) == 0) \
   *(_b) = (*(_b)) & (~bit_masks[(_i)]); \
 else \
   *(_b) = (*(_b)) | bit_masks[(_i)];
+
+#endif /* !BITS_H */

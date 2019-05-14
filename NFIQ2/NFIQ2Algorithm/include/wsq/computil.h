@@ -42,12 +42,14 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _COMPUTIL_H
-#define _COMPUTIL_H
+#ifndef COMPUTIL_H
+#define COMPUTIL_H
+
+#include <stdio.h>
 
 extern int read_skip_marker_segment(const unsigned short, FILE *);
 extern int getc_skip_marker_segment(const unsigned short,
                             unsigned char **, unsigned char *);
 
-#endif /* !_COMPUTIL_H */
+#endif /* !COMPUTIL_H */
 

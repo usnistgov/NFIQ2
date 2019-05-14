@@ -730,8 +730,8 @@ int write_transform_table(
    FILE *outfp)      /* compressed file */
 {
    int ret;
-   unsigned int coef;            /* filter coefficient indicator */
-   unsigned int int_dat;         /* temp variable */
+    int coef;            /* filter coefficient indicator */
+   unsigned int int_dat; /* temp variable */
    float dbl_tmp;        /* temp variable */
    char scale_ex, sign;  /* exponent scaling and sign parameters */
 
@@ -850,10 +850,10 @@ int putc_transform_table(
    int   *olen)       /* filled length of buffer  */
 {
    int ret;
-   unsigned int coef;           /* filter coefficient indicator */
-   unsigned int int_dat;        /* temp variable */
-   float dbl_tmp;       /* temp variable */
-   char scale_ex, sign; /* exponent scaling and sign parameters */
+   int coef;             /* filter coefficient indicator */
+   unsigned int int_dat; /* temp variable */
+   float dbl_tmp;        /* temp variable */
+   char scale_ex, sign;  /* exponent scaling and sign parameters */
 
    if(debug > 0)
       fprintf(stderr, "Writing transform table.\n");

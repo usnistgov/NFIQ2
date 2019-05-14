@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _IMGDECOD_H
-#define _IMGDECOD_H
+#ifndef IMGDECOD_H
+#define IMGDECOD_H
 
 #include <imgtype.h>
 
@@ -62,4 +62,4 @@ extern int read_and_decode_image(char *, int *, unsigned char **, int *,
 extern int ihead_decode_mem(unsigned char **, int *, int *, int *,
                             int *, int *, unsigned char *, const int);
 
-#endif /* !_IMGDECOD_H */
+#endif /* !IMGDECOD_H */

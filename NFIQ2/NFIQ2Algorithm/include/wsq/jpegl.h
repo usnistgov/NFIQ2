@@ -54,12 +54,10 @@ of the software.
 /*              updated:  03/11/2005 by MDG                     */
 /*                                                              */
 /****************************************************************/
-#ifndef _JPEGL_H
-#define _JPEGL_H
+#ifndef JPEGL_H
+#define JPEGL_H
 
-#ifndef _NISTCOM_H
 #include <nistcom.h>
-#endif
 
 /* JPEGL Marker Definitions */
 #define SOF3 0xffc3
@@ -300,4 +298,4 @@ extern int predict(short *, unsigned char *, const int, const int, const int,
                    const int, const int);
 extern short categorize(const short);
 
-#endif /* !_JPEGL_H */
+#endif /* !JPEGL_H */

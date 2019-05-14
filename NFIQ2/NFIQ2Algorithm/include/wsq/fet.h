@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _FET_H
-#define _FET_H
+#ifndef FET_H
+#define FET_H
 
 #include <stdio.h>
 #include <stdlib.h> /* Added by MDG on 03-10-05 */
@@ -69,28 +69,28 @@ extern int  allocfet_ret(FET **, int);
 extern FET  *reallocfet(FET *, int);
 extern int  reallocfet_ret(FET **, int);
 /* delfet.c */
-extern void deletefet(char *, FET *);
-extern int  deletefet_ret(char *, FET *);
+extern void deletefet(const char *, FET *);
+extern int  deletefet_ret(const char *, FET *);
 /* extfet.c */
-extern char *extractfet(char *, FET *);
-extern int  extractfet_ret(char **, char *, FET *);
+extern char *extractfet(const char *, FET *);
+extern int  extractfet_ret(char **, const char *, FET *);
 /* freefet.c */
 extern void freefet(FET *);
 /* lkupfet.c */
-extern int  lookupfet(char **, char *, FET *);
+extern int  lookupfet(char **, const char *, FET *);
 /* printfet.c */
 extern void printfet(FILE *, FET *);
 /* readfet.c */
-extern FET  *readfetfile(char *);
-extern int  readfetfile_ret(FET **, char *);
+extern FET  *readfetfile(const char *);
+extern int  readfetfile_ret(FET **, const char *);
 /* strfet.c */
 extern int fet2string(char **, FET *);
 extern int string2fet(FET **, char *);
 /* updatfet.c */
-extern void updatefet(char *, char *, FET *);
-extern int  updatefet_ret(char *, char *, FET *);
+extern void updatefet(const char *, const char *, FET *);
+extern int  updatefet_ret(const char *, const char *, FET *);
 /* writefet.c */
-extern void writefetfile(char *, FET *);
-extern int  writefetfile_ret(char *, FET *);
+extern void writefetfile(const char *, FET *);
+extern int  writefetfile_ret(const char *, FET *);
 
-#endif  /* !_FET_H */
+#endif  /* !FET_H */

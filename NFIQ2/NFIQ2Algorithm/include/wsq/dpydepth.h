@@ -41,6 +41,8 @@ of the software.
 
 *******************************************************************************/
 
+#ifndef DPYDEPTH_H
+#define DPYDEPTH_H
 
 /*
  *
@@ -76,3 +78,5 @@ while (_i-- > 0) { \
 	_src_index += _srcw; \
 } \
 }
+
+#endif /* !DPYDEPTH_H */

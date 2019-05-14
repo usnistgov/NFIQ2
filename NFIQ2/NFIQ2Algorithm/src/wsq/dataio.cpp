@@ -93,10 +93,9 @@ of the software.
 
 ***********************************************************************/
 
-#include <stdio.h>
+#include <dataio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dataio.h>
 #include <ioutil.h>
 #include <swap.h>
 

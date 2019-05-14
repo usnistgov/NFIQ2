@@ -42,8 +42,8 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _DPY_H
-#define _DPY_H
+#ifndef DPY_H
+#define DPY_H
 
 #include <sys/param.h>
 
@@ -68,4 +68,4 @@ struct header_t {
 
 #define HEADERSIZE		(sizeof(struct header_t))
 
-#endif /* !_DPY_H */
+#endif /* !DPY_H */

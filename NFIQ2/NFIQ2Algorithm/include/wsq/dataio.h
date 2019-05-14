@@ -42,8 +42,10 @@ of the software.
 *******************************************************************************/
 
 
-#ifndef _DATA_IO_H
-#define _DATA_IO_H
+#ifndef DATA_IO_H
+#define DATA_IO_H
+
+#include <stdio.h>
 
 /* dataio.c */
 extern int read_byte(unsigned char *, FILE *);
@@ -67,4 +69,4 @@ extern void write_bits(unsigned char **, const unsigned short, const short,
 extern void flush_bits(unsigned char **, int *, unsigned char *, int *);
 extern int read_ascii_file(char *, char **);
 
-#endif /* !_DATA_IO_H */
+#endif /* !DATA_IO_H */

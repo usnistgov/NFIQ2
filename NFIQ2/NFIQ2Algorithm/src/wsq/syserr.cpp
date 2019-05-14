@@ -63,7 +63,7 @@ of the software.
 #include <stdio.h>
 #include <stdlib.h>
 
-void syserr(char *funcname, char *syscall, char *msg)
+void syserr(const char *funcname, const char *syscall, const char *msg)
 {
 
    (void) fflush(stdout);

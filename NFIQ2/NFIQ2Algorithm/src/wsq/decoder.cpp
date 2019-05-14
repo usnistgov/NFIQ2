@@ -399,7 +399,7 @@ int huffman_decode_data_mem(
    int maxcode[MAX_HUFFBITS+1]; /* used in decoding data */
    int mincode[MAX_HUFFBITS+1]; /* used in decoding data */
    int valptr[MAX_HUFFBITS+1];  /* used in decoding data */
-   unsigned short tbits;
+   unsigned short tbits=0;
    int ipc, ipc_mx, ipc_q;   /* image byte count adjustment parameters */
 
 
@@ -591,7 +591,7 @@ int huffman_decode_data_file(
    int maxcode[MAX_HUFFBITS+1]; /* used in decoding data */
    int mincode[MAX_HUFFBITS+1]; /* used in decoding data */
    int valptr[MAX_HUFFBITS+1];  /* used in decoding data */
-   unsigned short tbits;
+   unsigned short tbits = 0;
 
 
    if((ret = read_marker_wsq(&marker, TBLS_N_SOB, infp)))
@@ -812,7 +812,7 @@ int nextbits_wsq(
    int ret;
    static unsigned char code;   /*next byte of data*/
    static unsigned char code2;  /*stuffed byte of data*/
-   unsigned short bits, tbits;  /*bits of current data byte requested*/
+   unsigned short bits, tbits=0;  /*bits of current data byte requested*/
    int bits_needed;     /*additional bits required to finish request*/
 
                               /*used to "mask out" n number of
@@ -868,7 +868,7 @@ int getc_nextbits_wsq(
    int ret;
    static unsigned char code;   /*next byte of data*/
    static unsigned char code2;  /*stuffed byte of data*/
-   unsigned short bits, tbits;  /*bits of current data byte requested*/
+   unsigned short bits, tbits=0;  /*bits of current data byte requested*/
    int bits_needed;     /*additional bits required to finish request*/
 
                               /*used to "mask out" n number of

@@ -61,13 +61,13 @@ void Data::readFromFile(const std::string & filename)
 		{
 			// detecting size
 			f.seekg(0, std::ios::end); 
-			len = f.tellg(); 
+			len = (unsigned long)f.tellg(); 
 			f.seekg(0, std::ios::beg);
 			if (len > 0)
 			{
 				pBuffer = new unsigned char[len];
 				f.read((char*)pBuffer, len);
-				this->assign(pBuffer, len);
+        this->assign(pBuffer, len);
 				delete[] pBuffer;
 				success = !f.fail(); // failbit is set if read was incomplete or failed
 				f.close();

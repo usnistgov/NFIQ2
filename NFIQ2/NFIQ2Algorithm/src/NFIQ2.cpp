@@ -574,18 +574,17 @@ int main(int argc, const char* argv[])
         }
 #ifdef WIN32
         FreeLibrary( hLib );
-#el
-# ifndef __ANDROID__
+#else
         dlclose( hLib );
-# endif
 #endif
         return rc;
       }
       else
       {
 #ifdef WIN32
+        std::cerr << "LoadLibrary Error " << GetLastError() << std::endl;
 #else
-        std::cerr << dlerror() << std::endl;
+        std::cerr << "dlopen Error " << dlerror() << std::endl;
 #endif
       }
 		}

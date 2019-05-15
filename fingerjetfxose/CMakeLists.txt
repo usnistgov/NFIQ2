@@ -17,16 +17,17 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/download/)
 endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_definitions( "-O3 -std=c++11 -Wno-unknown-pragmas -Wno-unused-but-set-variable")
+  add_definitions( "-O3 -std=c++11 -fvisibility=hidden -Wno-unknown-pragmas -Wno-unused-but-set-variable")
   if(NOT "${TARGET_PLATFORM}" MATCHES "win*")
-    add_definitions( "-fPIC")
+    add_definitions( "-fPIC -fvisibility=hidden")
   endif()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   add_definitions( "/W3 /D_CRT_SECURE_NO_WARNINGS /wd4005 /wd4996 /nologo /MT" )
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  add_definitions( "-O3 -fPIC -fvisibility=hidden" )
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  add_definitions( "-O3  -std=c++11 -fPIC" )
+  add_definitions( "-O3 -fPIC -fvisibility=hidden" )
 endif()
-
 
 set(FINGERJET_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/download/FingerJetFXOSE-master")
 

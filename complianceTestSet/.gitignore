@@ -1,0 +1,7 @@
+**/.vs/
+**/.vscode/
+**/.DS_Store/
+**/dist/
+fpImageList.txt
+*.bmp
+

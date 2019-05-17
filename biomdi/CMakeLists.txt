@@ -2,10 +2,12 @@ project( biomdi )
 
 # download sources
 if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/download/)
-  set( BIOMDI_SRC "http://nigos.nist.gov:8080/nist/biomdi/biomdi_current.zip")
+  set( BIOMDI_SRC "https://nigos.nist.gov:8080/nist/biomdi/biomdi_current.zip")
   set( BIOMDI_DST "${CMAKE_CURRENT_SOURCE_DIR}/download/tmp.zip")
   message("Download ${BIOMDI_SRC} to ${BIOMDI_DST}")
   file(DOWNLOAD "${BIOMDI_SRC}" "${BIOMDI_DST}")
+  file(SIZE "${BIOMDI_DST}" BIOMDI_SIZE)
+  message("Downloaded ${BIOMDI_SIZE} bytes")
   execute_process( COMMAND cmake -E tar xfz tmp.zip WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/download/ )
   file(REMOVE "${BIOMDI_DST}")
 endif()

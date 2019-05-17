@@ -1,9 +1,10 @@
 **/.vs/
+**/.DS_Store/
+**/.vscode/
 **/build/
 **/dist/
 **/CMakeFiles/
 **/download/
-**/.vscode/
 nfiq2/NFIQ2Api/version.*.*.cpp
 nfiq2/NFIQ2Api/version.*.*.rc
 

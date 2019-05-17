@@ -555,7 +555,9 @@ int main(int argc, const char* argv[])
 				return -1;
 			}
 #ifdef WIN32
-      LIBHANDLE hLib = LoadLibrary( "Nfiq2Api" );
+      LIBHANDLE hLib = LoadLibrary( "Nfiq2Api.dll" );
+#elif __APPLE__
+      LIBHANDLE hLib = dlopen( "libNfiq2Api.dylib", RTLD_LAZY );
 #else
       LIBHANDLE hLib = dlopen( "libNfiq2Api.so", RTLD_LAZY );
 #endif

@@ -58,9 +58,9 @@ of the software.
 #define Yes		True
 #define No		False
 #define Empty		NULL
-#ifndef None
-#define None		-1
-#endif
+//#ifndef None // removed to compile with MSVC 2017, None conflicts with _IMAGE_POLICY_ENTRY @ winnt.h
+//#define None		-1
+//#endif
 #ifndef FOUND
 #define FOUND            1
 #endif

@@ -77,6 +77,18 @@ OpenCV version
 The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.5.
 the open CV version can be changed within the top level Cmake file (see: set( OPENCV_VERSION "2.4.13.6")).
 
+
+OpenCV version
+--------------
+
+Known limitation:
+
+Windows - MSVC 2017: 
+When building the full solution libTIFF fails to build, but it's also not required for NFIQ2. Please ignore this error.
+
+Apple iMAC Moave XCode 10 and later:
+XCode 10 and later will not support 32 bit applications. In order to build the NFIQ2 for 32 bit, use XCode 9.4.1.
+
 Communication
 -------------
 If you found a bug and can provide steps to reliably reproduce it, or if you

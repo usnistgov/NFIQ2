@@ -13,85 +13,8 @@ extern int version_minor;
 extern int version_evolution;
 extern int version_build;
 
-std::string g_modulePath;
-std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
-
 // static object to load the algorithm only once (random forest init!)
-
-#ifdef _WIN32
-extern "C" int APIENTRY DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )
-{
-  if( fdwReason == DLL_PROCESS_ATTACH )
-  {
-    // retrieve and store the path of the DLL
-    char buffer[MAX_PATH];
-    int n = GetModuleFileName( hinstDLL, buffer, sizeof( buffer ) );
-    if( n > 0 && n < ( int )sizeof( buffer ) )
-    {
-      char* c = strrchr( buffer, '\\' );
-      if( c != NULL )
-      {
-        *c = 0;
-        g_modulePath =  buffer;
-      }
-    }
-  }
-  return TRUE;
-}
-#elif __linux
-#include <cstring>
-#include <dlfcn.h>
-#include <libgen.h>
-#include <link.h>
-
-void __attribute__( ( constructor ) ) my_load( void );
-void __attribute__( ( destructor ) ) my_unload( void );
-
-void my_load( void )
-{
-  std::cout << "load Nfiq2Api" << std::endl;
-#ifndef __ANDROID__
-  // iterate thru all loaded  modules
-  using UnknownStruct = struct unknown_struct
-  {
-    void*  pointers[3];
-    struct unknown_struct* ptr;
-  };
-  using LinkMap = struct link_map;
-
-  auto* handle = dlopen( NULL, RTLD_NOW );
-  auto* p = reinterpret_cast<UnknownStruct*>( handle )->ptr;
-  auto* map = reinterpret_cast<LinkMap*>( p->ptr );
-
-  while( map )
-  {
-    if( strstr( map->l_name, "libNfiq2Api" ) )
-    {
-      char* path = nullptr;
-      path = realpath( map->l_name, nullptr );
-      if( path != nullptr )
-      {
-        // make sure g_modulePath is initialized before (__attribute__((init_priority(101))))
-        g_modulePath = dirname( path );
-        free( path );
-      }
-      break;
-    }
-    map = map->l_next;
-  }
-#endif
-}
-
-void my_unload( void )
-{
-  std::cout << "unload Nfiq2Api" << std::endl;
-  if( g_nfiq2.get() != nullptr )
-  {
-    g_nfiq2.reset();
-  }
-}
-
-#endif
+std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
 
 #include <cstdlib>
 
@@ -111,7 +34,7 @@ extern "C" {
     *ocv = buf;
 #else
     const char* m = nullptr;
-    cvGetModuleInfo( nullptr, ocv, &m);
+    cvGetModuleInfo( nullptr, ocv, &m );
 #endif    
   }
   DLLEXPORT void STDCALL InitNfiq2()

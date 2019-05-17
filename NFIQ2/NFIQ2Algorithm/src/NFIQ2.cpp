@@ -555,7 +555,9 @@ int main(int argc, const char* argv[])
 				return -1;
 			}
 #ifdef WIN32
-      LIBHANDLE hLib = LoadLibrary( "Nfiq2Api" );
+      LIBHANDLE hLib = LoadLibrary( "Nfiq2Api.dll" );
+#elif __APPLE__
+      LIBHANDLE hLib = dlopen( "libNfiq2Api.dylib", RTLD_LAZY );
 #else
       LIBHANDLE hLib = dlopen( "libNfiq2Api.so", RTLD_LAZY );
 #endif
@@ -574,18 +576,17 @@ int main(int argc, const char* argv[])
         }
 #ifdef WIN32
         FreeLibrary( hLib );
-#el
-# ifndef __ANDROID__
+#else
         dlclose( hLib );
-# endif
 #endif
         return rc;
       }
       else
       {
 #ifdef WIN32
+        std::cerr << "LoadLibrary Error " << GetLastError() << std::endl;
 #else
-        std::cerr << dlerror() << std::endl;
+        std::cerr << "dlopen Error " << dlerror() << std::endl;
 #endif
       }
 		}

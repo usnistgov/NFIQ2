@@ -41,9 +41,9 @@ function runCMake( $folder, $generator)
 }
 
 findCMake
-runCMake "Windows32" "Visual Studio 14" 
+runCMake "Windows32" "Visual Studio 15 2017" 
 if ([System.IntPtr]::Size -gt 4) { 
-  runCMake "Windows64" "Visual Studio 14 Win64" 
+  runCMake "Windows64" "Visual Studio 15 2017 Win64" 
 }
 
 pause

@@ -103,6 +103,7 @@ elseif("${TARGET_PLATFORM}" MATCHES "android*")
     ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${CMAKE_THREAD_LIBS_INIT}
     log
+	dl
   )
 else()
   find_package(Threads REQUIRED)
@@ -112,6 +113,7 @@ else()
     ${LINK_LIB_PREFIX}opencv_core${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${CMAKE_THREAD_LIBS_INIT}
+	dl
   )
 endif()
 

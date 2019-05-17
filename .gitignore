@@ -1,4 +1,6 @@
 **/.vs/
+**/.DS_Store/
+**/.vscode/
 **/build/
 **/dist/
 **/CMakeFiles/
@@ -7,3 +9,4 @@ nfiq2/NFIQ2Api/version.*.*.cpp
 nfiq2/NFIQ2Api/version.*.*.rc
 
 modules/core/include/opencv2/core/cv_cpu_helper.h
+

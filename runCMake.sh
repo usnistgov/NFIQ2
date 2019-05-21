@@ -34,7 +34,7 @@ esac
 
 target=$1
 if [ "${target}" == "" ]; then
-  echo "Missing target (x64, x32, android-arm32, android-arm64)"
+  echo "Missing target (x64, x32, android-arm32, android-arm64, ios-arm32, ios-arm64)"
   exit
 fi
 
@@ -58,6 +58,11 @@ if [ ${target:0:7} == "android" ]; then
   fi
 fi
 
+if [ ${target:0:3} == "ios" ]; then
+	cfg="-DCMAKE_TOOLCHAIN_FILE='./nfiq2/ios.toolchain.cmake'"
+    xtraflags="-DENABLE_ARC=FALSE"
+fi
+
 # run cmake
 if [ "${target}" == "x64" ]; then
   cmake -G "${generator}" -D32BITS=OFF -D64BITS=ON ../../../
@@ -67,6 +72,10 @@ elif [ "${target}" == "android-arm32" ]; then
   cmake -G "$generator" "$ndk" "$platform" -DANDROID_ABI=armeabi-v7a "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-arm64" ]; then
   cmake -G "$generator" "$ndk" "$platform" -DANDROID_ABI=arm64-v8a "$cfg" "$xtraflags" "../../../"
+elif [ "${target}" == "ios-arm32" ]; then
+  cmake -G "$generator" -DPLATFORM=OS "$cfg" "$xtraflags" "../../../"
+elif [ "${target}" == "ios-arm64" ]; then
+  cmake -G "$generator" -DPLATFORM=OS64 "$cfg" "$xtraflags" "../../../"
 else
   echo "Missing target (x64, x32, android-arm, android-arm64)"
   exit

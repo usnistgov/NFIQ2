@@ -3,6 +3,7 @@
 #include "include/NFIQException.h"
 #include "include/Timer.hpp"
 
+#include <cmath>
 #include <sstream>
 
 #include <opencv2/core/core.hpp>
@@ -10,15 +11,6 @@
 #if defined WINDOWS || defined WIN32
 #include <windows.h>
 #include <float.h>
-
-#if _MSC_VER && !__INTEL_COMPILER
-#define isnan _isnan // re-define isnan
-#endif
-
-#endif
-
-#if defined __ANDROID__
-#define isnan std::isnan // re-define isnan to avoid ambigious linkage
 #endif
 
 using namespace NFIQ;
@@ -321,7 +313,7 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1
 					r = static_cast<double>(changeComplete2[m])/static_cast<double>(changeComplete2[m+1]);
 					ratios.push_back(r);
 					//Create a mask vector that is a 1 if r is not a NaN, 0 if it is.
-					if (isnan(r))
+					if (std::isnan(r))
 						NaNvec.push_back(0);
 					else
 						NaNvec.push_back(1);

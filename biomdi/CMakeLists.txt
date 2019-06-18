@@ -12,19 +12,6 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/download/)
   file(REMOVE "${BIOMDI_DST}")
 endif()
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_definitions( "-O3 -Wno-format -Wno-format-extra-args" )
-  if(NOT "${TARGET_PLATFORM}" MATCHES "win*")
-    add_definitions( "-fPIC -fvisibility=hidden")
-  endif()
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  add_definitions( "/W3 /D_CRT_SECURE_NO_WARNINGS /wd4005 /wd4996 /nologo /MT" )
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  add_definitions( "-O3 -fPIC -fvisibility=hidden" )
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  add_definitions( "-O3 -fPIC -fvisibility=hidden" )
-endif()
-
 set(BIOMDI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/download//BIOMDI/Main")
 
 # add include directories

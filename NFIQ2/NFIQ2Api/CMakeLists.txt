@@ -1,6 +1,6 @@
 project( Nfiq2Api ) 
 
-include( "${ROOT_PATH}/nfiq2/compiler.cmake" )
+add_definitions( "-std=c++11" )
 
 # add files from folder
 file( GLOB SOURCE_FILES "nfiq2*.cpp" ) 
@@ -73,10 +73,15 @@ add_dependencies( ${PROJECT_NAME}
 # add required link libraries
 set( PROJECT_LIBS
   nfiq2
-  frfxll
+  FRFXLL_static
   fmr
   biomdi
 )
+
+if( USE_SANITIZER )
+  target_link_libraries( ${PROJECT_NAME} "asan" ) 
+endif()
+
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
   if( "${OPENCV_VERSION}" MATCHES "^3.*")

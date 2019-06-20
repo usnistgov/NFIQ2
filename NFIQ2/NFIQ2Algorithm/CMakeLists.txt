@@ -1,6 +1,6 @@
 project( nfiq2 ) 
 
-include( "${ROOT_PATH}/nfiq2/compiler.cmake" )
+add_definitions( "-std=c++11" )
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
@@ -11,7 +11,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
-include_directories("${ROOT_PATH}/fingerjetfxose/download/FingerJetFXOSE-master/src/libFRFXLL/include")
+include_directories("${FRFXLL_PATH}/include")
 
 include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/common/src/include")
 include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/fingerminutia/src/include")
@@ -68,10 +68,14 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_imgproc
 )
 
+if( USE_SANITIZER )
+  target_link_libraries( ${NFIQ2_TEST_APP} "asan" ) 
+endif()
+
 # set the required libraries
 set( PROJECT_LIBS
   nfiq2
-  frfxll
+  FRFXLL_static
   fmr
   biomdi
 )

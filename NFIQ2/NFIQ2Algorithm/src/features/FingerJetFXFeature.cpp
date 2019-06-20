@@ -76,7 +76,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 	    localFingerprintImage.m_ImageDPI, FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet);
 	if ( fxRes != FRFXLL_OK)
 	{
-		FRFXLLCloseHandle(hCtx);
+		FRFXLLCloseHandle(&hCtx);
 
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble = 0; // no minutiae found
@@ -93,7 +93,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 	}
 
 	// close handle
-	FRFXLLCloseHandle(hCtx);
+	FRFXLLCloseHandle(&hCtx);
 	if (hFeatureSet == NULL)
 	{
 		// return features
@@ -134,7 +134,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
 	templateCouldBeExtracted = true;
 
 	// close handle
-	FRFXLLCloseHandle(hFeatureSet);
+	FRFXLLCloseHandle(&hFeatureSet);
 
 	// parse ISO template
 	// validity check

@@ -59,9 +59,9 @@ if [ -z "${correct_cmake_exe}" ]; then
 fi
 cmake_exe="${correct_cmake_exe}"
 
-test="$(uname -s)"
+os="$(uname -s)"
 machine="$(uname -m)"
-case "${test}" in
+case "${os}" in
     Linux*)     
       machine="Linux-${machine}"
       generator="Unix Makefiles"
@@ -79,7 +79,7 @@ case "${test}" in
       generator="MSYS Makefiles"
       ;;
     *)          
-      machine="UNKNOWN:${unameOut}-${machine}"
+      machine="UNKNOWN:${os}-${machine}"
       echo "Unsupported host system"
       exit
 esac

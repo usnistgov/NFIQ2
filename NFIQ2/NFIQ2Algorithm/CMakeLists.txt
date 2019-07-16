@@ -13,8 +13,8 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
 include_directories("${FRFXLL_PATH}/include")
 
-include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/common/src/include")
-include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/fingerminutia/src/include")
+include_directories("${ROOT_PATH}/biomdi/biomdi/common/src/include")
+include_directories("${ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
 
 include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/include")
 include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/core/include")

@@ -17,8 +17,8 @@ include_directories("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include/wsq")
 
 include_directories("${ROOT_PATH}/fingerjetfxose/download/FingerJetFXOSE-master/src/libFRFXLL/include")
 
-include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/common/src/include")
-include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/fingerminutia/src/include")
+include_directories("${ROOT_PATH}/biomdi/biomdi/common/src/include")
+include_directories("${ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
 
 include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/include")
 include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/core/include")

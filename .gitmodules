@@ -1,3 +1,6 @@
 [submodule "fingerjetfxose"]
 	path = fingerjetfxose
 	url = https://github.com/FingerJetFXOSE/FingerJetFXOSE.git
+[submodule "biomdi/biomdi"]
+	path = biomdi/biomdi
+	url = https://github.com/usnistgov/biomdi.git

@@ -9,11 +9,11 @@ file( GLOB HEADER_FILES "nfiq2*.h" )
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
 
-include_directories("${ROOT_PATH}/nfiq2/NFIQ2Algorithm")
-include_directories("${ROOT_PATH}/nfiq2/NFIQ2Algorithm/include")
-include_directories("${ROOT_PATH}/nfiq2/NFIQ2Algorithm/include/features")
-include_directories("${ROOT_PATH}/nfiq2/NFIQ2Algorithm/include/prediction")
-include_directories("${ROOT_PATH}/nfiq2/NFIQ2Algorithm/include/wsq")
+include_directories("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm")
+include_directories("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include")
+include_directories("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include/features")
+include_directories("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include/prediction")
+include_directories("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include/wsq")
 
 include_directories("${ROOT_PATH}/fingerjetfxose/download/FingerJetFXOSE-master/src/libFRFXLL/include")
 
@@ -41,7 +41,7 @@ if("${TARGET_PLATFORM}" MATCHES "win*")
 endif()
 
 # set and increment version
-include( "${ROOT_PATH}/nfiq2/version.cmake" )
+include( "${ROOT_PATH}/NFIQ2/version.cmake" )
 
 # add targets
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")

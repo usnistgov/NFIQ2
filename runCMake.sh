@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Override CMake executable
+cmake_exe=$(command -v cmake)
+
 # @param CMake executable
 # @param 1 to show CMake output, 0 otherwise.
 # @return Status from cmake
@@ -28,7 +31,6 @@ cmake_version_check()
 }
 
 # Some distros may have cmake and cmake3
-cmake_exe=$(command -v cmake)
 cmake3_exe=$(command -v cmake3)
 if [ -z "${cmake_exe}" ] && [ -z "${cmake3_exe}" ]; then
       echo "Missing CMAKE installation"

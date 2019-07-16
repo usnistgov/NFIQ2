@@ -1,11 +1,63 @@
 #!/bin/bash
 
-test=`command -v cmake`
+# @param CMake executable
+# @param 1 to show CMake output, 0 otherwise.
+# @return Status from cmake
+cmake_version_check()
+{
+   if [ ${#} -ne 2 ]; then
+       echo "Usage: ${FUNCNAME} /path/to/cmake <0|1>"
+       exit
+   fi
 
-if [[ -z "${test}" ]]; then
-   echo "Missing CMAKE installation"
+   local cmake_exe="${1}"
+
+   wd="$(pwd)"
+   tmp_dir="$(mktemp -d)"
+   cd "${tmp_dir}"
+   if [ "${2}" -eq 0 ]; then
+      "${cmake_exe}" "${wd}/cmake/version" &> /dev/null
+   else
+      "${cmake_exe}" "${wd}/cmake/version" 1> /dev/null
+   fi
+   local rv=${?}
+   cd "${wd}"
+   rm -rf "${tmp_dir}"
+
+   return ${rv}
+}
+
+# Some distros may have cmake and cmake3
+cmake_exe=`command -v cmake`
+cmake3_exe=$(command -v cmake3)
+if [ -z "${cmake_exe}" ] && [ -z "${cmake3_exe}" ]; then
+      echo "Missing CMAKE installation"
+      exit
+fi
+
+# Check which, if any, CMake version is correct
+correct_cmake_exe=""
+if [ -n "${cmake_exe}" ]; then
+   cmake_version_check "${cmake_exe}" 0
+   if [ ${?} -eq 0 ]; then
+      correct_cmake_exe="${cmake_exe}"
+   fi
+fi
+if [ -z "${correct_cmake_exe}" ] && [ -n "${cmake3_exe}" ]; then
+   cmake_version_check "${cmake3_exe}" 0
+   if [ ${?} -eq 0 ]; then
+      correct_cmake_exe="${cmake3_exe}"
+   fi
+fi
+if [ -z "${correct_cmake_exe}" ]; then
+   if [ -n "${cmake_exe}" ]; then
+      cmake_version_check "${cmake_exe}" 1
+   else
+      cmake_version_check "${cmake3_exe}" 1
+   fi
    exit
 fi
+cmake_exe="${correct_cmake_exe}"
 
 test="$(uname -s)"
 machine="$(uname -m)"
@@ -75,21 +127,21 @@ cd "${build_folder}"
 
 # run cmake
 if [ "${target}" == "x64" ]; then
-  cmake -G "${generator}" -D32BITS=OFF -D64BITS=ON "$xtraflags" ../../../
+  ${cmake_exe} -G "${generator}" -D32BITS=OFF -D64BITS=ON "$xtraflags" ../../../
 elif [ "${target}" == "x32" ]; then
-  cmake -G "${generator}" -D32BITS=ON -D64BITS=OFF "$xtraflags" ../../../
+  ${cmake_exe} -G "${generator}" -D32BITS=ON -D64BITS=OFF "$xtraflags" ../../../
 elif [ "${target}" == "android-arm32" ]; then
-  cmake -G "$generator" "$ndk" "$platform" -DANDROID_ABI=armeabi-v7a "$cfg" "$xtraflags" "../../../"
+  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=armeabi-v7a "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-arm64" ]; then
-  cmake -G "$generator" "$ndk" "$platform" -DANDROID_ABI=arm64-v8a "$cfg" "$xtraflags" "../../../"
+  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=arm64-v8a "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-x86" ]; then
-  cmake -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86 "$cfg" "$xtraflags" "../../../"
+  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86 "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-x64" ]; then
-  cmake -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86_64 "$cfg" "$xtraflags" "../../../"
+  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86_64 "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "ios-arm32" ]; then
-  cmake -G "$generator" -DPLATFORM=OS "$cfg" "$xtraflags" "../../../"
+  ${cmake_exe} -G "$generator" -DPLATFORM=OS "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "ios-arm64" ]; then
-  cmake -G "$generator" -DPLATFORM=OS64 "$cfg" "$xtraflags" "../../../"
+  ${cmake_exe} -G "$generator" -DPLATFORM=OS64 "$cfg" "$xtraflags" "../../../"
 else
   echo "Missing target (x64, x32, android-arm, android-arm64)"
   exit

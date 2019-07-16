@@ -28,7 +28,7 @@ cmake_version_check()
 }
 
 # Some distros may have cmake and cmake3
-cmake_exe=`command -v cmake`
+cmake_exe=$(command -v cmake)
 cmake3_exe=$(command -v cmake3)
 if [ -z "${cmake_exe}" ] && [ -z "${cmake3_exe}" ]; then
       echo "Missing CMAKE installation"
@@ -94,7 +94,7 @@ build_folder="./build/${machine}/${target}"
 echo "Detected ${machine}, using cmake generator ${generator} for target ${target}"
 
 #linux sanitizer
-if [ ${machine:0:5} == "Linux" ]; then
+if [ "${machine:0:5}" == "Linux" ]; then
 	if [ "$2" == "sanitizer" ]; then
     build_folder="${build_folder}_sanitizer"
     xtraflags="-DUSE_SANITIZER=ON"
@@ -102,7 +102,7 @@ if [ ${machine:0:5} == "Linux" ]; then
 fi
 
 #android settings (experimental)
-if [ ${target:0:7} == "android" ]; then
+if [ "${target:0:7}" == "android" ]; then
   android_ndk=$2
   if [ "${android_ndk}" == "" ]; then
     echo "Missing path to Android NDK"
@@ -116,7 +116,7 @@ if [ ${target:0:7} == "android" ]; then
 fi
 
 #ios
-if [ ${target:0:3} == "ios" ]; then
+if [ "${target:0:3}" == "ios" ]; then
 	cfg="-DCMAKE_TOOLCHAIN_FILE='./cmake/ios.toolchain.cmake'"
   xtraflags="-DENABLE_ARC=FALSE"
 fi

@@ -538,7 +538,7 @@ int sd_ihead_to_nistcom(NISTCOM **nistcom, IHEAD *ihead, int sd_id)
                  "ERROR : sd_ihead_to_nistcom : invalid database id = %d\n",
                  sd_id);
          fprintf(stderr, "        expecting SD 4,9,10,14, or 18\n");
-         *nistcom = '\0';
+         *nistcom = NULL;
          return(-2);
    }
 }

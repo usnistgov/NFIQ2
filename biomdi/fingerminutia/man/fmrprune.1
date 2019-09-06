@@ -1,0 +1,148 @@
+.\""
+.Dd February 9, 2007
+.Dt FMRPRUNE 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm fmrprune
+.Nd Prune M1 finger minutiae from a file
+.Sh SYNOPSIS
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Fl mp
+.Fl n
+.Ar num
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Fl mr
+.Fl n
+.Ar num
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Fl me
+.Fl n
+.Ar num
+.Fl a
+.Ar semiminor
+.Fl b
+.Ar semimajor
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Fl ml
+.Fl c
+.Ar point
+.Fl a
+.Ar width
+.Fl b
+.Ar height
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to prune minutiae from an INCITS-378 input file.
+The number of minutiae to be copied to the output file is specified by the
+.Fl n
+option. The output file contains all the INCITS 378 record information, with
+no more than the requested number of minutiae. 
+Minutiae from the extended data blocks are not examined at this time.
+.Pp
+For the Polar pruning method: If the input
+file contains less minutiae than the requested amount, all of the minutiae
+will be included in the output file. 
+The minutiae that are selected 
+are chosen based on the location of the minutia relative to the center of
+mass for all the minutiae.
+.Pp
+For the Random pruning method: If the input file contains less minutiae than
+the requested amount, all of the minutiae will be included in the output file. 
+.Pp
+For the Elliptical pruning method: Minutiae are chosen when they fall within
+the ellipse specified by the
+.Fl a
+and
+.Fl b
+options, with a center located at the center of mass of 
+all the minutiae. Option 
+.Fl a
+is the length of the semiminor axis, which is parallel to the X axis of the
+image. Option
+.Fl b
+is the length of semimajor axis, which is parallel to the Y axis of the image.
+The semiminor axis length must not be greater than the semimajor axis length.
+The number of selected minutiae my be less than the requested amount, but will
+not be greater.
+.Pp
+For the Rectangular pruning method: Minutiae are chosen when they fall within
+the rectangle with the upper left corner specified with the
+.Fl c 
+option. The
+.Fl a
+and
+.Fl b
+options specify the width and height, respectively, of the rectangle.
+The size of the rectangle is not checked against the image size in the
+minutiae record.
+All minutiae contained within the rectangle are returned.
+.Pp
+The options are as follows:
+.Bl -tag -width "-o m1outfile" -indent
+.It Fl i\ \&m1infile
+Specifies the file containing a complete M1 Finger Minutiae Format as specified
+by ANSI/INCITS 378-2004.
+.It Fl o\ \&m1outfile
+Specifies the file that will contain the pruned set of minutiae. This file must
+not exist.
+.It Fl mp
+Specifies the Polar pruning method.
+.It Fl mr
+Specifies the Random pruning method.
+.It Fl me
+Specifies the Elliptical pruning method.
+.It Fl ml
+Specifies the Rectangular pruning method.
+.It Fl n\ \&num
+Specifies the maximum number of minutiae to take from the input file. If a
+finger view contains less minutiae than asked for, all are copied to the
+output file.  A value of 0 is valid.
+.It Fl c\ \&point
+Specifies the (x,y) coordinates of the upper left corner of the rectangle.
+.It Fl a\ \&width
+Specifies the semiminor axis length of the ellipse, or the width
+of the rectangle, in pixels. Must be greater than 0.
+.It Fl b\ \&height
+Specifies the semimajor axis length of the ellipse, or the height
+of the rectangle, in pixels. Must be greater than 0.
+.El
+.Sh EXAMPLES
+fmrprune -i m1.raw -o newm1.raw -n 16 -me -a 75 -b 60
+.Pp
+Produces a new file containing at most 16 minutiae from the input file using
+the Elliptical pruning method.
+.Pp
+fmrprune -i m1.raw -o newm1.raw -ml -c100,200 -a 50 -b 50
+.Pp
+Produces a new file containing all the minutiae contained within the
+rectangle.
+.Pp
+.Sh SEE ALSO
+.Xr mkfmr 1 ,
+.Xr fmrplot 1 ,
+.Xr prfmr 1 .
+.Sh BUGS
+Minutiae from the extended data blocks should be considered.
+.Sh HISTORY
+Created January 23rd, 2007 by NIST.
+Elliptical pruning method added February 9th, 2007 by NIST.
+Random pruning method added February 22nd, 2007 by NIST.
+Rectangular pruning method added March 15th, 2007 by NIST.

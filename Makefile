@@ -10,7 +10,8 @@
 PWD := $(shell pwd)
 SUBDIRS := libFRFXLL biomdi NFIQ2/NFIQ2Algorithm
 OS := $(shell uname -s)
-
+APP_CFLAGS = -fpermissive
+CXXFLAGS = -std=c++98 
 ifeq ($(findstring CYGWIN,$(OS)), CYGWIN)
 	ROOT = Administrator
 else

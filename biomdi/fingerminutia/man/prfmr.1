@@ -1,0 +1,74 @@
+.\""
+.Dd March 18, 2005
+.Dt PRFMR 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm prfmr
+.Nd Prints Fingerprint Minutiae Record in human-readable form.
+.Sh SYNOPSIS
+.Nm
+.Op Fl v
+.Oo Fl ti Ar type Oc
+.Ar m1file
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to print Finger Minutiae Records
+in human-readable form. The output is sent to stdout, while error messages
+are sent to stderr. The 
+.Nm
+program will attempt to read an ANSI/INCITS 378-2004 format record unless some
+other type is specified with the
+.Fl ti
+option. 
+.Pp
+The minutiae record can be optionally verified, which means the certain fields 
+in the record are checked against constraints given in the ANSI/INCITS 378-2004
+or ISO 19794-2 specifications.
+.Pp
+The options are as follows:
+.Bl -tag -width "xxxxxxxx"
+.It Fl v
+causes the file records to be verified before printing;
+.It Fl ti\ \&type
+Specifies the input file type.
+.El
+.Pp
+Valid types for the input file are:
+.Bl -tag -width "xxxxxx"
+.It Cm ANSI
+ANSI/INCITS 378-2004 format;
+.It Cm ANSI07
+ANSI/INCITS 378-2007 format;
+.It Cm ISO
+ISO/IEC 19794-2 format;
+.It Cm ISONC
+ISO/IEC 19794-2 normal card format;
+.It Cm ISOCC
+ISO/IEC 19794-2 compact card format.
+.El
+.Sh EXAMPLES
+\'prfmr m1.raw'
+.Pp
+Print the ANSI minutiae record.
+.Pp
+\'prfmr -v -ti ISOCC cc.raw'
+.Pp
+Verify, and if successful, print the ISO compact card minutiae record.
+.Pp
+.Sh SEE ALSO
+.Xr mkfmr 1 ,
+.Xr fmr2an2k 1 .
+.Xr fmr2fmr 1 .
+.Sh STANDARDS
+``Biometric Data Interchange Formats, Part 2: Finger Minutiae data'',
+ISO 19794-2, 2005-09-15.
+.Pp
+``Finger Minutiae Format for Data Interchange'', ANSI/INCITS 378-2004,
+February 20, 2004.
+.Sh HISTORY
+Created March 18th, 2005 by NIST.
+ISO formats added April 17, 2007 by NIST.
+Input type argument added May 31, 2007 by NIST.
+ANSI '07 type argument added December 17, 2007 by NIST.

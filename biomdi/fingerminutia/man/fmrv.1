@@ -1,0 +1,37 @@
+.\""
+.Dd August 22, 2006
+.Dt FMRV 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm fmrv
+.Nd Validate the ANSI-378 M1 Fingerprint Minutiae Records contained within
+a single file.
+.Sh SYNOPSIS
+.Nm
+.Ar m1file
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to validate ANSI/ICITS 378-2004 compliant M1 minutiae records
+that are contained within a single file. Exit codes are set based on the
+result of the validation.
+.Pp
+.Sh RETURN VALUES
+The
+.Nm
+command returns 0 if the M1 records are valid, 1 if they are invalid,
+and -1 if some other error occurs (failure to open the input file, for example).
+.Sh EXAMPLES
+\'fmrv m1.raw'
+.Pp
+Validate the M1 record.
+.Pp
+.Sh SEE ALSO
+.Xr mkfmr 1 ,
+.Xr prfmr 1 ,
+.Sh STANDARDS
+``Finger Minutiae Format for Data Interchange'', ANSI/INCITS 378-2004,
+February 20, 2004.
+.Sh HISTORY
+Created August 22nd, 2006 by NIST.

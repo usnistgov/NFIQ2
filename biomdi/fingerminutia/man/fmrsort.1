@@ -1,0 +1,77 @@
+.\""
+.Dd June 1, 2007
+.Dt FMRSORT 1  
+.Os Mac OS X       
+.Sh NAME
+.Nm fmrsort
+.Nd Sort M1 finger minutiae into a new file
+.Sh SYNOPSIS
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Fl mp | mx | my | ma
+.Op Fl r
+.Nm
+.Fl i
+.Ar infile
+.Fl o
+.Ar outfile
+.Fl mr
+.Pp
+.Sh DESCRIPTION
+The
+.Nm
+command is used to sort minutiae in an INCITS-378 input file.
+Minutiae from the extended data blocks are not examined at this time.
+The default sorting order is ascending (except for random sorting),
+and only one pruning method can be chosen.
+.Pp
+The options are as follows:
+.Bl -tag -width "-o m1outfile"
+.It Fl i\ \&m1infile
+Specifies the file containing a complete M1 Finger Minutiae Format as specified
+by ANSI/INCITS 378-2004.
+.It Fl o\ \&m1outfile
+Specifies the file that will contain the sorted set of minutiae. This file must
+not exist.
+.It Fl mp
+Specifies the Polar sorting method.
+.It Fl mx
+Specifies the Cartesian X-Y sorting method.
+.It Fl my
+Specifies the Cartesian Y-X sorting method.
+.It Fl ma
+Specifies the Angle sorting method.
+.It Fl mr
+Specifies the Random sorting method.
+.It Fl r
+Sort in reverse (descending) order.
+.El
+.Sh EXAMPLES
+fmrsort -i m1.raw -o newm1.raw -mx
+.Pp
+Produces a new file containing the minutiae from the input file sorted
+using the Cartesian X-Y method, in ascending order.
+.Pp
+fmrsort -i m1.raw -o newm1.raw -mp -r
+.Pp
+Produces a new file containing the minutiae from the input file sorted
+using the Polar method, in descending order.
+.Pp
+fmrsort -i m1.raw -o newm1.raw -mr
+.Pp
+Produces a new file containing the minutiae from the input file randomly sorted.
+.Pp
+.Sh SEE ALSO
+.Xr mkfmr 1 ,
+.Xr fmrplot 1 ,
+.Xr fmrprune 1 ,
+.Xr prfmr 1 .
+.Sh BUGS
+Minutiae from the extended data blocks should be considered.
+.Pp
+Non-ANSI minutiae records should be supported.
+.Sh HISTORY
+Created June 1st, 2007 by NIST.

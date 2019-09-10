@@ -8,7 +8,7 @@ set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( OPENCV_VERSION "2.4.13.6")
-#set( OPENCV_VERSION "3.4.5")
+#set( OPENCV_VERSION "3.4.7")
 
 # set colors for cmake comand line
 include( "${ROOT_PATH}/cmake/colors.cmake" )

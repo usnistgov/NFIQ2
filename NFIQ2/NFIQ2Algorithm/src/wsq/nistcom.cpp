@@ -633,7 +633,7 @@ int sd9_10_14_ihead_to_nistcom(NISTCOM **onistcom, IHEAD *ihead,
    char *hst, *fname, *ncic, class_, *sex, *pname, *ink_liv;
    char *nptr;
    int ret, hst_sz;
-   NISTCOM *nistcom;
+   NISTCOM *nistcom = NULL;
    char cbuff[11], id_str[BUFSIZE];
 
    /* Get information needed from NIST IHEAD Structure */

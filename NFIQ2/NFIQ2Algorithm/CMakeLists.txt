@@ -54,6 +54,15 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_core
   opencv_ml
   opencv_imgproc
+  opencv_highgui
+  opencv_flann
+  opencv_features2d
+  opencv_calib3d
+  opencv_video
+  opencv_objdetect
+  opencv_photo
+  opencv_stitching
+  opencv_videostab
 )
 
 if( USE_SANITIZER )

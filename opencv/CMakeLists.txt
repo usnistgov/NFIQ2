@@ -46,6 +46,6 @@ OCV_OPTION(WITH_ITT                 "Include Intel ITT support"                 
 OCV_OPTION(WITH_DSHOW               "Build VideoIO with DirectShow support"                               OFF )
 OCV_OPTION(WITH_MSMF                "Build VideoIO with Media Foundation support"                         OFF )
 
-set(BUILD_LIST "core,ml,imgproc" CACHE STRING "Build only listed modules (comma-separated, e.g. 'videoio,dnn,ts')")
+set(BUILD_LIST "core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo,stitching,videostab" CACHE STRING "Build only listed modules (comma-separated, e.g. 'videoio,dnn,ts')")
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/download/opencv-${OPENCV_VERSION}" "${BUILD_PATH}/opencv-${OPENCV_VERSION}/")

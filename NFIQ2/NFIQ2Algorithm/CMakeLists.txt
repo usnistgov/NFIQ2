@@ -18,7 +18,7 @@ include_directories("${ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
 
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${CMAKE_BINARY_DIR})
 set(OpenCV_SHARED ON)
-include_directories(${OpenCV_INCLUDE})
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
   include_directories("${ROOT_PATH}/biomdi/windows")

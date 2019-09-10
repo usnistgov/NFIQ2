@@ -2,6 +2,8 @@
 #include "RandomForestTrainedParams.h"
 #include "include/NFIQException.h"
 
+#include <opencv2/core/version.hpp>
+
 #if defined WINDOWS || defined WIN32
 #include <windows.h>
 #else
@@ -26,24 +28,24 @@ std::string RandomForestML::joinRFTrainedParamsString()
 
 RandomForestML::RandomForestML()
 {
-#	if CV_MAJOR_VERSION < 3
+#	if CV_MAJOR_VERSION <= 2
 	m_pTrainedRF = NULL;
 # endif
 }
 
 RandomForestML::~RandomForestML()
 {
-#	if CV_MAJOR_VERSION == 3
-	if (!m_pTrainedRF.empty())
-	{
-		m_pTrainedRF->clear();
-	}
-#	else
+#	if CV_MAJOR_VERSION <= 2
 	if (m_pTrainedRF != nullptr)
 	{
 		m_pTrainedRF->clear();
 		delete m_pTrainedRF;
 		m_pTrainedRF = NULL;
+	}
+#	else
+	if (!m_pTrainedRF.empty())
+	{
+		m_pTrainedRF->clear();
 	}
 #	endif
 }
@@ -63,12 +65,12 @@ void RandomForestML::initModule()
     // create file storage with parameters in memory
     FileStorage fs(params.c_str(), FileStorage::READ | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
     // now import data structures
-#if CV_MAJOR_VERSION == 3
-    m_pTrainedRF = cv::ml::RTrees::create();
-    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
-#else
+#if CV_MAJOR_VERSION <= 2
 		m_pTrainedRF = new CvRTrees();
 		m_pTrainedRF->read(fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
+#else
+    m_pTrainedRF = cv::ml::RTrees::create();
+    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
 #endif
   }
 	catch (const cv::Exception& e)
@@ -90,11 +92,11 @@ void RandomForestML::evaluate(
 {
   try
 	{
-#		if CV_MAJOR_VERSION == 3
-		if (m_pTrainedRF.empty() || !m_pTrainedRF->isTrained()  || !m_pTrainedRF->isClassifier())
+#		if CV_MAJOR_VERSION <= 2
+		if (m_pTrainedRF == nullptr)
 			throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration, "The trained network could not be loaded for prediction!");
 #		else
-		if (m_pTrainedRF == nullptr)
+		if (m_pTrainedRF.empty() || !m_pTrainedRF->isTrained()  || !m_pTrainedRF->isClassifier())
 			throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration, "The trained network could not be loaded for prediction!");
 #		endif
 
@@ -113,16 +115,16 @@ void RandomForestML::evaluate(
 			counterFeatures++;
 		}
 
-#		if CV_MAJOR_VERSION == 3
-		// returns probability that between 0 and 1 that result belongs to second class
-		float prob = m_pTrainedRF->predict(sample_data, noArray(), cv::ml::StatModel::RAW_OUTPUT);
-    // return quality value
-    qualityValue = (int)(prob + 0.5);
-#		else
+#		if CV_MAJOR_VERSION <= 2
 		// returns probability that between 0 and 1 that result belongs to second class
 		float prob = m_pTrainedRF->predict_prob(sample_data, Mat());
     // return quality value
     qualityValue = (int)((prob * 100) + 0.5);
+#		else
+		// returns probability that between 0 and 1 that result belongs to second class
+		float prob = m_pTrainedRF->predict(sample_data, noArray(), cv::ml::StatModel::RAW_OUTPUT);
+    // return quality value
+    qualityValue = (int)(prob + 0.5);
 #		endif
 
 	}

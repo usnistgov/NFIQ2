@@ -9,8 +9,13 @@
 
 #include "include/InterfaceDefinitions.h"
 
+#include <opencv2/core/version.hpp>
+#if CV_MAJOR_VERSION <= 2
 #include <opencv/cv.h>
 #include <opencv/ml.h>
+#else
+#include <opencv2/ml.hpp>
+#endif /* CV_MAJOR_VERSION */
 
 class RandomForestML
 {
@@ -30,10 +35,10 @@ public:
 		double & deviation);
 
 private:
-#		if CV_MAJOR_VERSION == 3
-		cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
-#		else
+#		if CV_MAJOR_VERSION <= 2
 		CvRTrees* m_pTrainedRF;
+#		else
+		cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
 #		endif
 	std::string joinRFTrainedParamsString();
 };

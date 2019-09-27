@@ -24,12 +24,12 @@ using namespace cv;
 
 std::string RandomForestML::calculateHashString()
 {
-#	if CV_MAJOR_VERSION == 3
-#	else
+#	if CV_MAJOR_VERSION <= 2
 	// write the parameters to a memeory string for normalization before the hash will be calculated
 	FileStorage temp("temp.yaml", FileStorage::WRITE | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
 	m_pTrainedRF->write(temp.fs, "my_random_trees");
 	std::string str = temp.releaseAndGetString();
+#	else
 #	endif
 	// calculate and compare the hash
 	digestpp::md5 hasher;
@@ -116,23 +116,23 @@ std::string RandomForestML::initModule( const std::string& fileName, const std::
 	try
 	{
     FileStorage fs(fileName, FileStorage::READ | FileStorage::FORMAT_YAML);
-#if CV_MAJOR_VERSION == 3
-    m_pTrainedRF = cv::ml::RTrees::create();
-    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
-#else
+#if CV_MAJOR_VERSION <= 2
 		m_pTrainedRF = new CvRTrees();
 		m_pTrainedRF->read(fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
+#else
+    m_pTrainedRF = cv::ml::RTrees::create();
+    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
 #endif
 		// calculate and compare the hash
 		std::string hash = calculateHashString();
 		if( fileHash.compare( hash ) != 0 )
 		{
-#if CV_MAJOR_VERSION == 3
-			m_pTrainedRF->clear();
-#else
+#if CV_MAJOR_VERSION <= 2
 			m_pTrainedRF->clear();
 			delete m_pTrainedRF;
 			m_pTrainedRF = NULL;
+#else
+			m_pTrainedRF->clear();
 #endif
 			throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration, "The trained network could not be initialized!");
 		}

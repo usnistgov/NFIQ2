@@ -15,61 +15,56 @@
 
 namespace NFIQ
 {
-static const std::string ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow = "EmptyImageOrContrastTooLow";
-static const std::string ActionableQualityFeedbackIdentifier_UniformImage = "UniformImage";
-static const std::string ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae = "FingerprintImageWithMinutiae";
-static const std::string ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground = "SufficientFingerprintForeground";
+	static const std::string ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow = "EmptyImageOrContrastTooLow";
+	static const std::string ActionableQualityFeedbackIdentifier_UniformImage = "UniformImage";
+	static const std::string ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae = "FingerprintImageWithMinutiae";
+	static const std::string ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground = "SufficientFingerprintForeground";
 
-static const double ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow = 250.0;
-static const double ActionableQualityFeedbackThreshold_UniformImage = 1.0;
-static const double ActionableQualityFeedbackThreshold_FingerprintImageWithMinutiae = 5.0;				// minimum 5 minutiae shall be found
-static const double ActionableQualityFeedbackThreshold_SufficientFingerprintForeground = 50000.0; // minimum foreground pixels
+	static const double ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow = 250.0;
+	static const double ActionableQualityFeedbackThreshold_UniformImage = 1.0;
+	static const double ActionableQualityFeedbackThreshold_FingerprintImageWithMinutiae = 5.0; // minimum 5 minutiae shall be found
+	static const double ActionableQualityFeedbackThreshold_SufficientFingerprintForeground = 50000.0; // minimum foreground pixels
 
-/**
+	/**
 	* This type represents a structure for actionable quality feedback
 	*/
-typedef struct actionable_quality_feedback_t
-{
-	std::string identifier;				 ///< ID of the actionable quality
-	double actionableQualityValue; ///< actionable quality value
-} ActionableQualityFeedback;
+	typedef struct actionable_quality_feedback_t
+	{
+		std::string		identifier;		///< ID of the actionable quality
+		double			actionableQualityValue;	///< actionable quality value
+	} ActionableQualityFeedback;
 
-/**
+	/**
 	******************************************************************************
 	* @class NFIQ2Algorithm
 	* @brief This class serves as a wrapper to return quality scores for a
 	* fingerprint image
 	******************************************************************************/
-class NFIQ2Algorithm
-{
-public:
-	/******************************************************************************/
-	// --- Constructor / Destructor --- //
-	/******************************************************************************/
+	class NFIQ2Algorithm 
+	{
+	public:
+		/******************************************************************************/
+		// --- Constructor / Destructor --- //
+		/******************************************************************************/
 
-	/**
+		/**
 		* @brief Default constructor of NFIQ2Algorithm
 		*/
 # ifdef EMBED_RANDOMFOREST_PARAMETERS
-	NFIQ2Algorithm();
-# endif
-	NFIQ2Algorithm(const std::string& fileName, const std::string& fileHash);
+		NFIQ2Algorithm();
+ # endif
+ 	NFIQ2Algorithm(const std::string& fileName, const std::string& fileHash);
 
-	/**
+		/**
 		* @brief Destructor
 		*/
-	virtual ~NFIQ2Algorithm();
+		virtual ~NFIQ2Algorithm();
 
-	/******************************************************************************/
-	// --- Public functions --- //
-	/******************************************************************************/
+		/******************************************************************************/
+		// --- Public functions --- //
+		/******************************************************************************/
 
-	inline const std::string &getParameterHash()
-	{
-		return m_parameterHash;
-	}
-
-	/**
+		/**
 		* @fn computeQualityScore
 		* @brief Computes the quality score from the input fingerprint image data
 		* @param rawImage fingerprint image in raw format
@@ -81,25 +76,22 @@ public:
 		* @param qualityFeatureSpeed list of feature computation speed
 		* @return achieved quality score
 		*/
-	unsigned int computeQualityScore(
-			NFIQ::FingerprintImageData rawImage,
-			bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
-			bool bOutputFeatures, std::list<NFIQ::QualityFeatureData> &qualityFeatureData,
-			bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed);
+		unsigned int computeQualityScore(
+			NFIQ::FingerprintImageData rawImage, 
+			bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback> & actionableQuality,
+			bool bOutputFeatures, std::list<NFIQ::QualityFeatureData> & qualityFeatureData,
+			bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> & qualityFeatureSpeed);
 
-protected:
-	std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
-			const NFIQ::FingerprintImageData &rawImage,
-			bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
-			bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> &speedValues);
+	private:
+		std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
+			const NFIQ::FingerprintImageData & rawImage,
+			bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback> & actionableQuality,
+			bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> & speedValues);
+		double getQualityPrediction(std::list<NFIQ::QualityFeatureData> & featureVector);
 
-private:
-	double getQualityPrediction(std::list<NFIQ::QualityFeatureData> &featureVector);
-
-	std::string m_parameterHash;
-	RandomForestML m_RandomForestML;
-};
-} // namespace NFIQ
+		RandomForestML m_RandomForestML;
+	};
+}
 
 #endif
 

@@ -117,11 +117,12 @@ int executeRunModeSingle(std::string fpImagePath, std::string imageFormat, bool 
 		timerInit.startTimer();
 
 		// do initialization
-		NFIQ::NFIQ2Algorithm nfiq2;
+		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592");
 		std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
 		timeInit = timerInit.endTimerAndGetElapsedTime();
 
-		std::cout << "       Time needed for initialization of module: " << std::setprecision(3) << std::fixed << timeInit << " ms" << std::endl;
+		std::cout << "       Time needed for initialization of module: " << std::setprecision(3) << std::fixed << timeInit 
+							<< " ms, Hash: " << nfiq2.getParameterHash() << std::endl;
 
 		// start timer for quality computation
 		NFIQ::Timer timer;
@@ -237,10 +238,11 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 		timerInit.startTimer();
 
 		// do initialization
-		NFIQ::NFIQ2Algorithm nfiq2;
+		NFIQ::NFIQ2Algorithm nfiq2( "nfiq2rf.yaml", "0x79c16f1e2dd226cab0b12b79eea242c5");
 		timeInit = timerInit.endTimerAndGetElapsedTime();
 
-		std::cout << "       Time needed for initialization of module: " << std::setprecision(3) << std::fixed << timeInit << " ms" << std::endl;
+		std::cout << "       Time needed for initialization of module: " << std::setprecision(3) << std::fixed << timeInit 
+							<< " ms, Hash: " << nfiq2.getParameterHash() << std::endl;
 
 
 		// header with data that is always present
@@ -450,7 +452,7 @@ int executeRunModeShared(LIBHANDLE hLib, std::string fpImagePath, std::string im
       std::cerr << "NFIQ2: entrypoint 'GetNfiq2Version' not found." << std::endl;
     }
     
-    typedef void (__stdcall *pFct2 )( void );
+    typedef const char* (__stdcall *pFct2 )( void );
 #ifdef WIN32
     pFct2 entryPoint2 = ( pFct2 )GetProcAddress( hLib, "InitNfiq2" );
 #else
@@ -459,7 +461,8 @@ int executeRunModeShared(LIBHANDLE hLib, std::string fpImagePath, std::string im
     if( entryPoint2 != nullptr)
     {
       std::cout << "NFIQ2: initializing" << std::endl;
-      (*entryPoint2)();
+      const char* hash = (*entryPoint2)();
+      std::cout << "RandomForest Parameters Hash " << hash << std::endl;
     }
     else
     {

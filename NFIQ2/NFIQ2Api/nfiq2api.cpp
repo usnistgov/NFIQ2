@@ -37,19 +37,25 @@ extern "C" {
     cvGetModuleInfo( nullptr, ocv, &m );
 #endif    
   }
-  DLLEXPORT void STDCALL InitNfiq2()
+  DLLEXPORT const char* STDCALL InitNfiq2()
   {
     try
     {
       if( g_nfiq2.get() == nullptr )
       {
+#       ifdef EMBED_RANDOMFOREST_PARAMETERS
         g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm() );
+#       else
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592") );
+#       endif
+        return g_nfiq2->getParameterHash().c_str();
       }
     }
     catch( std::exception& exc )
     {
       std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;
     }
+    return nullptr;
   }
   DLLEXPORT int STDCALL ComputeNfiq2Score( int fpos, const unsigned char* pixels, int size, int width, int height, int ppi )
   {

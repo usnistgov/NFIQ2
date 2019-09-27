@@ -35,13 +35,24 @@ using namespace NFIQ;
 using namespace std;
 using namespace cv;
 
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2Algorithm::NFIQ2Algorithm()
 {
-    #if defined(__linux) && defined(__i386__)
+  #if defined(__linux) && defined(__i386__)
     set_fpu (0x27F); /* use double-precision rounding */
-    #endif
+  #endif
 	// init RF module that takes some time to load the parameters
-	m_RandomForestML.initModule();
+	m_parameterHash = m_RandomForestML.initModule();
+}
+#endif
+
+NFIQ2Algorithm::NFIQ2Algorithm(const std::string& fileName, const std::string& fileHash)
+{
+  #if defined(__linux) && defined(__i386__)
+    set_fpu (0x27F); /* use double-precision rounding */
+  #endif
+	// init RF module that takes some time to load the parameters
+	m_parameterHash = m_RandomForestML.initModule(fileName, fileHash);
 }
 
 NFIQ2Algorithm::~NFIQ2Algorithm()

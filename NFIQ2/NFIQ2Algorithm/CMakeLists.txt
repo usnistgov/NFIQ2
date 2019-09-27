@@ -1,6 +1,6 @@
 project( nfiq2 ) 
 
-add_definitions( "-std=c++11" )
+add_definitions( "-std=c++11 -D__BYTE_ORDER" )
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
@@ -12,6 +12,8 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
 include_directories("${FRFXLL_PATH}/include")
+
+include_directories("${ROOT_PATH}/digestpp")
 
 include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/common/src/include")
 include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/fingerminutia/src/include")

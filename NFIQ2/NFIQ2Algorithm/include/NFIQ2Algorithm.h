@@ -13,8 +13,6 @@
 
 #include "RandomForestML.h"
 
-#include <opencv/cv.h>
-
 namespace NFIQ
 {
 static const std::string ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow = "EmptyImageOrContrastTooLow";

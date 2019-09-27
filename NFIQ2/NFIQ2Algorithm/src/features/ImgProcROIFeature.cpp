@@ -2,6 +2,8 @@
 #include "include/NFIQException.h"
 #include "include/Timer.hpp"
 
+#include <opencv2/core/version.hpp>
+
 #include <sstream>
 
 using namespace NFIQ;
@@ -124,20 +126,35 @@ ImgProcROIFeature::ImgProcROIResults ImgProcROIFeature::computeROI(cv::Mat & img
 	std::vector<Vec4i> hierarchy;
 
 	// find contours in image
+#if CV_MAJOR_VERSION <= 2
 	findContours( contImg, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, Point(0,0) );
+#else
+	findContours( contImg, contours, hierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE, Point(0,0) );
+#endif /* CV_MAJOR_VERSION */
 
 	// if holes are found -> close holes
 	if (hierarchy.size() > 2)
 	{
 		Mat filledImg;
+#if CV_MAJOR_VERSION <= 2
 		cvtColor(threshImg2, filledImg, CV_GRAY2BGR);
+#else
+		cvtColor(threshImg2, filledImg, cv::COLOR_GRAY2BGR);
+#endif /* CV_MAJOR_VERSION */
 
 		for (unsigned int idx = 0; idx < (hierarchy.size() - 2); idx++)
 		{	
+#if CV_MAJOR_VERSION <= 2
 			drawContours( filledImg, contours, idx, Scalar(0,0,0,0), CV_FILLED, 8, hierarchy );
+#else
+			drawContours( filledImg, contours, idx, Scalar(0,0,0,0), cv::FILLED, 8, hierarchy );
+#endif /* CV_MAJOR_VERSION */
 		}
-
+#if CV_MAJOR_VERSION <= 2
 		cvtColor(filledImg, threshImg2, CV_BGR2GRAY);
+#else
+		cvtColor(filledImg, threshImg2, cv::COLOR_BGR2GRAY);
+#endif /* CV_MAJOR_VERSION */
 	}
 
 	// 7. remove smaller blobs at the edges that are not part of the fingerprint
@@ -246,7 +263,11 @@ ImgProcROIFeature::ImgProcROIResults ImgProcROIFeature::computeROI(cv::Mat & img
 			if (m.val[0] < 255)
 			{
 				// take block
+#if CV_MAJOR_VERSION <= 2
 				rectangle(bsImg, Point(j, i), Point(j + takenBS_X, i + takenBS_Y), Scalar(0,0,0,0), CV_FILLED);
+#else
+				rectangle(bsImg, Point(j, i), Point(j + takenBS_X, i + takenBS_Y), Scalar(0,0,0,0), cv::FILLED);
+#endif /* CV_MAJOR_VERSION */
 				roiResults.vecROIBlocks.push_back(Rect(j, i, takenBS_X, takenBS_Y));
 			}
 

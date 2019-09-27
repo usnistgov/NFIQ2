@@ -4,20 +4,12 @@
 
 #include "ImgProcROIFeature.h"
 
+#include <cmath>
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
 #include <windows.h>
 #include <float.h>
-
-#if _MSC_VER && !__INTEL_COMPILER
-#define isnan _isnan // re-define isnan
-#endif
-
-#endif
-
-#if defined __ANDROID__
-#define isnan std::isnan // re-define isnan to avoid ambigious linkage
 #endif
 
 #ifndef M_PI
@@ -180,7 +172,7 @@ cv::Mat QualityMapFeatures::computeOrientationMap(cv::Mat & img, bool bFilterByR
 			{
 				continue; // block does not have angle = no ridge line
 			}
-			if (isnan(coherence))
+			if (std::isnan(coherence))
 				coherence = 0.0;
 			coherenceSum += coherence;
 
@@ -234,13 +226,13 @@ bool QualityMapFeatures::getAngleOfBlock(const cv::Mat & block, double & angle, 
 		{
 			// 2 * gx * gy
 			double gy = (2 * grad_x.at<double>(k,l) * grad_y.at<double>(k,l));
-			if (isnan(gy))
+			if (std::isnan(gy))
 				sum_y += 0;
 			else
 				sum_y += gy;
 			// gx^2 - gy^2
 			double gx = ((grad_x.at<double>(k,l) * grad_x.at<double>(k,l)) - (grad_y.at<double>(k,l) * grad_y.at<double>(k,l)));
-			if (isnan(gx))
+			if (std::isnan(gx))
 				sum_x += 0;
 			else
 				sum_x += gx;
@@ -256,9 +248,9 @@ bool QualityMapFeatures::getAngleOfBlock(const cv::Mat & block, double & angle, 
 
 	// compute coherence value of gradient vector
 	double coh_sum1 = sqrt(sum_x * sum_x + sum_y * sum_y);
-	if (isnan(coh_sum1))
+	if (std::isnan(coh_sum1))
 		coh_sum1 = 0.0;
-	if (isnan(coh_sum2))
+	if (std::isnan(coh_sum2))
 		coh_sum2 = 0.0;
 
 	if (coh_sum2 != 0)

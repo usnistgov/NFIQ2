@@ -12,12 +12,6 @@
 #if defined WINDOWS || defined WIN32
 #include <windows.h>
 #include <float.h>
-
-#define isnan _isnan // re-define isnan
-#else
-#ifndef isnan
-#define isnan(x) ((x) != (x))
-#endif
 #endif
 
 #ifndef M_PI

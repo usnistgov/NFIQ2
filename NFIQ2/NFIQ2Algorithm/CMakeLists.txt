@@ -15,24 +15,12 @@ include_directories("${FRFXLL_PATH}/include")
 
 include_directories("${ROOT_PATH}/digestpp")
 
-include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/common/src/include")
-include_directories("${ROOT_PATH}/biomdi/download/BIOMDI/Main/fingerminutia/src/include")
+include_directories("${ROOT_PATH}/biomdi/biomdi/common/src/include")
+include_directories("${ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
 
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/core/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/imgproc/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/highgui/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/video/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/features2d/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/flann/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/calib3d/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/objdetect/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/legacy/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/ml/include")
-# only OpenCV3
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/imgcodecs/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/videoio/include")
-include_directories("${ROOT_PATH}/opencv/download/opencv-${OPENCV_VERSION}/modules/photo/include")
+find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${CMAKE_BINARY_DIR})
+set(OpenCV_SHARED ON)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
   include_directories("${ROOT_PATH}/biomdi/windows")
@@ -68,6 +56,15 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_core
   opencv_ml
   opencv_imgproc
+  opencv_highgui
+  opencv_flann
+  opencv_features2d
+  opencv_calib3d
+  opencv_video
+  opencv_objdetect
+  opencv_photo
+  opencv_stitching
+  opencv_videostab
 )
 
 if( USE_SANITIZER )
@@ -85,17 +82,11 @@ set( PROJECT_LIBS
 if("${TARGET_PLATFORM}" MATCHES "win*")
   if( "${OPENCV_VERSION}" MATCHES "^3.*")
     set( PROJECT_LIBS ${PROJECT_LIBS}
-      ${LINK_LIB_PREFIX}opencv_ml${OPENCV_VERSION2}${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LINK_LIB_PREFIX}opencv_imgproc${OPENCV_VERSION2}${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LINK_LIB_PREFIX}opencv_core${OPENCV_VERSION2}${CMAKE_STATIC_LIBRARY_SUFFIX}
       ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
       ws2_32
     )
   else()
     set( PROJECT_LIBS ${PROJECT_LIBS}
-      ${LINK_LIB_PREFIX}opencv_ml2413${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LINK_LIB_PREFIX}opencv_imgproc2413${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LINK_LIB_PREFIX}opencv_core2413${CMAKE_STATIC_LIBRARY_SUFFIX}
       ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
       ws2_32
     )
@@ -103,9 +94,6 @@ if("${TARGET_PLATFORM}" MATCHES "win*")
 elseif("${TARGET_PLATFORM}" MATCHES "android*")
   find_package(Threads REQUIRED)
   set( PROJECT_LIBS ${PROJECT_LIBS}
-    ${LINK_LIB_PREFIX}opencv_ml${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LINK_LIB_PREFIX}opencv_imgproc${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LINK_LIB_PREFIX}opencv_core${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${CMAKE_THREAD_LIBS_INIT}
     log
@@ -114,9 +102,6 @@ elseif("${TARGET_PLATFORM}" MATCHES "android*")
 else()
   find_package(Threads REQUIRED)
   set( PROJECT_LIBS ${PROJECT_LIBS}
-    ${LINK_LIB_PREFIX}opencv_ml${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LINK_LIB_PREFIX}opencv_imgproc${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LINK_LIB_PREFIX}opencv_core${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${CMAKE_THREAD_LIBS_INIT}
 	dl
@@ -125,4 +110,4 @@ endif()
 
 link_directories( "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}" )
 
-target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ) 
+target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )

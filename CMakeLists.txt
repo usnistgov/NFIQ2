@@ -8,7 +8,8 @@ set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( OPENCV_VERSION "2.4.13.6")
-#set( OPENCV_VERSION "3.4.5")
+#set( OPENCV_VERSION "3.4.7")
+#set( OPENCV_VERSION "4.1.1")
 
 # set colors for cmake comand line
 include( "${ROOT_PATH}/cmake/colors.cmake" )
@@ -37,5 +38,5 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DIST_PATH} )
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 add_subdirectory("${ROOT_PATH}/opencv/" "${BUILD_PATH}/opencv/")
-add_subdirectory("${ROOT_PATH}/nfiq2/NFIQ2Algorithm" "${BUILD_PATH}/nfiq2/NFIQ2Algorithm")
-add_subdirectory("${ROOT_PATH}/nfiq2/NFIQ2Api" "${BUILD_PATH}/nfiq2/NFIQ2Api")
+add_subdirectory("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm" "${BUILD_PATH}/nfiq2/NFIQ2Algorithm")
+add_subdirectory("${ROOT_PATH}/NFIQ2/NFIQ2Api" "${BUILD_PATH}/nfiq2/NFIQ2Api")

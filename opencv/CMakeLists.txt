@@ -31,8 +31,11 @@ OCV_OPTION(BUILD_TINY_GPU_MODULE    "Build tiny gpu module with limited image fo
 OCV_OPTION(ENABLE_PRECOMPILED_HEADERS "Use precompiled headers"                                           OFF )
 OCV_OPTION(WITH_GTK                 "Include GTK support"                                                 OFF )
 OCV_OPTION(ENABLE_FAST_MATH         "Enable -ffast-math (not recommended for GCC 4.6.x)"                  OFF )
+if("${TARGET_PLATFORM}" MATCHES "win*")
 OCV_OPTION(BUILD_WITH_STATIC_CRT    "Enables use of statically linked CRT for staticaly linked OpenCV"    ON  )
+endif()
 OCV_OPTION(BUILD_ZLIB               "Build zlib from source"                                              ON  )
+OCV_OPTION(WITH_FFMPEG              "Use FFMPEG, if it is installed"                                      OFF )
 
 # opencv 3 options
 # disable protobuf, due it requires CPP11 build
@@ -43,6 +46,6 @@ OCV_OPTION(WITH_ITT                 "Include Intel ITT support"                 
 OCV_OPTION(WITH_DSHOW               "Build VideoIO with DirectShow support"                               OFF )
 OCV_OPTION(WITH_MSMF                "Build VideoIO with Media Foundation support"                         OFF )
 
-set(BUILD_LIST "core,ml,imgproc" CACHE STRING "Build only listed modules (comma-separated, e.g. 'videoio,dnn,ts')")
+set(BUILD_LIST "core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo,stitching,videostab" CACHE STRING "Build only listed modules (comma-separated, e.g. 'videoio,dnn,ts')")
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/download/opencv-${OPENCV_VERSION}" "${BUILD_PATH}/opencv-${OPENCV_VERSION}/")

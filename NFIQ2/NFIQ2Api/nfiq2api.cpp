@@ -4,6 +4,8 @@
 #include "NFIQException.h"
 #include "nfiq2api.h"
 
+#include <opencv2/core/version.hpp>
+
 // external vars for the version values
 extern char product_name[128];
 extern char product_copyright[128];
@@ -25,17 +27,17 @@ extern "C" {
     *minor = version_minor;
     *evolution = version_evolution;
     *increment = version_build;
-#if CV_MAJOR_VERSION == 3
+#if CV_MAJOR_VERSION <= 2
+    const char* m = nullptr;
+    cvGetModuleInfo( nullptr, ocv, &m );
+#else
     std::stringstream ss;
     ss << cv::getVersionMajor() << "." << cv::getVersionMinor() << "." << cv::getVersionRevision();
     static char buf[128];
     memset(buf, 0, 128);
     strncpy(buf, ss.str().c_str(), ss.str().length());
     *ocv = buf;
-#else
-    const char* m = nullptr;
-    cvGetModuleInfo( nullptr, ocv, &m );
-#endif    
+#endif
   }
   DLLEXPORT const char* STDCALL InitNfiq2()
   {

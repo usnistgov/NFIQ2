@@ -1,6 +1,6 @@
 project( nfiq2 ) 
 
-add_definitions( "-std=c++11 -D__BYTE_ORDER" )
+add_definitions( "-std=c++11" )
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")

@@ -42,7 +42,7 @@ NFIQ2Algorithm::NFIQ2Algorithm()
     set_fpu (0x27F); /* use double-precision rounding */
     #endif
 	// init RF module that takes some time to load the parameters
-	m_parameterHash = m_RandomForestML.initModule();
+	this->m_parameterHash = m_RandomForestML.initModule();
 }
 #endif
 
@@ -52,7 +52,7 @@ NFIQ2Algorithm::NFIQ2Algorithm(const std::string& fileName, const std::string& f
     set_fpu (0x27F); /* use double-precision rounding */
   #endif
 	// init RF module that takes some time to load the parameters
-	m_parameterHash = m_RandomForestML.initModule(fileName, fileHash);
+	this->m_parameterHash = m_RandomForestML.initModule(fileName, fileHash);
 }
 
 NFIQ2Algorithm::~NFIQ2Algorithm()
@@ -402,5 +402,12 @@ unsigned int NFIQ2Algorithm::computeQualityScore(
 		return QUALITY_SCORE_NOT_AVAILABLE;
 	}
 	return QUALITY_SCORE_NOT_AVAILABLE;
+}
+
+std::string
+NFIQ2Algorithm::getParameterHash()
+    const
+{
+	return (this->m_parameterHash);
 }
 

@@ -117,7 +117,12 @@ int executeRunModeSingle(std::string fpImagePath, std::string imageFormat, bool 
 		timerInit.startTimer();
 
 		// do initialization
-		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592");
+		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml",
+#if CV_MAJOR_VERSION <= 2
+		    "0x79c16f1e2dd226cab0b12b79eea242c5");
+#else
+		    "0xb149c16d544b8e31aeb9116f40a631b9");
+#endif
 		std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
 		timeInit = timerInit.endTimerAndGetElapsedTime();
 
@@ -238,7 +243,12 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 		timerInit.startTimer();
 
 		// do initialization
-		NFIQ::NFIQ2Algorithm nfiq2( "nfiq2rf.yaml", "0x79c16f1e2dd226cab0b12b79eea242c5");
+		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml",
+#if CV_MAJOR_VERSION <= 2
+		    "0x79c16f1e2dd226cab0b12b79eea242c5");
+#else
+		    "0xb149c16d544b8e31aeb9116f40a631b9");
+#endif
 		timeInit = timerInit.endTimerAndGetElapsedTime();
 
 		std::cout << "       Time needed for initialization of module: " << std::setprecision(3) << std::fixed << timeInit 

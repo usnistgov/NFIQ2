@@ -64,7 +64,6 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_objdetect
   opencv_photo
   opencv_stitching
-  opencv_videostab
 )
 
 if( USE_SANITIZER )

@@ -372,16 +372,13 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 				sfs << vecLines.at(i) << ";";
 				sfs << std::setprecision(3) << time;
 			}
-			
-#if false 
-				// log actionable quality feedback
-				// dont know why this is in here, due its not in the complinace test set!
-				std::list<NFIQ::ActionableQualityFeedback>::iterator it_aq;
-				for (it_aq = actionableQuality.begin(); it_aq != actionableQuality.end(); ++it_aq)
-				{
-					ofs << ";" << std::setprecision(5) << it_aq->actionableQualityValue;
-				}
-#endif
+
+			// log actionable quality feedback
+			std::list<NFIQ::ActionableQualityFeedback>::iterator it_aq;
+			for (it_aq = actionableQuality.begin(); it_aq != actionableQuality.end(); ++it_aq)
+			{
+				ofs << ";" << std::setprecision(5) << it_aq->actionableQualityValue;
+			}
 
 			if (bOutputFeatureData)
 			{

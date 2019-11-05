@@ -239,7 +239,7 @@ int read_ushort(
       fprintf(stderr, "ERROR: read_ushort : fread : shrt_dat\n");
       return(-34);
    }
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_short_bytes(shrt_dat);
 #endif
 
@@ -264,7 +264,7 @@ int getc_ushort(
    if((ret = getc_bytes(&cptr, sizeof(unsigned short), cbufptr, ebufptr)))
       return(ret);
 
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_short_bytes(shrt_dat);
 #endif
 
@@ -279,7 +279,7 @@ int write_ushort(
    unsigned short ishort,  /* data to output */
    FILE *outfp)            /* output file    */
 {
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_short_bytes(ishort);
 #endif
 
@@ -302,7 +302,7 @@ int putc_ushort(
    int ret;
    unsigned char *cptr;
 
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_short_bytes(ishort);
 #endif
 
@@ -328,7 +328,7 @@ int read_uint(
       return(-36);
    }
 
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_int_bytes(int_dat);
 #endif
 
@@ -352,7 +352,7 @@ int getc_uint(
    if((ret = getc_bytes(&cptr, sizeof(unsigned int), cbufptr, ebufptr)))
       return(ret);
 
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_int_bytes(int_dat);
 #endif
 
@@ -367,7 +367,7 @@ int write_uint(
    unsigned int idata,   /* data to output */
    FILE *outfp)          /* output file    */
 {
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_int_bytes(idata);
 #endif
 
@@ -390,7 +390,7 @@ int putc_uint(
    int ret;
    unsigned char *cptr;
 
-#ifdef __NBISLE__
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
    swap_int_bytes(iint);
 #endif
 

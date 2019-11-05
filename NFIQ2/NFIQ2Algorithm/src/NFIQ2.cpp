@@ -71,21 +71,16 @@ std::vector<std::string> getFileContent(const std::string & fileName)
 
 	bool success = false;
 	std::string line = "";
-	std::ifstream ifs(fileName.c_str(), std::ios::in);
-	if (ifs.is_open())
-	{
-		while (!ifs.eof())
-		{
-			getline(ifs, line);
-			vecLines.push_back(line);
-		}
-		success = !ifs.bad(); // badbit is set if read was incomplete or failed
-		ifs.close();
-	}
-	else
+	std::ifstream ifs(fileName);
+	if (!ifs)
 		throw NFIQ::NFIQException(NFIQ::e_Error_CannotReadFromFile);
+	while (std::getline(ifs,line)) {
+		if (line != "")
+			vecLines.push_back(line);
+	}
 
-	if (!success)
+	// Could not read entire file
+	if (ifs.bad())
 		throw NFIQ::NFIQException(NFIQ::e_Error_CannotReadFromFile);
 
 	return vecLines;

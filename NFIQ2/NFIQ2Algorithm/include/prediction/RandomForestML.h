@@ -17,6 +17,8 @@
 #include <opencv2/ml.hpp>
 #endif /* CV_MAJOR_VERSION */
 
+#undef EMBED_RANDOMFOREST_PARAMETERS
+
 class RandomForestML
 {
 
@@ -26,7 +28,10 @@ public:
 
 	std::string getModuleID();
 
-	void initModule();
+# ifdef EMBED_RANDOMFOREST_PARAMETERS
+	std::string initModule();
+# endif
+	std::string initModule( const std::string& fileName, const std::string& fileHash );
 
 	void evaluate(
 		const std::list<NFIQ::QualityFeatureData> & featureVector,
@@ -40,9 +45,12 @@ private:
 #		else
 		cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
 #		endif
-	std::string joinRFTrainedParamsString();
-};
 
+	std::string calculateHashString();
+# ifdef EMBED_RANDOMFOREST_PARAMETERS
+	std::string joinRFTrainedParamsString();
+# endif
+};
 
 #endif
 

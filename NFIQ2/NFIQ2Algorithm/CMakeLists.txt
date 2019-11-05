@@ -13,6 +13,8 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
 include_directories("${FRFXLL_PATH}/include")
 
+include_directories("${ROOT_PATH}/digestpp")
+
 include_directories("${ROOT_PATH}/biomdi/biomdi/common/src/include")
 include_directories("${ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
 

@@ -50,7 +50,10 @@ namespace NFIQ
 		/**
 		* @brief Default constructor of NFIQ2Algorithm
 		*/
+# ifdef EMBED_RANDOMFOREST_PARAMETERS
 		NFIQ2Algorithm();
+ # endif
+ 	NFIQ2Algorithm(const std::string& fileName, const std::string& fileHash);
 
 		/**
 		* @brief Destructor

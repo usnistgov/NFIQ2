@@ -1,8 +1,12 @@
 #include "RandomForestML.h"
-#include "RandomForestTrainedParams.h"
 #include "include/NFIQException.h"
 
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
+# include "RandomForestTrainedParams.h"
+#endif
+
 #include <opencv2/core/version.hpp>
+
 
 #if defined WINDOWS || defined WIN32
 #include <windows.h>
@@ -13,10 +17,28 @@
 #include <float.h>
 #include <time.h>
 #include <numeric>  // std::accumulate
+#include "digestpp.hpp"
 
 using namespace NFIQ;
 using namespace cv;
 
+std::string RandomForestML::calculateHashString()
+{
+#	if CV_MAJOR_VERSION <= 2
+	// write the parameters to a memeory string for normalization before the hash will be calculated
+	FileStorage temp("temp.yaml", FileStorage::WRITE | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
+	m_pTrainedRF->write(temp.fs, "my_random_trees");
+	std::string str = temp.releaseAndGetString();
+#	else
+#	endif
+	// calculate and compare the hash
+	digestpp::md5 hasher;
+	std::stringstream ss;
+	ss << "0x" << std::hex << hasher.absorb((const char*)str.c_str(), str.length()).hexdigest();
+	return ss.str();
+}
+
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
 std::string RandomForestML::joinRFTrainedParamsString()
 {
 	unsigned int size = sizeof(g_strRandomForestTrainedParams) / sizeof(g_strRandomForestTrainedParams[0]);
@@ -25,6 +47,7 @@ std::string RandomForestML::joinRFTrainedParamsString()
 		result.append(g_strRandomForestTrainedParams[i]);
 	return result;
 }
+#endif
 
 RandomForestML::RandomForestML()
 {
@@ -49,7 +72,9 @@ RandomForestML::~RandomForestML()
 	}
 #	endif
 }
-void RandomForestML::initModule()
+
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
+std::string RandomForestML::initModule()
 {
 	try
 	{
@@ -72,6 +97,46 @@ void RandomForestML::initModule()
     m_pTrainedRF = cv::ml::RTrees::create();
     m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
 #endif
+    return calculateHashString();
+  }
+	catch (const cv::Exception& e)
+	{
+    std::cout << e.msg.c_str() << std::endl;
+    throw e;
+	}
+	catch (...)
+	{
+    throw;
+	}
+}
+#endif
+
+std::string RandomForestML::initModule( const std::string& fileName, const std::string& fileHash )
+{
+	try
+	{
+    FileStorage fs(fileName, FileStorage::READ | FileStorage::FORMAT_YAML);
+#if CV_MAJOR_VERSION <= 2
+		m_pTrainedRF = new CvRTrees();
+		m_pTrainedRF->read(fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
+#else
+    m_pTrainedRF = cv::ml::RTrees::create();
+    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
+#endif
+		// calculate and compare the hash
+		std::string hash = calculateHashString();
+		if( fileHash.compare( hash ) != 0 )
+		{
+#if CV_MAJOR_VERSION <= 2
+			m_pTrainedRF->clear();
+			delete m_pTrainedRF;
+			m_pTrainedRF = NULL;
+#else
+			m_pTrainedRF->clear();
+#endif
+			throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration, "The trained network could not be initialized!");
+		}
+    return hash;
   }
 	catch (const cv::Exception& e)
 	{

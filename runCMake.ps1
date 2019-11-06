@@ -16,26 +16,13 @@ function findCmake()
   }
 }
 
-function removeDebugConfig()
-{
-  $lines = Get-Content "NFIQ2.sln"
-  Set-Content "NFIQ2.sln" -value ""
-  foreach ($line in $lines) {
-    if (-not($line -match "Debug")) {
-      Add-Content "NFIQ2.sln" -value $line
-    }
-  }
-}
-
 function runCMake( $folder, $generator)
 {
   # temporary build directories
   new-item "./build/$folder" -ItemType directory -Force
   cd "./build/$folder"
   # run cmake
-  & "$global:cmake" -DCMAKE_SYSTEM_VERSION=8.1 -G"${generator}" ../../
-  # unable to generate only release with cmake, will modify the solution manually
-  removeDebugConfig
+  & "$global:cmake" -DCMAKE_CONFIGURATION_TYPES="Release" -DCMAKE_SYSTEM_VERSION=8.1 -G"${generator}" ../../
   # cleanup
   cd ../..
 }

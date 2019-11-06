@@ -11,6 +11,8 @@ set( OPENCV_VERSION "2.4.13.6")
 #set( OPENCV_VERSION "3.4.8")
 #set( OPENCV_VERSION "4.1.2")
 
+set(CMAKE_CXX_STANDARD 11)
+
 # set colors for cmake comand line
 include( "${ROOT_PATH}/cmake/colors.cmake" )
 

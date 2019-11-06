@@ -77,6 +77,7 @@ set( PROJECT_LIBS
 )
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
+  add_definitions("-DNOMINMAX")
   if( "${OPENCV_VERSION}" MATCHES "^3.*")
     set( PROJECT_LIBS ${PROJECT_LIBS}
       ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}

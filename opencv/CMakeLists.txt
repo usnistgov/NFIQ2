@@ -33,6 +33,8 @@ OCV_OPTION(WITH_GTK                 "Include GTK support"                       
 OCV_OPTION(ENABLE_FAST_MATH         "Enable -ffast-math (not recommended for GCC 4.6.x)"                  OFF )
 if("${TARGET_PLATFORM}" MATCHES "win*")
 OCV_OPTION(BUILD_WITH_STATIC_CRT    "Enables use of statically linked CRT for staticaly linked OpenCV"    ON  )
+OCV_OPTION(WITH_TIFF                "Include TIFF support"                                                OFF )
+OCV_OPTION(BUILD_TIFF               "Build libtiff from source"                                           OFF )
 endif()
 OCV_OPTION(BUILD_ZLIB               "Build zlib from source"                                              ON  )
 OCV_OPTION(WITH_FFMPEG              "Use FFMPEG, if it is installed"                                      OFF )

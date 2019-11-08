@@ -1,7 +1,5 @@
 project( Nfiq2Api ) 
 
-add_definitions( "-std=c++11" )
-
 # add files from folder
 file( GLOB SOURCE_FILES "nfiq2*.cpp" ) 
 file( GLOB HEADER_FILES "nfiq2*.h" ) 

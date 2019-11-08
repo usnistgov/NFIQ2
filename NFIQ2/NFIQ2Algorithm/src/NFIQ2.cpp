@@ -71,21 +71,16 @@ std::vector<std::string> getFileContent(const std::string & fileName)
 
 	bool success = false;
 	std::string line = "";
-	std::ifstream ifs(fileName.c_str(), std::ios::in);
-	if (ifs.is_open())
-	{
-		while (!ifs.eof())
-		{
-			getline(ifs, line);
-			vecLines.push_back(line);
-		}
-		success = !ifs.bad(); // badbit is set if read was incomplete or failed
-		ifs.close();
-	}
-	else
+	std::ifstream ifs(fileName);
+	if (!ifs)
 		throw NFIQ::NFIQException(NFIQ::e_Error_CannotReadFromFile);
+	while (std::getline(ifs,line)) {
+		if (line != "")
+			vecLines.push_back(line);
+	}
 
-	if (!success)
+	// Could not read entire file
+	if (ifs.bad())
 		throw NFIQ::NFIQException(NFIQ::e_Error_CannotReadFromFile);
 
 	return vecLines;
@@ -117,7 +112,12 @@ int executeRunModeSingle(std::string fpImagePath, std::string imageFormat, bool 
 		timerInit.startTimer();
 
 		// do initialization
-		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592");
+		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml",
+#if CV_MAJOR_VERSION <= 2
+		    "0x79c16f1e2dd226cab0b12b79eea242c5");
+#else
+		    "0xb149c16d544b8e31aeb9116f40a631b9");
+#endif
 		std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
 		timeInit = timerInit.endTimerAndGetElapsedTime();
 
@@ -238,7 +238,12 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 		timerInit.startTimer();
 
 		// do initialization
-		NFIQ::NFIQ2Algorithm nfiq2( "nfiq2rf.yaml", "0x79c16f1e2dd226cab0b12b79eea242c5");
+		NFIQ::NFIQ2Algorithm nfiq2("nfiq2rf.yaml",
+#if CV_MAJOR_VERSION <= 2
+		    "0x79c16f1e2dd226cab0b12b79eea242c5");
+#else
+		    "0xb149c16d544b8e31aeb9116f40a631b9");
+#endif
 		timeInit = timerInit.endTimerAndGetElapsedTime();
 
 		std::cout << "       Time needed for initialization of module: " << std::setprecision(3) << std::fixed << timeInit 
@@ -362,16 +367,13 @@ int executeRunModeBatch(std::string fpImageListPath, std::string imageFormat, st
 				sfs << vecLines.at(i) << ";";
 				sfs << std::setprecision(3) << time;
 			}
-			
-#if false 
-				// log actionable quality feedback
-				// dont know why this is in here, due its not in the complinace test set!
-				std::list<NFIQ::ActionableQualityFeedback>::iterator it_aq;
-				for (it_aq = actionableQuality.begin(); it_aq != actionableQuality.end(); ++it_aq)
-				{
-					ofs << ";" << std::setprecision(5) << it_aq->actionableQualityValue;
-				}
-#endif
+
+			// log actionable quality feedback
+			std::list<NFIQ::ActionableQualityFeedback>::iterator it_aq;
+			for (it_aq = actionableQuality.begin(); it_aq != actionableQuality.end(); ++it_aq)
+			{
+				ofs << ";" << std::setprecision(5) << it_aq->actionableQualityValue;
+			}
 
 			if (bOutputFeatureData)
 			{

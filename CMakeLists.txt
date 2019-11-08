@@ -7,9 +7,14 @@ set( NO_SEARCH TRUE )
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
+# Allow overriding OpenCV version on command line
+if (NOT DEFINED OPENCV_VERSION)
 set( OPENCV_VERSION "2.4.13.6")
-#set( OPENCV_VERSION "3.4.7")
-#set( OPENCV_VERSION "4.1.1")
+#set( OPENCV_VERSION "3.4.8")
+#set( OPENCV_VERSION "4.1.2")
+endif (NOT DEFINED OPENCV_VERSION)
+
+set(CMAKE_CXX_STANDARD 11)
 
 # set colors for cmake comand line
 include( "${ROOT_PATH}/cmake/colors.cmake" )

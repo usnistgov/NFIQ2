@@ -82,6 +82,17 @@ namespace NFIQ
 			bool bOutputFeatures, std::list<NFIQ::QualityFeatureData> & qualityFeatureData,
 			bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> & qualityFeatureSpeed);
 
+		/**
+		 * @brief
+		 * Obtain MD5 checksum of Random Forest parameter file loaded.
+		 *
+		 * @return
+		 * MD5 checksum of the Random Forest parameter file loaded.
+		 */
+		std::string
+		getParameterHash()
+		    const;
+
 	private:
 		std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
 			const NFIQ::FingerprintImageData & rawImage,
@@ -90,6 +101,7 @@ namespace NFIQ
 		double getQualityPrediction(std::list<NFIQ::QualityFeatureData> & featureVector);
 
 		RandomForestML m_RandomForestML;
+		std::string m_parameterHash{};
 	};
 }
 

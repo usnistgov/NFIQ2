@@ -24,13 +24,14 @@ using namespace cv;
 
 std::string RandomForestML::calculateHashString()
 {
-#	if CV_MAJOR_VERSION <= 2
-	// write the parameters to a memeory string for normalization before the hash will be calculated
 	FileStorage temp("temp.yaml", FileStorage::WRITE | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
+	// write the parameters to a memeory string for normalization before the hash will be calculated
+#	if CV_MAJOR_VERSION <= 2
 	m_pTrainedRF->write(temp.fs, "my_random_trees");
-	std::string str = temp.releaseAndGetString();
 #	else
+	m_pTrainedRF->write(temp);
 #	endif
+	std::string str = temp.releaseAndGetString();
 	// calculate and compare the hash
 	digestpp::md5 hasher;
 	std::stringstream ss;

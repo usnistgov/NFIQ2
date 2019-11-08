@@ -1,7 +1,5 @@
 project( nfiq2 ) 
 
-add_definitions( "-std=c++11" )
-
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
 
@@ -64,7 +62,6 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_objdetect
   opencv_photo
   opencv_stitching
-  opencv_videostab
 )
 
 if( USE_SANITIZER )
@@ -80,6 +77,7 @@ set( PROJECT_LIBS
 )
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
+  add_definitions("-DNOMINMAX")
   if( "${OPENCV_VERSION}" MATCHES "^3.*")
     set( PROJECT_LIBS ${PROJECT_LIBS}
       ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}

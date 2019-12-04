@@ -1,0 +1,60 @@
+name: Build (OpenCV 4.1.2)
+
+on:
+  push:
+    branches:
+      - iso_wg3
+
+env:
+  OPENCV_VERSION: 4.1.2
+  CONFIGURATION: Release
+
+jobs:
+  build-nix:
+    name: macOS/Linux
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" -DOPENCV_VERSION="${OPENCV_VERSION}" ${GITHUB_WORKSPACE}
+
+    - name: Build All
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake --build . --config "${CONFIGURATION}"
+
+  build-win:
+    name: Windows (x64)
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}\build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}\build
+      run: cmake -A x64 -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" -DOPENCV_VERSION="${OPENCV_VERSION}" ${GITHUB_WORKSPACE}
+
+    - name: Build All
+      shell: bash
+      working-directory: ${{runner.workspace}}\build
+      run: cmake --build . --config "${CONFIGURATION}"

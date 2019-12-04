@@ -1,53 +1,40 @@
-project( opencv ) 
+include(ExternalProject)
 
-# download sources
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/download/)
-  set( OPENCV_SRC "https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip")
-  set( OPENCV_DST "${CMAKE_CURRENT_SOURCE_DIR}/download/tmp.zip")
-  message(STATUS "Download ${OPENCV_SRC} to ${OPENCV_DST}")
-  file(DOWNLOAD "${OPENCV_SRC}" "${OPENCV_DST}")
-  file(SIZE "${OPENCV_DST}" OPENCV_SIZE)
-  message(STATUS "Downloaded ${OPENCV_SIZE} bytes")
-  execute_process( COMMAND cmake -E tar xfz tmp.zip WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/download/ )
-  file(REMOVE "${OPENCV_DST}")
-endif()
+set(OPENCV_CMAKE_ARGS
+	-DBUILD_SHARED_LIBS=OFF
+	-DBUILD_OPENCV_APPS=OFF
+	-DBUILD_ANDROID_EXAMPLES=OFF
+	-DBUILD_DOCS=OFF
+	-DBUILD_EXAMPLES=OFF
+	-DBUILD_PACKAGE=OFF
+	-DBUILD_PERF_TESTS=OFF
+	-DBUILD_TESTS=OFF
+	-DBUILD_WITH_DEBUG_INFO=OFF
+	-DBUILD_FAT_JAVA_LIB=OFF
+	-DBUILD_ANDROID_SERVICE=OFF
+	-DBUILD_ANDROID_PACKAGE=OFF
+	-DBUILD_TINY_GPU_MODULE=OFF
+	-DENABLE_PRECOMPILED_HEADERS=OFF
+	-DWITH_GTK=OFF
+	-DENABLE_FAST_MATH=OFF
+	-DWITH_PROTOBUF=OFF
+	-DBUILD_PROTOBUF=OFF
+	-DWITH_IPP=OFF
+	-DWITH_ITT=OFF
+	-DWITH_DSHOW=OFF
+	-DWITH_MSMF=OFF
+	-DWITH_FFMPEG=OFF
+	-DBUILD_ZLIB=ON
+	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo,stitching")
 
-#tweak opencv build
-include( "${CMAKE_CURRENT_SOURCE_DIR}/download/opencv-${OPENCV_VERSION}/cmake/OpenCVUtils.cmake" )
-
-OCV_OPTION(BUILD_SHARED_LIBS        "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)"  OFF )
-OCV_OPTION(BUILD_opencv_apps        "Build utility applications (used for example to train classifiers)"  OFF )
-OCV_OPTION(BUILD_ANDROID_EXAMPLES   "Build examples for Android platform"                                 OFF )
-OCV_OPTION(BUILD_DOCS               "Create build rules for OpenCV Documentation"                         OFF )
-OCV_OPTION(BUILD_EXAMPLES           "Build all examples"                                                  OFF )
-OCV_OPTION(BUILD_PACKAGE            "Enables 'make package_source' command"                               OFF )
-OCV_OPTION(BUILD_PERF_TESTS         "Build performance tests"                                             OFF )
-OCV_OPTION(BUILD_TESTS              "Build accuracy & regression tests"                                   OFF )
-OCV_OPTION(BUILD_WITH_DEBUG_INFO    "Include debug info into debug libs (not MSCV only)"                  OFF )
-OCV_OPTION(BUILD_FAT_JAVA_LIB       "Create fat java wrapper containing the whole OpenCV library"         OFF )
-OCV_OPTION(BUILD_ANDROID_SERVICE    "Build OpenCV Manager for Google Play"                                OFF )
-OCV_OPTION(BUILD_ANDROID_PACKAGE    "Build platform-specific package for Google Play"                     OFF )
-OCV_OPTION(BUILD_TINY_GPU_MODULE    "Build tiny gpu module with limited image format support"             OFF )
-OCV_OPTION(ENABLE_PRECOMPILED_HEADERS "Use precompiled headers"                                           OFF )
-OCV_OPTION(WITH_GTK                 "Include GTK support"                                                 OFF )
-OCV_OPTION(ENABLE_FAST_MATH         "Enable -ffast-math (not recommended for GCC 4.6.x)"                  OFF )
 if("${TARGET_PLATFORM}" MATCHES "win*")
-OCV_OPTION(BUILD_WITH_STATIC_CRT    "Enables use of statically linked CRT for staticaly linked OpenCV"    ON  )
-OCV_OPTION(WITH_TIFF                "Include TIFF support"                                                OFF )
-OCV_OPTION(BUILD_TIFF               "Build libtiff from source"                                           OFF )
-endif()
-OCV_OPTION(BUILD_ZLIB               "Build zlib from source"                                              ON  )
-OCV_OPTION(WITH_FFMPEG              "Use FFMPEG, if it is installed"                                      OFF )
+string(APPEND OPENCV_CMAKE_ARGS
+	-DWITH_TIFF=OFF
+	-DBUILD_TIFF=OFF
+	-DBUILD_WITH_STATIC_CRT=ON)
+endif("${TARGET_PLATFORM}" MATCHES "win*")
 
-# opencv 3 options
-# disable protobuf, due it requires CPP11 build
-OCV_OPTION(WITH_PROTOBUF            "Enable libprotobuf"                                                  OFF )
-OCV_OPTION(BUILD_PROTOBUF           "Force to build libprotobuf from sources"                             OFF )
-OCV_OPTION(WITH_IPP                 "Include Intel IPP support"                                           OFF )
-OCV_OPTION(WITH_ITT                 "Include Intel ITT support"                                           OFF )
-OCV_OPTION(WITH_DSHOW               "Build VideoIO with DirectShow support"                               OFF )
-OCV_OPTION(WITH_MSMF                "Build VideoIO with Media Foundation support"                         OFF )
-
-set(BUILD_LIST "core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo,stitching" CACHE STRING "Build only listed modules (comma-separated, e.g. 'videoio,dnn,ts')")
-
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/download/opencv-${OPENCV_VERSION}" "${BUILD_PATH}/opencv-${OPENCV_VERSION}/")
+ExternalProject_Add(opencv
+    URL			https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+    CMAKE_ARGS		${OPENCV_CMAKE_ARGS}
+)

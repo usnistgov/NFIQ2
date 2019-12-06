@@ -11,10 +11,15 @@ install:
 before_build:
 - cmd: >-
     md C:\projects\nfiq2\install
+
     cd C:\projects\nfiq2
+
     md build\Windows64
+
     cd build\Windows64
+
     cmake -A x64 -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="3.4.8" C:\projects\nfiq2
+
 
 build:
   project: C:\projects\nfiq2\build\Windows64\NFIQ2_SUPERBUILD.sln

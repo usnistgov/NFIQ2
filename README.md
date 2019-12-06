@@ -1,5 +1,21 @@
 NFIQ 2.0
 ========
+
+[![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=iso_wg3)](https://travis-ci.org/usnistgov/NFIQ2)
+[![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/hb1kwdohdekvv8kf/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/gfiumara/nfiq2/branch/iso_wg3)
+
+
+--------------------------------------------------------------------------------
+
+ **IMPORTANT**: This branch is being actively developed by the ISO/IEC JTC 1 
+SC 37 WG 3 Special Group towards ISO/IEC 29794-4 Recommendation 3.15. As a 
+result, the code in this branch is **unstable**, and at times, may not build or 
+produce expected results.
+
+--------------------------------------------------------------------------------	
+
+Overview
+--------
 NFIQ 2.0 is a revision of the open source NIST Finger Image Quality (NFIQ).
 In 2004, NIST developed the first publicly available fingerprint quality assessment tool NFIQ.
 Advances in fingerprint technology since 2004, necessitated an update to NFIQ. 
@@ -32,34 +48,35 @@ Quick Build
 mkdir build
 cd build
 cmake ..
-# macOS/Linux:
-make
-# Windows:
-msbuild NFIQ2_SUPERBUILD.sln
+cmake --build .
 ```
 
 Cross Compilation
 -----------------
-The build process is based on CMAKE (https://cmake.org/) which is available for all major platforms. For convenients, a shell script and a powershell 
+The build process is based on [CMake](https://cmake.org/) which is available for all major platforms. For convenients, a shell script and a powershell 
 script (for Windows MSVC) are available at the root folder.
 
 The build process is a two step process.
 
-1.) Using CMAKE (https://cmake.org/) to generate the compiler makefiles (makefiles, project files etc)
+1.) Use CMake to generate the compiler makefiles (makefiles, project files etc)
 
 This step can be started by executing the correct script for your compiler:
+
  * Visual Studio
    * `runCMake.ps1`
  * Everything else
    * `runCMake.sh`
 Requires as argument eihter x32 or x64 as argument for the script (see table below). Only the release configuration will be configured.
 
-During the CMake step all the required dependencies that are not git submodules will be downloaded
-- opencv              downloaded from https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
-		    the open CV version is controlled by the variable ${OPENCV_VERSION}, which is defined in 
-		    the top level cmake file (default is "2.4.13.6")
-After the download the downloaded files can be found in the according subfolder download. 
-Remark: CMAKE will skip the download if the according subfolder already exists!
+During the CMake step all the required dependencies that are not git submodules 
+will be downloaded. Note that all dependencies will 
+[eventually be submodules](https://github.com/usnistgov/NFIQ2/issues/32).
+
+- OpenCV
+    * downloaded from https://github.com/opencv/opencv/archive/`${OPENCV_VERSION}`.zip
+    * the OpenCV version is controlled by the variable `${OPENCV_VERSION}`,
+      which is defined in the top level CMake file (default is "2.4.13.6")
+      
 
 2.) CMAKE will generate the make files or project files according your compiler settings. The table below note the according directories.
     After CMake generated the according make solution or files, NFIQ2 can be build from the dedicated "build" folder. All generated artifacts will be 
@@ -67,8 +84,8 @@ Remark: CMAKE will skip the download if the according subfolder already exists!
 
 The build process has been tested for the following platforms
 
-| OS        | Bitness  | Compiler   | CMake Script command | remark                                                                                               |
-|:---------:|:--------:|:----------------------------------------------------:|:---------------------------------------------------------------------------------:|
+| OS        | Bitness  | Compiler   | CMake Script command                    | remark                                                                            |
+|:---------:|:--------:|:----------:|:---------------------------------------:|:---------------------------------------------------------------------------------:|
 | Windows   | 32       | MSVC 2017  | runCmake.ps1                            | builds Visual Studio Solution, use release configuration                          |
 | Windows   | 64       | MSVC 2017  | runCmake.ps1                            | builds Visual Studio Solution, use release configuration                          |
 | Windows   | 32       | MSYS2/GCC  | runCmake.sh x32                         | make files @ ./build/MinGw-x86_64/x32/, artifacts @ ./dist/MinGw-x86_64/x32/GCC/  |

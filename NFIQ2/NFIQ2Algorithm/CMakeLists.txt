@@ -1,4 +1,12 @@
-project( nfiq2 ) 
+cmake_minimum_required (VERSION 3.3)
+
+project( nfiq2 )
+
+set (CMAKE_CXX_STANDARD 11)
+
+include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
+include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
+include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
@@ -9,30 +17,31 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
-include_directories("${FRFXLL_PATH}/include")
+include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
 
-include_directories("${ROOT_PATH}/digestpp")
+include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
 
-include_directories("${ROOT_PATH}/biomdi/biomdi/common/src/include")
-include_directories("${ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
-
-find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${CMAKE_BINARY_DIR})
+include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/common/src/include")
+include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
+find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 set(OpenCV_SHARED ON)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
-  include_directories("${ROOT_PATH}/biomdi/windows")
+  include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/windows")
 endif()
 
+link_directories( "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}" )
+
 set(SOURCE_FILES "")
-file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" ) 
+file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" )
 list( REMOVE_ITEM SOURCE_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/NFIQ2.cpp"
 )
 
-file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" ) 
-file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" ) 
-file( GLOB WSQ_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/wsq/*.cpp" ) 
+file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
+file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
+file( GLOB WSQ_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/wsq/*.cpp" )
 
 add_library( ${PROJECT_NAME} STATIC
   ${SOURCE_FILES}
@@ -60,12 +69,11 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_calib3d
   opencv_video
   opencv_objdetect
-  opencv_photo
-  opencv_stitching
+  zlib
 )
 
 if( USE_SANITIZER )
-  target_link_libraries( ${NFIQ2_TEST_APP} "asan" ) 
+  target_link_libraries( ${NFIQ2_TEST_APP} "asan" )
 endif()
 
 # set the required libraries
@@ -80,19 +88,16 @@ if("${TARGET_PLATFORM}" MATCHES "win*")
   add_definitions("-DNOMINMAX")
   if( "${OPENCV_VERSION}" MATCHES "^3.*")
     set( PROJECT_LIBS ${PROJECT_LIBS}
-      ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
       ws2_32
     )
   else()
     set( PROJECT_LIBS ${PROJECT_LIBS}
-      ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
       ws2_32
     )
   endif()
 elseif("${TARGET_PLATFORM}" MATCHES "android*")
   find_package(Threads REQUIRED)
   set( PROJECT_LIBS ${PROJECT_LIBS}
-    ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${CMAKE_THREAD_LIBS_INIT}
     log
 	dl
@@ -100,12 +105,13 @@ elseif("${TARGET_PLATFORM}" MATCHES "android*")
 else()
   find_package(Threads REQUIRED)
   set( PROJECT_LIBS ${PROJECT_LIBS}
-    ${LINK_3RD_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${CMAKE_THREAD_LIBS_INIT}
 	dl
   )
 endif()
 
-link_directories( "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}" )
-
 target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )
+
+install(TARGETS ${NFIQ2_TEST_APP} ${PROJECT_NAME}
+	DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+)

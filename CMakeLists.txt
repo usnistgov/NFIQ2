@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.3)
 
-project( NFIQ2 )
+project( NFIQ2_SUPERBUILD )
 
 set( NO_SEARCH TRUE )
 
@@ -31,7 +31,7 @@ include( "${ROOT_PATH}/cmake/folders.cmake" )
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
-message( STATUS "----- Configuring ${PROJECT_NAME} -----" ) 
+message( STATUS "----- Configuring ${PROJECT_NAME} -----" )
 message( STATUS "-- Project root path: '${ROOT_PATH}'" )
 message( STATUS "-- Project build path: '${BUILD_PATH}'" )
 message( STATUS "-- Project distribution path: '${DIST_PATH}'" )
@@ -42,6 +42,79 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DIST_PATH} )
 
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
-add_subdirectory("${ROOT_PATH}/opencv/" "${BUILD_PATH}/opencv/")
-add_subdirectory("${ROOT_PATH}/NFIQ2/NFIQ2Algorithm" "${BUILD_PATH}/nfiq2/NFIQ2Algorithm")
-add_subdirectory("${ROOT_PATH}/NFIQ2/NFIQ2Api" "${BUILD_PATH}/nfiq2/NFIQ2Api")
+
+include(ExternalProject)
+
+set(OPENCV_CMAKE_ARGS
+	-DBUILD_SHARED_LIBS=OFF
+	-DBUILD_OPENCV_APPS=OFF
+	-DBUILD_ANDROID_EXAMPLES=OFF
+	-DBUILD_DOCS=OFF
+	-DBUILD_EXAMPLES=OFF
+	-DBUILD_PACKAGE=OFF
+	-DBUILD_PERF_TESTS=OFF
+	-DBUILD_TESTS=OFF
+	-DBUILD_WITH_DEBUG_INFO=OFF
+	-DBUILD_FAT_JAVA_LIB=OFF
+	-DBUILD_ANDROID_SERVICE=OFF
+	-DBUILD_ANDROID_PACKAGE=OFF
+	-DBUILD_TINY_GPU_MODULE=OFF
+	-DENABLE_PRECOMPILED_HEADERS=OFF
+	-DWITH_GTK=OFF
+	-DENABLE_FAST_MATH=OFF
+	-DWITH_PROTOBUF=OFF
+	-DBUILD_PROTOBUF=OFF
+	-DWITH_IPP=OFF
+	-DWITH_ITT=OFF
+	-DWITH_DSHOW=OFF
+	-DWITH_MSMF=OFF
+	-DWITH_FFMPEG=OFF
+	-DBUILD_ZLIB=ON
+	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo"
+	-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES})
+
+if("${TARGET_PLATFORM}" MATCHES "win*")
+list(APPEND OPENCV_CMAKE_ARGS
+	-DWITH_TIFF=OFF
+	-DBUILD_TIFF=OFF
+	-DBUILD_WITH_STATIC_CRT=ON)
+endif("${TARGET_PLATFORM}" MATCHES "win*")
+
+set(OPENCV_URL_HASH "")
+if ("${OPENCV_VERSION}" STREQUAL "2.4.13.6")
+	set(OPENCV_URL_HASH "MD5=dddb4cc54cd8c4e1d7bd054868a86763")
+elseif ("${OPENCV_VERSION}" STREQUAL "3.4.8")
+	set(OPENCV_URL_HASH "MD5=db9b1e4460242e4bf62856d881d08d1c")
+elseif ("${OPENCV_VERSION}" STREQUAL "4.1.2")
+	set(OPENCV_URL_HASH "MD5=6b390578d57131ae9d6c2a183257399d")
+endif ()
+
+ExternalProject_Add(OpenCV
+    URL https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+    URL_HASH		${OPENCV_URL_HASH}
+    CMAKE_ARGS		${OPENCV_CMAKE_ARGS}
+    INSTALL_COMMAND	""
+)
+
+ExternalProject_Add(nfiq2
+	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Algorithm
+	CMAKE_ARGS
+		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
+		-DFRFXLL_VERSION=${FRFXLL_VERSION}
+		-DOPENCV_VERSION=${OPENCV_VERSION}
+		-DTARGET_PLATFORM=${TARGET_PLATFORM}
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+#	INSTALL_COMMAND ""
+)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static)
+
+ExternalProject_Add(nfiq2api
+	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Api
+	CMAKE_ARGS
+		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+	INSTALL_COMMAND ""
+)
+ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

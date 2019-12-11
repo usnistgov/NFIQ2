@@ -129,21 +129,21 @@ cd "${build_folder}"
 
 # run cmake
 if [ "${target}" == "x64" ]; then
-  ${cmake_exe} -G "${generator}" -D32BITS=OFF -D64BITS=ON "$xtraflags" ../../../
+  "${cmake_exe}" -G "${generator}" -D32BITS=OFF -D64BITS=ON "$xtraflags" ../../../
 elif [ "${target}" == "x32" ]; then
-  ${cmake_exe} -G "${generator}" -D32BITS=ON -D64BITS=OFF "$xtraflags" ../../../
+  "${cmake_exe}" -G "${generator}" -D32BITS=ON -D64BITS=OFF "$xtraflags" ../../../
 elif [ "${target}" == "android-arm32" ]; then
-  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=armeabi-v7a "$cfg" "$xtraflags" "../../../"
+  "${cmake_exe}" -G "$generator" "$ndk" "$platform" -DANDROID_ABI=armeabi-v7a "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-arm64" ]; then
-  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=arm64-v8a "$cfg" "$xtraflags" "../../../"
+  "${cmake_exe}" -G "$generator" "$ndk" "$platform" -DANDROID_ABI=arm64-v8a "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-x86" ]; then
-  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86 "$cfg" "$xtraflags" "../../../"
+  "${cmake_exe}" -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86 "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-x64" ]; then
-  ${cmake_exe} -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86_64 "$cfg" "$xtraflags" "../../../"
+  "${cmake_exe}" -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86_64 "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "ios-arm32" ]; then
-  ${cmake_exe} -G "$generator" -DPLATFORM=OS "$cfg" "$xtraflags" "../../../"
+  "${cmake_exe}" -G "$generator" -DPLATFORM=OS "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "ios-arm64" ]; then
-  ${cmake_exe} -G "$generator" -DPLATFORM=OS64 "$cfg" "$xtraflags" "../../../"
+  "${cmake_exe}" -G "$generator" -DPLATFORM=OS64 "$cfg" "$xtraflags" "../../../"
 else
   echo "Missing target (x64, x32, android-arm, android-arm64)"
   exit

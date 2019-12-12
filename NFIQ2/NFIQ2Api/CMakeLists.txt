@@ -1,7 +1,8 @@
+cmake_minimum_required (VERSION 3.3)
+
 project( Nfiq2Api )
 
 set(CMAKE_CXX_STANDARD 11)
-
 
 # add files from folder
 file( GLOB SOURCE_FILES "nfiq2*.cpp" )

@@ -100,3 +100,5 @@ else()
 endif()
 
 target_link_libraries( "${PROJECT_NAME}" ${PROJECT_LIBS} ${OpenCV_LIBS} )
+
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})

@@ -53,9 +53,10 @@ elseif( 64BITS)
 endif()
 
 # forwarding android build flags
-if( NOT "${ANDROID_PLATFORM}" STREQUAL "")
+if( NOT "${ANDROID_ABI}" STREQUAL "")
   message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
   set(ANDROID_CMAKE_ARGS
+    -DANDROID_ABI=${ANDROID_ABI}
     -DANDROID_PLATFORM=${ANDROID_PLATFORM} 
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}

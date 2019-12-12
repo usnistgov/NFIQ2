@@ -43,13 +43,24 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DIST_PATH} )
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
-# forcing the external projects compiler flags
+# forwarding 32/64 compiler flags
 if( 32BITS)
   set( SUPER_C_FLAGS "-m32")
   set( SUPER_CXX_FLAGS "-m32")
 elseif( 64BITS)
   set( SUPER_C_FLAGS "-m64")
   set( SUPER_CXX_FLAGS "-m64")
+endif()
+
+# forwarding android build flags
+if( NOT "${ANDROID_PLATFORM}" EQUAL "")
+  message( STATUS "${Gn}-- Forwarding android build flags to the external projects${Na}" )
+  set(ANDROID_CMAKE_ARGS
+    -DANDROID_PLATFORM=${ANDROID_PLATFORM} 
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+    -DANDROID_TARGET=${ANDROID_TARGET}
+  )
 endif()
 
 include(ExternalProject)
@@ -80,7 +91,8 @@ set(OPENCV_CMAKE_ARGS
   -DWITH_FFMPEG=OFF
   -DBUILD_ZLIB=ON
   -DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo"
-  -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES})
+  -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+)
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
 list(APPEND OPENCV_CMAKE_ARGS
@@ -107,6 +119,7 @@ ExternalProject_Add(OpenCV
     ${OPENCV_CMAKE_ARGS}
     -DCMAKE_C_FLAGS=${SUPER_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${SUPER_CXX_FLAGS}
+    ${ANDROID_CMAKE_ARGS}
   INSTALL_COMMAND
     ""
 )
@@ -123,6 +136,7 @@ ExternalProject_Add(nfiq2
     -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
     -DCMAKE_C_FLAGS=${SUPER_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${SUPER_CXX_FLAGS}
+    ${ANDROID_CMAKE_ARGS}
   INSTALL_COMMAND
     ""
 )
@@ -137,6 +151,7 @@ ExternalProject_Add(nfiq2api
     -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
     -DCMAKE_C_FLAGS=${SUPER_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${SUPER_CXX_FLAGS}
+    ${ANDROID_CMAKE_ARGS}
   INSTALL_COMMAND
     ""
 )

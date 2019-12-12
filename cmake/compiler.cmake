@@ -5,7 +5,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
 #####################################################
   message( STATUS "${Gn}Detected ${CMAKE_CXX_COMPILER_ID} compiler${Na}" )
   if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
-    message( "${Gn}Detected Android${Na}" )
+    message( STATUS "${Gn}Detected Android${Na}" )
     set( LINK_LIB_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/lib/${ANDROID_ABI}/lib")
     set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/${ANDROID_ABI}/lib")
   else()

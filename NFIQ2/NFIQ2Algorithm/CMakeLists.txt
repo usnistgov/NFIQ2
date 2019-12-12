@@ -23,7 +23,9 @@ include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
 
 include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/common/src/include")
 include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
-find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
+
+set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
+find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
 include_directories(${OpenCV_INCLUDE_DIRS})
 

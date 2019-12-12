@@ -1,7 +1,8 @@
+cmake_minimum_required (VERSION 3.3)
+
 project( Nfiq2Api )
 
 set(CMAKE_CXX_STANDARD 11)
-
 
 # add files from folder
 file( GLOB SOURCE_FILES "nfiq2*.cpp" )
@@ -25,7 +26,8 @@ include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/download/FingerJetFX
 include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/common/src/include")
 include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
 
-find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
+set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
+find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
 include_directories(${OpenCV_INCLUDE})
 
@@ -98,3 +100,5 @@ else()
 endif()
 
 target_link_libraries( "${PROJECT_NAME}" ${PROJECT_LIBS} ${OpenCV_LIBS} )
+
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})

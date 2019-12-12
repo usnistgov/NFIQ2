@@ -54,12 +54,22 @@ endif()
 
 # forwarding android build flags
 if( NOT "${ANDROID_PLATFORM}" EQUAL "")
-  message( STATUS "${Gn}-- Forwarding android build flags to the external projects${Na}" )
+  message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
   set(ANDROID_CMAKE_ARGS
     -DANDROID_PLATFORM=${ANDROID_PLATFORM} 
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
     -DANDROID_TARGET=${ANDROID_TARGET}
+  )
+endif()
+
+# forwarding android build flags
+if( APPLE AND NOT "${DCMAKE_TOOLCHAIN_FILE}" EQUAL "")
+  message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
+  set(IOS_CMAKE_ARGS
+    -DPLATFORM=${PLATFORM} 
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DENABLE_ARC=${ENABLE_ARC}
   )
 endif()
 
@@ -120,6 +130,7 @@ ExternalProject_Add(OpenCV
     -DCMAKE_C_FLAGS=${SUPER_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${SUPER_CXX_FLAGS}
     ${ANDROID_CMAKE_ARGS}
+    ${IOS_CMAKE_ARGS}
   INSTALL_COMMAND
     ""
 )
@@ -137,6 +148,7 @@ ExternalProject_Add(nfiq2
     -DCMAKE_C_FLAGS=${SUPER_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${SUPER_CXX_FLAGS}
     ${ANDROID_CMAKE_ARGS}
+    ${IOS_CMAKE_ARGS}
   INSTALL_COMMAND
     ""
 )
@@ -152,6 +164,7 @@ ExternalProject_Add(nfiq2api
     -DCMAKE_C_FLAGS=${SUPER_C_FLAGS}
     -DCMAKE_CXX_FLAGS=${SUPER_CXX_FLAGS}
     ${ANDROID_CMAKE_ARGS}
+    ${IOS_CMAKE_ARGS}
   INSTALL_COMMAND
     ""
 )

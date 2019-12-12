@@ -64,7 +64,7 @@ if( NOT "${ANDROID_PLATFORM}" STREQUAL "")
 endif()
 
 # forwarding android build flags
-if( APPLE AND NOT "${DCMAKE_TOOLCHAIN_FILE}" STREQUAL "")
+if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
   message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
   set(IOS_CMAKE_ARGS
     -DPLATFORM=${PLATFORM} 

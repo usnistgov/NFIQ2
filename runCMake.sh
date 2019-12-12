@@ -88,7 +88,7 @@ esac
 
 target=$1
 if [ "${target}" == "" ]; then
-  echo "Missing target (x64, x32, android-arm32, android-arm64, android-x86, android-x64, ios-arm32, ios-arm64)"
+  echo "Missing target (x64, x32, android-arm32, android-arm64, android-x86, android-x64, ios-arm64)"
   exit
 fi
 build_folder="./build/${machine}/${target}"
@@ -140,12 +140,10 @@ elif [ "${target}" == "android-x86" ]; then
   "${cmake_exe}" -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86 "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "android-x64" ]; then
   "${cmake_exe}" -G "$generator" "$ndk" "$platform" -DANDROID_ABI=x86_64 "$cfg" "$xtraflags" "../../../"
-elif [ "${target}" == "ios-arm32" ]; then
-  "${cmake_exe}" -G "$generator" -DPLATFORM=OS "$cfg" "$xtraflags" "../../../"
 elif [ "${target}" == "ios-arm64" ]; then
   "${cmake_exe}" -G "$generator" -DPLATFORM=OS64 "$cfg" "$xtraflags" "../../../"
 else
-  echo "Missing target (x64, x32, android-arm, android-arm64)"
+  echo "Missing target (x64, x32, android-arm32, android-arm64, android-x86, android-x64, ios-arm64)"
   exit
 fi
 

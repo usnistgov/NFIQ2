@@ -53,7 +53,7 @@ elseif( 64BITS)
 endif()
 
 # forwarding android build flags
-if( NOT "${ANDROID_PLATFORM}" EQUAL "")
+if( NOT "${ANDROID_PLATFORM}" STREQUAL "")
   message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
   set(ANDROID_CMAKE_ARGS
     -DANDROID_PLATFORM=${ANDROID_PLATFORM} 
@@ -64,7 +64,7 @@ if( NOT "${ANDROID_PLATFORM}" EQUAL "")
 endif()
 
 # forwarding android build flags
-if( APPLE AND NOT "${DCMAKE_TOOLCHAIN_FILE}" EQUAL "")
+if( APPLE AND NOT "${DCMAKE_TOOLCHAIN_FILE}" STREQUAL "")
   message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
   set(IOS_CMAKE_ARGS
     -DPLATFORM=${PLATFORM} 

@@ -1,15 +1,68 @@
 language: cpp
 
-os: linux
-
-compiler:
-    - gcc
-    - clang
+jobs:
+  include:
+    - os: linux
+      env: OPENCV_VERSION="2.4.13.6"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: gcc
+    - os: linux
+      env: OPENCV_VERSION="3.4.8"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: gcc
+    - os: linux
+      env: OPENCV_VERSION="4.1.2"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: gcc
+    - os: linux
+      env: OPENCV_VERSION="4.1.2"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: clang
+    - os: osx
+      osx_image: xcode11.2
+      env: OPENCV_VERSION="2.4.13.6"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: clang
+    - os: osx
+      osx_image: xcode11.2
+      env: OPENCV_VERSION="3.4.8"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: clang
+    - os: osx
+      osx_image: xcode11.2
+      env: OPENCV_VERSION="4.1.2"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x64
+      compiler: clang
+    - os: osx
+      osx_image: xcode9.4
+      env: OPENCV_VERSION="2.4.13.6"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x32
+      compiler: clang
+    - os: osx
+      osx_image: xcode9.4
+      env: OPENCV_VERSION="3.4.8"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x32
+      compiler: clang
+    - os: osx
+      osx_image: xcode9.4
+      env: OPENCV_VERSION="4.1.2"
+      env: CONFIGURATION_TYPE="Release"
+      env: ARCH=x32
+      compiler: clang
 
 before_script:
     - mkdir build
     - cd build
-    - cmake -DOPENCV_VERSION="3.4.8" -DCMAKE_CONFIGURATION_TYPES="Release" ..
+    - cmake -A "$ARCH" -DOPENCV_VERSION="$OPENCV_VERSION" -DCMAKE_CONFIGURATION_TYPES="$CONFIGURATION_TYPE" ..
 
 script:
     - make

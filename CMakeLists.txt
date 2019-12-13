@@ -112,6 +112,7 @@ set(OPENCV_CMAKE_ARGS
 	-DWITH_MSMF=OFF
 	-DWITH_FFMPEG=OFF
 	-DBUILD_ZLIB=ON
+	-DWITH_EIGEN=OFF
 	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo"
 	-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES})
 

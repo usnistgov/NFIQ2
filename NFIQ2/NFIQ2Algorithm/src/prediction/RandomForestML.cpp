@@ -22,21 +22,27 @@
 using namespace NFIQ;
 using namespace cv;
 
-std::string RandomForestML::calculateHashString()
+std::string RandomForestML::calculateHashString(const std::string& s)
 {
-	FileStorage temp("temp.yaml", FileStorage::WRITE | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
-	// write the parameters to a memeory string for normalization before the hash will be calculated
-#	if CV_MAJOR_VERSION <= 2
-	m_pTrainedRF->write(temp.fs, "my_random_trees");
-#	else
-	m_pTrainedRF->write(temp);
-#	endif
-	std::string str = temp.releaseAndGetString();
 	// calculate and compare the hash
 	digestpp::md5 hasher;
 	std::stringstream ss;
-	ss << "0x" << std::hex << hasher.absorb((const char*)str.c_str(), str.length()).hexdigest();
+	ss << "0x" << std::hex << hasher.absorb((const char*)s.c_str(), s.length()).hexdigest();
 	return ss.str();
+}
+
+void RandomForestML::initModule(const std::string& params)
+{
+  // create file storage with parameters in memory
+  FileStorage fs(params.c_str(), FileStorage::READ | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
+  // now import data structures
+#if CV_MAJOR_VERSION <= 2
+  m_pTrainedRF = new CvRTrees();
+  m_pTrainedRF->read(fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
+#else
+  m_pTrainedRF = cv::ml::RTrees::create();
+  m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
+#endif
 }
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
@@ -88,17 +94,8 @@ std::string RandomForestML::initModule()
 		data.fromBase64String(params);
 		params = "";
 		params.assign((const char*)data.data(), data.size());
-    // create file storage with parameters in memory
-    FileStorage fs(params.c_str(), FileStorage::READ | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
-    // now import data structures
-#if CV_MAJOR_VERSION <= 2
-		m_pTrainedRF = new CvRTrees();
-		m_pTrainedRF->read(fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
-#else
-    m_pTrainedRF = cv::ml::RTrees::create();
-    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
-#endif
-    return calculateHashString();
+    initModule(params);
+    return calculateHashString(params);
   }
 	catch (const cv::Exception& e)
 	{
@@ -116,16 +113,11 @@ std::string RandomForestML::initModule( const std::string& fileName, const std::
 {
 	try
 	{
-    FileStorage fs(fileName, FileStorage::READ | FileStorage::FORMAT_YAML);
-#if CV_MAJOR_VERSION <= 2
-		m_pTrainedRF = new CvRTrees();
-		m_pTrainedRF->read(fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
-#else
-    m_pTrainedRF = cv::ml::RTrees::create();
-    m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
-#endif
-		// calculate and compare the hash
-		std::string hash = calculateHashString();
+    std::ifstream input (fileName);
+    std::string params((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+    initModule(params);
+    // calculate and compare the hash
+		std::string hash = calculateHashString(params);
 		if( fileHash.compare( hash ) != 0 )
 		{
 #if CV_MAJOR_VERSION <= 2
@@ -135,7 +127,7 @@ std::string RandomForestML::initModule( const std::string& fileName, const std::
 #else
 			m_pTrainedRF->clear();
 #endif
-			throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration, "The trained network could not be initialized!");
+			throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration, "The trained network could not be initialized! Error: " + hash);
 		}
     return hash;
   }

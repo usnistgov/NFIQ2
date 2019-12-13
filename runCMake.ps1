@@ -16,21 +16,29 @@ function findCmake()
   }
 }
 
-function runCMake( $folder, $generator)
+function runCMake( $platform, $generator)
 {
+  # find visual studio string
+  if( $generator -match "Visual Studio [1-9]* [0-9]*" ) {
+    # remove whitespaces to not destroy include pathes
+    $msvc = $Matches.Values[0] -replace "\s","_"
+  }
+  else {
+    $msvc = "MSVC"
+  }
   # temporary build directories
-  new-item "./build/$folder" -ItemType directory -Force
-  cd "./build/$folder"
+  new-item "./build/$msvc/$platform" -ItemType directory -Force
+  cd "./build/$msvc/$platform"
   # run cmake
-  & "$global:cmake" -DCMAKE_CONFIGURATION_TYPES="Release" -DCMAKE_SYSTEM_VERSION=8.1 -G"${generator}" ../../
+  & "$global:cmake" -DCMAKE_SYSTEM_VERSION=8.1 -G "${generator}" ../../../
   # cleanup
-  cd ../..
+  cd ../../../
 }
 
 findCMake
-runCMake "Windows32" "Visual Studio 15 2017" 
+runCMake "x86" "Visual Studio 15 2017" 
 if ([System.IntPtr]::Size -gt 4) { 
-  runCMake "Windows64" "Visual Studio 15 2017 Win64" 
+  runCMake "x64" "Visual Studio 15 2017 Win64" 
 }
 
 pause

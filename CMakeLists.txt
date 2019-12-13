@@ -156,6 +156,7 @@ ExternalProject_Add(nfiq2
 		${OUTPUT_CMAKE_ARGS}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
+	BUILD_ALWAYS	YES
 	INSTALL_COMMAND	""
 )
 ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static)
@@ -169,6 +170,7 @@ ExternalProject_Add(nfiq2api
 		${OUTPUT_CMAKE_ARGS}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
+	BUILD_ALWAYS	YES
 	INSTALL_COMMAND	""
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

@@ -3,47 +3,46 @@ language: cpp
 jobs:
   include:
     - os: linux
-      env: OPENCV_VERSION="2.4.13.6" ARCH=x64 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="2.4.13.6" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="3.4.8" ARCH=x64 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="4.1.2" ARCH=x64 CONFIGURATION_TYPE="Release"
-      env: ARCH=x64
+      env: OPENCV_VERSION="4.1.2" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="4.1.2" ARCH=x64 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.1.2" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode11.2
-      env: OPENCV_VERSION="2.4.13.6" ARCH=x64 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="2.4.13.6" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode11.2
-      env: OPENCV_VERSION="3.4.8" ARCH=x64 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode11.2
-      env: OPENCV_VERSION="4.1.2" ARCH=x64 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.1.2" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode9.4
-      env: OPENCV_VERSION="2.4.13.6" ARCH=x86 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="2.4.13.6" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode9.4
-      env: OPENCV_VERSION="3.4.8" ARCH=x86 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="3.4.8" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode9.4
-      env: OPENCV_VERSION="4.1.2" ARCH=x86 CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.1.2" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
       compiler: clang
 
 before_script:
     - mkdir build
     - cd build
-    - cmake -A "$ARCH" -DOPENCV_VERSION="$OPENCV_VERSION" -DCMAKE_CONFIGURATION_TYPES="$CONFIGURATION_TYPE" ..
+    - cmake -D32BITS=$BITS_32 -D64BITS=$BITS_64 -DOPENCV_VERSION="$OPENCV_VERSION" -DCMAKE_CONFIGURATION_TYPES="$CONFIGURATION_TYPE" ..
 
 script:
     - make

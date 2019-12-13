@@ -46,7 +46,8 @@ private:
 		cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
 #		endif
 
-	std::string calculateHashString();
+	std::string calculateHashString(const std::string& s);
+  void initModule(const std::string& params);
 # ifdef EMBED_RANDOMFOREST_PARAMETERS
 	std::string joinRFTrainedParamsString();
 # endif

@@ -180,10 +180,11 @@ void RandomForestML::evaluate(
     // using a non liniear mapping, due users complain about low numerical scores for good images
     qualityValue = (int)((std::sqrt(prob) * 100) + 0.5);
 #		else
-		// returns probability that between 0 and 1 that result belongs to second class
-		float prob = m_pTrainedRF->predict(sample_data, noArray(), cv::ml::StatModel::RAW_OUTPUT);
+		// returns sum of votes between 0 and 100 that result belongs to second class
+    float prob = m_pTrainedRF->predict(sample_data, noArray(), cv::ml::StatModel::RAW_OUTPUT);
     // return quality value
-    qualityValue = (int)(prob + 0.5);
+    // using a non liniear mapping, due users complain about low numerical scores for good images
+    qualityValue = (int)(std::sqrt(prob / 100.0) * 100 + 0.5);
 #		endif
 
 	}

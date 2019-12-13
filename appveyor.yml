@@ -2,8 +2,15 @@ version: 1.0.{build}
 branches:
   only:
   - iso_wg3
-image: Visual Studio 2019
-platform: x64
+image:
+  - Visual Studio 2019
+  - Visual Studio 2017
+  - Visual Studio 2015
+platform:
+  - x64
+  - x86
+
+configuration: Release
 
 install:
 - cmd: git submodule update --init
@@ -14,13 +21,13 @@ before_build:
 
     cd C:\projects\nfiq2
 
-    md build\Windows64
+    md build\Windows
 
-    cd build\Windows64
+    cd build\Windows
 
-    cmake -A x64 -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="3.4.8" C:\projects\nfiq2
+    cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="3.4.8" C:\projects\nfiq2
 
 
 build:
-  project: C:\projects\nfiq2\build\Windows64\NFIQ2_SUPERBUILD.sln
+  project: C:\projects\nfiq2\build\Windows\NFIQ2_SUPERBUILD.sln
   verbosity: normal

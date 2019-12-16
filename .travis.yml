@@ -30,14 +30,6 @@ jobs:
       osx_image: xcode9.4
       env: OPENCV_VERSION="2.4.13.6" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
       compiler: clang
-    - os: osx
-      osx_image: xcode9.4
-      env: OPENCV_VERSION="3.4.8" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
-      compiler: clang
-    - os: osx
-      osx_image: xcode9.4
-      env: OPENCV_VERSION="4.1.2" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
-      compiler: clang
 
 before_script:
     - mkdir build

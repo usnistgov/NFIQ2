@@ -1,5 +1,5 @@
-#ifndef NFIQ2ALGORITHM_H
-#define NFIQ2ALGORITHM_H
+#ifndef NFIQ2ALGORITHMIMPL_H_
+#define NFIQ2ALGORITHMIMPL_H_
 
 #include <string>
 #include <vector>
@@ -7,40 +7,23 @@
 #include <iostream>
 #include <list>
 
+#include "include/NFIQ2Algorithm.h"
 #include "include/NFIQException.h"
 #include "include/FingerprintImageData.h"
 #include "include/InterfaceDefinitions.h"
 
 #include "RandomForestML.h"
+#include "NFIQ2AlgorithmImpl.h"
 
 namespace NFIQ
 {
-	static const std::string ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow = "EmptyImageOrContrastTooLow";
-	static const std::string ActionableQualityFeedbackIdentifier_UniformImage = "UniformImage";
-	static const std::string ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae = "FingerprintImageWithMinutiae";
-	static const std::string ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground = "SufficientFingerprintForeground";
-
-	static const double ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow = 250.0;
-	static const double ActionableQualityFeedbackThreshold_UniformImage = 1.0;
-	static const double ActionableQualityFeedbackThreshold_FingerprintImageWithMinutiae = 5.0; // minimum 5 minutiae shall be found
-	static const double ActionableQualityFeedbackThreshold_SufficientFingerprintForeground = 50000.0; // minimum foreground pixels
-
-	/**
-	* This type represents a structure for actionable quality feedback
-	*/
-	typedef struct actionable_quality_feedback_t
-	{
-		std::string		identifier;		///< ID of the actionable quality
-		double			actionableQualityValue;	///< actionable quality value
-	} ActionableQualityFeedback;
-
 	/**
 	******************************************************************************
-	* @class NFIQ2Algorithm
+	* @class Impl
 	* @brief This class serves as a wrapper to return quality scores for a
 	* fingerprint image
 	******************************************************************************/
-	class NFIQ2Algorithm 
+	class NFIQ2Algorithm::Impl
 	{
 	public:
 		/******************************************************************************/
@@ -48,17 +31,17 @@ namespace NFIQ
 		/******************************************************************************/
 
 		/**
-		* @brief Default constructor of NFIQ2Algorithm
+		* @brief Default constructor of Impl
 		*/
 # ifdef EMBED_RANDOMFOREST_PARAMETERS
-		NFIQ2Algorithm();
+		Impl();
  # endif
- 	NFIQ2Algorithm(const std::string& fileName, const std::string& fileHash);
+ 	Impl(const std::string& fileName, const std::string& fileHash);
 
 		/**
 		* @brief Destructor
 		*/
-		virtual ~NFIQ2Algorithm();
+		virtual ~Impl();
 
 		/******************************************************************************/
 		// --- Public functions --- //

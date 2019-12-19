@@ -11,6 +11,40 @@
 
 namespace NFIQ
 {
+	static const std::string 
+	    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow{
+	    "EmptyImageOrContrastTooLow"};
+	static const std::string
+	    ActionableQualityFeedbackIdentifier_UniformImage{
+	    "UniformImage"};
+	static const std::string 
+	    ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae{
+	    "FingerprintImageWithMinutiae"};
+	static const std::string
+	    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground{
+	    "SufficientFingerprintForeground"};
+
+	static const double 
+	    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow{
+	    250.0};
+	static const double 
+	    ActionableQualityFeedbackThreshold_UniformImage{1.0};
+	/** Minimum 5 minutiae shall be found */
+	static const double 
+	    ActionableQualityFeedbackThreshold_FingerprintImageWithMinutiae{
+	    5.0};
+	/** Minimum foreground pixels */
+	static const double 
+	    ActionableQualityFeedbackThreshold_SufficientFingerprintForeground{
+	    50000.0};
+
+	struct actionable_quality_feedback_t
+	{
+		std::string identifier;
+		double actionableQualityValue;	
+	};
+	using ActionableQualityFeedback = actionable_quality_feedback_t;
+
 	/**
 	* This type represents the type of quality feature data.
 	*/

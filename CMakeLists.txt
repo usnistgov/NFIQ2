@@ -157,10 +157,6 @@ ExternalProject_Add(nfiq2
 		-DTARGET_PLATFORM=${TARGET_PLATFORM}
 		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
 		${COMPILER_CMAKE_ARGS}
-		# FIXME: Define DIST_PATH due to FingerJet and biomdi builds,
-		# FIXME: otherwise we don't know where the libs to link are.
-		# FIXME: This should be removed once other builds are fixed.
-		-DDIST_PATH=${DIST_PATH}
 		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}

@@ -33,7 +33,9 @@ if("${TARGET_PLATFORM}" MATCHES "win*")
   include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/windows")
 endif()
 
-link_directories( "${DIST_PATH}" )
+# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds 
+# FIXME: are updated.
+link_directories( "${CMAKE_INSTALL_PREFIX}" )
 
 set(SOURCE_FILES "")
 file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" )

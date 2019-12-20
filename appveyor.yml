@@ -31,3 +31,4 @@ before_build:
 build:
   project: C:\projects\nfiq2\build\Windows\NFIQ2_SUPERBUILD.sln
   verbosity: normal
+  parallel: true

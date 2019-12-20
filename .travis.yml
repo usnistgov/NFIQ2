@@ -37,4 +37,4 @@ before_script:
     - cmake -D32BITS=$BITS_32 -D64BITS=$BITS_64 -DOPENCV_VERSION="$OPENCV_VERSION" -DCMAKE_BUILD_TYPE="$CONFIGURATION_TYPE" ..
 
 script:
-    - cmake --build . --parallel
+    - cmake --build .

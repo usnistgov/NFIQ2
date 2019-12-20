@@ -38,7 +38,7 @@ endif()
 # set and increment version
 include( "${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake" )
 
-link_directories( "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}" )
+link_directories( "${CMAKE_INSTALL_PREFIX}/lib" "${CMAKE_INSTALL_PREFIX}" )
 
 # add targets
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -53,6 +53,10 @@ else()
       ${VERSION_FILES}
     )
 endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/nfiq2api.h"
+)
 
 string( REPLACE "." "" OPENCV_VERSION2 "${OPENCV_VERSION}")
 
@@ -101,4 +105,7 @@ endif()
 
 target_link_libraries( "${PROJECT_NAME}" ${PROJECT_LIBS} ${OpenCV_LIBS} )
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+install(TARGETS ${PROJECT_NAME}
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    PUBLIC_HEADER DESTINATION include)

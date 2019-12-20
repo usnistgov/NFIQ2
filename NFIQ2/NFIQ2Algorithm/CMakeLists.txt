@@ -115,13 +115,13 @@ elseif("${TARGET_PLATFORM}" MATCHES "android*")
   set( PROJECT_LIBS ${PROJECT_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     log
-    dl
+    ${CMAKE_DL_LIBS}
   )
 else()
   find_package(Threads REQUIRED)
   set( PROJECT_LIBS ${PROJECT_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
-    dl
+    ${CMAKE_DL_LIBS}
   )
 endif()
 

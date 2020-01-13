@@ -21,7 +21,7 @@ Technical Report [ISO/IEC 29794-4 Biometric sample quality -- Part 4:Finger imag
 Operationally, NFIQ has increased the reliability, accuracy, and interoperability  of fingerprint recognition 
 systems by identifying the samples that are likely to cause recognition failure.
 
-If you would like more information please read the [NFIQ 2.0 Report](https://www.nist.gov/sites/default/files/documents/2016/12/07/nfiq2_report.pdf).
+If you would like more information please read the [NFIQ 2.0 Report](https://www.nist.gov/document/nfiq2reportpdf).
 
 How to Build
 ------------

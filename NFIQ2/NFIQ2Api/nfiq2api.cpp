@@ -15,6 +15,8 @@ extern int version_minor;
 extern int version_evolution;
 extern int version_build;
 
+extern std::string g_modulePath;
+
 // static object to load the algorithm only once (random forest init!)
 std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
 
@@ -48,7 +50,9 @@ extern "C" {
 #       ifdef EMBED_RANDOMFOREST_PARAMETERS
         g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm() );
 #       else
-        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592") );
+        std::stringstream ss;
+        ss << g_modulePath << "nfiq2rf.yaml";
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm( ss.str(), "0xccd75820b48c19f1645ef5e9c481c592") );
 #       endif
         return g_nfiq2->getParameterHash().c_str();
       }

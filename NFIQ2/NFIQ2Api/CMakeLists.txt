@@ -5,7 +5,7 @@ project( Nfiq2Api )
 set(CMAKE_CXX_STANDARD 11)
 
 # add files from folder
-file( GLOB SOURCE_FILES "nfiq2*.cpp" )
+file( GLOB SOURCE_FILES "nfiq2*.cpp" "main.cpp" )
 file( GLOB HEADER_FILES "nfiq2*.h" )
 
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
@@ -106,6 +106,7 @@ endif()
 target_link_libraries( "${PROJECT_NAME}" ${PROJECT_LIBS} ${OpenCV_LIBS} )
 
 install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     PUBLIC_HEADER DESTINATION include)

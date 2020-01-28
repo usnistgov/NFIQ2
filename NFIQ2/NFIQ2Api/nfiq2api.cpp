@@ -90,7 +90,7 @@ extern "C" {
 #       ifdef EMBED_RANDOMFOREST_PARAMETERS
         g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm() );
 #       else
-        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592") );
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm(GetYamlFilePath(), "0xccd75820b48c19f1645ef5e9c481c592") );
 #       endif
         return g_nfiq2->getParameterHash().c_str();
       }

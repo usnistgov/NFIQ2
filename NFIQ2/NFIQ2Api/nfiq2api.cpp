@@ -8,7 +8,7 @@
 #include <opencv2/core/version.hpp>
 
 #ifndef _WIN32
-# include <dlfcn.h>
+#include <dlfcn.h>
 #endif
 
 // external vars for the version values
@@ -25,53 +25,54 @@ std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
 
 std::string GetYamlFilePath()
 {
-	std::string p;
+  std::string p;
 
 #ifdef _WIN32
-	HMODULE hmodule = NULL;
+  HMODULE hmodule = NULL;
 
-	GetModuleHandleExA( 
-    GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, 
-    reinterpret_cast<LPCSTR>(GetYamlFilePath), &hmodule );
+  GetModuleHandleExA(
+      GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+      reinterpret_cast<LPCSTR>(GetYamlFilePath), &hmodule);
   char buffer[MAX_PATH];
-  int n = GetModuleFileNameA( hmodule, buffer, sizeof( buffer ) );
-  if( n > 0 && n < ( int )sizeof( buffer ) )
+  int n = GetModuleFileNameA(hmodule, buffer, sizeof(buffer));
+  if (n > 0 && n < (int)sizeof(buffer))
   {
-    char* c = strrchr( buffer, '\\' );
-    if( c != nullptr )
+    char *c = strrchr(buffer, '\\');
+    if (c != nullptr)
     {
       *c = 0;
-      p =  buffer;
+      p = buffer;
       p += "\\nfiq2rf.yaml";
     }
   }
 #else
   Dl_info info;
-  if (dladdr( (void*)GetYamlFilePath, &info) != 0 && info.dli_fname != nullptr)
+  if (dladdr((void *)GetYamlFilePath, &info) != 0 && info.dli_fname != nullptr)
   {
-      char* c = (char*)strrchr( info.dli_fname, '/' );
-      if( c != nullptr )
-      {
-        *c = 0;
-        p =  info.dli_fname;
-        p += "/nfiq2rf.yaml";
-      }
+    char *c = (char *)strrchr(info.dli_fname, '/');
+    if (c != nullptr)
+    {
+      *c = 0;
+      p = info.dli_fname;
+      p += "/nfiq2rf.yaml";
+    }
   }
 #endif
   std::cout << "YAML file: " << p << std::endl;
   return p;
 }
 
-extern "C" {
-  DLLEXPORT void STDCALL GetNfiq2Version( int* major, int* minor, int* evolution, int* increment, const char** ocv )
+extern "C"
+{
+  DLLEXPORT void STDCALL GetNfiq2Version(int *major, int *minor, int *evolution, int *increment, const char **ocv)
   {
     *major = version_major;
     *minor = version_minor;
     *evolution = version_evolution;
     *increment = version_build;
 #if CV_MAJOR_VERSION <= 2
-    const char* m = nullptr;
-    cvGetModuleInfo( nullptr, ocv, &m );
+    const char *m = nullptr;
+    cvGetModuleInfo(nullptr, ocv, &m);
 #else
     std::stringstream ss;
     ss << cv::getVersionMajor() << "." << cv::getVersionMinor() << "." << cv::getVersionRevision();
@@ -81,49 +82,49 @@ extern "C" {
     *ocv = buf;
 #endif
   }
-  DLLEXPORT const char* STDCALL InitNfiq2()
+  DLLEXPORT const char *STDCALL InitNfiq2()
   {
     try
     {
-      if( g_nfiq2.get() == nullptr )
+      if (g_nfiq2.get() == nullptr)
       {
-#       ifdef EMBED_RANDOMFOREST_PARAMETERS
-        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm() );
-#       else
-        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm( GetYamlFilePath(), "0xccd75820b48c19f1645ef5e9c481c592") );
-#       endif
-        return g_nfiq2->getParameterHash().c_str();
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>(new NFIQ::NFIQ2Algorithm());
+#else
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>(new NFIQ::NFIQ2Algorithm(GetYamlFilePath(), "0xccd75820b48c19f1645ef5e9c481c592"));
+#endif
       }
+      return g_nfiq2->getParameterHash().c_str();
     }
-    catch( std::exception& exc )
+    catch (std::exception &exc)
     {
       std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;
     }
     return nullptr;
   }
-  DLLEXPORT int STDCALL ComputeNfiq2Score( int fpos, const unsigned char* pixels, int size, int width, int height, int ppi )
+  DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width, int height, int ppi)
   {
     try
     {
-      if( g_nfiq2.get() != nullptr )
+      if (g_nfiq2.get() != nullptr)
       {
-        NFIQ::FingerprintImageData rawImage( pixels, size, width, height, fpos, ppi );
+        NFIQ::FingerprintImageData rawImage(pixels, size, width, height, fpos, ppi);
         std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
         std::list<NFIQ::QualityFeatureData> featureVector;
         std::list<NFIQ::QualityFeatureSpeed> featureTimings;
-        int qualityScore = ( int )g_nfiq2->computeQualityScore( rawImage,
-                           true, actionableQuality,
-                           false, featureVector,
-                           false, featureTimings );
+        int qualityScore = (int)g_nfiq2->computeQualityScore(rawImage,
+                                                             true, actionableQuality,
+                                                             false, featureVector,
+                                                             false, featureTimings);
         return qualityScore;
       }
     }
-    catch( const NFIQ::NFIQException& exc )
+    catch (const NFIQ::NFIQException &exc)
     {
       std::cerr << "NFIQ2 ERROR => Return code [" << exc.getReturnCode() << "]: " << exc.getErrorMessage() << std::endl;
       return 255;
     }
-    catch( std::exception& exc )
+    catch (std::exception &exc)
     {
       std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;
       return -1;
@@ -131,5 +132,3 @@ extern "C" {
     return -2; // not initialized
   }
 }
-
-

@@ -62,9 +62,8 @@ std::string GetYamlFilePath()
   return p;
 }
 
-extern "C"
-{
-  DLLEXPORT void STDCALL GetNfiq2Version(int *major, int *minor, int *evolution, int *increment, const char **ocv)
+extern "C" {
+  DLLEXPORT void STDCALL GetNfiq2Version( int* major, int* minor, int* evolution, int* increment, const char** ocv )
   {
     *major = version_major;
     *minor = version_minor;

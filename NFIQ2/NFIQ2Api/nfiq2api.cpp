@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <string>
 #include <memory>
 #include "NFIQ2Algorithm.h"
@@ -5,6 +6,10 @@
 #include "nfiq2api.h"
 
 #include <opencv2/core/version.hpp>
+
+#ifndef _WIN32
+#include <dlfcn.h>
+#endif
 
 // external vars for the version values
 extern char product_name[128];
@@ -18,7 +23,44 @@ extern int version_build;
 // static object to load the algorithm only once (random forest init!)
 std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
 
-#include <cstdlib>
+std::string GetYamlFilePath()
+{
+  std::string p;
+
+#ifdef _WIN32
+  HMODULE hmodule = NULL;
+
+  GetModuleHandleExA(
+      GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+      reinterpret_cast<LPCSTR>(GetYamlFilePath), &hmodule);
+  char buffer[MAX_PATH];
+  int n = GetModuleFileNameA(hmodule, buffer, sizeof(buffer));
+  if (n > 0 && n < (int)sizeof(buffer))
+  {
+    char *c = strrchr(buffer, '\\');
+    if (c != nullptr)
+    {
+      *c = 0;
+      p = buffer;
+      p += "\\nfiq2rf.yaml";
+    }
+  }
+#else
+  Dl_info info;
+  if (dladdr((void *)GetYamlFilePath, &info) != 0 && info.dli_fname != nullptr)
+  {
+    char *c = (char *)strrchr(info.dli_fname, '/');
+    if (c != nullptr)
+    {
+      *c = 0;
+      p = info.dli_fname;
+      p += "/nfiq2rf.yaml";
+    }
+  }
+#endif
+  std::cout << "YAML file: " << p << std::endl;
+  return p;
+}
 
 extern "C" {
   DLLEXPORT void STDCALL GetNfiq2Version( int* major, int* minor, int* evolution, int* increment, const char** ocv )
@@ -48,7 +90,7 @@ extern "C" {
 #       ifdef EMBED_RANDOMFOREST_PARAMETERS
         g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm() );
 #       else
-        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm("nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592") );
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm(GetYamlFilePath(), "0xccd75820b48c19f1645ef5e9c481c592") );
 #       endif
         return g_nfiq2->getParameterHash().c_str();
       }

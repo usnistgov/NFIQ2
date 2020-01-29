@@ -571,6 +571,8 @@ int main(int argc, const char* argv[])
         }
 #ifdef WIN32
         FreeLibrary( hLib );
+#elif ANDROID
+        std::cout << "Do not unload the library on Android." << std::endl;
 #else
         dlclose( hLib );
 #endif

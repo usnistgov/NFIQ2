@@ -7,3 +7,6 @@
 [submodule "biomdi/biomdi"]
 	path = biomdi/biomdi
 	url = https://github.com/usnistgov/biomdi.git
+[submodule "astyle"]
+	path = astyle
+	url = https://github.com/edenhill/astyle.git

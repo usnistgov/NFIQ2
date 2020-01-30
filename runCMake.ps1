@@ -30,7 +30,7 @@ function runCMake( $platform, $generator)
   new-item "./build/$msvc/$platform" -ItemType directory -Force
   cd "./build/$msvc/$platform"
   # run cmake
-  & "$global:cmake" -DCMAKE_SYSTEM_VERSION=8.1 -G "${generator}" ../../../
+  & "$global:cmake" -DCMAKE_SYSTEM_VERSION=8.1 -G "${generator}" -DCMAKE_CONFIGURATION_TYPES:STRING=Release -DCMAKE_TRY_COMPILE_CONFIGURATION:STRING=Release ../../../
   # cleanup
   cd ../../../
 }

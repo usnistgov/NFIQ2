@@ -47,10 +47,17 @@ add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${
 #astyle
 set( ASTYLE_EXE "${DIST_PATH}/astyle${CMAKE_EXECUTABLE_SUFFIX}" )
 file(GLOB ASTYLE_FILES "${ROOT_PATH}/NFIQ2/NFIQ2Api/*.cpp" "${ROOT_PATH}/NFIQ2/NFIQ2Api/*.h" ) 
-add_custom_target( format
-  COMMAND ${ASTYLE_EXE} --options=${ROOT_PATH}/astyle.cfg ${ASTYLE_FILES} 
-  DEPENDS astyle
-)
+if( NOT ANDROID )
+  add_custom_target( format
+    COMMAND ${ASTYLE_EXE} --options=${ROOT_PATH}/astyle.cfg ${ASTYLE_FILES} 
+    DEPENDS astyle
+  )
+else()
+  add_custom_target( format
+    COMMAND echo "${ASTYLE_EXE} will not run on ${CMAKE_HOST}"
+    DEPENDS astyle
+  )
+endif()
 
 # forwarding 32/64 compiler flags
 if( 32BITS)

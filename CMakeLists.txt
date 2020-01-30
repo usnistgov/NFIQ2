@@ -45,9 +45,9 @@ add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
 #astyle
-set( ASTYLE_EXE "${DIST_PATH}/bin/astyle${CMAKE_EXECUTABLE_SUFFIX}" )
+set( ASTYLE_EXE "${DIST_PATH}/astyle${CMAKE_EXECUTABLE_SUFFIX}" )
 file(GLOB ASTYLE_FILES "${ROOT_PATH}/NFIQ2/NFIQ2Api/*.cpp" "${ROOT_PATH}/NFIQ2/NFIQ2Api/*.h" ) 
-add_custom_target( format } 
+add_custom_target( format
   COMMAND ${ASTYLE_EXE} --options=${ROOT_PATH}/astyle.cfg ${ASTYLE_FILES} 
   DEPENDS astyle
 )

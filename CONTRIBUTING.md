@@ -13,9 +13,8 @@ If you can reproduce a problem, please submit as much information as possible in
 We are using [`astyle`](http://astyle.sourceforge.net) to format our code. A configuration file, `astyle.conf`, is at the root of our repository. Please write code however you want, but before submitting a pull request, run it through `astyle` using the supplied configuration. You may consider adding a git hook script to do this automatically. We've supplied a sample hook script below.
 
 <details>
-	<summary>
-		*Expand to view an example git hook script.*
-	</summary>
+	<summary><em>Expand to view an example git hook script.</em></summary>
+
 ```
 #!/bin/sh
 

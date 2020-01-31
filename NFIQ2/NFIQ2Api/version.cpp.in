@@ -1,5 +1,5 @@
 // vendor and copyright information
-// visible in linux and windows resources 
+// visible in linux and windows resources
 @VERSION_VISIBILITY_ATTRIBUTE@
 char product_name[128] = "@NFIQ2_PRODUCT_NAME@";
 @VERSION_VISIBILITY_ATTRIBUTE@

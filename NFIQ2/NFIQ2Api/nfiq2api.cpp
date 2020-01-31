@@ -23,7 +23,7 @@ extern int version_build;
 // static object to load the algorithm only once (random forest init!)
 std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
 
-std::string GetYamlFilePath()
+std::string GetYamlFilePath ()
 {
   std::string p;
 
@@ -31,14 +31,14 @@ std::string GetYamlFilePath()
   HMODULE hmodule = NULL;
 
   GetModuleHandleExA(
-      GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-      reinterpret_cast<LPCSTR>(GetYamlFilePath), &hmodule);
+    GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+    reinterpret_cast<LPCSTR>( GetYamlFilePath ), &hmodule );
   char buffer[MAX_PATH];
-  int n = GetModuleFileNameA(hmodule, buffer, sizeof(buffer));
-  if (n > 0 && n < (int)sizeof(buffer))
+  int n = GetModuleFileNameA( hmodule, buffer, sizeof( buffer ) );
+  if( n > 0 && n < ( int )sizeof( buffer ) )
   {
-    char *c = strrchr(buffer, '\\');
-    if (c != nullptr)
+    char* c = strrchr( buffer, '\\' );
+    if( c != nullptr )
     {
       *c = 0;
       p = buffer;
@@ -47,10 +47,10 @@ std::string GetYamlFilePath()
   }
 #else
   Dl_info info;
-  if (dladdr((void *)GetYamlFilePath, &info) != 0 && info.dli_fname != nullptr)
+  if( dladdr( ( void* )GetYamlFilePath, &info ) != 0 && info.dli_fname != nullptr )
   {
-    char *c = (char *)strrchr(info.dli_fname, '/');
-    if (c != nullptr)
+    char* c = ( char* )strrchr( info.dli_fname, '/' );
+    if( c != nullptr )
     {
       *c = 0;
       p = info.dli_fname;
@@ -76,8 +76,8 @@ extern "C" {
     std::stringstream ss;
     ss << cv::getVersionMajor() << "." << cv::getVersionMinor() << "." << cv::getVersionRevision();
     static char buf[128];
-    memset(buf, 0, 128);
-    strncpy(buf, ss.str().c_str(), ss.str().length());
+    memset( buf, 0, 128 );
+    strncpy( buf, ss.str().c_str(), ss.str().length() );
     *ocv = buf;
 #endif
   }
@@ -90,7 +90,7 @@ extern "C" {
 #       ifdef EMBED_RANDOMFOREST_PARAMETERS
         g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm() );
 #       else
-        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm(GetYamlFilePath(), "0xccd75820b48c19f1645ef5e9c481c592") );
+        g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>( new NFIQ::NFIQ2Algorithm( GetYamlFilePath(), "0xccd75820b48c19f1645ef5e9c481c592" ) );
 #       endif
         return g_nfiq2->getParameterHash().c_str();
       }

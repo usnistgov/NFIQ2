@@ -18,39 +18,39 @@
 class ImgProcROIFeature : BaseFeature
 {
 
-public:
+  public:
 
-	struct ImgProcROIResults
-	{
-		unsigned int chosenBlockSize; ///< the input block size in pixels
-		unsigned int noOfCompleteBlocks; ///< the overall number of complete blocks (with full block size) in the image
-		unsigned int noOfAllBlocks; ///< the overall number of blocks in the image
-		std::vector<cv::Rect> vecROIBlocks; ///< the detected ROI blocks with position and size
-		unsigned int noOfROIPixels; ///< the number of ROI pixels detected in the image (not blocks)
-		unsigned int noOfImagePixels; ///< the number of pixels of the image
-		double meanOfROIPixels; ///< the mean of all grayvalues of all ROI pixels
-		double stdDevOfROIPixels; ///< the standard deviation of all grayvalues of all ROI pixels
-	};
+    struct ImgProcROIResults
+    {
+      unsigned int chosenBlockSize; ///< the input block size in pixels
+      unsigned int noOfCompleteBlocks; ///< the overall number of complete blocks (with full block size) in the image
+      unsigned int noOfAllBlocks; ///< the overall number of blocks in the image
+      std::vector<cv::Rect> vecROIBlocks; ///< the detected ROI blocks with position and size
+      unsigned int noOfROIPixels; ///< the number of ROI pixels detected in the image (not blocks)
+      unsigned int noOfImagePixels; ///< the number of pixels of the image
+      double meanOfROIPixels; ///< the mean of all grayvalues of all ROI pixels
+      double stdDevOfROIPixels; ///< the standard deviation of all grayvalues of all ROI pixels
+    };
 
-	ImgProcROIFeature(bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> & speedValues)
-		: BaseFeature(bOutputSpeed, speedValues)
-	{
-	};
-	virtual ~ImgProcROIFeature();
+    ImgProcROIFeature( bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues )
+      : BaseFeature( bOutputSpeed, speedValues )
+    {
+    };
+    virtual ~ImgProcROIFeature();
 
-	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-		const NFIQ::FingerprintImageData & fingerprintImage, ImgProcROIFeature::ImgProcROIResults & imgProcResults);
+    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
+      const NFIQ::FingerprintImageData& fingerprintImage, ImgProcROIFeature::ImgProcROIResults& imgProcResults );
 
-	std::string getModuleID();
+    std::string getModuleID();
 
-	void initModule() { /* not needed here */ };
+    void initModule() { /* not needed here */ };
 
-	std::list<std::string> getAllFeatureIDs();
+    std::list<std::string> getAllFeatureIDs();
 
-	static ImgProcROIResults computeROI(cv::Mat & img, unsigned int bs);
+    static ImgProcROIResults computeROI( cv::Mat& img, unsigned int bs );
 
-private:
-	static bool isBlackPixelAvailable(cv::Mat & img, cv::Point & point);
+  private:
+    static bool isBlackPixelAvailable( cv::Mat& img, cv::Point& point );
 
 };
 

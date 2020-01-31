@@ -1,3 +1,4 @@
+param([Int32]$msvc=2017)
 
 function findCmake()
 {
@@ -16,10 +17,30 @@ function findCmake()
   }
 }
 
+
+function findCMakeGenerator()
+{
+    [string[]] $generators = 
+        "Visual Studio 10 2010",
+        "Visual Studio 11 2012",
+        "Visual Studio 12 2013",
+        "Visual Studio 14 2015",
+        "Visual Studio 15 2017", 
+        "Visual Studio 16 2019"
+    ForEach ( $generator In $generators) {
+        if( $generator -match "$msvc" ) {
+            $global:genX86 = $generator
+            $global:genX64 = $generator + " Win64"
+            return;
+        }
+    }
+    Write-Host "Using default MSVC settings"
+}
+
 function runCMake( $platform, $generator)
 {
   # find visual studio string
-  if( $generator -match "Visual Studio [1-9]* [0-9]*" ) {
+  if( $generator -match "Visual Studio [0-9]* [0-9]*" ) {
     # remove whitespaces to not destroy include pathes
     $msvc = $Matches.Values[0] -replace "\s","_"
   }
@@ -35,10 +56,15 @@ function runCMake( $platform, $generator)
   cd ../../../
 }
 
+$global:genX86 = $null
+$global:genX64 = $null
 findCMake
-runCMake "x86" "Visual Studio 15 2017" 
+findCMakeGenerator
+Write-Host "Using Generator $genX86"
+runCMake "x86" $genX86 
 if ([System.IntPtr]::Size -gt 4) { 
-  runCMake "x64" "Visual Studio 15 2017 Win64" 
+  Write-Host "Using Generator $genX64"
+  runCMake "x64" $genX64 
 }
 
 pause

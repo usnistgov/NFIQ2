@@ -40,24 +40,8 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${DIST_PATH} )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DIST_PATH} )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DIST_PATH} )
 
-add_subdirectory("${ROOT_PATH}/astyle/" "${BUILD_PATH}/astyle/")
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
-
-#astyle
-set( ASTYLE_EXE "${DIST_PATH}/astyle${CMAKE_EXECUTABLE_SUFFIX}" )
-file(GLOB ASTYLE_FILES "${ROOT_PATH}/NFIQ2/NFIQ2Api/*.cpp" "${ROOT_PATH}/NFIQ2/NFIQ2Api/*.h" ) 
-if( NOT ANDROID )
-  add_custom_target( format
-    COMMAND ${ASTYLE_EXE} --options=${ROOT_PATH}/astyle.cfg ${ASTYLE_FILES} 
-    DEPENDS astyle
-  )
-else()
-  add_custom_target( format
-    COMMAND echo "${ASTYLE_EXE} will not run on ${CMAKE_HOST}"
-    DEPENDS astyle
-  )
-endif()
 
 # forwarding 32/64 compiler flags
 if( 32BITS)
@@ -102,6 +86,16 @@ if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
 endif()
 
 include(ExternalProject)
+
+ExternalProject_Add(astyle
+	URL	https://sourceforge.net/projects/astyle/files/latest/download
+	CMAKE_ARGS
+		${COMPILER_CMAKE_ARGS}
+		${OUTPUT_CMAKE_ARGS}
+		${ANDROID_CMAKE_ARGS}
+		${IOS_CMAKE_ARGS}
+	INSTALL_COMMAND	""
+)
 
 set(OPENCV_CMAKE_ARGS
 	-DBUILD_SHARED_LIBS=OFF
@@ -179,7 +173,7 @@ ExternalProject_Add(nfiq2
 	BUILD_ALWAYS	YES
 	INSTALL_DIR ${DIST_PATH}
 )
-ExternalProject_Add_StepDependencies(nfiq2 build astyle format OpenCV biomdi fmr FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build astyle OpenCV biomdi fmr FRFXLL_static)
 
 ExternalProject_Add(nfiq2api
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Api

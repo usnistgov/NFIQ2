@@ -9,10 +9,10 @@ jobs:
       env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="4.1.2" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.2.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="4.1.2" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.2.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode11.2
@@ -24,7 +24,7 @@ jobs:
       compiler: clang
     - os: osx
       osx_image: xcode11.2
-      env: OPENCV_VERSION="4.1.2" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.2.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
       compiler: clang
     - os: osx
       osx_image: xcode9.4

@@ -25,7 +25,7 @@ before_build:
 
     cd build\Windows
 
-    cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="3.4.8" C:\projects\nfiq2
+    cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.2.0" C:\projects\nfiq2
 
 
 build:

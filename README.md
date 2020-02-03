@@ -2,7 +2,7 @@ NFIQ 2
 ======
 
 [![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=iso_wg3)](https://travis-ci.org/usnistgov/NFIQ2)
-[![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/hb1kwdohdekvv8kf/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/gfiumara/nfiq2/branch/iso_wg3)
+[![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/iso_wg3)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
 --------------------------------------------------------------------------------

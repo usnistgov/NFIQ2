@@ -31,6 +31,22 @@ jobs:
       env: OPENCV_VERSION="2.4.13.6" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
       compiler: clang
 
+before_install:
+    - |
+      if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
+          brew update
+          brew install astyle
+          astyle --options=.astylerc --formatted $(find NFIQ2 \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) -a \! -path '*wsq*' -a \! -name 'RandomForestTrainedParams.h') > astyle.out
+          if [ $(cat astyle.out | wc -l | tr -d -C '[:digit:]') -ne 0 ]; then
+              cat astyle.out
+              git --no-pager diff
+              echo "Please run the above files through astyle using the .astylerc configuration and push your changes to the same branch."
+              exit 1
+          else
+              echo "astyle finished with no changes"
+          fi
+      fi
+
 before_script:
     - mkdir build
     - cd build

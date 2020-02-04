@@ -15,12 +15,12 @@ using namespace cv;
 
 #define HISTOGRAM_FEATURES 1
 
-OCLHistogramFeature::~OCLHistogramFeature ()
+OCLHistogramFeature::~OCLHistogramFeature()
 {
 
 }
 
-std::list<NFIQ::QualityFeatureResult> OCLHistogramFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> OCLHistogramFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
   std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -125,7 +125,7 @@ std::list<NFIQ::QualityFeatureResult> OCLHistogramFeature::computeFeatureData (
   return featureDataList;
 }
 
-bool OCLHistogramFeature::getOCLValueOfBlock ( const cv::Mat& block, double& ocl )
+bool OCLHistogramFeature::getOCLValueOfBlock( const cv::Mat& block, double& ocl )
 {
   double eigv_max = 0.0, eigv_min = 0.0;
   // compute the numerical gradients of the block
@@ -167,12 +167,12 @@ bool OCLHistogramFeature::getOCLValueOfBlock ( const cv::Mat& block, double& ocl
 }
 
 
-std::string OCLHistogramFeature::getModuleID ()
+std::string OCLHistogramFeature::getModuleID()
 {
   return "NFIQ2_OCLHistogram";
 }
 
-std::list<std::string> OCLHistogramFeature::getAllFeatureIDs ()
+std::list<std::string> OCLHistogramFeature::getAllFeatureIDs()
 {
   std::list<std::string> featureIDs;
 #if HISTOGRAM_FEATURES

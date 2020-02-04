@@ -64,8 +64,8 @@ const std::string c_ErrorMessages[] =
   /* 53 */ "Cannot get minutiae data"
 };
 
-NFIQException::NFIQException ( uint32_t returnCode )
-  : m_ReturnCode ( returnCode )
+NFIQException::NFIQException( uint32_t returnCode )
+  : m_ReturnCode( returnCode )
 {
   m_ErrorMessage = c_ErrorMessages[returnCode];
   if( m_ErrorMessage.compare( "" ) == 0 )
@@ -74,18 +74,18 @@ NFIQException::NFIQException ( uint32_t returnCode )
   }
 }
 
-NFIQException::NFIQException ( uint32_t returnCode, std::string errorMessage )
-  : m_ReturnCode ( returnCode ),
-    m_ErrorMessage ( errorMessage )
+NFIQException::NFIQException( uint32_t returnCode, std::string errorMessage )
+  : m_ReturnCode( returnCode ),
+    m_ErrorMessage( errorMessage )
 {
 }
 
-NFIQException::~NFIQException () noexcept
+NFIQException::~NFIQException() noexcept
 {
 
 }
 
-const char* NFIQException::what () const noexcept
+const char* NFIQException::what() const noexcept
 {
   return m_ErrorMessage.c_str();
 }

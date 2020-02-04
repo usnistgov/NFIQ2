@@ -23,7 +23,7 @@ extern int version_build;
 // static object to load the algorithm only once (random forest init!)
 std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
 
-std::string GetYamlFilePath ()
+std::string GetYamlFilePath()
 {
   std::string p;
 

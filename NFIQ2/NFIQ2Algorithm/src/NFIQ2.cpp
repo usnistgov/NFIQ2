@@ -20,7 +20,7 @@
 
 using namespace NFIQ;
 
-void printUsage ()
+void printUsage()
 {
   std::cout << "USAGE:" << std::endl;
   std::cout << "  NFIQ2 <runMode> [specific run mode arguments]" << std::endl;
@@ -65,7 +65,7 @@ void printUsage ()
 }
 
 
-std::vector<std::string> getFileContent ( const std::string& fileName )
+std::vector<std::string> getFileContent( const std::string& fileName )
 {
   std::vector<std::string> vecLines;
 
@@ -93,7 +93,7 @@ std::vector<std::string> getFileContent ( const std::string& fileName )
   return vecLines;
 }
 
-int executeRunModeSingle ( std::string fpImagePath, std::string imageFormat, bool bOutputFeatureData, bool bOutputSpeed )
+int executeRunModeSingle( std::string fpImagePath, std::string imageFormat, bool bOutputFeatureData, bool bOutputSpeed )
 {
   try
   {
@@ -210,8 +210,8 @@ int executeRunModeSingle ( std::string fpImagePath, std::string imageFormat, boo
   return 0;
 }
 
-int executeRunModeBatch ( std::string fpImageListPath, std::string imageFormat, std::string resultListPath,
-                          bool bOutputFeatureData, bool bOutputSpeed, std::string speedOutputPath )
+int executeRunModeBatch( std::string fpImageListPath, std::string imageFormat, std::string resultListPath,
+                         bool bOutputFeatureData, bool bOutputSpeed, std::string speedOutputPath )
 {
   try
   {
@@ -436,7 +436,7 @@ int executeRunModeBatch ( std::string fpImageListPath, std::string imageFormat, 
   return 0;
 }
 
-int executeRunModeShared ( LIBHANDLE hLib, std::string fpImagePath, std::string imageFormat )
+int executeRunModeShared( LIBHANDLE hLib, std::string fpImagePath, std::string imageFormat )
 {
   try
   {
@@ -522,7 +522,7 @@ int executeRunModeShared ( LIBHANDLE hLib, std::string fpImagePath, std::string 
 }
 
 
-int main ( int argc, const char* argv[] )
+int main( int argc, const char* argv[] )
 {
   try
   {

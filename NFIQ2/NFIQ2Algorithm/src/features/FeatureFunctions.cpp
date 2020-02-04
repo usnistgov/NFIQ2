@@ -35,9 +35,9 @@ From the matlab code:
 % specify is relative to a unit standard deviation.
 ***/
 
-void ridgesegment ( const Mat& img, int blksze, double thresh,
-                    OutputArray _normImage, Mat& maskImage,
-                    OutputArray _maskIndex )
+void ridgesegment( const Mat& img, int blksze, double thresh,
+                   OutputArray _normImage, Mat& maskImage,
+                   OutputArray _maskIndex )
 
 {
 
@@ -143,7 +143,7 @@ void ridgesegment ( const Mat& img, int blksze, double thresh,
 %   c         - param c of covariance matix [a c; c b]
 %
 ***/
-void covcoef ( const cv::Mat& imblock, double& a, double& b, double& c, ocl_type compMethod )
+void covcoef( const cv::Mat& imblock, double& a, double& b, double& c, ocl_type compMethod )
 {
 
   /*** Compute the gradient of the input block.  In Matlab, this is done
@@ -232,7 +232,7 @@ function orientang = ridgeorient(a, b, c)
 % FIT VUT, Czech Republic & CASED, Germany
 ***/
 
-double ridgeorient ( double a, double b, double c )
+double ridgeorient( double a, double b, double c )
 {
   double denom, sin2theta, cos2theta, orientang;
   double temp;
@@ -248,7 +248,7 @@ double ridgeorient ( double a, double b, double c )
 
 /////////////////////////////////////////////////////////////////////////
 
-uint8_t allfun ( const Mat& Image )
+uint8_t allfun( const Mat& Image )
 /*** Returns 1 if all elements are nonzero, 0 otherwise.
 % Equivalent to matlab:
 % all elements of x should be nonzero, otherwise flag a
@@ -283,7 +283,7 @@ allfun = inline('all(x(:))');
 forward differences at the edges and central differences elsewhere.
 Spacing is 1.  The input matrix is assumed to be 64-bit floating point
 */
-void diffGrad ( const Mat& inBlock, Mat& outBlock )
+void diffGrad( const Mat& inBlock, Mat& outBlock )
 {
   outBlock.create( inBlock.size(), CV_64F );
 
@@ -304,7 +304,7 @@ void diffGrad ( const Mat& inBlock, Mat& outBlock )
 }
 
 //////////////////////////////////////////////////////////////
-void getRotatedBlock ( const Mat& block, const double orientation, bool padFlag, Mat& rotatedBlock )
+void getRotatedBlock( const Mat& block, const double orientation, bool padFlag, Mat& rotatedBlock )
 {
   const double Rad2Deg = 180.0 / M_PI;
   Mat rot_mat( 2, 3, CV_64F );
@@ -347,7 +347,7 @@ void getRotatedBlock ( const Mat& block, const double orientation, bool padFlag,
   return;
 }
 //////////////////////////////////////////////////////////////////////////////
-void getRidgeValleyStructure ( const Mat& blockCropped, std::vector<uint8_t>& ridval, std::vector<double>& dt )
+void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& ridval, std::vector<double>& dt )
 {
 
   // average profile of blockCropped: Compute average of each column to get a projection of the grey
@@ -426,7 +426,7 @@ void getRidgeValleyStructure ( const Mat& blockCropped, std::vector<uint8_t>& ri
 * @param ps    psi (in degrees) is the phase offset
 * @return
 */
-void GaborFilterCx ( const int ksize, const double theta, const double freq, const int sigma, Mat& FilterOut )
+void GaborFilterCx( const int ksize, const double theta, const double freq, const int sigma, Mat& FilterOut )
 {
   int ks2 = ( ksize - 1 ) / 2;
   double x1, y1;
@@ -452,8 +452,8 @@ void GaborFilterCx ( const int ksize, const double theta, const double freq, con
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void Conv2D ( const Mat& imDFT, const Mat& filter, Mat& ConvOut, const Size& imageSize, const Size& dftSize,
-              bool imDFTFlag )
+void Conv2D( const Mat& imDFT, const Mat& filter, Mat& ConvOut, const Size& imageSize, const Size& dftSize,
+             bool imDFTFlag )
 {
   int kernSize = filter.rows;
   int OutType = filter.type();
@@ -484,13 +484,13 @@ void Conv2D ( const Mat& imDFT, const Mat& filter, Mat& ConvOut, const Size& ima
 
 ////////////////////////////////////////
 //compute coherence for COH/CS
-double calccoh ( double gxx, double gyy, double gxy )
+double calccoh( double gxx, double gyy, double gxy )
 {
   return sqrt( ( gxx - gyy ) * ( gxx - gyy ) + 4 * gxy * gxy ) / ( gxx + gyy );
 }
 
 
-double calcof ( double gsxavg, double gsyavg )
+double calcof( double gsxavg, double gsyavg )
 {
   double theta = 0;
   double phi = atan2( gsyavg, gsxavg );
@@ -506,7 +506,7 @@ double calcof ( double gsxavg, double gsyavg )
 }
 
 
-cv::Mat computeNumericalGradientX ( const cv::Mat& mat )
+cv::Mat computeNumericalGradientX( const cv::Mat& mat )
 {
   cv::Mat out( mat.rows, mat.cols, CV_64F );
 
@@ -525,7 +525,7 @@ cv::Mat computeNumericalGradientX ( const cv::Mat& mat )
   return out;
 }
 
-void computeNumericalGradients ( const cv::Mat& mat, cv::Mat& grad_x, cv::Mat& grad_y )
+void computeNumericalGradients( const cv::Mat& mat, cv::Mat& grad_x, cv::Mat& grad_y )
 {
   // get x-gradient
   grad_x = computeNumericalGradientX( mat );
@@ -533,8 +533,8 @@ void computeNumericalGradients ( const cv::Mat& mat, cv::Mat& grad_x, cv::Mat& g
   grad_y = computeNumericalGradientX( mat.t() ).t();
 }
 
-void addSamplingFeatures ( std::list<NFIQ::QualityFeatureResult>& featureDataList, std::string featurePrefix,
-                           std::vector<double>& dataVector )
+void addSamplingFeatures( std::list<NFIQ::QualityFeatureResult>& featureDataList, std::string featurePrefix,
+                          std::vector<double>& dataVector )
 {
   const int sampleSize = dataVector.size();
 
@@ -575,8 +575,8 @@ void addSamplingFeatures ( std::list<NFIQ::QualityFeatureResult>& featureDataLis
   }
 }
 
-void addHistogramFeatures ( std::list<NFIQ::QualityFeatureResult>& featureDataList, std::string featurePrefix,
-                            std::vector<double>& binBoundaries, std::vector<double>& dataVector, int binCount )
+void addHistogramFeatures( std::list<NFIQ::QualityFeatureResult>& featureDataList, std::string featurePrefix,
+                           std::vector<double>& binBoundaries, std::vector<double>& dataVector, int binCount )
 {
   binBoundaries.push_back( std::numeric_limits<double>::infinity() );
 
@@ -659,7 +659,7 @@ void addHistogramFeatures ( std::list<NFIQ::QualityFeatureResult>& featureDataLi
   }
 }
 
-void addSamplingFeatureNames ( std::list<std::string>& featureNames, const char* prefix )
+void addSamplingFeatureNames( std::list<std::string>& featureNames, const char* prefix )
 {
   for( int i = 0; i < maxSampleCount; i++ )
   {
@@ -669,7 +669,7 @@ void addSamplingFeatureNames ( std::list<std::string>& featureNames, const char*
   }
 }
 
-void addHistogramFeatureNames ( std::list<std::string>& featureNames, const char* prefix, int binCount )
+void addHistogramFeatureNames( std::list<std::string>& featureNames, const char* prefix, int binCount )
 {
   for( int i = 0; i < binCount; i++ )
   {

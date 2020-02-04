@@ -15,21 +15,21 @@
 using namespace NFIQ;
 using namespace cv;
 
-double loclar ( Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const int scres,
-                const bool padFlag );
+double loclar( Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const int scres,
+               const bool padFlag );
 
 #define HISTOGRAM_FEATURES 1
 
-LCSFeature::~LCSFeature ()
+LCSFeature::~LCSFeature()
 {
 }
 
-std::string LCSFeature::getModuleID ()
+std::string LCSFeature::getModuleID()
 {
   return "NFIQ2_LCS";
 }
 
-std::list<std::string> LCSFeature::getAllFeatureIDs ()
+std::list<std::string> LCSFeature::getAllFeatureIDs()
 {
   std::list<std::string> featureIDs;
 #if HISTOGRAM_FEATURES
@@ -39,7 +39,7 @@ std::list<std::string> LCSFeature::getAllFeatureIDs ()
 }
 
 
-std::list<NFIQ::QualityFeatureResult> LCSFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> LCSFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
   std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -208,8 +208,8 @@ std::list<NFIQ::QualityFeatureResult> LCSFeature::computeFeatureData (
 % FIT VUT, Czech Republic & CASED, Germany
 ***/
 
-double loclar ( Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const int screenRes,
-                const bool padFlag )
+double loclar( Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const int screenRes,
+               const bool padFlag )
 {
 
   // sanity check: check block size

@@ -63,7 +63,7 @@ NFIQ2Algorithm::Impl::~Impl()
 std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures(
   const NFIQ::FingerprintImageData& rawImage,
   bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
-  bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues )
+  bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed )
 {
   std::list<NFIQ::QualityFeatureData> featureVector;
 
@@ -74,7 +74,7 @@ std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures
   // compute contrast features
   // MMB
   // Mu
-  MuFeature muFeatureModule( bOutputSpeed, speedValues );
+  MuFeature muFeatureModule( bOutputSpeed, qualityFeatureSpeed );
   double sigma = 255.0;
   std::list<NFIQ::QualityFeatureResult> muFeatures = muFeatureModule.computeFeatureData( rawImage, sigma );
 

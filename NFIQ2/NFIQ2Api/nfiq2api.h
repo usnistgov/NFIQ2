@@ -4,7 +4,7 @@
 # define STDCALL __stdcall
 #else
 # define DLLEXPORT __attribute__ ((visibility ("default")))
-# define STDCALL
+# define STDCALL __attribute__((stdcall))
 #endif
 
 #ifdef _MSC_VER

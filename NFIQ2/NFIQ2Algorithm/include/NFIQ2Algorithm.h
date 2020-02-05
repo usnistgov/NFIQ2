@@ -58,6 +58,21 @@ namespace NFIQ
 
       /**
        * @brief
+       * Computes the quality feature vector from the input fingerprint image
+       * data.
+       *
+       * @param rawImage
+       * Fingerprint image in raw format
+       *
+       * @return
+       * Computed quality feature fector
+       */
+      std::list<NFIQ::QualityFeatureData> 
+        computeQualityFeatures(
+          const NFIQ::FingerprintImageData& rawImage );
+
+      /**
+       * @brief
        * Obtain MD5 checksum of Random Forest parameter file loaded.
        *
        * @return

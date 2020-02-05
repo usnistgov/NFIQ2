@@ -35,6 +35,18 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
              qualityFeatureSpeed ) );
 }
 
+std::list<NFIQ::QualityFeatureData> NFIQ::NFIQ2Algorithm::computeQualityFeatures(
+  const NFIQ::FingerprintImageData& rawImage )
+{
+	std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
+	std::list<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed;
+  
+	return ( this->pimpl->computeQualityFeatures(
+			rawImage,
+			false, actionableQuality,
+			false, qualityFeatureSpeed ) );
+}
+
 std::string
 NFIQ::NFIQ2Algorithm::getParameterHash()
 const

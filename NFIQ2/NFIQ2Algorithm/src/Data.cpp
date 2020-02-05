@@ -5,30 +5,30 @@
 using namespace std;
 using namespace NFIQ;
 
-Data::Data ()
+Data::Data()
 {
 }
 
-Data::Data ( const uint8_t* pData, uint32_t dataSize )
+Data::Data( const uint8_t* pData, uint32_t dataSize )
   : std::basic_string<uint8_t> ( pData, dataSize )
 {
 }
 
-Data::Data ( const Data& otherData )
+Data::Data( const Data& otherData )
   : std::basic_string<uint8_t> ( otherData )
 {
 }
 
-Data::Data ( const std::basic_string<uint8_t>& otherData )
+Data::Data( const std::basic_string<uint8_t>& otherData )
   : std::basic_string<uint8_t> ( otherData )
 {
 }
 
-Data::~Data ()
+Data::~Data()
 {
 }
 
-void Data::writeToFile ( const std::string& filename ) const
+void Data::writeToFile( const std::string& filename ) const
 {
   bool success = false;
   if( !filename.empty( ) )
@@ -52,7 +52,7 @@ void Data::writeToFile ( const std::string& filename ) const
   }
 }
 
-void Data::readFromFile ( const std::string& filename )
+void Data::readFromFile( const std::string& filename )
 {
   bool success = false;
   if( !filename.empty( ) )
@@ -95,7 +95,7 @@ void Data::readFromFile ( const std::string& filename )
   }
 }
 
-std::string Data::toHexString () const
+std::string Data::toHexString() const
 {
   if( this->size() <= 0 )
   {
@@ -117,7 +117,7 @@ std::string Data::toHexString () const
   return ss.str();
 }
 
-void Data::fromBase64String ( const std::string& base64String )
+void Data::fromBase64String( const std::string& base64String )
 {
   const char* ptr = base64String.data();
   size_t len = base64String.size();
@@ -191,7 +191,7 @@ void Data::fromBase64String ( const std::string& base64String )
   }
 }
 
-std::string Data::toBase64String () const
+std::string Data::toBase64String() const
 {
   const char base64Lookup[65] =
   {

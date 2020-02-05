@@ -10,7 +10,7 @@ If you can reproduce a problem, please submit as much information as possible in
 
 ### Formatting
 
-We are using [`astyle`](http://astyle.sourceforge.net) to format our code. A configuration file, `astyle.conf`, is at the root of our repository. Please write code however you want, but before submitting a pull request, run it through `astyle` using the supplied configuration. You may consider adding a git hook script to do this automatically. We've supplied a sample hook script below.
+We are using [`astyle`](http://astyle.sourceforge.net) to format our code. A configuration file, `.astylerc`, is at the root of our repository. Please write code however you want, but before submitting a pull request, run it through `astyle` using the supplied configuration. You may consider adding a git hook script to do this automatically. We've supplied a sample hook script below.
 
 <details>
 	<summary><em>Expand to view an example git hook script.</em></summary>

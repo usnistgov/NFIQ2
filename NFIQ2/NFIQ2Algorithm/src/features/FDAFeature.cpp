@@ -20,15 +20,15 @@
 using namespace NFIQ;
 using namespace cv;
 
-double fda ( const Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const bool padFlag );
+double fda( const Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const bool padFlag );
 
 #define HISTOGRAM_FEATURES 1
 
-FDAFeature::~FDAFeature ()
+FDAFeature::~FDAFeature()
 {
 }
 
-std::list<std::string> FDAFeature::getAllFeatureIDs ()
+std::list<std::string> FDAFeature::getAllFeatureIDs()
 {
   std::list<std::string> featureIDs;
 #if HISTOGRAM_FEATURES
@@ -37,12 +37,12 @@ std::list<std::string> FDAFeature::getAllFeatureIDs ()
   return featureIDs;
 }
 
-std::string FDAFeature::getModuleID ()
+std::string FDAFeature::getModuleID()
 {
   return "NFIQ2_FDA";
 }
 
-std::list<NFIQ::QualityFeatureResult> FDAFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> FDAFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
 
@@ -216,7 +216,7 @@ std::list<NFIQ::QualityFeatureResult> FDAFeature::computeFeatureData (
 % 2011 Biometric Systems, Kenneth Skovhus Andersen & Lasse Bach Nielsen
 % The Technical University of Denmark, DTU
 */
-double fda ( const Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const bool padFlag )
+double fda( const Mat& block, const double orientation, const int v1sz_x, const int v1sz_y, const bool padFlag )
 {
   // sanity check: check block size
   float cBlock = static_cast<float>( block.rows ) / 2; // square block

@@ -9,12 +9,12 @@
 using namespace NFIQ;
 using namespace cv;
 
-ImgProcROIFeature::~ImgProcROIFeature ()
+ImgProcROIFeature::~ImgProcROIFeature()
 {
 
 }
 
-std::list<NFIQ::QualityFeatureResult> ImgProcROIFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> ImgProcROIFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage, ImgProcROIFeature::ImgProcROIResults& imgProcResults )
 {
   std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -85,19 +85,19 @@ std::list<NFIQ::QualityFeatureResult> ImgProcROIFeature::computeFeatureData (
   return featureDataList;
 }
 
-std::string ImgProcROIFeature::getModuleID ()
+std::string ImgProcROIFeature::getModuleID()
 {
   return "NFIQ2_ImgProcROI";
 }
 
-std::list<std::string> ImgProcROIFeature::getAllFeatureIDs ()
+std::list<std::string> ImgProcROIFeature::getAllFeatureIDs()
 {
   std::list<std::string> featureIDs;
   featureIDs.push_back( "ImgProcROIArea_Mean" );
   return featureIDs;
 }
 
-ImgProcROIFeature::ImgProcROIResults ImgProcROIFeature::computeROI ( cv::Mat& img, unsigned int bs )
+ImgProcROIFeature::ImgProcROIResults ImgProcROIFeature::computeROI( cv::Mat& img, unsigned int bs )
 {
   ImgProcROIResults roiResults;
 
@@ -299,7 +299,7 @@ ImgProcROIFeature::ImgProcROIResults ImgProcROIFeature::computeROI ( cv::Mat& im
   return roiResults;
 }
 
-bool ImgProcROIFeature::isBlackPixelAvailable ( cv::Mat& img, cv::Point& point )
+bool ImgProcROIFeature::isBlackPixelAvailable( cv::Mat& img, cv::Point& point )
 {
   bool found = false;
   for( int i = 0; i < img.rows; i++ )

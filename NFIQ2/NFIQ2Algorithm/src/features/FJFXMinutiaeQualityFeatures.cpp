@@ -12,12 +12,12 @@
 using namespace NFIQ;
 using namespace cv;
 
-FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature ()
+FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
 {
 
 }
 
-std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage, unsigned char templateData[], size_t& templateSize, bool& templateCouldBeExtracted )
 {
 #ifndef WITHOUT_BIOMDI_SUPPORT
@@ -291,12 +291,12 @@ std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeature
 #endif
 }
 
-std::string FJFXMinutiaeQualityFeature::getModuleID ()
+std::string FJFXMinutiaeQualityFeature::getModuleID()
 {
   return "NFIQ2_FJFXPos_MinutiaeQuality";
 }
 
-std::list<std::string> FJFXMinutiaeQualityFeature::getAllFeatureIDs ()
+std::list<std::string> FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
 #ifndef WITHOUT_BIOMDI_SUPPORT
   std::list<std::string> featureIDs;
@@ -313,7 +313,7 @@ std::list<std::string> FJFXMinutiaeQualityFeature::getAllFeatureIDs ()
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
 
-std::vector<FJFXMinutiaeQualityFeature::MinutiaData> FJFXMinutiaeQualityFeature::computeMuMinQuality (
+std::vector<FJFXMinutiaeQualityFeature::MinutiaData> FJFXMinutiaeQualityFeature::computeMuMinQuality(
   struct finger_minutiae_data** fmds, unsigned int minCount,
   int bs, const NFIQ::FingerprintImageData& fingerprintImage )
 {
@@ -372,7 +372,7 @@ std::vector<FJFXMinutiaeQualityFeature::MinutiaData> FJFXMinutiaeQualityFeature:
   return vecMinData;
 }
 
-std::vector<FJFXMinutiaeQualityFeature::MinutiaData> FJFXMinutiaeQualityFeature::computeOCLMinQuality (
+std::vector<FJFXMinutiaeQualityFeature::MinutiaData> FJFXMinutiaeQualityFeature::computeOCLMinQuality(
   struct finger_minutiae_data** fmds, unsigned int minCount,
   int bs, const NFIQ::FingerprintImageData& fingerprintImage )
 {

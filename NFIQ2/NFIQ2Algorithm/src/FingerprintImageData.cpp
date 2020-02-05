@@ -8,48 +8,48 @@ int debug = 0;
 
 using namespace NFIQ;
 
-FingerprintImageData::FingerprintImageData ()
-  : Data (),
-    m_ImageWidth ( 0 ),
-    m_ImageHeight ( 0 ),
-    m_FingerCode ( 0 ),
-    m_ImageDPI ( NFIQ::e_ImageResolution_500dpi )
+FingerprintImageData::FingerprintImageData()
+  : Data(),
+    m_ImageWidth( 0 ),
+    m_ImageHeight( 0 ),
+    m_FingerCode( 0 ),
+    m_ImageDPI( NFIQ::e_ImageResolution_500dpi )
 {
 
 }
 
-FingerprintImageData::FingerprintImageData (
+FingerprintImageData::FingerprintImageData(
   uint32_t imageWidth,
   uint32_t imageHeight,
   uint8_t fingerCode,
   uint16_t imageDPI )
-  : Data (),
-    m_ImageWidth ( imageWidth ),
-    m_ImageHeight ( imageHeight ),
-    m_FingerCode ( fingerCode ),
-    m_ImageDPI ( imageDPI )
+  : Data(),
+    m_ImageWidth( imageWidth ),
+    m_ImageHeight( imageHeight ),
+    m_FingerCode( fingerCode ),
+    m_ImageDPI( imageDPI )
 {
 
 }
 
-FingerprintImageData::FingerprintImageData (
+FingerprintImageData::FingerprintImageData(
   const uint8_t* pData,
   uint32_t dataSize,
   uint32_t imageWidth,
   uint32_t imageHeight,
   uint8_t fingerCode,
   uint16_t imageDPI )
-  : Data ( pData, dataSize ),
-    m_ImageWidth ( imageWidth ),
-    m_ImageHeight ( imageHeight ),
-    m_FingerCode ( fingerCode ),
-    m_ImageDPI ( imageDPI )
+  : Data( pData, dataSize ),
+    m_ImageWidth( imageWidth ),
+    m_ImageHeight( imageHeight ),
+    m_FingerCode( fingerCode ),
+    m_ImageDPI( imageDPI )
 {
 
 }
 
-FingerprintImageData::FingerprintImageData ( const FingerprintImageData& otherData )
-  : Data ( otherData )
+FingerprintImageData::FingerprintImageData( const FingerprintImageData& otherData )
+  : Data( otherData )
 {
   m_ImageWidth = otherData.m_ImageWidth;
   m_ImageHeight = otherData.m_ImageHeight;
@@ -57,11 +57,11 @@ FingerprintImageData::FingerprintImageData ( const FingerprintImageData& otherDa
   m_ImageDPI = otherData.m_ImageDPI;
 }
 
-FingerprintImageData::~FingerprintImageData ()
+FingerprintImageData::~FingerprintImageData()
 {
 }
 
-NFIQ::FingerprintImageData FingerprintImageData::toBMP ( bool topDown )
+NFIQ::FingerprintImageData FingerprintImageData::toBMP( bool topDown )
 {
   // information is retrieved from member variables
   // as information needs to available for raw data
@@ -137,7 +137,7 @@ NFIQ::FingerprintImageData FingerprintImageData::toBMP ( bool topDown )
   return bmpData;
 }
 
-void FingerprintImageData::fromBMP ( NFIQ::FingerprintImageData& bmpData )
+void FingerprintImageData::fromBMP( NFIQ::FingerprintImageData& bmpData )
 {
   // ignore member variables (i.e. height and width) of bmpData
   // because they might not yet have been set properly
@@ -280,7 +280,7 @@ void FingerprintImageData::fromBMP ( NFIQ::FingerprintImageData& bmpData )
 
 }
 
-NFIQ::FingerprintImageData FingerprintImageData::toWSQ ( float compressionRate )
+NFIQ::FingerprintImageData FingerprintImageData::toWSQ( float compressionRate )
 {
   // information is retrieved from member variables
   // as information needs to available for raw data
@@ -322,7 +322,7 @@ NFIQ::FingerprintImageData FingerprintImageData::toWSQ ( float compressionRate )
   return wsqData;
 }
 
-void FingerprintImageData::fromWSQ ( NFIQ::FingerprintImageData& wsqData )
+void FingerprintImageData::fromWSQ( NFIQ::FingerprintImageData& wsqData )
 {
   // ignore member variables (i.e. height and width) of wsqData
   // because they might not yet have been set properly
@@ -370,7 +370,7 @@ void FingerprintImageData::fromWSQ ( NFIQ::FingerprintImageData& wsqData )
   free( raw_data );
 }
 
-NFIQ::FingerprintImageData FingerprintImageData::removeWhiteFrameAroundFingerprint ()
+NFIQ::FingerprintImageData FingerprintImageData::removeWhiteFrameAroundFingerprint()
 {
   // make local copy of internal fingerprint image
   NFIQ::FingerprintImageData localFingerprintImage( this->m_ImageWidth, this->m_ImageHeight,
@@ -509,7 +509,7 @@ NFIQ::FingerprintImageData FingerprintImageData::removeWhiteFrameAroundFingerpri
   return croppedImage;
 }
 
-double FingerprintImageData::computeMuFromRow ( unsigned int rowIndex, cv::Mat& img )
+double FingerprintImageData::computeMuFromRow( unsigned int rowIndex, cv::Mat& img )
 {
   double mu = 0.0;
   for( int j = 0; j < img.cols; j++ )
@@ -522,7 +522,7 @@ double FingerprintImageData::computeMuFromRow ( unsigned int rowIndex, cv::Mat& 
   return mu;
 }
 
-double FingerprintImageData::computeMuFromColumn ( unsigned int columnIndex, cv::Mat& img )
+double FingerprintImageData::computeMuFromColumn( unsigned int columnIndex, cv::Mat& img )
 {
   double mu = 0.0;
   for( int i = 0; i < img.rows; i++ )
@@ -535,7 +535,7 @@ double FingerprintImageData::computeMuFromColumn ( unsigned int columnIndex, cv:
   return mu;
 }
 
-bool FingerprintImageData::read_buf ( void* dest, unsigned int dest_size, const unsigned char*& buf, unsigned int& buf_len )
+bool FingerprintImageData::read_buf( void* dest, unsigned int dest_size, const unsigned char*& buf, unsigned int& buf_len )
 {
   bool success = true;
 
@@ -555,7 +555,7 @@ bool FingerprintImageData::read_buf ( void* dest, unsigned int dest_size, const 
   return success;
 }
 
-bool FingerprintImageData::write_buf ( void* src, unsigned int src_size, unsigned char*& buf, unsigned int& buf_len )
+bool FingerprintImageData::write_buf( void* src, unsigned int src_size, unsigned char*& buf, unsigned int& buf_len )
 {
   bool success = true;
 

@@ -25,7 +25,7 @@
 #define QUALITY_SCORE_NOT_AVAILABLE 255
 
 #if defined(__linux) && defined(__i386__)
-void set_fpu ( unsigned int mode )
+void set_fpu( unsigned int mode )
 {
   asm( "fldcw %0" : : "m"(*& mode ) );
 }
@@ -37,7 +37,7 @@ using namespace std;
 using namespace cv;
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ2Algorithm::Impl::Impl ()
+NFIQ2Algorithm::Impl::Impl()
 {
 #if defined(__linux) && defined(__i386__)
   set_fpu( 0x27F ); /* use double-precision rounding */
@@ -47,7 +47,7 @@ NFIQ2Algorithm::Impl::Impl ()
 }
 #endif
 
-NFIQ2Algorithm::Impl::Impl ( const std::string& fileName, const std::string& fileHash )
+NFIQ2Algorithm::Impl::Impl( const std::string& fileName, const std::string& fileHash )
 {
 #if defined(__linux) && defined(__i386__)
   set_fpu( 0x27F ); /* use double-precision rounding */
@@ -56,11 +56,11 @@ NFIQ2Algorithm::Impl::Impl ( const std::string& fileName, const std::string& fil
   this->m_parameterHash = m_RandomForestML.initModule( fileName, fileHash );
 }
 
-NFIQ2Algorithm::Impl::~Impl ()
+NFIQ2Algorithm::Impl::~Impl()
 {
 }
 
-std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures (
+std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures(
   const NFIQ::FingerprintImageData& rawImage,
   bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
   bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues )
@@ -366,7 +366,7 @@ std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures
   return featureVector;
 }
 
-double NFIQ2Algorithm::Impl::getQualityPrediction ( std::list<NFIQ::QualityFeatureData>& featureVector )
+double NFIQ2Algorithm::Impl::getQualityPrediction( std::list<NFIQ::QualityFeatureData>& featureVector )
 {
   const double utility = 0.0;
   double deviation = 0.0;
@@ -376,7 +376,7 @@ double NFIQ2Algorithm::Impl::getQualityPrediction ( std::list<NFIQ::QualityFeatu
   return quality;
 }
 
-unsigned int NFIQ2Algorithm::Impl::computeQualityScore (
+unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
   NFIQ::FingerprintImageData rawImage,
   bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
   bool bOutputFeatures, std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
@@ -428,7 +428,7 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore (
 }
 
 std::string
-NFIQ2Algorithm::Impl::getParameterHash ()
+NFIQ2Algorithm::Impl::getParameterHash()
 const
 {
   return ( this->m_parameterHash );

@@ -23,16 +23,16 @@ using namespace cv;
 
 #define HISTOGRAM_FEATURES 1
 
-OFFeature::~OFFeature ()
+OFFeature::~OFFeature()
 {
 }
 
-std::string OFFeature::getModuleID ()
+std::string OFFeature::getModuleID()
 {
   return "NFIQ2_OF";
 }
 
-std::list<std::string> OFFeature::getAllFeatureIDs ()
+std::list<std::string> OFFeature::getAllFeatureIDs()
 {
   std::list<std::string> featureIDs;
 #if HISTOGRAM_FEATURES
@@ -41,7 +41,7 @@ std::list<std::string> OFFeature::getAllFeatureIDs ()
   return featureIDs;
 }
 
-std::list<NFIQ::QualityFeatureResult> OFFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> OFFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
   std::list<NFIQ::QualityFeatureResult> featureDataList;

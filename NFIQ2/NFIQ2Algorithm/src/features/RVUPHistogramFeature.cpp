@@ -17,16 +17,16 @@ using namespace NFIQ;
 using namespace cv;
 using namespace std;
 
-void rvuhist ( Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
-               bool padFlag, std::vector<double>& ratios, std::vector<uint8_t>& Nans );
+void rvuhist( Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
+              bool padFlag, std::vector<double>& ratios, std::vector<uint8_t>& Nans );
 
 #define HISTOGRAM_FEATURES 1
 
-RVUPHistogramFeature::~RVUPHistogramFeature ()
+RVUPHistogramFeature::~RVUPHistogramFeature()
 {
 }
 
-std::list<NFIQ::QualityFeatureResult> RVUPHistogramFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> RVUPHistogramFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
   std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -165,12 +165,12 @@ std::list<NFIQ::QualityFeatureResult> RVUPHistogramFeature::computeFeatureData (
   return featureDataList;
 }
 
-std::string RVUPHistogramFeature::getModuleID ()
+std::string RVUPHistogramFeature::getModuleID()
 {
   return "NFIQ2_RVUPHistogram";
 }
 
-std::list<std::string> RVUPHistogramFeature::getAllFeatureIDs ()
+std::list<std::string> RVUPHistogramFeature::getAllFeatureIDs()
 {
   std::list<std::string> featureIDs;
 #if HISTOGRAM_FEATURES
@@ -206,8 +206,8 @@ function [ratios, blockRotated, blockCropped, v3, x, dt1, dt, ridval, change, ri
 % The Technical University of Denmark, DTU
 ***/
 
-void rvuhist ( Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
-               bool padFlag, std::vector<double>& rvures, std::vector<uint8_t>& NaNvec )
+void rvuhist( Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
+              bool padFlag, std::vector<double>& rvures, std::vector<uint8_t>& NaNvec )
 {
 
   // sanity check: check block size

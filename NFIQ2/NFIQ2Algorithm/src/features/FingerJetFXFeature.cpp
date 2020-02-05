@@ -11,23 +11,23 @@ using namespace NFIQ;
 
 int cMem = 0;
 
-static void* m_malloc ( size_t size, void* _ )
+static void* m_malloc( size_t size, void* _ )
 {
   ++cMem;
   return malloc( size );
 }
-static void m_free ( void* p, void* _ )
+static void m_free( void* p, void* _ )
 {
   free( p );
   --cMem;
 }
 
-FingerJetFXFeature::~FingerJetFXFeature ()
+FingerJetFXFeature::~FingerJetFXFeature()
 {
 
 }
 
-std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData (
+std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
   const NFIQ::FingerprintImageData fingerprintImage, unsigned char templateData[], size_t& templateSize, bool& templateCouldBeExtracted )
 {
   templateCouldBeExtracted = false;
@@ -311,12 +311,12 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData (
 #endif
 }
 
-std::string FingerJetFXFeature::getModuleID ()
+std::string FingerJetFXFeature::getModuleID()
 {
   return "NFIQ2_FingerJetFX";
 }
 
-std::list<std::string> FingerJetFXFeature::getAllFeatureIDs ()
+std::list<std::string> FingerJetFXFeature::getAllFeatureIDs()
 {
 #ifndef WITHOUT_BIOMDI_SUPPORT
   std::list<std::string> featureIDs;
@@ -330,7 +330,7 @@ std::list<std::string> FingerJetFXFeature::getAllFeatureIDs ()
 #endif
 }
 
-FRFXLL_RESULT FingerJetFXFeature::createContext ( FRFXLL_HANDLE_PT phContext )
+FRFXLL_RESULT FingerJetFXFeature::createContext( FRFXLL_HANDLE_PT phContext )
 {
   FRFXLL_RESULT rc = FRFXLL_OK;
 
@@ -354,7 +354,7 @@ FRFXLL_RESULT FingerJetFXFeature::createContext ( FRFXLL_HANDLE_PT phContext )
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
 
-FingerJetFXFeature::FJFXROIResults FingerJetFXFeature::computeROI ( struct finger_minutiae_data** fmds, unsigned int minCount,
+FingerJetFXFeature::FJFXROIResults FingerJetFXFeature::computeROI( struct finger_minutiae_data** fmds, unsigned int minCount,
     int bs, const NFIQ::FingerprintImageData& fingerprintImage, std::vector<FingerJetFXFeature::Object> vecRectDimensions )
 {
   unsigned int fpHeight = fingerprintImage.m_ImageHeight;

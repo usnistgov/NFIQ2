@@ -66,6 +66,23 @@ namespace NFIQ
         bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed );
 
       /**
+      * @fn computeQualityFeatures
+      * @brief Computes the quality feature vector from the input fingerprint image data
+      * @param rawImage fingerprint image in raw format
+      * @param bComputeActionableQuality if to compute actionable quality flags or not
+      * @param actionableQuality compute actionable quality values
+      * @param bOutputFeatures if to output feature values
+      * @param qualityfeatureData list of computed feature data values
+      * @param bOutputSpeed if to output speed of computed features
+      * @param qualityFeatureSpeed list of feature computation speed
+      * @return vector with the computed feature values
+      */
+      std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
+        const NFIQ::FingerprintImageData& rawImage,
+        bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
+        bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed );
+
+      /**
        * @brief
        * Obtain MD5 checksum of Random Forest parameter file loaded.
        *
@@ -77,10 +94,6 @@ namespace NFIQ
       const;
 
     private:
-      std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
-        const NFIQ::FingerprintImageData& rawImage,
-        bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
-        bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues );
       double getQualityPrediction( std::list<NFIQ::QualityFeatureData>& featureVector );
 
       RandomForestML m_RandomForestML;

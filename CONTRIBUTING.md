@@ -45,7 +45,7 @@ if [ "${run_astyle}" == "true" ]; then
 	
 	# Style with astyle
 	repo_root="$(git rev-parse --show-toplevel)"
-	"${astyle_exe}" --options=${repo_root}/astyle.cfg ${changed_sources}
+	"${astyle_exe}" --options=${repo_root}/.astylerc ${changed_sources}
 	if [ $? -ne 0 ]; then
 		exit 1
 	fi

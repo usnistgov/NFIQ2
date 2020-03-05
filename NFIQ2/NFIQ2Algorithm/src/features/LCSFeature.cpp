@@ -361,8 +361,15 @@ double loclar( Mat& block, const double orientation, const int v1sz_x, const int
     // 3: mean/median of all
     // if all(NWr >= NWrmin) && all(NWr <= NWrmax) && all(NWv >= NWvmin) && all(NWv <= NWvmax)
 
-    Scalar muNWr = mean( NWr, noArray() );
-    Scalar muNWv = mean( NWv, noArray() );
+    Scalar muNWr{}, muNWv{};
+    if( !NWr.empty() )
+    {
+      muNWr = mean( NWr, noArray() );
+    }
+    if( !NWv.empty() )
+    {
+      muNWv = mean( NWv, noArray() );
+    }
 
     if( ( muNWr.val[0] >= NWrmin ) && ( muNWr.val[0] <= NWrmax ) &&
         ( muNWv.val[0] >= NWvmin ) && ( muNWv.val[0] <= NWvmax ) )

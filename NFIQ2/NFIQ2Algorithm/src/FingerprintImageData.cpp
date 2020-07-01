@@ -6,7 +6,14 @@ int debug = 0;
 #include <string.h>
 #include <stdlib.h>
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
 using namespace NFIQ;
+
+static double computeMuFromRow( unsigned int rowIndex, cv::Mat& img );
+static double computeMuFromColumn( unsigned int columnIndex, cv::Mat& img );
 
 FingerprintImageData::FingerprintImageData()
   : Data(),
@@ -509,7 +516,7 @@ NFIQ::FingerprintImageData FingerprintImageData::removeWhiteFrameAroundFingerpri
   return croppedImage;
 }
 
-double FingerprintImageData::computeMuFromRow( unsigned int rowIndex, cv::Mat& img )
+double computeMuFromRow( unsigned int rowIndex, cv::Mat& img )
 {
   double mu = 0.0;
   for( int j = 0; j < img.cols; j++ )
@@ -522,7 +529,7 @@ double FingerprintImageData::computeMuFromRow( unsigned int rowIndex, cv::Mat& i
   return mu;
 }
 
-double FingerprintImageData::computeMuFromColumn( unsigned int columnIndex, cv::Mat& img )
+double computeMuFromColumn( unsigned int columnIndex, cv::Mat& img )
 {
   double mu = 0.0;
   for( int i = 0; i < img.rows; i++ )

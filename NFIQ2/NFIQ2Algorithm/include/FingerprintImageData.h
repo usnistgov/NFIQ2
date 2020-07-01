@@ -262,9 +262,6 @@ namespace NFIQ
       */
       bool write_buf( void* src, unsigned int src_size, unsigned char*& buf, unsigned int& buf_len );
 
-      double computeMuFromRow( unsigned int rowIndex, cv::Mat& img );
-      double computeMuFromColumn( unsigned int columnIndex, cv::Mat& img );
-
   };
 }
 

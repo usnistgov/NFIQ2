@@ -6,6 +6,7 @@
 #include "nfiq2api.h"
 
 #include <opencv2/core/version.hpp>
+#include <opencv2/core/core_c.h>
 
 #ifndef _WIN32
 #include <dlfcn.h>

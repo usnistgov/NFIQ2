@@ -11,10 +11,6 @@ typedef uint16_t WORD;
 typedef uint32_t DWORD;
 #endif
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
 #define MU_THRESHOLD 250
 
 #define c_BI_RGB 0

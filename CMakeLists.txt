@@ -16,6 +16,10 @@ endif (NOT DEFINED OPENCV_VERSION)
 
 set(CMAKE_CXX_STANDARD 11)
 
+if (CMAKE_VERSION VERSION_GREATER 3.14.9999) 
+    cmake_policy(SET CMP0091 NEW) 
+endif(CMAKE_VERSION VERSION_GREATER 3.14.9999)
+
 # set colors for cmake comand line
 include( "${ROOT_PATH}/cmake/colors.cmake" )
 
@@ -148,6 +152,37 @@ ExternalProject_Add(OpenCV
 	INSTALL_COMMAND	""
 )
 
+#------------Build Biomeval------------------
+set(LIBBIOMEVAL_DIR ${PROJECT_SOURCE_DIR}/libbiomeval)
+
+if(MSVC)
+ExternalProject_Add(libbiomeval
+    SOURCE_DIR ${LIBBIOMEVAL_DIR}
+    INSTALL_COMMAND ""
+    CMAKE_ARGS
+       -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+       -DBUILD_BIOMEVAL_TESTS=OFF
+       -DVCPKG_VERBOSE=ON
+       -DBUILD_BIOMEVAL_SHARED=OFF 
+       -DVCPKG_TARGET_TRIPLET=x64-windows-static
+		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+)
+
+else()
+
+ExternalProject_Add(libbiomeval
+    SOURCE_DIR ${LIBBIOMEVAL_DIR}
+    INSTALL_COMMAND ""
+    CMAKE_ARGS
+       -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+       -DBUILD_BIOMEVAL_TESTS=OFF
+       -DVCPKG_VERBOSE=ON
+       -DVCPKG_TARGET_TRIPLET=x64-windows-static
+		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+)
+
+endif()
+
 ExternalProject_Add(nfiq2
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Algorithm
 	CMAKE_ARGS
@@ -163,7 +198,7 @@ ExternalProject_Add(nfiq2
 	BUILD_ALWAYS	YES
 	INSTALL_DIR ${DIST_PATH}
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static libbiomeval)
 
 ExternalProject_Add(nfiq2api
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Api

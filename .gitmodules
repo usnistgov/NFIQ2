@@ -9,4 +9,4 @@
 	url = https://github.com/usnistgov/biomdi.git
 [submodule "libbiomeval"]
 	path = libbiomeval
-	url = git@gitlab.nist.gov:774_03/becommon/libbiomeval.git
+	url = https://github.com/usnistgov/libbiomeval.git

@@ -21,8 +21,10 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
-#------REINTEGRATION-------
+# add NFIQ2 Refresh tool include directories
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
+
+# add libbiomeval include directories
 include_directories("${CMAKE_SOURCE_DIR}/../../libbiomeval/src/include")
 
 include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
@@ -69,11 +71,12 @@ add_library( ${PROJECT_NAME} STATIC
   ${PREDICTION_FILES}
   ${WSQ_FILES}
 )
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
-#------REINTEGRATION-------
+# New NFIQ2 Refresh App
 set( NFIQ2_TEST_APP "refresh_nfiq2")
 
 add_executable(${NFIQ2_TEST_APP})
@@ -85,10 +88,13 @@ target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nf
 target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_image.cpp)
 target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp)
 
+# Getopt for windows via VCPKG
 if(MSVC)
-    #find_library(GETOPT_LIB getopt REQUIRED HINTS C:\\src\\vcpkg\\packages\\getopt-win32_x64-windows)
-    include_directories("C:\\src\\vcpkg\\packages\\getopt-win32_x64-windows\\include\\getopt.h")
-    target_link_libraries(${NFIQ2_TEST_APP} getopt)
+  find_library(GETOPT_LIB getopt REQUIRED)
+  find_file(GETOPT_HEADER getopt.h REQUIRED)
+  get_filename_component(GETOPT_HEADER_DIR "${GETOPT_HEADER}" DIRECTORY)
+  target_include_directories(${NFIQ2_TEST_APP} PRIVATE "${GETOPT_HEADER_DIR}")
+  target_link_libraries(${NFIQ2_TEST_APP} "${GETOPT_LIB}")
 endif()
 
 add_dependencies( ${NFIQ2_TEST_APP}
@@ -144,16 +150,55 @@ endif()
 
 target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )
 
-#------REINTEGRATION-------
-if(MVSC)
-target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/libbiomeval.lib)
-else()
-target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/libbiomeval${CMAKE_SHARED_LIBRARY_SUFFIX})
+if(MSVC)
+# TODO: libbiomeval should implement find_package
+list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
+
+find_package(FFMPEG)
+if(FFMPEG_FOUND)
+  target_link_libraries( ${NFIQ2_TEST_APP} ${FFMPEG_LIBRARIES})
 endif()
 
-if(MSVC)
-    target_link_libraries(${NFIQ2_TEST_APP} crypt32.lib)
-    #target_compile_options(${NFIQ2_TEST_APP} PRIVATE /MT)
+find_package(PCSC)
+if(PCSC_FOUND)
+  target_link_libraries(${NFIQ2_TEST_APP} ${PCSC_LIBRARIES})
+endif()
+
+find_package(MPI)
+if(MPI_FOUND)
+  target_link_libraries(${NFIQ2_TEST_APP} ${MPI_LIBRARIES})
+endif()
+
+find_package(HWLOC)
+if(HWLOC_FOUND)
+  target_link_libraries(${NFIQ2_TEST_APP} ${HWLOC_LIBRARIES})
+endif()
+
+find_package(SQLITE3 REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${SQLITE3_LIBRARIES})
+
+find_package(TIFF REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
+
+find_package(PNG REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})
+
+find_package(OPENSSL REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${OPENSSL_LIBRARIES})
+
+find_package(BERKELEYDB REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${BERKELEYDB_LIBRARIES})
+
+find_package(OPENJP2 REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${OPENJP2_LIBRARIES})
+
+find_package(JPEG REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${JPEG_LIBRARIES})
+
+target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
+
+else()
+  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_SHARED_LIBRARY_PREFIX}biomeval${CMAKE_SHARED_LIBRARY_SUFFIX})
 endif()
 
 install(TARGETS ${NFIQ2_TEST_APP} 
@@ -165,3 +210,9 @@ install(TARGETS ${PROJECT_NAME}
 install(FILES 
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
     DESTINATION bin)
+
+if(MSVC)
+add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+      ${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build/Release ${CMAKE_INSTALL_PREFIX}/bin)
+endif()

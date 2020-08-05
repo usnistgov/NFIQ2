@@ -107,8 +107,10 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_calib3d
   opencv_video
   opencv_objdetect
-  zlib
 )
+
+#find_package(zlib REQUIRED)
+#target_link_libraries( ${NFIQ2_TEST_APP} ${ZLIB_LIBRARIES})
 
 if( USE_SANITIZER )
   target_link_libraries( ${NFIQ2_TEST_APP} "asan" )

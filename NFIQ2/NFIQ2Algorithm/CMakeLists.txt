@@ -152,7 +152,6 @@ endif()
 
 target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )
 
-if(MSVC)
 # TODO: libbiomeval should implement find_package
 list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
 
@@ -185,11 +184,18 @@ target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
 find_package(PNG REQUIRED)
 target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})
 
-find_package(OPENSSL REQUIRED)
-target_link_libraries(${NFIQ2_TEST_APP} ${OPENSSL_LIBRARIES})
-
 find_package(BERKELEYDB REQUIRED)
 target_link_libraries(${NFIQ2_TEST_APP} ${BERKELEYDB_LIBRARIES})
+
+if(APPLE)
+  find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)  
+  target_link_libraries(${NFIQ2_TEST_APP} ${FOUNDATION_FRAMEWORK})
+  find_library(SECURITY_FRAMEWORK Security REQUIRED)  
+  target_link_libraries(${NFIQ2_TEST_APP} ${SECURITY_FRAMEWORK})
+else()
+  find_package(OPENSSL REQUIRED)
+  target_link_libraries(${NFIQ2_TEST_APP} ${OPENSSL_LIBRARIES})
+endif()
 
 find_package(OPENJP2 REQUIRED)
 target_link_libraries(${NFIQ2_TEST_APP} ${OPENJP2_LIBRARIES})
@@ -197,10 +203,11 @@ target_link_libraries(${NFIQ2_TEST_APP} ${OPENJP2_LIBRARIES})
 find_package(JPEG REQUIRED)
 target_link_libraries(${NFIQ2_TEST_APP} ${JPEG_LIBRARIES})
 
+if(MSVC)
 target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 
 else()
-  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_SHARED_LIBRARY_PREFIX}biomeval${CMAKE_SHARED_LIBRARY_SUFFIX})
+  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
 install(TARGETS ${NFIQ2_TEST_APP} 

@@ -77,7 +77,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 # New NFIQ2 Refresh App
-set( NFIQ2_TEST_APP "refresh_nfiq2")
+set( NFIQ2_TEST_APP "nfiq2-bin")
 
 add_executable(${NFIQ2_TEST_APP})
 target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_refresh.cpp)
@@ -209,6 +209,9 @@ target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval
 else()
   target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
+
+set_target_properties(${NFIQ2_TEST_APP}
+        PROPERTIES OUTPUT_NAME nfiq2)
 
 install(TARGETS ${NFIQ2_TEST_APP} 
     RUNTIME DESTINATION bin)

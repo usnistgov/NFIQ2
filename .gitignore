@@ -12,3 +12,4 @@ modules/core/include/opencv2/core/cv_cpu_helper.h
 
 /mac_build
 /windows_build
+/.DS_Store

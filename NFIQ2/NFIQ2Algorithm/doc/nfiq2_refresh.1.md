@@ -1,132 +1,129 @@
-% REFRESH_NFIQ2(1) Version 1.0 | BSD General Commands Manual
+% NFIQ2(1) Version 1.0 | National Institute of Standards and Technology
 
 NAME
 ====
 
-**refresh_nfiq2** — Produces NFIQ2 quality scores for finger print images
+**nfiq2** — Compute quality of fingerprint images
 
 SYNOPSIS
 ========
 
-| **refresh_nfiq2** **OPTIONS** [_file/dir_ ...] 
+| **nfiq2** **OPTIONS** _file/dir/rs_ [...]
 
-| **refresh_nfiq2** -f [_batch_ -f ...] **OPTIONS** [_file/dir_ ...]
+| **nfiq2** -f _batch_ [-f ...] **OPTIONS** [_file/dir/rs_ ...]
 
 
 DESCRIPTION
 ===========
 
-| **refresh_nfiq2** is a tool for the biometric fingerprint quality algorithm NFIQ2. It is used to produce quality scores for fingerprint image formats supported by the Biometric Evaluation Framework.
+| **nfiq2** is a tool for computing the NIST Fingerprint Image Quality (NFIQ) 2 of fingerprint images. It is used to produce quality scores for fingerprint images encoded in formats supported by Biometric Evaluation framework (BMP, JPEG, JPEGL, JPEG-2000, PBM, PNG, TIFF, and WSQ). Images can be encoded stand alone, within an ANSI/NIST ITL Type 14 record, or any combination of the two within a Biometric Evaluation Record Store. **nfiq2** serves as a reference implementation of ISO/IEC 29794-4:2017.
 
-| **refresh_nfiq2** has the ability to take multiple file/directory paths as arguments. The exception to this is batch files, which must be following a "-f" option. If multiple images are provided, **refresh_nfiq2** will attempt to process all images. If an image fails to be scanned for whatever reason, an error is printed in absence of a quality score. 
-
-| **refresh_nfiq2** Prints scores in a Comma Separated Value format (CSV). The standard output includes information about the image including: the image's name, finger position (if applicable), quality score, error message (if applicable), whether the image was quantized, and whether the image was resampled.
+| **nfiq2** Prints scores in a Comma Separated Value (CSV) format. The default output includes information about the image including: the image's name, finger position (if applicable), quality score, error message (if applicable), whether the image was quantized, and whether the image was resampled.
 
 | This tool features some additional options, including output redirection and multi-threading, listed below:
 
 OPTIONS
 =======
-| **-i** _file/dir_
-> Allows for explicit _file/dir_ arguments to be given to the command line. Using this option with a _file/dir_ is equivalent to providing file paths directly to the **refresh_nfiq2** executable. 
+| **-i** _file/dir/rs_
+> Allows for explicit _file/dir/rs_ arguments to be passed. Using this option with a _file/dir/rs_ is equivalent to providing file paths directly to the **nfiq2** executable.
 
 | **-f** _batch_
-> Allows for batch files to be given to **refresh_nfiq2**. This option must be used for a batch file to be correctly processed. Each filepath in a batch file is read in and an image tries to be parsed from that location. If unsuccessful, an error message is printed out and computation continues until all paths have been scanned. This operation can be sequential or multi-threaded. Output is not guaranteed to be in order if the multi-threaded option is selected.
+> Batch files. A batch file is a plain text file, where each line is the path to a file to process.
 
-| **-o** _file_ 						
-> Allows for all output to be printed to a _file_. A _file_ will be created at the designated path if one does not exist already. Output includes all scores, error messages, verbose, speed, and debug dialogue.  
+| **-o** _file_
+> Write all output to be printed to _file_. _file_ will be overwritten if it exists.
 
-| **-j** _threads_ 						
-> Indicates the number of worker _threads_ that will be generated when running multi-threaded batch or record store operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. 
+| **-j** _threads_
+> Indicates the number of worker _threads_ that will be spawned when running batch or Record Store operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. One additional thread will be spawed for coordinating output.
 
-| **-v** 								
-> Verbose option provides additional feature information pertaining to each subcomponent of the NFIQ2 algorithm.
+| **-v**
+> Verbose output. Provides additional feature information pertaining to each measurement of NFIQ2.
 
-| **-q** 								
-> Speed option provides additional speed information pertaining to the amount of time each subcomponent of the NFIQ2 algorithm took to compute.
+| **-q**
+> Speed. Provides additional speed information pertaining to the amount of time each measurement of NFIQ2 took to compute.
 
-| **-d** 								
-> Debug option provides additional information pertaining to program execution and details each step of computation. 
+| **-d**
+> Debug. Provides additional information pertaining to program execution and details each step of computation.
 
-| **-F** 								
-> Force option ignores user-input from the program when an image does not meet NFIQ2 image requirements and proceeds with execution as normal.
+| **-F**
+> Force. Does not ask for user input when when an image does not meet NFIQ2 image requirements.
 > See NOTES 1
 
-| **-r** 								
-> Recursion option allows for directories to be recursively scanned for images. I.E. if a directory exists within another directory. The Recursion option also traverses that inner directory. The recursion performed is depth-first and stops once all branches have been scanned. 
+| **-r**
+> Recursion. Allows for directories to be recursively scanned for images/records. The recursion performed is depth-first and stops once all branches have been scanned.
 
-| **-m** _model_						
-> Allows for an alternative Machine Learning model to be used in conjunction with NFIQ2's algorithm.  					
-> Not implemented yet
+| **-m** _model_
+> Allows for alternative random forest parameters to be used in conjunction with NFIQ2's algorithm.
+> Not yet implemented
 
 NOTES
 =====
 
-1. NFIQ2 has restrictions on what kinds of finger print images it can process. The color depth and bit depth of an image must be 8. The PPI of an image must be 500. **refresh_nfiq2** has mechanisms built in to try and quantize/resample images that do not meet these qualifications so that a score can still be produced. These mechanisms will be automatically applied when utilizing "-F" 'force' option.
+1. NFIQ2 has restrictions on what kinds of fingerprint images it can process. The color depth and bit depth of an image must be 8 (i.e., maximum of 255 shades of gray). The PPI of an image must be 500. **nfiq2** has mechanisms to quantize and/or resample images that do not meet these qualifications so that a quality score can still be produced. These mechanisms will be automatically applied when utilizing the **-F** flag.
 
-2. Output is generated in a standard Comma Separated Value (CSV) format. Headers are printed before any scores are printed. The exception to this format is when a single image is provided with no "-v" or "-q" options. In this case, only the quality score is printed for the image.
+2. Output is generated in a CSV format. Headers are printed before any scores are printed. The exception to this format is when a single image is provided without the **-v** or **-q** flag. In this case, only the quality score is printed for the image.
 
-3. Current supported image types/file formats include:
-	1. Finger print image formats parse-able through the Biometric Evaluation Framework (i.e. png, jpeg, tiff, wsq, etc.)
+3. Current supported formats include:
+	1. Fingerprint image formats parseable through Biometric Evaluation Framework (e.g., PNG, JPEG, TIFF, WSQ, etc.)
 	2. Batch files
-	3. RecordStores
-	4. ANSI/NIST AN2K files
-	5. ANSI/ISO ANSI2004 files
+	3. Record Stores
+	4. ANSI/NIST-ITL 2007 (and later) binary files
 
 EXAMPLES
 ========
 
-| The following are examples of using **refresh_NFIQ2** on different file types and option combinations.
+| The following are examples of using **nfiq2** on different file types and option combinations.
 
-| refresh_NFIQ2 print1
+| nfiq2 print1.wsq
 
-> Prints the quality score of _print1_ to the screen. 
+> Prints the quality score of _print1.wsq_ to the screen.
 
-| refresh_NFIQ2 print1 print2 print3
+| nfiq2 print1.wsq print2.png print3.an2
 
-> Prints the standard CSV formatted scores of _print1_, _print2_, and _print3_.
+> Prints the standard CSV formatted scores of _print1.wsq_, _print2.png_, and _print3.an2_.
 
-| refresh_NFIQ2 fingerprintDir
+| nfiq2 fingerprintDir
 
-> Searches the directory _fingerprintDir_ and processes all of the finger print images it can identify. 
+> Searches the directory _fingerprintDir_ and processes all of the fingerprint images it can identify.
 
-| refresh_NFIQ2 -r fingerprintDir
+| nfiq2 -r fingerprintDir
 
-> Recursively searches through _fingerprintDir_ and all directories within _fingerprintDir_ to find and process all identifiable finger prints. 
+> Recursively searches through _fingerprintDir_ and all directories within _fingerprintDir_ to find and process all identifiable fingerprints.
 
-| refresh_NFIQ2 -r -i print1 -i fingerprintDir -o output.txt print2 print3
+| nfiq2 -r -i print1.tif -i fingerprintDir -o output.csv print2.jpg print3.bmp
 
-> Produces the quality scores of _print1_, _print2_, and _print3_. Recursively traverses _fingerprintDir_ and prints the quality scores of the finger print images it discovers in there. Saves all score output to a file in the current directory named _output.txt_. This example showcases how **refresh_NFIQ2** can support multiple types of arguments in a single execution. 
+> Produces quality scores of _print1.tif_, _print2.jpg_, and _print3.bmp_. Recursively traverses _fingerprintDir_ and prints the quality scores of the fingerprint images it discovers in there. Saves all output to a file in the current directory named _output.csv_. This example showcases how **nfiq2** can support multiple types of arguments in a single execution.
 
-| refresh_NFIQ2 -v -q fingerprintDir
+| nfiq2 -v -q fingerprintDir
 
-> Produces the quality scores of the finger print images stored inside of _fingerprintDir_. Additional NFIQ2 component algorithm results and their timings are also printed in CSV format -- appended to the standard CSV format. 
+> Produces the quality scores of the fingerprint images stored inside of _fingerprintDir_. Additional NFIQ2 component algorithm results and their timings are also printed in CSV format -- appended to the standard CSV format.
 
-| refresh_NFIQ2 -F mixedfingerprintDir
+| nfiq2 -F mixedFingerprintDir
 
-> _mixedfingerprintDir_ contains a variety of finger print images. Some do adhere to NFIQ2's 8 bit color and depth, and 500 PPI requirements, some do not. The _-F_ option automatically applies any quantizing or resampling applicable to each image scanned. 
+> _mixedFingerprintDir_ contains a variety of fingerprint images. Some adhere to NFIQ2's 8 bit and color depth, and 500 PPI requirements, some do not. The _-F_ option automatically applies any quantizing and resampling applicable to each image scanned.
 
-| refresh_NFIQ2 -f batchFile1
+| nfiq2 -f batchFile1.txt
 
-> The _-f_ option denotes _batchFile1_ as a batch file comprising up of a list of paths to finger print images. **refresh_NFIQ2** grabs the content of this _batchFile1_ and sequentially calculates the quality of each image and prints it to the screen.
+> The **-f** option denotes _batchFile1.txt_ as a batch file comprising of a list of paths to fingerprint images. **nfiq2** reads the content of  _batchFile1.txt_,  sequentially calculates the quality of each image, and prints it to the screen.
 
-| refresh_NFIQ2 -v -q -f batchFile1 -j 4
+| nfiq2 -v -q -f batchFile1.txt -j 4
 
-> This is a multi-threaded batch operation on _batchFile1_, utilizing _4_ threads, denoted by the _-j_ option. The _-v_ and _-q_ are also enabled, producing additional NFIQ2 sub component scores and their timings. 
+> This is a multi-threaded batch operation on _batchFile1.txt_, utilizing _4_ threads, denoted by the **-j** option. The **-v** and **-q** are also enabled, producing additional NFIQ2 sub component scores and their timings.
 
-| refresh_NFIQ2 recordStore1
+| nfiq2 recordStore1
 
-> Iterates through the records of _recordStore1_ and produces the scores of the images stored within those records sequentially. 
+> Iterates through the records of _recordStore1_, producing quality scores of the images stored within the Record Store sequentially.
 
-| refresh_NFIQ2 -j 8 recordStore1
+| nfiq2 -j 8 recordStore1
 
 > Multi-threaded operation processing the records of _recordStore1_, utilizing _8_ worker _threads_.
 
 VERSION
 =======
 
-| This man page is current for version 1.0 of **refresh_nfiq2**
+| This man page is current for version 1.0 of **nfiq2**
 
 HISTORY
 =======
 
-| First Released Summer 2020 by NIST.
+| First released August 2020 by NIST.

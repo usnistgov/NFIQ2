@@ -210,8 +210,13 @@ else()
   target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
+if(MSVC)
 set_target_properties(${NFIQ2_TEST_APP}
-        PROPERTIES OUTPUT_NAME nfiq2)
+  PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
+elseif()
+set_target_properties(${NFIQ2_TEST_APP}
+  PROPERTIES OUTPUT_NAME nfiq2)
+endif()
 
 install(TARGETS ${NFIQ2_TEST_APP} 
     RUNTIME DESTINATION bin)

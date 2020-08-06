@@ -220,6 +220,10 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
     DESTINATION bin)
 
+if(UNIX) 
+  INSTALL(FILES doc/nfiq2_refresh.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")
+endif()
+
 if(MSVC)
 add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory

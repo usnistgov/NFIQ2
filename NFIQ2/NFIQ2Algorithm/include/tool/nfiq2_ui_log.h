@@ -19,120 +19,122 @@
 
 #include "nfiq2_ui_types.h"
 
-namespace NFIQ2UI {
-
-/**
- *	@brief
- *  Logging class
- *
- *  @details
- *  Logger is used to print debug, verbose and speed statements.
- *  It is also used to print Scores to either stdout or a designated file.
- */
-class Log {
-public:
-  /**
-   *	@brief
-   *  	Construct a Log object with passed in flags and optional path.
-   *
-   *  	@details
-   *  	Default path will print to stdout.
-   *
-   *  	@param[in] flags
-   * 		Argument flags passed into the command line.
-   *  	@param[in] path
-   *		Path to the output file.
-   */
-  Log(const Flags &flags, const std::string &path = {});
+namespace NFIQ2UI
+{
 
   /**
-   *  	@brief
-   *  	Print the score for an Image in CSV format.
+   *  @brief
+   *  Logging class
    *
-   *  	@details
-   *  	Prints score generated from NFIQ2.
-   *	Error code 255 is printed if image could not be evaluated.
-   *
-   *  	@param[in] name
-   * 		The name of the image.
-   *  	@param[in] fingerCode
-   *		Finger position of the image. Valid values: 0-12.
-   *	@param[in] score
-   *		Calculated NFIQ2 Score.
-   *	@param[in] errmsg
-   *		Error message if applicable.
-   *	@param[in] quantized
-   *		If the image was quantized 0 = not quantized, 1 = quantized.
-   *	@param[in] resampled
-   *		If the image was resampled 0 = not resampled, 1 = resampled.
-   *	@param[in] featureVector
-   *		Prints featureVector information if verbose flag is enabled.
-   *	@param[in] featureTimings
-   *		Prints featureTimings information if verbose flag is enabled.
+   *  @details
+   *  Logger is used to print debug, verbose and speed statements.
+   *  It is also used to print Scores to either stdout or a designated file.
    */
-  void printScore(const std::string &name, uint8_t fingerCode,
-                  unsigned int score, const std::string &errmsg,
-                  const bool quantized, const bool resampled,
-                  std::list<NFIQ::QualityFeatureData> featureVector,
-                  std::list<NFIQ::QualityFeatureSpeed> featureTimings) const;
+  class Log
+  {
+    public:
+      /**
+       *  @brief
+       *    Construct a Log object with passed in flags and optional path.
+       *
+       *    @details
+       *    Default path will print to stdout.
+       *
+       *    @param[in] flags
+       *    Argument flags passed into the command line.
+       *    @param[in] path
+       *    Path to the output file.
+       */
+      Log( const Flags& flags, const std::string& path = {} );
 
-  /**
-   * 	@brief
-   *	Prints a single score.
-   *
-   *	@details
-   *	Used for Single independent Image.
-   *
-   *	@param[in] qualityScore
-   *		The qualityScore to be printed out.
-   */
-  void printSingle(unsigned int qualityScore) const;
+      /**
+       *    @brief
+       *    Print the score for an Image in CSV format.
+       *
+       *    @details
+       *    Prints score generated from NFIQ2.
+       *  Error code 255 is printed if image could not be evaluated.
+       *
+       *    @param[in] name
+       *    The name of the image.
+       *    @param[in] fingerCode
+       *    Finger position of the image. Valid values: 0-12.
+       *  @param[in] score
+       *    Calculated NFIQ2 Score.
+       *  @param[in] errmsg
+       *    Error message if applicable.
+       *  @param[in] quantized
+       *    If the image was quantized 0 = not quantized, 1 = quantized.
+       *  @param[in] resampled
+       *    If the image was resampled 0 = not resampled, 1 = resampled.
+       *  @param[in] featureVector
+       *    Prints featureVector information if verbose flag is enabled.
+       *  @param[in] featureTimings
+       *    Prints featureTimings information if verbose flag is enabled.
+       */
+      void printScore( const std::string& name, uint8_t fingerCode,
+                       unsigned int score, const std::string& errmsg,
+                       const bool quantized, const bool resampled,
+                       std::list<NFIQ::QualityFeatureData> featureVector,
+                       std::list<NFIQ::QualityFeatureSpeed> featureTimings ) const;
 
-  /**
-   * 	@brief
-   *	Prints a score produced by a Multi-Threaded operation.
-   *
-   *	@param[in] message
-   *		The score to be printed to the output stream.
-   */
-  void printThreaded(const std::string &message) const;
+      /**
+       *  @brief
+       *  Prints a single score.
+       *
+       *  @details
+       *  Used for Single independent Image.
+       *
+       *  @param[in] qualityScore
+       *    The qualityScore to be printed out.
+       */
+      void printSingle( unsigned int qualityScore ) const;
 
-  /**
-   * 	@brief
-   *	Prints a debug message to the output stream.
-   *
-   *	@param[in] message
-   *		The message to be printed.
-   */
-  void debugMsg(const std::string &message) const;
+      /**
+       *  @brief
+       *  Prints a score produced by a Multi-Threaded operation.
+       *
+       *  @param[in] message
+       *    The score to be printed to the output stream.
+       */
+      void printThreaded( const std::string& message ) const;
 
-  /**
-   * 	@brief
-   *	Prints CSV headers.
-   *
-   *	@details
-   *	CSV headers are dependent on:
-   *	Whether more than one image was provided to the command line.
-   *	Whether the Verbose or Speed flags were provided.
-   */
-  void printCSVHeader() const;
+      /**
+       *  @brief
+       *  Prints a debug message to the output stream.
+       *
+       *  @param[in] message
+       *    The message to be printed.
+       */
+      void debugMsg( const std::string& message ) const;
 
-  virtual ~Log();
+      /**
+       *  @brief
+       *  Prints CSV headers.
+       *
+       *  @details
+       *  CSV headers are dependent on:
+       *  Whether more than one image was provided to the command line.
+       *  Whether the Verbose or Speed flags were provided.
+       */
+      void printCSVHeader() const;
 
-protected:
-  /** output stream for scores to be printed to */
-  std::ostream *out{nullptr};
+      virtual ~Log();
 
-private:
-  /** Value of verbose flag */
-  bool verbose;
-  /** Value of debug flag */
-  bool debug;
-  /** Value of speed flag */
-  bool speed;
-  /** Used if a specified file will be the output stream */
-  std::ofstream logFile{};
-};
+    protected:
+      /** output stream for scores to be printed to */
+      std::ostream* out{nullptr};
+
+    private:
+      /** Value of verbose flag */
+      bool verbose;
+      /** Value of debug flag */
+      bool debug;
+      /** Value of speed flag */
+      bool speed;
+      /** Used if a specified file will be the output stream */
+      std::ofstream logFile{};
+  };
 
 } // namespace NFIQ2UI
 

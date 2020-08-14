@@ -15,16 +15,21 @@
 #include "nfiq2_ui_types.h"
 
 // Responsible for logging within Multi-threaded operations
-NFIQ2UI::ThreadedLog::ThreadedLog(const Flags &flags)
-    : NFIQ2UI::Log::Log(flags, "") {
+NFIQ2UI::ThreadedLog::ThreadedLog( const Flags& flags )
+  : NFIQ2UI::Log::Log( flags, "" )
+{
   this->out = &ss;
 }
 
 // Gets the print result of the last processed image
-std::string NFIQ2UI::ThreadedLog::getLastScore() {
+std::string NFIQ2UI::ThreadedLog::getLastScore()
+{
   const std::string score = ss.str();
-  ss.str("");
+  ss.str( "" );
   return score;
 }
 
-NFIQ2UI::ThreadedLog::~ThreadedLog() { this->out = nullptr; }
+NFIQ2UI::ThreadedLog::~ThreadedLog()
+{
+  this->out = nullptr;
+}

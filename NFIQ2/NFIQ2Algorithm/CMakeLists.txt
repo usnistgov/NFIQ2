@@ -25,7 +25,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
 
 # add libbiomeval include directories
-include_directories("${CMAKE_SOURCE_DIR}/../../libbiomeval/src/include")
+include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
 
 include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
 
@@ -48,7 +48,7 @@ endif()
 link_directories( "${CMAKE_INSTALL_PREFIX}" )
 
 set(SOURCE_FILES "")
-file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" )
 list( REMOVE_ITEM SOURCE_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/NFIQ2.cpp"
 )
@@ -71,7 +71,6 @@ add_library( ${PROJECT_NAME} STATIC
   ${PREDICTION_FILES}
   ${WSQ_FILES}
 )
-
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
@@ -88,7 +87,7 @@ target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nf
 target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_image.cpp)
 target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp)
 
-# Getopt for windows via VCPKG
+# Getopt for Windows
 if(MSVC)
   find_library(GETOPT_LIB getopt REQUIRED)
   find_file(GETOPT_HEADER getopt.h REQUIRED)
@@ -108,9 +107,6 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_video
   opencv_objdetect
 )
-
-#find_package(zlib REQUIRED)
-#target_link_libraries( ${NFIQ2_TEST_APP} ${ZLIB_LIBRARIES})
 
 if( USE_SANITIZER )
   target_link_libraries( ${NFIQ2_TEST_APP} "asan" )
@@ -210,13 +206,8 @@ else()
   target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
-if(MSVC)
 set_target_properties(${NFIQ2_TEST_APP}
   PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
-elseif()
-set_target_properties(${NFIQ2_TEST_APP}
-  PROPERTIES OUTPUT_NAME nfiq2)
-endif()
 
 install(TARGETS ${NFIQ2_TEST_APP} 
     RUNTIME DESTINATION bin)
@@ -228,10 +219,12 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
     DESTINATION bin)
 
+# Install Man Page for Unix Systems
 if(UNIX) 
   INSTALL(FILES doc/nfiq2_refresh.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")
 endif()
 
+# Copy build results to dist on Windows
 if(MSVC)
 add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory

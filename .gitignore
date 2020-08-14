@@ -8,8 +8,4 @@
 NFIQ2/NFIQ2Api/version.*.*.cpp
 NFIQ2/NFIQ2Api/version.*.*.rc
 
-modules/core/include/opencv2/core/cv_cpu_helper.h
-
-/mac_build
-/windows_build
-/.DS_Store
+modules/core/include/opencv2/core/cv_cpu_helper.h 

@@ -16,10 +16,6 @@ endif (NOT DEFINED OPENCV_VERSION)
 
 set(CMAKE_CXX_STANDARD 11)
 
-if (CMAKE_VERSION VERSION_GREATER 3.14.9999) 
-    cmake_policy(SET CMP0091 NEW) 
-endif(CMAKE_VERSION VERSION_GREATER 3.14.9999)
-
 # set colors for cmake comand line
 include( "${ROOT_PATH}/cmake/colors.cmake" )
 
@@ -34,6 +30,10 @@ include( "${ROOT_PATH}/cmake/folders.cmake" )
 
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
+
+if (CMAKE_VERSION VERSION_GREATER 3.14.9999) 
+    cmake_policy(SET CMP0091 NEW) 
+endif(CMAKE_VERSION VERSION_GREATER 3.14.9999)
 
 message( STATUS "----- Configuring ${PROJECT_NAME} -----" )
 message( STATUS "-- Project root path: '${ROOT_PATH}'" )
@@ -122,16 +122,16 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo"
 	-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES})
 
-if("${TARGET_PLATFORM}" MATCHES "win*") #make it so the opencv parallel flags are off for all platforms
+if("${TARGET_PLATFORM}" MATCHES "win*")
 list(APPEND OPENCV_CMAKE_ARGS
-	-DWITH_PNG=OFF 
-	-DWITH_JASPER=OFF 
-	-DWITH_JPEG=OFF 
-	-DWITH_TIFF=OFF 
-	-DBUILD_PNG=OFF 
-	-DBUILD_ZLIB=OFF 
-	-DBUILD_TIFF=OFF 
-	-DBUILD_JASPER=OFF 
+	-DWITH_TIFF=OFF
+	-DBUILD_TIFF=OFF
+	-DWITH_PNG=OFF
+	-DWITH_JASPER=OFF
+	-DWITH_JPEG=OFF
+	-DBUILD_PNG=OFF
+	-DBUILD_ZLIB=OFF
+	-DBUILD_JASPER=OFF
 	-DBUILD_JPEG=OFF
 	-DBUILD_WITH_STATIC_CRT=ON)
 endif("${TARGET_PLATFORM}" MATCHES "win*")
@@ -161,8 +161,6 @@ ExternalProject_Add(OpenCV
 	INSTALL_COMMAND	""
 )
 
-set(LIBBIOMEVAL_DIR ${PROJECT_SOURCE_DIR}/libbiomeval)
-
 set(LIBBIOMEVAL_CMAKE_ARGS
 	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
        -DBUILD_BIOMEVAL_TESTS=OFF
@@ -170,7 +168,7 @@ set(LIBBIOMEVAL_CMAKE_ARGS
        -DVCPKG_TARGET_TRIPLET=x64-windows-static
 	   -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
 	   -DCMAKE_INSTALL_PREFIX=${DIST_PATH}
-	   -DBUILD_BIOMEVAL_SHARED=OFF #Testing
+	   -DBUILD_BIOMEVAL_SHARED=OFF
 	)
 if(MSVC)
 list(APPEND LIBBIOMEVAL_CMAKE_ARGS
@@ -179,7 +177,7 @@ list(APPEND LIBBIOMEVAL_CMAKE_ARGS
 endif()
 
 ExternalProject_Add(libbiomeval
-    SOURCE_DIR ${LIBBIOMEVAL_DIR}
+    SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
     INSTALL_COMMAND ""
     CMAKE_ARGS
        ${LIBBIOMEVAL_CMAKE_ARGS}
@@ -203,7 +201,6 @@ ExternalProject_Add(nfiq2
 	BUILD_ALWAYS	YES
 	INSTALL_DIR ${DIST_PATH}
 )
-
 ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static libbiomeval)
 
 ExternalProject_Add(nfiq2api

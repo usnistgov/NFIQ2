@@ -189,7 +189,7 @@ if(APPLE)
   find_library(SECURITY_FRAMEWORK Security REQUIRED)  
   target_link_libraries(${NFIQ2_TEST_APP} ${SECURITY_FRAMEWORK})
 else()
-  find_package(OPENSSL REQUIRED)
+  find_package(OpenSSL REQUIRED)
   target_link_libraries(${NFIQ2_TEST_APP} ${OPENSSL_LIBRARIES})
 endif()
 

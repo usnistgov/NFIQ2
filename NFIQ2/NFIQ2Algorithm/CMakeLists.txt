@@ -59,11 +59,11 @@ file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
 file( GLOB WSQ_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/wsq/*.cpp" )
 
 set(PUBLIC_HEADERS
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/InterfaceDefinitions.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/FingerprintImageData.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/Data.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQException.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/InterfaceDefinitions.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/FingerprintImageData.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/Data.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQException.h"
 )
 
 add_library( ${PROJECT_NAME} STATIC
@@ -73,7 +73,7 @@ add_library( ${PROJECT_NAME} STATIC
   ${WSQ_FILES}
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
-  PUBLIC_HEADER "${PUBLIC_HEADERS}"
+    PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
 # New NFIQ2 TOOL

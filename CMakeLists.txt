@@ -31,11 +31,6 @@ include( "${ROOT_PATH}/cmake/folders.cmake" )
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
-# Allows MSVC Runtime Library Flags to Propogate to External Projects
-if (CMAKE_VERSION VERSION_GREATER 3.14.9999) 
-    cmake_policy(SET CMP0091 NEW) 
-endif(CMAKE_VERSION VERSION_GREATER 3.14.9999)
-
 message( STATUS "----- Configuring ${PROJECT_NAME} -----" )
 message( STATUS "-- Project root path: '${ROOT_PATH}'" )
 message( STATUS "-- Project build path: '${BUILD_PATH}'" )

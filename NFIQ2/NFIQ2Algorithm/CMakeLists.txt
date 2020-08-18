@@ -4,11 +4,6 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
-# Allows MSVC Runtime Library Flags
-if (CMAKE_VERSION VERSION_GREATER 3.14.9999) 
-    cmake_policy(SET CMP0091 NEW) 
-endif(CMAKE_VERSION VERSION_GREATER 3.14.9999)
-
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )

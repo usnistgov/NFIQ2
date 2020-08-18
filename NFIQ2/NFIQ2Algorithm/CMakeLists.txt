@@ -4,6 +4,7 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
+# Allows MSVC Runtime Library Flags
 if (CMAKE_VERSION VERSION_GREATER 3.14.9999) 
     cmake_policy(SET CMP0091 NEW) 
 endif(CMAKE_VERSION VERSION_GREATER 3.14.9999)
@@ -21,7 +22,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
-# add NFIQ2 Refresh tool include directories
+# add NFIQ2 tool include directories
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
 
 # add libbiomeval include directories
@@ -58,11 +59,11 @@ file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
 file( GLOB WSQ_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/wsq/*.cpp" )
 
 set(PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/InterfaceDefinitions.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/FingerprintImageData.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/Data.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQException.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/InterfaceDefinitions.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/FingerprintImageData.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/Data.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQException.h"
 )
 
 add_library( ${PROJECT_NAME} STATIC
@@ -72,20 +73,21 @@ add_library( ${PROJECT_NAME} STATIC
   ${WSQ_FILES}
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    PUBLIC_HEADER "${PUBLIC_HEADERS}"
+  PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
-# New NFIQ2 Refresh App
-set( NFIQ2_TEST_APP "nfiq2-bin")
+# New NFIQ2 TOOL
+set( NFIQ2_TEST_APP "nfiq2-bin" )
 
-add_executable(${NFIQ2_TEST_APP})
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_refresh.cpp)
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_log.cpp)
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_utils.cpp)
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_exception.cpp)
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_threadedlog.cpp)
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_image.cpp)
-target_sources(${NFIQ2_TEST_APP} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp)
+add_executable(${NFIQ2_TEST_APP}
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_refresh.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_log.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_utils.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_exception.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_threadedlog.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_image.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp"
+)
 
 # Getopt for Windows
 if(MSVC)
@@ -221,7 +223,7 @@ install(FILES
 
 # Install Man Page for Unix Systems
 if(UNIX) 
-  INSTALL(FILES doc/nfiq2_refresh.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")
+  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")
 endif()
 
 # Copy build results to dist on Windows

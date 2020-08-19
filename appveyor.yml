@@ -12,8 +12,43 @@ platform:
 
 configuration: Release
 
+cache: c:\tools\vcpkg\installed\
+
 install:
 - cmd: git submodule update --init
+
+- cmd: vcpkg install berkeleydb:x64-windows-static
+- cmd: vcpkg install berkeleydb:x86-windows-static
+
+- cmd: vcpkg install getopt:x64-windows
+- cmd: vcpkg install getopt:x86-windows
+
+- cmd: vcpkg install hwloc:x64-windows-static
+- cmd: vcpkg install hwloc:x86-windows-static
+
+- cmd: vcpkg install libjpeg-turbo:x64-windows-static
+- cmd: vcpkg install libjpeg-turbo:x86-windows-static
+
+- cmd: vcpkg install liblzma:x64-windows-static
+- cmd: vcpkg install liblzma:x86-windows-static
+
+- cmd: vcpkg install libpng:x64-windows-static
+- cmd: vcpkg install libpng:x86-windows-static
+
+- cmd: vcpkg install openjpeg:x64-windows-static
+- cmd: vcpkg install openjpeg:x86-windows-static
+
+- cmd: vcpkg install openssl:x64-windows-static
+- cmd: vcpkg install openssl:x86-windows-static
+
+- cmd: vcpkg install sqlite3:x64-windows-static
+- cmd: vcpkg install sqlite3:x86-windows-static
+
+- cmd: vcpkg install tiff:x64-windows-static
+- cmd: vcpkg install tiff:x86-windows-static
+
+- cmd: vcpkg install zlib:x64-windows-static
+- cmd: vcpkg install zlib:x86-windows-static
 
 before_build:
 - cmd: >-
@@ -25,8 +60,7 @@ before_build:
 
     cd build\Windows
 
-    cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.2.0" C:\projects\nfiq2
-
+    cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.4.0" C:\projects\nfiq2
 
 build:
   project: C:\projects\nfiq2\build\Windows\NFIQ2_SUPERBUILD.sln

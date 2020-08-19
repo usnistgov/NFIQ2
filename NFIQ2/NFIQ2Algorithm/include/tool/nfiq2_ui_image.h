@@ -8,8 +8,8 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#ifndef __NFIQ2_UI_IMAGE__
-#define __NFIQ2_UI_IMAGE__
+#ifndef NFIQ2_UI_IMAGE_H_
+#define NFIQ2_UI_IMAGE_H_
 
 #include <string>
 #include <vector>
@@ -90,7 +90,7 @@ namespace NFIQ2UI
    *  .png, .jpeg, .wsq, etc. This does not include AN2K or ANSI2004
    *  records.
    *
-   *  @param[in] dataArray
+   *  @param[in] imageData
    *    The data-blob containing images.
    *  @param[in] name
    *    The name of the data-blob.
@@ -102,7 +102,7 @@ namespace NFIQ2UI
    *    images contained in a data-blob.
    */
   std::vector<NFIQ2UI::ImgCouple>
-  getImagesFromImage( const BiometricEvaluation::Memory::uint8Array& dataArray,
+  getImagesFromImage( const BiometricEvaluation::Memory::uint8Array& imageData,
                       const std::string& name,
                       std::shared_ptr<NFIQ2UI::Log> logger );
 
@@ -110,8 +110,8 @@ namespace NFIQ2UI
    *  @brief
    *  Return images from AN2K Records
    *
-   *  @param[in] dataArray
-   *    The data-blob containing images.
+   *  @param[in] an2kData
+   *    The data-blob containing an AN2K record.
    *  @param[in] name
    *    The name of the data-blob.
    *  @param[in] logger
@@ -122,7 +122,7 @@ namespace NFIQ2UI
    *    images contained in a data-blob.
    */
   std::vector<NFIQ2UI::ImgCouple>
-  getImagesFromAN2K( const BiometricEvaluation::Memory::uint8Array& dataArray,
+  getImagesFromAN2K( const BiometricEvaluation::Memory::uint8Array& an2kData,
                      const std::string& name,
                      std::shared_ptr<NFIQ2UI::Log> logger );
 
@@ -130,8 +130,8 @@ namespace NFIQ2UI
    *  @brief
    *  Return images from ANSI2004 Records
    *
-   *  @param[in] dataArray
-   *    The data-blob containing images.
+   *  @param[in] ansiData
+   *    The data-blob containing an ANSI 2004 file.
    *  @param[in] name
    *    The name of the data-blob.
    *  @param[in] logger
@@ -142,10 +142,10 @@ namespace NFIQ2UI
    *    images contained in a data-blob.
    */
   std::vector<NFIQ2UI::ImgCouple>
-  getImagesFromANSI2004( const BiometricEvaluation::Memory::uint8Array& dataArray,
+  getImagesFromANSI2004( const BiometricEvaluation::Memory::uint8Array& ansiData,
                          const std::string& name,
                          std::shared_ptr<NFIQ2UI::Log> logger );
 
 } // namespace NFIQ2UI
 
-#endif /* __NFIQ2_UI_IMAGE__ */
+#endif /* NFIQ2_UI_IMAGE_H_ */

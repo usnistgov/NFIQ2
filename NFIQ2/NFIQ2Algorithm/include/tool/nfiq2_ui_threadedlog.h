@@ -8,8 +8,8 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#ifndef __NFIQ2_UI_THREADEDLOG__
-#define __NFIQ2_UI_THREADEDLOG__
+#ifndef NFIQ2_UI_THREADEDLOG_H_
+#define NFIQ2_UI_THREADEDLOG_H_
 
 #include <sstream>
 #include <string>
@@ -49,7 +49,7 @@ namespace NFIQ2UI
        *  @return
        *      String version of the last score produced by a worker thread.
        */
-      std::string getLastScore();
+      std::string getAndClearLastScore();
 
       virtual ~ThreadedLog();
 
@@ -60,4 +60,4 @@ namespace NFIQ2UI
 
 } // namespace NFIQ2UI
 
-#endif /* __NFIQ2_UI_THREADEDLOG__ */
+#endif /* NFIQ2_UI_THREADEDLOG_H_ */

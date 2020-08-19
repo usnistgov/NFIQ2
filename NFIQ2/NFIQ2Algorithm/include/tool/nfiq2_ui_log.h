@@ -8,8 +8,8 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#ifndef __NFIQ2_UI_LOG__
-#define __NFIQ2_UI_LOG__
+#ifndef NFIQ2_UI_LOG_H_
+#define NFIQ2_UI_LOG_H_
 
 #include <fstream>
 #include <iostream>
@@ -48,12 +48,12 @@ namespace NFIQ2UI
       Log( const Flags& flags, const std::string& path = {} );
 
       /**
-       *    @brief
+       *  @brief
        *    Print the score for an Image in CSV format.
        *
-       *    @details
+       *  @details
        *    Prints score generated from NFIQ2.
-       *  Error code 255 is printed if image could not be evaluated.
+       *    Error code 255 is printed if image could not be evaluated.
        *
        *    @param[in] name
        *    The name of the image.
@@ -72,11 +72,12 @@ namespace NFIQ2UI
        *  @param[in] featureTimings
        *    Prints featureTimings information if verbose flag is enabled.
        */
-      void printScore( const std::string& name, uint8_t fingerCode,
-                       unsigned int score, const std::string& errmsg,
-                       const bool quantized, const bool resampled,
-                       std::list<NFIQ::QualityFeatureData> featureVector,
-                       std::list<NFIQ::QualityFeatureSpeed> featureTimings ) const;
+      void
+      printScore( const std::string& name, uint8_t fingerCode, unsigned int score,
+                  const std::string& errmsg, const bool quantized,
+                  const bool resampled,
+                  const std::list<NFIQ::QualityFeatureData>& featureVector,
+                  const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const;
 
       /**
        *  @brief
@@ -138,4 +139,4 @@ namespace NFIQ2UI
 
 } // namespace NFIQ2UI
 
-#endif /* __NFIQ2_UI_LOG__ */
+#endif /* NFIQ2_UI_LOG_H_ */

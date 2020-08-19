@@ -45,8 +45,8 @@ NFIQ2UI::Log::Log( const Flags& flags, const std::string& path )
 void NFIQ2UI::Log::printScore(
   const std::string& name, uint8_t fingerCode, unsigned int score,
   const std::string& errmsg, const bool quantized, const bool resampled,
-  std::list<NFIQ::QualityFeatureData> featureVector,
-  std::list<NFIQ::QualityFeatureSpeed> featureTimings ) const
+  const std::list<NFIQ::QualityFeatureData>& featureVector,
+  const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const
 {
 
   *( this->out ) << name << "," << std::to_string( fingerCode ) << "," << score
@@ -54,7 +54,7 @@ void NFIQ2UI::Log::printScore(
 
   if( this->verbose )
   {
-    for( const auto i : featureVector )
+    for( const auto& i : featureVector )
     {
       *( this->out ) << std::setprecision( 3 ) << i.featureDataDouble << ",";
     }
@@ -62,7 +62,7 @@ void NFIQ2UI::Log::printScore(
 
   if( this->speed )
   {
-    for( const auto i : featureTimings )
+    for( const auto& i : featureTimings )
     {
       *( this->out ) << std::setprecision( 3 ) << i.featureSpeed << ",";
     }

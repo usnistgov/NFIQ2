@@ -324,7 +324,7 @@ void NFIQ2UI::printUndefinedFlag()
 }
 
 // WIP ////////////////////////////////////////////////////////////////////////
-bool NFIQ2UI::isANSI2004()   // const BE::Memory::uint8Array &dataArray)
+bool NFIQ2UI::isANSI2004() // const BE::Memory::uint8Array &dataArray)
 {
   return false;
 }

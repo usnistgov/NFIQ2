@@ -9,11 +9,7 @@
  ******************************************************************************/
 
 #ifdef _WIN32
-#include <be_sysdeps.h>
 #include <getopt.h>
-#else
-#include <dirent.h>
-#include <unistd.h>
 #endif
 
 #include <cmath>
@@ -23,19 +19,20 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <mutex>
 #include <ostream>
 #include <sstream>
 #include <string>
 #include <thread>
 #include <vector>
 
-#include <mutex>
-
 #include <NFIQ2Algorithm.h>
 #include <Timer.hpp>
+
 #include <be_image_image.h>
 #include <be_io_recordstore.h>
 #include <be_io_utility.h>
+#include <be_sysdeps.h>
 
 #include "nfiq2_ui_exception.h"
 #include "nfiq2_ui_image.h"
@@ -72,22 +69,23 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
     if( flags.force )
     {
       quantized = true;
-      // quantize by force - gets handled below with grayscaleRawData
+      // quantize by force - gets handled below with getRawGrayscaleData
 
     }
     else
     {
       if( interactive && !flags.force )
       {
-        const std::string prompt =
-          "This Image is not 8 bit. Would you like to quantize/convert this "
-          "image to 8 bit color and depth?";
+        logger->debugMsg( "Image is not 8 bit. Asking user to quantize." );
+        const std::string prompt = "This Image is not 8 bit grayscale. Would "
+                                   "you like to quantize/convert this "
+                                   "image to 8 bit color and depth?";
         const bool response = NFIQ2UI::yesOrNo( prompt, false, true, true );
 
         if( response )
         {
           quantized = true;
-          // Approved the quantize - gets handled below with grayscaleRawData
+          // Approved the quantize - gets handled below with getRawGrayscaleData
           logger->debugMsg( "User approved the quantize" );
         }
         else
@@ -114,7 +112,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
     std::to_string( quantized ) );
   // Now check for PPI
 
-  BE::Image::Resolution resolution =
+  const BE::Image::Resolution resolution =
     img->getResolution().toUnits( BE::Image::Resolution::Units::PPI );
 
   const uint16_t imageDPI = static_cast<uint16_t>( std::round( resolution.xRes ) );
@@ -144,10 +142,13 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
           resampled = true;
           // Re-sample the image
 
-          /* Re-sample Image Code here
+          /* FIXME: Re-sample Image Code here
            */
           logger->debugMsg( "User approved the re-sample" );
-
+          logger->printScore( name, fingerPosition, 255,
+                              "'Error: Resampling not implemented'", quantized,
+                              false, {}, {} );
+          return;
         }
         else
         {
@@ -172,8 +173,8 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   logger->debugMsg( "Successfully passed 500 PPI check. Re-sampled?: " +
                     std::to_string( resampled ) );
 
-  // At this point - all images are 8 bit and 500PPI or have been converted to
-  // that format
+  // At this point - all images are 500PPI or have been converted to that
+  // resolution. Quantization will happen below if necessary.
 
   BE::Memory::uint8Array grayscaleRawData{};
 
@@ -196,8 +197,8 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   }
   catch( const BE::Error::Exception& e )
   {
-    logger->debugMsg( "Could not get Grayscaleraw data from image" + name );
-    std::string error{"'Error: Could not get Grayscaleraw data from image'"};
+    logger->debugMsg( "Could not get Grayscale raw data from image" + name );
+    std::string error{"'Error: Could not get Grayscale raw data from image'"};
     logger->printScore( name, fingerPosition, 255, error.append( e.what() ),
                         quantized, resampled, {}, {} );
     return;
@@ -231,7 +232,8 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   }
 }
 
-void NFIQ2UI::executeSingle( NFIQ2UI::ImgCouple couple, const Flags& flags,
+void NFIQ2UI::executeSingle( const NFIQ2UI::ImgCouple& couple,
+                             const Flags& flags,
                              std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
                              std::shared_ptr<NFIQ2UI::Log> logger,
                              const bool singleImage, const bool interactive )
@@ -355,7 +357,7 @@ void NFIQ2UI::batchConsume( NFIQ2UI::SafeSplitPathsQueue& splitQueue,
                                 false );
         // Push these scores to another queue that will get processed
         // by the printing thread
-        printQueue.push( threadedlogger->getLastScore() );
+        printQueue.push( threadedlogger->getAndClearLastScore() );
       }
     }
   }
@@ -494,7 +496,7 @@ void NFIQ2UI::recordStoreConsume( const std::string& name,
                                 false );
         // Push these scores to another queue that will get processed
         // by the printing thread
-        printQueue.push( threadedlogger->getLastScore() );
+        printQueue.push( threadedlogger->getAndClearLastScore() );
       }
     }
   }
@@ -515,6 +517,7 @@ void NFIQ2UI::executeRecordStore( const std::string& filename,
   }
   catch( const BE::Error::Exception& e )
   {
+
     std::string error{"'Error: Could not open RecordStore'"};
     logger->printScore( filename, 0, 255, error.append( e.what() ), false, false,
                         {}, {} );
@@ -597,7 +600,6 @@ void NFIQ2UI::executeRecordStore( const std::string& filename,
       try
       {
         i.join();
-
       }
       catch( const std::exception& e )
       {

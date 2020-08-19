@@ -8,8 +8,8 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#ifndef __NFIQ2_UI_REFRESH__
-#define __NFIQ2_UI_REFRESH__
+#ifndef NFIQ2_UI_REFRESH_H_
+#define NFIQ2_UI_REFRESH_H_
 
 #include <iostream>
 #include <string>
@@ -84,7 +84,7 @@ namespace NFIQ2UI
    *  @param[in] interactive
    *      Indicates whether yes/no prompts will be active.
    */
-  void executeSingle( NFIQ2UI::ImgCouple couple, const Flags& flags,
+  void executeSingle( const NFIQ2UI::ImgCouple& couple, const Flags& flags,
                       std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
                       std::shared_ptr<NFIQ2UI::Log> logger, const bool singleImage,
                       const bool interactive );
@@ -304,4 +304,4 @@ namespace NFIQ2UI
 
 } // namespace NFIQ2UI
 
-#endif /* __NFIQ2_UI_REFRESH__ */
+#endif /* NFIQ2_UI_REFRESH_H_ */

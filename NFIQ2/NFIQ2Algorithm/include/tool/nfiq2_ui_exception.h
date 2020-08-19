@@ -8,8 +8,8 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#ifndef __NFIQ2_UI_EXCEPTION__
-#define __NFIQ2_UI_EXCEPTION__
+#ifndef NFIQ2_UI_EXCEPTION_H_
+#define NFIQ2_UI_EXCEPTION_H_
 
 #include <string>
 
@@ -58,7 +58,7 @@ namespace NFIQ2UI
        *  @return
        *  The information string as a char array.
        */
-      const char* what() const noexcept;
+      const char* what() const noexcept override;
 
     private:
       std::string _info;
@@ -129,4 +129,4 @@ namespace NFIQ2UI
 
 } // namespace NFIQ2UI
 
-#endif /* __NFIQ2_UI_EXCEPTION__ */
+#endif /* NFIQ2_UI_EXCEPTION_H_ */

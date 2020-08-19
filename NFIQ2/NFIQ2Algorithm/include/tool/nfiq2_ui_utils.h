@@ -8,8 +8,8 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#ifndef __NFIQ2_UI_UTILS__
-#define __NFIQ2_UI_UTILS__
+#ifndef NFIQ2_UI_UTILS_H_
+#define NFIQ2_UI_UTILS_H_
 
 #include <iostream>
 #include <string>
@@ -167,4 +167,4 @@ namespace NFIQ2UI
 
 } // namespace NFIQ2UI
 
-#endif /* __NFIQ2_UI_UTILS__ */
+#endif /* NFIQ2_UI_UTILS_H_ */

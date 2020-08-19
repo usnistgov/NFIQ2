@@ -22,7 +22,7 @@ NFIQ2UI::ThreadedLog::ThreadedLog( const Flags& flags )
 }
 
 // Gets the print result of the last processed image
-std::string NFIQ2UI::ThreadedLog::getLastScore()
+std::string NFIQ2UI::ThreadedLog::getAndClearLastScore()
 {
   const std::string score = ss.str();
   ss.str( "" );

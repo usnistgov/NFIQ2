@@ -84,13 +84,8 @@ add_executable(${NFIQ2_TEST_APP}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp"
 )
 
-# Getopt for Windows
 if(MSVC)
-  find_library(GETOPT_LIB getopt REQUIRED)
-  find_file(GETOPT_HEADER getopt.h REQUIRED)
-  get_filename_component(GETOPT_HEADER_DIR "${GETOPT_HEADER}" DIRECTORY)
-  target_include_directories(${NFIQ2_TEST_APP} PRIVATE "${GETOPT_HEADER_DIR}")
-  target_link_libraries(${NFIQ2_TEST_APP} "${GETOPT_LIB}")
+  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
 endif()
 
 add_dependencies( ${NFIQ2_TEST_APP}
@@ -202,6 +197,20 @@ else()
   target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
+# Getopt for Windows
+if(MSVC)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x86-windows/)
+  elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x64-windows/)
+  endif()
+  find_library(GETOPT_LIB getopt REQUIRED)
+  find_file(GETOPT_HEADER getopt.h REQUIRED)
+  get_filename_component(GETOPT_HEADER_DIR "${GETOPT_HEADER}" DIRECTORY)
+  target_include_directories(${NFIQ2_TEST_APP} PRIVATE "${GETOPT_HEADER_DIR}")
+  target_link_libraries(${NFIQ2_TEST_APP} "${GETOPT_LIB}")
+endif()
+
 set_target_properties(${NFIQ2_TEST_APP}
   PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
 
@@ -225,4 +234,16 @@ if(MSVC)
 add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory
       ${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build/Release ${CMAKE_INSTALL_PREFIX}/bin)
+endif()
+
+if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${_VCPKG_INSTALLED_DIR}/x86-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
+endif()
+
+if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+  add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
 endif()

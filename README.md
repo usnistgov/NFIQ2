@@ -62,7 +62,9 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE={VCPKG_DIR/scripts/buildsystems/vcpkg.cmake} -DC
 cmake --build .
 ```
 Notes:
+
 VCPKG_DIR is the path to where VCPKG is installed.
+
 -A takes either Win32 or x64 for 32-bit and 64-bit builds, respectfully. 
 
 Cross Compilation

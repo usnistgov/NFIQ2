@@ -44,6 +44,13 @@ systems by identifying the samples that are likely to cause recognition failure.
 
 If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
 
+Dependencies
+-----------
+
+This version of NFIQ2 uses The Biometric Evaluation Framework (libbiomeval). 
+
+A link to The Framework can be found [here](https://github.com/usnistgov/libbiomeval). See the Libbiomeval README for more information.
+
 Quick Build
 -----------
 **Linux and macOS:**
@@ -118,7 +125,7 @@ Due to the specifics of an Android build, a modified (GCC support) NDK needs to 
 OpenCV version
 --------------
 
-The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.4.0.
+The tested and approved OpenCV version is 4.4.0. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.4.0.
 The OpenCV version can be changed within by setting the CMake variable `OPENCV_VERSION`:
 ```bash
 cmake -DOPENCV_VERSION="4.4.0" ..

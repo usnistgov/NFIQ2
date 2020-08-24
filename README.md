@@ -46,12 +46,24 @@ If you would like more information please read the [NFIQ 2 Report](https://www.n
 
 Quick Build
 -----------
+**Linux and macOS:**
 ```bash
 mkdir build
 cd build
 cmake ..
 cmake --build .
 ```
+
+**Windows:**
+```bash
+mkdir build
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE={VCPKG_DIR/scripts/buildsystems/vcpkg.cmake} -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A {Win32 || x64}
+cmake --build .
+```
+Notes:
+VCPKG_DIR is the path to where VCPKG is installed.
+-A takes either Win32 or x64 for 32-bit and 64-bit builds, respectfully. 
 
 Cross Compilation
 -----------------

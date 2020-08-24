@@ -141,6 +141,7 @@ if(MSVC)
   target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
 endif()
 
+# Linking in biomeval lib - must occur before individual libs due to linker bug
 if(MSVC)
   target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
@@ -239,6 +240,7 @@ add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
       ${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build/Release ${CMAKE_INSTALL_PREFIX}/bin)
 endif()
 
+# Copies getopt dll for Windows builds
 if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
   add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy

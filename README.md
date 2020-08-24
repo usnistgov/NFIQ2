@@ -120,7 +120,7 @@ Due to the specifics of an Android build, a modified (GCC support) NDK needs to 
 OpenCV version
 --------------
 
-The tested and approved OpenCV version is 4.4.0. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.4.0.
+The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.4.0.
 The OpenCV version can be changed within by setting the CMake variable `OPENCV_VERSION`:
 ```bash
 cmake -DOPENCV_VERSION="4.4.0" ..

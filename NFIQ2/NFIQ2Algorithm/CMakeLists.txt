@@ -84,10 +84,6 @@ add_executable(${NFIQ2_TEST_APP}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp"
 )
 
-if(MSVC)
-  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
-endif()
-
 add_dependencies( ${NFIQ2_TEST_APP}
   opencv_core
   opencv_ml
@@ -140,6 +136,12 @@ endif()
 
 target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )
 
+# Windows builds require crypt32 supplemental library for OpenSSL
+if(MSVC)
+  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
+endif()
+
+# The following is lifted from libbiomeval and can be removed once find_package has been implemented for the library.
 # TODO: libbiomeval should implement find_package
 list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
 
@@ -204,6 +206,7 @@ if(MSVC)
   elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
     list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x64-windows/)
   endif()
+  
   find_library(GETOPT_LIB getopt REQUIRED)
   find_file(GETOPT_HEADER getopt.h REQUIRED)
   get_filename_component(GETOPT_HEADER_DIR "${GETOPT_HEADER}" DIRECTORY)

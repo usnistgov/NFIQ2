@@ -141,6 +141,12 @@ if(MSVC)
   target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
 endif()
 
+if(MSVC)
+  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
+else()
+  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
+endif()
+
 # The following is lifted from libbiomeval and can be removed once find_package has been implemented for the library.
 # TODO: libbiomeval should implement find_package
 list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
@@ -192,12 +198,6 @@ target_link_libraries(${NFIQ2_TEST_APP} ${OPENJP2_LIBRARIES})
 
 find_package(JPEG REQUIRED)
 target_link_libraries(${NFIQ2_TEST_APP} ${JPEG_LIBRARIES})
-
-if(MSVC)
-  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
-else()
-  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
-endif()
 
 # Getopt for Windows
 if(MSVC)

@@ -31,6 +31,31 @@ jobs:
       env: OPENCV_VERSION="4.4.0" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
       compiler: clang
 
+addons: 
+  apt:
+    packages:
+      - libssl-dev
+      - libpcsclite-dev
+      - libopenjp2-7-dev
+      - libjpeg-dev
+      - libpng-dev
+      - libtiff-dev
+      - zlib1g-dev
+      - libdb++-dev
+      - libsqlite3-dev
+      - libhwloc-dev
+  homebrew:
+    packages:
+      - pcsc-lite
+      - openjpeg
+      - jpeg-turbo
+      - libpng
+      - libtiff
+      - zlib
+      - berkeley-db
+      - sqlite
+      - hwloc
+
 before_install:
     - |
       if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
@@ -46,30 +71,6 @@ before_install:
               echo "astyle finished with no changes"
           fi
       fi
-    - addons: 
-        apt:
-          packages:
-            - libssl-dev
-            - libpcsclite-dev
-            - libopenjp2-7-dev
-            - libjpeg-dev
-            - libpng-dev
-            - libtiff-dev
-            - zlib1g-dev
-            - libdb++-dev
-            - libsqlite3-dev
-            - libhwloc-dev
-        homebrew:
-          packages:
-            - pcsc-lite
-            - openjpeg
-            - jpeg-turbo
-            - libpng
-            - libtiff
-            - zlib
-            - berkeley-db
-            - sqlite
-            - hwloc
 
 before_script:
     - mkdir build

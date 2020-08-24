@@ -46,6 +46,30 @@ before_install:
               echo "astyle finished with no changes"
           fi
       fi
+    - addons: 
+        apt:
+          packages:
+            - libssl-dev
+            - libpcsclite-dev
+            - libopenjp2-7-dev
+            - libjpeg-dev
+            - libpng-dev
+            - libtiff-dev
+            - zlib1g-dev
+            - libdb++-dev
+            - libsqlite3-dev
+            - libhwloc-dev
+        homebrew:
+          packages:
+            - pcsc-lite
+            - openjpeg
+            - jpeg-turbo
+            - libpng
+            - libtiff
+            - zlib
+            - berkeley-db
+            - sqlite
+            - hwloc
 
 before_script:
     - mkdir build

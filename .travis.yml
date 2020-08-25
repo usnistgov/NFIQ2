@@ -34,27 +34,28 @@ jobs:
 addons: 
   apt:
     packages:
-      - libssl-dev
-      - libpcsclite-dev
-      - libopenjp2-7-dev
+      - libdb++-dev
+      - libhwloc-dev
       - libjpeg-dev
+      - libopenjp2-7-dev
       - libpng-dev
+      - libpcsclite-dev
+      - libsqlite3-dev
+      - libssl-dev      
       - libtiff-dev
       - zlib1g-dev
-      - libdb++-dev
-      - libsqlite3-dev
-      - libhwloc-dev
   homebrew:
     packages:
-      - pcsc-lite
-      - openjpeg
+      - berkeley-db
+      - hwloc
       - jpeg-turbo
       - libpng
       - libtiff
-      - zlib
-      - berkeley-db
+      - openjpeg
+      - openssl
+      - pcsc-lite
       - sqlite
-      - hwloc
+      - zlib
 
 before_install:
     - |

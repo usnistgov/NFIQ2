@@ -39,7 +39,6 @@ addons:
       - libjpeg-dev
       - libopenjp2-7-dev
       - libpng-dev
-      - libpcsclite-dev
       - libsqlite3-dev
       - libssl-dev      
       - libtiff-dev
@@ -53,7 +52,6 @@ addons:
       - libtiff
       - openjpeg
       - openssl
-      - pcsc-lite
       - sqlite
       - zlib
 

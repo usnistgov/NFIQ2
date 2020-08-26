@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 3.3)
 
 project( NFIQ2_SUPERBUILD )
 
+option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
+
 set( NO_SEARCH TRUE )
 
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
@@ -159,6 +161,7 @@ ExternalProject_Add(OpenCV
 	INSTALL_COMMAND	""
 )
 
+if (BUILD_NFIQ2_CLI)
 ExternalProject_Add(libbiomeval
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
 	INSTALL_COMMAND ""
@@ -173,12 +176,14 @@ ExternalProject_Add(libbiomeval
 	BUILD_ALWAYS	YES
 	INSTALL_DIR ${DIST_PATH}
 )
+endif(BUILD_NFIQ2_CLI)
 
 ExternalProject_Add(nfiq2
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Algorithm
 	CMAKE_ARGS
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
 		-DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
+		-DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI}
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		-DFRFXLL_VERSION=${FRFXLL_VERSION}
 		-DOPENCV_VERSION=${OPENCV_VERSION}
@@ -191,7 +196,11 @@ ExternalProject_Add(nfiq2
 	BUILD_ALWAYS	YES
 	INSTALL_DIR ${DIST_PATH}
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static libbiomeval)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static)
+
+if (BUILD_NFIQ2_CLI)
+	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval)
+endif(BUILD_NFIQ2_CLI)
 
 ExternalProject_Add(nfiq2api
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Api

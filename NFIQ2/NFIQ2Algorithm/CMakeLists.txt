@@ -72,6 +72,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 # New NFIQ2 TOOL
+if (BUILD_NFIQ2_CLI)
+
 set( NFIQ2_TEST_APP "nfiq2-bin" )
 
 add_executable(${NFIQ2_TEST_APP}
@@ -220,10 +222,6 @@ set_target_properties(${NFIQ2_TEST_APP}
 
 install(TARGETS ${NFIQ2_TEST_APP} 
     RUNTIME DESTINATION bin)
-install(TARGETS ${PROJECT_NAME} 
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include)
 install(FILES 
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
     DESTINATION bin)
@@ -252,3 +250,9 @@ if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     COMMAND ${CMAKE_COMMAND} -E copy
         ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
 endif()
+endif(BUILD_NFIQ2_CLI)
+
+install(TARGETS ${PROJECT_NAME} 
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    PUBLIC_HEADER DESTINATION include)

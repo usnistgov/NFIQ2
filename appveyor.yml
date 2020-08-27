@@ -22,38 +22,27 @@ install:
 - cmd: .\bootstrap-vcpkg.bat
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
-- cmd: vcpkg install berkeleydb:x64-windows-static
-- cmd: vcpkg install berkeleydb:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install berkeleydb:x64-windows-static ) else ( vcpkg install berkeleydb:x86-windows-static )
 
-- cmd: vcpkg install getopt:x64-windows
-- cmd: vcpkg install getopt:x86-windows
+- cmd: if %PLATFORM% == x64 ( vcpkg install getopt:x64-windows ) else ( vcpkg install getopt:x86-windows )
 
-- cmd: vcpkg install hwloc:x64-windows-static
-- cmd: vcpkg install hwloc:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install hwloc:x64-windows-static ) else ( vcpkg install hwloc:x86-windows-static )
 
-- cmd: vcpkg install libjpeg-turbo:x64-windows-static
-- cmd: vcpkg install libjpeg-turbo:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install libjpeg-turbo:x64-windows-static ) else ( vcpkg install libjpeg-turbo:x86-windows-static )
 
-- cmd: vcpkg install liblzma:x64-windows-static
-- cmd: vcpkg install liblzma:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install liblzma:x64-windows-static ) else ( vcpkg install liblzma:x86-windows-static )
 
-- cmd: vcpkg install libpng:x64-windows-static
-- cmd: vcpkg install libpng:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install libpng:x64-windows-static ) else ( vcpkg install libpng:x86-windows-static )
 
-- cmd: vcpkg install openjpeg:x64-windows-static
-- cmd: vcpkg install openjpeg:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install openjpeg:x64-windows-static ) else ( vcpkg install openjpeg:x86-windows-static )
 
-- cmd: vcpkg install openssl:x64-windows-static
-- cmd: vcpkg install openssl:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install openssl:x64-windows-static ) else ( vcpkg install openssl:x86-windows-static )
 
-- cmd: vcpkg install sqlite3:x64-windows-static
-- cmd: vcpkg install sqlite3:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install sqlite3:x64-windows-static ) else ( vcpkg install sqlite3:x86-windows-static )
 
-- cmd: vcpkg install tiff:x64-windows-static
-- cmd: vcpkg install tiff:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install tiff:x64-windows-static ) else ( vcpkg install tiff:x86-windows-static )
 
-- cmd: vcpkg install zlib:x64-windows-static
-- cmd: vcpkg install zlib:x86-windows-static
+- cmd: if %PLATFORM% == x64 ( vcpkg install zlib:x64-windows-static ) else ( vcpkg install zlib:x86-windows-static )
 
 before_build:
 - cmd: >-

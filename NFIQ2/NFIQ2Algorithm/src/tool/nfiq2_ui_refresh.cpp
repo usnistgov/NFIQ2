@@ -32,6 +32,7 @@
 #include <be_image_image.h>
 #include <be_io_recordstore.h>
 #include <be_io_utility.h>
+#include <be_text.h>
 #include <be_sysdeps.h>
 
 #include "nfiq2_ui_exception.h"
@@ -55,6 +56,10 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
                              const uint8_t fingerPosition = 0,
                              const std::string& warning = "" )
 {
+  std::string printName = name;
+  if (flags.testCI) {
+    printName = BE::Text::basename(printName);
+  }
 
   // Indicate whether it was quantized or re-sampled
   bool quantized = false;
@@ -92,7 +97,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
         {
           // Denied the quantize
           logger->debugMsg( "User denied the quantize" );
-          logger->printScore( name, fingerPosition, 255,
+          logger->printScore( printName, fingerPosition, 255,
                               "'Error: User chose not to quantize image'",
                               quantized, resampled, {}, {} );
           return;
@@ -100,7 +105,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
       }
       else
       {
-        logger->printScore( name, fingerPosition, 255,
+        logger->printScore( printName, fingerPosition, 255,
                             "'Error: image is not 8 bit depth and/or color'",
                             quantized, resampled, {}, {} );
         return;
@@ -145,7 +150,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
           /* FIXME: Re-sample Image Code here
            */
           logger->debugMsg( "User approved the re-sample" );
-          logger->printScore( name, fingerPosition, 255,
+          logger->printScore( printName, fingerPosition, 255,
                               "'Error: Resampling not implemented'", quantized,
                               false, {}, {} );
           return;
@@ -154,7 +159,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
         {
           // User decided not to re-sample
           logger->debugMsg( "User denied the re-sample" );
-          logger->printScore( name, fingerPosition, 255,
+          logger->printScore( printName, fingerPosition, 255,
                               "'Error: User chose not to re-sample image'",
                               quantized, resampled, {}, {} );
           return;
@@ -163,7 +168,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
       }
       else
       {
-        logger->printScore( name, fingerPosition, 255,
+        logger->printScore( printName, fingerPosition, 255,
                             "'Error: Image is not 500PPI'", quantized, resampled,
                             {}, {} );
         return;
@@ -199,7 +204,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   {
     logger->debugMsg( "Could not get Grayscale raw data from image" + name );
     std::string error{"'Error: Could not get Grayscale raw data from image'"};
-    logger->printScore( name, fingerPosition, 255, error.append( e.what() ),
+    logger->printScore( printName, fingerPosition, 255, error.append( e.what() ),
                         quantized, resampled, {}, {} );
     return;
   }
@@ -226,7 +231,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   else
   {
     // Print full score with optional headers
-    logger->printScore( name, fingerPosition, corereturn.qualityScore, warning,
+    logger->printScore( printName, fingerPosition, corereturn.qualityScore, warning,
                         quantized, resampled, corereturn.featureVector,
                         corereturn.featureTimings );
   }
@@ -641,7 +646,7 @@ NFIQ2UI::Arguments NFIQ2UI::processArguments( int argc, char** argv )
 
   std::string output{};
 
-  static const char options[] {"i:f:o:j:vqdFrm:"};
+  static const char options[] {"i:f:o:j:vqdFrm:C"};
   int c{};
 
   auto vecPush = [&]( const std::string & m )
@@ -689,6 +694,9 @@ NFIQ2UI::Arguments NFIQ2UI::processArguments( int argc, char** argv )
         break;
       case 'r':
         flags.recursion = true;
+        break;
+      case 'C':
+        flags.testCI = true;
         break;
       // Not implemented yet
       case 'm':

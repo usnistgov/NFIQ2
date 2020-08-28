@@ -226,6 +226,10 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
     DESTINATION bin)
 
+add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml ${SUPERBUILD_ROOT_PATH}/complianceTestSet/nfiq2rf.yaml)
+
 # Install Man Page for Unix Systems
 if(UNIX) 
   INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")

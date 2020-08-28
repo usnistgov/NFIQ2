@@ -75,19 +75,19 @@ if __name__ == '__main__':
 	image_dir = "images/"
 
 	if os_type == "Darwin":
-		subprocess.run(["./../dist/NFIQ2/build/bin/nfiq2", "-v", "-C", "-o", "output.AppleClang.apple64.csv", image_dir])
+		subprocess.run(["./../dist/NFIQ2/build/bin/nfiq2", "-v", "-o", "output.AppleClang.apple64.csv", image_dir])
 		sys.exit(diff_func("result.AppleClang.apple64.csv", "result.AppleClang.apple64.csv", "diffoutput.csv", args.s))
 
 	elif os_type == "Linux":
-		subprocess.run(["./../dist/NFIQ2/build/bin/nfiq2", "-v", "-C", "-o", "output.gnu.linux64.csv", image_dir])
+		subprocess.run(["./../dist/NFIQ2/build/bin/nfiq2", "-v", "-o", "output.gnu.linux64.csv", image_dir])
 		sys.exit(diff_func("output.gnu.linux64.csv", "result.gnu.linux64.csv", "diffoutput.csv", args.s))
 
 	elif os_type == "Windows" and args.bitness == "x64":
-		subprocess.run([".\\..\\dist\\NFIQ2\\build\\bin\\nfiq2", "-v", "-C", "-o", "output.msvc.win64.csv", image_dir])
+		subprocess.run([".\\..\\dist\\NFIQ2\\build\\bin\\nfiq2", "-v", "-o", "output.msvc.win64.csv", image_dir])
 		sys.exit(diff_func("output.msvc.win64.csv", "result.msvc.win64.csv", "diffoutput.csv", args.s))
 
 	elif os_type == "Windows" and args.bitness == "Win32":
-		subprocess.run([".\\..\\dist\\NFIQ2\\build\\bin\\nfiq2", "-v", "-C", "-o", "output.msvc.win32.csv", image_dir])
+		subprocess.run([".\\..\\dist\\NFIQ2\\build\\bin\\nfiq2", "-v", "-o", "output.msvc.win32.csv", image_dir])
 		sys.exit(diff_func("output.msvc.win32.csv", "result.msvc.win32.csv", "diffoutput.csv", args.s))
 
 	else:

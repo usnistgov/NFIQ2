@@ -65,8 +65,6 @@ namespace NFIQ2UI
     std::string model{""};
     /** Number of threads used for multi-threading */
     unsigned int numthreads{1};
-    /** Used in CI testing purposes to ensure consistent filenames */
-    bool testCI{false};
   };
 
   /**

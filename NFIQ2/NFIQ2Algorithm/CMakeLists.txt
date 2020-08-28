@@ -17,6 +17,12 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
+# add NFIQ2 tool include directories
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
+
+# add libbiomeval include directories
+include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
+
 include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
 
 include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
@@ -65,13 +71,19 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
-#add the test program
-string( REPLACE "." "" OPENCV_VERSION2 "${OPENCV_VERSION}")
-string( REPLACE "." "" FRFXLL_VERSION2 "${FRFXLL_VERSION}")
-set( NFIQ2_TEST_APP "${PROJECT_NAME}.${CMAKE_CXX_COMPILER_ID}.${TARGET_PLATFORM}.ocv${OPENCV_VERSION2}.fjfx${FRFXLL_VERSION2}.test")
+# New NFIQ2 TOOL
+if (BUILD_NFIQ2_CLI)
 
-add_executable( ${NFIQ2_TEST_APP}
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/NFIQ2.cpp"
+set( NFIQ2_TEST_APP "nfiq2-bin" )
+
+add_executable(${NFIQ2_TEST_APP}
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_refresh.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_log.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_utils.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_exception.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_threadedlog.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_image.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp"
 )
 
 add_dependencies( ${NFIQ2_TEST_APP}
@@ -84,7 +96,6 @@ add_dependencies( ${NFIQ2_TEST_APP}
   opencv_calib3d
   opencv_video
   opencv_objdetect
-  zlib
 )
 
 if( USE_SANITIZER )
@@ -127,14 +138,125 @@ endif()
 
 target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )
 
+# Windows builds require crypt32 supplemental library for OpenSSL
+if(MSVC)
+  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
+endif()
+
+# Linking in biomeval lib - must occur before individual libs due to linker bug
+if(MSVC)
+  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
+else()
+  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
+endif()
+
+# The following is lifted from libbiomeval and can be removed once find_package has been implemented for the library.
+# TODO: libbiomeval should implement find_package
+list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
+
+find_package(FFMPEG)
+if(FFMPEG_FOUND)
+  target_link_libraries( ${NFIQ2_TEST_APP} ${FFMPEG_LIBRARIES})
+endif()
+
+find_package(PCSC)
+if(PCSC_FOUND)
+  target_link_libraries(${NFIQ2_TEST_APP} ${PCSC_LIBRARIES})
+endif()
+
+find_package(MPI)
+if(MPI_FOUND)
+  target_link_libraries(${NFIQ2_TEST_APP} ${MPI_LIBRARIES})
+endif()
+
+find_package(HWLOC)
+if(HWLOC_FOUND)
+  target_link_libraries(${NFIQ2_TEST_APP} ${HWLOC_LIBRARIES})
+endif()
+
+find_package(SQLITE3 REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${SQLITE3_LIBRARIES})
+
+find_package(TIFF REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
+
+find_package(PNG REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})
+
+find_package(BERKELEYDB REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${BERKELEYDB_LIBRARIES})
+
+if(APPLE)
+  find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)  
+  target_link_libraries(${NFIQ2_TEST_APP} ${FOUNDATION_FRAMEWORK})
+  find_library(SECURITY_FRAMEWORK Security REQUIRED)  
+  target_link_libraries(${NFIQ2_TEST_APP} ${SECURITY_FRAMEWORK})
+else()
+  find_package(OpenSSL REQUIRED)
+  target_link_libraries(${NFIQ2_TEST_APP} ${OPENSSL_LIBRARIES})
+endif()
+
+find_package(OPENJP2 REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${OPENJP2_LIBRARIES})
+
+find_package(JPEG REQUIRED)
+target_link_libraries(${NFIQ2_TEST_APP} ${JPEG_LIBRARIES})
+
+# Getopt for Windows
+if(MSVC)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x86-windows/)
+  elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x64-windows/)
+  endif()
+  
+  find_library(GETOPT_LIB getopt REQUIRED)
+  find_file(GETOPT_HEADER getopt.h REQUIRED)
+  get_filename_component(GETOPT_HEADER_DIR "${GETOPT_HEADER}" DIRECTORY)
+  target_include_directories(${NFIQ2_TEST_APP} PRIVATE "${GETOPT_HEADER_DIR}")
+  target_link_libraries(${NFIQ2_TEST_APP} "${GETOPT_LIB}")
+endif()
+
+set_target_properties(${NFIQ2_TEST_APP}
+  PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
+
 install(TARGETS ${NFIQ2_TEST_APP} 
     RUNTIME DESTINATION bin)
-install(TARGETS ${PROJECT_NAME} 
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include)
 install(FILES 
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
     DESTINATION bin)
 
+add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml ${SUPERBUILD_ROOT_PATH}/complianceTestSet/nfiq2rf.yaml)
 
+# Install Man Page for Unix Systems
+if(UNIX) 
+  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")
+endif()
+
+# Copy build results to dist on Windows
+if(MSVC)
+add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+      ${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build/Release ${CMAKE_INSTALL_PREFIX}/bin)
+endif()
+
+# Copies getopt dll for Windows builds
+if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${_VCPKG_INSTALLED_DIR}/x86-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
+endif()
+
+if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+  add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
+endif()
+endif(BUILD_NFIQ2_CLI)
+
+install(TARGETS ${PROJECT_NAME} 
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    PUBLIC_HEADER DESTINATION include)

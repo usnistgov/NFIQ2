@@ -44,12 +44,28 @@ systems by identifying the samples that are likely to cause recognition failure.
 
 If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
 
+Dependencies
+-----------
+
+This version of NFIQ2 uses The Biometric Evaluation Framework (libbiomeval). 
+
+A link to The Framework can be found [here](https://github.com/usnistgov/libbiomeval). See the Libbiomeval README for more information.
+
 Quick Build
 -----------
+**Linux and macOS:**
 ```bash
 mkdir build
 cd build
 cmake ..
+cmake --build .
+```
+
+**Windows:**
+```bash
+mkdir build
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=%vcpkg_root%\\scripts\\buildsystems\\vcpkg.cmake -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A %platform%
 cmake --build .
 ```
 
@@ -77,7 +93,7 @@ The build process is a two step process.
     - OpenCV
         * downloaded from [https://github.com/opencv/opencv/archive/`OPENCV_VERSION`.zip](https://github.com/opencv/opencv/archive/OPENCV_VERSION.zip)
         * the OpenCV version is controlled by the variable `${OPENCV_VERSION}`,
-          which is defined in the top level CMake file (default is "2.4.13.6")
+          which is defined in the top level CMake file (default is "4.4.0")
         * If you need to download the source ahead of time, place the zip file in the root directory and change the URL
 
  2. CMake will generate makefiles or project files in the directories listed below.
@@ -104,10 +120,10 @@ Due to the specifics of an Android build, a modified (GCC support) NDK needs to 
 OpenCV version
 --------------
 
-The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.1.2.
+The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.4.0.
 The OpenCV version can be changed within by setting the CMake variable `OPENCV_VERSION`:
 ```bash
-cmake -DOPENCV_VERSION="4.1.2" ..
+cmake -DOPENCV_VERSION="4.4.0" ..
 ```
 
 Known Limitations
@@ -116,6 +132,9 @@ Known Limitations
  * **macOS**:
    * Xcode 10 and later does not support 32-bit applications. In order to build
    NFIQ2 for 32-bit macOS, use Xcode 9.4.x.
+
+ * **All Platforms**:
+   * The current NFIQ2 executable binary is only supported on 64-bit machines.
 
 Communication
 -------------

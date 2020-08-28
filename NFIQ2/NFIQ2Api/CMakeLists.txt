@@ -71,7 +71,6 @@ set( PROJECT_LIBS
   FRFXLL_static
   fmr
   biomdi
-  zlib
 )
 
 if( USE_SANITIZER )

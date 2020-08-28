@@ -5,15 +5,43 @@ branches:
 image:
   - Visual Studio 2019
   - Visual Studio 2017
-  - Visual Studio 2015
 platform:
   - x64
   - Win32
 
 configuration: Release
 
+cache: c:\tools\vcpkg\installed\
+
 install:
 - cmd: git submodule update --init
+
+- cmd: cd C:\Tools\vcpkg
+- cmd: git pull
+- cmd: .\bootstrap-vcpkg.bat
+- cmd: cd %APPVEYOR_BUILD_FOLDER%
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install berkeleydb:x64-windows-static ) else ( vcpkg install berkeleydb:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install getopt:x64-windows ) else ( vcpkg install getopt:x86-windows )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install hwloc:x64-windows-static ) else ( vcpkg install hwloc:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install libjpeg-turbo:x64-windows-static ) else ( vcpkg install libjpeg-turbo:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install liblzma:x64-windows-static ) else ( vcpkg install liblzma:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install libpng:x64-windows-static ) else ( vcpkg install libpng:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install openjpeg:x64-windows-static ) else ( vcpkg install openjpeg:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install openssl:x64-windows-static ) else ( vcpkg install openssl:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install sqlite3:x64-windows-static ) else ( vcpkg install sqlite3:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install tiff:x64-windows-static ) else ( vcpkg install tiff:x86-windows-static )
+
+- cmd: if %PLATFORM% == x64 ( vcpkg install zlib:x64-windows-static ) else ( vcpkg install zlib:x86-windows-static )
 
 before_build:
 - cmd: >-
@@ -25,8 +53,7 @@ before_build:
 
     cd build\Windows
 
-    cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.2.0" C:\projects\nfiq2
-
+    if %PLATFORM% == x64 ( cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.4.0" C:\projects\nfiq2 -DVCPKG_TARGET_TRIPLET=x64-windows-static ) else ( cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.4.0" C:\projects\nfiq2 -DVCPKG_TARGET_TRIPLET=x86-windows-static )
 
 build:
   project: C:\projects\nfiq2\build\Windows\NFIQ2_SUPERBUILD.sln

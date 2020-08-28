@@ -3,33 +3,57 @@ language: cpp
 jobs:
   include:
     - os: linux
-      env: OPENCV_VERSION="2.4.13.6" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="2.4.13.6" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="4.2.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.4.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: gcc
     - os: linux
-      env: OPENCV_VERSION="4.2.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.4.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
       osx_image: xcode11.3
-      env: OPENCV_VERSION="2.4.13.6" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="2.4.13.6" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
       osx_image: xcode11.3
-      env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="3.4.8" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
       osx_image: xcode11.3
-      env: OPENCV_VERSION="4.2.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="4.4.0" BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
       osx_image: xcode9.4
-      env: OPENCV_VERSION="2.4.13.6" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release"
+      env: OPENCV_VERSION="2.4.13.6" BITS_64=OFF BITS_32=ON CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=OFF
       compiler: clang
+
+addons: 
+  apt:
+    packages:
+      - libdb++-dev
+      - libhwloc-dev
+      - libjpeg-dev
+      - libopenjp2-7-dev
+      - libpng-dev
+      - libsqlite3-dev
+      - libssl-dev      
+      - libtiff-dev
+      - zlib1g-dev
+  homebrew:
+    packages:
+      - berkeley-db
+      - hwloc
+      - jpeg-turbo
+      - libpng
+      - libtiff
+      - openjpeg
+      - openssl
+      - sqlite
+      - zlib
 
 before_install:
     - |
@@ -50,7 +74,7 @@ before_install:
 before_script:
     - mkdir build
     - cd build
-    - cmake -D32BITS=$BITS_32 -D64BITS=$BITS_64 -DOPENCV_VERSION="$OPENCV_VERSION" -DCMAKE_BUILD_TYPE="$CONFIGURATION_TYPE" ..
+    - cmake -D32BITS=$BITS_32 -D64BITS=$BITS_64 -DOPENCV_VERSION="$OPENCV_VERSION" -DCMAKE_BUILD_TYPE="$CONFIGURATION_TYPE" -DBUILD_NFIQ2_CLI=$BUILD_NFIQ2_CLI ..
 
 script:
     - cmake --build .

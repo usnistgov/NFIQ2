@@ -3,57 +3,10 @@
 
 #include "include/Data.h"
 
-#if defined WIN32 || defined WINDOWS
-#include <windows.h>
-#else
-typedef uint8_t BYTE;
-typedef uint16_t WORD;
-typedef uint32_t DWORD;
-#endif
-
 #define MU_THRESHOLD 250
-
-#define c_BI_RGB 0
 
 namespace NFIQ
 {
-
-#pragma pack(1)
-
-  typedef struct BITMAPFILEHEADER_t
-  {
-    WORD bfType;
-    DWORD bfSize;
-    WORD bfReserved1;
-    WORD bfReserved2;
-    DWORD bfOffBits;
-  } BITMAPFILEHEADER;
-
-  typedef struct BITMAPINFOHEADER_t
-  {
-    DWORD biSize;
-    DWORD biWidth;
-    DWORD biHeight;
-    WORD biPlanes;
-    WORD biBitCount;
-    DWORD biCompression;
-    DWORD biSizeImage;
-    DWORD biXPelsPerMeter;
-    DWORD biYPelsPerMeter;
-    DWORD biClrUsed;
-    DWORD biClrImportant;
-  } BITMAPINFOHEADER;
-
-  typedef struct RGBQUAD_t
-  {
-    BYTE rgbBlue;
-    BYTE rgbGreen;
-    BYTE rgbRed;
-    BYTE rgbReserved;
-  } RGBQUAD;
-
-#pragma pack()
-
   /**
   * This type represents the resolution of an image (in dpi)
   */

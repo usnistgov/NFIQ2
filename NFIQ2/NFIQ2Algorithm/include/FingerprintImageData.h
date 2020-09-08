@@ -125,40 +125,6 @@ namespace NFIQ
       /******************************************************************************/
 
       /**
-      * @fn toBMP
-      * @brief Converts the fingerprint image into Bitmap (BMP) format.
-      * @param topDown Image is saved as top down or bottom up.
-      * @return The fingerprint image in BMP format.
-      * @throws NFIQException
-      */
-      NFIQ::FingerprintImageData toBMP( bool topDown = false );
-
-      /**
-      * @fn fromBMP
-      * @brief Imports a fingerprint image from BMP data into the current object (internally represented in raw data format).
-      * @param bmpData The fingerprint image in BMP format.
-      * @throws NFIQException
-      */
-      void fromBMP( NFIQ::FingerprintImageData& bmpData );
-
-      /**
-      * @fn toWSQ
-      * @brief Converts the fingerprint image into WSQ format.
-      * @param compressionRate The rate for WSQ compression.
-      * @return The fingerprint image in WSQ format.
-      * @throws NFIQException
-      */
-      NFIQ::FingerprintImageData toWSQ( float compressionRate );
-
-      /**
-      * @fn fromWSQ
-      * @brief Imports a fingerprint image from WSQ data into the current object (internally represented in raw data format).
-      * @param wsqData The fingerprint image in WSQ format.
-      * @throws NFIQException
-      */
-      void fromWSQ( NFIQ::FingerprintImageData& wsqData );
-
-      /**
       * @fn removeWhiteFrameAroundFingerprint
       * @brief Uses a simple algorithm to remove white lines around the fingerprint image (internally represented in raw data format).
       * @return The cropped/segmented fingerprint image in raw format.

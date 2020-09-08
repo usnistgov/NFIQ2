@@ -132,34 +132,6 @@ namespace NFIQ
       */
       NFIQ::FingerprintImageData removeWhiteFrameAroundFingerprint();
 
-
-      /******************************************************************************/
-      // --- Helper Functions --- //
-      /******************************************************************************/
-
-    protected:
-      /**
-      * @brief               read data from memory buffer
-      *
-      * @param   dest        pointer to destination (i.e. where to put read data) (or NULL to skip data)
-      * @param  dest_size   size of destination (i.e. number of bytes to read)
-      * @param   buf         pointer to memory buffer (is advanced during read)
-      * @param   buf_len     length of buffer (is reduced during read)
-      * @return              if successful
-      */
-      bool read_buf( void* dest, unsigned int dest_size, const unsigned char*& buf, unsigned int& buf_len );
-
-      /**
-      * @brief              write data to memory buffer
-      *
-      * @param   src        pointer to source (i.e. where to get data from) (or NULL to fill with 0)
-      * @param  src_size   size of source (i.e. number of bytes to write)
-      * @param   buf        pointer into memory buffer (is advanced during write)
-      * @param   buf_len    length of free space in buffer (is reduced during write)
-      * @return             if successful
-      */
-      bool write_buf( void* src, unsigned int src_size, unsigned char*& buf, unsigned int& buf_len );
-
   };
 }
 

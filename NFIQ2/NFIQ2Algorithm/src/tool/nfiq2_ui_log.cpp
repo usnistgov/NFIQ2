@@ -56,7 +56,7 @@ void NFIQ2UI::Log::printScore(
   {
     for( const auto& i : featureVector )
     {
-      *( this->out ) << std::setprecision( 3 ) << i.featureDataDouble << ",";
+      *( this->out ) << std::setprecision( 5 ) << i.featureDataDouble << ",";
     }
   }
 

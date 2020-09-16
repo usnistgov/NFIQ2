@@ -15,7 +15,6 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/wsq")
 
 # add NFIQ2 tool include directories
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
@@ -51,7 +50,6 @@ list( REMOVE_ITEM SOURCE_FILES
 
 file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
 file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
-file( GLOB WSQ_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/wsq/*.cpp" )
 
 set(PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
@@ -65,7 +63,6 @@ add_library( ${PROJECT_NAME} STATIC
   ${SOURCE_FILES}
   ${FEATURES_FILES}
   ${PREDICTION_FILES}
-  ${WSQ_FILES}
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"

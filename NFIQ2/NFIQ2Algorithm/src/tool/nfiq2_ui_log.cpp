@@ -126,7 +126,7 @@ void NFIQ2UI::Log::printCSVHeader() const
                  << ","
                  << "Quantized"
                  << ","
-                 << "Re-sampled";
+                 << "Resampled";
   if( this->verbose || this-> speed )
   {
     *( this->out ) << ",";

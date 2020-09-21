@@ -429,34 +429,26 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
 
 std::vector<std::string> NFIQ2Algorithm::Impl::getAllQualityFeatureIDs()
 {
+  std::list<std::list<std::string>> lol{};
+  lol.push_back( FDAFeature::getAllFeatureIDs() );
+  lol.push_back( FingerJetFXFeature::getAllFeatureIDs() );
+  lol.push_back( FJFXMinutiaeQualityFeature::getAllFeatureIDs() );
+  lol.push_back( ImgProcROIFeature::getAllFeatureIDs() );
+  lol.push_back( LCSFeature::getAllFeatureIDs() );
+  lol.push_back( MuFeature::getAllFeatureIDs() );
+  lol.push_back( OCLHistogramFeature::getAllFeatureIDs() );
+  lol.push_back( OFFeature::getAllFeatureIDs() );
+  lol.push_back( QualityMapFeatures::getAllFeatureIDs() );
+  lol.push_back( RVUPHistogramFeature::getAllFeatureIDs() );
 
   std::list<std::string> qualityFeatureIDs{};
 
-  std::list<std::list<std::string>> vol{};
-  vol.push_back( FDAFeature::getAllFeatureIDs() );
-  vol.push_back( FingerJetFXFeature::getAllFeatureIDs() );
-  vol.push_back( FJFXMinutiaeQualityFeature::getAllFeatureIDs() );
-  vol.push_back( ImgProcROIFeature::getAllFeatureIDs() );
-  vol.push_back( LCSFeature::getAllFeatureIDs() );
-  vol.push_back( MuFeature::getAllFeatureIDs() );
-  vol.push_back( OCLHistogramFeature::getAllFeatureIDs() );
-  vol.push_back( OFFeature::getAllFeatureIDs() );
-  vol.push_back( QualityMapFeatures::getAllFeatureIDs() );
-  vol.push_back( RVUPHistogramFeature::getAllFeatureIDs() );
-
-  for( auto& i : vol )
+  for( auto& i : lol )
   {
-    qualityFeatureIDs.splice( qualityFeatureIDs.end(), i, i.begin(), i.end() );
+    qualityFeatureIDs.splice( qualityFeatureIDs.end(), i );
   }
 
-  std::vector<std::string> listToVector{};
-
-  for( auto& i : qualityFeatureIDs )
-  {
-    listToVector.push_back( i );
-  }
-
-  return listToVector;
+  return {qualityFeatureIDs.begin(), qualityFeatureIDs.end()};
 }
 
 std::vector<std::string> NFIQ2Algorithm::Impl::getAllSpeedFeatureGroups()

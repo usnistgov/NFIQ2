@@ -119,6 +119,10 @@ void NFIQ2UI::Log::printCSVHeader() const
       qualityHeaders = qualityHeaders.append( i ).append( "," );
     }
 
+    if (this->speed == false) {
+      qualityHeaders.pop_back();
+    }
+
     *( this->out ) << qualityHeaders;
   }
 
@@ -133,6 +137,8 @@ void NFIQ2UI::Log::printCSVHeader() const
       std::replace( i.begin(), i.end(), ' ', '_' );
       speedHeaders = speedHeaders.append( i ).append( "," );
     }
+
+    speedHeaders.pop_back();
 
     *( this->out ) << speedHeaders;
   }

@@ -453,18 +453,18 @@ std::vector<std::string> NFIQ2Algorithm::Impl::getAllQualityFeatureIDs()
 
 std::vector<std::string> NFIQ2Algorithm::Impl::getAllSpeedFeatureGroups()
 {
-  std::vector<std::string> speedFeatureGroups{};
-
-  speedFeatureGroups.push_back( FDAFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( FingerJetFXFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( FJFXMinutiaeQualityFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( ImgProcROIFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( LCSFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( MuFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( OCLHistogramFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( OFFeature::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( QualityMapFeatures::speedFeatureIDGroup );
-  speedFeatureGroups.push_back( RVUPHistogramFeature::speedFeatureIDGroup );
+  static const std::vector<std::string> speedFeatureGroups
+  {
+    FDAFeature::speedFeatureIDGroup,
+    FingerJetFXFeature::speedFeatureIDGroup,
+    FJFXMinutiaeQualityFeature::speedFeatureIDGroup,
+    ImgProcROIFeature::speedFeatureIDGroup,
+    LCSFeature::speedFeatureIDGroup,
+    MuFeature::speedFeatureIDGroup,
+    OCLHistogramFeature::speedFeatureIDGroup,
+    OFFeature::speedFeatureIDGroup,
+    QualityMapFeatures::speedFeatureIDGroup,
+    RVUPHistogramFeature::speedFeatureIDGroup};
 
   return speedFeatureGroups;
 }

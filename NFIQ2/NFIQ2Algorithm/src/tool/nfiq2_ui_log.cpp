@@ -11,7 +11,6 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
-#include <sstream>
 
 #include <NFIQ2Algorithm.h>
 
@@ -54,37 +53,37 @@ void NFIQ2UI::Log::printScore(
                  << score << "," << errmsg << "," << quantized << ","
                  << resampled << ",";
 
-  std::stringstream ss;
-
   if( this->verbose )
   {
-    for( const auto& i : featureVector )
-    {
-      ss << std::setprecision( 5 ) << i.featureDataDouble << ",";
-    }
-    std::string scoreOutput = ss.str();
-    ss.str( "" );
-    ss.clear();
 
-    if( this->speed == false )
+    for( auto i = featureVector.begin(); i != featureVector.end(); ++i )
     {
-      scoreOutput.pop_back();
+      if( i != featureVector.begin() )
+      {
+        *( this->out ) << ",";
+      }
+
+      *( this->out ) << std::setprecision( 5 ) << i->featureDataDouble;
     }
-    *( this->out ) << scoreOutput;
+    if( this->speed )
+    {
+      *( this->out ) << ",";
+    }
+
   }
 
   if( this->speed )
   {
-    for( const auto& i : featureTimings )
-    {
-      ss << std::setprecision( 3 ) << i.featureSpeed << ",";
-    }
-    std::string speedOutput = ss.str();
-    ss.str( "" );
-    ss.clear();
 
-    speedOutput.pop_back();
-    *( this->out ) << speedOutput;
+    for( auto i = featureTimings.begin(); i != featureTimings.end(); ++i )
+    {
+      if( i != featureTimings.begin() )
+      {
+        *( this->out ) << ",";
+      }
+
+      *( this->out ) << std::setprecision( 5 ) << i->featureSpeed;
+    }
   }
   *( this->out ) << "\n";
 }
@@ -136,7 +135,6 @@ void NFIQ2UI::Log::printCSVHeader() const
     {
       qualityHeaders = qualityHeaders.append( i ).append( "," );
     }
-
     if( this->speed == false )
     {
       qualityHeaders.pop_back();
@@ -158,7 +156,6 @@ void NFIQ2UI::Log::printCSVHeader() const
     }
 
     speedHeaders.pop_back();
-
     *( this->out ) << speedHeaders;
   }
   *( this->out ) << "\n";

@@ -51,7 +51,11 @@ void NFIQ2UI::Log::printScore(
 
   *( this->out ) << name << "," << std::to_string( fingerCode ) << ","
                  << score << "," << errmsg << "," << quantized << ","
-                 << resampled << ",";
+                 << resampled;
+  if( this->verbose || this->speed )
+  {
+    *( this->out ) << ",";
+  }
 
   if( this->verbose )
   {
@@ -122,8 +126,11 @@ void NFIQ2UI::Log::printCSVHeader() const
                  << ","
                  << "Quantized"
                  << ","
-                 << "Re-sampled"
-                 << ",";
+                 << "Re-sampled";
+  if( this->verbose || this-> speed )
+  {
+    *( this->out ) << ",";
+  }
 
   if( this->verbose )
   {

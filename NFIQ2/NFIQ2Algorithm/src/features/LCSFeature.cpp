@@ -38,6 +38,7 @@ std::list<std::string> LCSFeature::getAllFeatureIDs()
   return featureIDs;
 }
 
+const std::string LCSFeature::speedFeatureIDGroup = "Local clarity";
 
 std::list<NFIQ::QualityFeatureResult> LCSFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
@@ -157,7 +158,7 @@ std::list<NFIQ::QualityFeatureResult> LCSFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Local clarity";
+      speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
 #if HISTOGRAM_FEATURES
       addHistogramFeatureNames( speed.featureIDs, "LCS_Bin10_", 10 );
 #endif

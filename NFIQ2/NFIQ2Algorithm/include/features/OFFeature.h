@@ -37,7 +37,8 @@ class OFFeature : BaseFeature
 
     virtual void initModule() {};
 
-    virtual std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
   private:
     int blocksize;         /*!< Processing is done in subblocks of this size. */

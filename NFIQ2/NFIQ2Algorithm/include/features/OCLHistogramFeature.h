@@ -36,7 +36,8 @@ class OCLHistogramFeature : BaseFeature
 
     virtual void initModule() { /* not needed here */ };
 
-    virtual std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
     // compute OCL value of a given block with block size BSxBS
     static bool getOCLValueOfBlock( const cv::Mat& block, double& ocl );

@@ -31,7 +31,8 @@ class MuFeature : BaseFeature
 
     void initModule() { /* not needed here */ };
 
-    std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 };
 
 

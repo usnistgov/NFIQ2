@@ -111,7 +111,8 @@ class FingerJetFXFeature : BaseFeature
 
     void initModule() { /* not needed here */ };
 
-    std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
   private:
     FRFXLL_RESULT createContext( FRFXLL_HANDLE_PT phContext ) ;

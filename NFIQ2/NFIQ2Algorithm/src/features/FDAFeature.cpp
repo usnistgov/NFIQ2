@@ -37,6 +37,8 @@ std::list<std::string> FDAFeature::getAllFeatureIDs()
   return featureIDs;
 }
 
+const std::string FDAFeature::speedFeatureIDGroup = "Frequency domain";
+
 std::string FDAFeature::getModuleID()
 {
   return "NFIQ2_FDA";
@@ -163,7 +165,7 @@ std::list<NFIQ::QualityFeatureResult> FDAFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Frequency domain";
+      speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
 #if HISTOGRAM_FEATURES
       addHistogramFeatureNames( speed.featureIDs, "FDA_Bin10_", 10 );
 #endif

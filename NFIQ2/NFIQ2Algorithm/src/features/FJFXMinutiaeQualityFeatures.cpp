@@ -17,6 +17,8 @@ FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
 
 }
 
+const std::string FJFXMinutiaeQualityFeature::speedFeatureIDGroup = "Minutiae quality";
+
 std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage, unsigned char templateData[], size_t& templateSize, bool& templateCouldBeExtracted )
 {
@@ -54,7 +56,7 @@ std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeature
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Minutiae quality";
+      speed.featureIDGroup = FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
       speed.featureIDs.push_back( "FJFXPos_Mu_MinutiaeQuality_2" );
       speed.featureIDs.push_back( "FJFXPos_OCL_MinutiaeQuality_80" );
       speed.featureSpeed = 0;
@@ -142,7 +144,7 @@ std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeature
       if( m_bOutputSpeed )
       {
         NFIQ::QualityFeatureSpeed speed;
-        speed.featureIDGroup = "Minutiae quality";
+        speed.featureIDGroup = FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
         speed.featureIDs.push_back( "FJFXPos_Mu_MinutiaeQuality_2" );
         speed.featureIDs.push_back( "FJFXPos_OCL_MinutiaeQuality_80" );
         speed.featureSpeed = timer.endTimerAndGetElapsedTime();
@@ -263,7 +265,7 @@ std::list<NFIQ::QualityFeatureResult> FJFXMinutiaeQualityFeature::computeFeature
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Minutiae quality";
+      speed.featureIDGroup = FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
       speed.featureIDs.push_back( "FJFXPos_Mu_MinutiaeQuality_2" );
       speed.featureIDs.push_back( "FJFXPos_OCL_MinutiaeQuality_80" );
       speed.featureSpeed = timer.endTimerAndGetElapsedTime();
@@ -309,7 +311,6 @@ std::list<std::string> FJFXMinutiaeQualityFeature::getAllFeatureIDs()
   return featureIDs;
 #endif
 }
-
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
 

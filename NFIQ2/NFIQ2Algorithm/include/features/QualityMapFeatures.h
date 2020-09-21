@@ -39,7 +39,8 @@ class QualityMapFeatures : BaseFeature
 
     void initModule() { /* not needed here */ };
 
-    std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
     // compute orientation angle of a block
     static bool getAngleOfBlock( const cv::Mat& block, double& angle, double& coherence );

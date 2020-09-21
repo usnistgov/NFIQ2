@@ -45,7 +45,8 @@ class ImgProcROIFeature : BaseFeature
 
     void initModule() { /* not needed here */ };
 
-    std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
     static ImgProcROIResults computeROI( cv::Mat& img, unsigned int bs );
 

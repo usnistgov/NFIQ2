@@ -20,6 +20,8 @@ OCLHistogramFeature::~OCLHistogramFeature()
 
 }
 
+const std::string OCLHistogramFeature::speedFeatureIDGroup = "Orientation certainty";
+
 std::list<NFIQ::QualityFeatureResult> OCLHistogramFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
@@ -99,7 +101,7 @@ std::list<NFIQ::QualityFeatureResult> OCLHistogramFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Orientation certainty";
+      speed.featureIDGroup = OCLHistogramFeature::speedFeatureIDGroup;
 #if HISTOGRAM_FEATURES
       addHistogramFeatureNames( speed.featureIDs, "OCL_Bin10_", 10 );
 #endif

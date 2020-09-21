@@ -427,6 +427,56 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
   return QUALITY_SCORE_NOT_AVAILABLE;
 }
 
+std::vector<std::string> NFIQ2Algorithm::Impl::getAllQualityFeatureIDs()
+{
+
+  std::list<std::string> qualityFeatureIDs{};
+
+  std::list<std::list<std::string>> vol{};
+  vol.push_back( FDAFeature::getAllFeatureIDs() );
+  vol.push_back( FingerJetFXFeature::getAllFeatureIDs() );
+  vol.push_back( FJFXMinutiaeQualityFeature::getAllFeatureIDs() );
+  vol.push_back( ImgProcROIFeature::getAllFeatureIDs() );
+  vol.push_back( LCSFeature::getAllFeatureIDs() );
+  vol.push_back( MuFeature::getAllFeatureIDs() );
+  vol.push_back( OCLHistogramFeature::getAllFeatureIDs() );
+  vol.push_back( OFFeature::getAllFeatureIDs() );
+  vol.push_back( QualityMapFeatures::getAllFeatureIDs() );
+  vol.push_back( RVUPHistogramFeature::getAllFeatureIDs() );
+
+  for( auto& i : vol )
+  {
+    qualityFeatureIDs.splice( qualityFeatureIDs.end(), i, i.begin(), i.end() );
+  }
+
+  std::vector<std::string> listToVector{};
+
+  for( auto& i : qualityFeatureIDs )
+  {
+    listToVector.push_back( i );
+  }
+
+  return listToVector;
+}
+
+std::vector<std::string> NFIQ2Algorithm::Impl::getAllSpeedFeatureGroups()
+{
+  std::vector<std::string> speedFeatureGroups{};
+
+  speedFeatureGroups.push_back( FDAFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( FingerJetFXFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( FJFXMinutiaeQualityFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( ImgProcROIFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( LCSFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( MuFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( OCLHistogramFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( OFFeature::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( QualityMapFeatures::speedFeatureIDGroup );
+  speedFeatureGroups.push_back( RVUPHistogramFeature::speedFeatureIDGroup );
+
+  return speedFeatureGroups;
+}
+
 std::string
 NFIQ2Algorithm::Impl::getParameterHash()
 const

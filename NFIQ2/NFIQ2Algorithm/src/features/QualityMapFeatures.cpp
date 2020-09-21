@@ -26,6 +26,8 @@ QualityMapFeatures::~QualityMapFeatures()
 
 }
 
+const std::string QualityMapFeatures::speedFeatureIDGroup = "Quality map";
+
 std::list<NFIQ::QualityFeatureResult> QualityMapFeatures::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage, ImgProcROIFeature::ImgProcROIResults imgProcResults )
 {
@@ -89,7 +91,7 @@ std::list<NFIQ::QualityFeatureResult> QualityMapFeatures::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Quality map";
+      speed.featureIDGroup = QualityMapFeatures::speedFeatureIDGroup;
       speed.featureIDs.push_back( "OrientationMap_ROIFilter_CoherenceSum" );
       speed.featureIDs.push_back( "OrientationMap_ROIFilter_CoherenceRel" );
       speed.featureSpeed = timer.endTimerAndGetElapsedTime();

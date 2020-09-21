@@ -37,7 +37,8 @@ class FDAFeature : BaseFeature
     {
     };
 
-    virtual std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
   private:
     int blocksize;

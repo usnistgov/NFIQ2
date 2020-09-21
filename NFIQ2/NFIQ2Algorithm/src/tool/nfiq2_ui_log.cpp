@@ -129,34 +129,31 @@ void NFIQ2UI::Log::printCSVHeader() const
   {
     std::vector<std::string> vHeaders =
       NFIQ::NFIQ2Algorithm::getAllQualityFeatureIDs();
-    std::string qualityHeaders{};
 
-    for( auto& i : vHeaders )
+    for( auto it = vHeaders.begin(); it != vHeaders.end(); ++it )
     {
-      qualityHeaders = qualityHeaders.append( i ).append( "," );
+      if( it != vHeaders.begin() )
+      {
+        *( this->out ) << ',';
+      }
+      *( this->out ) << *it;
     }
-    if( this->speed == false )
-    {
-      qualityHeaders.pop_back();
-    }
-
-    *( this->out ) << qualityHeaders;
   }
 
   if( this->speed )
   {
-    std::vector<std::string> qHeaders =
+    std::vector<std::string> sHeaders =
       NFIQ::NFIQ2Algorithm::getAllSpeedFeatureGroups();
-    std::string speedHeaders{};
 
-    for( auto& i : qHeaders )
+    for( auto it = sHeaders.begin(); it != sHeaders.end(); ++it )
     {
-      std::replace( i.begin(), i.end(), ' ', '_' );
-      speedHeaders = speedHeaders.append( i ).append( "," );
+      if( it != sHeaders.begin() )
+      {
+        *( this->out ) << ',';
+      }
+      std::replace( it->begin(), it->end(), ' ', '_' );
+      *( this->out ) << *it;
     }
-
-    speedHeaders.pop_back();
-    *( this->out ) << speedHeaders;
   }
   *( this->out ) << "\n";
 }

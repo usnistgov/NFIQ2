@@ -12,6 +12,8 @@ MuFeature::~MuFeature()
 
 }
 
+const std::string MuFeature::speedFeatureIDGroup = "Contrast";
+
 std::list<NFIQ::QualityFeatureResult> MuFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage, double& sigma )
 {
@@ -149,7 +151,7 @@ std::list<NFIQ::QualityFeatureResult> MuFeature::computeFeatureData(
   if( m_bOutputSpeed )
   {
     NFIQ::QualityFeatureSpeed speed;
-    speed.featureIDGroup = "Contrast";
+    speed.featureIDGroup = MuFeature::speedFeatureIDGroup;
     speed.featureIDs.push_back( "MMB" );
     speed.featureIDs.push_back( "Mu" );
     speed.featureSpeed = timer.endTimerAndGetElapsedTime();

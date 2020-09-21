@@ -26,6 +26,8 @@ RVUPHistogramFeature::~RVUPHistogramFeature()
 {
 }
 
+const std::string RVUPHistogramFeature::speedFeatureIDGroup = "Ridge valley uniformity";
+
 std::list<NFIQ::QualityFeatureResult> RVUPHistogramFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
@@ -139,7 +141,7 @@ std::list<NFIQ::QualityFeatureResult> RVUPHistogramFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Ridge valley uniformity";
+      speed.featureIDGroup = RVUPHistogramFeature::speedFeatureIDGroup;
 #if HISTOGRAM_FEATURES
       addHistogramFeatureNames( speed.featureIDs, "RVUP_Bin10_", 10 );
 #endif

@@ -27,6 +27,8 @@ FingerJetFXFeature::~FingerJetFXFeature()
 
 }
 
+const std::string FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
+
 std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
   const NFIQ::FingerprintImageData fingerprintImage, unsigned char templateData[], size_t& templateSize, bool& templateCouldBeExtracted )
 {
@@ -218,7 +220,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Minutiae";
+      speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
       speed.featureIDs.push_back( "FingerJetFX_MinutiaeCount" );
       speed.featureIDs.push_back( "FingerJetFX_MinCount_COMMinRect200x200" );
       speed.featureSpeed = timer.endTimerAndGetElapsedTime();
@@ -299,7 +301,7 @@ std::list<NFIQ::QualityFeatureResult> FingerJetFXFeature::computeFeatureData(
   if( m_bOutputSpeed )
   {
     NFIQ::QualityFeatureSpeed speed;
-    speed.featureIDGroup = "Minutiae";
+    speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
     speed.featureIDs.push_back( "FingerJetFX_MinutiaeCount" );
     speed.featureIDs.push_back( "FingerJetFX_MinCount_COMMinRect200x200" );
     speed.featureSpeed = timer.endTimerAndGetElapsedTime();

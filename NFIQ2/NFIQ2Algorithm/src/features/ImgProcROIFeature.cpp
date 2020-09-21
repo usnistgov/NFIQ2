@@ -14,6 +14,8 @@ ImgProcROIFeature::~ImgProcROIFeature()
 
 }
 
+const std::string ImgProcROIFeature::speedFeatureIDGroup = "Region of interest";
+
 std::list<NFIQ::QualityFeatureResult> ImgProcROIFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage, ImgProcROIFeature::ImgProcROIResults& imgProcResults )
 {
@@ -61,7 +63,7 @@ std::list<NFIQ::QualityFeatureResult> ImgProcROIFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Region of interest";
+      speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
       speed.featureIDs.push_back( "ImgProcROIArea_Mean" );
       speed.featureSpeed = timer.endTimerAndGetElapsedTime();
       m_lSpeedValues.push_back( speed );

@@ -41,6 +41,8 @@ std::list<std::string> OFFeature::getAllFeatureIDs()
   return featureIDs;
 }
 
+const std::string OFFeature::speedFeatureIDGroup = "Orientation flow";
+
 std::list<NFIQ::QualityFeatureResult> OFFeature::computeFeatureData(
   const NFIQ::FingerprintImageData& fingerprintImage )
 {
@@ -228,7 +230,7 @@ std::list<NFIQ::QualityFeatureResult> OFFeature::computeFeatureData(
     if( m_bOutputSpeed )
     {
       NFIQ::QualityFeatureSpeed speed;
-      speed.featureIDGroup = "Orientation flow";
+      speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 #if HISTOGRAM_FEATURES
       addHistogramFeatureNames( speed.featureIDs, "OF_Bin10_", 10 );
 #endif

@@ -31,7 +31,8 @@ class LCSFeature : BaseFeature
 
     virtual void initModule() {};
 
-    virtual std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string> getAllFeatureIDs();
+    static const std::string speedFeatureIDGroup;
 
   protected:
     int blocksize;

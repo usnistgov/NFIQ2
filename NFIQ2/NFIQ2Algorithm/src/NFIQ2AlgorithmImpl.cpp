@@ -429,17 +429,18 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
 
 std::vector<std::string> NFIQ2Algorithm::Impl::getAllQualityFeatureIDs()
 {
-  std::list<std::list<std::string>> lol{};
-  lol.push_back( FDAFeature::getAllFeatureIDs() );
-  lol.push_back( FingerJetFXFeature::getAllFeatureIDs() );
-  lol.push_back( FJFXMinutiaeQualityFeature::getAllFeatureIDs() );
-  lol.push_back( ImgProcROIFeature::getAllFeatureIDs() );
-  lol.push_back( LCSFeature::getAllFeatureIDs() );
-  lol.push_back( MuFeature::getAllFeatureIDs() );
-  lol.push_back( OCLHistogramFeature::getAllFeatureIDs() );
-  lol.push_back( OFFeature::getAllFeatureIDs() );
-  lol.push_back( QualityMapFeatures::getAllFeatureIDs() );
-  lol.push_back( RVUPHistogramFeature::getAllFeatureIDs() );
+  std::list<std::list<std::string>> lol
+  {
+    FDAFeature::getAllFeatureIDs(),
+    FingerJetFXFeature::getAllFeatureIDs(),
+    FJFXMinutiaeQualityFeature::getAllFeatureIDs(),
+    ImgProcROIFeature::getAllFeatureIDs(),
+    LCSFeature::getAllFeatureIDs(),
+    MuFeature::getAllFeatureIDs(),
+    OCLHistogramFeature::getAllFeatureIDs(),
+    OFFeature::getAllFeatureIDs(),
+    QualityMapFeatures::getAllFeatureIDs(),
+    RVUPHistogramFeature::getAllFeatureIDs() };
 
   std::list<std::string> qualityFeatureIDs{};
 

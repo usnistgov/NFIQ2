@@ -145,6 +145,11 @@ void NFIQ2UI::Log::printCSVHeader() const
       }
       *( this->out ) << *it;
     }
+
+    if( this->speed )
+    {
+      *( this->out ) << ',';
+    }
   }
 
   if( this->speed )

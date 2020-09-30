@@ -237,8 +237,8 @@ double loclar( Mat& block, const double orientation, const int v1sz_x, const int
 
   int rowstart = icBlock - ( yoff - 1 ) - 1;
   int rowend = icBlock + yoff;
-  int colstart = icBlock - ( xoff - 1 );
-  int colend = icBlock + xoff + 1;
+  int colstart = icBlock - ( xoff - 1 ) - 1;
+  int colend = icBlock + xoff;
   Mat v2 = blockRotated( Range( rowstart, rowend ), Range( colstart, colend ) );
 
   std::vector<uint8_t> ridval;

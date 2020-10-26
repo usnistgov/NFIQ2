@@ -9,6 +9,7 @@
 #include <limits>
 #include <iostream>
 #include <cstring>
+#include <iomanip>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -347,6 +348,13 @@ void getRotatedBlock( const Mat& block, const double orientation, bool padFlag, 
   return;
 }
 //////////////////////////////////////////////////////////////////////////////
+double roundtoPrecision(double val,int precision)
+{
+     // Do initial checks
+     double output = round(val * pow(10,precision))/pow(10,precision);
+     return output;
+}
+
 void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& ridval, std::vector<double>& dt )
 {
 
@@ -390,6 +398,12 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
     ssErr << "Exception during ridge/valley processing: solve(DECOMP_QR) " << e.what();
     throw NFIQ::NFIQException( NFIQ::e_Error_FeatureCalculationError, ssErr.str() );
   }
+
+  for (int i = 0; i < dt1.rows; i++) {
+    for (int j = 0; j < dt1.cols; j++) {
+      dt1.at<double>(i, j) = roundtoPrecision(dt1.at<double>(i, j), 10);
+    }
+  } 
 
   //%% Block segmentation into ridge and valley regions
   //  dt = x*dt1(2) + dt1(1);

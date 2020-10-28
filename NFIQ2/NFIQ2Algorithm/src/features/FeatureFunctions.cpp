@@ -392,17 +392,17 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
     throw NFIQ::NFIQException( NFIQ::e_Error_FeatureCalculationError, ssErr.str() );
   }
 
-  // Round to 11 decimal points to preserve score consistency across platforms
-  std::function<double( double )> roundtoPrecision = [&]( double val )
+  // Round to 11 decimal points to preserve score consistency across platforms (10^11)
+  std::function<double( double )> truncateEleven = [&]( double val )
   {
-    return round( val * pow( 10, 11 ) ) / pow( 10, 11 );
+    return round( val * 100000000000 ) / 100000000000;
   };
 
   for( int i = 0; i < dt1.rows; i++ )
   {
     for( int j = 0; j < dt1.cols; j++ )
     {
-      dt1.at<double>( i, j ) = roundtoPrecision( dt1.at<double>( i, j ) );
+      dt1.at<double>( i, j ) = truncateEleven( dt1.at<double>( i, j ) );
     }
   }
 

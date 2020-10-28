@@ -392,15 +392,19 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
     throw NFIQ::NFIQException( NFIQ::e_Error_FeatureCalculationError, ssErr.str() );
   }
 
-  std::function<double(double, int)> roundtoPrecision = [&](double val, int precision) {
-    return round(val * pow(10,precision))/pow(10,precision);
+  // Round to 11 decimal points to preserve score consistency across platforms
+  std::function<double( double )> roundtoPrecision = [&]( double val )
+  {
+    return round( val * pow( 10, 11 ) ) / pow( 10, 11 );
   };
 
-  for (int i = 0; i < dt1.rows; i++) {
-    for (int j = 0; j < dt1.cols; j++) {
-      dt1.at<double>(i, j) = roundtoPrecision(dt1.at<double>(i, j), 15);
+  for( int i = 0; i < dt1.rows; i++ )
+  {
+    for( int j = 0; j < dt1.cols; j++ )
+    {
+      dt1.at<double>( i, j ) = roundtoPrecision( dt1.at<double>( i, j ) );
     }
-  } 
+  }
 
   //%% Block segmentation into ridge and valley regions
   //  dt = x*dt1(2) + dt1(1);

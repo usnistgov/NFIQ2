@@ -347,12 +347,6 @@ void getRotatedBlock( const Mat& block, const double orientation, bool padFlag, 
   return;
 }
 //////////////////////////////////////////////////////////////////////////////
-double roundtoPrecision(double val,int precision)
-{
-     // Do initial checks
-     double output = round(val * pow(10,precision))/pow(10,precision);
-     return output;
-}
 
 void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& ridval, std::vector<double>& dt )
 {
@@ -398,9 +392,13 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
     throw NFIQ::NFIQException( NFIQ::e_Error_FeatureCalculationError, ssErr.str() );
   }
 
+  std::function<double(double, int)> roundtoPrecision = [&](double val, int precision) {
+    return round(val * pow(10,precision))/pow(10,precision);
+  };
+
   for (int i = 0; i < dt1.rows; i++) {
     for (int j = 0; j < dt1.cols; j++) {
-      dt1.at<double>(i, j) = roundtoPrecision(dt1.at<double>(i, j), 10);
+      dt1.at<double>(i, j) = roundtoPrecision(dt1.at<double>(i, j), 15);
     }
   } 
 

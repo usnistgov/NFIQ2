@@ -10,6 +10,7 @@
 
 #include <array>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -132,8 +133,8 @@ NFIQ2UI::getFileContent( const std::string& filename )
   }
   catch( const std::ifstream::failure& e )
   {
-    std::cerr << "'Error: Could not get line from Batch file'"
-              << e.what() << "\n";
+    std::cerr << "'Error: Could not get line from Batch file'" << e.what()
+              << "\n";
   }
   batchOpen.close();
   std::tuple<std::vector<std::string>, int> ret( content, count );
@@ -257,6 +258,58 @@ unsigned int NFIQ2UI::checkThreads( const std::string& optarg )
   {
     return input;
   }
+}
+
+// Pads the given score with NAs to maintain equal length of each produced score
+std::string NFIQ2UI::padNA( const Flags& flags )
+{
+  int ROW_SIZE = 6;
+
+  std::string ret{};
+
+  // Both Quality and Speed attributes
+  // Size: 85
+  if( flags.verbose && flags.speed )
+  {
+    int TOTAL_SIZE = 85;
+    int padding = TOTAL_SIZE - ROW_SIZE;
+
+    for( auto i = 0; i < padding; i++ )
+    {
+      ret = ret + ",'NA'";
+    }
+
+    // Just Quality Attributes
+    // Size: 75
+  }
+  else if( flags.verbose )
+  {
+    int TOTAL_SIZE = 75;
+    int padding = TOTAL_SIZE - ROW_SIZE;
+
+    for( auto i = 0; i < padding; i++ )
+    {
+      ret = ret + ",'NA'";
+    }
+
+    // Just Speed Attributes
+    // Size: 16
+  }
+  else if( flags.speed )
+  {
+    int TOTAL_SIZE = 16;
+    int padding = TOTAL_SIZE - ROW_SIZE;
+
+    for( auto i = 0; i < padding; i++ )
+    {
+      ret = ret + ",'NA'";
+    }
+
+    // No additional attributes
+    // Size: 6 - padding not required
+  }
+
+  return ret;
 }
 
 // Usage of NFIQ2 tool

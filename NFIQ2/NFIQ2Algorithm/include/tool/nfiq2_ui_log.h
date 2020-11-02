@@ -72,12 +72,12 @@ namespace NFIQ2UI
        *  @param[in] featureTimings
        *    Prints featureTimings information if verbose flag is enabled.
        */
-      void
-      printScore( const std::string& name, uint8_t fingerCode, unsigned int score,
-                  const std::string& errmsg, const bool quantized,
-                  const bool resampled,
-                  const std::list<NFIQ::QualityFeatureData>& featureVector,
-                  const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const;
+      void printScore( const std::string& name, uint8_t fingerCode,
+                       unsigned int score, const std::string& errmsg,
+                       const bool quantized, const bool resampled,
+                       const std::list<NFIQ::QualityFeatureData>& featureVector,
+                       const std::list<NFIQ::QualityFeatureSpeed>& featureTimings,
+                       const std::string& padding = "" ) const;
 
       /**
        *  @brief

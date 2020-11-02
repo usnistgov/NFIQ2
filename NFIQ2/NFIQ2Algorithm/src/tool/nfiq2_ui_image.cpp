@@ -110,7 +110,7 @@ NFIQ2UI::getImagesFromImage( const BE::Memory::uint8Array& dataArray,
 
     logger->debugMsg( "Successfully parsed image from data-blob: " + name );
 
-    vecCouple.emplace_back( img, 0, name, "" );
+    vecCouple.emplace_back( img, 0, name, "'NA'" );
 
   }
   catch( const BE::Error::Exception& e )
@@ -171,7 +171,7 @@ NFIQ2UI::getImagesFromAN2K( const BE::Memory::uint8Array& dataArray,
 
       logger->debugMsg( "Capture is a valid NFIQ2 fingerPosition" );
 
-      std::string warning = "";
+      std::string warning = "'NA'";
 
       const uint16_t imageDPI = static_cast<uint16_t>(
                                   std::round( img->getResolution()
@@ -281,7 +281,7 @@ NFIQ2UI::getImagesFromANSI2004( const BE::Memory::uint8Array& dataArray,
 
       logger->debugMsg( "Capture is a valid NFIQ2 fingerPosition" );
 
-      std::string warning = "";
+      std::string warning = "'NA'";
 
       const uint16_t imageDPI = static_cast<uint16_t>(
                                   std::round( img->getResolution()

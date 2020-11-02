@@ -347,6 +347,7 @@ void getRotatedBlock( const Mat& block, const double orientation, bool padFlag, 
   return;
 }
 //////////////////////////////////////////////////////////////////////////////
+
 void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& ridval, std::vector<double>& dt )
 {
 
@@ -392,18 +393,13 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
   }
 
   // Round to 11 decimal points to preserve score consistency across platforms (10^11)
-  std::function<double( double )> truncateEleven = [&]( double val )
+  dt1.forEach<double>
+  (
+    [&]( double & val, const int* position )
   {
-    return round( val * 100000000000 ) / 100000000000;
-  };
-
-  for( int i = 0; i < dt1.rows; i++ )
-  {
-    for( int j = 0; j < dt1.cols; j++ )
-    {
-      dt1.at<double>( i, j ) = truncateEleven( dt1.at<double>( i, j ) );
-    }
+    val = round( val * 100000000000 ) / 100000000000;
   }
+  );
 
   //%% Block segmentation into ridge and valley regions
   //  dt = x*dt1(2) + dt1(1);

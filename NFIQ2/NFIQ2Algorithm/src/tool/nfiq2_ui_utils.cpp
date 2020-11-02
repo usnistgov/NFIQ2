@@ -132,7 +132,7 @@ NFIQ2UI::getFileContent( const std::string& filename )
   }
   catch( const std::ifstream::failure& e )
   {
-    std::cerr << "ERROR: COULD NOT GET LINE FROM BATCH FILE. MESSAGE: "
+    std::cerr << "'Error: Could not get line from Batch file'"
               << e.what() << "\n";
   }
   batchOpen.close();

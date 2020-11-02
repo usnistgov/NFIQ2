@@ -159,14 +159,11 @@ namespace NFIQ2UI
    *  Checks to see whether Verbose/Quality and/or Speed flags have been
    *  enabled. If so, the amount of padding will vary.
    *
-   *  @param[in] score
-   *    The score string before any padding is applied.
-   *
    *  @param[in] flags
    *    Flags struct to check if the Verbose or Speed flags were enabled.
    *
    *  @return
-   *    The padded score string.
+   *    The padded 'NA' string.
    */
   std::string padNA( const Flags& flags );
 

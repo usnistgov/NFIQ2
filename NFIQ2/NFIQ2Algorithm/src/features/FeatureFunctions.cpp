@@ -347,7 +347,6 @@ void getRotatedBlock( const Mat& block, const double orientation, bool padFlag, 
   return;
 }
 //////////////////////////////////////////////////////////////////////////////
-
 void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& ridval, std::vector<double>& dt )
 {
 

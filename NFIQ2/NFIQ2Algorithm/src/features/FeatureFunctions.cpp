@@ -392,6 +392,16 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
   }
 
   // Round to 11 decimal points to preserve score consistency across platforms (10^11)
+#if CV_MAJOR_VERSION <= 2
+  for( int i = 0; i < dt1.rows; i++ )
+  {
+    for( int j = 0; j < dt1.cols; j++ )
+    {
+      dt1.at<double>( i, j ) = round( dt1.at<double>( i, j ) * 100000000000 ) /
+                               100000000000;
+    }
+  }
+#else
   dt1.forEach<double>
   (
     [&]( double & val, const int* position )
@@ -399,6 +409,7 @@ void getRidgeValleyStructure( const Mat& blockCropped, std::vector<uint8_t>& rid
     val = round( val * 100000000000 ) / 100000000000;
   }
   );
+#endif /* CV_MAJOR_VERSION */
 
   //%% Block segmentation into ridge and valley regions
   //  dt = x*dt1(2) + dt1(1);

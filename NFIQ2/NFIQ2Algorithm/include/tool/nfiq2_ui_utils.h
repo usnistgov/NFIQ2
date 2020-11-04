@@ -152,23 +152,6 @@ namespace NFIQ2UI
 
   /**
    *  @brief
-   *  Pads a score with NA values to provide consistency when CSV output
-   *  is used in an outside data processing application
-   *
-   *  @details
-   *  Checks to see whether Verbose/Quality and/or Speed flags have been
-   *  enabled. If so, the amount of padding will vary.
-   *
-   *  @param[in] flags
-   *    Flags struct to check if the Verbose or Speed flags were enabled.
-   *
-   *  @return
-   *    The padded NA string.
-   */
-  std::string padNA( const Flags& flags );
-
-  /**
-   *  @brief
    *  Prints information on how to use this NFIQ2 tool
    */
   void printUsage();

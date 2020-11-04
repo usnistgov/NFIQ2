@@ -276,7 +276,7 @@ std::string NFIQ2UI::padNA( const Flags& flags )
 
     for( auto i = 0; i < padding; i++ )
     {
-      ret = ret + ",'NA'";
+      ret = ret + ",NA";
     }
 
     // Just Quality Attributes
@@ -289,7 +289,7 @@ std::string NFIQ2UI::padNA( const Flags& flags )
 
     for( auto i = 0; i < padding; i++ )
     {
-      ret = ret + ",'NA'";
+      ret = ret + ",NA";
     }
 
     // Just Speed Attributes

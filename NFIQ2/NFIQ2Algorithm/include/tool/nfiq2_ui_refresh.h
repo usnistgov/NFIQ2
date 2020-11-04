@@ -60,7 +60,7 @@ namespace NFIQ2UI
                       std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
                       std::shared_ptr<NFIQ2UI::Log> logger, const bool singleImage,
                       const bool interactive, const uint8_t fingerPosition = 0,
-                      const std::string& warning = "'NA'" );
+                      const std::string& warning = "NA" );
 
   /**
    *  @brief

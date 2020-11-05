@@ -10,6 +10,7 @@
 
 #include <array>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -132,8 +133,8 @@ NFIQ2UI::getFileContent( const std::string& filename )
   }
   catch( const std::ifstream::failure& e )
   {
-    std::cerr << "ERROR: COULD NOT GET LINE FROM BATCH FILE. MESSAGE: "
-              << e.what() << "\n";
+    std::cerr << "'Error: Could not get line from Batch file'" << e.what()
+              << "\n";
   }
   batchOpen.close();
   std::tuple<std::vector<std::string>, int> ret( content, count );

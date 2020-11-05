@@ -49,9 +49,8 @@ void NFIQ2UI::Log::printScore(
   const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const
 {
 
-  *( this->out ) << name << "," << std::to_string( fingerCode ) << ","
-                 << score << "," << errmsg << "," << quantized << ","
-                 << resampled;
+  *( this->out ) << name << "," << std::to_string( fingerCode ) << "," << score
+                 << "," << errmsg << "," << quantized << "," << resampled;
   if( this->verbose || this->speed )
   {
     *( this->out ) << ",";
@@ -73,7 +72,6 @@ void NFIQ2UI::Log::printScore(
     {
       *( this->out ) << ",";
     }
-
   }
 
   if( this->speed )
@@ -90,6 +88,46 @@ void NFIQ2UI::Log::printScore(
     }
   }
   *( this->out ) << "\n";
+}
+
+// Pad CSV output with NAs for row consistency
+std::string NFIQ2UI::Log::padNA() const
+{
+  static std::string strNA{};
+  if( !strNA.empty() )
+  {
+    return strNA;
+  }
+
+  static const unsigned int MIN_NUM_COLS{6};
+  unsigned int numCols{MIN_NUM_COLS};
+
+  if( this->verbose )
+  {
+    numCols += 69;
+  }
+
+  if( this->speed )
+  {
+    numCols += 10;
+  }
+
+  const unsigned int padding = numCols - MIN_NUM_COLS;
+  for( auto i = 0; i < padding; i++ )
+  {
+    strNA += ",NA";
+  }
+
+  return strNA;
+}
+
+// Prints out an error score if the image was unable to be processed correctly
+void NFIQ2UI::Log::printError(
+  const std::string& name, uint8_t fingerCode, unsigned int score,
+  const std::string& errmsg, const bool quantized, const bool resampled ) const
+{
+  *( this->out ) << name << "," << std::to_string( fingerCode ) << "," << score
+                 << "," << errmsg << "," << quantized << "," << resampled << padNA() << "\n";
 }
 
 // Prints the quality score of a single image
@@ -127,7 +165,7 @@ void NFIQ2UI::Log::printCSVHeader() const
                  << "Quantized"
                  << ","
                  << "Resampled";
-  if( this->verbose || this-> speed )
+  if( this->verbose || this->speed )
   {
     *( this->out ) << ",";
   }

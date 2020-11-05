@@ -53,16 +53,15 @@ namespace NFIQ2UI
        *
        *  @details
        *    Prints score generated from NFIQ2.
-       *    Error code 255 is printed if image could not be evaluated.
        *
-       *    @param[in] name
+       *  @param[in] name
        *    The name of the image.
-       *    @param[in] fingerCode
+       *  @param[in] fingerCode
        *    Finger position of the image. Valid values: 0-12.
        *  @param[in] score
        *    Calculated NFIQ2 Score.
        *  @param[in] errmsg
-       *    Error message if applicable.
+       *    Error message if applicable. Will be "NA" otherwise.
        *  @param[in] quantized
        *    If the image was quantized 0 = not quantized, 1 = quantized.
        *  @param[in] resampled
@@ -72,12 +71,52 @@ namespace NFIQ2UI
        *  @param[in] featureTimings
        *    Prints featureTimings information if verbose flag is enabled.
        */
-      void
-      printScore( const std::string& name, uint8_t fingerCode, unsigned int score,
-                  const std::string& errmsg, const bool quantized,
-                  const bool resampled,
-                  const std::list<NFIQ::QualityFeatureData>& featureVector,
-                  const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const;
+      void printScore( const std::string& name, uint8_t fingerCode,
+                       unsigned int score, const std::string& errmsg,
+                       const bool quantized, const bool resampled,
+                       const std::list<NFIQ::QualityFeatureData>& featureVector,
+                       const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const;
+
+      /**
+       *  @brief
+       *  Pads an error score with NA values to provide consistency when CSV output
+       *  is used in an outside data processing application
+       *
+       *  @details
+       *  Checks to see whether Verbose/Quality and/or Speed flags have been
+       *  enabled. If so, the amount of padding will vary.
+       *
+       *  @return
+       *    The padded NA string.
+       */
+      std::string padNA() const;
+
+      /**
+       *  @brief
+       *    Print the score for an Image in CSV format.
+       *
+       *  @details
+       *    Prints Error scores generated from NFIQ2 for images that failed
+       *    processing.
+       *    Error code 255 is printed if image could not be evaluated and padding
+       *    is added to ensure consistency.
+       *
+       *  @param[in] name
+       *    The name of the image.
+       *  @param[in] fingerCode
+       *    Finger position of the image. Valid values: 0-12.
+       *  @param[in] score
+       *    Calculated NFIQ2 Score.
+       *  @param[in] errmsg
+       *    Error message if applicable. Will be "NA" otherwise
+       *  @param[in] quantized
+       *    If the image was quantized 0 = not quantized, 1 = quantized.
+       *  @param[in] resampled
+       *    If the image was resampled 0 = not resampled, 1 = resampled.
+       */
+      void printError(
+        const std::string& name, uint8_t fingerCode, unsigned int score,
+        const std::string& errmsg, const bool quantized, const bool resampled ) const;
 
       /**
        *  @brief

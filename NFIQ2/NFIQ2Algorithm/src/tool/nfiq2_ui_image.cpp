@@ -56,8 +56,8 @@ NFIQ2UI::getImages( const BE::Memory::uint8Array& dataArray,
     default:
       logger->debugMsg( "Image type could not be determined. " + name +
                         " will not be processed" );
-      logger->printScore( name, 0, 255, "'Error: Could not determine FileType'", 0,
-                          0, {}, {} );
+      logger->printError( name, 0, 255, "'Error: Could not determine FileType'", 0,
+                          0 );
 
       return vecCouple;
   }
@@ -87,8 +87,7 @@ NFIQ2UI::getImages( const std::string& path,
   {
 
     std::string error{"'Error: Could not obtain data from path : "};
-    logger->printScore( path, 0, 255, error.append( e.what() ) + "'", false, false,
-                        {}, {} );
+    logger->printError( path, 0, 255, error.append( e.what() ) + "'", false, false );
   }
 
   return vecCouple;
@@ -110,15 +109,14 @@ NFIQ2UI::getImagesFromImage( const BE::Memory::uint8Array& dataArray,
 
     logger->debugMsg( "Successfully parsed image from data-blob: " + name );
 
-    vecCouple.emplace_back( img, 0, name, "" );
+    vecCouple.emplace_back( img, 0, name, "NA" );
 
   }
   catch( const BE::Error::Exception& e )
   {
     // Unable to open the image
     std::string error{"'Error: Could not open image : "};
-    logger->printScore( name, 0, 255, error.append( e.what() ) + "'", 0, 0, {},
-                        {} );
+    logger->printError( name, 0, 255, error.append( e.what() ) + "'", 0, 0 );
   }
   return vecCouple;
 }
@@ -144,8 +142,7 @@ NFIQ2UI::getImagesFromAN2K( const BE::Memory::uint8Array& dataArray,
   {
 
     std::string error{"'Error AN2K Record could not be opened : "};
-    logger->printScore( name, 0, 255, error.append( e.what() ) + "'", 0, 0, {},
-                        {} );
+    logger->printError( name, 0, 255, error.append( e.what() ) + "'", 0, 0 );
     return vecCouple;
   }
 
@@ -171,7 +168,7 @@ NFIQ2UI::getImagesFromAN2K( const BE::Memory::uint8Array& dataArray,
 
       logger->debugMsg( "Capture is a valid NFIQ2 fingerPosition" );
 
-      std::string warning = "";
+      std::string warning = "NA";
 
       const uint16_t imageDPI = static_cast<uint16_t>(
                                   std::round( img->getResolution()
@@ -220,10 +217,10 @@ NFIQ2UI::getImagesFromAN2K( const BE::Memory::uint8Array& dataArray,
       logger->debugMsg( "Invalid fingerprint position provided: " + name + "_" +
                         std::to_string( fingerPosition ) );
 
-      logger->printScore( name + "_" + std::to_string( fingerPosition ),
+      logger->printError( name + "_" + std::to_string( fingerPosition ),
                           static_cast<uint8_t>( fingerPosition ), 255,
                           "'Error: Invalid FingerPosition for NFIQ2 (not 0-12)'",
-                          0, 0, {}, {} );
+                          0, 0 );
     }
   }
   return vecCouple;
@@ -255,8 +252,7 @@ NFIQ2UI::getImagesFromANSI2004( const BE::Memory::uint8Array& dataArray,
   {
     // Could not make ANSI2004Record
     std::string error{"'ERROR: ANSI2004 RECORD COULD NOT BE OPENED : "};
-    logger->printScore( name, 0, 255, error.append( e.what() ) + "'", 0, 0, {},
-                        {} );
+    logger->printError( name, 0, 255, error.append( e.what() ) + "'", 0, 0 );
     return vecCouple;
   }
 
@@ -281,7 +277,7 @@ NFIQ2UI::getImagesFromANSI2004( const BE::Memory::uint8Array& dataArray,
 
       logger->debugMsg( "Capture is a valid NFIQ2 fingerPosition" );
 
-      std::string warning = "";
+      std::string warning = "NA";
 
       const uint16_t imageDPI = static_cast<uint16_t>(
                                   std::round( img->getResolution()
@@ -330,10 +326,10 @@ NFIQ2UI::getImagesFromANSI2004( const BE::Memory::uint8Array& dataArray,
       logger->debugMsg( "Invalid fingerprint position provided: " + name + "_" +
                         std::to_string( fingerPosition ) );
 
-      logger->printScore( name + "_" + std::to_string( fingerPosition ),
+      logger->printError( name + "_" + std::to_string( fingerPosition ),
                           static_cast<uint8_t>( fingerPosition ), 255,
                           "'Error: Invalid finger print position for NFIQ2'", 0,
-                          0, {}, {} );
+                          0 );
     }
   }
 

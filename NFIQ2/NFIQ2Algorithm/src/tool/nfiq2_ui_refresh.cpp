@@ -52,8 +52,8 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
                              std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
                              std::shared_ptr<NFIQ2UI::Log> logger,
                              const bool singleImage, const bool interactive,
-                             const uint8_t fingerPosition = 0,
-                             const std::string& warning = "" )
+                             const uint8_t fingerPosition,
+                             const std::string& warning )
 {
 
   // Indicate whether it was quantized or re-sampled
@@ -92,17 +92,17 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
         {
           // Denied the quantize
           logger->debugMsg( "User denied the quantize" );
-          logger->printScore( name, fingerPosition, 255,
+          logger->printError( name, fingerPosition, 255,
                               "'Error: User chose not to quantize image'",
-                              quantized, resampled, {}, {} );
+                              quantized, resampled );
           return;
         }
       }
       else
       {
-        logger->printScore( name, fingerPosition, 255,
+        logger->printError( name, fingerPosition, 255,
                             "'Error: image is not 8 bit depth and/or color'",
-                            quantized, resampled, {}, {} );
+                            quantized, resampled );
         return;
       }
     }
@@ -144,28 +144,28 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
 
           /* FIXME: Re-sample Image Code here
            */
+
           logger->debugMsg( "User approved the re-sample" );
-          logger->printScore( name, fingerPosition, 255,
+          logger->printError( name, fingerPosition, 255,
                               "'Error: Resampling not implemented'", quantized,
-                              false, {}, {} );
+                              resampled );
           return;
         }
         else
         {
           // User decided not to re-sample
           logger->debugMsg( "User denied the re-sample" );
-          logger->printScore( name, fingerPosition, 255,
+          logger->printError( name, fingerPosition, 255,
                               "'Error: User chose not to re-sample image'",
-                              quantized, resampled, {}, {} );
+                              quantized, resampled );
           return;
         }
 
       }
       else
       {
-        logger->printScore( name, fingerPosition, 255,
-                            "'Error: Image is not 500PPI'", quantized, resampled,
-                            {}, {} );
+        logger->printError( name, fingerPosition, 255,
+                            "'Error: Image is not 500PPI'", quantized, resampled );
         return;
       }
     }
@@ -199,8 +199,8 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   {
     logger->debugMsg( "Could not get Grayscale raw data from image" + name );
     std::string error{"'Error: Could not get Grayscale raw data from image'"};
-    logger->printScore( name, fingerPosition, 255, error.append( e.what() ),
-                        quantized, resampled, {}, {} );
+    logger->printError( name, fingerPosition, 255, error.append( e.what() ),
+                        quantized, resampled );
     return;
   }
 
@@ -472,8 +472,8 @@ void NFIQ2UI::recordStoreConsume( const std::string& name,
   catch( const BE::Error::Exception& e )
   {
     std::string error{"'Error: Could not open RecordStore'"};
-    threadedlogger->printScore( name, 0, 255, error.append( e.what() ), false,
-                                false, {}, {} );
+    threadedlogger->printError( name, 0, 255, error.append( e.what() ), false,
+                                false );
     return;
   }
 
@@ -519,8 +519,7 @@ void NFIQ2UI::executeRecordStore( const std::string& filename,
   {
 
     std::string error{"'Error: Could not open RecordStore'"};
-    logger->printScore( filename, 0, 255, error.append( e.what() ), false, false,
-                        {}, {} );
+    logger->printError( filename, 0, 255, error.append( e.what() ), false, false );
     return;
   }
 

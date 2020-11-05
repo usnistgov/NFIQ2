@@ -93,25 +93,29 @@ void NFIQ2UI::Log::printScore(
 // Pad CSV output with NAs for row consistency
 std::string NFIQ2UI::Log::padNA() const
 {
-  const unsigned int MIN_NUM_COLS = 6;
-  unsigned int NUM_COLS = MIN_NUM_COLS;
+  static std::string strNA{};
+  if( !strNA.empty() )
+  {
+    return strNA;
+  }
+
+  static const unsigned int MIN_NUM_COLS{6};
+  unsigned int numCols{MIN_NUM_COLS};
 
   if( this->verbose )
   {
-    NUM_COLS += 69;
+    numCols += 69;
   }
 
   if( this->speed )
   {
-    NUM_COLS += 10;
+    numCols += 10;
   }
 
-  const unsigned int padding = NUM_COLS - MIN_NUM_COLS;
-  std::string strNA{};
-
+  const unsigned int padding = numCols - MIN_NUM_COLS;
   for( auto i = 0; i < padding; i++ )
   {
-    strNA = strNA + ",NA";
+    strNA += ",NA";
   }
 
   return strNA;
@@ -122,10 +126,8 @@ void NFIQ2UI::Log::printError(
   const std::string& name, uint8_t fingerCode, unsigned int score,
   const std::string& errmsg, const bool quantized, const bool resampled ) const
 {
-  const std::string padding = NFIQ2UI::Log::padNA();
-
   *( this->out ) << name << "," << std::to_string( fingerCode ) << "," << score
-                 << "," << errmsg << "," << quantized << "," << resampled << padding << "\n";
+                 << "," << errmsg << "," << quantized << "," << resampled << padNA() << "\n";
 }
 
 // Prints the quality score of a single image

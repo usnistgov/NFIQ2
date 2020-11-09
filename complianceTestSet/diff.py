@@ -1,95 +1,118 @@
-import subprocess, platform, argparse, sys, os.path, pandas as pd
+#!/usr/bin/env python
 
-pd.options.mode.chained_assignment = None
+import sys, pandas as pd, argparse, os.path
+    
+# Argument parser
+parser = argparse.ArgumentParser()
+parser.add_argument("csv1", type = str, help="First CSV")
+parser.add_argument("csv2", type = str, help="Second CSV")
+parser.add_argument("-o", type = str, help="Diff output")
+parser.add_argument("-s", action='store_true', help="Indicates whether the files are the same")
+args = parser.parse_args()
 
-def diff_func(csv1, csv2, outputDir, tf):
+# Check if both CSV files passed in are valid files.
+if not(os.path.isfile(args.csv1) and os.path.isfile(args.csv1)):
+    print("Please provide 2 valid CSV files as arguments to this script\n")
+    sys.exit(1)
 
-	if not(os.path.isfile(csv1) and os.path.isfile(csv1)):
-	    print("Please provide 2 valid CSV files as arguments to this script")
-	    return(1)
+# Set precision to 5. Same precision used in NFIQ2 output.
+pd.set_option('precision', 5)
+pd.set_option('display.precision', 5)
 
-	df = pd.read_csv(csv1, low_memory = False)
-	df2 = pd.read_csv(csv2, low_memory = False)
+# Try to read data from each CSV. Exit upon failure.
+try:
+  df = pd.read_csv(args.csv1, low_memory = False, float_precision='high')
+except:
+  print("Failed to read in data from {}. Exiting.".format(args.csv1))
+  sys.exit(1)
 
-	HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized", "Re-sampled",
-	            "FDA_Bin10_0", "FDA_Bin10_1", "FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4", "FDA_Bin10_5",
-	            "FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8", "FDA_Bin10_9", "FDA_Bin10_Mean", "FDA_Bin10_StdDev",
-	            "FingerJetFX_MinCount_COMMinRect200x200", "FingerJetFX_MinutiaeCount", "FJFXPos_Mu_MinutiaeQuality_2",
-	            "FJFXPos_OCL_MinutiaeQuality_80", "ImgProcROIArea_Mean",
-	            "LCS_Bin10_0", "LCS_Bin10_1", "LCS_Bin10_2", "LCS_Bin10_3", "LCS_Bin10_4", "LCS_Bin10_5",
-	            "LCS_Bin10_6", "LCS_Bin10_7", "LCS_Bin10_8", "LCS_Bin10_9", "LCS_Bin10_Mean", "LCS_Bin10_StdDev",
-	            "MMB", "Mu",
-	            "OCL_Bin10_0", "OCL_Bin10_1", "OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5", 
-	            "OCL_Bin10_6", "OCL_Bin10_7", "OCL_Bin10_8", "OCL_Bin10_9", "OCL_Bin10_Mean", "OCL_Bin10_StdDev",
-	            "OF_Bin10_0", "OF_Bin10_1", "OF_Bin10_2", "OF_Bin10_3", "OF_Bin10_4", "OF_Bin10_5",
-	            "OF_Bin10_6", "OF_Bin10_7", "OF_Bin10_8", "OF_Bin10_9", "OF_Bin10_Mean", "OF_Bin10_StdDev",
-	            "OrientationMap_ROIFilter_CoherenceRel", "OrientationMap_ROIFilter_CoherenceSum",
-	            "RVUP_Bin10_0", "RVUP_Bin10_1", "RVUP_Bin10_2", "RVUP_Bin10_3", "RVUP_Bin10_4", "RVUP_Bin10_5",
-	            "RVUP_Bin10_6", "RVUP_Bin10_7", "RVUP_Bin10_8", "RVUP_Bin10_9", "RVUP_Bin10_Mean", "RVUP_Bin10_StdDev"]
+try:
+  df2 = pd.read_csv(args.csv2, low_memory = False, float_precision='high')
+except:
+  print("Failed to read in data from {}. Exiting.".format(args.csv2))
+  sys.exit(1)
 
-	df = df.filter(HEADERS)
-	df2 = df2.filter(HEADERS)
+# Check and make sure that the two CSVs are the same size.
+# If the sizes differ then you are comparing two different dataset outputs.
+if df.shape[0] != df2.shape[0]:
+  print("Please only compare CSV results from the same dataset\n")
+  sys.exit(1)
 
-	bnTemp = []
-	for col in df['Filename']:
-	    bnTemp.append(os.path.basename(col.replace('\\',os.sep)))
-	df['Filename'] = bnTemp
+# All headers that are being compared. Contains standard headers and Quality headers. No speeds are being compared.
+HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized", "Resampled",
+           "FDA_Bin10_0", "FDA_Bin10_1", "FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4", "FDA_Bin10_5",
+           "FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8", "FDA_Bin10_9", "FDA_Bin10_Mean", "FDA_Bin10_StdDev",
+           "FingerJetFX_MinCount_COMMinRect200x200", "FingerJetFX_MinutiaeCount", "FJFXPos_Mu_MinutiaeQuality_2",
+           "FJFXPos_OCL_MinutiaeQuality_80", "ImgProcROIArea_Mean",
+           "LCS_Bin10_0", "LCS_Bin10_1", "LCS_Bin10_2", "LCS_Bin10_3", "LCS_Bin10_4", "LCS_Bin10_5",
+           "LCS_Bin10_6", "LCS_Bin10_7", "LCS_Bin10_8", "LCS_Bin10_9", "LCS_Bin10_Mean", "LCS_Bin10_StdDev",
+           "MMB", "Mu",
+           "OCL_Bin10_0", "OCL_Bin10_1", "OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5", 
+           "OCL_Bin10_6", "OCL_Bin10_7", "OCL_Bin10_8", "OCL_Bin10_9", "OCL_Bin10_Mean", "OCL_Bin10_StdDev",
+           "OF_Bin10_0", "OF_Bin10_1", "OF_Bin10_2", "OF_Bin10_3", "OF_Bin10_4", "OF_Bin10_5",
+           "OF_Bin10_6", "OF_Bin10_7", "OF_Bin10_8", "OF_Bin10_9", "OF_Bin10_Mean", "OF_Bin10_StdDev",
+           "OrientationMap_ROIFilter_CoherenceRel", "OrientationMap_ROIFilter_CoherenceSum",
+           "RVUP_Bin10_0", "RVUP_Bin10_1", "RVUP_Bin10_2", "RVUP_Bin10_3", "RVUP_Bin10_4", "RVUP_Bin10_5",
+           "RVUP_Bin10_6", "RVUP_Bin10_7", "RVUP_Bin10_8", "RVUP_Bin10_9", "RVUP_Bin10_Mean", "RVUP_Bin10_StdDev"]
 
-	bn2Temp = []
-	for col in df2['Filename']:
-	    bn2Temp.append(os.path.basename(col.replace('\\',os.sep)))
-	df2['Filename'] = bn2Temp
-	      
-	comp_df = df.merge(df2, indicator=True, how='outer')
-	diff_df = comp_df[comp_df['_merge'] != 'both']
+# Speed headers are filtered out, if present
+df = df.filter(HEADERS)
+df2 = df2.filter(HEADERS)
 
-	diff_df._merge.replace('left_only', csv1, inplace = True)
-	diff_df._merge.replace('right_only', csv2, inplace = True)
-	diff_df.rename(columns={'_merge':'csv_name'}, inplace=True)
+# Replace the full filename path with just the file base name for both dataframes
+bnTemp = []
+for col in df['Filename']:
+    bnTemp.append(os.path.basename(col.replace('\\',os.sep)))
+df['Filename'] = bnTemp
 
-	if outputDir and len(diff_df.index) != 0:
-	    diff_df.to_csv(outputDir)
-	elif len(diff_df.index) != 0:
-	    print(diff_df.to_csv())
+bn2Temp = []
+for col in df2['Filename']:
+    bn2Temp.append(os.path.basename(col.replace('\\',os.sep)))
+df2['Filename'] = bn2Temp
 
-	if tf:
-	    print(len(diff_df.index) == 0)
+# Sort each dataframe on key 'Filename'
+df = df.sort_values(by=['Filename'])
+df2 = df2.sort_values(by=['Filename'])
 
-	return(0 if len(diff_df.index) == 0 else 1)
+# Remove the existing indicies for comparison to work correctly
+df = df.reset_index(drop=True)
+df2 = df2.reset_index(drop=True)
 
-if __name__ == '__main__':
+# Compute the diff dataframe using Pandas compare - NEED Pandas V1.1.0 MINIMUM    
+diff_df = df.compare(df2, keep_equal=False, keep_shape=False, align_axis=1)
 
-	parser = argparse.ArgumentParser()
-	parser.add_argument("-o", type = str, help="Diff output")
-	parser.add_argument("-s", action='store_true', help="Indicates whether the files are the same")
-	parser.add_argument("bitness", type = str, help="Indicate the platform of the build")
-	args = parser.parse_args()
+# Used to re-add filenames post comparison at the front of the diff dataframe
+fn_cols = []
+for i, row in diff_df.iterrows():
+  fn_cols.append(df.at[i, 'Filename'])
 
-	if args.bitness != "Win32" and args.bitness != "x64":
-		print("Please provide a valid platform: 'Win32' or 'x64'")
-		sys.exit(1)
+diff_df.insert(0, 'Filename', fn_cols)
 
-	os_type = platform.system()
+# Melt the diff so that it looks more like a conventional diff
+diff_df = pd.melt(diff_df, id_vars='Filename')
 
-  #Change dir to location of testing images
-	image_dir = "images/"
+# Filter out duplicates resulting from the melt
+a = diff_df.query('variable_1 == "self"').drop('variable_1', axis = 1)
+b = diff_df.query('variable_1 != "self"').drop('variable_1', axis = 1)
 
-	if os_type == "Darwin":
-		subprocess.run(["./../dist/NFIQ2/build/bin/nfiq2", "-v", "-o", "output.AppleClang.apple64.csv", image_dir])
-		sys.exit(diff_func("result.AppleClang.apple64.csv", "result.AppleClang.apple64.csv", "diffoutput.csv", args.s))
+# Join the results on 'Filename' and 'variable_0' (The attribute name that has a difference)
+diff_df = pd.merge(a, b, on=['Filename', 'variable_0']).dropna()
 
-	elif os_type == "Linux":
-		subprocess.run(["./../dist/NFIQ2/build/bin/nfiq2", "-v", "-o", "output.gnu.linux64.csv", image_dir])
-		sys.exit(diff_func("output.gnu.linux64.csv", "result.gnu.linux64.csv", "diffoutput.csv", args.s))
+# Clarify column names
+diff_df = diff_df.rename(columns={'variable_0':'Variable', 'value_x':'X', 'value_y':'Y'})
 
-	elif os_type == "Windows" and args.bitness == "x64":
-		subprocess.run([".\\..\\dist\\NFIQ2\\build\\bin\\nfiq2", "-v", "-o", "output.msvc.win64.csv", image_dir])
-		sys.exit(diff_func("output.msvc.win64.csv", "result.msvc.win64.csv", "diffoutput.csv", args.s))
+# Printout Logic:
+# If output is set and result is not empty, save as a CSV with given '-o' name
+if args.o and len(diff_df.index) != 0:
+    diff_df.to_csv(args.o, index = False)
 
-	elif os_type == "Windows" and args.bitness == "Win32":
-		subprocess.run([".\\..\\dist\\NFIQ2\\build\\bin\\nfiq2", "-v", "-o", "output.msvc.win32.csv", image_dir])
-		sys.exit(diff_func("output.msvc.win32.csv", "result.msvc.win32.csv", "diffoutput.csv", args.s))
+# If no '-o' given, print diff to stdout
+elif len(diff_df.index) != 0:
+    print(diff_df.to_csv(index = False))
 
-	else:
-		print("Error Detecting OS and/or Platform")
-		sys.exit(1)
+# If '-s' is enabled. Print True or False depending on whether the files are identical or not
+if args.s:
+    print(len(diff_df.index) == 0)
+
+# Exit with 0 with empty diff, 1 otherwises
+sys.exit(0 if len(diff_df.index) == 0 else 1)

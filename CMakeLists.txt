@@ -75,7 +75,6 @@ if( NOT "${ANDROID_ABI}" STREQUAL "")
     -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
     -DANDROID_TARGET=${ANDROID_TARGET}
   )
-  
 endif()
 
 # forwarding android build flags

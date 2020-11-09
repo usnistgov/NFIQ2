@@ -3,6 +3,8 @@ Compliance Test
 
 Contained in this directory are the tools required to perform compliance testing on NFIQ 2.0. 
 
+**NOTE** It is important to have Python Pandas v1.1.0 installed for the diff script to work correctly. 
+
 
 1. NFIQ2_scores_master.csv
 	The correct NFIQ2 score output for the Compliance Test dataset found here: [NFIQ2 Compliance Test Set](INSERT_CTS_LINK_HERE)

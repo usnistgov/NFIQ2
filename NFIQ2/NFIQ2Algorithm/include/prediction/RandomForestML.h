@@ -37,7 +37,7 @@ class RandomForestML
       const std::list<NFIQ::QualityFeatureData>& featureVector,
       const double& utilityValue,
       double& qualityValue,
-      double& deviation );
+      double& deviation ) const;
 
   private:
 #   if CV_MAJOR_VERSION <= 2

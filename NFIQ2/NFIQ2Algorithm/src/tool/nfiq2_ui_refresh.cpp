@@ -228,7 +228,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
     // Print full score with optional headers
     logger->printScore( name, fingerPosition, corereturn.qualityScore, warning,
                         quantized, resampled, corereturn.featureVector,
-                        corereturn.featureTimings );
+                        corereturn.featureTimings, corereturn.actionableQuality );
   }
 }
 
@@ -261,7 +261,7 @@ NFIQ2UI::coreCompute( const NFIQ::FingerprintImageData& wrappedImage,
     model->computeQualityScore( wrappedImage, true, actionableQuality, true,
                                 featureVector, true, featureTimings );
 
-  const CoreReturn corereturn{featureVector, featureTimings, qualityScore};
+  const CoreReturn corereturn{featureVector, featureTimings, actionableQuality, qualityScore};
   return corereturn;
 }
 
@@ -640,7 +640,7 @@ NFIQ2UI::Arguments NFIQ2UI::processArguments( int argc, char** argv )
 
   std::string output{};
 
-  static const char options[] {"i:f:o:j:vqdFrm:"};
+  static const char options[] {"i:f:o:j:vqdFrm:a"};
   int c{};
 
   auto vecPush = [&]( const std::string & m )
@@ -693,6 +693,9 @@ NFIQ2UI::Arguments NFIQ2UI::processArguments( int argc, char** argv )
       case 'm':
         flags.model = optarg;
         break;
+      case 'a':
+        flags.actionable = true;
+        break;
       case '?':
         NFIQ2UI::printUsage();
         throw NFIQ2UI::UndefinedFlagError( "Undefined Flag Used" );
@@ -726,7 +729,7 @@ void NFIQ2UI::procSingle( NFIQ2UI::Arguments arguments,
   // If there is only one image being processed
   if( arguments.vecSingle.size() == 1 && arguments.vecDirs.size() == 0 &&
       arguments.vecBatch.size() == 0 && !arguments.flags.verbose &&
-      !arguments.flags.speed )
+      !arguments.flags.speed && !arguments.flags.actionable)
   {
 
     const auto images = NFIQ2UI::getImages( arguments.vecSingle[0], logger );
@@ -759,7 +762,7 @@ void NFIQ2UI::printHeader( NFIQ2UI::Arguments arguments,
                            std::shared_ptr<NFIQ2UI::Log> logger )
 {
   if( ( arguments.vecSingle.size() == 1 &&
-        ( arguments.flags.verbose || arguments.flags.speed ) ) ||
+        ( arguments.flags.verbose || arguments.flags.speed || arguments.flags.actionable) ) ||
       ( arguments.vecSingle.size() == 1 &&
         NFIQ2UI::isAN2K( arguments.vecSingle[0] ) ) ||
       arguments.vecSingle.size() > 1 || arguments.vecDirs.size() != 0 ||

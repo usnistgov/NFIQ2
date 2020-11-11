@@ -55,7 +55,16 @@ namespace NFIQ
         std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
         bool bOutputSpeed,
         std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed );
-
+      
+      /**
+       * @brief
+       * Obtain all actionable quality feedback identifiers.
+       *
+       * @return
+       * Vector of strings containing all actionable quality feedback identifiers.
+       */
+      static std::vector<std::string> getAllActionableIdentifiers();
+      
       /**
        * @brief
        * Obtain all quality feature IDs from quality modules.

@@ -427,6 +427,17 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
   return QUALITY_SCORE_NOT_AVAILABLE;
 }
 
+std::vector<std::string> NFIQ2Algorithm::Impl::getAllActionableIdentifiers() {
+  static const std::vector<std::string> actionableIdentifiers{
+    NFIQ::ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow,
+    NFIQ::ActionableQualityFeedbackIdentifier_UniformImage,
+    NFIQ::ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae,
+    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground
+  };
+
+  return actionableIdentifiers;
+}
+
 std::vector<std::string> NFIQ2Algorithm::Impl::getAllQualityFeatureIDs()
 {
   std::list<std::list<std::string>> lol

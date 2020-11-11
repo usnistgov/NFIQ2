@@ -63,6 +63,8 @@ namespace NFIQ2UI
     bool recursion{false};
     /** Used if an alternative Machine Learning model is to be used */
     std::string model{""};
+    /** Actionable Flag value */
+    bool actionable{false};
     /** Number of threads used for multi-threading */
     unsigned int numthreads{1};
   };
@@ -131,6 +133,8 @@ namespace NFIQ2UI
     std::list<NFIQ::QualityFeatureData> featureVector;
     /** List of Feature Score Timings */
     std::list<NFIQ::QualityFeatureSpeed> featureTimings;
+    /** List of Actionable Quality Scores */
+    std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
     /** Overall Quality Score for an Image */
     unsigned int qualityScore;
   };

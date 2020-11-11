@@ -59,7 +59,7 @@ void NFIQ2UI::Log::printScore(
   }
 
   // Print out actionable first
-  if ( this->actionable )
+  if( this->actionable )
   {
     for( auto i = actionableQuality.begin(); i != actionableQuality.end(); ++i )
     {
@@ -122,7 +122,8 @@ std::string NFIQ2UI::Log::padNA() const
   static const unsigned int MIN_NUM_COLS{6};
   unsigned int numCols{MIN_NUM_COLS};
 
-  if( this->actionable ) {
+  if( this->actionable )
+  {
     numCols += 4;
   }
 

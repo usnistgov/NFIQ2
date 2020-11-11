@@ -73,7 +73,7 @@ namespace NFIQ
        * Vector of strings containing all actionable quality feedback identifiers.
        */
       static std::vector<std::string> getAllActionableIdentifiers();
-      
+
       /**
        * @brief
        * Obtain all quality feature IDs from quality modules.

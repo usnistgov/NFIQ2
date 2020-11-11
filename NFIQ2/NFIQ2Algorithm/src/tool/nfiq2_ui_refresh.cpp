@@ -729,7 +729,7 @@ void NFIQ2UI::procSingle( NFIQ2UI::Arguments arguments,
   // If there is only one image being processed
   if( arguments.vecSingle.size() == 1 && arguments.vecDirs.size() == 0 &&
       arguments.vecBatch.size() == 0 && !arguments.flags.verbose &&
-      !arguments.flags.speed && !arguments.flags.actionable)
+      !arguments.flags.speed && !arguments.flags.actionable )
   {
 
     const auto images = NFIQ2UI::getImages( arguments.vecSingle[0], logger );
@@ -762,7 +762,7 @@ void NFIQ2UI::printHeader( NFIQ2UI::Arguments arguments,
                            std::shared_ptr<NFIQ2UI::Log> logger )
 {
   if( ( arguments.vecSingle.size() == 1 &&
-        ( arguments.flags.verbose || arguments.flags.speed || arguments.flags.actionable) ) ||
+        ( arguments.flags.verbose || arguments.flags.speed || arguments.flags.actionable ) ) ||
       ( arguments.vecSingle.size() == 1 &&
         NFIQ2UI::isAN2K( arguments.vecSingle[0] ) ) ||
       arguments.vecSingle.size() > 1 || arguments.vecDirs.size() != 0 ||

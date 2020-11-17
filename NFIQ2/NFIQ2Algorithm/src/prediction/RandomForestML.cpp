@@ -148,7 +148,7 @@ void RandomForestML::evaluate(
   const std::list<NFIQ::QualityFeatureData>& featureVector,
   const double& utilityValue,
   double& qualityValue,
-  double& deviation )
+  double& deviation ) const
 {
   try
   {

@@ -817,9 +817,9 @@ int main( int argc, char** argv )
         << "\n";
     return EXIT_FAILURE;
   }
-
+  
   const NFIQ::NFIQ2Algorithm model(
-    "nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592" );
+    "nfiq2rf.yaml", "ccd75820b48c19f1645ef5e9c481c592" );
 
   timeInit = timerInit.endTimerAndGetElapsedTime();
 

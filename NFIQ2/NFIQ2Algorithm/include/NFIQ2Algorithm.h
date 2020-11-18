@@ -87,7 +87,10 @@ namespace NFIQ
 
     private:
       class Impl;
-      std::unique_ptr<NFIQ2Algorithm::Impl> pimpl;
+      const std::unique_ptr<const NFIQ2Algorithm::Impl> pimpl;
+
+      NFIQ2Algorithm(const NFIQ2Algorithm &) = delete;
+      NFIQ2Algorithm& operator=(const NFIQ2Algorithm&) = delete;
   };
 }
 

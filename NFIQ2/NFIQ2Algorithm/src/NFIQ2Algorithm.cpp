@@ -2,7 +2,7 @@
 #include "NFIQ2AlgorithmImpl.h"
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ::NFIQ2Algorithm::NFIQ2Algorithm() : pimpl{new NFIQ::NFIQ2Algorithm::Impl()}
+NFIQ::NFIQ2Algorithm::NFIQ2Algorithm() : pimpl {new NFIQ::NFIQ2Algorithm::Impl()}
 {
 }
 #endif

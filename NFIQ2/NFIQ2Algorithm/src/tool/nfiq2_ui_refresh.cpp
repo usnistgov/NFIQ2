@@ -820,7 +820,7 @@ int main( int argc, char** argv )
 
   std::shared_ptr<NFIQ::NFIQ2Algorithm> model =
     std::make_shared<NFIQ::NFIQ2Algorithm>(
-      "nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592" );
+      "nfiq2rf.yaml", "ccd75820b48c19f1645ef5e9c481c592" );
 
   timeInit = timerInit.endTimerAndGetElapsedTime();
 

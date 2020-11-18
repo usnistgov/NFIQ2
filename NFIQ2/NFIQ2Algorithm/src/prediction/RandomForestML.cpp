@@ -27,7 +27,7 @@ std::string RandomForestML::calculateHashString( const std::string& s )
   // calculate and compare the hash
   digestpp::md5 hasher;
   std::stringstream ss;
-  ss << "0x" << std::hex << hasher.absorb( ( const char* )s.c_str(), s.length() ).hexdigest();
+  ss << std::hex << hasher.absorb( ( const char* )s.c_str(), s.length() ).hexdigest();
   return ss.str();
 }
 
@@ -148,7 +148,7 @@ void RandomForestML::evaluate(
   const std::list<NFIQ::QualityFeatureData>& featureVector,
   const double& utilityValue,
   double& qualityValue,
-  double& deviation )
+  double& deviation ) const
 {
   try
   {

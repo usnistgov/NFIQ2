@@ -23,7 +23,7 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
   bool bOutputFeatures,
   std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
   bool bOutputSpeed,
-  std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed )
+  std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed ) const
 {
   return ( this->pimpl->computeQualityScore(
              rawImage,

@@ -49,7 +49,7 @@ std::mutex mutGray;
 // Performs additional checks for an image before calculating an NFIQ2 score
 void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
                              const std::string& name, const Flags& flags,
-                             std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
+                             const NFIQ::NFIQ2Algorithm& model,
                              std::shared_ptr<NFIQ2UI::Log> logger,
                              const bool singleImage, const bool interactive,
                              const uint8_t fingerPosition,
@@ -234,7 +234,7 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
 
 void NFIQ2UI::executeSingle( const NFIQ2UI::ImgCouple& couple,
                              const Flags& flags,
-                             std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
+                             const NFIQ::NFIQ2Algorithm& model,
                              std::shared_ptr<NFIQ2UI::Log> logger,
                              const bool singleImage, const bool interactive )
 {
@@ -247,7 +247,7 @@ void NFIQ2UI::executeSingle( const NFIQ2UI::ImgCouple& couple,
 // Wrapper for NFIQ2 computeQualityScore()
 NFIQ2UI::CoreReturn
 NFIQ2UI::coreCompute( const NFIQ::FingerprintImageData& wrappedImage,
-                      std::shared_ptr<NFIQ::NFIQ2Algorithm> model )
+                      const NFIQ::NFIQ2Algorithm& model )
 {
 
   // compute quality now
@@ -258,8 +258,8 @@ NFIQ2UI::coreCompute( const NFIQ::FingerprintImageData& wrappedImage,
   std::list<NFIQ::QualityFeatureSpeed> featureTimings;
 
   const unsigned int qualityScore =
-    model->computeQualityScore( wrappedImage, true, actionableQuality, true,
-                                featureVector, true, featureTimings );
+    model.computeQualityScore( wrappedImage, true, actionableQuality, true,
+                               featureVector, true, featureTimings );
 
   const CoreReturn corereturn{featureVector, featureTimings, qualityScore};
   return corereturn;
@@ -267,7 +267,7 @@ NFIQ2UI::coreCompute( const NFIQ::FingerprintImageData& wrappedImage,
 
 // Parsing a directory recursively finding all fingerprint images
 void NFIQ2UI::parseDirectory( const std::string& dirname, const Flags& flags,
-                              std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
+                              const NFIQ::NFIQ2Algorithm& model,
                               std::shared_ptr<NFIQ2UI::Log> logger )
 {
 
@@ -333,7 +333,7 @@ void NFIQ2UI::parseDirectory( const std::string& dirname, const Flags& flags,
 void NFIQ2UI::batchConsume( NFIQ2UI::SafeSplitPathsQueue& splitQueue,
                             SafeQueue<std::string>& printQueue,
                             const Flags& flags,
-                            std::shared_ptr<NFIQ::NFIQ2Algorithm> model )
+                            const NFIQ::NFIQ2Algorithm& model )
 {
 
   std::shared_ptr<NFIQ2UI::ThreadedLog> threadedlogger =
@@ -364,7 +364,7 @@ void NFIQ2UI::batchConsume( NFIQ2UI::SafeSplitPathsQueue& splitQueue,
 }
 
 void NFIQ2UI::executeBatch( const std::string& filename, const Flags& flags,
-                            std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
+                            const NFIQ::NFIQ2Algorithm& model,
                             std::shared_ptr<NFIQ2UI::Log> logger )
 {
 
@@ -418,7 +418,7 @@ void NFIQ2UI::executeBatch( const std::string& filename, const Flags& flags,
       try
       {
         threads.emplace_back( std::bind( &batchConsume, std::ref( splitQueue ),
-                                         std::ref( printQueue ), flags, model ) );
+                                         std::ref( printQueue ), flags, std::cref( model ) ) );
       }
       catch( const std::exception& e )
       {
@@ -456,7 +456,7 @@ void NFIQ2UI::recordStoreConsume( const std::string& name,
                                   NFIQ2UI::SafeSplitPathsQueue& splitQueue,
                                   SafeQueue<std::string>& printQueue,
                                   const Flags& flags,
-                                  std::shared_ptr<NFIQ::NFIQ2Algorithm> model )
+                                  const NFIQ::NFIQ2Algorithm& model )
 {
 
   std::shared_ptr<BE::IO::RecordStore> rs{};
@@ -504,7 +504,7 @@ void NFIQ2UI::recordStoreConsume( const std::string& name,
 
 void NFIQ2UI::executeRecordStore( const std::string& filename,
                                   const Flags& flags,
-                                  std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
+                                  const NFIQ::NFIQ2Algorithm& model,
                                   std::shared_ptr<NFIQ2UI::Log> logger )
 {
 
@@ -581,7 +581,7 @@ void NFIQ2UI::executeRecordStore( const std::string& filename,
       {
         threads.emplace_back( std::bind( &recordStoreConsume, filename,
                                          std::ref( splitQueue ),
-                                         std::ref( printQueue ), flags, model ) );
+                                         std::ref( printQueue ), flags, std::cref( model ) ) );
       }
       catch( const std::exception& e )
       {
@@ -718,7 +718,7 @@ NFIQ2UI::Arguments NFIQ2UI::processArguments( int argc, char** argv )
 }
 
 void NFIQ2UI::procSingle( NFIQ2UI::Arguments arguments,
-                          std::shared_ptr<NFIQ::NFIQ2Algorithm> model,
+                          const NFIQ::NFIQ2Algorithm& model,
                           std::shared_ptr<NFIQ2UI::Log> logger )
 {
 
@@ -818,9 +818,8 @@ int main( int argc, char** argv )
     return EXIT_FAILURE;
   }
 
-  std::shared_ptr<NFIQ::NFIQ2Algorithm> model =
-    std::make_shared<NFIQ::NFIQ2Algorithm>(
-      "nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592" );
+  const NFIQ::NFIQ2Algorithm model(
+    "nfiq2rf.yaml", "0xccd75820b48c19f1645ef5e9c481c592" );
 
   timeInit = timerInit.endTimerAndGetElapsedTime();
 

@@ -54,7 +54,7 @@ namespace NFIQ
         bool bOutputFeatures,
         std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
         bool bOutputSpeed,
-        std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed );
+        std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed ) const;
 
       /**
        * @brief

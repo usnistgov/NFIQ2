@@ -2,17 +2,15 @@
 #include "NFIQ2AlgorithmImpl.h"
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ::NFIQ2Algorithm::NFIQ2Algorithm()
+NFIQ::NFIQ2Algorithm::NFIQ2Algorithm() : pimpl {new NFIQ::NFIQ2Algorithm::Impl()}
 {
-  this->pimpl.reset( new NFIQ::NFIQ2Algorithm::Impl() );
 }
 #endif
 
 NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(
   const std::string& fileName,
-  const std::string& fileHash )
+  const std::string& fileHash ) : pimpl{new NFIQ::NFIQ2Algorithm::Impl( fileName, fileHash )}
 {
-  this->pimpl.reset( new NFIQ::NFIQ2Algorithm::Impl( fileName, fileHash ) );
 }
 
 unsigned int
@@ -23,7 +21,7 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
   bool bOutputFeatures,
   std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
   bool bOutputSpeed,
-  std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed )
+  std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed ) const
 {
   return ( this->pimpl->computeQualityScore(
              rawImage,

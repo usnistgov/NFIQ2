@@ -151,7 +151,7 @@ namespace NFIQ2UI
    */
   unsigned int checkThreads( const std::string& optarg );
 
-  std::string formatDouble(const double &d, const int precision);
+  std::string formatDouble( const double& d, const int precision );
 
   /**
    *  @brief

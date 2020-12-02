@@ -260,24 +260,30 @@ unsigned int NFIQ2UI::checkThreads( const std::string& optarg )
   }
 }
 
-std::string NFIQ2UI::formatDouble(const double &d, const int precision) {
-  const std::string s = std::to_string(d);
+std::string NFIQ2UI::formatDouble( const double& d, const int precision )
+{
+  const std::string s = std::to_string( d );
 
-  if (!std::isnormal(d)) {
+  if( !std::isnormal( d ) )
+  {
     return s;
   }
 
-  const std::string::size_type decimalPosition = s.find('.');
+  const std::string::size_type decimalPosition = s.find( '.' );
 
-  if (decimalPosition == std::string::npos ||
-      precision >= (s.length() - decimalPosition - 1)) {
+  if( decimalPosition == std::string::npos ||
+      precision >= ( s.length() - decimalPosition - 1 ) )
+  {
     return s;
   }
 
-  if (precision <= 0) {
-    return s.substr(0, 7);
-  } else {
-    return s.substr(0, decimalPosition + precision + 1);
+  if( precision <= 0 )
+  {
+    return s.substr( 0, 7 );
+  }
+  else
+  {
+    return s.substr( 0, decimalPosition + precision + 1 );
   }
 }
 

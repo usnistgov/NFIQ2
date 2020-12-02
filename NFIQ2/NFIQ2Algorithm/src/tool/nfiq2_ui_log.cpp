@@ -87,7 +87,7 @@ void NFIQ2UI::Log::printScore(
         *( this->out ) << ",";
       }
 
-      *( this->out ) << NFIQ2UI::formatDouble(i->featureDataDouble, 5);
+      *( this->out ) << NFIQ2UI::formatDouble( i->featureDataDouble, 5 );
     }
     if( this->speed )
     {

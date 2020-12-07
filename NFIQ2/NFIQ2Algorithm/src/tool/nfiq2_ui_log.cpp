@@ -69,7 +69,7 @@ void NFIQ2UI::Log::printScore(
         *( this->out ) << ",";
       }
 
-      *( this->out ) << std::setprecision( 5 ) << i->actionableQualityValue;
+      *( this->out ) << NFIQ2UI::formatDouble( i->actionableQualityValue, 5 );
     }
     if( this->verbose || this->speed )
     {

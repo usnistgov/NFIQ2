@@ -262,6 +262,16 @@ unsigned int NFIQ2UI::checkThreads( const std::string& optarg )
 
 std::string NFIQ2UI::formatDouble( const double& d, const int precision )
 {
+  switch( std::fpclassify( d ) )
+  {
+    case FP_NORMAL:
+      break;
+    case FP_ZERO:
+      return "0";
+    default:
+      return std::to_string( d );
+  }
+
   const std::string s = std::to_string( d );
 
   if( !std::isfinite( d ) )
@@ -269,8 +279,9 @@ std::string NFIQ2UI::formatDouble( const double& d, const int precision )
     return s;
   }
 
-  if (static_cast<long>(d) == d) {
-    return std::to_string(static_cast<long>(d));
+  if( static_cast<long>( d ) == d )
+  {
+    return std::to_string( static_cast<long>( d ) );
   }
 
   const std::string::size_type decimalPosition = s.find( '.' );

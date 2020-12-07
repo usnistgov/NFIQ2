@@ -262,6 +262,11 @@ unsigned int NFIQ2UI::checkThreads( const std::string& optarg )
 
 std::string NFIQ2UI::formatDouble( const double& d, const int precision )
 {
+
+  if (d == 0) {
+    return "0";
+  }
+
   const std::string s = std::to_string( d );
 
   if( !std::isnormal( d ) )

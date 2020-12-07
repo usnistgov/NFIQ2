@@ -269,6 +269,10 @@ std::string NFIQ2UI::formatDouble( const double& d, const int precision )
     return s;
   }
 
+  if (static_cast<long>(d) == d) {
+    return std::to_string(static_cast<long>(d));
+  }
+
   const std::string::size_type decimalPosition = s.find( '.' );
 
   if( decimalPosition == std::string::npos ||

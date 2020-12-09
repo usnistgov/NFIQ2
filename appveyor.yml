@@ -53,7 +53,7 @@ before_build:
 
     cd build\Windows
 
-    if %PLATFORM% == x64 ( cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.4.0" C:\projects\nfiq2 -DVCPKG_TARGET_TRIPLET=x64-windows-static ) else ( cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install -DOPENCV_VERSION="4.4.0" C:\projects\nfiq2 -DVCPKG_TARGET_TRIPLET=x86-windows-static )
+    if %PLATFORM% == x64 ( cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install C:\projects\nfiq2 -DVCPKG_TARGET_TRIPLET=x64-windows-static ) else ( cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -A %PLATFORM% -DCMAKE_CONFIGURATION_TYPES=%CONFIGURATION% -DCMAKE_INSTALL_PREFIX=C:\projects\nfiq2\install C:\projects\nfiq2 -DVCPKG_TARGET_TRIPLET=x86-windows-static )
 
 build:
   project: C:\projects\nfiq2\build\Windows\NFIQ2_SUPERBUILD.sln

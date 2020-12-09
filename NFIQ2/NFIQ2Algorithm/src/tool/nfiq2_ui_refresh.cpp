@@ -216,6 +216,13 @@ void NFIQ2UI::executeSingle( std::shared_ptr<BE::Image::Image> img,
   const NFIQ2UI::CoreReturn corereturn =
     NFIQ2UI::coreCompute( wrappedImage, model );
 
+  if( corereturn.qualityScore > 100 )
+  {
+    logger->printError( name, fingerPosition, corereturn.qualityScore,  "NFIQ2 computeQualityScore returned an error code",
+                        quantized, resampled );
+    return;
+  }
+
   // Print score:
   if( singleImage )
   {

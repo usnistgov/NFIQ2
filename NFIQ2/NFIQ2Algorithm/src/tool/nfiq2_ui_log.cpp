@@ -24,6 +24,7 @@ NFIQ2UI::Log::Log( const Flags& flags, const std::string& path )
   this->verbose = flags.verbose;
   this->debug = flags.debug;
   this->speed = flags.speed;
+  this->actionable = flags.actionable;
 
   if( path.empty() )
   {
@@ -46,14 +47,33 @@ void NFIQ2UI::Log::printScore(
   const std::string& name, uint8_t fingerCode, unsigned int score,
   const std::string& errmsg, const bool quantized, const bool resampled,
   const std::list<NFIQ::QualityFeatureData>& featureVector,
-  const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const
+  const std::list<NFIQ::QualityFeatureSpeed>& featureTimings,
+  const std::list<NFIQ::ActionableQualityFeedback>& actionableQuality ) const
 {
 
   *( this->out ) << name << "," << std::to_string( fingerCode ) << "," << score
                  << "," << errmsg << "," << quantized << "," << resampled;
-  if( this->verbose || this->speed )
+  if( this->actionable || this->verbose || this->speed )
   {
     *( this->out ) << ",";
+  }
+
+  // Print out actionable first
+  if( this->actionable )
+  {
+    for( auto i = actionableQuality.begin(); i != actionableQuality.end(); ++i )
+    {
+      if( i != actionableQuality.begin() )
+      {
+        *( this->out ) << ",";
+      }
+
+      *( this->out ) << std::setprecision( 5 ) << i->actionableQualityValue;
+    }
+    if( this->verbose || this->speed )
+    {
+      *( this->out ) << ",";
+    }
   }
 
   if( this->verbose )
@@ -101,6 +121,11 @@ std::string NFIQ2UI::Log::padNA() const
 
   static const unsigned int MIN_NUM_COLS{6};
   unsigned int numCols{MIN_NUM_COLS};
+
+  if( this->actionable )
+  {
+    numCols += 4;
+  }
 
   if( this->verbose )
   {
@@ -165,9 +190,28 @@ void NFIQ2UI::Log::printCSVHeader() const
                  << "Quantized"
                  << ","
                  << "Resampled";
-  if( this->verbose || this->speed )
+  if( this->actionable || this->verbose || this->speed )
   {
     *( this->out ) << ",";
+  }
+
+  if( this->actionable )
+  {
+    std::vector<std::string> vHeaders = NFIQ::NFIQ2Algorithm::getAllActionableIdentifiers();
+
+    for( auto it = vHeaders.begin(); it != vHeaders.end(); ++it )
+    {
+      if( it != vHeaders.begin() )
+      {
+        *( this->out ) << ',';
+      }
+      *( this->out ) << *it;
+    }
+
+    if( this->verbose || this->speed )
+    {
+      *( this->out ) << ',';
+    }
   }
 
   if( this->verbose )

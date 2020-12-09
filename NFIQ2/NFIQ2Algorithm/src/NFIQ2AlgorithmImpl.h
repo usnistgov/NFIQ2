@@ -63,7 +63,16 @@ namespace NFIQ
         NFIQ::FingerprintImageData rawImage,
         bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
         bool bOutputFeatures, std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
-        bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed );
+        bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed ) const;
+
+      /**
+       * @brief
+       * Obtain all actionable quality feedback identifiers.
+       *
+       * @return
+       * Vector of strings containing all actionable quality feedback identifiers.
+       */
+      static std::vector<std::string> getAllActionableIdentifiers();
 
       /**
        * @brief
@@ -98,8 +107,8 @@ namespace NFIQ
       std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
         const NFIQ::FingerprintImageData& rawImage,
         bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
-        bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues );
-      double getQualityPrediction( std::list<NFIQ::QualityFeatureData>& featureVector );
+        bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues ) const;
+      double getQualityPrediction( std::list<NFIQ::QualityFeatureData>& featureVector ) const;
 
       RandomForestML m_RandomForestML;
       std::string m_parameterHash{};

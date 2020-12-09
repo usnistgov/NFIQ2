@@ -63,7 +63,7 @@ NFIQ2Algorithm::Impl::~Impl()
 std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures(
   const NFIQ::FingerprintImageData& rawImage,
   bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
-  bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues )
+  bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues ) const
 {
   std::list<NFIQ::QualityFeatureData> featureVector;
 
@@ -366,7 +366,7 @@ std::list<NFIQ::QualityFeatureData> NFIQ2Algorithm::Impl::computeQualityFeatures
   return featureVector;
 }
 
-double NFIQ2Algorithm::Impl::getQualityPrediction( std::list<NFIQ::QualityFeatureData>& featureVector )
+double NFIQ2Algorithm::Impl::getQualityPrediction( std::list<NFIQ::QualityFeatureData>& featureVector ) const
 {
   const double utility = 0.0;
   double deviation = 0.0;
@@ -380,7 +380,7 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
   NFIQ::FingerprintImageData rawImage,
   bool bComputeActionableQuality, std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
   bool bOutputFeatures, std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
-  bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed )
+  bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed ) const
 {
   try
   {
@@ -425,6 +425,19 @@ unsigned int NFIQ2Algorithm::Impl::computeQualityScore(
     return QUALITY_SCORE_NOT_AVAILABLE;
   }
   return QUALITY_SCORE_NOT_AVAILABLE;
+}
+
+std::vector<std::string> NFIQ2Algorithm::Impl::getAllActionableIdentifiers()
+{
+  static const std::vector<std::string> actionableIdentifiers
+  {
+    NFIQ::ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow,
+    NFIQ::ActionableQualityFeedbackIdentifier_UniformImage,
+    NFIQ::ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae,
+    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground
+  };
+
+  return actionableIdentifiers;
 }
 
 std::vector<std::string> NFIQ2Algorithm::Impl::getAllQualityFeatureIDs()

@@ -75,7 +75,8 @@ namespace NFIQ2UI
                        unsigned int score, const std::string& errmsg,
                        const bool quantized, const bool resampled,
                        const std::list<NFIQ::QualityFeatureData>& featureVector,
-                       const std::list<NFIQ::QualityFeatureSpeed>& featureTimings ) const;
+                       const std::list<NFIQ::QualityFeatureSpeed>& featureTimings,
+                       const std::list<NFIQ::ActionableQualityFeedback>& actionableQuality ) const;
 
       /**
        *  @brief
@@ -172,6 +173,8 @@ namespace NFIQ2UI
       bool debug;
       /** Value of speed flag */
       bool speed;
+      /** Value of the actionable flag */
+      bool actionable;
       /** Used if a specified file will be the output stream */
       std::ofstream logFile{};
   };

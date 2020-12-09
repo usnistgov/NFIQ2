@@ -54,7 +54,16 @@ namespace NFIQ
         bool bOutputFeatures,
         std::list<NFIQ::QualityFeatureData>& qualityFeatureData,
         bool bOutputSpeed,
-        std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed );
+        std::list<NFIQ::QualityFeatureSpeed>& qualityFeatureSpeed ) const;
+
+      /**
+       * @brief
+       * Obtain all actionable quality feedback identifiers.
+       *
+       * @return
+       * Vector of strings containing all actionable quality feedback identifiers.
+       */
+      static std::vector<std::string> getAllActionableIdentifiers();
 
       /**
        * @brief
@@ -87,7 +96,10 @@ namespace NFIQ
 
     private:
       class Impl;
-      std::unique_ptr<NFIQ2Algorithm::Impl> pimpl;
+      const std::unique_ptr<const NFIQ2Algorithm::Impl> pimpl;
+
+      NFIQ2Algorithm( const NFIQ2Algorithm& ) = delete;
+      NFIQ2Algorithm& operator=( const NFIQ2Algorithm& ) = delete;
   };
 }
 

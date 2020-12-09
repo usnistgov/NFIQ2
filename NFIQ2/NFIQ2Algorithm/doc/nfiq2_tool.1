@@ -30,8 +30,8 @@ image\[cq]s name, finger position (if applicable), quality score, error
 message (if applicable), whether the image was quantized, and whether
 the image was resampled.
 .PP
-This tool features some additional options, including output redirection
-and multi-threading, listed below:
+This tool features some additional options, including batch operation
+support, output redirection and multi-threading, listed below:
 .SH OPTIONS
 .PP
 \f[B]-i\f[R] \f[I]file/dir/rs\f[R]
@@ -69,12 +69,20 @@ physical cores.
 One additional thread will be spawed for coordinating output.
 .RE
 .PP
+\f[B]-a\f[R]
+.RS
+.PP
+Actionable quality output.
+Provides additonal actionable quality information pertainting to each
+processed fingerprint image.
+.RE
+.PP
 \f[B]-v\f[R]
 .RS
 .PP
 Verbose output.
-Provides additional feature information pertaining to each measurement
-of NFIQ2.
+Provides additional feature quality information pertaining to each
+measurement of NFIQ2.
 .RE
 .PP
 \f[B]-q\f[R]

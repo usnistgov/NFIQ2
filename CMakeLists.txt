@@ -136,6 +136,15 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_JPEG=OFF 
 	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo")
 
+if("${TARGET_PLATFORM}" MATCHES "win*")
+list(APPEND OPENCV_CMAKE_ARGS
+	-DBUILD_WITH_STATIC_CRT=ON)
+endif("${TARGET_PLATFORM}" MATCHES "win*")
+
+if ("${TARGET_PLATFORM}" MATCHES "apple32"))
+	list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
+endif ()
+
 set(VCPKG_CMAKE_ARGS)
 if (MSVC)
 	list(APPEND VCPKG_CMAKE_ARGS

@@ -13,7 +13,7 @@ jobs:
       env: BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
-      osx_image: xcode11.7
+      osx_image: xcode11.6
       env: BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
@@ -21,7 +21,7 @@ jobs:
       env: BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
     - os: osx
-      osx_image: xcode9.4.1
+      osx_image: xcode9.4
       env: BITS_64=ON BITS_32=OFF CONFIGURATION_TYPE="Release" BUILD_NFIQ2_CLI=ON
       compiler: clang
 

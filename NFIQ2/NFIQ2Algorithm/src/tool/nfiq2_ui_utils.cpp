@@ -307,13 +307,13 @@ void NFIQ2UI::printUsage()
 {
   std::cout << "\n";
   std::cout << "                               Welcome to NFIQ2"
-            << "\n";
+            << "\n\n";
   std::cout
-      << "Please provide individual files or directories to the command line."
+      << "      Please provide individual files or directories to the command line."
       << "\n";
-  std::cout << "If you would like to use one of the flags listed below,"
+  std::cout << "            If you would like to use one of the flags listed below,"
             << "\n"
-            << "please include them before any standard arguments"
+            << "              please include them before any standard arguments."
             << "\n"
             << "\n";
 
@@ -326,28 +326,29 @@ void NFIQ2UI::printUsage()
             << "\n";
   std::cout << "-o [file path]: Saving all output to a specified file"
             << "\n";
-  std::cout << "-j [number of threads]: Enables Multi-Threading for Batch and "
+  std::cout << "-j [# of threads]: Enables Multi-Threading for Batch and "
             "RecordStore processes"
             << "\n";
+  std::cout << "-a: Displays actionable quality scores about each processed image\n";
   std::cout
-      << "-v: Shows Additional Verbose information about each processed image"
+      << "-v: Displays individual quality score information about each processed image"
       << "\n";
   std::cout
-      << "-q: Shows Additional Speed information about each processed image"
+      << "-q: Displays individual quality speed timings about each processed image"
       << "\n";
   std::cout
-      << "-d: Shows Additional Debug information as each score gets computed"
+      << "-d: Displays additional debug information as each score gets computed"
       << "\n";
   std::cout << "-F: Forces computation to occur. Tool does not prompt user "
             "with yes/no options"
             << "\n";
   std::cout
-      << "-r: Recursive file scanning - used only if a directory is provided"
+      << "-r: Recursive file scanning if a directory is provided"
       << "\n";
   std::cout << "\n";
   std::cout << "Not implemented yet:"
             << "\n";
-  std::cout << "-m [model configuration file path]: Allows for alternate "
+  std::cout << "-m [model configuration]: Allows for alternate "
             "models to be used with NFIQ2"
             << "\n";
   std::cout << "\n";

@@ -1,0 +1,11 @@
+#include "nfiq2_version.h"
+
+const unsigned int NFIQ::Version::Major = @NFIQ2_VERSION_MAJOR@;
+const unsigned int NFIQ::Version::Minor = @NFIQ2_VERSION_MINOR@;
+const unsigned int NFIQ::Version::Patch = @NFIQ2_VERSION_PATCH@;
+
+const char* NFIQ::Version::Full = "@NFIQ2_VERSION_FULL@";
+const char* NFIQ::Version::Pretty = "@NFIQ2_VERSION@";
+const char* NFIQ::Version::Status = "@NFIQ2_VERSION_STATUS@";
+const char* NFIQ::Version::BuildDate = "@NFIQ2_BUILD_DATE@";
+const char* NFIQ::Version::Commit = "@NFIQ2_VERSION_COMMIT@";

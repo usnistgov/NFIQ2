@@ -17,6 +17,8 @@
 
 #include <be_io_utility.h>
 
+#include <nfiq2_version.h>
+
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
 #include "nfiq2_ui_utils.h"
@@ -309,7 +311,9 @@ void NFIQ2UI::printUsage()
   std::cout << "-m [model configuration]: Allows for alternate "
             "models to be used with NFIQ2"
             << "\n";
-  std::cout << "\n";
+  std::cout << "\nVersion " << NFIQ::Version::Pretty << " (Date: " <<
+            NFIQ::Version::BuildDate << ", Commit: " << NFIQ::Version::Commit <<
+            ")\n";
 }
 
 // Print to stdout if undefined flag is used

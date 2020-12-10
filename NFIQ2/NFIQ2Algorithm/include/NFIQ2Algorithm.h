@@ -7,6 +7,7 @@
 
 #include "include/FingerprintImageData.h"
 #include "include/InterfaceDefinitions.h"
+#include "include/nfiq2_version.h"
 
 namespace NFIQ
 {

@@ -6,9 +6,10 @@ Contained in this directory are the tools required to perform compliance testing
 **NOTE** It is important to have Python Pandas v1.1.0 installed for the diff script to work correctly. 
 
 
-1. NFIQ2_scores_master.csv
+1. CTS_MASTER_OUTPUT.csv
 	The correct NFIQ2 score output for the Compliance Test dataset found here: [NFIQ2 Compliance Test Set](INSERT_CTS_LINK_HERE)
-	This CSV output contains NFIQ2 scores and their individual quality scores. Speed output has been omitted.
+	This CSV output contains NFIQ2 scores and their individual quality scores. 
+	It also contains actionable quality scores. Speed output has been omitted.
 
 
 2. diff.py
@@ -22,7 +23,7 @@ Contained in this directory are the tools required to perform compliance testing
 
 	
 	diff.py Usage:
-		| **python3** **diff.py** _NFIQ2_scores_master.csv_ _Your_NFIQ2_Output.csv_ [-o {_OUTPUT_PATH_} || -s]
+		| **python3** **diff.py** _CTS_MASTER_OUTPUT.csv_ _Your_NFIQ2_Output.csv_ [-o {_OUTPUT_PATH_}] [-s]
 	
 
 A compliant NFIQ 2.0 implementation will produce a clean diff upon performing compliance testing. 

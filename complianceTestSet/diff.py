@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 
 import sys, pandas as pd, argparse, os.path
+from distutils.version import StrictVersion
+
+# Need Pandas v1.1.0 
+if StrictVersion(pd.__version__) < StrictVersion("1.1.0"):
+  print("This script requires the use of Pandas v1.1.0.")
+  sys.exit(1)
     
 # Argument parser
 parser = argparse.ArgumentParser()
@@ -40,6 +46,7 @@ if df.shape[0] != df2.shape[0]:
 
 # All headers that are being compared. Contains standard headers and Quality headers. No speeds are being compared.
 HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized", "Resampled",
+           "EmptyImageOrContrastTooLow", "UniformImage", "FingerprintImageWithMinutiae", "SufficientFingerprintForeground",
            "FDA_Bin10_0", "FDA_Bin10_1", "FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4", "FDA_Bin10_5",
            "FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8", "FDA_Bin10_9", "FDA_Bin10_Mean", "FDA_Bin10_StdDev",
            "FingerJetFX_MinCount_COMMinRect200x200", "FingerJetFX_MinutiaeCount", "FJFXPos_Mu_MinutiaeQuality_2",

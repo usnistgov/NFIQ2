@@ -311,7 +311,11 @@ void NFIQ2UI::printUsage()
   std::cout << "-m [model configuration]: Allows for alternate "
             "models to be used with NFIQ2"
             << "\n";
-  std::cout << "\nVersion " << NFIQ::Version::Pretty << " (Date: " <<
+  std::cout << "\nVersion Info\n------------\n" <<
+            "Biometric Evaluation: " << NFIQ::Version::BiometricEvaluation() <<
+            "\nFingerJet: " << NFIQ::Version::FingerJet() << "\n"
+            "OpenCV: " << NFIQ::Version::OpenCV << "\n"
+            "NFIQ 2: " << NFIQ::Version::Pretty << " (Date: " <<
             NFIQ::Version::BuildDate << ", Commit: " << NFIQ::Version::Commit <<
             ")\n";
 }

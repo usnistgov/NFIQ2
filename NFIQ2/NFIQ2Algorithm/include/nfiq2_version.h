@@ -9,11 +9,11 @@ namespace NFIQ
     extern const unsigned int Minor;
     extern const unsigned int Patch;
 
-    extern const char* Full;
-    extern const char* Pretty;
-    extern const char* Status;
-    extern const char* BuildDate;
-    extern const char* Commit;
+    extern std::string Full;
+    extern std::string Pretty;
+    extern std::string Status;
+    extern std::string BuildDate;
+    extern std::string Commit;
   }
 }
 

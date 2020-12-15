@@ -69,54 +69,6 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=%vcpkg_root%\\scripts\\buildsystems\\vcpkg.cmake
 cmake --build .
 ```
 
-Cross Compilation
------------------
-The build process is based on [CMake](https://cmake.org/), which is available for all major platforms. For convenience, cross-compilation scripts are available in the root directory.
-
-The build process is a two step process.
-
- 1. Use CMake to generate the compiler makefiles (makefiles, project files etc)
-
-    This step can be started by executing the correct script for your compiler:
-
-     * Visual Studio
-       * [`runCMake.ps1`](runCMake.ps1)
-         * Only the `Release` configuration will be configured.
-     * Everything else
-       * [`runCMake.sh`](runCMake.sh)
-         * Requires argument of `x32` or `x64`, depending on desired bitness.
-
-    During the CMake step all the required dependencies that are not `git` submodules
-    will be downloaded. Note that all dependencies will
-    [eventually be submodules](https://github.com/usnistgov/NFIQ2/issues/32).
-
-    - OpenCV
-        * downloaded from [https://github.com/opencv/opencv/archive/`OPENCV_VERSION`.zip](https://github.com/opencv/opencv/archive/OPENCV_VERSION.zip)
-        * the OpenCV version is controlled by the variable `${OPENCV_VERSION}`,
-          which is defined in the top level CMake file (default is "4.4.0")
-        * If you need to download the source ahead of time, place the zip file in the root directory and change the URL
-
- 2. CMake will generate makefiles or project files in the directories listed below.
-    After CMake generated the according make solution or files, NFIQ2 can be build from the dedicated `build` folder. All generated artifacts will be
-    placed in a dedicated `dist` folder.
-
-The build process has been tested for the following platforms:
-
-| OS        | Bitness  | Compiler   | CMake Script command                      | Build Files (`./build/`) | Artifacts (`./dist/`)     |
-|:---------:|:--------:|:----------:|:-----------------------------------------:|:------------------------:|:-------------------------:|
-| Windows   | 32       | MSVC 2017  | `runCMake.ps1`                            | `Windows32/NFIQ2.sln`    | use release configuration |
-| Windows   | 64       | MSVC 2017  | `runCMake.ps1`                            | `Windows64/NFIQ2.sln`    | use release configuration |
-| Windows   | 32       | MSYS2/GCC  | `runCMake.sh x32`                         | `MinGw-x86_64/x32/`      | `MinGw-x86_64/x32/GCC/`   |
-| Windows   | 64       | MSYS2/GCC  | `runCMake.sh x64`                         | `MinGw-x86_64/x64/`      | `MinGw-x86_64/x64/GCC/`   |
-| Linux     | 32       | GCC        | `runCMake.sh x32`                         | `Linux-x86_64/x32/`      | `Linux-x86_64/x32/GCC/`   |
-| Linux     | 64       | GCC        | `runCMake.sh x64`                         | `Linux-x86_64/x64/`      | `Linux-x86_64/x64/GCC/`   |
-| macOS     | 32       | AppleClang | `runCMake.sh x32`                         | `Mac-x86/x32/`           | `Mac-x86/x32/Clang/`      |
-| macOS     | 64       | AppleClang | `runCMake.sh x64`                         | `Mac-x86_64/x64/`        | `Mac-x86_64/x64/Clang/`   |
-| Android P | 32       | Clang/GCC  | `runCMake.sh android-arm32 <path to NDK>` | `android-arm32/`         | `android-arm32/Clang/`    |
-| Android P | 64       | Clang/GCC  | `runCMake.sh android-arm64 <path to NDK>` | `android-arm64/`         | `android-arm64/Clang/`    |
-
-Due to the specifics of an Android build, a modified (GCC support) NDK needs to be used, which is not part of this NFIQ2 distribution.
-
 OpenCV version
 --------------
 

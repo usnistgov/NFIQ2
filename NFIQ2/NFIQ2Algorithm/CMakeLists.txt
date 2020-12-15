@@ -246,7 +246,7 @@ add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
 
 # Install Man Page for Unix Systems
 if(UNIX)
-  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1" RENAME nfiq2.1)
 endif()
 
 # Copies getopt dll for Windows builds

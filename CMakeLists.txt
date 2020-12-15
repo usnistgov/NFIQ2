@@ -27,20 +27,12 @@ include( "${ROOT_PATH}/cmake/target.cmake" )
 # setup compiler
 include( "${ROOT_PATH}/cmake/compiler.cmake" )
 
-# create build and distribution path
-include( "${ROOT_PATH}/cmake/folders.cmake" )
-
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
 message( STATUS "----- Configuring ${PROJECT_NAME} -----" )
 message( STATUS "-- Project root path: '${ROOT_PATH}'" )
 message( STATUS "-- Project build path: '${BUILD_PATH}'" )
-message( STATUS "-- Project distribution path: '${DIST_PATH}'" )
-
-set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${DIST_PATH} )
-set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DIST_PATH} )
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DIST_PATH} )
 
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
@@ -57,13 +49,6 @@ elseif( 64BITS)
     -DCMAKE_CXX_FLAGS="-m64"
   )
 endif()
-
-# forwarding output configuration
-set( OUTPUT_CMAKE_ARGS
-  -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-  -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-  -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-)
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
@@ -175,11 +160,10 @@ ExternalProject_Add(OpenCV
 	CMAKE_ARGS
 		${OPENCV_CMAKE_ARGS}
 		${COMPILER_CMAKE_ARGS}
-		${OUTPUT_CMAKE_ARGS}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
-	INSTALL_COMMAND	""
+		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
 )
 
 if (BUILD_NFIQ2_CLI)
@@ -189,12 +173,11 @@ ExternalProject_Add(libbiomeval
 	CMAKE_ARGS
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
 		-DBUILD_BIOMEVAL_TESTS=OFF
-		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
 		-DBUILD_BIOMEVAL_SHARED=OFF
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 	BUILD_ALWAYS	YES
-	INSTALL_DIR ${DIST_PATH}
 )
 endif(BUILD_NFIQ2_CLI)
 
@@ -207,13 +190,12 @@ ExternalProject_Add(nfiq2
 		-DOPENCV_VERSION=${OPENCV_VERSION}
 		-DTARGET_PLATFORM=${TARGET_PLATFORM}
 		${COMPILER_CMAKE_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 	BUILD_ALWAYS	YES
-	INSTALL_DIR ${DIST_PATH}
 )
 ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static)
 
@@ -226,10 +208,9 @@ ExternalProject_Add(nfiq2api
 	CMAKE_ARGS
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		${COMPILER_CMAKE_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
-	INSTALL_DIR ${DIST_PATH}
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

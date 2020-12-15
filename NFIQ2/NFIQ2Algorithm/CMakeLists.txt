@@ -40,7 +40,8 @@ endif()
 
 # FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds 
 # FIXME: are updated.
-link_directories( "${CMAKE_INSTALL_PREFIX}" )
+link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src" )
+link_directories( "${CMAKE_BINARY_DIR}/../../../biomdi" )
 
 set(SOURCE_FILES "")
 file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" )
@@ -217,43 +218,68 @@ endif()
 set_target_properties(${NFIQ2_TEST_APP}
   PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
 
-install(TARGETS ${NFIQ2_TEST_APP} 
-    RUNTIME DESTINATION bin)
-install(FILES 
+set(NFIQ2_CONTAINER_DIR nfiq2)
+if(UNIX)
+	include(GNUInstallDirs)
+	string(APPEND CMAKE_INSTALL_LIBDIR "/${NFIQ2_CONTAINER_DIR}")
+	string(APPEND CMAKE_INSTALL_INCLUDEDIR "/${NFIQ2_CONTAINER_DIR}")
+	string(APPEND CMAKE_INSTALL_DATADIR "/${NFIQ2_CONTAINER_DIR}")
+else(UNIX)
+	set(CMAKE_INSTALL_BINDIR "bin")
+	set(CMAKE_INSTALL_MANDIR "${CMAKE_INSTALL_DATAROOTDIR}/man")
+
+	set(CMAKE_INSTALL_LIBDIR "lib/${NFIQ2_CONTAINER_DIR}")
+	set(CMAKE_INSTALL_INCLUDEDIR "include/${NFIQ2_CONTAINER_DIR}")
+	set(CMAKE_INSTALL_DATADIR "share/${NFIQ2_CONTAINER_DIR}")
+endif(UNIX)
+
+install(TARGETS ${NFIQ2_TEST_APP}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+# FIXME: This should be DATAROOTDIR
+install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
-    DESTINATION bin)
+    DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml ${SUPERBUILD_ROOT_PATH}/complianceTestSet/nfiq2rf.yaml)
 
 # Install Man Page for Unix Systems
-if(UNIX) 
-  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1")
-endif()
-
-# Copy build results to dist on Windows
-if(MSVC)
-add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-      ${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build/Release ${CMAKE_INSTALL_PREFIX}/bin)
+if(UNIX)
+  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
 endif()
 
 # Copies getopt dll for Windows builds
 if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-  add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        ${_VCPKG_INSTALLED_DIR}/x86-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
+	install(FILES
+	    ${_VCPKG_INSTALLED_DIR}/x86-windows/bin/getopt.dll
+	    DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif()
 
 if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-  add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll ${CMAKE_INSTALL_PREFIX}/bin/getopt.dll)
+	install(FILES
+	    ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll
+	    DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif()
 endif(BUILD_NFIQ2_CLI)
 
-install(TARGETS ${PROJECT_NAME} 
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include)
+install(TARGETS ${PROJECT_NAME}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# FIXME: FingerJet doesn't have an install target
+install(FILES
+	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
+	DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+# FIXME: biomdi is going away and doesn't have an install target
+install(FILES
+	${CMAKE_BINARY_DIR}/../../../biomdi/${CMAKE_STATIC_LIBRARY_PREFIX}biomdi${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../biomdi/${CMAKE_STATIC_LIBRARY_PREFIX}fir${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../biomdi/${CMAKE_STATIC_LIBRARY_PREFIX}fmr${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../biomdi/${CMAKE_STATIC_LIBRARY_PREFIX}frf${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../biomdi/${CMAKE_STATIC_LIBRARY_PREFIX}iid${CMAKE_STATIC_LIBRARY_SUFFIX}
+	DESTINATION ${CMAKE_INSTALL_LIBDIR})
+

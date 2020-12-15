@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "include/NFIQException.h"
+#include <NFIQException.h>
 
 namespace NFIQ
 {

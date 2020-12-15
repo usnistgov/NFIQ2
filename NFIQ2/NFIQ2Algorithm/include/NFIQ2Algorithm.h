@@ -5,8 +5,8 @@
 #include <memory>
 #include <string>
 
-#include "include/FingerprintImageData.h"
-#include "include/InterfaceDefinitions.h"
+#include <FingerprintImageData.h>
+#include <InterfaceDefinitions.h>
 
 namespace NFIQ
 {

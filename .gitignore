@@ -7,6 +7,7 @@
 **/download/
 NFIQ2/NFIQ2Api/version.*.*.cpp
 NFIQ2/NFIQ2Api/version.*.*.rc
+NFIQ2/NFIQ2Algorithm/src/nfiq2_version.cpp
 
 modules/core/include/opencv2/core/cv_cpu_helper.h
 

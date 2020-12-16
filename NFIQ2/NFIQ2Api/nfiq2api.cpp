@@ -14,12 +14,10 @@
 
 // external vars for the version values
 extern char product_name[128];
-extern char product_copyright[128];
 extern char product_vendor[128];
 extern int version_major;
 extern int version_minor;
-extern int version_evolution;
-extern int version_build;
+extern int version_patch;
 
 // static object to load the algorithm only once (random forest init!)
 std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
@@ -64,12 +62,11 @@ std::string GetYamlFilePath()
 }
 
 extern "C" {
-  DLLEXPORT void STDCALL GetNfiq2Version( int* major, int* minor, int* evolution, int* increment, const char** ocv )
+  DLLEXPORT void STDCALL GetNfiq2Version( int* major, int* minor, int* patch, const char** ocv )
   {
     *major = version_major;
     *minor = version_minor;
-    *evolution = version_evolution;
-    *increment = version_build;
+    *patch = version_patch;
 #if CV_MAJOR_VERSION <= 2
     const char* m = nullptr;
     cvGetModuleInfo( nullptr, ocv, &m );

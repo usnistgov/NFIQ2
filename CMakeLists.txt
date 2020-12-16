@@ -2,12 +2,22 @@ cmake_minimum_required (VERSION 3.3)
 
 project( NFIQ2_SUPERBUILD )
 
+message(STATUS "NFIQ 2 Superbuild")
+
 option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
 
 set( NO_SEARCH TRUE )
 
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
+
+# ExternalProjects have their own install() that we can't control, and
+# the `install' target is executed at superbuild build time. To counteract
+# this, we will set CMAKE_INSTALL_PREFIX to ${INSTALL_STAGING_DIR} for all
+# ExternalProjects, allowing the project to be built by non-root. The
+# superbuild's install (and ultimate packaging with CPack) will merely copy
+# this staging directory.
+set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging")
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -22,10 +32,6 @@ include( "${ROOT_PATH}/cmake/compiler.cmake" )
 
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
-
-message( STATUS "----- Configuring ${PROJECT_NAME} -----" )
-message( STATUS "-- Project root path: '${ROOT_PATH}'" )
-message( STATUS "-- Project build path: '${BUILD_PATH}'" )
 
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
@@ -146,7 +152,7 @@ ExternalProject_Add(OpenCV
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 )
 
 if (BUILD_NFIQ2_CLI)
@@ -156,7 +162,7 @@ ExternalProject_Add(libbiomeval
 	CMAKE_ARGS
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
 		-DBUILD_BIOMEVAL_TESTS=OFF
-		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		-DBUILD_BIOMEVAL_SHARED=OFF
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
@@ -171,7 +177,7 @@ ExternalProject_Add(nfiq2
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		-DTARGET_PLATFORM=${TARGET_PLATFORM}
 		${COMPILER_CMAKE_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${VCPKG_CMAKE_ARGS}
@@ -189,9 +195,43 @@ ExternalProject_Add(nfiq2api
 	CMAKE_ARGS
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		${COMPILER_CMAKE_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)
+
+if (UNIX)
+	include(GNUInstallDirs)
+endif()
+
+# Tell CPack to pack up the install
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_BINDIR}"
+	DESTINATION ${CMAKE_INSTALL_PREFIX}
+	COMPONENT nfiq2_cli)
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_DATADIR}"
+	DESTINATION ${CMAKE_INSTALL_PREFIX}
+	COMPONENT nfiq2_cli)
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_LIBDIR}"
+	DESTINATION ${CMAKE_INSTALL_PREFIX}
+	COMPONENT development)
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_INCLUDEDIR}"
+	DESTINATION ${CMAKE_INSTALL_PREFIX}
+	COMPONENT development)
+
+include(NFIQ2/version.cmake)
+set(CPACK_PACKAGE_NAME "nfiq2")
+set(CPACK_PACKAGE_VENDOR "${NFIQ2_PRODUCT_VENDOR}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${NFIQ2_PRODUCT_DESCRIPTION_SHORT}")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/usnistgov/nfiq2")
+set(CPACK_PACKAGE_VERSION "${NFIQ2_VERSION}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${NFIQ2_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${NFIQ2_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${NFIQ2_VERSION_PATCH}")
+
+set(CPACK_COMPONENTS_ALL nfiq2_cli development)
+set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line Interface")
+set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
+
+include(CPack)

@@ -45,11 +45,16 @@ systems by identifying the samples that are likely to cause recognition failure.
 If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
 
 Dependencies
------------
+------------
+The following dependencies are included in this repository as git submodules:
 
-This version of NFIQ2 uses The Biometric Evaluation Framework (libbiomeval). 
-
-A link to The Framework can be found [here](https://github.com/usnistgov/libbiomeval). See the Libbiomeval README for more information.
+ * [BiomDI](https://github.com/usnistgov/biomdi) ([public domain license](https://github.com/usnistgov/biomdi/blob/master/LICENSE.md))
+ * [Biometric Evaluation Framework](https://github.com/usnistgov/libbiomeval) ([public domain license](https://github.com/usnistgov/libbiomeval/blob/master/LICENSE.md))
+   * Only required for standalone executable.
+   * Requires other non-bundled dependencies, please see the [README](https://github.com/usnistgov/libbiomeval/blob/master/README.md).
+ * [digestpp](https://github.com/kerukuro/digestpp) ([public domain license](https://github.com/kerukuro/digestpp/blob/master/LICENSE))
+ * [FingerJetFX OSE](https://github.com/FingerJetFXOSE/FingerJetFXOSE) ([LGPLv3 license](https://github.com/FingerJetFXOSE/FingerJetFXOSE/blob/master/COPYRIGHT.txt))
+ * [OpenCV](https://github.com/opencv/opencv) ([Apache 2 License](https://github.com/opencv/opencv/blob/master/LICENSE))
 
 Quick Build
 -----------
@@ -71,22 +76,24 @@ cmake --build .
 
 OpenCV version
 --------------
-
-The tested and approved OpenCV version is 2.4.13.6. The source were also experimentally compiled with the OpenCV version 3.4.8 and 4.4.0.
-The OpenCV version can be changed within by setting the CMake variable `OPENCV_VERSION`:
-```bash
-cmake -DOPENCV_VERSION="4.4.0" ..
-```
+--------------
+Originally, all major versions of OpenCV were supported by NFIQ 2. Due to the
+limited testing resources as well as slight differences in results between
+versions, NIST has chosen to rely on the latest release of OpenCV 4 as of this
+writing. **Using a different version of OpenCV may result in unstable NFIQ 2
+scores and is not supported.** Future updates to OpenCV versions should run the
+compliance test and larger sequestered tests without differences.
 
 Known Limitations
 -----------------
 
  * **macOS**:
    * Xcode 10 and later does not support 32-bit applications. In order to build
-   NFIQ2 for 32-bit macOS, use Xcode 9.4.x.
+     NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
+   * There has been no effort to test this code on Apple's M1 ARM architecture.
 
  * **All Platforms**:
-   * The current NFIQ2 executable binary is only supported on 64-bit machines.
+   * The current NFIQ 2 executable binary is only supported on 64-bit machines.
 
 Communication
 -------------

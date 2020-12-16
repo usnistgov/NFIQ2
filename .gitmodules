@@ -10,3 +10,6 @@
 [submodule "libbiomeval"]
 	path = libbiomeval
 	url = https://github.com/usnistgov/libbiomeval.git
+[submodule "opencv"]
+	path = opencv
+	url = https://github.com/opencv/opencv.git

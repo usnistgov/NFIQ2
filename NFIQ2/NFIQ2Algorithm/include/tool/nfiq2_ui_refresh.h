@@ -313,11 +313,11 @@ namespace NFIQ2UI
    *  @param[in] arguments
    *      Contains information about provided command line arguments, as well
    *      as all of the paths of the files that will be processed through NFIQ2.
-   *  
+   *
    *  @return
-   *      Returns a tuple containing the model path and the models hash. 
+   *      Returns a tuple containing the model path and the models hash.
    */
-  std::tuple<std::string, std::string> parseModel(NFIQ2UI::Arguments arguments);
+  std::tuple<std::string, std::string> parseModel( NFIQ2UI::Arguments arguments );
 
 } // namespace NFIQ2UI
 

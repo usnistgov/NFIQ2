@@ -779,28 +779,38 @@ void NFIQ2UI::printHeader( NFIQ2UI::Arguments arguments,
   }
 }
 
-std::tuple<std::string, std::string> 
-NFIQ2UI::parseModel(NFIQ2UI::Arguments arguments) {
+std::tuple<std::string, std::string>
+NFIQ2UI::parseModel( NFIQ2UI::Arguments arguments )
+{
 
   std::string propFilePath;
-  
-  if (arguments.flags.model == "") {
+
+  if( arguments.flags.model == "" )
+  {
     // Check common places for directory containing model
     // If in Current Directory
-    if ( BE::IO::Utility::fileExists( "nfiq2rf.txt" ) ) {
+    if( BE::IO::Utility::fileExists( "nfiq2rf.txt" ) )
+    {
       propFilePath = ".";
-      // Unix
-    } else if (BE::IO::Utility::fileExists("/usr/local/share/nfiq2/nfiq2rf.txt")) {
+    }
+    // Unix
+    else if( BE::IO::Utility::fileExists( "/usr/local/share/nfiq2/nfiq2rf.txt" ) )
+    {
       propFilePath = "/usr/local/share/nfiq2/";
-      // Windows
-    } else if (BE::IO::Utility::fileExists("C:\\Program Files\\nfiq2\\nfiq2rf.txt")) {
+    }
+    // Windows
+    else if( BE::IO::Utility::fileExists( "C:\\Program Files\\nfiq2\\nfiq2rf.txt" ) )
+    {
       propFilePath = "C:\\Program Files\\nfiq2\\";
-      // Could not locate
-    } else {
+    }
+    // Could not locate
+    else
+    {
       throw NFIQ2UI::FileNotFoundError( "Could not find path to 'nfiq2rf.txt" );
     }
-
-  } else {
+  }
+  else
+  {
     // Use -m defined path
     propFilePath = arguments.flags.model;
   }
@@ -808,16 +818,19 @@ NFIQ2UI::parseModel(NFIQ2UI::Arguments arguments) {
   std::unique_ptr<BE::IO::PropertiesFile> props;
   std::string modelFile, hash;
 
-  try {
-    props.reset(new BE::IO::PropertiesFile(propFilePath + "/nfiq2rf.txt", BE::IO::Mode::ReadOnly));
-    modelFile = propFilePath + "/" + props->getProperty("ModelFile");
-    hash = props->getProperty("Hash");
+  try
+  {
+    props.reset( new BE::IO::PropertiesFile( propFilePath + "/nfiq2rf.txt", BE::IO::Mode::ReadOnly ) );
+    modelFile = propFilePath + "/" + props->getProperty( "ModelFile" );
+    hash = props->getProperty( "Hash" );
 
-  } catch ( BE::Error::Exception& e ) {
+  }
+  catch( BE::Error::Exception& e )
+  {
     throw NFIQ2UI::PropertyParseError( "Unable to parse nfiq2rf.txt" );
   }
 
-  return std::make_tuple(modelFile, hash);
+  return std::make_tuple( modelFile, hash );
 
 }
 
@@ -865,10 +878,14 @@ int main( int argc, char** argv )
   std::string modelFile;
   std::string hash;
 
-  try {
-    std::tie(modelFile, hash) = NFIQ2UI::parseModel(arguments);
-  } catch ( const NFIQ2UI::Exception& e) {
+  try
+  {
+    std::tie( modelFile, hash ) = NFIQ2UI::parseModel( arguments );
+  }
+  catch( const NFIQ2UI::Exception& e )
+  {
     std::cerr << "Unable to extract nfiq2rf model information. " << e.what() << "\n";
+    return EXIT_FAILURE;
   }
 
   if( !BE::IO::Utility::fileExists( modelFile ) )

@@ -331,6 +331,9 @@ void NFIQ2UI::printUsage()
   std::cout << "-j [# of threads]: Enables Multi-Threading for Batch and "
             "RecordStore processes"
             << "\n";
+  std::cout << "-m [model directory path]: Allows for alternate "
+            "models to be used with NFIQ2"
+            << "\n";
   std::cout << "-a: Displays actionable quality scores about each processed image\n";
   std::cout
       << "-v: Displays individual quality score information about each processed image"
@@ -347,12 +350,6 @@ void NFIQ2UI::printUsage()
   std::cout
       << "-r: Recursive file scanning if a directory is provided"
       << "\n";
-  std::cout << "\n";
-  std::cout << "Not implemented yet:"
-            << "\n";
-  std::cout << "-m [model configuration]: Allows for alternate "
-            "models to be used with NFIQ2"
-            << "\n";
   std::cout << "\nVersion Info\n------------\n" <<
             "Biometric Evaluation: " << NFIQ::Version::BiometricEvaluation() <<
             "\nFingerJet: " << NFIQ::Version::FingerJet() << "\n"

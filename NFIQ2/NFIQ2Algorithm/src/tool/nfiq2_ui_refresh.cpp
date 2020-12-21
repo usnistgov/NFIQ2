@@ -31,6 +31,7 @@
 
 #include <be_image_image.h>
 #include <be_io_recordstore.h>
+#include <be_io_propertiesfile.h>
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 
@@ -696,7 +697,6 @@ NFIQ2UI::Arguments NFIQ2UI::processArguments( int argc, char** argv )
       case 'r':
         flags.recursion = true;
         break;
-      // Not implemented yet
       case 'm':
         flags.model = optarg;
         break;
@@ -779,6 +779,48 @@ void NFIQ2UI::printHeader( NFIQ2UI::Arguments arguments,
   }
 }
 
+std::tuple<std::string, std::string> 
+NFIQ2UI::parseModel(NFIQ2UI::Arguments arguments) {
+
+  std::string propFilePath;
+  
+  if (arguments.flags.model == "") {
+    // Check common places for directory containing model
+    // If in Current Directory
+    if ( BE::IO::Utility::fileExists( "nfiq2rf.txt" ) ) {
+      propFilePath = ".";
+      // Unix
+    } else if (BE::IO::Utility::fileExists("/usr/local/share/nfiq2/nfiq2rf.txt")) {
+      propFilePath = "/usr/local/share/nfiq2/";
+      // Windows
+    } else if (BE::IO::Utility::fileExists("C:\\Program Files\\nfiq2\\nfiq2rf.txt")) {
+      propFilePath = "C:\\Program Files\\nfiq2\\";
+      // Could not locate
+    } else {
+      throw NFIQ2UI::FileNotFoundError( "Could not find path to 'nfiq2rf.txt" );
+    }
+
+  } else {
+    // Use -m defined path
+    propFilePath = arguments.flags.model;
+  }
+
+  std::unique_ptr<BE::IO::PropertiesFile> props;
+  std::string modelFile, hash;
+
+  try {
+    props.reset(new BE::IO::PropertiesFile(propFilePath + "/nfiq2rf.txt", BE::IO::Mode::ReadOnly));
+    modelFile = propFilePath + "/" + props->getProperty("ModelFile");
+    hash = props->getProperty("Hash");
+
+  } catch ( BE::Error::Exception& e ) {
+    throw NFIQ2UI::PropertyParseError( "Unable to parse nfiq2rf.txt" );
+  }
+
+  return std::make_tuple(modelFile, hash);
+
+}
+
 int main( int argc, char** argv )
 {
   if( argc < 2 )
@@ -820,7 +862,16 @@ int main( int argc, char** argv )
   double timeInit = 0.0;
   timerInit.startTimer();
 
-  if( !BE::IO::Utility::fileExists( "nfiq2rf.yaml" ) )
+  std::string modelFile;
+  std::string hash;
+
+  try {
+    std::tie(modelFile, hash) = NFIQ2UI::parseModel(arguments);
+  } catch ( const NFIQ2UI::Exception& e) {
+    std::cerr << "Unable to extract nfiq2rf model information. " << e.what() << "\n";
+  }
+
+  if( !BE::IO::Utility::fileExists( modelFile ) )
   {
     std::cerr
         << "Please run NFIQ2 in the same directory as the nfiq2rf.yaml model"
@@ -828,8 +879,7 @@ int main( int argc, char** argv )
     return EXIT_FAILURE;
   }
 
-  const NFIQ::NFIQ2Algorithm model(
-    "nfiq2rf.yaml", "ccd75820b48c19f1645ef5e9c481c592" );
+  const NFIQ::NFIQ2Algorithm model( modelFile, hash );
 
   timeInit = timerInit.endTimerAndGetElapsedTime();
 

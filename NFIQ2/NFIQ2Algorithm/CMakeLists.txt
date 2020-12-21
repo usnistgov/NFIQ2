@@ -225,6 +225,7 @@ install(TARGETS ${NFIQ2_TEST_APP}
     RUNTIME DESTINATION bin)
 install(FILES 
     "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.txt"
     DESTINATION bin)
 
 add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD

@@ -1,3 +1,4 @@
-Owner:    NIST/ISO
-Training: NFIQ2 Version 1.0
-Hash:     ccd75820b48c19f1645ef5e9c481c592
+Owner = NIST/ISO
+Training = NFIQ2 Version 1.0
+ModelFile = nfiq2rf.yaml
+Hash = ccd75820b48c19f1645ef5e9c481c592

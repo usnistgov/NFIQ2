@@ -18,15 +18,15 @@
 // Responsible for logging within Multi-threaded operations
 NFIQ2UI::ThreadedLog::ThreadedLog(const Flags& flags)
     : NFIQ2UI::Log::Log(flags, "") {
-  this->out = &ss;
+    this->out = &ss;
 }
 
 // Gets the print result of the last processed image
 std::string
 NFIQ2UI::ThreadedLog::getAndClearLastScore() {
-  const std::string score = ss.str();
-  ss.str("");
-  return score;
+    const std::string score = ss.str();
+    ss.str("");
+    return score;
 }
 
 NFIQ2UI::ThreadedLog::~ThreadedLog() { this->out = nullptr; }

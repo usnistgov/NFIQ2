@@ -46,7 +46,8 @@ const std::string c_ErrorMessages[] = {
     /* 37 */ "Wrong file content detected",
     /* 38 */ "Image conversion error",
     /* 39 */
-    "Too few genuine scores remaining after iteration in utility computation",
+    "Too few genuine scores remaining after iteration in utility "
+    "computation",
     /* 40 */ "A fusion of utility values is not possible",
     /* 41 */ "An invalid configuration entry was found",
     /* 42 */ "An machine learning error occured",
@@ -64,10 +65,10 @@ const std::string c_ErrorMessages[] = {
     /* 53 */ "Cannot get minutiae data"};
 
 NFIQException::NFIQException(uint32_t returnCode) : m_ReturnCode(returnCode) {
-  m_ErrorMessage = c_ErrorMessages[returnCode];
-  if (m_ErrorMessage.compare("") == 0) {
-    m_ErrorMessage = "Undefined return code";
-  }
+    m_ErrorMessage = c_ErrorMessages[returnCode];
+    if (m_ErrorMessage.compare("") == 0) {
+        m_ErrorMessage = "Undefined return code";
+    }
 }
 
 NFIQException::NFIQException(uint32_t returnCode, std::string errorMessage)
@@ -77,5 +78,5 @@ NFIQException::~NFIQException() noexcept {}
 
 const char*
 NFIQException::what() const noexcept {
-  return m_ErrorMessage.c_str();
+    return m_ErrorMessage.c_str();
 }

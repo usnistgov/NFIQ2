@@ -14,14 +14,14 @@
 #include "include/InterfaceDefinitions.h"
 
 class BaseFeature {
- public:
-  BaseFeature(bool bOutputSpeed,
-              std::list<NFIQ::QualityFeatureSpeed>& speedValues)
-      : m_bOutputSpeed(bOutputSpeed), m_lSpeedValues(speedValues){};
-  virtual ~BaseFeature(){};
+   public:
+    BaseFeature(bool bOutputSpeed,
+                std::list<NFIQ::QualityFeatureSpeed>& speedValues)
+        : m_bOutputSpeed(bOutputSpeed), m_lSpeedValues(speedValues){};
+    virtual ~BaseFeature(){};
 
-  bool m_bOutputSpeed;
-  std::list<NFIQ::QualityFeatureSpeed>& m_lSpeedValues;
+    bool m_bOutputSpeed;
+    std::list<NFIQ::QualityFeatureSpeed>& m_lSpeedValues;
 };
 
 #endif

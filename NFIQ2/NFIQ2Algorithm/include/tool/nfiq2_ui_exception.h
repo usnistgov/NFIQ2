@@ -26,40 +26,40 @@ namespace NFIQ2UI {
  *  string.
  */
 class Exception : std::exception {
- public:
-  /**
-   *  Construct an Exception object without
-   *  an information string.
-   */
-  Exception();
+   public:
+    /**
+     *  Construct an Exception object without
+     *  an information string.
+     */
+    Exception();
 
-  /**
-   *  Construct an Exception object with
-   *  an information string.
-   *
-   *  @param[in] info
-   *  The information string associated
-   *  with the exception.
-   */
-  /*
-   *  Pass info by value so we can use move
-   *  semantics when setting object state.
-   */
-  Exception(std::string info);
+    /**
+     *  Construct an Exception object with
+     *  an information string.
+     *
+     *  @param[in] info
+     *  The information string associated
+     *  with the exception.
+     */
+    /*
+     *  Pass info by value so we can use move
+     *  semantics when setting object state.
+     */
+    Exception(std::string info);
 
-  virtual ~Exception() = default;
+    virtual ~Exception() = default;
 
-  /**
-   *  Obtain the information string associated
-   *  with the exception.
-   *
-   *  @return
-   *  The information string as a char array.
-   */
-  const char* what() const noexcept override;
+    /**
+     *  Obtain the information string associated
+     *  with the exception.
+     *
+     *  @return
+     *  The information string as a char array.
+     */
+    const char* what() const noexcept override;
 
- private:
-  std::string _info;
+   private:
+    std::string _info;
 };
 
 /**
@@ -67,19 +67,19 @@ class Exception : std::exception {
  *  File error when opening, reading, writing, etc.
  */
 class FileOpenError : public Exception {
- public:
-  /**
-   *  Construct a FileOpenError object with
-   *  the default information string.
-   */
-  FileOpenError();
+   public:
+    /**
+     *  Construct a FileOpenError object with
+     *  the default information string.
+     */
+    FileOpenError();
 
-  /**
-   *  Construct a FileOpenError object with
-   *  an information string appended to the
-   *  default information string.
-   */
-  FileOpenError(const std::string& info);
+    /**
+     *  Construct a FileOpenError object with
+     *  an information string appended to the
+     *  default information string.
+     */
+    FileOpenError(const std::string& info);
 };
 
 /**
@@ -87,19 +87,19 @@ class FileOpenError : public Exception {
  *  Undefined Flag was given to the command line.
  */
 class UndefinedFlagError : public Exception {
- public:
-  /**
-   *  Construct an UndefinedFlagError object with
-   *  the default information string.
-   */
-  UndefinedFlagError();
+   public:
+    /**
+     *  Construct an UndefinedFlagError object with
+     *  the default information string.
+     */
+    UndefinedFlagError();
 
-  /**
-   *  Construct an UndefinedFlagError object with
-   *  an information string appended to the
-   *  default information string.
-   */
-  UndefinedFlagError(const std::string& info);
+    /**
+     *  Construct an UndefinedFlagError object with
+     *  an information string appended to the
+     *  default information string.
+     */
+    UndefinedFlagError(const std::string& info);
 };
 
 /**
@@ -107,19 +107,19 @@ class UndefinedFlagError : public Exception {
  *  An invalid argument was given to the command line
  */
 class InvalidArgumentError : public Exception {
- public:
-  /**
-   *  Construct an UndefinedFlagError object with
-   *  the default information string.
-   */
-  InvalidArgumentError();
+   public:
+    /**
+     *  Construct an UndefinedFlagError object with
+     *  the default information string.
+     */
+    InvalidArgumentError();
 
-  /**
-   *  Construct an UndefinedFlagError object with
-   *  an information string appended to the
-   *  default information string.
-   */
-  InvalidArgumentError(const std::string& info);
+    /**
+     *  Construct an UndefinedFlagError object with
+     *  an information string appended to the
+     *  default information string.
+     */
+    InvalidArgumentError(const std::string& info);
 };
 
 }  // namespace NFIQ2UI

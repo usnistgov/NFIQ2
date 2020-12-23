@@ -19,8 +19,8 @@ void
 diffGrad(const cv::Mat& inBlock, cv::Mat& outBlock);
 
 typedef enum {
-  SOBEL_OPERATOR = 0,
-  CENTERED_DIFFERENCES,
+    SOBEL_OPERATOR = 0,
+    CENTERED_DIFFERENCES,
 } ocl_type;
 
 void

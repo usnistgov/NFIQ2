@@ -18,13 +18,13 @@ ConstructorInitializerIndentWidth: '4'
 ContinuationIndentWidth: '4'
 IncludeBlocks: Regroup
 IndentPPDirectives: None
-IndentWidth: '2'
+IndentWidth: '4'
 JavaScriptQuotes: Leave
 Language: Cpp
 MaxEmptyLinesToKeep: '1'
 NamespaceIndentation: None
 ObjCBinPackProtocolList: Never
-ObjCBlockIndentWidth: '2'
+ObjCBlockIndentWidth: '4'
 PenaltyBreakAssignment: '2'
 PenaltyBreakBeforeFirstCallParameter: '1'
 PenaltyBreakComment: '300'
@@ -37,7 +37,7 @@ PointerAlignment: Left
 SpaceBeforeParens: ControlStatements
 SpacesBeforeTrailingComments: '2'
 Standard: Cpp11
-TabWidth: '8'
+TabWidth: '4'
 UseTab: Never
 
 ...

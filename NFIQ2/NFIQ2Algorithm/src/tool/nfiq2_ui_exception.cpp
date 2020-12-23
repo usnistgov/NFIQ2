@@ -18,7 +18,7 @@ NFIQ2UI::Exception::Exception(std::string info) : _info{std::move(info)} {}
 
 const char*
 NFIQ2UI::Exception::what() const noexcept {
-  return (this->_info.c_str());
+    return (this->_info.c_str());
 }
 
 NFIQ2UI::FileOpenError::FileOpenError(const std::string& info)

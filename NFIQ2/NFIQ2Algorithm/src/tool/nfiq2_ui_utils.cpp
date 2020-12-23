@@ -17,6 +17,8 @@
 
 #include <be_io_utility.h>
 
+#include <nfiq2_version.h>
+
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
 #include "nfiq2_ui_utils.h"
@@ -260,6 +262,48 @@ unsigned int NFIQ2UI::checkThreads( const std::string& optarg )
   }
 }
 
+std::string NFIQ2UI::formatDouble( const double& d, const int precision )
+{
+  switch( std::fpclassify( d ) )
+  {
+    case FP_NORMAL:
+      break;
+    case FP_ZERO:
+      return "0";
+    default:
+      return std::to_string( d );
+  }
+
+  const std::string s = std::to_string( d );
+
+  if( !std::isfinite( d ) )
+  {
+    return s;
+  }
+
+  if( static_cast<long>( d ) == d )
+  {
+    return std::to_string( static_cast<long>( d ) );
+  }
+
+  const std::string::size_type decimalPosition = s.find( '.' );
+
+  if( decimalPosition == std::string::npos ||
+      precision >= ( s.length() - decimalPosition - 1 ) )
+  {
+    return s;
+  }
+
+  if( precision <= 0 )
+  {
+    return s.substr( 0, 7 );
+  }
+  else
+  {
+    return s.substr( 0, decimalPosition + precision + 1 );
+  }
+}
+
 // Usage of NFIQ2 tool
 void NFIQ2UI::printUsage()
 {
@@ -309,7 +353,13 @@ void NFIQ2UI::printUsage()
   std::cout << "-m [model configuration]: Allows for alternate "
             "models to be used with NFIQ2"
             << "\n";
-  std::cout << "\n";
+  std::cout << "\nVersion Info\n------------\n" <<
+            "Biometric Evaluation: " << NFIQ::Version::BiometricEvaluation() <<
+            "\nFingerJet: " << NFIQ::Version::FingerJet() << "\n"
+            "OpenCV: " << NFIQ::Version::OpenCV << "\n"
+            "NFIQ 2: " << NFIQ::Version::Pretty << " (Date: " <<
+            NFIQ::Version::BuildDate << ", Commit: " << NFIQ::Version::Commit <<
+            ")\n";
 }
 
 // Print to stdout if undefined flag is used

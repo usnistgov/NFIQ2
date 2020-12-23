@@ -15,6 +15,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <cmath>
 
 #include <be_io_utility.h>
 
@@ -149,6 +150,8 @@ namespace NFIQ2UI
    *    The number of threads to be used by Multi-threaded operations.
    */
   unsigned int checkThreads( const std::string& optarg );
+
+  std::string formatDouble( const double& d, const int precision );
 
   /**
    *  @brief

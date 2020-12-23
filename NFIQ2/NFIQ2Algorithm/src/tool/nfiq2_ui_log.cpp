@@ -17,6 +17,7 @@
 #include "nfiq2_ui_exception.h"
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
+#include "nfiq2_ui_utils.h"
 
 // Responsible for all print outputs
 NFIQ2UI::Log::Log( const Flags& flags, const std::string& path )
@@ -68,7 +69,7 @@ void NFIQ2UI::Log::printScore(
         *( this->out ) << ",";
       }
 
-      *( this->out ) << std::setprecision( 5 ) << i->actionableQualityValue;
+      *( this->out ) << NFIQ2UI::formatDouble( i->actionableQualityValue, 5 );
     }
     if( this->verbose || this->speed )
     {
@@ -86,7 +87,7 @@ void NFIQ2UI::Log::printScore(
         *( this->out ) << ",";
       }
 
-      *( this->out ) << std::setprecision( 5 ) << i->featureDataDouble;
+      *( this->out ) << NFIQ2UI::formatDouble( i->featureDataDouble, 5 );
     }
     if( this->speed )
     {

@@ -17,47 +17,44 @@
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
 
-namespace NFIQ2UI
-{
+namespace NFIQ2UI {
+
+/**
+ *  @brief
+ *  Subclass of Log used for Multi-threaded batch operations.
+ *
+ *  @details
+ *  Allows for scores to be logged by executeSingle and getImages and uses a
+ *  stringstream instead of stdout or a filestream to generate those scores.
+ */
+class ThreadedLog : public Log {
+ public:
+  /**
+   *  @brief
+   *  Construct a ThreadedLog object with flags Argument passed in from
+   *  the command line.
+   *
+   *  @param[in] flags
+   *      Argument flags passed into the command line.
+   */
+  ThreadedLog(const Flags& flags);
 
   /**
    *  @brief
-   *  Subclass of Log used for Multi-threaded batch operations.
+   *  Gets the last score produced by a Multi-threaded operation.
    *
-   *  @details
-   *  Allows for scores to be logged by executeSingle and getImages and uses a
-   *  stringstream instead of stdout or a filestream to generate those scores.
+   *  @return
+   *      String version of the last score produced by a worker thread.
    */
-  class ThreadedLog : public Log
-  {
+  std::string getAndClearLastScore();
 
-    public:
-      /**
-       *  @brief
-       *  Construct a ThreadedLog object with flags Argument passed in from
-       *  the command line.
-       *
-       *  @param[in] flags
-       *      Argument flags passed into the command line.
-       */
-      ThreadedLog( const Flags& flags );
+  virtual ~ThreadedLog();
 
-      /**
-       *  @brief
-       *  Gets the last score produced by a Multi-threaded operation.
-       *
-       *  @return
-       *      String version of the last score produced by a worker thread.
-       */
-      std::string getAndClearLastScore();
+ private:
+  /** Internal stringstream that scores get written to */
+  std::stringstream ss;
+};
 
-      virtual ~ThreadedLog();
-
-    private:
-      /** Internal stringstream that scores get written to */
-      std::stringstream ss;
-  };
-
-} // namespace NFIQ2UI
+}  // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_THREADEDLOG_H_ */

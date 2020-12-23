@@ -3,63 +3,68 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <list>
+#include <opencv2/core/core.hpp>
+#include <opencv2/features2d/features2d.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/objdetect/objdetect.hpp>
 #include <string>
 #include <vector>
-#include <list>
 
-#include "include/InterfaceDefinitions.h"
-#include "include/FingerprintImageData.h"
-#include "include/features/BaseFeature.h"
 #include "ImgProcROIFeature.h"
+#include "include/FingerprintImageData.h"
+#include "include/InterfaceDefinitions.h"
+#include "include/features/BaseFeature.h"
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/features2d/features2d.hpp>
-#include <opencv2/objdetect/objdetect.hpp>
+#define LOW_FLOW_MAP_NO_DIRECTION 0
+#define LOW_FLOW_MAP_LOW_FLOW 127
+#define LOW_FLOW_MAP_HIGH_FLOW 255
 
-#define LOW_FLOW_MAP_NO_DIRECTION   0
-#define LOW_FLOW_MAP_LOW_FLOW       127
-#define LOW_FLOW_MAP_HIGH_FLOW      255
+class QualityMapFeatures : BaseFeature {
+ public:
+  QualityMapFeatures(bool bOutputSpeed,
+                     std::list<NFIQ::QualityFeatureSpeed>& speedValues)
+      : BaseFeature(bOutputSpeed, speedValues){};
+  virtual ~QualityMapFeatures();
 
-class QualityMapFeatures : BaseFeature
-{
+  std::list<NFIQ::QualityFeatureResult> computeFeatureData(
+      const NFIQ::FingerprintImageData& fingerprintImage,
+      ImgProcROIFeature::ImgProcROIResults imgProcResults);
 
-  public:
-    QualityMapFeatures( bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues )
-      : BaseFeature( bOutputSpeed, speedValues )
-    {
-    };
-    virtual ~QualityMapFeatures();
+  std::string getModuleID();
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-      const NFIQ::FingerprintImageData& fingerprintImage, ImgProcROIFeature::ImgProcROIResults imgProcResults );
+  void initModule(){/* not needed here */};
 
-    std::string getModuleID();
+  static std::list<std::string> getAllFeatureIDs();
+  static const std::string speedFeatureIDGroup;
 
-    void initModule() { /* not needed here */ };
+  // compute orientation angle of a block
+  static bool getAngleOfBlock(const cv::Mat& block, double& angle,
+                              double& coherence);
 
-    static std::list<std::string> getAllFeatureIDs();
-    static const std::string speedFeatureIDGroup;
+  // computes low flow value of block
+  static double computeLowFlowBlockValue(const cv::Mat& block);
 
-    // compute orientation angle of a block
-    static bool getAngleOfBlock( const cv::Mat& block, double& angle, double& coherence );
+ private:
+  // compute low flow map with ROI filter
+  static cv::Mat computeLowFlowMapWithROIFilter(
+      cv::Mat& img, bool bUseSurroundingWindow, unsigned int bs,
+      ImgProcROIFeature::ImgProcROIResults& roiResults,
+      unsigned int& noOfHighFlowBlocks, unsigned int& noOfLowFlowBlocks);
 
-    // computes low flow value of block
-    static double computeLowFlowBlockValue( const cv::Mat& block );
+  // compute orientation map
+  static cv::Mat computeOrientationMap(
+      cv::Mat& img, bool bFilterByROI, double& coherenceSum,
+      double& coherenceRel, unsigned int bs,
+      ImgProcROIFeature::ImgProcROIResults roiResults);
 
-  private:
-    // compute low flow map with ROI filter
-    static cv::Mat computeLowFlowMapWithROIFilter( cv::Mat& img, bool bUseSurroundingWindow, unsigned int bs, ImgProcROIFeature::ImgProcROIResults& roiResults, unsigned int& noOfHighFlowBlocks, unsigned int& noOfLowFlowBlocks );
-
-    // compute orientation map
-    static cv::Mat computeOrientationMap( cv::Mat& img, bool bFilterByROI, double& coherenceSum, double& coherenceRel, unsigned int bs, ImgProcROIFeature::ImgProcROIResults roiResults );
-
-    // static helper functions for numberical gradient computation
-    static cv::Mat computeNumericalGradientX( const cv::Mat& mat );
-    static void computeNumericalGradients( const cv::Mat& mat, cv::Mat& grad_x, cv::Mat& grad_y );
+  // static helper functions for numberical gradient computation
+  static cv::Mat computeNumericalGradientX(const cv::Mat& mat);
+  static void computeNumericalGradients(const cv::Mat& mat, cv::Mat& grad_x,
+                                        cv::Mat& grad_y);
 };
-
 
 #endif
 

@@ -13,120 +13,115 @@
 
 #include <string>
 
-namespace NFIQ2UI
-{
+namespace NFIQ2UI {
+
+/**
+ *  @brief
+ *  The parent class of all NFIQ2UI exceptions.
+ *
+ *  @details
+ *  The classes derived from this class will have a default
+ *  information string set indicating the type of exception.
+ *  Any additional information string is appended to that
+ *  string.
+ */
+class Exception : std::exception {
+ public:
+  /**
+   *  Construct an Exception object without
+   *  an information string.
+   */
+  Exception();
 
   /**
-   *  @brief
-   *  The parent class of all NFIQ2UI exceptions.
+   *  Construct an Exception object with
+   *  an information string.
    *
-   *  @details
-   *  The classes derived from this class will have a default
-   *  information string set indicating the type of exception.
-   *  Any additional information string is appended to that
-   *  string.
+   *  @param[in] info
+   *  The information string associated
+   *  with the exception.
    */
-  class Exception : std::exception
-  {
-    public:
-      /**
-       *  Construct an Exception object without
-       *  an information string.
-       */
-      Exception();
+  /*
+   *  Pass info by value so we can use move
+   *  semantics when setting object state.
+   */
+  Exception(std::string info);
 
-      /**
-       *  Construct an Exception object with
-       *  an information string.
-       *
-       *  @param[in] info
-       *  The information string associated
-       *  with the exception.
-       */
-      /*
-       *  Pass info by value so we can use move
-       *  semantics when setting object state.
-       */
-      Exception( std::string info );
-
-      virtual ~Exception() = default;
-
-      /**
-       *  Obtain the information string associated
-       *  with the exception.
-       *
-       *  @return
-       *  The information string as a char array.
-       */
-      const char* what() const noexcept override;
-
-    private:
-      std::string _info;
-  };
+  virtual ~Exception() = default;
 
   /**
-   *  @brief
-   *  File error when opening, reading, writing, etc.
+   *  Obtain the information string associated
+   *  with the exception.
+   *
+   *  @return
+   *  The information string as a char array.
    */
-  class FileOpenError : public Exception
-  {
-    public:
-      /**
-       *  Construct a FileOpenError object with
-       *  the default information string.
-       */
-      FileOpenError();
+  const char* what() const noexcept override;
 
-      /**
-       *  Construct a FileOpenError object with
-       *  an information string appended to the
-       *  default information string.
-       */
-      FileOpenError( const std::string& info );
-  };
+ private:
+  std::string _info;
+};
+
+/**
+ *  @brief
+ *  File error when opening, reading, writing, etc.
+ */
+class FileOpenError : public Exception {
+ public:
+  /**
+   *  Construct a FileOpenError object with
+   *  the default information string.
+   */
+  FileOpenError();
 
   /**
-   *  @brief
-   *  Undefined Flag was given to the command line.
+   *  Construct a FileOpenError object with
+   *  an information string appended to the
+   *  default information string.
    */
-  class UndefinedFlagError : public Exception
-  {
-    public:
-      /**
-       *  Construct an UndefinedFlagError object with
-       *  the default information string.
-       */
-      UndefinedFlagError();
+  FileOpenError(const std::string& info);
+};
 
-      /**
-       *  Construct an UndefinedFlagError object with
-       *  an information string appended to the
-       *  default information string.
-       */
-      UndefinedFlagError( const std::string& info );
-  };
+/**
+ *  @brief
+ *  Undefined Flag was given to the command line.
+ */
+class UndefinedFlagError : public Exception {
+ public:
+  /**
+   *  Construct an UndefinedFlagError object with
+   *  the default information string.
+   */
+  UndefinedFlagError();
 
   /**
-   *  @brief
-   *  An invalid argument was given to the command line
+   *  Construct an UndefinedFlagError object with
+   *  an information string appended to the
+   *  default information string.
    */
-  class InvalidArgumentError : public Exception
-  {
-    public:
-      /**
-       *  Construct an UndefinedFlagError object with
-       *  the default information string.
-       */
-      InvalidArgumentError();
+  UndefinedFlagError(const std::string& info);
+};
 
-      /**
-       *  Construct an UndefinedFlagError object with
-       *  an information string appended to the
-       *  default information string.
-       */
-      InvalidArgumentError( const std::string& info );
-  };
+/**
+ *  @brief
+ *  An invalid argument was given to the command line
+ */
+class InvalidArgumentError : public Exception {
+ public:
+  /**
+   *  Construct an UndefinedFlagError object with
+   *  the default information string.
+   */
+  InvalidArgumentError();
 
-} // namespace NFIQ2UI
+  /**
+   *  Construct an UndefinedFlagError object with
+   *  an information string appended to the
+   *  default information string.
+   */
+  InvalidArgumentError(const std::string& info);
+};
+
+}  // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_EXCEPTION_H_ */

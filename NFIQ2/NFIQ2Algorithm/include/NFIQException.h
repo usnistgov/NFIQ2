@@ -90,21 +90,28 @@ class NFIQException : public std::exception {
      * @brief Inherited function from std::exception
      * @return The exception message
      */
-    virtual const char* what() const noexcept;
+    virtual const char*
+    what() const noexcept;
 
     /**
      * @fn getReturnCode
      * @brief Returns the return code of the exception
      * @return The return code
      */
-    uint32_t getReturnCode() const { return m_ReturnCode; }
+    uint32_t
+    getReturnCode() const {
+        return m_ReturnCode;
+    }
 
     /**
      * @fn getErrorMessage
      * @brief Returns the error message of the exception
      * @return The error message
      */
-    std::string getErrorMessage() const { return m_ErrorMessage; }
+    std::string
+    getErrorMessage() const {
+        return m_ErrorMessage;
+    }
 
    private:
     uint32_t m_ReturnCode;       ///< The return code of the exception

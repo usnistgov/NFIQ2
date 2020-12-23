@@ -40,21 +40,26 @@ class ImgProcROIFeature : BaseFeature {
         : BaseFeature(bOutputSpeed, speedValues){};
     virtual ~ImgProcROIFeature();
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData& fingerprintImage,
-        ImgProcROIFeature::ImgProcROIResults& imgProcResults);
+    std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData& fingerprintImage,
+                       ImgProcROIFeature::ImgProcROIResults& imgProcResults);
 
-    std::string getModuleID();
+    std::string
+    getModuleID();
 
-    void initModule(){/* not needed here */};
+    void
+    initModule(){/* not needed here */};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 
-    static ImgProcROIResults computeROI(cv::Mat& img, unsigned int bs);
+    static ImgProcROIResults
+    computeROI(cv::Mat& img, unsigned int bs);
 
    private:
-    static bool isBlackPixelAvailable(cv::Mat& img, cv::Point& point);
+    static bool
+    isBlackPixelAvailable(cv::Mat& img, cv::Point& point);
 };
 
 #endif

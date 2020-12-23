@@ -29,41 +29,48 @@ class QualityMapFeatures : BaseFeature {
         : BaseFeature(bOutputSpeed, speedValues){};
     virtual ~QualityMapFeatures();
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData& fingerprintImage,
-        ImgProcROIFeature::ImgProcROIResults imgProcResults);
+    std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData& fingerprintImage,
+                       ImgProcROIFeature::ImgProcROIResults imgProcResults);
 
-    std::string getModuleID();
+    std::string
+    getModuleID();
 
-    void initModule(){/* not needed here */};
+    void
+    initModule(){/* not needed here */};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 
     // compute orientation angle of a block
-    static bool getAngleOfBlock(const cv::Mat& block, double& angle,
-                                double& coherence);
+    static bool
+    getAngleOfBlock(const cv::Mat& block, double& angle, double& coherence);
 
     // computes low flow value of block
-    static double computeLowFlowBlockValue(const cv::Mat& block);
+    static double
+    computeLowFlowBlockValue(const cv::Mat& block);
 
    private:
     // compute low flow map with ROI filter
-    static cv::Mat computeLowFlowMapWithROIFilter(
+    static cv::Mat
+    computeLowFlowMapWithROIFilter(
         cv::Mat& img, bool bUseSurroundingWindow, unsigned int bs,
         ImgProcROIFeature::ImgProcROIResults& roiResults,
         unsigned int& noOfHighFlowBlocks, unsigned int& noOfLowFlowBlocks);
 
     // compute orientation map
-    static cv::Mat computeOrientationMap(
-        cv::Mat& img, bool bFilterByROI, double& coherenceSum,
-        double& coherenceRel, unsigned int bs,
-        ImgProcROIFeature::ImgProcROIResults roiResults);
+    static cv::Mat
+    computeOrientationMap(cv::Mat& img, bool bFilterByROI, double& coherenceSum,
+                          double& coherenceRel, unsigned int bs,
+                          ImgProcROIFeature::ImgProcROIResults roiResults);
 
     // static helper functions for numberical gradient computation
-    static cv::Mat computeNumericalGradientX(const cv::Mat& mat);
-    static void computeNumericalGradients(const cv::Mat& mat, cv::Mat& grad_x,
-                                          cv::Mat& grad_y);
+    static cv::Mat
+    computeNumericalGradientX(const cv::Mat& mat);
+    static void
+    computeNumericalGradients(const cv::Mat& mat, cv::Mat& grad_x,
+                              cv::Mat& grad_y);
 };
 
 #endif

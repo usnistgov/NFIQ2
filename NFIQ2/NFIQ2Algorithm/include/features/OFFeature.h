@@ -33,14 +33,17 @@ class OFFeature : BaseFeature {
           angleMin(4.0){};
     virtual ~OFFeature();
 
-    virtual std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData& fingerprintImage);
+    virtual std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData& fingerprintImage);
 
-    virtual std::string getModuleID();
+    virtual std::string
+    getModuleID();
 
-    virtual void initModule(){};
+    virtual void
+    initModule(){};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 
    private:

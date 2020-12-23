@@ -42,7 +42,8 @@ class NFIQ2Algorithm {
      * @return
      * Achieved quality score
      */
-    unsigned int computeQualityScore(
+    unsigned int
+    computeQualityScore(
         NFIQ::FingerprintImageData rawImage, bool bComputeActionableQuality,
         std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
         bool bOutputFeatures,
@@ -58,7 +59,8 @@ class NFIQ2Algorithm {
      * Vector of strings containing all actionable quality feedback
      * identifiers.
      */
-    static std::vector<std::string> getAllActionableIdentifiers();
+    static std::vector<std::string>
+    getAllActionableIdentifiers();
 
     /**
      * @brief
@@ -67,7 +69,8 @@ class NFIQ2Algorithm {
      * @return
      * Vector of strings containing all quality feature IDs.
      */
-    static std::vector<std::string> getAllQualityFeatureIDs();
+    static std::vector<std::string>
+    getAllQualityFeatureIDs();
 
     /**
      * @brief
@@ -76,7 +79,8 @@ class NFIQ2Algorithm {
      * @return
      * Vector of strings containing all speed feature groups.
      */
-    static std::vector<std::string> getAllSpeedFeatureGroups();
+    static std::vector<std::string>
+    getAllSpeedFeatureGroups();
 
     /**
      * @brief
@@ -85,14 +89,16 @@ class NFIQ2Algorithm {
      * @return
      * MD5 checksum of the Random Forest parameter file loaded.
      */
-    std::string getParameterHash() const;
+    std::string
+    getParameterHash() const;
 
    private:
     class Impl;
     const std::unique_ptr<const NFIQ2Algorithm::Impl> pimpl;
 
     NFIQ2Algorithm(const NFIQ2Algorithm&) = delete;
-    NFIQ2Algorithm& operator=(const NFIQ2Algorithm&) = delete;
+    NFIQ2Algorithm&
+    operator=(const NFIQ2Algorithm&) = delete;
 };
 }  // namespace NFIQ
 

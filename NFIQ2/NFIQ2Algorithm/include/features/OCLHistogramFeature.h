@@ -27,18 +27,22 @@ class OCLHistogramFeature : BaseFeature {
         : BaseFeature(bOutputSpeed, speedValues){};
     virtual ~OCLHistogramFeature();
 
-    virtual std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData& fingerprintImage);
+    virtual std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData& fingerprintImage);
 
-    virtual std::string getModuleID();
+    virtual std::string
+    getModuleID();
 
-    virtual void initModule(){/* not needed here */};
+    virtual void
+    initModule(){/* not needed here */};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 
     // compute OCL value of a given block with block size BSxBS
-    static bool getOCLValueOfBlock(const cv::Mat& block, double& ocl);
+    static bool
+    getOCLValueOfBlock(const cv::Mat& block, double& ocl);
 };
 
 #endif

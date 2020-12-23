@@ -55,32 +55,38 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
         : BaseFeature(bOutputSpeed, speedValues){};
     virtual ~FJFXMinutiaeQualityFeature();
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData& fingerprintImage,
-        unsigned char templateData[], size_t& templateSize,
-        bool& templateCouldBeExtracted);
+    std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData& fingerprintImage,
+                       unsigned char templateData[], size_t& templateSize,
+                       bool& templateCouldBeExtracted);
 
-    std::string getModuleID();
+    std::string
+    getModuleID();
 
-    void initModule(){/* not needed here */};
+    void
+    initModule(){/* not needed here */};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 
    private:
 #ifndef WITHOUT_BIOMDI_SUPPORT
-    std::vector<MinutiaData> computeMuMinQuality(
-        struct finger_minutiae_data** fmds, unsigned int minCount, int bs,
-        const NFIQ::FingerprintImageData& fingerprintImage);
+    std::vector<MinutiaData>
+    computeMuMinQuality(struct finger_minutiae_data** fmds,
+                        unsigned int minCount, int bs,
+                        const NFIQ::FingerprintImageData& fingerprintImage);
 
-    std::vector<MinutiaData> computeOCLMinQuality(
-        struct finger_minutiae_data** fmds, unsigned int minCount, int bs,
-        const NFIQ::FingerprintImageData& fingerprintImage);
+    std::vector<MinutiaData>
+    computeOCLMinQuality(struct finger_minutiae_data** fmds,
+                         unsigned int minCount, int bs,
+                         const NFIQ::FingerprintImageData& fingerprintImage);
 
-    double computeMMBBasedOnCOM(
-        struct finger_minutiae_data** fmds, unsigned int minCount, int bs,
-        const NFIQ::FingerprintImageData& fingerprintImage,
-        unsigned int regionSize);
+    double
+    computeMMBBasedOnCOM(struct finger_minutiae_data** fmds,
+                         unsigned int minCount, int bs,
+                         const NFIQ::FingerprintImageData& fingerprintImage,
+                         unsigned int regionSize);
 
 #endif
 };

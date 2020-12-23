@@ -113,26 +113,30 @@ class FingerJetFXFeature : BaseFeature {
         : BaseFeature(bOutputSpeed, speedValues){};
     virtual ~FingerJetFXFeature();
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData fingerprintImage,
-        unsigned char templateData[], size_t& templateSize,
-        bool& templateCouldBeExtracted);
+    std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData fingerprintImage,
+                       unsigned char templateData[], size_t& templateSize,
+                       bool& templateCouldBeExtracted);
 
-    std::string getModuleID();
+    std::string
+    getModuleID();
 
-    void initModule(){/* not needed here */};
+    void
+    initModule(){/* not needed here */};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 
    private:
-    FRFXLL_RESULT createContext(FRFXLL_HANDLE_PT phContext);
+    FRFXLL_RESULT
+    createContext(FRFXLL_HANDLE_PT phContext);
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
-    FJFXROIResults computeROI(
-        struct finger_minutiae_data** fmds, unsigned int minCount, int bs,
-        const NFIQ::FingerprintImageData& fingerprintImage,
-        std::vector<Object> vecRectDimensions);
+    FJFXROIResults
+    computeROI(struct finger_minutiae_data** fmds, unsigned int minCount,
+               int bs, const NFIQ::FingerprintImageData& fingerprintImage,
+               std::vector<Object> vecRectDimensions);
 #endif
 };
 

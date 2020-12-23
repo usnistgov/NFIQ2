@@ -76,7 +76,8 @@ class FingerprintImageData : public Data {
      * @return The cropped/segmented fingerprint image in raw format.
      * @throws NFIQException
      */
-    NFIQ::FingerprintImageData removeWhiteFrameAroundFingerprint();
+    NFIQ::FingerprintImageData
+    removeWhiteFrameAroundFingerprint();
 };
 }  // namespace NFIQ
 

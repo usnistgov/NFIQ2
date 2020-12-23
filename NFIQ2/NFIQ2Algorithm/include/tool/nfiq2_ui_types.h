@@ -158,7 +158,8 @@ class SafeQueue {
      *  @param[in] item
      *      The item to be pushed into the queue.
      */
-    void push(const T& item) {
+    void
+    push(const T& item) {
         std::unique_lock<std::mutex> ulock(mutex_);
         queue_.push(item);
         ulock.unlock();
@@ -172,7 +173,8 @@ class SafeQueue {
      *  @return
      *      Element at the front of the queue.
      */
-    T pop() {
+    T
+    pop() {
         std::unique_lock<std::mutex> ulock(mutex_);
         while (queue_.empty()) {
             cond_.wait(ulock);
@@ -190,7 +192,8 @@ class SafeQueue {
      *  @return
      *      Boolean value indicating whether the queue is empty.
      */
-    bool isEmpty() {
+    bool
+    isEmpty() {
         std::unique_lock<std::mutex> ulock(mutex_);
         auto status = queue_.empty();
         ulock.unlock();
@@ -206,7 +209,10 @@ class SafeQueue {
      *  @param[in] threads
      *      The number of threads being used.
      */
-    void setNumThreads(unsigned int numThreads) { numThreads_ = numThreads; }
+    void
+    setNumThreads(unsigned int numThreads) {
+        numThreads_ = numThreads;
+    }
 
     /**
      *  @brief
@@ -216,7 +222,10 @@ class SafeQueue {
      *  @return
      *      The number of threads being used.
      */
-    unsigned int getNumThreads() { return numThreads_; }
+    unsigned int
+    getNumThreads() {
+        return numThreads_;
+    }
 
     /** Default Constructor */
     SafeQueue() = default;
@@ -235,7 +244,10 @@ class SafeQueue {
      *  @param[in] item
      *      The item to be pushed into the queue.
      */
-    void pushUnsafe(const T& item) { queue_.push(item); }
+    void
+    pushUnsafe(const T& item) {
+        queue_.push(item);
+    }
 
    private:
     /** Standard queue wrapped around with locks */

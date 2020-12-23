@@ -56,7 +56,8 @@ class Exception : std::exception {
      *  @return
      *  The information string as a char array.
      */
-    const char* what() const noexcept override;
+    const char*
+    what() const noexcept override;
 
    private:
     std::string _info;

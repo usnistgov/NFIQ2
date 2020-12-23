@@ -69,13 +69,14 @@ class Log {
      *  @param[in] featureTimings
      *    Prints featureTimings information if verbose flag is enabled.
      */
-    void printScore(const std::string& name, uint8_t fingerCode,
-                    unsigned int score, const std::string& errmsg,
-                    const bool quantized, const bool resampled,
-                    const std::list<NFIQ::QualityFeatureData>& featureVector,
-                    const std::list<NFIQ::QualityFeatureSpeed>& featureTimings,
-                    const std::list<NFIQ::ActionableQualityFeedback>&
-                        actionableQuality) const;
+    void
+    printScore(const std::string& name, uint8_t fingerCode, unsigned int score,
+               const std::string& errmsg, const bool quantized,
+               const bool resampled,
+               const std::list<NFIQ::QualityFeatureData>& featureVector,
+               const std::list<NFIQ::QualityFeatureSpeed>& featureTimings,
+               const std::list<NFIQ::ActionableQualityFeedback>&
+                   actionableQuality) const;
 
     /**
      *  @brief
@@ -89,7 +90,8 @@ class Log {
      *  @return
      *    The padded NA string.
      */
-    std::string padNA() const;
+    std::string
+    padNA() const;
 
     /**
      *  @brief
@@ -114,9 +116,10 @@ class Log {
      *  @param[in] resampled
      *    If the image was resampled 0 = not resampled, 1 = resampled.
      */
-    void printError(const std::string& name, uint8_t fingerCode,
-                    unsigned int score, const std::string& errmsg,
-                    const bool quantized, const bool resampled) const;
+    void
+    printError(const std::string& name, uint8_t fingerCode, unsigned int score,
+               const std::string& errmsg, const bool quantized,
+               const bool resampled) const;
 
     /**
      *  @brief
@@ -128,7 +131,8 @@ class Log {
      *  @param[in] qualityScore
      *    The qualityScore to be printed out.
      */
-    void printSingle(unsigned int qualityScore) const;
+    void
+    printSingle(unsigned int qualityScore) const;
 
     /**
      *  @brief
@@ -137,7 +141,8 @@ class Log {
      *  @param[in] message
      *    The score to be printed to the output stream.
      */
-    void printThreaded(const std::string& message) const;
+    void
+    printThreaded(const std::string& message) const;
 
     /**
      *  @brief
@@ -146,7 +151,8 @@ class Log {
      *  @param[in] message
      *    The message to be printed.
      */
-    void debugMsg(const std::string& message) const;
+    void
+    debugMsg(const std::string& message) const;
 
     /**
      *  @brief
@@ -157,7 +163,8 @@ class Log {
      *  Whether more than one image was provided to the command line.
      *  Whether the Verbose or Speed flags were provided.
      */
-    void printCSVHeader() const;
+    void
+    printCSVHeader() const;
 
     virtual ~Log();
 

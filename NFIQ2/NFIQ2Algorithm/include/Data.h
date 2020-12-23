@@ -58,7 +58,8 @@ class Data : public std::basic_string<uint8_t> {
      * @param filename The path and name of the file which shall be read.
      * @throws NFIQException
      */
-    void readFromFile(const std::string& filename);
+    void
+    readFromFile(const std::string& filename);
 
     /**
      * @fn writeToFile
@@ -66,7 +67,8 @@ class Data : public std::basic_string<uint8_t> {
      * @param filename The path and name of the file which shall be written.
      * @throws NFIQException
      */
-    void writeToFile(const std::string& filename) const;
+    void
+    writeToFile(const std::string& filename) const;
 
     /**
      * @fn toHexString
@@ -74,7 +76,8 @@ class Data : public std::basic_string<uint8_t> {
      * @return The content of the buffer as hexadecimal string.
      * @throws NFIQException
      */
-    std::string toHexString() const;
+    std::string
+    toHexString() const;
 
     /**
      * @fn fromBase64String
@@ -82,7 +85,8 @@ class Data : public std::basic_string<uint8_t> {
      * @param base64String The Base64 encoded string.
      * @throws NFIQException
      */
-    void fromBase64String(const std::string& base64String);
+    void
+    fromBase64String(const std::string& base64String);
 
     /**
      * @fn toBase64String
@@ -90,7 +94,8 @@ class Data : public std::basic_string<uint8_t> {
      * @return The content of the buffer as base64 encoded string.
      * @throws NFIQException
      */
-    std::string toBase64String() const;
+    std::string
+    toBase64String() const;
 };
 }  // namespace NFIQ
 

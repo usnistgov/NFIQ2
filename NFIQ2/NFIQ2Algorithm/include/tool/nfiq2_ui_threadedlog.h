@@ -46,7 +46,8 @@ class ThreadedLog : public Log {
      *  @return
      *      String version of the last score produced by a worker thread.
      */
-    std::string getAndClearLastScore();
+    std::string
+    getAndClearLastScore();
 
     virtual ~ThreadedLog();
 

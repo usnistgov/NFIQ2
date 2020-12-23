@@ -7,7 +7,7 @@ AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLambdasOnASingleLine: All
 AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakAfterReturnType: TopLevel
+AlwaysBreakAfterReturnType: All
 AlwaysBreakTemplateDeclarations: 'Yes'
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach

@@ -21,14 +21,18 @@ class MuFeature : BaseFeature {
         : BaseFeature(bOutputSpeed, speedValues){};
     virtual ~MuFeature();
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-        const NFIQ::FingerprintImageData& fingerprintImage, double& sigma);
+    std::list<NFIQ::QualityFeatureResult>
+    computeFeatureData(const NFIQ::FingerprintImageData& fingerprintImage,
+                       double& sigma);
 
-    std::string getModuleID();
+    std::string
+    getModuleID();
 
-    void initModule(){/* not needed here */};
+    void
+    initModule(){/* not needed here */};
 
-    static std::list<std::string> getAllFeatureIDs();
+    static std::list<std::string>
+    getAllFeatureIDs();
     static const std::string speedFeatureIDGroup;
 };
 

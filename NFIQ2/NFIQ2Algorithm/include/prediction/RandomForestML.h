@@ -24,17 +24,20 @@ class RandomForestML {
     RandomForestML();
     virtual ~RandomForestML();
 
-    std::string getModuleID();
+    std::string
+    getModuleID();
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-    std::string initModule();
+    std::string
+    initModule();
 #endif
-    std::string initModule(const std::string& fileName,
-                           const std::string& fileHash);
+    std::string
+    initModule(const std::string& fileName, const std::string& fileHash);
 
-    void evaluate(const std::list<NFIQ::QualityFeatureData>& featureVector,
-                  const double& utilityValue, double& qualityValue,
-                  double& deviation) const;
+    void
+    evaluate(const std::list<NFIQ::QualityFeatureData>& featureVector,
+             const double& utilityValue, double& qualityValue,
+             double& deviation) const;
 
    private:
 #if CV_MAJOR_VERSION <= 2
@@ -43,10 +46,13 @@ class RandomForestML {
     cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
 #endif
 
-    std::string calculateHashString(const std::string& s);
-    void initModule(const std::string& params);
+    std::string
+    calculateHashString(const std::string& s);
+    void
+    initModule(const std::string& params);
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-    std::string joinRFTrainedParamsString();
+    std::string
+    joinRFTrainedParamsString();
 #endif
 };
 

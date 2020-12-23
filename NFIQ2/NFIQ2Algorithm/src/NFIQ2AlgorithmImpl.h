@@ -58,7 +58,8 @@ class NFIQ2Algorithm::Impl {
      * @param qualityFeatureSpeed list of feature computation speed
      * @return achieved quality score
      */
-    unsigned int computeQualityScore(
+    unsigned int
+    computeQualityScore(
         NFIQ::FingerprintImageData rawImage, bool bComputeActionableQuality,
         std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
         bool bOutputFeatures,
@@ -74,7 +75,8 @@ class NFIQ2Algorithm::Impl {
      * Vector of strings containing all actionable quality feedback
      * identifiers.
      */
-    static std::vector<std::string> getAllActionableIdentifiers();
+    static std::vector<std::string>
+    getAllActionableIdentifiers();
 
     /**
      * @brief
@@ -83,7 +85,8 @@ class NFIQ2Algorithm::Impl {
      * @return
      * Vector of strings containing all quality feature IDs.
      */
-    static std::vector<std::string> getAllQualityFeatureIDs();
+    static std::vector<std::string>
+    getAllQualityFeatureIDs();
 
     /**
      * @brief
@@ -92,7 +95,8 @@ class NFIQ2Algorithm::Impl {
      * @return
      * Vector of strings containing all speed feature groups.
      */
-    static std::vector<std::string> getAllSpeedFeatureGroups();
+    static std::vector<std::string>
+    getAllSpeedFeatureGroups();
 
     /**
      * @brief
@@ -101,16 +105,19 @@ class NFIQ2Algorithm::Impl {
      * @return
      * MD5 checksum of the Random Forest parameter file loaded.
      */
-    std::string getParameterHash() const;
+    std::string
+    getParameterHash() const;
 
    private:
-    std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
+    std::list<NFIQ::QualityFeatureData>
+    computeQualityFeatures(
         const NFIQ::FingerprintImageData& rawImage,
         bool bComputeActionableQuality,
         std::list<NFIQ::ActionableQualityFeedback>& actionableQuality,
         bool bOutputSpeed,
         std::list<NFIQ::QualityFeatureSpeed>& speedValues) const;
-    double getQualityPrediction(
+    double
+    getQualityPrediction(
         std::list<NFIQ::QualityFeatureData>& featureVector) const;
 
     RandomForestML m_RandomForestML;

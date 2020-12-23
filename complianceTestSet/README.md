@@ -7,7 +7,7 @@ Contained in this directory are the tools required to perform compliance testing
 
 
 1. CTS_MASTER_OUTPUT.csv
-	The correct NFIQ2 score output for the Compliance Test dataset found here: [NFIQ2 Compliance Test Set](INSERT_CTS_LINK_HERE)
+	The correct NFIQ2 score output for the Compliance Test dataset found here: [NFIQ2 Compliance Test Set](https://nigos.nist.gov/datasets/nfiq2_compliance/)
 	This CSV output contains NFIQ2 scores and their individual quality scores. 
 	It also contains actionable quality scores. Speed output has been omitted.
 

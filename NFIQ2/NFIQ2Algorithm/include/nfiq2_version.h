@@ -1,6 +1,8 @@
 #ifndef NFIQ2_VERSION_H_
 #define NFIQ2_VERSION_H_
 
+#include <string>
+
 namespace NFIQ {
 namespace Version {
 extern const unsigned int Major;

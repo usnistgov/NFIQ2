@@ -14,12 +14,12 @@
 #include <NFIQ2Algorithm.h>
 #include <be_image_image.h>
 
+#include "nfiq2_ui_log.h"
+#include "nfiq2_ui_types.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include "nfiq2_ui_log.h"
-#include "nfiq2_ui_types.h"
 
 namespace NFIQ2UI {
 
@@ -54,13 +54,11 @@ namespace NFIQ2UI {
  *  @param[in] warning
  *      Optional warning message used in AN2K and ANSI2004 Records.
  */
-void
-executeSingle(std::shared_ptr<BiometricEvaluation::Image::Image> img,
-              const std::string& name, const Flags& flags,
-              const NFIQ::NFIQ2Algorithm& model,
-              std::shared_ptr<NFIQ2UI::Log> logger, const bool singleImage,
-              const bool interactive, const uint8_t fingerPosition = 0,
-              const std::string& warning = "NA");
+void executeSingle(std::shared_ptr<BiometricEvaluation::Image::Image> img,
+    const std::string &name, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger,
+    const bool singleImage, const bool interactive,
+    const uint8_t fingerPosition = 0, const std::string &warning = "NA");
 
 /**
  *  @brief
@@ -84,11 +82,9 @@ executeSingle(std::shared_ptr<BiometricEvaluation::Image::Image> img,
  *  @param[in] interactive
  *      Indicates whether yes/no prompts will be active.
  */
-void
-executeSingle(const NFIQ2UI::ImgCouple& couple, const Flags& flags,
-              const NFIQ::NFIQ2Algorithm& model,
-              std::shared_ptr<NFIQ2UI::Log> logger, const bool singleImage,
-              const bool interactive);
+void executeSingle(const NFIQ2UI::ImgCouple &couple, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger,
+    const bool singleImage, const bool interactive);
 
 /**
  *  @brief
@@ -108,9 +104,8 @@ executeSingle(const NFIQ2UI::ImgCouple& couple, const Flags& flags,
  *      CoreReturn contains information about an image's qualityScore
  *      and featureVector information.
  */
-CoreReturn
-coreCompute(const NFIQ::FingerprintImageData& wrappedImage,
-            const NFIQ::NFIQ2Algorithm& model);
+CoreReturn coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
+    const NFIQ::NFIQ2Algorithm &model);
 
 /**
  *  @brief
@@ -130,10 +125,8 @@ coreCompute(const NFIQ::FingerprintImageData& wrappedImage,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void
-parseDirectory(const std::string& dirname, const Flags& flags,
-               const NFIQ::NFIQ2Algorithm& model,
-               std::shared_ptr<NFIQ2UI::Log> logger);
+void parseDirectory(const std::string &dirname, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -154,10 +147,9 @@ parseDirectory(const std::string& dirname, const Flags& flags,
  *  @param[in] model
  *      Machine learning model that NFIQ2 relies on for score generation.
  */
-void
-batchConsume(SafeSplitPathsQueue& splitQueue,
-             SafeQueue<std::string>& printQueue, const Flags& flags,
-             const NFIQ::NFIQ2Algorithm& model);
+void batchConsume(SafeSplitPathsQueue &splitQueue,
+    SafeQueue<std::string> &printQueue, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model);
 
 /**
  *  @brief
@@ -176,10 +168,8 @@ batchConsume(SafeSplitPathsQueue& splitQueue,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void
-executeBatch(const std::string& filename, const Flags& flags,
-             const NFIQ::NFIQ2Algorithm& model,
-             std::shared_ptr<NFIQ2UI::Log> logger);
+void executeBatch(const std::string &filename, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -203,11 +193,10 @@ executeBatch(const std::string& filename, const Flags& flags,
  *  @param[in] model
  *      Machine learning model that NFIQ2 relies on for score generation.
  */
-void
-recordStoreConsume(const std::string& name,
-                   NFIQ2UI::SafeSplitPathsQueue& splitQueue,
-                   SafeQueue<std::string>& printQueue, const Flags& flags,
-                   const NFIQ::NFIQ2Algorithm& model);
+void recordStoreConsume(const std::string &name,
+    NFIQ2UI::SafeSplitPathsQueue &splitQueue,
+    SafeQueue<std::string> &printQueue, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model);
 
 /**
  *  @brief
@@ -226,10 +215,8 @@ recordStoreConsume(const std::string& name,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void
-executeRecordStore(const std::string& filename, const Flags& flags,
-                   const NFIQ::NFIQ2Algorithm& model,
-                   std::shared_ptr<NFIQ2UI::Log> logger);
+void executeRecordStore(const std::string &filename, const Flags &flags,
+    const NFIQ::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -245,9 +232,8 @@ executeRecordStore(const std::string& filename, const Flags& flags,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void
-threadedPrint(SafeQueue<std::string>& printQueue,
-              std::shared_ptr<NFIQ2UI::Log> logger);
+void threadedPrint(
+    SafeQueue<std::string> &printQueue, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -267,8 +253,7 @@ threadedPrint(SafeQueue<std::string>& printQueue,
  *  @return
  *      Arguments contains a collection of parsed command line arguments.
  */
-NFIQ2UI::Arguments
-processArguments(int argc, char** argv);
+NFIQ2UI::Arguments processArguments(int argc, char **argv);
 
 /**
  *  @brief
@@ -290,9 +275,8 @@ processArguments(int argc, char** argv);
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void
-procSingle(NFIQ2UI::Arguments arguments, const NFIQ::NFIQ2Algorithm& model,
-           std::shared_ptr<NFIQ2UI::Log> logger);
+void procSingle(NFIQ2UI::Arguments arguments, const NFIQ::NFIQ2Algorithm &model,
+    std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -308,9 +292,9 @@ procSingle(NFIQ2UI::Arguments arguments, const NFIQ::NFIQ2Algorithm& model,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void
-printHeader(NFIQ2UI::Arguments arguments, std::shared_ptr<NFIQ2UI::Log> logger);
+void printHeader(
+    NFIQ2UI::Arguments arguments, std::shared_ptr<NFIQ2UI::Log> logger);
 
-}  // namespace NFIQ2UI
+} // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_REFRESH_H_ */

@@ -8,9 +8,9 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include "nfiq2_ui_types.h"
-
 #include <be_io_recordstore.h>
+
+#include "nfiq2_ui_types.h"
 
 #include <string>
 #include <vector>
@@ -24,42 +24,44 @@ namespace BE = BiometricEvaluation;
 
 // Constructor for executeBatch splitQueue
 NFIQ2UI::SafeSplitPathsQueue::SafeSplitPathsQueue(
-    std::vector<std::string>& content,
+    std::vector<std::string> &content,
     const std::vector<std::string>::size_type splittingFactor)
-    : NFIQ2UI::SafeQueue<std::vector<std::string>>() {
-    while (!content.empty()) {
-        std::vector<std::string> split;
+    : NFIQ2UI::SafeQueue<std::vector<std::string>>()
+{
+	while (!content.empty()) {
+		std::vector<std::string> split;
 
-        for (std::vector<std::string>::size_type i{0};
-             i < std::min(splittingFactor, content.size()); ++i) {
-            split.emplace_back(content.back());
-            content.pop_back();
-        }
+		for (std::vector<std::string>::size_type i { 0 };
+		     i < std::min(splittingFactor, content.size()); ++i) {
+			split.emplace_back(content.back());
+			content.pop_back();
+		}
 
-        pushUnsafe(split);
-    }
+		pushUnsafe(split);
+	}
 }
 
 // Constructor for executeRecordStore splitQueue
 NFIQ2UI::SafeSplitPathsQueue::SafeSplitPathsQueue(
     std::shared_ptr<BE::IO::RecordStore> rs,
     const std::vector<std::string>::size_type splittingFactor)
-    : NFIQ2UI::SafeQueue<std::vector<std::string>>() {
-    std::vector<std::string> content;
+    : NFIQ2UI::SafeQueue<std::vector<std::string>>()
+{
+	std::vector<std::string> content;
 
-    for (auto i = rs->begin(); i != rs->end(); i++) {
-        content.push_back(i->key);
-    }
+	for (auto i = rs->begin(); i != rs->end(); i++) {
+		content.push_back(i->key);
+	}
 
-    while (!content.empty()) {
-        std::vector<std::string> split;
+	while (!content.empty()) {
+		std::vector<std::string> split;
 
-        for (std::vector<std::string>::size_type i{0};
-             i < std::min(splittingFactor, content.size()); ++i) {
-            split.emplace_back(content.back());
-            content.pop_back();
-        }
+		for (std::vector<std::string>::size_type i { 0 };
+		     i < std::min(splittingFactor, content.size()); ++i) {
+			split.emplace_back(content.back());
+			content.pop_back();
+		}
 
-        pushUnsafe(split);
-    }
+		pushUnsafe(split);
+	}
 }

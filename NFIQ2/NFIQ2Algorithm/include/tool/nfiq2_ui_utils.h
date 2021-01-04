@@ -40,8 +40,8 @@ namespace NFIQ2UI {
  *  @return
  *    The enumerated type of the data-blob.
  */
-NFIQ2UI::FileType
-getFileType(const BiometricEvaluation::Memory::uint8Array& dataArray);
+NFIQ2UI::FileType getFileType(
+    const BiometricEvaluation::Memory::uint8Array &dataArray);
 
 /**
  *  @brief
@@ -53,8 +53,7 @@ getFileType(const BiometricEvaluation::Memory::uint8Array& dataArray);
  *  @return
  *    Boolean indicating whether the file is an AN2K file.
  */
-bool
-isAN2K(const std::string& path);
+bool isAN2K(const std::string &path);
 
 /**
  *  @brief
@@ -67,8 +66,7 @@ isAN2K(const std::string& path);
  *  @return
  *    Boolean indicating whether the data-blob is of AN2K format.
  */
-bool
-isAN2K(const BiometricEvaluation::Memory::uint8Array& dataArray);
+bool isAN2K(const BiometricEvaluation::Memory::uint8Array &dataArray);
 
 /**
  *  @brief
@@ -80,8 +78,7 @@ isAN2K(const BiometricEvaluation::Memory::uint8Array& dataArray);
  *  @return
  *    Boolean indicating whether the path is a RecordStore.
  */
-bool
-isRecordStore(const std::string& path);
+bool isRecordStore(const std::string &path);
 
 /**
  *  @brief
@@ -94,8 +91,8 @@ isRecordStore(const std::string& path);
  *    Tuple containing all of the content from the batch file and
  *    the line count.
  */
-std::tuple<std::vector<std::string>, int>
-getFileContent(const std::string& filename);
+std::tuple<std::vector<std::string>, int> getFileContent(
+    const std::string &filename);
 
 /**
  *  @brief
@@ -107,8 +104,7 @@ getFileContent(const std::string& filename);
  *  @return
  *    The modified pathname in string form.
  */
-std::string
-removeSlash(std::string path);
+std::string removeSlash(std::string path);
 
 /**
  *  @brief
@@ -132,9 +128,8 @@ removeSlash(std::string path);
  *  @return
  *    Boolean indicating the user's choice (Y/N, T/F)
  */
-bool
-yesOrNo(const std::string& prompt, bool default_answer = true,
-        bool show_options = true, bool allow_default_answer = true);
+bool yesOrNo(const std::string &prompt, bool default_answer = true,
+    bool show_options = true, bool allow_default_answer = true);
 
 /**
  *  @brief
@@ -154,30 +149,25 @@ yesOrNo(const std::string& prompt, bool default_answer = true,
  *  @return
  *    The number of threads to be used by Multi-threaded operations.
  */
-unsigned int
-checkThreads(const std::string& optarg);
+unsigned int checkThreads(const std::string &optarg);
 
-std::string
-formatDouble(const double& d, const int precision);
+std::string formatDouble(const double &d, const int precision);
 
 /**
  *  @brief
  *  Prints information on how to use this NFIQ2 tool
  */
-void
-printUsage();
+void printUsage();
 
 /**
  *  @brief
  *  Prints warning message if undefined flag is given
  */
-void
-printUndefinedFlag();
+void printUndefinedFlag();
 
 // WIP ////////////////////////////////////////////////////////////////////////
-bool
-isANSI2004();  // const BiometricEvaluation::Memory::uint8Array &dataArray
+bool isANSI2004(); // const BiometricEvaluation::Memory::uint8Array &dataArray
 
-}  // namespace NFIQ2UI
+} // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_UTILS_H_ */

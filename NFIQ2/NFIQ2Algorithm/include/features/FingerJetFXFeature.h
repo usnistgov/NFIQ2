@@ -43,10 +43,10 @@ class FingerJetFXFeature : BaseFeature {
 	} COMType;
 
 	struct Minutia {
-		unsigned int x;	      ///< x-coordinate from top-left corner
-		unsigned int y;	      ///< y-coordinate from top-left corner
-		unsigned int angle;   ///< angle in degrees (full range 0..360
-				      ///< degrees)
+		unsigned int x; ///< x-coordinate from top-left corner
+		unsigned int y; ///< y-coordinate from top-left corner
+		unsigned int
+		    angle; ///< angle in degrees (full range 0..360 degrees)
 		unsigned int quality; ///< minutiae quality
 		unsigned int type;    ///< minutiae type
 	};

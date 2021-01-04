@@ -246,9 +246,8 @@ typedef struct evaluation_result_t {
 	NFIQ::ImageID fingerprintImageID; ///< The ID of the fingerprint image
 	double utilityValue;		  ///< The utility value
 	double qualityScore; ///< The quality score for the fingerprint image
-	double deviation;    ///< The deviation of the quality score and utility
-			     ///< value
-
+	double
+	    deviation; ///< The deviation of the quality score and utility value
 } EvaluationResult;
 
 /**

@@ -7,6 +7,7 @@
 
 #include "include/Data.h"
 
+#include <list>
 #include <string>
 #include <vector>
 

@@ -10,50 +10,63 @@ If you can reproduce a problem, please submit as much information as possible in
 
 ### Formatting
 
-We are using [`astyle`](http://astyle.sourceforge.net) to format our code. A configuration file, `.astylerc`, is at the root of our repository. Please write code however you want, but before submitting a pull request, run it through `astyle` using the supplied configuration. You may consider adding a git hook script to do this automatically. We've supplied a sample hook script below.
+We are using [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html) to format our code. A configuration file, `.clang-format`, is at the root of our repository. Please write code however you want, but before submitting a pull request, run it through `clang-format` using the supplied configuration. You may consider adding a git hook script to do this automatically. We've supplied a sample hook script below.
 
 <details>
 	<summary><em>Expand to view an example git hook script.</em></summary>
 
-```
+```sh
 #!/bin/sh
 
-# First: place this file at .git/hooks/prepare-commit-msg
-# Second: Configure your path to astyle
-# git config --bool hooks.astyle.run true
-# git config --path hooks.astyle.path /usr/local/bin/astyle
+# 1. Place this file at .git/hooks/prepare-commit-msg
+# 2. Make that hook file executible
+#    chmod u+x .git/hooks/prepare-commit-msg
+# 3: Configure your path to clang-format
+#    git config --bool hooks.formatter.run true
+#    git config --path hooks.formatter.path /usr/local/bin/clang-format
 
-run_astyle=$(git config --bool hooks.astyle.run)
-astyle_exe=$(git config --path hooks.astyle.path)
+run_formatter=$(git config --bool hooks.formatter.run)
+formatter_exe=$(git config --path hooks.formatter.path)
 
-if [ "${run_astyle}" == "true" ]; then
-	# Look for astyle binary
-	echo "Formatting code with astyle..."
-	if ! [ -x "${astyle_exe}" ];  then
-		echo "hooks.astyle.path is not the path to astyle."
-		exit 1
-	fi
-	
-	# Determine which files changed
-	changed_sources="$(git diff --cached --name-only --diff-filter=d | \
-	        grep -e '.cpp$' -e '.h$' -e '.hpp$' | \
-	        paste -s -d ' ' -)"
-	if [ "${changed_sources}" == "" ]; then
-		# No files to style
-		exit 0
-	fi
-	
-	# Style with astyle
-	repo_root="$(git rev-parse --show-toplevel)"
-	"${astyle_exe}" --options=${repo_root}/.astylerc ${changed_sources}
-	if [ $? -ne 0 ]; then
-		exit 1
-	fi
-	
-	# Add style changes from all files
-	git add ${changed_sources}
+if [ "${run_formatter}" = "true" ]; then
+    # Look for clang-format binary
+    echo "Formatting code with clang-format..."
+    if ! [ -x "${formatter_exe}" ];  then
+        echo "hooks.formatter.path is not the path to clang-format."
+        exit 1
+    fi
+
+    # Determine which files changed
+    changed_sources="$(git diff --cached --name-only --diff-filter=d | \
+            grep -e '.cpp$' -e '.h$' -e '.hpp$' | \
+            paste -s -d ';' -)"
+    if [ "${changed_sources}" = "" ]; then
+        # No files to style
+        exit 0
+    fi
+
+    old_ifs="${IFS}"
+    IFS=';'
+    export IFS
+    for file in ${changed_sources}; do
+        # Style with clang-format
+    	"${formatter_exe}" -i "${file}"
+
+        # Add style change
+    	git add "${file}"
+    done
+
+    # Sometimes, clang-format gets really confused
+    for file in ${changed_sources}; do
+        if ! "${formatter_exe}" --Werror --dry-run "${file}"; then
+            echo "You confused clang-format. Please fix the above error."
+            exit 1
+        fi
+    done
+    IFS="${old_ifs}"
+    export IFS
 else
-	echo "Formatting pass skipped."
+    echo "Formatting pass skipped."
 fi
 ```
 </details>

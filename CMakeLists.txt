@@ -184,7 +184,7 @@ ExternalProject_Add(nfiq2
 		${MULTI_CONFIG_ARGS}
 	BUILD_ALWAYS	YES
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi iid frf fir fmr FRFXLL FRFXLL_static)
 
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval)

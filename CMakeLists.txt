@@ -230,6 +230,25 @@ set(CPACK_PACKAGE_VERSION_MAJOR "${NFIQ2_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${NFIQ2_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${NFIQ2_VERSION_PATCH}")
 
+# Move repo documentation into usable form for packages
+find_program(PANDOC pandoc)
+if (PANDOC)
+	set(DOC_FORMAT "rtf")
+
+	# Strip remote SVGs from README
+	execute_process(COMMAND grep -v ^\\[! "${ROOT_PATH}/README.md" OUTPUT_FILE "README.md")
+	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o readme.${DOC_FORMAT} "README.md")
+	set(CPACK_RESOURCE_FILE_README "readme.${DOC_FORMAT}")
+
+	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o license.${DOC_FORMAT} "${ROOT_PATH}/LICENSE.md")
+	set(CPACK_RESOURCE_FILE_LICENSE license.${DOC_FORMAT})
+else()
+	file(COPY "${ROOT_PATH}/LICENSE.md" "license.txt")
+	set(CPACK_RESOURCE_FILE_LICENSE license.txt)
+	file(COPY "${ROOT_PATH}/README.md" "readme.txt")
+	set(CPACK_RESOURCE_FILE_README readme.txt)
+endif()
+
 set(CPACK_COMPONENTS_ALL nfiq2_cli development)
 set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line Interface")
 set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")

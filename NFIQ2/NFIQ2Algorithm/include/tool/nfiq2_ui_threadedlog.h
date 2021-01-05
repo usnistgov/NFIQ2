@@ -11,52 +11,49 @@
 #ifndef NFIQ2_UI_THREADEDLOG_H_
 #define NFIQ2_UI_THREADEDLOG_H_
 
-#include <sstream>
-#include <string>
-
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
 
-namespace NFIQ2UI
-{
+#include <sstream>
+#include <string>
 
-  /**
-   *  @brief
-   *  Subclass of Log used for Multi-threaded batch operations.
-   *
-   *  @details
-   *  Allows for scores to be logged by executeSingle and getImages and uses a
-   *  stringstream instead of stdout or a filestream to generate those scores.
-   */
-  class ThreadedLog : public Log
-  {
+namespace NFIQ2UI {
 
+/**
+ *  @brief
+ *  Subclass of Log used for Multi-threaded batch operations.
+ *
+ *  @details
+ *  Allows for scores to be logged by executeSingle and getImages and uses a
+ *  stringstream instead of stdout or a filestream to generate those scores.
+ */
+class ThreadedLog : public Log {
     public:
-      /**
-       *  @brief
-       *  Construct a ThreadedLog object with flags Argument passed in from
-       *  the command line.
-       *
-       *  @param[in] flags
-       *      Argument flags passed into the command line.
-       */
-      ThreadedLog( const Flags& flags );
+	/**
+	 *  @brief
+	 *  Construct a ThreadedLog object with flags Argument passed in from
+	 *  the command line.
+	 *
+	 *  @param[in] flags
+	 *      Argument flags passed into the command line.
+	 */
+	ThreadedLog(const Flags &flags);
 
-      /**
-       *  @brief
-       *  Gets the last score produced by a Multi-threaded operation.
-       *
-       *  @return
-       *      String version of the last score produced by a worker thread.
-       */
-      std::string getAndClearLastScore();
+	/**
+	 *  @brief
+	 *  Gets the last score produced by a Multi-threaded operation.
+	 *
+	 *  @return
+	 *      String version of the last score produced by a worker thread.
+	 */
+	std::string getAndClearLastScore();
 
-      virtual ~ThreadedLog();
+	virtual ~ThreadedLog();
 
     private:
-      /** Internal stringstream that scores get written to */
-      std::stringstream ss;
-  };
+	/** Internal stringstream that scores get written to */
+	std::stringstream ss;
+};
 
 } // namespace NFIQ2UI
 

@@ -1,40 +1,36 @@
 #ifndef MUFEATURE_H
 #define MUFEATURE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <vector>
-#include <list>
-
-#include "include/InterfaceDefinitions.h"
-#include "include/FingerprintImageData.h"
-#include "include/features/BaseFeature.h"
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <stdio.h>
+#include <stdlib.h>
 
-class MuFeature : BaseFeature
-{
+#include "include/FingerprintImageData.h"
+#include "include/InterfaceDefinitions.h"
+#include "include/features/BaseFeature.h"
 
-  public:
-    MuFeature( bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed>& speedValues )
-      : BaseFeature( bOutputSpeed, speedValues )
-    {
-    };
-    virtual ~MuFeature();
+#include <list>
+#include <string>
+#include <vector>
 
-    std::list<NFIQ::QualityFeatureResult> computeFeatureData(
-      const NFIQ::FingerprintImageData& fingerprintImage, double& sigma );
+class MuFeature : BaseFeature {
+    public:
+	MuFeature(bool bOutputSpeed,
+	    std::list<NFIQ::QualityFeatureSpeed> &speedValues)
+	    : BaseFeature(bOutputSpeed, speedValues) {};
+	virtual ~MuFeature();
 
-    std::string getModuleID();
+	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage, double &sigma);
 
-    void initModule() { /* not needed here */ };
+	std::string getModuleID();
 
-    static std::list<std::string> getAllFeatureIDs();
-    static const std::string speedFeatureIDGroup;
+	void initModule() { /* not needed here */ };
+
+	static std::list<std::string> getAllFeatureIDs();
+	static const std::string speedFeatureIDGroup;
 };
-
 
 #endif
 

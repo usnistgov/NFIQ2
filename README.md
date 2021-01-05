@@ -76,7 +76,6 @@ cmake --build .
 
 OpenCV version
 --------------
---------------
 Originally, all major versions of OpenCV were supported by NFIQ 2. Due to the
 limited testing resources as well as slight differences in results between
 versions, NIST has chosen to rely on the latest release of OpenCV 4 as of this

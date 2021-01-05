@@ -19,7 +19,7 @@ We are using [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html) to f
 #!/bin/sh
 
 # 1. Place this file at .git/hooks/prepare-commit-msg
-# 2. Make that hook file executible
+# 2. Make that hook file executable
 #    chmod u+x .git/hooks/prepare-commit-msg
 # 3: Configure your path to clang-format
 #    git config --bool hooks.formatter.run true

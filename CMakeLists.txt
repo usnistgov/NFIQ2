@@ -266,10 +266,26 @@ elseif (MSVC)
 	list(APPEND CPACK_GENERATOR "WIX")
 elseif (EXISTS "/etc/lsb-release")
 	list(APPEND CPACK_GENERATOR "DEB")
-
-	# Depending on CMake version...
-	set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 	set(CPACK_DEB_COMPONENT_INSTALL ON)
+
+	find_program(SHLIB dpkg-shlibdeps)
+	if (SHLIB)
+		set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+	else()
+		message(AUTHOR_WARNING "dpkg-shlibdeps not found. Run `sudo apt install dpkg-dev` to properly calculate dependencies on Debian.")
+		set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_DEPENDS "libc6,libstdc++6,libgcc-s1,libzstd1,liblzma5,libjbig0,libwebp6,libssl1.1,libopenjp2-7,libjpeg-turbo8,libpng16-16,libtiff5,zlib1g,libdb5.3++,libsqlite3-0")
+	endif()
+
+	# We're customizing the package name, so we need to define these ourselves
+	set(CPACK_DEBIAN_PACKAGE_RELEASE 1)
+	execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+	string(STRIP ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE} CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+
+	set(CPACK_DEBIAN_DEVELOPMENT_FILE_NAME "nfiq2-dev_${CPACK_PACKAGE_VERSION}-${CPACK_DEBIAN_PACKAGE_RELEASE}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
+	set(CPACK_DEBIAN_NFIQ2_CLI_FILE_NAME "nfiq2_${CPACK_PACKAGE_VERSION}-${CPACK_DEBIAN_PACKAGE_RELEASE}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
+
+	set(CPACK_DEBIAN_NFIQ2_CLI_COMPONENT_DESCRIPTION "${CPACK_COMPONENT_NFIQ2_CLI_DESCRIPTION_SUMMARY}")
+	set(CPACK_DEBIAN_DEVELOPMENT_COMPONENT_DESCRIPTION "${CPACK_COMPONENT_DEVELOPMENT_DESCRIPTION_SUMMARY}")
 elseif (EXISTS "/etc/redhat-release")
 	list(APPEND CPACK_GENERATOR "RPM")
 	set(CPACK_RPM_COMPONENT_INSTALL ON)

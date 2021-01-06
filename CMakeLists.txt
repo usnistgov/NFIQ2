@@ -250,6 +250,8 @@ else()
 	set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
 endif()
 
+# Don't set "install_staging" component, because some generators will grab all
+# files for install, including the externalprojects.
 set(CPACK_COMPONENTS_ALL nfiq2_cli development)
 set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line Interface")
 set(CPACK_COMPONENT_DEVELOPMENT_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
@@ -262,7 +264,10 @@ elseif (MSVC)
 	list(APPEND CPACK_GENERATOR "WIX")
 elseif (EXISTS "/etc/lsb-release")
 	list(APPEND CPACK_GENERATOR "DEB")
+
+	# Depending on CMake version...
 	set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+	set(CPACK_DEB_COMPONENT_INSTALL ON)
 elseif (EXISTS "/etc/redhat-release")
 	list(APPEND CPACK_GENERATOR "RPM")
 	set(CPACK_RPM_COMPONENT_INSTALL ON)

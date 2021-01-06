@@ -202,11 +202,8 @@ ExternalProject_Add(nfiq2api
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)
 
-if (UNIX)
-	include(GNUInstallDirs)
-endif()
-
 # Tell CPack to pack up the install
+include(GNUInstallDirs)
 install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_BINDIR}/"
 	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	COMPONENT nfiq2_cli)

@@ -251,14 +251,14 @@ endif()
 if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
 	install(FILES
 	    ${_VCPKG_INSTALLED_DIR}/x86-windows/bin/getopt.dll
-	    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	    DESTINATION ${CMAKE_INSTALL_BINDIR}
 	    COMPONENT install_staging)
 endif()
 
 if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
 	install(FILES
 	    ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll
-	    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	    DESTINATION ${CMAKE_INSTALL_BINDIR}
 	    COMPONENT install_staging)
 endif()
 endif(BUILD_NFIQ2_CLI)

@@ -1,7 +1,4 @@
 version: 1.0.{build}
-branches:
-  only:
-  - iso_wg3
 image:
   - Visual Studio 2019
   - Visual Studio 2017

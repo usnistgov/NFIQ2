@@ -91,8 +91,8 @@ script:
 cache:
   timeout: 1000
   directories:
-    - /Users/travis/build/usnistgov/NFIQ2/build/OpenCV-prefix
-    - /Users/travis/build/usnistgov/NFIQ2/build/fingerjetfxose
-    - /Users/travis/build/usnistgov/NFIQ2/build/biomdi
-    - /Users/travis/build/usnistgov/NFIQ2/build/libbiomeval-prefix
+    - $HOME/build/usnistgov/NFIQ2/build/OpenCV-prefix
+    - $HOME/build/usnistgov/NFIQ2/build/fingerjetfxose
+    - $HOME/build/usnistgov/NFIQ2/build/biomdi
+    - $HOME/build/usnistgov/NFIQ2/build/libbiomeval-prefix
 

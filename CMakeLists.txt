@@ -256,7 +256,11 @@ endif()
 
 # Don't set "install_staging" component, because some generators will grab all
 # files for install, including the externalprojects.
-set(CPACK_COMPONENTS_ALL nfiq2_cli development)
+if (BUILD_NFIQ2_CLI)
+	set(CPACK_COMPONENTS_ALL nfiq2_cli development)
+else()
+	set(CPACK_COMPONENTS_ALL development)
+endif()
 set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line Interface")
 set(CPACK_COMPONENT_DEVELOPMENT_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
 

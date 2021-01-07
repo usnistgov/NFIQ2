@@ -295,6 +295,9 @@ elseif (MSVC)
 		set(CPACK_PACKAGE_VERSION_MAJOR "${WIX_MAJOR}")
 		set(CPACK_PACKAGE_VERSION_MINOR "${WIX_MINOR}")
 		set(CPACK_PACKAGE_VERSION_PATCH "${WIX_PATCH}")
+
+		# Required for building on NIST machines
+		set(CPACK_WIX_CANDLE_EXTRA_FLAGS "-fips")
 	endif()
 elseif (EXISTS "/etc/lsb-release")
 	list(APPEND CPACK_GENERATOR "DEB")

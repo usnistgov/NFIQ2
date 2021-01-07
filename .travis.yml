@@ -81,9 +81,18 @@ before_install:
       fi
 
 before_script:
-    - mkdir build
+    - mkdir -p build
     - cd build
     - cmake -D32BITS=$BITS_32 -D64BITS=$BITS_64 -DCMAKE_BUILD_TYPE="$CONFIGURATION_TYPE" -DBUILD_NFIQ2_CLI=$BUILD_NFIQ2_CLI ..
 
 script:
     - cmake --build .
+
+cache:
+  timeout: 1000
+  directories:
+    - /Users/travis/build/usnistgov/NFIQ2/build/OpenCV-prefix
+    - /Users/travis/build/usnistgov/NFIQ2/build/fingerjetfxose
+    - /Users/travis/build/usnistgov/NFIQ2/build/biomdi
+    - /Users/travis/build/usnistgov/NFIQ2/build/libbiomeval-prefix
+

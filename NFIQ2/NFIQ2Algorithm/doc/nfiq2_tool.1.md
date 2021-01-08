@@ -37,7 +37,7 @@ OPTIONS
 > Indicates the number of worker _threads_ that will be spawned when running batch or Record Store operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. One additional thread will be spawed for coordinating output.
 
 | **-a**
-> Actionable quality output. Provides additonal actionable quality information pertainting to each processed fingerprint image. 
+> Actionable quality output. Provides additonal actionable quality information pertainting to each processed fingerprint image.
 
 | **-v**
 > Verbose output. Provides additional feature quality information pertaining to each measurement of NFIQ2.
@@ -56,8 +56,15 @@ OPTIONS
 > Recursion. Allows for directories to be recursively scanned for images/records. The recursion performed is depth-first and stops once all branches have been scanned.
 
 | **-m** _model_
-> Allows for alternative random forest parameters to be used in conjunction with NFIQ2's algorithm.
-> Not yet implemented
+> Path to an model information file. Allows for alternative random forest parameters to be used in conjunction with NFIQ2's algorithm. A default file is provided.
+> This file contains "Key = Value" pairs of information, with Keys:
+
+> * **Name**: Name given to this set of random forest parameters
+> * **Description**: Description of the training
+> * **Version**: Version number of the training
+> * **Path**: Path to the random forest parameters
+> * **Hash**: Hash of random forest parameters, as parsed by OpenCV
+
 
 NOTES
 =====

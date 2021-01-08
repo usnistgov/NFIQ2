@@ -292,8 +292,7 @@ NFIQ2UI::printUsage()
 	std::cout << "-j [# of threads]: Enables Multi-Threading for Batch and "
 		     "RecordStore processes"
 		  << "\n";
-	std::cout << "-m [model directory path]: Allows for alternate "
-		     "models to be used with NFIQ2"
+	std::cout << "-m [model info file]: Path to alternate model info file "
 		  << "\n";
 	std::cout
 	    << "-a: Displays actionable quality scores about each processed image\n";

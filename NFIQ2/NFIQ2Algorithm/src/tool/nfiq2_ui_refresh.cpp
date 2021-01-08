@@ -774,9 +774,11 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		// Could not locate
 		else {
 			throw NFIQ2UI::FileNotFoundError(
-			    "No model provided and default model '" +
+			    "No model info provided and default model info '" +
 			    DefaultModelInfoFilename + "' not found");
 		}
+
+		propFilePath += '/' + DefaultModelInfoFilename;
 	} else {
 		// Use -m defined path
 		propFilePath = arguments.flags.model;
@@ -794,16 +796,33 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 
 	try {
 		props.reset(new BE::IO::PropertiesFile(
-		    propFilePath + '/' + DefaultModelInfoFilename,
-		    BE::IO::Mode::ReadOnly));
-		modelFile = propFilePath + "/" +
-		    props->getProperty(ModelInfoKeyPath);
-		hash = props->getProperty(ModelInfoKeyHash);
-
+		    propFilePath, BE::IO::Mode::ReadOnly));
 	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError(
-		    "Unable to parse default model info file '" +
-		    DefaultModelInfoFilename + "' (" + e.whatString() + ')');
+		    "Unable to parse model info file '" + propFilePath + "' " +
+		    '(' + e.whatString() + ')');
+	}
+
+	try {
+		modelFile = props->getProperty(ModelInfoKeyPath);
+	} catch (const BE::Error::Exception &e) {
+		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
+		    ModelInfoKeyPath + "' from '" + propFilePath + "' (" +
+		    e.whatString() + ')');
+	}
+
+	if (!BE::IO::Utility::fileExists(modelFile)) {
+		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
+		    ModelInfoKeyPath + "' from '" + propFilePath +
+		    "' (No file exists at '" + modelFile + "')");
+	}
+
+	try {
+		hash = props->getProperty(ModelInfoKeyHash);
+	} catch (const BE::Error::Exception &e) {
+		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
+		    ModelInfoKeyHash + "' from '" + propFilePath + "' (" +
+		    e.whatString() + ')');
 	}
 
 	return std::make_tuple(modelFile, hash);
@@ -852,13 +871,6 @@ main(int argc, char **argv)
 	} catch (const NFIQ2UI::Exception &e) {
 		std::cerr << "Unable to extract model information. " << e.what()
 			  << "\n";
-		return EXIT_FAILURE;
-	}
-
-	if (!BE::IO::Utility::fileExists(modelFile)) {
-		std::cerr
-		    << "Please run NFIQ2 in the same directory as the model"
-		    << "\n";
 		return EXIT_FAILURE;
 	}
 

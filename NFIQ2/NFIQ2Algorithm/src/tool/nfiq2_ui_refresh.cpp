@@ -19,6 +19,7 @@
 #include <be_io_recordstore.h>
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
+#include <be_text.h>
 
 #include "nfiq2_ui_exception.h"
 #include "nfiq2_ui_image.h"
@@ -748,6 +749,12 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		// Current Directory
 		if (BE::IO::Utility::fileExists(DefaultModelInfoFilename)) {
 			propFilePath = ".";
+		}
+		// Directory containing executable (may be cwd if in PATH)
+		else if (BE::IO::Utility::fileExists(
+			     BE::Text::dirname(arguments.argv0) + '/' +
+			     DefaultModelInfoFilename)) {
+			propFilePath = BE::Text::dirname(arguments.argv0);
 		}
 		// Unix
 		else if (BE::IO::Utility::fileExists(

@@ -270,23 +270,21 @@ NFIQ2UI::printUsage()
 	std::cout << "\n";
 	std::cout << "                               Welcome to NFIQ2"
 		  << "\n\n";
-	std::cout << "      Please provide individual files or directories to "
-		     "the "
-		     "command line."
-		  << "\n";
-	std::cout << "            If you would like to use one of the flags "
-		     "listed below,"
-		  << "\n"
-		  << "              please include them before any standard "
-		     "arguments."
-		  << "\n"
-		  << "\n";
+	std::cout
+	    << "      Please provide individual files or directories to the command line."
+	    << "\n";
+	std::cout
+	    << "            If you would like to use one of the flags listed below,"
+	    << "\n"
+	    << "              please include them before any standard arguments."
+	    << "\n"
+	    << "\n";
 
 	std::cout << "Currently implemented flags and their functions: "
 		  << "\n";
-	std::cout << "-i [file/directory path]: Processing provided Images and "
-		     "Directories"
-		  << "\n";
+	std::cout
+	    << "-i [file/directory path]: Processing provided Images and Directories"
+	    << "\n";
 	std::cout << "-f [batch file path]: Processing provided batch files"
 		  << "\n";
 	std::cout << "-o [file path]: Saving all output to a specified file"
@@ -294,29 +292,24 @@ NFIQ2UI::printUsage()
 	std::cout << "-j [# of threads]: Enables Multi-Threading for Batch and "
 		     "RecordStore processes"
 		  << "\n";
-	std::cout << "-a: Displays actionable quality scores about each "
-		     "processed image\n";
-	std::cout << "-v: Displays individual quality score information about "
-		     "each "
-		     "processed image"
+	std::cout << "-m [model info file]: Path to alternate model info file "
 		  << "\n";
-	std::cout << "-q: Displays individual quality speed timings about each "
-		     "processed image"
-		  << "\n";
-	std::cout << "-d: Displays additional debug information as each score "
-		     "gets computed"
-		  << "\n";
+	std::cout
+	    << "-a: Displays actionable quality scores about each processed image\n";
+	std::cout
+	    << "-v: Displays individual quality score information about each processed image"
+	    << "\n";
+	std::cout
+	    << "-q: Displays individual quality speed timings about each processed image"
+	    << "\n";
+	std::cout
+	    << "-d: Displays additional debug information as each score gets computed"
+	    << "\n";
 	std::cout
 	    << "-F: Forces computation to occur. Tool does not prompt user "
 	       "with yes/no options"
 	    << "\n";
 	std::cout << "-r: Recursive file scanning if a directory is provided"
-		  << "\n";
-	std::cout << "\n";
-	std::cout << "Not implemented yet:"
-		  << "\n";
-	std::cout << "-m [model configuration]: Allows for alternate "
-		     "models to be used with NFIQ2"
 		  << "\n";
 	std::cout << "\nVersion Info\n------------\n"
 		  << "Biometric Evaluation: "

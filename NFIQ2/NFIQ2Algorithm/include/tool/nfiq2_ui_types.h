@@ -78,6 +78,8 @@ struct Flags {
 struct Arguments {
 	/** Parsed Flags from the command line */
 	NFIQ2UI::Flags flags;
+	/** Name of executable (argv[0]) */
+	std::string argv0;
 	/** Optional path used to print all output to a file */
 	std::string output;
 	/** Stores all Single images that will get processed */

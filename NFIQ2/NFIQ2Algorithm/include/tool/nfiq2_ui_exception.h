@@ -122,6 +122,46 @@ class InvalidArgumentError : public Exception {
 	InvalidArgumentError(const std::string &info);
 };
 
+/**
+ *  @brief
+ *  The model info file was unable to be parsed.
+ */
+class PropertyParseError : public Exception {
+    public:
+	/**
+	 *  Construct an PropertyParseError object with
+	 *  the default information string.
+	 */
+	PropertyParseError();
+
+	/**
+	 *  Construct an PropertyParseError object with
+	 *  an information string appended to the
+	 *  default information string.
+	 */
+	PropertyParseError(const std::string &info);
+};
+
+/**
+ *  @brief
+ *  A requested file was unable to be located on disk.
+ */
+class FileNotFoundError : public Exception {
+    public:
+	/**
+	 *  Construct an FileNotFoundError object with
+	 *  the default information string.
+	 */
+	FileNotFoundError();
+
+	/**
+	 *  Construct an FileNotFoundError object with
+	 *  an information string appended to the
+	 *  default information string.
+	 */
+	FileNotFoundError(const std::string &info);
+};
+
 } // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_EXCEPTION_H_ */

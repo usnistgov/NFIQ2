@@ -295,6 +295,24 @@ void procSingle(NFIQ2UI::Arguments arguments, const NFIQ::NFIQ2Algorithm &model,
 void printHeader(
     NFIQ2UI::Arguments arguments, std::shared_ptr<NFIQ2UI::Log> logger);
 
+/**
+ *  @brief
+ *  Extracts the model path and model hash from the NFIQ2 Random Forest model
+ *
+ *  @details
+ *  Tries to locate the default model info file in numerous common install paths
+ *  and parses it to obtain model information.
+ *
+ *  @param[in] arguments
+ *      Contains information about provided command line arguments, as well
+ *      as all of the paths of the files that will be processed through NFIQ2.
+ *
+ *  @return
+ *      Returns a tuple containing the model path and the models hash.
+ */
+std::tuple<std::string, std::string> parseModel(
+    const NFIQ2UI::Arguments &arguments);
+
 } // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_REFRESH_H_ */

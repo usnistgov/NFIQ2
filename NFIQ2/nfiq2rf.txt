@@ -1,3 +1,0 @@
-Owner:    NIST/ISO
-Training: NFIQ2 Version 1.0
-Hash:     ccd75820b48c19f1645ef5e9c481c592

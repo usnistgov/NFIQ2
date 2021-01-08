@@ -1,7 +1,7 @@
 **/.vs/
 **/.DS_Store/
 **/.vscode/
-**/build/
+**/build*
 **/dist/
 **/CMakeFiles/
 **/download/

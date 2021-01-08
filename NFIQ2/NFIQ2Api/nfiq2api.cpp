@@ -41,7 +41,7 @@ GetYamlFilePath()
 		if (c != nullptr) {
 			*c = 0;
 			p = buffer;
-			p += "\\nfiq2rf.yaml";
+			p += "\\nist_plain_tir-ink.yaml";
 		}
 	}
 #else
@@ -52,7 +52,7 @@ GetYamlFilePath()
 		if (c != nullptr) {
 			*c = 0;
 			p = info.dli_fname;
-			p += "/nfiq2rf.yaml";
+			p += "/nist_plain_tir-ink.yaml";
 		}
 	}
 #endif

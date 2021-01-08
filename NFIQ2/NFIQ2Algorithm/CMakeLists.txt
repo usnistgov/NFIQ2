@@ -232,13 +232,13 @@ if (BUILD_NFIQ2_CLI)
 	    COMPONENT install_staging)
 	# FIXME: This should be DATAROOTDIR
 	install(FILES
-	    "${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.yaml"
 	    DESTINATION ${CMAKE_INSTALL_BINDIR}
 	    COMPONENT install_staging)
 
 	add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
 	    COMMAND ${CMAKE_COMMAND} -E copy
-		${CMAKE_CURRENT_SOURCE_DIR}/../nfiq2rf.yaml ${SUPERBUILD_ROOT_PATH}/complianceTestSet/nfiq2rf.yaml)
+		${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.yaml ${SUPERBUILD_ROOT_PATH}/complianceTestSet/nist_plain_tir-ink.yaml)
 
 	# Install Man Page for Unix Systems
 	if(UNIX)

@@ -729,7 +729,7 @@ NFIQ2UI::printHeader(
 }
 
 std::tuple<std::string, std::string>
-NFIQ2UI::parseModel(NFIQ2UI::Arguments arguments)
+NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 {
 	static const std::string DefaultModelInfoFilename(
 	    "nist_plain_tir-ink.txt");
@@ -775,7 +775,7 @@ NFIQ2UI::parseModel(NFIQ2UI::Arguments arguments)
 		    props->getProperty("ModelFile");
 		hash = props->getProperty("Hash");
 
-	} catch (BE::Error::Exception &e) {
+	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError(
 		    "Unable to parse default model info file '" +
 		    DefaultModelInfoFilename + "' (" + e.whatString() + ')');

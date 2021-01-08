@@ -310,7 +310,8 @@ void printHeader(
  *  @return
  *      Returns a tuple containing the model path and the models hash.
  */
-std::tuple<std::string, std::string> parseModel(NFIQ2UI::Arguments arguments);
+std::tuple<std::string, std::string> parseModel(
+    const NFIQ2UI::Arguments &arguments);
 
 } // namespace NFIQ2UI
 

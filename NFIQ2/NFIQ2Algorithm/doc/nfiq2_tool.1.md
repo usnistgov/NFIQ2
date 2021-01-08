@@ -62,7 +62,7 @@ OPTIONS
 > * **Name**: Name given to this set of random forest parameters
 > * **Description**: Description of the training
 > * **Version**: Version number of the training
-> * **Path**: Path to the random forest parameters
+> * **Path**: Path to the random forest parameters. If the path provided is relative, it must be relative to the directory containing the file passed with *-m*, not the current working directory or the nfiq2 executable.
 > * **Hash**: Hash of random forest parameters, as parsed by OpenCV
 
 

@@ -788,10 +788,20 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 
 	try {
 		modelFile = props->getProperty(ModelInfoKeyPath);
+		if (modelFile.empty())
+			throw BE::Error::StrategyError("No path provided");
 	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
 		    ModelInfoKeyPath + "' from '" + propFilePath + "' (" +
 		    e.whatString() + ')');
+	}
+
+	// Path to model might be relative to the model info file, not the cwd
+	if ((modelFile.front() != '/') &&
+	    ((modelFile.length() > 2) && (modelFile.substr(0, 2) != "\\\\")) &&
+	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":\\")) &&
+	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":/"))) {
+		modelFile = BE::Text::dirname(propFilePath) + '/' + modelFile;
 	}
 
 	if (!BE::IO::Utility::fileExists(modelFile)) {

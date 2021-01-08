@@ -782,6 +782,13 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		propFilePath = arguments.flags.model;
 	}
 
+	static const std::string ModelInfoKeyName { "Name" };
+	static const std::string ModelInfoKeyTrainer { "Trainer" };
+	static const std::string ModelInfoKeyDescription { "Description" };
+	static const std::string ModelInfoKeyVersion { "Version" };
+	static const std::string ModelInfoKeyPath { "Path" };
+	static const std::string ModelInfoKeyHash { "Hash" };
+
 	std::unique_ptr<BE::IO::PropertiesFile> props;
 	std::string modelFile, hash;
 
@@ -790,8 +797,8 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		    propFilePath + '/' + DefaultModelInfoFilename,
 		    BE::IO::Mode::ReadOnly));
 		modelFile = propFilePath + "/" +
-		    props->getProperty("ModelFile");
-		hash = props->getProperty("Hash");
+		    props->getProperty(ModelInfoKeyPath);
+		hash = props->getProperty(ModelInfoKeyHash);
 
 	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError(

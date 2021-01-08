@@ -1,7 +1,4 @@
 version: 1.0.{build}
-branches:
-  only:
-  - iso_wg3
 image:
   - Visual Studio 2019
   - Visual Studio 2017
@@ -11,7 +8,12 @@ platform:
 
 configuration: Release
 
-cache: c:\tools\vcpkg\installed\
+cache:
+  - c:\tools\vcpkg\installed -> NFIQ2/NFIQ2Algorithm/CMakeLists.txt
+  - c:\projects\nfiq2\build\Windows\OpenCV-prefix -> .gitmodules
+  - c:\projects\nfiq2\build\Windows\fingerjetfxose -> .gitmodules
+  - c:\projects\nfiq2\build\Windows\biomdi -> .gitmodules
+  - c:\projects\nfiq2\build\Windows\libbiomeval-prefix -> .gitmodules
 
 install:
 - cmd: git submodule update --init
@@ -45,11 +47,11 @@ install:
 
 before_build:
 - cmd: >-
-    md C:\projects\nfiq2\install
+    if not exist C:\projects\nfiq2\install md C:\projects\nfiq2\install
 
     cd C:\projects\nfiq2
 
-    md build\Windows
+    if not exist build\Windows md build\Windows
 
     cd build\Windows
 

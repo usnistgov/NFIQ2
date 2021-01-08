@@ -735,7 +735,8 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 	static const std::string DefaultModelInfoFilename {
 		"nist_plain_tir-ink.txt"
 	};
-	static const std::string ShareDirUnix { "/usr/local/share/nfiq2" };
+	static const std::string ShareDirUnix { "/usr/share/nfiq2" };
+	static const std::string ShareDirLocalUnix { "/usr/local/share/nfiq2" };
 	static const std::string ShareDirWin32 {
 		"C:/Program Files (x86)/NFIQ 2"
 	};
@@ -747,7 +748,7 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		// Check common places for directory containing model
 		for (const auto &dir : std::vector<std::string> { ".",
 			 BE::Text::dirname(arguments.argv0), ShareDirUnix,
-			 ShareDirWin64, ShareDirWin32 }) {
+			 ShareDirLocalUnix, ShareDirWin64, ShareDirWin32 }) {
 			if (BE::IO::Utility::fileExists(
 				dir + '/' + DefaultModelInfoFilename)) {
 				modelInfoFilePath = dir + '/' +

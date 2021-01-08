@@ -741,7 +741,7 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 	};
 	static const std::string ShareDirWin64 { "C:/Program Files/NFIQ 2" };
 
-	std::string propFilePath {};
+	std::string modelInfoFilePath {};
 
 	if (arguments.flags.model.empty()) {
 		// Check common places for directory containing model
@@ -750,20 +750,20 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 			 ShareDirWin64, ShareDirWin32 }) {
 			if (BE::IO::Utility::fileExists(
 				dir + '/' + DefaultModelInfoFilename)) {
-				propFilePath = dir + '/' +
+				modelInfoFilePath = dir + '/' +
 				    DefaultModelInfoFilename;
 				break;
 			}
 		}
 
-		if (propFilePath.empty()) {
+		if (modelInfoFilePath.empty()) {
 			throw NFIQ2UI::FileNotFoundError(
 			    "No model info provided and default model info '" +
 			    DefaultModelInfoFilename + "' not found");
 		}
 	} else {
 		// Use -m defined path
-		propFilePath = arguments.flags.model;
+		modelInfoFilePath = arguments.flags.model;
 	}
 
 	// FIXME: Make below a separate function and make a Model class
@@ -779,11 +779,11 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 
 	try {
 		props.reset(new BE::IO::PropertiesFile(
-		    propFilePath, BE::IO::Mode::ReadOnly));
+		    modelInfoFilePath, BE::IO::Mode::ReadOnly));
 	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError(
-		    "Unable to parse model info file '" + propFilePath + "' " +
-		    '(' + e.whatString() + ')');
+		    "Unable to parse model info file '" + modelInfoFilePath +
+		    "' (" + e.whatString() + ')');
 	}
 
 	try {
@@ -792,7 +792,7 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 			throw BE::Error::StrategyError("No path provided");
 	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyPath + "' from '" + propFilePath + "' (" +
+		    ModelInfoKeyPath + "' from '" + modelInfoFilePath + "' (" +
 		    e.whatString() + ')');
 	}
 
@@ -801,12 +801,13 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 	    ((modelFile.length() > 2) && (modelFile.substr(0, 2) != "\\\\")) &&
 	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":\\")) &&
 	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":/"))) {
-		modelFile = BE::Text::dirname(propFilePath) + '/' + modelFile;
+		modelFile = BE::Text::dirname(modelInfoFilePath) + '/' +
+		    modelFile;
 	}
 
 	if (!BE::IO::Utility::fileExists(modelFile)) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyPath + "' from '" + propFilePath +
+		    ModelInfoKeyPath + "' from '" + modelInfoFilePath +
 		    "' (No file exists at '" + modelFile + "')");
 	}
 
@@ -814,7 +815,7 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		hash = props->getProperty(ModelInfoKeyHash);
 	} catch (const BE::Error::Exception &e) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyHash + "' from '" + propFilePath + "' (" +
+		    ModelInfoKeyHash + "' from '" + modelInfoFilePath + "' (" +
 		    e.whatString() + ')');
 	}
 

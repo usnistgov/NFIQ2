@@ -300,7 +300,7 @@ void printHeader(
  *  Extracts the model path and model hash from the NFIQ2 Random Forest model
  *
  *  @details
- *  Tries to locate the 'nfiq2rf.txt' file in numerous common install paths
+ *  Tries to locate the default model info file in numerous common install paths
  *  and parses it to obtain model information.
  *
  *  @param[in] arguments

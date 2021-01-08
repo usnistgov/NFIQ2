@@ -124,7 +124,7 @@ class InvalidArgumentError : public Exception {
 
 /**
  *  @brief
- *  The file 'nfiq2rf.txt' was unable to be parsed.
+ *  The model info file was unable to be parsed.
  */
 class PropertyParseError : public Exception {
     public:

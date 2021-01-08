@@ -1,0 +1,6 @@
+Name = Plain TIR + Ink
+Trainer = National Institute of Standards and Technology
+Description = Trained on plain optical bright-field total internal reflection and scanned ink plain impression fingerprints, as described in the NFIQ 2 report.
+Version = 1.0.0
+Path = nist_plain_tir-ink.yaml
+Hash = ccd75820b48c19f1645ef5e9c481c592

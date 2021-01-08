@@ -42,3 +42,13 @@ NFIQ2UI::InvalidArgumentError::InvalidArgumentError(const std::string &info)
     : Exception("InvalidArgumentError: " + info)
 {
 }
+
+NFIQ2UI::PropertyParseError::PropertyParseError(const std::string &info)
+    : Exception("PropertyParseError: " + info)
+{
+}
+
+NFIQ2UI::FileNotFoundError::FileNotFoundError(const std::string &info)
+    : Exception("FileNotFoundError: " + info)
+{
+}

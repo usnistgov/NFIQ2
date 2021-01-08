@@ -15,9 +15,11 @@
 #include <NFIQ2Algorithm.h>
 #include <Timer.hpp>
 #include <be_image_image.h>
+#include <be_io_propertiesfile.h>
 #include <be_io_recordstore.h>
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
+#include <be_text.h>
 
 #include "nfiq2_ui_exception.h"
 #include "nfiq2_ui_image.h"
@@ -653,7 +655,6 @@ NFIQ2UI::processArguments(int argc, char **argv)
 		case 'r':
 			flags.recursion = true;
 			break;
-		// Not implemented yet
 		case 'm':
 			flags.model = optarg;
 			break;
@@ -673,15 +674,13 @@ NFIQ2UI::processArguments(int argc, char **argv)
 	if (flags.numthreads != 1 &&
 	    (vecBatch.empty() && vecRecordStore.empty())) {
 		throw NFIQ2UI::InvalidArgumentError(
-		    "User cannot use threading flag for single-threaded "
-		    "operations. "
+		    "User cannot use threading flag for single-threaded operations. "
 		    "\nBatch "
-		    "files and recordstores are the only multi-threaded "
-		    "operations.");
+		    "files and recordstores are the only multi-threaded operations.");
 	}
 
-	NFIQ2UI::Arguments arguments = { flags, output, vecSingle, vecDirs,
-		vecBatch, vecRecordStore };
+	NFIQ2UI::Arguments arguments = { flags, argv[0], output, vecSingle,
+		vecDirs, vecBatch, vecRecordStore };
 	return arguments;
 }
 
@@ -730,6 +729,99 @@ NFIQ2UI::printHeader(
 	}
 }
 
+std::tuple<std::string, std::string>
+NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
+{
+	static const std::string DefaultModelInfoFilename {
+		"nist_plain_tir-ink.txt"
+	};
+	static const std::string ShareDirUnix { "/usr/local/share/nfiq2" };
+	static const std::string ShareDirWin32 {
+		"C:/Program Files (x86)/NFIQ 2"
+	};
+	static const std::string ShareDirWin64 { "C:/Program Files/NFIQ 2" };
+
+	std::string modelInfoFilePath {};
+
+	if (arguments.flags.model.empty()) {
+		// Check common places for directory containing model
+		for (const auto &dir : std::vector<std::string> { ".",
+			 BE::Text::dirname(arguments.argv0), ShareDirUnix,
+			 ShareDirWin64, ShareDirWin32 }) {
+			if (BE::IO::Utility::fileExists(
+				dir + '/' + DefaultModelInfoFilename)) {
+				modelInfoFilePath = dir + '/' +
+				    DefaultModelInfoFilename;
+				break;
+			}
+		}
+
+		if (modelInfoFilePath.empty()) {
+			throw NFIQ2UI::FileNotFoundError(
+			    "No model info provided and default model info '" +
+			    DefaultModelInfoFilename + "' not found");
+		}
+	} else {
+		// Use -m defined path
+		modelInfoFilePath = arguments.flags.model;
+	}
+
+	// FIXME: Make below a separate function and make a Model class
+	static const std::string ModelInfoKeyName { "Name" };
+	static const std::string ModelInfoKeyTrainer { "Trainer" };
+	static const std::string ModelInfoKeyDescription { "Description" };
+	static const std::string ModelInfoKeyVersion { "Version" };
+	static const std::string ModelInfoKeyPath { "Path" };
+	static const std::string ModelInfoKeyHash { "Hash" };
+
+	std::unique_ptr<BE::IO::Properties> props;
+	std::string modelFile, hash;
+
+	try {
+		props.reset(new BE::IO::PropertiesFile(
+		    modelInfoFilePath, BE::IO::Mode::ReadOnly));
+	} catch (const BE::Error::Exception &e) {
+		throw NFIQ2UI::PropertyParseError(
+		    "Unable to parse model info file '" + modelInfoFilePath +
+		    "' (" + e.whatString() + ')');
+	}
+
+	try {
+		modelFile = props->getProperty(ModelInfoKeyPath);
+		if (modelFile.empty())
+			throw BE::Error::StrategyError("No path provided");
+	} catch (const BE::Error::Exception &e) {
+		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
+		    ModelInfoKeyPath + "' from '" + modelInfoFilePath + "' (" +
+		    e.whatString() + ')');
+	}
+
+	// Path to model might be relative to the model info file, not the cwd
+	if ((modelFile.front() != '/') &&
+	    ((modelFile.length() > 2) && (modelFile.substr(0, 2) != "\\\\")) &&
+	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":\\")) &&
+	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":/"))) {
+		modelFile = BE::Text::dirname(modelInfoFilePath) + '/' +
+		    modelFile;
+	}
+
+	if (!BE::IO::Utility::fileExists(modelFile)) {
+		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
+		    ModelInfoKeyPath + "' from '" + modelInfoFilePath +
+		    "' (No file exists at '" + modelFile + "')");
+	}
+
+	try {
+		hash = props->getProperty(ModelInfoKeyHash);
+	} catch (const BE::Error::Exception &e) {
+		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
+		    ModelInfoKeyHash + "' from '" + modelInfoFilePath + "' (" +
+		    e.whatString() + ')');
+	}
+
+	return std::make_tuple(modelFile, hash);
+}
+
 int
 main(int argc, char **argv)
 {
@@ -765,15 +857,18 @@ main(int argc, char **argv)
 	double timeInit = 0.0;
 	timerInit.startTimer();
 
-	if (!BE::IO::Utility::fileExists("nfiq2rf.yaml")) {
-		std::cerr << "Please run NFIQ2 in the same directory as the "
-			     "nfiq2rf.yaml model"
+	std::string modelFile;
+	std::string hash;
+
+	try {
+		std::tie(modelFile, hash) = NFIQ2UI::parseModel(arguments);
+	} catch (const NFIQ2UI::Exception &e) {
+		std::cerr << "Unable to extract model information. " << e.what()
 			  << "\n";
 		return EXIT_FAILURE;
 	}
 
-	const NFIQ::NFIQ2Algorithm model(
-	    "nfiq2rf.yaml", "ccd75820b48c19f1645ef5e9c481c592");
+	const NFIQ::NFIQ2Algorithm model(modelFile, hash);
 
 	timeInit = timerInit.endTimerAndGetElapsedTime();
 

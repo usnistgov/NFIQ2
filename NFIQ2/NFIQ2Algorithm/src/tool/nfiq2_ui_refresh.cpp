@@ -678,8 +678,8 @@ NFIQ2UI::processArguments(int argc, char **argv)
 		    "files and recordstores are the only multi-threaded operations.");
 	}
 
-	NFIQ2UI::Arguments arguments = { flags, output, vecSingle, vecDirs,
-		vecBatch, vecRecordStore };
+	NFIQ2UI::Arguments arguments = { flags, argv[0], output, vecSingle,
+		vecDirs, vecBatch, vecRecordStore };
 	return arguments;
 }
 

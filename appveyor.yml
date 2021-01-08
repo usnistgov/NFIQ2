@@ -10,9 +10,13 @@ configuration: Release
 
 cache:
   - c:\tools\vcpkg\installed -> NFIQ2/NFIQ2Algorithm/CMakeLists.txt
+  - c:\projects\nfiq2\opencv -> .gitmodules
   - c:\projects\nfiq2\build\Windows\OpenCV-prefix -> .gitmodules
+  - c:\projects\nfiq2\fingerjetfxose -> .gitmodules
   - c:\projects\nfiq2\build\Windows\fingerjetfxose -> .gitmodules
+  - c:\projects\nfiq2\biomdi\biomdi -> .gitmodules
   - c:\projects\nfiq2\build\Windows\biomdi -> .gitmodules
+  - c:\projects\nfiq2\libbiomeval -> .gitmodules
   - c:\projects\nfiq2\build\Windows\libbiomeval-prefix -> .gitmodules
 
 install:

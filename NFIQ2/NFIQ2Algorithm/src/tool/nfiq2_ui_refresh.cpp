@@ -741,49 +741,32 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 	};
 	static const std::string ShareDirWin64 { "C:/Program Files/NFIQ 2" };
 
-	std::string propFilePath;
+	std::string propFilePath {};
 
-	if (arguments.flags.model == "") {
+	if (arguments.flags.model.empty()) {
 		// Check common places for directory containing model
+		for (const auto &dir : std::vector<std::string> { ".",
+			 BE::Text::dirname(arguments.argv0), ShareDirUnix,
+			 ShareDirWin64, ShareDirWin32 }) {
+			if (BE::IO::Utility::fileExists(
+				dir + '/' + DefaultModelInfoFilename)) {
+				propFilePath = dir + '/' +
+				    DefaultModelInfoFilename;
+				break;
+			}
+		}
 
-		// Current Directory
-		if (BE::IO::Utility::fileExists(DefaultModelInfoFilename)) {
-			propFilePath = ".";
-		}
-		// Directory containing executable (may be cwd if in PATH)
-		else if (BE::IO::Utility::fileExists(
-			     BE::Text::dirname(arguments.argv0) + '/' +
-			     DefaultModelInfoFilename)) {
-			propFilePath = BE::Text::dirname(arguments.argv0);
-		}
-		// Unix
-		else if (BE::IO::Utility::fileExists(
-			     ShareDirUnix + '/' + DefaultModelInfoFilename)) {
-			propFilePath = ShareDirUnix;
-		}
-		// Windows (64-bit)
-		else if (BE::IO::Utility::fileExists(
-			     ShareDirWin64 + '/' + DefaultModelInfoFilename)) {
-			propFilePath = ShareDirWin64;
-		}
-		// Windows (32-bit)
-		else if (BE::IO::Utility::fileExists(
-			     ShareDirWin32 + '/' + DefaultModelInfoFilename)) {
-			propFilePath = ShareDirWin32;
-		}
-		// Could not locate
-		else {
+		if (propFilePath.empty()) {
 			throw NFIQ2UI::FileNotFoundError(
 			    "No model info provided and default model info '" +
 			    DefaultModelInfoFilename + "' not found");
 		}
-
-		propFilePath += '/' + DefaultModelInfoFilename;
 	} else {
 		// Use -m defined path
 		propFilePath = arguments.flags.model;
 	}
 
+	// FIXME: Make below a separate function and make a Model class
 	static const std::string ModelInfoKeyName { "Name" };
 	static const std::string ModelInfoKeyTrainer { "Trainer" };
 	static const std::string ModelInfoKeyDescription { "Description" };
@@ -791,7 +774,7 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 	static const std::string ModelInfoKeyPath { "Path" };
 	static const std::string ModelInfoKeyHash { "Hash" };
 
-	std::unique_ptr<BE::IO::PropertiesFile> props;
+	std::unique_ptr<BE::IO::Properties> props;
 	std::string modelFile, hash;
 
 	try {

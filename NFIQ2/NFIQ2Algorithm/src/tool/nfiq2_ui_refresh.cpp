@@ -731,27 +731,38 @@ NFIQ2UI::printHeader(
 std::tuple<std::string, std::string>
 NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 {
-	static const std::string DefaultModelInfoFilename(
-	    "nist_plain_tir-ink.txt");
+	static const std::string DefaultModelInfoFilename {
+		"nist_plain_tir-ink.txt"
+	};
+	static const std::string ShareDirUnix { "/usr/local/share/nfiq2" };
+	static const std::string ShareDirWin32 {
+		"C:/Program Files (x86)/NFIQ 2"
+	};
+	static const std::string ShareDirWin64 { "C:/Program Files/NFIQ 2" };
 
 	std::string propFilePath;
 
 	if (arguments.flags.model == "") {
 		// Check common places for directory containing model
-		// If in Current Directory
+
+		// Current Directory
 		if (BE::IO::Utility::fileExists(DefaultModelInfoFilename)) {
 			propFilePath = ".";
 		}
 		// Unix
-		else if (BE::IO::Utility::fileExists("/usr/local/share/nfiq2/" +
-			     DefaultModelInfoFilename)) {
-			propFilePath = "/usr/local/share/nfiq2/";
-		}
-		// Windows
 		else if (BE::IO::Utility::fileExists(
-			     "C:\\Program Files\\nfiq2\\" +
-			     DefaultModelInfoFilename)) {
-			propFilePath = "C:\\Program Files\\nfiq2\\";
+			     ShareDirUnix + '/' + DefaultModelInfoFilename)) {
+			propFilePath = ShareDirUnix;
+		}
+		// Windows (64-bit)
+		else if (BE::IO::Utility::fileExists(
+			     ShareDirWin64 + '/' + DefaultModelInfoFilename)) {
+			propFilePath = ShareDirWin64;
+		}
+		// Windows (32-bit)
+		else if (BE::IO::Utility::fileExists(
+			     ShareDirWin32 + '/' + DefaultModelInfoFilename)) {
+			propFilePath = ShareDirWin32;
 		}
 		// Could not locate
 		else {

@@ -274,6 +274,9 @@ elseif (MSVC)
 	set(CPACK_WIX_UPGRADE_GUID "492101f0-5052-11eb-bb05-1b5668cc0087")
 	set(CPACK_WIX_PRODUCT_GUID "992d809c-5052-11eb-9166-9376be0e1c42")
 
+	# Required for building on NIST machines
+	set(CPACK_WIX_CANDLE_EXTRA_FLAGS "-fips")
+
 	# WiX doesn't allow non-integer versions
 	if (NOT "${NFIQ2_VERSION_STATUS}" STREQUAL "")
 		set(WIX_MAJOR ${NFIQ2_VERSION_MAJOR})
@@ -299,9 +302,6 @@ elseif (MSVC)
 		set(CPACK_PACKAGE_VERSION_MAJOR "${WIX_MAJOR}")
 		set(CPACK_PACKAGE_VERSION_MINOR "${WIX_MINOR}")
 		set(CPACK_PACKAGE_VERSION_PATCH "${WIX_PATCH}")
-
-		# Required for building on NIST machines
-		set(CPACK_WIX_CANDLE_EXTRA_FLAGS "-fips")
 	endif()
 elseif (EXISTS "/etc/lsb-release")
 	list(APPEND CPACK_GENERATOR "DEB")

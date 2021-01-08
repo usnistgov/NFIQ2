@@ -776,9 +776,9 @@ NFIQ2UI::parseModel(NFIQ2UI::Arguments arguments)
 		hash = props->getProperty("Hash");
 
 	} catch (BE::Error::Exception &e) {
-		throw NFIQ2UI::PropertyParseError("Unable to parse default "
-						  "model info file '" +
-		    DefaultModelInfoFilename + '\'');
+		throw NFIQ2UI::PropertyParseError(
+		    "Unable to parse default model info file '" +
+		    DefaultModelInfoFilename + "' (" + e.whatString() + ')');
 	}
 
 	return std::make_tuple(modelFile, hash);

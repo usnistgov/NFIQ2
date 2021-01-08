@@ -236,10 +236,6 @@ if (BUILD_NFIQ2_CLI)
 	    DESTINATION ${CMAKE_INSTALL_BINDIR}
 	    COMPONENT install_staging)
 
-	add_custom_command(TARGET ${NFIQ2_TEST_APP} POST_BUILD
-	    COMMAND ${CMAKE_COMMAND} -E copy
-		${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.yaml ${SUPERBUILD_ROOT_PATH}/complianceTestSet/nist_plain_tir-ink.yaml)
-
 	# Install Man Page for Unix Systems
 	if(UNIX)
 	  INSTALL(FILES doc/nfiq2_tool.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1" RENAME nfiq2.1

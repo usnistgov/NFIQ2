@@ -59,11 +59,12 @@ OPTIONS
 > Path to an model information file. Allows for alternative random forest parameters to be used in conjunction with NFIQ2's algorithm. A default file is provided.
 > This file contains "Key = Value" pairs of information, with Keys:
 
-> * **Name**: Name given to this set of random forest parameters
-> * **Description**: Description of the training
-> * **Version**: Version number of the training
+> * **Name**: Name given to this set of random forest parameters.
+> * **Description**: Description of the training.
+> * **Trainer**: Entity that created this set of parameters.
+> * **Version**: Version number of the parameters.
 > * **Path**: Path to the random forest parameters. If the path provided is relative, it must be relative to the directory containing the file passed with *-m*, not the current working directory or the nfiq2 executable.
-> * **Hash**: Hash of random forest parameters, as parsed by OpenCV
+> * **Hash**: Hash of random forest parameters, as parsed by OpenCV.
 
 
 NOTES

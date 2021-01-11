@@ -5,15 +5,6 @@ NFIQ 2
 [![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/iso_wg3)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
---------------------------------------------------------------------------------
-
- **IMPORTANT**: This branch is being actively developed by the ISO/IEC JTC 1
-SC 37 WG 3 Special Group towards ISO/IEC 29794-4 Recommendation 3.15. As a
-result, the code in this branch is **unstable**, and at times, may not build or
-produce expected results.
-
---------------------------------------------------------------------------------
-
 Overview
 --------
 In 2004, the [National Institute of Standards and Technology (NIST)](https://www.nist.gov) developed the first open source and publicly available fingerprint quality assessment tool, [NIST Finger Image Quality (NFIQ)](https://www.nist.gov/services-resources/software/nist-biometric-image-software-nbis#NFIQ).

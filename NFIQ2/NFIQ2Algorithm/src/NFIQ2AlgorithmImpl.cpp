@@ -11,8 +11,8 @@
 #include "OFFeature.h"
 #include "QualityMapFeatures.h"
 #include "RVUPHistogramFeature.h"
-#include "include/nfiq2/FingerprintImageData.h"
-#include "include/nfiq2/NFIQException.h"
+#include "include/nfiq2/fingerprintimagedata.h"
+#include "include/nfiq2/nfiqexception.h"
 
 #include "include/Timer.hpp"
 #include <iomanip>

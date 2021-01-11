@@ -1,5 +1,5 @@
 #include "MuFeature.h"
-#include "include/nfiq2/NFIQException.h"
+#include "include/nfiq2/nfiqexception.h"
 
 #include "include/Timer.hpp"
 #include <sstream>

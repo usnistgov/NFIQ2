@@ -1,6 +1,6 @@
 #include "ImgProcROIFeature.h"
 #include "QualityMapFeatures.h"
-#include "include/nfiq2/NFIQException.h"
+#include "include/nfiq2/nfiqexception.h"
 
 #include "include/Timer.hpp"
 #include <cmath>

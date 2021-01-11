@@ -2,7 +2,7 @@
 #ifndef INTERFACEDEFINITIONS_H
 #define INTERFACEDEFINITIONS_H
 
-#include "Data.h"
+#include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
 

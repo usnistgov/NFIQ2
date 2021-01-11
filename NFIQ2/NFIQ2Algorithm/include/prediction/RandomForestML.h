@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "include/nfiq2/InterfaceDefinitions.h"
+#include "include/nfiq2/interfacedefinitions.h"
 
 #include <list>
 #include <string>

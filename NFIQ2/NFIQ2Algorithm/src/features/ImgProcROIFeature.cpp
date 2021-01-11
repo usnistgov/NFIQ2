@@ -1,7 +1,7 @@
 #include <opencv2/core/version.hpp>
 
 #include "ImgProcROIFeature.h"
-#include "include/nfiq2/NFIQException.h"
+#include "include/nfiq2/nfiqexception.h"
 
 #include "include/Timer.hpp"
 #include <sstream>

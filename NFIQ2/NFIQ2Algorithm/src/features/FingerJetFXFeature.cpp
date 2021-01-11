@@ -1,7 +1,7 @@
 #include <string.h>
 
 #include "FingerJetFXFeature.h"
-#include "include/nfiq2/NFIQException.h"
+#include "include/nfiq2/nfiqexception.h"
 
 #include "include/Timer.hpp"
 #include <sstream>

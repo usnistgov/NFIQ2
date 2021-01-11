@@ -1,5 +1,4 @@
-NFIQ 2
-======
+# NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
 
 [![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=iso_wg3)](https://travis-ci.org/usnistgov/NFIQ2)
 [![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/iso_wg3)

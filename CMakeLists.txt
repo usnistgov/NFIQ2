@@ -243,6 +243,7 @@ if (PANDOC)
 
 	# Strip remote SVGs from README
 	execute_process(COMMAND grep -v ^\\[! "${ROOT_PATH}/README.md" OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/README.md")
+	execute_process(COMMAND sed -i.bak -e s|<img.*/>|| "${CMAKE_CURRENT_BINARY_DIR}/README.md")
 	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}" "${CMAKE_CURRENT_BINARY_DIR}/README.md")
 	set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}")
 

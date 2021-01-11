@@ -130,11 +130,11 @@ QualityMapFeatures::computeOrientationMap(cv::Mat &img, bool bFilterByROI,
 	for (int i = 0; i < img.rows; i += bs) {
 		for (int j = 0; j < img.cols; j += bs) {
 			int actualBS_X = ((img.cols - j) < (int)bs) ?
-			    (img.cols - j) :
-			    bs;
+				  (img.cols - j) :
+				  bs;
 			int actualBS_Y = ((img.rows - i) < (int)bs) ?
-			    (img.rows - i) :
-			    bs;
+				  (img.rows - i) :
+				  bs;
 
 			// take all blocks (even those of not full block size)
 			int mx = 0;

@@ -61,12 +61,12 @@ OCLHistogramFeature::computeFeatureData(
 			for (int j = 0; j < img.cols; j += BS_OCL) {
 				unsigned int actualBS_X = ((img.cols - j) <
 							      BS_OCL) ?
-				    (img.cols - j) :
-				    BS_OCL;
+					  (img.cols - j) :
+					  BS_OCL;
 				unsigned int actualBS_Y = ((img.rows - i) <
 							      BS_OCL) ?
-				    (img.rows - i) :
-				    BS_OCL;
+					  (img.rows - i) :
+					  BS_OCL;
 
 				if (actualBS_X == BS_OCL &&
 				    actualBS_Y == BS_OCL) {

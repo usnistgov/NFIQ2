@@ -1,9 +1,13 @@
 #ifndef TIMER_HPP
 #define TIMER_HPP
 
-#include <time.h>
+#if defined(_WIN32) || defined(ming)
+#define WINDOWS
+#else
+#define POSIX
+#endif
 
-#include "OS.h"
+#include <time.h>
 
 #include <iostream>
 

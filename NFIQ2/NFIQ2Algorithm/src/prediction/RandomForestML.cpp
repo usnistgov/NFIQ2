@@ -1,5 +1,5 @@
 #include "RandomForestML.h"
-#include "include/NFIQException.h"
+#include "include/nfiq2/NFIQException.h"
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 #include "RandomForestTrainedParams.h"

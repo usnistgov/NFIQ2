@@ -23,6 +23,7 @@ include_directories("${CMAKE_BINARY_DIR}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
 
@@ -63,11 +64,11 @@ file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
 file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
 
 set(PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/InterfaceDefinitions.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/FingerprintImageData.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/Data.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQException.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/NFIQ2Algorithm.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/InterfaceDefinitions.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/FingerprintImageData.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/Data.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/NFIQException.h"
 )
 
 add_library( ${PROJECT_NAME} STATIC

@@ -1,7 +1,7 @@
 #ifndef FINGERPRINTIMAGEDATA_H
 #define FINGERPRINTIMAGEDATA_H
 
-#include <Data.h>
+#include "Data.h"
 
 #define MU_THRESHOLD 250
 

@@ -2,7 +2,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include "FeatureFunctions.h"
-#include "include/NFIQException.h"
+#include "include/nfiq2/NFIQException.h"
 
 #define USE_MATH_DEFINES
 #include <math.h>

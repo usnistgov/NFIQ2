@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include <NFIQException.h>
+#include "NFIQException.h"
 
 #include <fstream>
 #include <iostream>

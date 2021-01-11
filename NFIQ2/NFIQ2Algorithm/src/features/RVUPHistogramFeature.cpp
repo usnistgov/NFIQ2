@@ -2,7 +2,7 @@
 
 #include "FeatureFunctions.h"
 #include "RVUPHistogramFeature.h"
-#include "include/NFIQException.h"
+#include "include/nfiq2/NFIQException.h"
 
 #include "include/Timer.hpp"
 #include <cmath>

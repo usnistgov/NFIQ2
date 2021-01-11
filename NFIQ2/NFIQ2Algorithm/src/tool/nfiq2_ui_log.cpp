@@ -8,7 +8,7 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include <NFIQ2Algorithm.h>
+#include <nfiq2/NFIQ2Algorithm.h>
 
 #include "nfiq2_ui_exception.h"
 #include "nfiq2_ui_log.h"

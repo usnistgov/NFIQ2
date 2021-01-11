@@ -1,5 +1,5 @@
 #include "NFIQ2AlgorithmImpl.h"
-#include "include/NFIQ2Algorithm.h"
+#include "include/nfiq2/NFIQ2Algorithm.h"
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ::NFIQ2Algorithm::NFIQ2Algorithm()

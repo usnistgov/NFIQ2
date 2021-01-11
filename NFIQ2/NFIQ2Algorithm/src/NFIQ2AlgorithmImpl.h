@@ -3,10 +3,10 @@
 
 #include "NFIQ2AlgorithmImpl.h"
 #include "RandomForestML.h"
-#include "include/FingerprintImageData.h"
-#include "include/InterfaceDefinitions.h"
-#include "include/NFIQ2Algorithm.h"
-#include "include/NFIQException.h"
+#include "include/nfiq2/FingerprintImageData.h"
+#include "include/nfiq2/InterfaceDefinitions.h"
+#include "include/nfiq2/NFIQ2Algorithm.h"
+#include "include/nfiq2/NFIQException.h"
 
 #include <fstream>
 #include <iostream>

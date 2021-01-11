@@ -12,7 +12,7 @@
 #include <getopt.h>
 #endif
 
-#include <NFIQ2Algorithm.h>
+#include <nfiq2/NFIQ2Algorithm.h>
 #include <Timer.hpp>
 #include <be_image_image.h>
 #include <be_io_propertiesfile.h>

@@ -1,6 +1,6 @@
 #include "FeatureFunctions.h"
 #include "OCLHistogramFeature.h"
-#include "include/NFIQException.h"
+#include "include/nfiq2/NFIQException.h"
 
 #include "include/Timer.hpp"
 #include <sstream>

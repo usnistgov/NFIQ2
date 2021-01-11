@@ -1,6 +1,6 @@
 #include "FeatureFunctions.h"
 #include "OFFeature.h"
-#include "include/NFIQException.h"
+#include "include/nfiq2/NFIQException.h"
 
 #include "include/Timer.hpp"
 #include <sstream>

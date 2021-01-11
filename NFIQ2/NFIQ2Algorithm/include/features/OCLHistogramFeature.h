@@ -9,8 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "include/FingerprintImageData.h"
-#include "include/InterfaceDefinitions.h"
+#include "include/nfiq2/FingerprintImageData.h"
+#include "include/nfiq2/InterfaceDefinitions.h"
 #include "include/features/BaseFeature.h"
 
 #include <list>

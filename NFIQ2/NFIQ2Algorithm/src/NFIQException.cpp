@@ -1,4 +1,4 @@
-#include "include/NFIQException.h"
+#include "include/nfiq2/NFIQException.h"
 
 using namespace NFIQ;
 

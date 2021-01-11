@@ -13,11 +13,10 @@
 #include <be_image_image.h>
 #include <be_image_raw.h>
 #include <be_io_utility.h>
-
-#include "nfiq2_ui_image.h"
-#include "nfiq2_ui_log.h"
-#include "nfiq2_ui_types.h"
-#include "nfiq2_ui_utils.h"
+#include <tool/nfiq2_ui_image.h>
+#include <tool/nfiq2_ui_log.h>
+#include <tool/nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_utils.h>
 
 #include <cmath>
 #include <string>

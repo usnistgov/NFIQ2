@@ -23,12 +23,6 @@ include_directories("${CMAKE_BINARY_DIR}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
-
-# add NFIQ2 tool include directories
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
 
 # add libbiomeval include directories
 include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")

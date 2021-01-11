@@ -1,8 +1,8 @@
-#include "FJFXMinutiaeQualityFeatures.h"
-#include "OCLHistogramFeature.h"
-#include "include/nfiq2/nfiqexception.h"
+#include <features/FJFXMinutiaeQualityFeatures.h>
+#include <features/OCLHistogramFeature.h>
+#include <nfiq2/nfiqexception.h>
+#include <nfiq2/timer.hpp>
 
-#include "nfiq2/timer.hpp"
 #include <sstream>
 
 #define CBEFF (0x00330502)

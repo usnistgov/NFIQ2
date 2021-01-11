@@ -1,10 +1,9 @@
 #ifndef NFIQ2_INTERFACEDEFINITIONS_H_
 #define NFIQ2_INTERFACEDEFINITIONS_H_
 
+#include <nfiq2/data.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "data.h"
 
 #include <list>
 #include <string>

@@ -8,9 +8,9 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include "nfiq2_ui_log.h"
-#include "nfiq2_ui_threadedlog.h"
-#include "nfiq2_ui_types.h"
+#include <tool/nfiq2_ui_log.h>
+#include <tool/nfiq2_ui_threadedlog.h>
+#include <tool/nfiq2_ui_types.h>
 
 #include <string>
 

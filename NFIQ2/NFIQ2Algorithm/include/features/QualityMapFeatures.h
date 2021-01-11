@@ -1,6 +1,9 @@
 #ifndef QUALITYMAPFEATURES_H
 #define QUALITYMAPFEATURES_H
 
+#include <features/BaseFeature.h>
+#include <nfiq2/fingerprintimagedata.h>
+#include <nfiq2/interfacedefinitions.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -10,9 +13,6 @@
 #include <stdlib.h>
 
 #include "ImgProcROIFeature.h"
-#include "include/features/BaseFeature.h"
-#include "include/nfiq2/fingerprintimagedata.h"
-#include "include/nfiq2/interfacedefinitions.h"
 
 #include <list>
 #include <string>

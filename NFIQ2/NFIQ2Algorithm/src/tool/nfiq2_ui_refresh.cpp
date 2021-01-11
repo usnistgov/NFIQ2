@@ -20,14 +20,13 @@
 #include <be_text.h>
 #include <nfiq2/nfiq2.h>
 #include <nfiq2/timer.hpp>
-
-#include "nfiq2_ui_exception.h"
-#include "nfiq2_ui_image.h"
-#include "nfiq2_ui_log.h"
-#include "nfiq2_ui_refresh.h"
-#include "nfiq2_ui_threadedlog.h"
-#include "nfiq2_ui_types.h"
-#include "nfiq2_ui_utils.h"
+#include <tool/nfiq2_ui_exception.h>
+#include <tool/nfiq2_ui_image.h>
+#include <tool/nfiq2_ui_log.h>
+#include <tool/nfiq2_ui_refresh.h>
+#include <tool/nfiq2_ui_threadedlog.h>
+#include <tool/nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_utils.h>
 
 #include <cmath>
 #include <cstdio>

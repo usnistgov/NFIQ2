@@ -1,8 +1,8 @@
-#include "ImgProcROIFeature.h"
-#include "QualityMapFeatures.h"
-#include "include/nfiq2/nfiqexception.h"
+#include <features/ImgProcROIFeature.h>
+#include <features/QualityMapFeatures.h>
+#include <nfiq2/nfiqexception.h>
+#include <nfiq2/timer.hpp>
 
-#include "nfiq2/timer.hpp"
 #include <cmath>
 #include <sstream>
 

@@ -12,7 +12,7 @@
 #define NFIQ2_UI_UTILS_H_
 
 #include <be_io_utility.h>
-#include <nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_types.h>
 
 #include <cmath>
 #include <iostream>

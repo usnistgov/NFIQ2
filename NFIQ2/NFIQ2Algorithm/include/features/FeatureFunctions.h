@@ -1,10 +1,9 @@
 #ifndef FEATUREFUNCTIONS_H
 #define FEATUREFUNCTIONS_H
 
+#include <nfiq2/interfacedefinitions.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-
-#include "include/nfiq2/interfacedefinitions.h"
 
 #include <list>
 

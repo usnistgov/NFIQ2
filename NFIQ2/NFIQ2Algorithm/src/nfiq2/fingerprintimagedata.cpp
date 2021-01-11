@@ -1,4 +1,4 @@
-#include "include/nfiq2/fingerprintimagedata.h"
+#include <nfiq2/fingerprintimagedata.h>
 
 int debug = 0;
 

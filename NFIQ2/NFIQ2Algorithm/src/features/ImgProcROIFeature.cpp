@@ -1,9 +1,8 @@
+#include <features/ImgProcROIFeature.h>
+#include <nfiq2/nfiqexception.h>
+#include <nfiq2/timer.hpp>
 #include <opencv2/core/version.hpp>
 
-#include "ImgProcROIFeature.h"
-#include "include/nfiq2/nfiqexception.h"
-
-#include "nfiq2/timer.hpp"
 #include <sstream>
 
 using namespace NFIQ;

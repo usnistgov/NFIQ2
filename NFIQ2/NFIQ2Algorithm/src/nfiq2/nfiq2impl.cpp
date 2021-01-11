@@ -1,20 +1,20 @@
+#include <features/FDAFeature.h>
+#include <features/FJFXMinutiaeQualityFeatures.h>
+#include <features/FingerJetFXFeature.h>
+#include <features/ImgProcROIFeature.h>
+#include <features/LCSFeature.h>
+#include <features/MuFeature.h>
+#include <features/OCLHistogramFeature.h>
+#include <features/OFFeature.h>
+#include <features/QualityMapFeatures.h>
+#include <features/RVUPHistogramFeature.h>
+#include <nfiq2/fingerprintimagedata.h>
+#include <nfiq2/nfiqexception.h>
+#include <nfiq2/timer.hpp>
 #include <string.h>
 
-#include "FDAFeature.h"
-#include "FJFXMinutiaeQualityFeatures.h"
-#include "FingerJetFXFeature.h"
-#include "ImgProcROIFeature.h"
-#include "LCSFeature.h"
-#include "MuFeature.h"
-#include "OCLHistogramFeature.h"
-#include "OFFeature.h"
-#include "QualityMapFeatures.h"
-#include "RVUPHistogramFeature.h"
-#include "include/nfiq2/fingerprintimagedata.h"
-#include "include/nfiq2/nfiqexception.h"
 #include "nfiq2impl.h"
 
-#include "nfiq2/timer.hpp"
 #include <iomanip>
 #include <iostream>
 #include <list>

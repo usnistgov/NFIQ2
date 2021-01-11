@@ -1,11 +1,10 @@
+#include <features/FDAFeature.h>
+#include <features/FeatureFunctions.h>
+#include <nfiq2/nfiqexception.h>
+#include <nfiq2/timer.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "FDAFeature.h"
-#include "FeatureFunctions.h"
-#include "include/nfiq2/nfiqexception.h"
-
-#include "nfiq2/timer.hpp"
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32

@@ -1,15 +1,14 @@
 #ifndef IMGPROCROIFEATURE_H
 #define IMGPROCROIFEATURE_H
 
+#include <features/BaseFeature.h>
+#include <nfiq2/fingerprintimagedata.h>
+#include <nfiq2/interfacedefinitions.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "include/features/BaseFeature.h"
-#include "include/nfiq2/fingerprintimagedata.h"
-#include "include/nfiq2/interfacedefinitions.h"
 
 #include <list>
 #include <string>

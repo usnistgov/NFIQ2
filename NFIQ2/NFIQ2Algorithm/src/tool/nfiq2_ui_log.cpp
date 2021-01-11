@@ -9,11 +9,10 @@
  ******************************************************************************/
 
 #include <nfiq2/nfiq2.h>
-
-#include "nfiq2_ui_exception.h"
-#include "nfiq2_ui_log.h"
-#include "nfiq2_ui_types.h"
-#include "nfiq2_ui_utils.h"
+#include <tool/nfiq2_ui_exception.h>
+#include <tool/nfiq2_ui_log.h>
+#include <tool/nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_utils.h>
 
 #include <iomanip>
 #include <iostream>

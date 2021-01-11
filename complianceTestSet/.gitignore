@@ -1,0 +1,7 @@
+nfiq2rf.yaml
+images/
+
+output.AppleClang.apple64.csv
+output.gnu.linux64.csv
+output.msvc.win64.csv
+output.msvc.win32.csv

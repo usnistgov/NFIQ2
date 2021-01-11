@@ -2,9 +2,9 @@
 #define OS_H
 
 #if defined(_WIN32) || defined(ming)
-    #define WINDOWS
+#define WINDOWS
 #else
-    #define POSIX
+#define POSIX
 #endif
 
 #endif

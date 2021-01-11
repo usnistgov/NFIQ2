@@ -1,3 +1,0 @@
-The pgm2fir program requires the WSQ compression library to be installed
-on the system. This library is included in the NFIS distribution available
-from the NIST image group. See http://fingerprint.nist.gov/NFIS/index.html

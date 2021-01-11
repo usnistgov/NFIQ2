@@ -3,10 +3,9 @@
 using namespace NFIQ;
 
 /**
-* Predefined error messages for the corresponding error codes
-*/
-const std::string c_ErrorMessages[] =
-{
+ * Predefined error messages for the corresponding error codes
+ */
+const std::string c_ErrorMessages[] = {
 	/*  0 */ "",
 	/*  1 */ "Unknown error",
 	/*  2 */ "Elective refusal to produce a proprietary template",
@@ -46,7 +45,9 @@ const std::string c_ErrorMessages[] =
 	/* 36 */ "Wrong file type",
 	/* 37 */ "Wrong file content detected",
 	/* 38 */ "Image conversion error",
-	/* 39 */ "Too few genuine scores remaining after iteration in utility computation",
+	/* 39 */
+	"Too few genuine scores remaining after iteration in utility "
+	"computation",
 	/* 40 */ "A fusion of utility values is not possible",
 	/* 41 */ "An invalid configuration entry was found",
 	/* 42 */ "An machine learning error occured",
@@ -65,25 +66,26 @@ const std::string c_ErrorMessages[] =
 };
 
 NFIQException::NFIQException(uint32_t returnCode)
-: m_ReturnCode(returnCode)
+    : m_ReturnCode(returnCode)
 {
 	m_ErrorMessage = c_ErrorMessages[returnCode];
-	if (m_ErrorMessage.compare("") == 0)
+	if (m_ErrorMessage.compare("") == 0) {
 		m_ErrorMessage = "Undefined return code";
+	}
 }
 
 NFIQException::NFIQException(uint32_t returnCode, std::string errorMessage)
-: m_ReturnCode(returnCode),
-m_ErrorMessage(errorMessage)
+    : m_ReturnCode(returnCode)
+    , m_ErrorMessage(errorMessage)
 {
 }
 
-NFIQException::~NFIQException() throw()
+NFIQException::~NFIQException() noexcept
 {
-
 }
 
-const char* NFIQException::what() const throw()
+const char *
+NFIQException::what() const noexcept
 {
 	return m_ErrorMessage.c_str();
 }

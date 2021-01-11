@@ -1,6 +1,0 @@
-{
-   IPP static init
-   Memcheck:Cond
-   fun:ippicvGetCpuFeatures
-   fun:ippicvStaticInit
-}

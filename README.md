@@ -1,86 +1,110 @@
-NFIQ 2.0
-========
-NFIQ 2.0 is a revision of the open source NIST Finger Image Quality (NFIQ).
-In 2004, NIST developed the first publicly available fingerprint quality assessment tool NFIQ.
-Advances in fingerprint technology since 2004, necessitated an update to NFIQ. 
-As such, development of NFIQ 2.0 was initiated in 2011 as collaboration between 
-National Institute  of Standards and Technology (NIST) and  Federal Office for Information Security (BSI) 
-and Federal Criminal Police Office (BKA) in Germany as well as research and development entities, MITRE, 
-Fraunhofer IGD,  Hochschule Darmstadt (HAD)  and Secunet.  
+NFIQ 2
+======
 
-NFIQ 2.0 provides a higher resolution quality score, in range of 0-100 according 
-to the international biometric sample quality standard ISO/IEC 29794-1:2016 (as opposed to 1-5), 
-lower computation complexity, as well as support for quality assessment in mobile platform.
+[![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=iso_wg3)](https://travis-ci.org/usnistgov/NFIQ2)
+[![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/iso_wg3)
+[![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
-The major innovation of NFIQ was linking image quality to operational recognition performance. 
-This had several immediate benefits; it allowed quality values to be tightly defined and then numerically calibrated.
+--------------------------------------------------------------------------------
+
+ **IMPORTANT**: This branch is being actively developed by the ISO/IEC JTC 1
+SC 37 WG 3 Special Group towards ISO/IEC 29794-4 Recommendation 3.15. As a
+result, the code in this branch is **unstable**, and at times, may not build or
+produce expected results.
+
+--------------------------------------------------------------------------------
+
+Overview
+--------
+In 2004, the [National Institute of Standards and Technology (NIST)](https://www.nist.gov) developed the first open source and publicly available fingerprint quality assessment tool, [NIST Finger Image Quality (NFIQ)](https://www.nist.gov/services-resources/software/nist-biometric-image-software-nbis#NFIQ).
+NFIQ 2 is a revision of that tool.
+Advances in fingerprint technology since 2004 necessitated an update to NFIQ.
+As such, development of NFIQ 2 was initiated in 2011 as collaboration between
+NIST and Germany's [Federal Office for Information Security (BSI)](https://www.bsi.bund.de/)
+and [Federal Criminal Police Office (BKA)](https://www.bka.de), as well as research and development entities [MITRE](https://www.mitre.org),
+[Fraunhofer IGD](https://www.igd.fraunhofer.de/), [Hochschule Darmstadt (h_da)](https://h-da.de), and [Secunet](https://www.secunet.com).
+
+NFIQ 2 provides a higher resolution quality score in the range of [0-100], adhering
+to the international biometric sample quality standard [ISO/IEC 29794-1:2016](https://www.iso.org/standard/62782.html) (as opposed to the original NFIQ's 1-5),
+lower computation complexity, and support for quality assessment on mobile platforms.
+
+The major innovation of NFIQ was linking image quality to operational recognition performance.
+This allowed quality values to be tightly defined and then numerically calibrated.
 This, in turn, allowed for the standardization needed to support a worldwide deployment of fingerprint sensors with
-universally interpretable image qualities. NFIQ 2.0 is the basis for a revision of the 
-Technical Report [ISO/IEC 29794-4 Biometric sample quality -- Part 4:Finger image data:2010](http://www.iso.org/iso/catalogue_detail.htm?csnumber=50911) into an international standard.  Specifically, NFIQ quality features are being formally standardized as part of [ISO/IEC 29794-4 Biometric sample quality -- Part 4: Finger image data](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791) and NFIQ source code serves as the reference implementation of the standard.
+universally interpretable image qualities.
 
-Operationally, NFIQ has increased the reliability, accuracy, and interoperability  of fingerprint recognition 
+NFIQ 2 is the basis for a revision of the
+Technical Report [ISO/IEC TR 29794-4:2010](http://www.iso.org/iso/catalogue_detail.htm?csnumber=50911)
+into an international standard.  Specifically, NFIQ quality features are being formally standardized as part of
+[ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791) and
+NFIQ source code serves as the reference implementation of the standard.
+
+Operationally, NFIQ has increased the reliability, accuracy, and interoperability  of fingerprint recognition
 systems by identifying the samples that are likely to cause recognition failure.
 
-If you would like more information please read the [NFIQ 2.0 Report](https://www.nist.gov/document/nfiq2reportpdf).
+If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
 
-How to Build
+Dependencies
 ------------
-If all requirements have been met, building is as simple as:
+The following dependencies are included in this repository as git submodules:
+
+ * [BiomDI](https://github.com/usnistgov/biomdi) ([public domain license](https://github.com/usnistgov/biomdi/blob/master/LICENSE.md))
+ * [Biometric Evaluation Framework](https://github.com/usnistgov/libbiomeval) ([public domain license](https://github.com/usnistgov/libbiomeval/blob/master/LICENSE.md))
+   * Only required for standalone executable.
+   * Requires other non-bundled dependencies, please see the [README](https://github.com/usnistgov/libbiomeval/blob/master/README.md).
+ * [digestpp](https://github.com/kerukuro/digestpp) ([public domain license](https://github.com/kerukuro/digestpp/blob/master/LICENSE))
+ * [FingerJetFX OSE](https://github.com/FingerJetFXOSE/FingerJetFXOSE) ([LGPLv3 license](https://github.com/FingerJetFXOSE/FingerJetFXOSE/blob/master/COPYRIGHT.txt))
+ * [OpenCV](https://github.com/opencv/opencv) ([Apache 2 License](https://github.com/opencv/opencv/blob/master/LICENSE))
+
+Quick Build
+-----------
+**Linux and macOS:**
 ```bash
-make
-sudo make install
+mkdir build
+cd build
+cmake ..
+cmake --build .
 ```
 
-Library Path for `libbiomdi` will need to be set to run the binary.
-
-Requirements
-------------
- * A supported operating system:
-    * RHEL/CentOS >= 6.x
-    * Ubuntu
-    * macOS >= 10.11
-
- * System packages
-
-System Packages
----------------
-Some modules require system packages that may not be installed by default on
-all operating systems. Package names are listed below for RHEL/CentOS, Ubuntu and macOS
-(via [MacPorts](https://www.macports.org)). Other operating systems may use
-similarly-named packages.
-
-| Name      | RHEL/CentOS         | MacPorts                | Ubuntu             |
-|:---------:|:-------------------:|:-----------------------:|:------------------:|
-| gcc       | `gcc`               | n/a (requires  [Command Line Tools](https://developer.apple.com/download/more/))| `gcc-6`        |
-| g++       | `gcc-c++`           | n/a (requires  [Command Line Tools](https://developer.apple.com/download/more/))| `g++-6`        |
-| CMAKE     | `cmake`             | `cmake`                 | `cmake`            |
-| OpenCV    | `opencv-devel`      | Build from source included | `libopencv-dev` |
-
-*** A minimum version of OpenCV 2.4.2 is required and OpenCV 3.0 => is not supported at this time. ***
-
-*** MacOS users running 10.12 must use OpenCV 2.4.13.2 ***
-
-####OpenCV build steps if building locally
-
+**Windows:**
 ```bash
- mkdir libOpenCV && cd libOpenCV && cmake -D CMAKE_MAKE_PROGRAM=make ../OpenCV && make opencv_core opencv_ts opencv_imgproc opencv_highgui opencv_flann opencv_features2d opencv_calib3d opencv_ml opencv_video opencv_objdetect opencv_contrib opencv_nonfree opencv_gpu opencv_photo opencv_stitching opencv_videostab
- sudo make install
+mkdir build
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=%vcpkg_root%\\scripts\\buildsystems\\vcpkg.cmake -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A %platform%
+cmake --build .
 ```
 
-If you do not have root access or do not wish to install OpenCV you will need to set the Library Path for OpenCV
+OpenCV version
+--------------
+Originally, all major versions of OpenCV were supported by NFIQ 2. Due to the
+limited testing resources as well as slight differences in results between
+versions, NIST has chosen to rely on the latest release of OpenCV 4 as of this
+writing. **Using a different version of OpenCV may result in unstable NFIQ 2
+scores and is not supported.** Future updates to OpenCV versions should run the
+compliance test and larger sequestered tests without differences.
 
+Known Limitations
+-----------------
+
+ * **macOS**:
+   * Xcode 10 and later does not support 32-bit applications. In order to build
+     NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
+   * There has been no effort to test this code on Apple's M1 ARM architecture.
+
+ * **All Platforms**:
+   * The current NFIQ 2 executable binary is only supported on 64-bit machines.
 
 Communication
 -------------
 If you found a bug and can provide steps to reliably reproduce it, or if you
 have a feature request, please
-[open an issue](https://github.com/usnistgov/NFIQ/issues). Other
+[open an issue](https://github.com/usnistgov/NFIQ2/issues). Other
 questions may be addressed to the
-[project maintainers](mailto:nfiq2.development@nist.gov).
+[NIST project maintainers](mailto:nfiq2.development@nist.gov).
 
 License
 -------
 NFIQ is released in the public domain. See the
-[LICENSE](https://github.com/usnistgov/NFIQ/blob/master/LICENSE.md)
+[LICENSE](https://github.com/usnistgov/NFIQ2/blob/master/LICENSE.md)
 for details.
 

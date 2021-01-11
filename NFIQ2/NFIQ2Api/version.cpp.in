@@ -1,0 +1,14 @@
+// vendor and copyright information
+// visible in linux and windows resources
+@VERSION_VISIBILITY_ATTRIBUTE@
+char product_name[128] = "@NFIQ2_PRODUCT_NAME@";
+@VERSION_VISIBILITY_ATTRIBUTE@
+char product_vendor[128] = "@NFIQ2_PRODUCT_VENDOR@";
+// version information
+@VERSION_VISIBILITY_ATTRIBUTE@
+int version_major = @NFIQ2_VERSION_MAJOR@;
+@VERSION_VISIBILITY_ATTRIBUTE@
+int version_minor = @NFIQ2_VERSION_MINOR@;
+@VERSION_VISIBILITY_ATTRIBUTE@
+int version_patch = @NFIQ2_VERSION_PATCH@;
+

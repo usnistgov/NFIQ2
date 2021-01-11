@@ -1,8 +1,8 @@
 #ifndef FDAFEATURE_H
 #define FDAFEATURE_H
 #include <nfiq2/features/BaseFeature.h>
-#include <nfiq2/fingerprintimagedata.h>
-#include <nfiq2/interfacedefinitions.h>
+#include <nfiq2/fingerprintimagedata.hpp>
+#include <nfiq2/interfacedefinitions.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 

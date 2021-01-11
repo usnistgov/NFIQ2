@@ -8,8 +8,8 @@
 #include <nfiq2/features/OFFeature.h>
 #include <nfiq2/features/QualityMapFeatures.h>
 #include <nfiq2/features/RVUPHistogramFeature.h>
-#include <nfiq2/fingerprintimagedata.h>
-#include <nfiq2/nfiqexception.h>
+#include <nfiq2/fingerprintimagedata.hpp>
+#include <nfiq2/nfiqexception.hpp>
 #include <nfiq2/timer.hpp>
 #include <string.h>
 

@@ -1,6 +1,6 @@
 #include <nfiq2/features/FeatureFunctions.h>
 #include <nfiq2/features/OCLHistogramFeature.h>
-#include <nfiq2/nfiqexception.h>
+#include <nfiq2/nfiqexception.hpp>
 #include <nfiq2/timer.hpp>
 
 #include <sstream>

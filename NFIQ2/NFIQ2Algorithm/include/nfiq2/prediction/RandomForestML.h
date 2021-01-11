@@ -1,7 +1,7 @@
 #ifndef RANDOMFORESTML_H
 #define RANDOMFORESTML_H
 
-#include <nfiq2/interfacedefinitions.h>
+#include <nfiq2/interfacedefinitions.hpp>
 #include <opencv2/core/version.hpp>
 #include <stdio.h>
 #include <stdlib.h>

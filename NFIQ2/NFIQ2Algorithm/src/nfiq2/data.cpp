@@ -1,4 +1,4 @@
-#include <nfiq2/data.h>
+#include <nfiq2/data.hpp>
 
 #include <iomanip>
 #include <sstream>

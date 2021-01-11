@@ -12,7 +12,7 @@
 #include <nfiq2/tool/nfiq2_ui_log.h>
 #include <nfiq2/tool/nfiq2_ui_types.h>
 #include <nfiq2/tool/nfiq2_ui_utils.h>
-#include <nfiq2/version.h>
+#include <nfiq2/version.hpp>
 
 #include <array>
 #include <iostream>

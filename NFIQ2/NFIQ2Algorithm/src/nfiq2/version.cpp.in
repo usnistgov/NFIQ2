@@ -1,10 +1,9 @@
+#include <nfiq2/version.hpp>
 #include <string>
 
 #include "be_framework.h"
 #include "FRFXLL.h"
 #include "opencv2/core/version.hpp"
-
-#include "nfiq2/version.h"
 
 const unsigned int NFIQ::Version::Major = @NFIQ2_VERSION_MAJOR@;
 const unsigned int NFIQ::Version::Minor = @NFIQ2_VERSION_MINOR@;

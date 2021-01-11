@@ -1,4 +1,4 @@
-#include <nfiq2/nfiq2.h>
+#include <nfiq2/nfiq2.hpp>
 
 #include "nfiq2impl.h"
 

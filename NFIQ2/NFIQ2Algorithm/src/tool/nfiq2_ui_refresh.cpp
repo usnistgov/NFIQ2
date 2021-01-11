@@ -18,7 +18,7 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
-#include <nfiq2/nfiq2.h>
+#include <nfiq2/nfiq2.hpp>
 #include <nfiq2/timer.hpp>
 #include <nfiq2/tool/nfiq2_ui_exception.h>
 #include <nfiq2/tool/nfiq2_ui_image.h>

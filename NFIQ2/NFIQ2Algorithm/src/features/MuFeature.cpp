@@ -1,5 +1,5 @@
 #include <nfiq2/features/MuFeature.h>
-#include <nfiq2/nfiqexception.h>
+#include <nfiq2/nfiqexception.hpp>
 #include <nfiq2/timer.hpp>
 
 #include <sstream>

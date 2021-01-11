@@ -4,8 +4,8 @@
 #define BS_OCL 32 // block size for OCL
 
 #include <nfiq2/features/BaseFeature.h>
-#include <nfiq2/fingerprintimagedata.h>
-#include <nfiq2/interfacedefinitions.h>
+#include <nfiq2/fingerprintimagedata.hpp>
+#include <nfiq2/interfacedefinitions.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>

@@ -58,11 +58,11 @@ file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
 file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
 
 set(PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/interfacedefinitions.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/fingerprintimagedata.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/data.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/interfacedefinitions.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/fingerprintimagedata.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/data.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
 )
 
 add_library( ${PROJECT_NAME} STATIC

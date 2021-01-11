@@ -11,8 +11,8 @@
 #ifndef NFIQ2_UI_REFRESH_H_
 #define NFIQ2_UI_REFRESH_H_
 
-#include <nfiq2/nfiq2.h>
 #include <be_image_image.h>
+#include <nfiq2/nfiq2.h>
 
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"

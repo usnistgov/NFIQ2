@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "include/features/BaseFeature.h"
 #include "include/nfiq2/fingerprintimagedata.h"
 #include "include/nfiq2/interfacedefinitions.h"
-#include "include/features/BaseFeature.h"
 
 #include <list>
 #include <string>

@@ -55,7 +55,7 @@ link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/li
 link_directories( "${CMAKE_BINARY_DIR}/../../../biomdi" )
 
 set(SOURCE_FILES "")
-file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" )
+file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/*.cpp" )
 list( REMOVE_ITEM SOURCE_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/NFIQ2.cpp"
 )

@@ -12,7 +12,6 @@
 #include <getopt.h>
 #endif
 
-#include <nfiq2/nfiq2.h>
 #include <Timer.hpp>
 #include <be_image_image.h>
 #include <be_io_propertiesfile.h>
@@ -20,6 +19,7 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
+#include <nfiq2/nfiq2.h>
 
 #include "nfiq2_ui_exception.h"
 #include "nfiq2_ui_image.h"

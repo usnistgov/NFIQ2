@@ -6,13 +6,13 @@
 #include "ImgProcROIFeature.h"
 #include "LCSFeature.h"
 #include "MuFeature.h"
-#include "NFIQ2AlgorithmImpl.h"
 #include "OCLHistogramFeature.h"
 #include "OFFeature.h"
 #include "QualityMapFeatures.h"
 #include "RVUPHistogramFeature.h"
 #include "include/nfiq2/fingerprintimagedata.h"
 #include "include/nfiq2/nfiqexception.h"
+#include "nfiq2impl.h"
 
 #include "include/Timer.hpp"
 #include <iomanip>
@@ -92,8 +92,8 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 		    NFIQ::ActionableQualityFeedbackIdentifier_UniformImage;
 		isUniformImage = (fbUniform.actionableQualityValue <
 			    ActionableQualityFeedbackThreshold_UniformImage ?
-			      true :
-			      false);
+			true :
+			false);
 		actionableQuality.push_back(fbUniform);
 
 		// only return actionable feedback if so configured
@@ -111,8 +111,8 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 				    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow;
 				isEmptyImage = (fb.actionableQualityValue >
 					    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow ?
-					      true :
-					      false);
+					true :
+					false);
 				actionableQuality.push_back(fb);
 			}
 		}

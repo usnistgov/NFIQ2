@@ -2,9 +2,10 @@
 #ifndef INTERFACEDEFINITIONS_H
 #define INTERFACEDEFINITIONS_H
 
-#include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "data.h"
 
 #include <list>
 #include <string>

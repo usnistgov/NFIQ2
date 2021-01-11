@@ -16,7 +16,7 @@ include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 
 # Configure version header
 include("${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake")
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2_version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2_version.cpp")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp")
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")

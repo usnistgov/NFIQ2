@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef NFIQ2_DATA_H_
+#define NFIQ2_DATA_H_
 
 #include "nfiqexception.h"
 

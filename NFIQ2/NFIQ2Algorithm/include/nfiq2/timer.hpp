@@ -1,5 +1,5 @@
-#ifndef TIMER_HPP
-#define TIMER_HPP
+#ifndef NFIQ2_TIMER_HPP_
+#define NFIQ2_TIMER_HPP_
 
 #if defined(_WIN32) || defined(ming)
 #define WINDOWS

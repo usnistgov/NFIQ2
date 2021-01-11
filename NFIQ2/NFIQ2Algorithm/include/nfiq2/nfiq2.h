@@ -1,5 +1,5 @@
-#ifndef NFIQ2ALGORITHM_H_
-#define NFIQ2ALGORITHM_H_
+#ifndef NFIQ2_NFIQ2_H_
+#define NFIQ2_NFIQ2_H_
 
 #include "fingerprintimagedata.h"
 #include "interfacedefinitions.h"

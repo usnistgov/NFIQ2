@@ -1,6 +1,5 @@
-
-#ifndef INTERFACEDEFINITIONS_H
-#define INTERFACEDEFINITIONS_H
+#ifndef NFIQ2_INTERFACEDEFINITIONS_H_
+#define NFIQ2_INTERFACEDEFINITIONS_H_
 
 #include <stdio.h>
 #include <stdlib.h>

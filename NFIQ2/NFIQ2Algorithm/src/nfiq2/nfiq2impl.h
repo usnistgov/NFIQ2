@@ -5,7 +5,7 @@
 #include <nfiq2/interfacedefinitions.h>
 #include <nfiq2/nfiq2.h>
 #include <nfiq2/nfiqexception.h>
-#include <prediction/RandomForestML.h>
+#include <nfiq2/prediction/RandomForestML.h>
 
 #include "nfiq2impl.h"
 

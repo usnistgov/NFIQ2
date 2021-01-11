@@ -1,4 +1,4 @@
-#include <features/ImgProcROIFeature.h>
+#include <nfiq2/features/ImgProcROIFeature.h>
 #include <nfiq2/nfiqexception.h>
 #include <nfiq2/timer.hpp>
 #include <opencv2/core/version.hpp>

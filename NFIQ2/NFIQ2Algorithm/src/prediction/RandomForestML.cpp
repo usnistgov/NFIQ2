@@ -1,8 +1,8 @@
 #include <nfiq2/nfiqexception.h>
-#include <prediction/RandomForestML.h>
+#include <nfiq2/prediction/RandomForestML.h>
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-#include <prediction/RandomForestTrainedParams.h>
+#include <nfiq2/prediction/RandomForestTrainedParams.h>
 #endif
 
 #include <opencv2/core/version.hpp>

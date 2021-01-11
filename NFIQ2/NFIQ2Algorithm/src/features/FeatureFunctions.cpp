@@ -1,4 +1,4 @@
-#include <features/FeatureFunctions.h>
+#include <nfiq2/features/FeatureFunctions.h>
 #include <nfiq2/nfiqexception.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>

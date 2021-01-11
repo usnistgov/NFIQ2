@@ -1,4 +1,4 @@
-#include <features/FingerJetFXFeature.h>
+#include <nfiq2/features/FingerJetFXFeature.h>
 #include <nfiq2/nfiqexception.h>
 #include <nfiq2/timer.hpp>
 #include <string.h>

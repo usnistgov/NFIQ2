@@ -1,5 +1,5 @@
-#include <features/FeatureFunctions.h>
-#include <features/RVUPHistogramFeature.h>
+#include <nfiq2/features/FeatureFunctions.h>
+#include <nfiq2/features/RVUPHistogramFeature.h>
 #include <nfiq2/nfiqexception.h>
 #include <nfiq2/timer.hpp>
 #include <opencv2/core/core.hpp>

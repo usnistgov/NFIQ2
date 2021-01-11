@@ -1,9 +1,8 @@
 #ifndef NFIQ2ALGORITHM_H_
 #define NFIQ2ALGORITHM_H_
 
-#include "include/FingerprintImageData.h"
-#include "include/InterfaceDefinitions.h"
-#include "include/nfiq2_version.h"
+#include <FingerprintImageData.h>
+#include <InterfaceDefinitions.h>
 
 #include <list>
 #include <memory>

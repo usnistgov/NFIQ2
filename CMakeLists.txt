@@ -2,12 +2,22 @@ cmake_minimum_required (VERSION 3.3)
 
 project( NFIQ2_SUPERBUILD )
 
+message(STATUS "NFIQ 2 Superbuild")
+
 option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
 
 set( NO_SEARCH TRUE )
 
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
+
+# ExternalProjects have their own install() that we can't control, and
+# the `install' target is executed at superbuild build time. To counteract
+# this, we will set CMAKE_INSTALL_PREFIX to ${INSTALL_STAGING_DIR} for all
+# ExternalProjects, allowing the project to be built by non-root. The
+# superbuild's install (and ultimate packaging with CPack) will merely copy
+# this staging directory.
+set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging")
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -20,20 +30,8 @@ include( "${ROOT_PATH}/cmake/target.cmake" )
 # setup compiler
 include( "${ROOT_PATH}/cmake/compiler.cmake" )
 
-# create build and distribution path
-include( "${ROOT_PATH}/cmake/folders.cmake" )
-
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
-
-message( STATUS "----- Configuring ${PROJECT_NAME} -----" )
-message( STATUS "-- Project root path: '${ROOT_PATH}'" )
-message( STATUS "-- Project build path: '${BUILD_PATH}'" )
-message( STATUS "-- Project distribution path: '${DIST_PATH}'" )
-
-set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${DIST_PATH} )
-set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DIST_PATH} )
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DIST_PATH} )
 
 add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
@@ -51,19 +49,12 @@ elseif( 64BITS)
   )
 endif()
 
-# forwarding output configuration
-set( OUTPUT_CMAKE_ARGS
-  -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-  -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-  -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-)
-
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
   message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
   set(ANDROID_CMAKE_ARGS
     -DANDROID_ABI=${ANDROID_ABI}
-    -DANDROID_PLATFORM=${ANDROID_PLATFORM} 
+    -DANDROID_PLATFORM=${ANDROID_PLATFORM}
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
     -DANDROID_TARGET=${ANDROID_TARGET}
@@ -74,7 +65,7 @@ endif()
 if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
   message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
   set(IOS_CMAKE_ARGS
-    -DPLATFORM=${PLATFORM} 
+    -DPLATFORM=${PLATFORM}
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DENABLE_ARC=${ENABLE_ARC}
   )
@@ -85,12 +76,12 @@ include(ExternalProject)
 set(MULTI_CONFIG_ARGS)
 if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
 	if (${GENERATOR_IS_MULTI_CONFIG})
-		list(APPEND MULTI_CONFIG_ARGS 
+		list(APPEND MULTI_CONFIG_ARGS
 			-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
 			)
 	endif()
 elseif (MSVC OR Xcode)
-	list(APPEND MULTI_CONFIG_ARGS 
+	list(APPEND MULTI_CONFIG_ARGS
 		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
 		)
 endif()
@@ -120,10 +111,10 @@ set(OPENCV_CMAKE_ARGS
 	-DWITH_MSMF=OFF
 	-DWITH_FFMPEG=OFF
 	-DWITH_EIGEN=OFF
-	-DWITH_TBB=OFF 
-	-DWITH_OPENMP=OFF 
+	-DWITH_TBB=OFF
+	-DWITH_OPENMP=OFF
 	-DWITH_PTHREADS_PF=OFF
-	-DWITH_OPENJPEG=OFF 
+	-DWITH_OPENJPEG=OFF
 	-DBUILD_OPENJPEG=OFF
 	-DWITH_TIFF=OFF
 	-DBUILD_TIFF=OFF
@@ -133,7 +124,7 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_PNG=OFF
 	-DBUILD_ZLIB=OFF
 	-DBUILD_JASPER=OFF
-	-DBUILD_JPEG=OFF 
+	-DBUILD_JPEG=OFF
 	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo")
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
@@ -158,11 +149,10 @@ ExternalProject_Add(OpenCV
 	CMAKE_ARGS
 		${OPENCV_CMAKE_ARGS}
 		${COMPILER_CMAKE_ARGS}
-		${OUTPUT_CMAKE_ARGS}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
-	INSTALL_COMMAND	""
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 )
 
 if (BUILD_NFIQ2_CLI)
@@ -172,12 +162,10 @@ ExternalProject_Add(libbiomeval
 	CMAKE_ARGS
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
 		-DBUILD_BIOMEVAL_TESTS=OFF
-		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		-DBUILD_BIOMEVAL_SHARED=OFF
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
-	BUILD_ALWAYS	YES
-	INSTALL_DIR ${DIST_PATH}
 )
 endif(BUILD_NFIQ2_CLI)
 
@@ -189,15 +177,14 @@ ExternalProject_Add(nfiq2
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		-DTARGET_PLATFORM=${TARGET_PLATFORM}
 		${COMPILER_CMAKE_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 	BUILD_ALWAYS	YES
-	INSTALL_DIR ${DIST_PATH}
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi fmr FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi iid frf fir fmr FRFXLL FRFXLL_static)
 
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval)
@@ -208,10 +195,180 @@ ExternalProject_Add(nfiq2api
 	CMAKE_ARGS
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		${COMPILER_CMAKE_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${DIST_PATH}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
-	INSTALL_DIR ${DIST_PATH}
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)
+
+# Tell CPack to pack up the install
+include(GNUInstallDirs)
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_BINDIR}/"
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
+	FILE_PERMISSIONS
+		OWNER_READ OWNER_EXECUTE
+		GROUP_READ GROUP_EXECUTE
+		WORLD_READ WORLD_EXECUTE
+	COMPONENT nfiq2_cli)
+if (UNIX)
+	install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_DATADIR}/"
+		DESTINATION ${CMAKE_INSTALL_DATADIR}
+		COMPONENT nfiq2_cli)
+endif()
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_LIBDIR}/"
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	COMPONENT development)
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/"
+	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+	COMPONENT development)
+
+include(NFIQ2/version.cmake)
+set(CPACK_PACKAGE_NAME "${NFIQ2_PRODUCT_NAME}")
+set(CPACK_PACKAGE_VENDOR "${NFIQ2_PRODUCT_VENDOR}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${NFIQ2_PRODUCT_DESCRIPTION_SHORT}")
+set(CPACK_COMPONENT_NFIQ2_CLI_DESCRIPTION_SUMMARY "${NFIQ2_PRODUCT_DESCRIPTION_SHORT} command-line interface")
+set(CPACK_COMPONENT_DEVELOPMENT_DESCRIPTION_SUMMARY "${NFIQ2_PRODUCT_DESCRIPTION_SHORT} developer files")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/usnistgov/nfiq2")
+set(CPACK_PACKAGE_CONTACT "${NFIQ2_EMAIL}")
+set(CPACK_PACKAGE_VERSION "${NFIQ2_VERSION}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${NFIQ2_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${NFIQ2_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${NFIQ2_VERSION_PATCH}")
+
+# Move repo documentation into usable form for packages
+find_program(PANDOC pandoc)
+if (PANDOC)
+	set(DOC_FORMAT "rtf")
+
+	# Strip remote SVGs from README
+	execute_process(COMMAND grep -v ^\\[! "${ROOT_PATH}/README.md" OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/README.md")
+	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}" "${CMAKE_CURRENT_BINARY_DIR}/README.md")
+	set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}")
+
+	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.${DOC_FORMAT}" "${ROOT_PATH}/LICENSE.md")
+	set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.${DOC_FORMAT}")
+else()
+	file(COPY "${ROOT_PATH}/LICENSE.md" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+	file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.md" "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.txt")
+	set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.txt")
+
+	file(COPY "${ROOT_PATH}/README.md" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+	file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
+	set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
+endif()
+
+# Don't set "install_staging" component, because some generators will grab all
+# files for install, including the externalprojects.
+if (BUILD_NFIQ2_CLI)
+	set(CPACK_COMPONENTS_ALL nfiq2_cli development)
+else()
+	set(CPACK_COMPONENTS_ALL development)
+endif()
+set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line Interface")
+set(CPACK_COMPONENT_DEVELOPMENT_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
+
+set(CPACK_GENERATOR "ZIP")
+if (APPLE)
+	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+	list(APPEND CPACK_GENERATOR "productbuild")
+	execute_process(COMMAND sw_vers -productVersion OUTPUT_VARIABLE OSX_VERS)
+	string(STRIP "${OSX_VERS}" OSX_VERS)
+	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-macos-${OSX_VERS}")
+elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
+	# Install WiX from https://wixtoolset.org/releases/
+	list(APPEND CPACK_GENERATOR "WIX")
+	set(CPACK_PACKAGE_INSTALL_DIRECTORY "NFIQ 2")
+	set(CPACK_WIX_UPGRADE_GUID "492101f0-5052-11eb-bb05-1b5668cc0087")
+	set(CPACK_WIX_PRODUCT_GUID "992d809c-5052-11eb-9166-9376be0e1c42")
+
+	# Required for building on NIST machines
+	set(CPACK_WIX_CANDLE_EXTRA_FLAGS "-fips")
+
+	# WiX doesn't allow non-integer versions
+	if (NOT "${NFIQ2_VERSION_STATUS}" STREQUAL "")
+		set(WIX_MAJOR ${NFIQ2_VERSION_MAJOR})
+		set(WIX_MINOR ${NFIQ2_VERSION_MINOR})
+		set(WIX_PATCH ${NFIQ2_VERSION_PATCH})
+		set(WIX_STATUS "900")
+
+		# Major version pre-release (3.0.0 -> 2.999.999.900)
+		if (${WIX_MINOR} STREQUAL "0" AND ${WIX_PATCH} STREQUAL "0")
+			math(EXPR WIX_MAJOR "${WIX_MAJOR} - 1")
+			set(WIX_MINOR 999)
+			set(WIX_PATCH 999)
+		# Minor version pre-release (2.1.0 -> 2.0.999.900)
+		elseif (${WIX_PATCH} STREQUAL "0" AND NOT ${WIX_MINOR} STREQUAL "0")
+			math(EXPR WIX_MINOR "${WIX_MINOR} - 1")
+			set(WIX_PATCH 999)
+		# Patch version pre-release (2.1.2 -> 2.1.1.900)
+		elseif (NOT ${WIX_PATCH} STREQUAL "0" AND NOT ${WIX_MINOR} STREQUAL "0")
+			math(EXPR WIX_PATCH "${WIX_PATCH} - 1")
+		endif()
+
+		set(CPACK_PACKAGE_VERSION "${WIX_MAJOR}.${WIX_MINOR}.${WIX_PATCH}.${WIX_STATUS}")
+		set(CPACK_PACKAGE_VERSION_MAJOR "${WIX_MAJOR}")
+		set(CPACK_PACKAGE_VERSION_MINOR "${WIX_MINOR}")
+		set(CPACK_PACKAGE_VERSION_PATCH "${WIX_PATCH}")
+	endif()
+	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+		set(CPACK_SYSTEM_NAME "win64")
+	else()
+		set(CPACK_SYSTEM_NAME "win32")
+	endif()
+	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-${CPACK_SYSTEM_NAME}")
+elseif (EXISTS "/etc/lsb-release")
+	list(APPEND CPACK_GENERATOR "DEB")
+	set(CPACK_DEB_COMPONENT_INSTALL ON)
+
+	find_program(SHLIB dpkg-shlibdeps)
+	if (SHLIB)
+		set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+	else()
+		message(AUTHOR_WARNING "dpkg-shlibdeps not found. Run `sudo apt install dpkg-dev` to properly calculate dependencies on Debian.")
+		set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_DEPENDS "libc6,libstdc++6,libgcc-s1,libzstd1,liblzma5,libjbig0,libwebp6,libssl1.1,libopenjp2-7,libjpeg-turbo8,libpng16-16,libtiff5,zlib1g,libdb5.3++,libsqlite3-0")
+	endif()
+
+	# We're customizing the package name, so we need to define these ourselves
+	set(CPACK_DEBIAN_PACKAGE_RELEASE 1)
+	execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+	string(STRIP ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE} CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+
+	set(CPACK_DEBIAN_DEVELOPMENT_FILE_NAME "nfiq2-dev_${CPACK_PACKAGE_VERSION}-${CPACK_DEBIAN_PACKAGE_RELEASE}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
+	set(CPACK_DEBIAN_NFIQ2_CLI_FILE_NAME "nfiq2_${CPACK_PACKAGE_VERSION}-${CPACK_DEBIAN_PACKAGE_RELEASE}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
+
+	# Spaces are not allowed
+	set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_NAME "nfiq2-dev")
+	set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_NAME "nfiq2")
+
+	set(CPACK_DEBIAN_NFIQ2_CLI_COMPONENT_DESCRIPTION "${CPACK_COMPONENT_NFIQ2_CLI_DESCRIPTION_SUMMARY}")
+	set(CPACK_DEBIAN_DEVELOPMENT_COMPONENT_DESCRIPTION "${CPACK_COMPONENT_DEVELOPMENT_DESCRIPTION_SUMMARY}")
+	set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_CONTROL_STRICT_PERMISSION YES)
+	set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_CONTROL_STRICT_PERMISSION YES)
+elseif (EXISTS "/etc/redhat-release")
+	list(APPEND CPACK_GENERATOR "RPM")
+	set(CPACK_RPM_COMPONENT_INSTALL ON)
+
+	set(CPACK_RPM_MAIN_COMPONENT nfiq2_cli)
+	set(CPACK_RPM_PACKAGE_NAME "nfiq2")
+
+	# FIXME: Won't work, because we're installing "files"
+	set(CPACK_RPM_PACKAGE_AUTOREQ YES)
+	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_AUTOREQ 1)
+	set(CPACK_RPM_DEVELOPMENT_PACKAGE_AUTOREQ 1)
+	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_REQUIRES "openssl,openjpeg2,libjpeg-turbo,libpng,libtiff,zlib,libdb-cxx,sqlite")
+
+	# We're customizing the package name, so we need to define these ourselves
+	set(CPACK_RPM_PACKAGE_RELEASE 1)
+	execute_process(COMMAND uname -m OUTPUT_VARIABLE CPACK_RPM_PACKAGE_ARCHITECTURE)
+	string(STRIP ${CPACK_RPM_PACKAGE_ARCHITECTURE} CPACK_RPM_PACKAGE_ARCHITECTURE)
+
+	# Spaces allowed, but look weird
+	set(CPACK_RPM_DEVELOPMENT_PACKAGE_NAME "nfiq2-devel")
+	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_NAME "nfiq2")
+
+	set(CPACK_RPM_NFIQ2_CLI_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-${CPACK_RPM_PACKAGE_RELEASE}.${CPACK_RPM_PACKAGE_ARCHITECTURE}.rpm")
+	set(CPACK_RPM_DEVELOPMENT_FILE_NAME "nfiq2-devel-${CPACK_PACKAGE_VERSION}-${CPACK_RPM_PACKAGE_RELEASE}.${CPACK_RPM_PACKAGE_ARCHITECTURE}.rpm")
+endif()
+
+include(CPack)

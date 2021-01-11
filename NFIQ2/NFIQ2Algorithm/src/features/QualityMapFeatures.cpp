@@ -2,7 +2,7 @@
 #include "QualityMapFeatures.h"
 #include "include/nfiq2/nfiqexception.h"
 
-#include "include/Timer.hpp"
+#include "nfiq2/timer.hpp"
 #include <cmath>
 #include <sstream>
 

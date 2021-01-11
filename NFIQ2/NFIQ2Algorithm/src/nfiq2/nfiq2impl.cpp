@@ -14,7 +14,7 @@
 #include "include/nfiq2/nfiqexception.h"
 #include "nfiq2impl.h"
 
-#include "include/Timer.hpp"
+#include "nfiq2/timer.hpp"
 #include <iomanip>
 #include <iostream>
 #include <list>

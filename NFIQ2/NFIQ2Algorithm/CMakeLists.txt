@@ -16,18 +16,13 @@ include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 
 # Configure version header
 include("${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake")
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2_version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2_version.cpp")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp")
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/features")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/prediction")
-
-# add NFIQ2 tool include directories
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/tool")
 
 # add libbiomeval include directories
 include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
@@ -54,7 +49,7 @@ link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/li
 link_directories( "${CMAKE_BINARY_DIR}/../../../biomdi" )
 
 set(SOURCE_FILES "")
-file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" )
+file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/*.cpp" )
 list( REMOVE_ITEM SOURCE_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/NFIQ2.cpp"
 )
@@ -63,11 +58,11 @@ file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
 file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
 
 set(PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQ2Algorithm.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/InterfaceDefinitions.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/FingerprintImageData.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/Data.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/NFIQException.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/interfacedefinitions.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/fingerprintimagedata.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/data.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
 )
 
 add_library( ${PROJECT_NAME} STATIC

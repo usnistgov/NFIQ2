@@ -1,9 +1,8 @@
+#include <nfiq2/features/FingerJetFXFeature.h>
+#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2/timer.hpp>
 #include <string.h>
 
-#include "FingerJetFXFeature.h"
-#include "include/NFIQException.h"
-
-#include "include/Timer.hpp"
 #include <sstream>
 
 #define CBEFF (0x00330502)

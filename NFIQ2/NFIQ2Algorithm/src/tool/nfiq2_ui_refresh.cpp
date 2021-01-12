@@ -12,22 +12,21 @@
 #include <getopt.h>
 #endif
 
-#include <NFIQ2Algorithm.h>
-#include <Timer.hpp>
 #include <be_image_image.h>
 #include <be_io_propertiesfile.h>
 #include <be_io_recordstore.h>
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
-
-#include "nfiq2_ui_exception.h"
-#include "nfiq2_ui_image.h"
-#include "nfiq2_ui_log.h"
-#include "nfiq2_ui_refresh.h"
-#include "nfiq2_ui_threadedlog.h"
-#include "nfiq2_ui_types.h"
-#include "nfiq2_ui_utils.h"
+#include <nfiq2/nfiq2.hpp>
+#include <nfiq2/timer.hpp>
+#include <nfiq2/tool/nfiq2_ui_exception.h>
+#include <nfiq2/tool/nfiq2_ui_image.h>
+#include <nfiq2/tool/nfiq2_ui_log.h>
+#include <nfiq2/tool/nfiq2_ui_refresh.h>
+#include <nfiq2/tool/nfiq2_ui_threadedlog.h>
+#include <nfiq2/tool/nfiq2_ui_types.h>
+#include <nfiq2/tool/nfiq2_ui_utils.h>
 
 #include <cmath>
 #include <cstdio>

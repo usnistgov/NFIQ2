@@ -1,8 +1,8 @@
+#include <nfiq2/nfiq2.hpp>
+#include <nfiq2/nfiqexception.hpp>
 #include <opencv2/core/core_c.h>
 #include <opencv2/core/version.hpp>
 
-#include "NFIQ2Algorithm.h"
-#include "NFIQException.h"
 #include "nfiq2api.h"
 
 #include <cstdlib>

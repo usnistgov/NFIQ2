@@ -1,7 +1,7 @@
-#include "MuFeature.h"
-#include "include/NFIQException.h"
+#include <nfiq2/features/MuFeature.h>
+#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2/timer.hpp>
 
-#include "include/Timer.hpp"
 #include <sstream>
 
 using namespace NFIQ;

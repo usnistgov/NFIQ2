@@ -1,10 +1,9 @@
+#include <nfiq2/features/FeatureFunctions.h>
+#include <nfiq2/features/LCSFeature.h>
+#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2/timer.hpp>
 #include <opencv2/core/core.hpp>
 
-#include "FeatureFunctions.h"
-#include "LCSFeature.h"
-#include "include/NFIQException.h"
-
-#include "include/Timer.hpp"
 #include <iostream>
 #include <sstream>
 

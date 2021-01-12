@@ -1,12 +1,11 @@
-#include "FeatureFunctions.h"
-#include "OFFeature.h"
-#include "include/NFIQException.h"
-
-#include "include/Timer.hpp"
-#include <sstream>
-//#include <iostream>
 #include <math.h>
+#include <nfiq2/features/FeatureFunctions.h>
+#include <nfiq2/features/OFFeature.h>
+#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2/timer.hpp>
 #include <opencv2/core/core.hpp>
+
+#include <sstream>
 
 #if defined WINDOWS || defined WIN32
 #include <float.h>

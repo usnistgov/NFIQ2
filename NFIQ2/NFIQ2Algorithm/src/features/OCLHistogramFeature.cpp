@@ -1,8 +1,8 @@
-#include "FeatureFunctions.h"
-#include "OCLHistogramFeature.h"
-#include "include/NFIQException.h"
+#include <nfiq2/features/FeatureFunctions.h>
+#include <nfiq2/features/OCLHistogramFeature.h>
+#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2/timer.hpp>
 
-#include "include/Timer.hpp"
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32

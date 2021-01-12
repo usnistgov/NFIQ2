@@ -56,13 +56,15 @@ set(PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
 )
 
-add_library( ${PROJECT_NAME} STATIC
+set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")
+add_library( ${NFIQ2_STATIC_LIBRARY_TARGET} STATIC
   ${SOURCE_FILES}
   ${FEATURES_FILES}
   ${PREDICTION_FILES}
 )
-set_target_properties(${PROJECT_NAME} PROPERTIES
+set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
+    OUTPUT_NAME "nfiq2"
 )
 
 # FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds
@@ -74,7 +76,7 @@ find_library(FMR_STATIC fmr
 find_library(BIOMDI_STATIC biomdi
     PATHS "${CMAKE_BINARY_DIR}/../../../biomdi")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
+target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
 	${FRFXLL_STATIC}
 	${BIOMDI_STATIC}
 	${FMR_STATIC}
@@ -82,7 +84,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 )
 
 if(USE_SANITIZER)
-	target_link_libraries(${PROJECT_NAME} "asan")
+	target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} "asan")
 endif()
 
 # New NFIQ2 TOOL
@@ -104,7 +106,8 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 
 	# set the required libraries
-	set( PROJECT_LIBS nfiq2 )
+	add_dependencies(${NFIQ2_TEST_APP} ${NFIQ2_STATIC_LIBRARY_TARGET})
+	set( PROJECT_LIBS ${NFIQ2_STATIC_LIBRARY_TARGET} )
 
 	if("${TARGET_PLATFORM}" MATCHES "win*")
 	  add_definitions("-DNOMINMAX")
@@ -239,7 +242,7 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 endif(BUILD_NFIQ2_CLI)
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET}
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"

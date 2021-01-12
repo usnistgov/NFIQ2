@@ -18,7 +18,6 @@ extern const std::string Commit;
  * Third-Party Components
  */
 
-std::string BiometricEvaluation();
 extern const std::string OpenCV;
 std::string FingerJet();
 } // namespace Version

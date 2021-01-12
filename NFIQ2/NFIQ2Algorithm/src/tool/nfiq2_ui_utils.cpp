@@ -311,9 +311,7 @@ NFIQ2UI::printUsage()
 	std::cout << "-r: Recursive file scanning if a directory is provided"
 		  << "\n";
 	std::cout << "\nVersion Info\n------------\n"
-		  << "Biometric Evaluation: "
-		  << NFIQ::Version::BiometricEvaluation()
-		  << "\nFingerJet: " << NFIQ::Version::FingerJet()
+		  << "FingerJet: " << NFIQ::Version::FingerJet()
 		  << "\n"
 		     "OpenCV: "
 		  << NFIQ::Version::OpenCV

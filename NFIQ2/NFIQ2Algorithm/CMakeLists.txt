@@ -43,11 +43,6 @@ if("${TARGET_PLATFORM}" MATCHES "win*")
   include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/windows")
 endif()
 
-# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds
-# FIXME: are updated.
-link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src" )
-link_directories( "${CMAKE_BINARY_DIR}/../../../biomdi" )
-
 set(SOURCE_FILES "")
 file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/*.cpp" )
 file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
@@ -70,6 +65,26 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
+# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds
+# FIXME: are updated.
+find_library(FRFXLL_STATIC FRFXLL_static
+    PATHS "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
+find_library(FMR_STATIC fmr
+    PATHS "${CMAKE_BINARY_DIR}/../../../biomdi")
+find_library(BIOMDI_STATIC biomdi
+    PATHS "${CMAKE_BINARY_DIR}/../../../biomdi")
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+	${FRFXLL_STATIC}
+	${BIOMDI_STATIC}
+	${FMR_STATIC}
+	${OpenCV_LIBS}
+)
+
+if(USE_SANITIZER)
+	target_link_libraries(${PROJECT_NAME} "asan")
+endif()
+
 # New NFIQ2 TOOL
 if (BUILD_NFIQ2_CLI)
 	set( NFIQ2_TEST_APP "nfiq2-bin" )
@@ -84,29 +99,12 @@ if (BUILD_NFIQ2_CLI)
 	  "${CMAKE_CURRENT_SOURCE_DIR}/src/tool/nfiq2_ui_types.cpp"
 	)
 
-	add_dependencies( ${NFIQ2_TEST_APP}
-	  opencv_core
-	  opencv_ml
-	  opencv_imgproc
-	  opencv_highgui
-	  opencv_flann
-	  opencv_features2d
-	  opencv_calib3d
-	  opencv_video
-	  opencv_objdetect
-	)
-
 	if( USE_SANITIZER )
 	  target_link_libraries( ${NFIQ2_TEST_APP} "asan" )
 	endif()
 
 	# set the required libraries
-	set( PROJECT_LIBS
-	  nfiq2
-	  FRFXLL_static
-	  fmr
-	  biomdi
-	)
+	set( PROJECT_LIBS nfiq2 )
 
 	if("${TARGET_PLATFORM}" MATCHES "win*")
 	  add_definitions("-DNOMINMAX")
@@ -126,7 +124,7 @@ if (BUILD_NFIQ2_CLI)
 	  )
 	endif()
 
-	target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} ${OpenCV_LIBS} )
+	target_link_libraries( ${NFIQ2_TEST_APP} ${PROJECT_LIBS} )
 
 	# Windows builds require crypt32 supplemental library for OpenSSL
 	if(MSVC)

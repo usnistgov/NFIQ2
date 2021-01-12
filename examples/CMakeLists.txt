@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 
 project(examples)
 
-option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" NO)
+option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
 
 # TODO: Add find_package for NFIQ2
 set(NFIQ2_INSTALL_DIR /usr/local)

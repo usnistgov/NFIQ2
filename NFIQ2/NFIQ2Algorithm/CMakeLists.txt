@@ -63,57 +63,24 @@ add_library( ${NFIQ2_STATIC_LIBRARY_TARGET} STATIC
   ${PREDICTION_FILES}
 )
 
-set(NFIQ2_SHARED_LIBRARY_TARGET "nfiq2-shared-lib")
-add_library( ${NFIQ2_SHARED_LIBRARY_TARGET} SHARED
-  ${SOURCE_FILES}
-  ${FEATURES_FILES}
-  ${PREDICTION_FILES}
-)
-
 set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
     OUTPUT_NAME "nfiq2"
 )
 
-set_target_properties(${NFIQ2_SHARED_LIBRARY_TARGET} PROPERTIES
-	PUBLIC_HEADER "${PUBLIC_HEADERS}"
-	OUTPUT_NAME "nfiq2"
-	CXX_VISIBILITY_PRESET "default"
-	SOVERSION ${NFIQ2_VERSION_MAJOR}
-	VERSION ${NFIQ2_VERSION}
-)
-if (MSVC)
-	set_target_properties(${NFIQ2_SHARED_LIBRARY_TARGET} PROPERTIES
-#	    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
-	    CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd"
-	    CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
-endif()
-
 # FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds
 # FIXME: are updated.
-find_library(FRFXLL_STATIC FRFXLL_static
-    PATHS "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
-find_library(FMR_STATIC fmr
-    PATHS "${CMAKE_BINARY_DIR}/../../../biomdi")
-find_library(BIOMDI_STATIC biomdi
-    PATHS "${CMAKE_BINARY_DIR}/../../../biomdi")
-
+link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>")
+link_directories("${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>")
 target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
-	${FRFXLL_STATIC}
-	${BIOMDI_STATIC}
-	${FMR_STATIC}
-	${OpenCV_LIBS}
-)
-target_link_libraries(${NFIQ2_SHARED_LIBRARY_TARGET} PUBLIC
-	${FRFXLL_STATIC}
-	${BIOMDI_STATIC}
-	${FMR_STATIC}
+	FRFXLL_static
+	biomdi
+	fmr
 	${OpenCV_LIBS}
 )
 
 if(USE_SANITIZER)
 	target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} "asan")
-	target_link_libraries(${NFIQ2_SHARED_LIBRARY_TARGET} "asan")
 endif()
 
 # New NFIQ2 TOOL
@@ -271,7 +238,7 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 endif(BUILD_NFIQ2_CLI)
 
-install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET} ${NFIQ2_SHARED_LIBRARY_TARGET}
+install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET}
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"

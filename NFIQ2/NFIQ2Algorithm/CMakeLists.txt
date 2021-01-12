@@ -110,15 +110,7 @@ if (BUILD_NFIQ2_CLI)
 
 	if("${TARGET_PLATFORM}" MATCHES "win*")
 	  add_definitions("-DNOMINMAX")
-	  if( "${OPENCV_VERSION}" MATCHES "^3.*")
-	    set( PROJECT_LIBS ${PROJECT_LIBS}
-	      ws2_32
-	    )
-	  else()
-	    set( PROJECT_LIBS ${PROJECT_LIBS}
-	      ws2_32
-	    )
-	  endif()
+	  set( PROJECT_LIBS ${PROJECT_LIBS} ws2_32 )
 	elseif("${TARGET_PLATFORM}" MATCHES "android*")
 	  find_package(Threads REQUIRED)
 	  set( PROJECT_LIBS ${PROJECT_LIBS}

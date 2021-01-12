@@ -8,6 +8,7 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
+#include <be_framework.h>
 #include <be_io_utility.h>
 #include <nfiq2/tool/nfiq2_ui_log.h>
 #include <nfiq2/tool/nfiq2_ui_types.h>
@@ -22,6 +23,13 @@
 #include <vector>
 
 namespace BE = BiometricEvaluation;
+
+std::string
+NFIQ2UI::getBiomevalVersion()
+{
+	return (std::to_string(BE::Framework::getMajorVersion()) + "." +
+	    std::to_string(BE::Framework::getMinorVersion()));
+}
 
 // Returns FileType Enum
 NFIQ2UI::FileType
@@ -311,6 +319,8 @@ NFIQ2UI::printUsage()
 	std::cout << "-r: Recursive file scanning if a directory is provided"
 		  << "\n";
 	std::cout << "\nVersion Info\n------------\n"
+		  << "Biometric Evaluation: " << NFIQ2UI::getBiomevalVersion()
+		  << "\n"
 		  << "FingerJet: " << NFIQ::Version::FingerJet()
 		  << "\n"
 		     "OpenCV: "

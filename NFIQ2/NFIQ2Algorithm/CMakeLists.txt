@@ -70,8 +70,10 @@ set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
 
 # FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds
 # FIXME: are updated.
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>")
-link_directories("${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>")
+link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
+link_directories("${CMAKE_BINARY_DIR}/../../../biomdi")
+link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
+link_directories("${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
 target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
 	FRFXLL_static
 	biomdi

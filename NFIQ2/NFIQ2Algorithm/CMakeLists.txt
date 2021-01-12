@@ -54,6 +54,7 @@ set(PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/fingerprintimagedata.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/data.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/modelinfo.hpp"
 )
 
 set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")

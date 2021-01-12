@@ -1,18 +1,8 @@
-NFIQ 2
-======
+# NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
 
 [![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=iso_wg3)](https://travis-ci.org/usnistgov/NFIQ2)
 [![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/iso_wg3?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/iso_wg3)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
-
---------------------------------------------------------------------------------
-
- **IMPORTANT**: This branch is being actively developed by the ISO/IEC JTC 1
-SC 37 WG 3 Special Group towards ISO/IEC 29794-4 Recommendation 3.15. As a
-result, the code in this branch is **unstable**, and at times, may not build or
-produce expected results.
-
---------------------------------------------------------------------------------
 
 Overview
 --------
@@ -70,7 +60,7 @@ cmake --build .
 ```bash
 mkdir build
 cd build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=%vcpkg_root%\\scripts\\buildsystems\\vcpkg.cmake -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A %platform%
+cmake .. -DCMAKE_TOOLCHAIN_FILE=%vcpkg_root%\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=%platform%-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A %platform%
 cmake --build .
 ```
 

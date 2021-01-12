@@ -737,9 +737,11 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 	static const std::string ShareDirUnix { "/usr/share/nfiq2" };
 	static const std::string ShareDirLocalUnix { "/usr/local/share/nfiq2" };
 	static const std::string ShareDirWin32 {
-		"C:/Program Files (x86)/NFIQ 2"
+		"C:/Program Files (x86)/NFIQ 2/bin"
 	};
-	static const std::string ShareDirWin64 { "C:/Program Files/NFIQ 2" };
+	static const std::string ShareDirWin64 {
+		"C:/Program Files/NFIQ 2/bin"
+	};
 
 	std::string modelInfoFilePath {};
 

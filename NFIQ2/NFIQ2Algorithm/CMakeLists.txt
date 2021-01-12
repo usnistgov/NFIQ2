@@ -210,11 +210,20 @@ if (BUILD_NFIQ2_CLI)
 	install(TARGETS ${NFIQ2_TEST_APP}
 	    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 	    COMPONENT install_staging)
-	# FIXME: This should be DATAROOTDIR
-	install(FILES
-	    "${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.yaml"
-	    DESTINATION ${CMAKE_INSTALL_BINDIR}
-	    COMPONENT install_staging)
+
+	if (UNIX)
+		install(FILES
+		    "${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.txt"
+		    "${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.yaml"
+		    DESTINATION ${CMAKE_INSTALL_DATADIR}
+		    COMPONENT install_staging)
+	else()
+		install(FILES
+		    "${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.txt"
+		    "${CMAKE_CURRENT_SOURCE_DIR}/../nist_plain_tir-ink.yaml"
+		    DESTINATION ${CMAKE_INSTALL_BINDIR}
+		    COMPONENT install_staging)
+	endif()
 
 	# Install Man Page for Unix Systems
 	if(UNIX)

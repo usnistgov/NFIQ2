@@ -15,9 +15,9 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
 ##################################################
   if( USE_SANITIZER )
     message( STATUS "${Pk}Configure diagnostic build with sanitizer${Na}")
-    add_definitions( "-O0 -fvisibility=hidden -Wno-unused-variable -fsanitize=address -fsanitize=leak -fstack-check -fno-omit-frame-pointer -static-libasan" )
+    add_definitions( "-O0 -Wno-unused-variable -fsanitize=address -fsanitize=leak -fstack-check -fno-omit-frame-pointer -static-libasan" )
   else()
-    add_definitions( "-O3 -fvisibility=hidden -Wno-unused-variable " )
+    add_definitions( "-O3 -Wno-unused-variable " )
   endif()
   if("${TARGET_PLATFORM}" MATCHES "win*")
     add_definitions("-DWIN32 -D_WIN32")

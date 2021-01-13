@@ -20,6 +20,7 @@
 #include <be_text.h>
 #include <nfiq2/nfiq2.hpp>
 #include <nfiq2/timer.hpp>
+#include <nfiq2/modelinfo.hpp>
 #include <nfiq2/tool/nfiq2_ui_exception.h>
 #include <nfiq2/tool/nfiq2_ui_image.h>
 #include <nfiq2/tool/nfiq2_ui_log.h>
@@ -728,7 +729,7 @@ NFIQ2UI::printHeader(
 	}
 }
 
-std::tuple<std::string, std::string>
+std::shared_ptr<NFIQ::ModelInfo>
 NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 {
 	static const std::string DefaultModelInfoFilename {
@@ -768,60 +769,29 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		modelInfoFilePath = arguments.flags.model;
 	}
 
-	// FIXME: Make below a separate function and make a Model class
-	static const std::string ModelInfoKeyName { "Name" };
-	static const std::string ModelInfoKeyTrainer { "Trainer" };
-	static const std::string ModelInfoKeyDescription { "Description" };
-	static const std::string ModelInfoKeyVersion { "Version" };
-	static const std::string ModelInfoKeyPath { "Path" };
-	static const std::string ModelInfoKeyHash { "Hash" };
-
-	std::unique_ptr<BE::IO::Properties> props;
-	std::string modelFile, hash;
-
+	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj{};
 	try {
-		props.reset(new BE::IO::PropertiesFile(
-		    modelInfoFilePath, BE::IO::Mode::ReadOnly));
-	} catch (const BE::Error::Exception &e) {
-		throw NFIQ2UI::PropertyParseError(
-		    "Unable to parse model info file '" + modelInfoFilePath +
-		    "' (" + e.whatString() + ')');
-	}
-
-	try {
-		modelFile = props->getProperty(ModelInfoKeyPath);
-		if (modelFile.empty())
-			throw BE::Error::StrategyError("No path provided");
-	} catch (const BE::Error::Exception &e) {
-		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyPath + "' from '" + modelInfoFilePath + "' (" +
-		    e.whatString() + ')');
+		modelInfoObj = std::make_shared<NFIQ::ModelInfo>(modelInfoFilePath);
+	} catch (const NFIQ::NFIQException &e) {
+		throw NFIQ2UI::FileNotFoundError("Could not construct ModelInfo Object from: " + modelInfoFilePath);
 	}
 
 	// Path to model might be relative to the model info file, not the cwd
-	if ((modelFile.front() != '/') &&
-	    ((modelFile.length() > 2) && (modelFile.substr(0, 2) != "\\\\")) &&
-	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":\\")) &&
-	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":/"))) {
-		modelFile = BE::Text::dirname(modelInfoFilePath) + '/' +
-		    modelFile;
+	if ((modelInfoObj->getModelPath().front() != '/') &&
+	    ((modelInfoObj->getModelPath().length() > 2) && (modelInfoObj->getModelPath().substr(0, 2) != "\\\\")) &&
+	    ((modelInfoObj->getModelPath().length() > 3) && (modelInfoObj->getModelPath().substr(1, 2) != ":\\")) &&
+	    ((modelInfoObj->getModelPath().length() > 3) && (modelInfoObj->getModelPath().substr(1, 2) != ":/"))) {
+		modelInfoObj->setModelPath(BE::Text::dirname(modelInfoFilePath) + '/' +
+		    modelInfoObj->getModelPath());
 	}
 
-	if (!BE::IO::Utility::fileExists(modelFile)) {
+	if (!BE::IO::Utility::fileExists(modelInfoObj->getModelPath())) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyPath + "' from '" + modelInfoFilePath +
-		    "' (No file exists at '" + modelFile + "')");
+		    NFIQ::ModelInfo::ModelInfoKeyPath + "' from '" + modelInfoFilePath +
+		    "' (No file exists at '" + modelInfoObj->getModelPath() + "')");
 	}
 
-	try {
-		hash = props->getProperty(ModelInfoKeyHash);
-	} catch (const BE::Error::Exception &e) {
-		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyHash + "' from '" + modelInfoFilePath + "' (" +
-		    e.whatString() + ')');
-	}
-
-	return std::make_tuple(modelFile, hash);
+	return modelInfoObj;
 }
 
 int
@@ -859,18 +829,24 @@ main(int argc, char **argv)
 	double timeInit = 0.0;
 	timerInit.startTimer();
 
-	std::string modelFile;
-	std::string hash;
+	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj{};
 
 	try {
-		std::tie(modelFile, hash) = NFIQ2UI::parseModel(arguments);
+		modelInfoObj = NFIQ2UI::parseModel(arguments);
 	} catch (const NFIQ2UI::Exception &e) {
 		std::cerr << "Unable to extract model information. " << e.what()
 			  << "\n";
 		return EXIT_FAILURE;
 	}
 
-	const NFIQ::NFIQ2Algorithm model(modelFile, hash);
+	logger->debugMsg("Model Name: " + modelInfoObj->getModelName());
+	logger->debugMsg("Model Trainer: " + modelInfoObj->getModelTrainer());
+	logger->debugMsg("Model Description: " + modelInfoObj->getModelDescription());
+	logger->debugMsg("Model Version: " + modelInfoObj->getModelVersion());
+	logger->debugMsg("Model Path: " + modelInfoObj->getModelPath());
+	logger->debugMsg("Model Hash: " + modelInfoObj->getModelHash());
+
+	const NFIQ::NFIQ2Algorithm model(modelInfoObj->getModelPath(), modelInfoObj->getModelHash());
 
 	timeInit = timerInit.endTimerAndGetElapsedTime();
 

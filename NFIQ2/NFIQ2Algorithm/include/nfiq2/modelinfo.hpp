@@ -1,5 +1,5 @@
-#ifndef NFIQ2_modelinfo_H_
-#define NFIQ2_modelinfo_H_
+#ifndef NFIQ2_MODELINFO_H_
+#define NFIQ2_MODELINFO_H_
 
 #include <string>
 #include <unordered_map>
@@ -8,16 +8,80 @@ namespace NFIQ {
 /** Model Class containing Model Information */
 class ModelInfo {
     public:
-	ModelInfo(const std::string modelInfoFilePath);
+	ModelInfo(const std::string& modelInfoFilePath);
 	~ModelInfo();
 
-	std::string getModelName();
-	std::string getModelTrainer();
-	std::string getModelDescription();
-	std::string getModelVersion();
-	std::string getModelPath();
-	std::string getModelHash();
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	std::string getModelName() const;
 
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	std::string getModelTrainer() const;
+
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	std::string getModelDescription() const;
+
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	std::string getModelVersion() const;
+
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	std::string getModelPath() const;
+
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	std::string getModelHash() const;
+
+	/**
+	 * @brief
+	 * Computes the quality score from the input fingerprint image
+	 * data.
+	 *
+	 * @return
+	 * Achieved quality score
+	 */
+	void setModelPath(const std::string& newPath);
+
+	/** Static strings for Model Info File Keys */
 	static const std::string ModelInfoKeyName;
 	static const std::string ModelInfoKeyTrainer;
 	static const std::string ModelInfoKeyDescription;
@@ -37,8 +101,16 @@ class ModelInfo {
 	ModelInfo &operator=(const ModelInfo &) = delete;
 };
 
+/**
+ * @brief
+ * Computes the quality score from the input fingerprint image
+ * data.
+ *
+ * @return
+ * Achieved quality score
+ */
 std::unordered_map<std::string, std::string> parseModelInfoFile(
-    const std::string modelInfoFilePath);
+    const std::string& modelInfoFilePath);
 
 } // namespace NFIQ
 

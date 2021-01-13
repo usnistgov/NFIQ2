@@ -12,7 +12,7 @@ const std::string NFIQ::ModelInfo::ModelInfoKeyVersion = "Version";
 const std::string NFIQ::ModelInfo::ModelInfoKeyPath = "Path";
 const std::string NFIQ::ModelInfo::ModelInfoKeyHash = "Hash";
 
-NFIQ::ModelInfo::ModelInfo(const std::string modelInfoFilePath)
+NFIQ::ModelInfo::ModelInfo(const std::string& modelInfoFilePath)
 {
 
 	std::unordered_map<std::string, std::string> modelInfoMap {};
@@ -22,52 +22,61 @@ NFIQ::ModelInfo::ModelInfo(const std::string modelInfoFilePath)
 		throw NFIQ::NFIQException(1, "Model Class Failed Construction");
 	}
 
-	modelInfoMap[ModelInfoKeyName] = this->modelName;
-	modelInfoMap[ModelInfoKeyTrainer] = this->modelTrainer;
-	modelInfoMap[ModelInfoKeyDescription] = this->modelDescription;
-	modelInfoMap[ModelInfoKeyVersion] = this->modelVersion;
-	modelInfoMap[ModelInfoKeyPath] = this->modelPath;
-	modelInfoMap[ModelInfoKeyHash] = this->modelHash;
+	this->modelName = modelInfoMap[ModelInfoKeyName];
+	this->modelTrainer = modelInfoMap[ModelInfoKeyTrainer];
+	this->modelDescription = modelInfoMap[ModelInfoKeyDescription];
+	this->modelVersion = modelInfoMap[ModelInfoKeyVersion];
+	this->modelPath = modelInfoMap[ModelInfoKeyPath];
+	this->modelHash = modelInfoMap[ModelInfoKeyHash];
+}
+
+NFIQ::ModelInfo::~ModelInfo()
+{
 }
 
 std::string
-NFIQ::ModelInfo::getModelName()
+NFIQ::ModelInfo::getModelName() const
 {
 	return this->modelName;
 }
 
 std::string
-NFIQ::ModelInfo::getModelTrainer()
+NFIQ::ModelInfo::getModelTrainer() const
 {
 	return this->modelTrainer;
 }
 
 std::string
-NFIQ::ModelInfo::getModelDescription()
+NFIQ::ModelInfo::getModelDescription() const
 {
 	return this->modelDescription;
 }
 
 std::string
-NFIQ::ModelInfo::getModelVersion()
+NFIQ::ModelInfo::getModelVersion() const
 {
 	return this->modelVersion;
 }
 
 std::string
-NFIQ::ModelInfo::getModelPath()
+NFIQ::ModelInfo::getModelPath() const
 {
 	return this->modelPath;
 }
 
 std::string
-NFIQ::ModelInfo::getModelHash()
+NFIQ::ModelInfo::getModelHash() const
 {
 	return this->modelHash;
 }
 
+void
+NFIQ::ModelInfo::setModelPath(const std::string& newPath) {
+	this->modelPath = newPath;
+}
+
 std::unordered_map<std::string, std::string>
-NFIQ::parseModelInfoFile(const std::string modelInfoFilePath)
+NFIQ::parseModelInfoFile(const std::string& modelInfoFilePath)
 {
 	std::unordered_map<std::string, std::string> modelInfoMap {};
 

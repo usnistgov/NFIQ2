@@ -125,6 +125,7 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_ZLIB=OFF
 	-DBUILD_JASPER=OFF
 	-DBUILD_JPEG=OFF
+	-DWITH_ADE=OFF
 	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo")
 
 if("${TARGET_PLATFORM}" MATCHES "win*")

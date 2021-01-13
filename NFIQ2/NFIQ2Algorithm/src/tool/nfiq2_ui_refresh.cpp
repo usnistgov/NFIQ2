@@ -18,9 +18,9 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
+#include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiq2.hpp>
 #include <nfiq2/timer.hpp>
-#include <nfiq2/modelinfo.hpp>
 #include <nfiq2/tool/nfiq2_ui_exception.h>
 #include <nfiq2/tool/nfiq2_ui_image.h>
 #include <nfiq2/tool/nfiq2_ui_log.h>
@@ -769,26 +769,34 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		modelInfoFilePath = arguments.flags.model;
 	}
 
-	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj{};
+	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj {};
 	try {
-		modelInfoObj = std::make_shared<NFIQ::ModelInfo>(modelInfoFilePath);
+		modelInfoObj = std::make_shared<NFIQ::ModelInfo>(
+		    modelInfoFilePath);
 	} catch (const NFIQ::NFIQException &e) {
-		throw NFIQ2UI::FileNotFoundError("Could not construct ModelInfo Object from: " + modelInfoFilePath);
+		throw NFIQ2UI::FileNotFoundError(
+		    "Could not construct ModelInfo Object from: " +
+		    modelInfoFilePath);
 	}
 
 	// Path to model might be relative to the model info file, not the cwd
 	if ((modelInfoObj->getModelPath().front() != '/') &&
-	    ((modelInfoObj->getModelPath().length() > 2) && (modelInfoObj->getModelPath().substr(0, 2) != "\\\\")) &&
-	    ((modelInfoObj->getModelPath().length() > 3) && (modelInfoObj->getModelPath().substr(1, 2) != ":\\")) &&
-	    ((modelInfoObj->getModelPath().length() > 3) && (modelInfoObj->getModelPath().substr(1, 2) != ":/"))) {
-		modelInfoObj->setModelPath(BE::Text::dirname(modelInfoFilePath) + '/' +
+	    ((modelInfoObj->getModelPath().length() > 2) &&
+		(modelInfoObj->getModelPath().substr(0, 2) != "\\\\")) &&
+	    ((modelInfoObj->getModelPath().length() > 3) &&
+		(modelInfoObj->getModelPath().substr(1, 2) != ":\\")) &&
+	    ((modelInfoObj->getModelPath().length() > 3) &&
+		(modelInfoObj->getModelPath().substr(1, 2) != ":/"))) {
+		modelInfoObj->setModelPath(
+		    BE::Text::dirname(modelInfoFilePath) + '/' +
 		    modelInfoObj->getModelPath());
 	}
 
 	if (!BE::IO::Utility::fileExists(modelInfoObj->getModelPath())) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    NFIQ::ModelInfo::ModelInfoKeyPath + "' from '" + modelInfoFilePath +
-		    "' (No file exists at '" + modelInfoObj->getModelPath() + "')");
+		    NFIQ::ModelInfo::ModelInfoKeyPath + "' from '" +
+		    modelInfoFilePath + "' (No file exists at '" +
+		    modelInfoObj->getModelPath() + "')");
 	}
 
 	return modelInfoObj;
@@ -829,7 +837,7 @@ main(int argc, char **argv)
 	double timeInit = 0.0;
 	timerInit.startTimer();
 
-	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj{};
+	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj {};
 
 	try {
 		modelInfoObj = NFIQ2UI::parseModel(arguments);
@@ -841,12 +849,21 @@ main(int argc, char **argv)
 
 	logger->debugMsg("Model Name: " + modelInfoObj->getModelName());
 	logger->debugMsg("Model Trainer: " + modelInfoObj->getModelTrainer());
-	logger->debugMsg("Model Description: " + modelInfoObj->getModelDescription());
+	logger->debugMsg(
+	    "Model Description: " + modelInfoObj->getModelDescription());
 	logger->debugMsg("Model Version: " + modelInfoObj->getModelVersion());
 	logger->debugMsg("Model Path: " + modelInfoObj->getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj->getModelHash());
 
-	const NFIQ::NFIQ2Algorithm model(modelInfoObj->getModelPath(), modelInfoObj->getModelHash());
+	std::shared_ptr<NFIQ::NFIQ2Algorithm> model {};
+	try {
+		model = std::make_shared<NFIQ::NFIQ2Algorithm>(
+		    modelInfoObj->getModelPath(), modelInfoObj->getModelHash());
+	} catch (NFIQ::NFIQException &e) {
+		std::cerr << "Model could not be constructed. " << e.what()
+			  << "\n";
+		return EXIT_FAILURE;
+	}
 
 	timeInit = timerInit.endTimerAndGetElapsedTime();
 
@@ -876,21 +893,21 @@ main(int argc, char **argv)
 
 	// Process single images - includes AN2K files
 	logger->debugMsg("Processing Singles and AN2K files:");
-	NFIQ2UI::procSingle(arguments, model, logger);
+	NFIQ2UI::procSingle(arguments, *model, logger);
 
 	logger->debugMsg("Processing Directories:");
 	for (const auto &i : arguments.vecDirs) {
-		NFIQ2UI::parseDirectory(i, arguments.flags, model, logger);
+		NFIQ2UI::parseDirectory(i, arguments.flags, *model, logger);
 	}
 
 	logger->debugMsg("Processing Batch-files:");
 	for (const auto &i : arguments.vecBatch) {
-		NFIQ2UI::executeBatch(i, arguments.flags, model, logger);
+		NFIQ2UI::executeBatch(i, arguments.flags, *model, logger);
 	}
 
 	logger->debugMsg("Processing RecordStores:");
 	for (const auto &i : arguments.vecRecordStore) {
-		NFIQ2UI::executeRecordStore(i, arguments.flags, model, logger);
+		NFIQ2UI::executeRecordStore(i, arguments.flags, *model, logger);
 	}
 
 	return EXIT_SUCCESS;

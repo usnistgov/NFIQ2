@@ -12,9 +12,8 @@ const std::string NFIQ::ModelInfo::ModelInfoKeyVersion = "Version";
 const std::string NFIQ::ModelInfo::ModelInfoKeyPath = "Path";
 const std::string NFIQ::ModelInfo::ModelInfoKeyHash = "Hash";
 
-NFIQ::ModelInfo::ModelInfo(const std::string& modelInfoFilePath)
+NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 {
-
 	std::unordered_map<std::string, std::string> modelInfoMap {};
 	try {
 		modelInfoMap = parseModelInfoFile(modelInfoFilePath);
@@ -71,12 +70,13 @@ NFIQ::ModelInfo::getModelHash() const
 }
 
 void
-NFIQ::ModelInfo::setModelPath(const std::string& newPath) {
+NFIQ::ModelInfo::setModelPath(const std::string &newPath)
+{
 	this->modelPath = newPath;
 }
 
 std::unordered_map<std::string, std::string>
-NFIQ::parseModelInfoFile(const std::string& modelInfoFilePath)
+NFIQ::parseModelInfoFile(const std::string &modelInfoFilePath)
 {
 	std::unordered_map<std::string, std::string> modelInfoMap {};
 
@@ -86,15 +86,16 @@ NFIQ::parseModelInfoFile(const std::string& modelInfoFilePath)
 	if (fp.is_open()) {
 
 		while (std::getline(fp, line)) {
-
-			const std::string start = line.substr(
-			    0, line.find('=') - 1);
-			const std::string end = line.substr(
-			    line.find('=') + 2, line.size() - 1);
-
-			modelInfoMap[start] = end;
+			if (line.find('=') == std::string::npos) {
+				continue;
+			} else {
+				const std::string start = line.substr(
+				    0, line.find('=') - 1);
+				const std::string end = line.substr(
+				    line.find('=') + 2, line.size() - 1);
+				modelInfoMap[start] = end;
+			}
 		}
-
 		fp.close();
 
 	} else {

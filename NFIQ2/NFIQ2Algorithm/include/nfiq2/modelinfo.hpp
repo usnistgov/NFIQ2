@@ -8,78 +8,72 @@ namespace NFIQ {
 /** Model Class containing Model Information */
 class ModelInfo {
     public:
-	ModelInfo(const std::string& modelInfoFilePath);
+	ModelInfo(const std::string &modelInfoFilePath);
 	~ModelInfo();
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Getter for private member modelName
 	 *
 	 * @return
-	 * Achieved quality score
+	 * Returns model name
 	 */
 	std::string getModelName() const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Getter for private member modelTrainer
 	 *
 	 * @return
-	 * Achieved quality score
+	 * Returns model trainer
 	 */
 	std::string getModelTrainer() const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Getter for private member modelDescription
 	 *
 	 * @return
-	 * Achieved quality score
+	 * Returns model description
 	 */
 	std::string getModelDescription() const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Getter for private member modelVersion
 	 *
 	 * @return
-	 * Achieved quality score
+	 * Returns model version
 	 */
 	std::string getModelVersion() const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Getter for private member modelPath
 	 *
 	 * @return
-	 * Achieved quality score
+	 * Returns model path
 	 */
 	std::string getModelPath() const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Getter for private member modelHash
 	 *
 	 * @return
-	 * Achieved quality score
+	 * Returns model hash
 	 */
 	std::string getModelHash() const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
+	 * Setter for private member modelPath
 	 *
-	 * @return
-	 * Achieved quality score
+	 * @param newPath
+	 * Updated path containing the model
+	 *
 	 */
-	void setModelPath(const std::string& newPath);
+	void setModelPath(const std::string &newPath);
 
 	/** Static strings for Model Info File Keys */
 	static const std::string ModelInfoKeyName;
@@ -103,14 +97,17 @@ class ModelInfo {
 
 /**
  * @brief
- * Computes the quality score from the input fingerprint image
- * data.
+ * Generates a Key/Value Pair structure containing information from the model
+ * info text file
+ *
+ * @param modelInfoFilePath
+ * Path to model info text file
  *
  * @return
- * Achieved quality score
+ * Map of Key/Value pairs
  */
 std::unordered_map<std::string, std::string> parseModelInfoFile(
-    const std::string& modelInfoFilePath);
+    const std::string &modelInfoFilePath);
 
 } // namespace NFIQ
 

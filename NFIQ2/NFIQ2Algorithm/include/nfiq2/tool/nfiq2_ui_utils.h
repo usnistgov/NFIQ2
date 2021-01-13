@@ -29,6 +29,18 @@ namespace NFIQ2UI {
 
 /**
  *  @brief
+ *  Returns the version of the Biometric Evaluation Framework Library.
+ *
+ *  @details
+ *  Returns the version of the Biomeval library being used by CLI tool.
+ *
+ *  @return
+ *    A string containing version information.
+ */
+std::string getBiomevalVersion();
+
+/**
+ *  @brief
  *  Identifies a Standard Image from other FileTypes.
  *
  *  @details

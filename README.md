@@ -81,9 +81,6 @@ Known Limitations
      NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
    * There has been no effort to test this code on Apple's M1 ARM architecture.
 
- * **All Platforms**:
-   * The current NFIQ 2 executable binary is only supported on 64-bit machines.
-
 Communication
 -------------
 If you found a bug and can provide steps to reliably reproduce it, or if you

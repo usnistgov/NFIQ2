@@ -16,10 +16,9 @@ NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(
 {
 }
 
-NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(
-    std::shared_ptr<NFIQ::ModelInfo> modelInfoObj)
+NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj)
     : pimpl { new NFIQ::NFIQ2Algorithm::Impl(
-	  modelInfoObj->modelPath, modelInfoObj->modelHash) }
+	  modelInfoObj.getModelPath(), modelInfoObj.getModelHash()) }
 {
 }
 

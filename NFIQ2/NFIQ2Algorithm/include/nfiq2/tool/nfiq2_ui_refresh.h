@@ -311,8 +311,7 @@ void printHeader(
  *  @return
  *      Returns a tuple containing the model path and the models hash.
  */
-std::shared_ptr<NFIQ::ModelInfo> parseModelInfo(
-    const NFIQ2UI::Arguments &arguments);
+NFIQ::ModelInfo parseModelInfo(const NFIQ2UI::Arguments &arguments);
 
 } // namespace NFIQ2UI
 

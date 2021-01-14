@@ -18,7 +18,7 @@ class NFIQ2Algorithm {
 #endif
 	NFIQ2Algorithm(
 	    const std::string &fileName, const std::string &fileHash);
-	NFIQ2Algorithm(std::shared_ptr<NFIQ::ModelInfo> modelInfoObj);
+	NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj);
 	~NFIQ2Algorithm();
 
 	/**

@@ -27,6 +27,42 @@ NFIQ::ModelInfo::ModelInfo(
 {
 }
 
+std::string
+NFIQ::ModelInfo::getModelName() const
+{
+	return this->modelName;
+}
+
+std::string
+NFIQ::ModelInfo::getModelTrainer() const
+{
+	return this->modelTrainer;
+}
+
+std::string
+NFIQ::ModelInfo::getModelDescription() const
+{
+	return this->modelDescription;
+}
+
+std::string
+NFIQ::ModelInfo::getModelVersion() const
+{
+	return this->modelVersion;
+}
+
+std::string
+NFIQ::ModelInfo::getModelPath() const
+{
+	return this->modelPath;
+}
+
+std::string
+NFIQ::ModelInfo::getModelHash() const
+{
+	return this->modelHash;
+}
+
 std::unordered_map<std::string, std::string>
 NFIQ::parseModelInfoFile(const std::string &modelInfoFilePath)
 {

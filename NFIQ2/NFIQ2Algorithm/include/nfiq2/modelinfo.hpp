@@ -8,63 +8,8 @@ namespace NFIQ {
 /** Model Class containing Model Information */
 class ModelInfo {
     public:
-
-    ModelInfo();
+	ModelInfo();
 	ModelInfo(std::unordered_map<std::string, std::string> modelInfoMap);
-
-	/**
-	 * @brief
-	 * Getter for private member modelName
-	 *
-	 * @return
-	 * Returns model name
-	 */
-	std::string getModelName() const;
-
-	/**
-	 * @brief
-	 * Getter for private member modelTrainer
-	 *
-	 * @return
-	 * Returns model trainer
-	 */
-	std::string getModelTrainer() const;
-
-	/**
-	 * @brief
-	 * Getter for private member modelDescription
-	 *
-	 * @return
-	 * Returns model description
-	 */
-	std::string getModelDescription() const;
-
-	/**
-	 * @brief
-	 * Getter for private member modelVersion
-	 *
-	 * @return
-	 * Returns model version
-	 */
-	std::string getModelVersion() const;
-
-	/**
-	 * @brief
-	 * Getter for private member modelPath
-	 *
-	 * @return
-	 * Returns model path
-	 */
-	std::string getModelPath() const;
-
-	/**
-	 * @brief
-	 * Getter for private member modelHash
-	 *
-	 * @return
-	 * Returns model hash
-	 */
-	std::string getModelHash() const;
 
 	static const std::string ModelInfoKeyName;
 	static const std::string ModelInfoKeyTrainer;
@@ -73,7 +18,6 @@ class ModelInfo {
 	static const std::string ModelInfoKeyPath;
 	static const std::string ModelInfoKeyHash;
 
-    private:
 	const std::string modelName;
 	const std::string modelTrainer;
 	const std::string modelDescription;

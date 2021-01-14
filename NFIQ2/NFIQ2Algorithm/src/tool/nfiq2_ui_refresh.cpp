@@ -730,7 +730,7 @@ NFIQ2UI::printHeader(
 }
 
 std::shared_ptr<NFIQ::ModelInfo>
-NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
+NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 {
 	static const std::string DefaultModelInfoFilename {
 		"nist_plain_tir-ink.txt"
@@ -789,11 +789,11 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		    modelInfoFilePath + ". Error: " + e.what());
 	}
 
-	if (!BE::IO::Utility::fileExists(modelInfoObj->getModelPath())) {
+	if (!BE::IO::Utility::fileExists(modelInfoObj->modelPath)) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
 		    NFIQ::ModelInfo::ModelInfoKeyPath + "' from '" +
 		    modelInfoFilePath + "' (No file exists at '" +
-		    modelInfoObj->getModelPath() + "')");
+		    modelInfoObj->modelPath + "')");
 	}
 
 	return modelInfoObj;
@@ -837,25 +837,32 @@ main(int argc, char **argv)
 	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj {};
 
 	try {
-		modelInfoObj = NFIQ2UI::parseModel(arguments);
+		modelInfoObj = NFIQ2UI::parseModelInfo(arguments);
 	} catch (const NFIQ2UI::Exception &e) {
 		std::cerr << "Unable to extract model information. " << e.what()
 			  << "\n";
 		return EXIT_FAILURE;
 	}
 
-	logger->debugMsg("Model Name: " + modelInfoObj->getModelName());
-	logger->debugMsg("Model Trainer: " + modelInfoObj->getModelTrainer());
-	logger->debugMsg(
-	    "Model Description: " + modelInfoObj->getModelDescription());
-	logger->debugMsg("Model Version: " + modelInfoObj->getModelVersion());
-	logger->debugMsg("Model Path: " + modelInfoObj->getModelPath());
-	logger->debugMsg("Model Hash: " + modelInfoObj->getModelHash());
+	logger->debugMsg("Model Name: " +
+	    (modelInfoObj->modelName.empty() ? "<NA>" :
+					       modelInfoObj->modelName));
+	logger->debugMsg("Model Trainer: " +
+	    (modelInfoObj->modelTrainer.empty() ? "<NA>" :
+						  modelInfoObj->modelTrainer));
+	logger->debugMsg("Model Description: " +
+	    (modelInfoObj->modelDescription.empty() ?
+		    "<NA>" :
+		    modelInfoObj->modelDescription));
+	logger->debugMsg("Model Version: " +
+	    (modelInfoObj->modelVersion.empty() ? "<NA>" :
+						  modelInfoObj->modelVersion));
+	logger->debugMsg("Model Path: " + modelInfoObj->modelPath);
+	logger->debugMsg("Model Hash: " + modelInfoObj->modelHash);
 
 	std::shared_ptr<NFIQ::NFIQ2Algorithm> model {};
 	try {
-		model = std::make_shared<NFIQ::NFIQ2Algorithm>(
-		    modelInfoObj->getModelPath(), modelInfoObj->getModelHash());
+		model = std::make_shared<NFIQ::NFIQ2Algorithm>(modelInfoObj);
 	} catch (NFIQ::NFIQException &e) {
 		std::cerr << "Model could not be constructed. " << e.what()
 			  << "\n";

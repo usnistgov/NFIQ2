@@ -12,7 +12,7 @@ const std::string NFIQ::ModelInfo::ModelInfoKeyVersion = "Version";
 const std::string NFIQ::ModelInfo::ModelInfoKeyPath = "Path";
 const std::string NFIQ::ModelInfo::ModelInfoKeyHash = "Hash";
 
-NFIQ::ModelInfo::ModelInfo() 
+NFIQ::ModelInfo::ModelInfo()
 {
 }
 
@@ -27,42 +27,6 @@ NFIQ::ModelInfo::ModelInfo(
 {
 }
 
-std::string
-NFIQ::ModelInfo::getModelName() const
-{
-	return this->modelName;
-}
-
-std::string
-NFIQ::ModelInfo::getModelTrainer() const
-{
-	return this->modelTrainer;
-}
-
-std::string
-NFIQ::ModelInfo::getModelDescription() const
-{
-	return this->modelDescription;
-}
-
-std::string
-NFIQ::ModelInfo::getModelVersion() const
-{
-	return this->modelVersion;
-}
-
-std::string
-NFIQ::ModelInfo::getModelPath() const
-{
-	return this->modelPath;
-}
-
-std::string
-NFIQ::ModelInfo::getModelHash() const
-{
-	return this->modelHash;
-}
-
 std::unordered_map<std::string, std::string>
 NFIQ::parseModelInfoFile(const std::string &modelInfoFilePath)
 {
@@ -72,8 +36,8 @@ NFIQ::parseModelInfoFile(const std::string &modelInfoFilePath)
 	std::string line;
 
 	if (!fp) {
-		throw NFIQ::NFIQException(
-		    e_Error_CannotReadFromFile, "Failed to Read File: " + modelInfoFilePath);
+		throw NFIQ::NFIQException(e_Error_CannotReadFromFile,
+		    "Failed to Read File: " + modelInfoFilePath);
 	}
 
 	while (std::getline(fp, line)) {

@@ -12,24 +12,18 @@ const std::string NFIQ::ModelInfo::ModelInfoKeyVersion = "Version";
 const std::string NFIQ::ModelInfo::ModelInfoKeyPath = "Path";
 const std::string NFIQ::ModelInfo::ModelInfoKeyHash = "Hash";
 
-NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
+NFIQ::ModelInfo::ModelInfo() 
 {
-	std::unordered_map<std::string, std::string> modelInfoMap {};
-	try {
-		modelInfoMap = parseModelInfoFile(modelInfoFilePath);
-	} catch (...) {
-		throw NFIQ::NFIQException(1, "Model Class Failed Construction");
-	}
-
-	this->modelName = modelInfoMap[ModelInfoKeyName];
-	this->modelTrainer = modelInfoMap[ModelInfoKeyTrainer];
-	this->modelDescription = modelInfoMap[ModelInfoKeyDescription];
-	this->modelVersion = modelInfoMap[ModelInfoKeyVersion];
-	this->modelPath = modelInfoMap[ModelInfoKeyPath];
-	this->modelHash = modelInfoMap[ModelInfoKeyHash];
 }
 
-NFIQ::ModelInfo::~ModelInfo()
+NFIQ::ModelInfo::ModelInfo(
+    std::unordered_map<std::string, std::string> modelInfoMap)
+    : modelName { modelInfoMap[ModelInfoKeyName] }
+    , modelTrainer { modelInfoMap[ModelInfoKeyTrainer] }
+    , modelDescription { modelInfoMap[ModelInfoKeyDescription] }
+    , modelVersion { modelInfoMap[ModelInfoKeyVersion] }
+    , modelPath { modelInfoMap[ModelInfoKeyPath] }
+    , modelHash { modelInfoMap[ModelInfoKeyHash] }
 {
 }
 
@@ -69,12 +63,6 @@ NFIQ::ModelInfo::getModelHash() const
 	return this->modelHash;
 }
 
-void
-NFIQ::ModelInfo::setModelPath(const std::string &newPath)
-{
-	this->modelPath = newPath;
-}
-
 std::unordered_map<std::string, std::string>
 NFIQ::parseModelInfoFile(const std::string &modelInfoFilePath)
 {
@@ -83,42 +71,64 @@ NFIQ::parseModelInfoFile(const std::string &modelInfoFilePath)
 	std::ifstream fp(modelInfoFilePath);
 	std::string line;
 
-	if (fp.is_open()) {
+	if (!fp) {
+		throw NFIQ::NFIQException(
+		    e_Error_CannotReadFromFile, "Failed to Read File: " + modelInfoFilePath);
+	}
 
-		while (std::getline(fp, line)) {
-			if (line.find('=') == std::string::npos) {
-				continue;
-			} else {
+	while (std::getline(fp, line)) {
+		const int eqPos = line.find('=');
+
+		if (eqPos == std::string::npos) {
+			continue;
+		} else {
+			const unsigned int llen = line.length();
+
+			if (eqPos != 0 && eqPos < llen - 2) {
 				const std::string start = line.substr(
-				    0, line.find('=') - 1);
+				    0, eqPos - 1);
 				const std::string end = line.substr(
-				    line.find('=') + 2, line.size() - 1);
+				    eqPos + 2, llen - 1);
 				modelInfoMap[start] = end;
 			}
 		}
-		fp.close();
-
-	} else {
-		throw NFIQ::NFIQException(
-		    26, "Failed to Read File: " + modelInfoFilePath);
 	}
+	fp.close();
 
-	if (modelInfoMap.find(ModelInfo::ModelInfoKeyName) ==
-		modelInfoMap.end() ||
-	    modelInfoMap.find(ModelInfo::ModelInfoKeyTrainer) ==
-		modelInfoMap.end() ||
-	    modelInfoMap.find(ModelInfo::ModelInfoKeyDescription) ==
-		modelInfoMap.end() ||
-	    modelInfoMap.find(ModelInfo::ModelInfoKeyVersion) ==
-		modelInfoMap.end() ||
-	    modelInfoMap.find(ModelInfo::ModelInfoKeyPath) ==
-		modelInfoMap.end() ||
-	    modelInfoMap.find(ModelInfo::ModelInfoKeyHash) ==
-		modelInfoMap.end()) {
-
-		throw NFIQ::NFIQException(
-		    1, "File missing required model info");
+	if (modelInfoMap.find(ModelInfo::ModelInfoKeyPath) ==
+	    modelInfoMap.end()) {
+		throw NFIQ::NFIQException(e_Error_NoDataAvailable,
+		    "The required model information: " +
+			ModelInfo::ModelInfoKeyPath + " was not found.");
+	}
+	if (modelInfoMap.find(ModelInfo::ModelInfoKeyHash) ==
+	    modelInfoMap.end()) {
+		throw NFIQ::NFIQException(e_Error_NoDataAvailable,
+		    "The required model information: " +
+			ModelInfo::ModelInfoKeyPath + " was not found.");
 	}
 
 	return modelInfoMap;
+}
+
+void
+NFIQ::checkModelPath(std::unordered_map<std::string, std::string> &modelInfoMap,
+    const std::string &modelInfoFilePath)
+{
+	const std::string originalPath =
+	    modelInfoMap[ModelInfo::ModelInfoKeyPath];
+
+	if ((originalPath.front() != '/') &&
+	    ((originalPath.length() > 2) &&
+		(originalPath.substr(0, 2) != "\\\\")) &&
+	    ((originalPath.length() > 3) &&
+		(originalPath.substr(1, 2) != ":\\")) &&
+	    ((originalPath.length() > 3) &&
+		(originalPath.substr(1, 2) != ":/"))) {
+
+		std::size_t found = modelInfoFilePath.find_last_of("/\\");
+
+		modelInfoMap[ModelInfo::ModelInfoKeyPath] =
+		    modelInfoFilePath.substr(0, found) + '/' + originalPath;
+	}
 }

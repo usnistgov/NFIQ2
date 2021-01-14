@@ -769,27 +769,24 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		modelInfoFilePath = arguments.flags.model;
 	}
 
-	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj {};
+	std::unordered_map<std::string, std::string> modelInfoMap {};
 	try {
-		modelInfoObj = std::make_shared<NFIQ::ModelInfo>(
-		    modelInfoFilePath);
+		modelInfoMap = NFIQ::parseModelInfoFile(modelInfoFilePath);
 	} catch (const NFIQ::NFIQException &e) {
-		throw NFIQ2UI::FileNotFoundError(
-		    "Could not construct ModelInfo Object from: " +
-		    modelInfoFilePath);
+		throw NFIQ2UI::ModelConstructionError(
+		    "Failed to parse information from model info file. Path: " +
+		    modelInfoFilePath + ". Error: " + e.what());
 	}
 
-	// Path to model might be relative to the model info file, not the cwd
-	if ((modelInfoObj->getModelPath().front() != '/') &&
-	    ((modelInfoObj->getModelPath().length() > 2) &&
-		(modelInfoObj->getModelPath().substr(0, 2) != "\\\\")) &&
-	    ((modelInfoObj->getModelPath().length() > 3) &&
-		(modelInfoObj->getModelPath().substr(1, 2) != ":\\")) &&
-	    ((modelInfoObj->getModelPath().length() > 3) &&
-		(modelInfoObj->getModelPath().substr(1, 2) != ":/"))) {
-		modelInfoObj->setModelPath(
-		    BE::Text::dirname(modelInfoFilePath) + '/' +
-		    modelInfoObj->getModelPath());
+	NFIQ::checkModelPath(modelInfoMap, modelInfoFilePath);
+
+	std::shared_ptr<NFIQ::ModelInfo> modelInfoObj {};
+	try {
+		modelInfoObj = std::make_shared<NFIQ::ModelInfo>(modelInfoMap);
+	} catch (const NFIQ::NFIQException &e) {
+		throw NFIQ2UI::ModelConstructionError(
+		    "Could not construct ModelInfo Object from: " +
+		    modelInfoFilePath + ". Error: " + e.what());
 	}
 
 	if (!BE::IO::Utility::fileExists(modelInfoObj->getModelPath())) {

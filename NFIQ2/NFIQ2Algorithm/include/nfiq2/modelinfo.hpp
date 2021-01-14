@@ -8,8 +8,9 @@ namespace NFIQ {
 /** Model Class containing Model Information */
 class ModelInfo {
     public:
-	ModelInfo(const std::string &modelInfoFilePath);
-	~ModelInfo();
+
+    ModelInfo();
+	ModelInfo(std::unordered_map<std::string, std::string> modelInfoMap);
 
 	/**
 	 * @brief
@@ -65,17 +66,6 @@ class ModelInfo {
 	 */
 	std::string getModelHash() const;
 
-	/**
-	 * @brief
-	 * Setter for private member modelPath
-	 *
-	 * @param newPath
-	 * Updated path containing the model
-	 *
-	 */
-	void setModelPath(const std::string &newPath);
-
-	/** Static strings for Model Info File Keys */
 	static const std::string ModelInfoKeyName;
 	static const std::string ModelInfoKeyTrainer;
 	static const std::string ModelInfoKeyDescription;
@@ -84,15 +74,12 @@ class ModelInfo {
 	static const std::string ModelInfoKeyHash;
 
     private:
-	std::string modelName;
-	std::string modelTrainer;
-	std::string modelDescription;
-	std::string modelVersion;
-	std::string modelPath;
-	std::string modelHash;
-
-	ModelInfo(const ModelInfo &) = delete;
-	ModelInfo &operator=(const ModelInfo &) = delete;
+	const std::string modelName;
+	const std::string modelTrainer;
+	const std::string modelDescription;
+	const std::string modelVersion;
+	const std::string modelPath;
+	const std::string modelHash;
 };
 
 /**
@@ -104,9 +91,23 @@ class ModelInfo {
  * Path to model info text file
  *
  * @return
- * Map of Key/Value pairs
+ * Map of values parsed from model info text file
  */
 std::unordered_map<std::string, std::string> parseModelInfoFile(
+    const std::string &modelInfoFilePath);
+
+/**
+ * @brief
+ * Checks to see if the path to the model is relative to the model info file
+ * and not the cwd. Updates the path in the map accordingly.
+ *
+ * @param modelInfoMap
+ * A reference to the map containing information parsed from the info file.
+ *
+ * @param modelInfoFilePath
+ * Path to model info text file
+ */
+void checkModelPath(std::unordered_map<std::string, std::string> &modelInfoMap,
     const std::string &modelInfoFilePath);
 
 } // namespace NFIQ

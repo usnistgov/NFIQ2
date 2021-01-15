@@ -769,20 +769,9 @@ NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 		modelInfoFilePath = arguments.flags.model;
 	}
 
-	std::unordered_map<std::string, std::string> modelInfoMap {};
-	try {
-		modelInfoMap = NFIQ::parseModelInfoFile(modelInfoFilePath);
-	} catch (const NFIQ::NFIQException &e) {
-		throw NFIQ2UI::ModelConstructionError(
-		    "Failed to parse information from model info file. Path: " +
-		    modelInfoFilePath + ". Error: " + e.what());
-	}
-
-	NFIQ::checkModelPath(modelInfoMap, modelInfoFilePath);
-
 	NFIQ::ModelInfo modelInfoObj {};
 	try {
-		modelInfoObj = NFIQ::ModelInfo(modelInfoMap);
+		modelInfoObj = NFIQ::ModelInfo(modelInfoFilePath);
 	} catch (const NFIQ::NFIQException &e) {
 		throw NFIQ2UI::ModelConstructionError(
 		    "Could not construct ModelInfo Object from: " +

@@ -281,7 +281,16 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Install WiX from https://wixtoolset.org/releases/
 	list(APPEND CPACK_GENERATOR "WIX")
 	set(CPACK_PACKAGE_INSTALL_DIRECTORY "NFIQ 2")
-	set(CPACK_WIX_UPGRADE_GUID "492101f0-5052-11eb-bb05-1b5668cc0087")
+	
+	if (CMAKE_SIZEOF_VOID_P MATCHES "8")
+		# 64-bit GUID
+		set(CPACK_WIX_UPGRADE_GUID "492101f0-5052-11eb-bb05-1b5668cc0087")
+		set(CPACK_PACKAGE_NAME "${NFIQ2_PRODUCT_NAME} (x64)")
+	else()
+		#32-bit GUID
+		set(CPACK_WIX_UPGRADE_GUID "226c3d8e-a622-fe6a-7c2d-3d3dc93eaacb")
+		set(CPACK_PACKAGE_NAME "${NFIQ2_PRODUCT_NAME} (x86)")
+	endif(CMAKE_SIZEOF_VOID_P MATCHES "8")
 
 	# Required for building on NIST machines
 	set(CPACK_WIX_CANDLE_EXTRA_FLAGS "-fips")

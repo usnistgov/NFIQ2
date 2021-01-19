@@ -279,7 +279,6 @@ ADD_CUSTOM_TARGET(link_target ALL
 endif (UNIX)
 
 if (APPLE)
-	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
 	list(APPEND CPACK_GENERATOR "productbuild")
 	execute_process(COMMAND sw_vers -productVersion OUTPUT_VARIABLE OSX_VERS)
 	string(STRIP "${OSX_VERS}" OSX_VERS)

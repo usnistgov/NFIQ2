@@ -271,6 +271,13 @@ set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line I
 set(CPACK_COMPONENT_DEVELOPMENT_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
 
 set(CPACK_GENERATOR "ZIP")
+
+if (UNIX)
+set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local/nfiq2")
+ADD_CUSTOM_TARGET(link_target ALL
+    COMMAND ${CMAKE_COMMAND} -E create_symlink /usr/local/nfiq2/bin/nfiq2 /usr/local/bin/nfiq2)
+endif (UNIX)
+
 if (APPLE)
 	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
 	list(APPEND CPACK_GENERATOR "productbuild")

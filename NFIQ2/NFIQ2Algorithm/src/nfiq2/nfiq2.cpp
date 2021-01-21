@@ -17,8 +17,8 @@ NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(
 }
 
 NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj)
-    : pimpl { new NFIQ::NFIQ2Algorithm::Impl(
-	  modelInfoObj.getModelPath(), modelInfoObj.getModelHash()) }
+    : NFIQ::NFIQ2Algorithm { modelInfoObj.getModelPath(),
+	    modelInfoObj.getModelHash() }
 {
 }
 

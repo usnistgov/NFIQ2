@@ -1,6 +1,7 @@
 #include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiqexception.hpp>
 
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -34,11 +35,16 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 		} else {
 			const unsigned int llen = line.length();
 
-			if (eqPos != 0 && eqPos < llen - 2) {
-				const std::string start = line.substr(
-				    0, eqPos - 1);
-				const std::string end = line.substr(
-				    eqPos + 2, llen - 1);
+			if (eqPos != 0 && eqPos < llen - 1) {
+				const std::string start = isspace(
+							      line[eqPos - 1]) ?
+				    line.substr(0, eqPos - 1) :
+				    line.substr(0, eqPos);
+
+				const std::string end = isspace(
+							    line[eqPos + 1]) ?
+				    line.substr(eqPos + 2, llen - 1) :
+				    line.substr(eqPos + 1, llen - 1);
 
 				if (start == ModelInfo::ModelInfoKeyName) {
 					this->modelName = end;
@@ -73,9 +79,9 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 						    modelInfoFilePath.substr(
 							0, found) +
 						    '/' + end;
+					} else {
+						this->modelPath = end;
 					}
-
-					this->modelPath = end;
 
 				} else if (start ==
 				    ModelInfo::ModelInfoKeyHash) {

@@ -61,15 +61,17 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 					// Checks if the path to the model is
 					// relative to the model info file and
 					// not the cwd.
-					if ((end.front() != '/') &&
+					if (((end.length() > 1) &&
+						(end.front() == '/')) ||
 					    ((end.length() > 2) &&
-						(end.substr(0, 2) != "\\\\")) &&
+						(end.substr(0, 2) == "\\\\")) ||
 					    ((end.length() > 3) &&
-						(end.substr(1, 2) != ":\\")) &&
+						(end.substr(1, 2) == ":\\")) ||
 					    ((end.length() > 3) &&
-						(end.substr(1, 2) != ":/"))) {
-
-						std::size_t found =
+						(end.substr(1, 2) == ":/"))) {
+						this->modelPath = end;
+					} else {
+						const auto found =
 						    modelInfoFilePath
 							.find_last_of("/\\");
 
@@ -77,10 +79,7 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 						    modelInfoFilePath.substr(
 							0, found) +
 						    '/' + end;
-					} else {
-						this->modelPath = end;
 					}
-
 				} else if (start ==
 				    ModelInfo::ModelInfoKeyHash) {
 					this->modelHash = end;

@@ -40,9 +40,13 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 			if (eqPos != 0 && eqPos < llen - 1) {
 				const std::string start = trimWhitespace(
 				    line.substr(0, eqPos));
+				if (start.empty())
+					continue;
 
 				const std::string end = trimWhitespace(
 				    line.substr(eqPos + 1, llen - 1));
+				if (end.empty())
+					continue;
 
 				if (start == ModelInfo::ModelInfoKeyName) {
 					this->modelName = end;

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+static std::string trimWhitespace(const std::string &s);
+
 const std::string NFIQ::ModelInfo::ModelInfoKeyName = "Name";
 const std::string NFIQ::ModelInfo::ModelInfoKeyTrainer = "Trainer";
 const std::string NFIQ::ModelInfo::ModelInfoKeyDescription = "Description";
@@ -36,15 +38,11 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 			const unsigned int llen = line.length();
 
 			if (eqPos != 0 && eqPos < llen - 1) {
-				const std::string start = isspace(
-							      line[eqPos - 1]) ?
-				    line.substr(0, eqPos - 1) :
-				    line.substr(0, eqPos);
+				const std::string start = trimWhitespace(
+				    line.substr(0, eqPos));
 
-				const std::string end = isspace(
-							    line[eqPos + 1]) ?
-				    line.substr(eqPos + 2, llen - 1) :
-				    line.substr(eqPos + 1, llen - 1);
+				const std::string end = trimWhitespace(
+				    line.substr(eqPos + 1, llen - 1));
 
 				if (start == ModelInfo::ModelInfoKeyName) {
 					this->modelName = end;
@@ -138,4 +136,24 @@ std::string
 NFIQ::ModelInfo::getModelHash() const
 {
 	return this->modelHash;
+}
+
+std::string
+trimWhitespace(const std::string &s)
+{
+	std::string output { s };
+
+	/* Erase from beginning until the first non-whitespace */
+	output.erase(output.begin(),
+	    std::find_if(output.begin(), output.end(),
+		[&](const char &c) -> bool { return (!std::isspace(c)); }));
+
+	/* Erase from the last non-whitespace to the end */
+	output.erase(
+	    std::find_if(output.rbegin(), output.rend(),
+		[&](const char &c) -> bool { return (!std::isspace(c)); })
+		.base(),
+	    output.end());
+
+	return output;
 }

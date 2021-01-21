@@ -53,7 +53,24 @@ NFIQ2Algorithm::Impl::Impl(
 	set_fpu(0x27F); /* use double-precision rounding */
 #endif
 	// init RF module that takes some time to load the parameters
-	this->m_parameterHash = m_RandomForestML.initModule(fileName, fileHash);
+	try {
+		this->m_parameterHash = m_RandomForestML.initModule(
+		    fileName, fileHash);
+	} catch (const cv::Exception &e) {
+		throw NFIQException(e_Error_BadArguments,
+		    "Could not initialize random forest parameters with "
+		    "external file. Most likely, the file does not exist. "
+		    "Check the path (" +
+			fileName + ") and hash (" + fileHash +
+			") (initial error: " + e.msg + ").");
+	} catch (const NFIQ::NFIQException &e) {
+		throw NFIQException(e_Error_BadArguments,
+		    "Could not initialize random forest parameters with "
+		    "external file. Most likely, the hash is not correct. "
+		    "Check the path (" +
+			fileName + ") and hash (" + fileHash +
+			") (initial error: " + e.what() + ").");
+	}
 }
 
 NFIQ2Algorithm::Impl::~Impl()

@@ -274,7 +274,15 @@ set(CPACK_GENERATOR "ZIP")
 
 if (UNIX)
 	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local/nfiq2")
-	execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${INSTALL_STAGING_DIR}/bin/nfiq2 "${INSTALL_STAGING_DIR}/../bin/nfiq2")
+
+	# Make a link: /usr/local/bin/nfiq2 -> /usr/local/nfiq2/bin/nfiq2
+	execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${INSTALL_STAGING_DIR}/../bin)
+
+	# Use ln instead of cmake -E create_symlink because it does not have to
+	# be an absolute path and the destination does not have to exist when
+	# created.
+	execute_process(COMMAND ln -s -f "../nfiq2/bin/nfiq2" "nfiq2"
+	    WORKING_DIRECTORY "${INSTALL_STAGING_DIR}/../bin")
 endif (UNIX)
 
 if (APPLE)

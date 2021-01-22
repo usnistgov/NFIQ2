@@ -18,6 +18,7 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
+#include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiq2.hpp>
 #include <nfiq2/timer.hpp>
 #include <nfiq2/tool/nfiq2_ui_exception.h>
@@ -728,8 +729,8 @@ NFIQ2UI::printHeader(
 	}
 }
 
-std::tuple<std::string, std::string>
-NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
+NFIQ::ModelInfo
+NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 {
 	static const std::string DefaultModelInfoFilename {
 		"nist_plain_tir-ink.txt"
@@ -769,60 +770,23 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		modelInfoFilePath = arguments.flags.model;
 	}
 
-	// FIXME: Make below a separate function and make a Model class
-	static const std::string ModelInfoKeyName { "Name" };
-	static const std::string ModelInfoKeyTrainer { "Trainer" };
-	static const std::string ModelInfoKeyDescription { "Description" };
-	static const std::string ModelInfoKeyVersion { "Version" };
-	static const std::string ModelInfoKeyPath { "Path" };
-	static const std::string ModelInfoKeyHash { "Hash" };
-
-	std::unique_ptr<BE::IO::Properties> props;
-	std::string modelFile, hash;
-
+	NFIQ::ModelInfo modelInfoObj {};
 	try {
-		props.reset(new BE::IO::PropertiesFile(
-		    modelInfoFilePath, BE::IO::Mode::ReadOnly));
-	} catch (const BE::Error::Exception &e) {
-		throw NFIQ2UI::PropertyParseError(
-		    "Unable to parse model info file '" + modelInfoFilePath +
-		    "' (" + e.whatString() + ')');
+		modelInfoObj = NFIQ::ModelInfo(modelInfoFilePath);
+	} catch (const NFIQ::NFIQException &e) {
+		throw NFIQ2UI::ModelConstructionError(
+		    "Could not construct ModelInfo Object from: " +
+		    modelInfoFilePath + ". Error: " + e.what());
 	}
 
-	try {
-		modelFile = props->getProperty(ModelInfoKeyPath);
-		if (modelFile.empty())
-			throw BE::Error::StrategyError("No path provided");
-	} catch (const BE::Error::Exception &e) {
+	if (!BE::IO::Utility::fileExists(modelInfoObj.getModelPath())) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyPath + "' from '" + modelInfoFilePath + "' (" +
-		    e.whatString() + ')');
+		    NFIQ::ModelInfo::ModelInfoKeyPath + "' from '" +
+		    modelInfoFilePath + "' (No file exists at '" +
+		    modelInfoObj.getModelPath() + "')");
 	}
 
-	// Path to model might be relative to the model info file, not the cwd
-	if ((modelFile.front() != '/') &&
-	    ((modelFile.length() > 2) && (modelFile.substr(0, 2) != "\\\\")) &&
-	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":\\")) &&
-	    ((modelFile.length() > 3) && (modelFile.substr(1, 2) != ":/"))) {
-		modelFile = BE::Text::dirname(modelInfoFilePath) + '/' +
-		    modelFile;
-	}
-
-	if (!BE::IO::Utility::fileExists(modelFile)) {
-		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyPath + "' from '" + modelInfoFilePath +
-		    "' (No file exists at '" + modelFile + "')");
-	}
-
-	try {
-		hash = props->getProperty(ModelInfoKeyHash);
-	} catch (const BE::Error::Exception &e) {
-		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    ModelInfoKeyHash + "' from '" + modelInfoFilePath + "' (" +
-		    e.whatString() + ')');
-	}
-
-	return std::make_tuple(modelFile, hash);
+	return modelInfoObj;
 }
 
 int
@@ -860,18 +824,45 @@ main(int argc, char **argv)
 	double timeInit = 0.0;
 	timerInit.startTimer();
 
-	std::string modelFile;
-	std::string hash;
+	NFIQ::ModelInfo modelInfoObj {};
 
 	try {
-		std::tie(modelFile, hash) = NFIQ2UI::parseModel(arguments);
+		modelInfoObj = NFIQ::ModelInfo(
+		    NFIQ2UI::parseModelInfo(arguments));
+
 	} catch (const NFIQ2UI::Exception &e) {
 		std::cerr << "Unable to extract model information. " << e.what()
 			  << "\n";
 		return EXIT_FAILURE;
 	}
 
-	const NFIQ::NFIQ2Algorithm model(modelFile, hash);
+	logger->debugMsg("Model Name: " +
+	    (modelInfoObj.getModelName().empty() ?
+		    "<NA>" :
+		    modelInfoObj.getModelName()));
+	logger->debugMsg("Model Trainer: " +
+	    (modelInfoObj.getModelTrainer().empty() ?
+		    "<NA>" :
+		    modelInfoObj.getModelTrainer()));
+	logger->debugMsg("Model Description: " +
+	    (modelInfoObj.getModelDescription().empty() ?
+		    "<NA>" :
+		    modelInfoObj.getModelDescription()));
+	logger->debugMsg("Model Version: " +
+	    (modelInfoObj.getModelVersion().empty() ?
+		    "<NA>" :
+		    modelInfoObj.getModelVersion()));
+	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
+	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
+
+	std::shared_ptr<NFIQ::NFIQ2Algorithm> model {};
+	try {
+		model = std::make_shared<NFIQ::NFIQ2Algorithm>(modelInfoObj);
+	} catch (NFIQ::NFIQException &e) {
+		std::cerr << "Model could not be constructed. " << e.what()
+			  << "\n";
+		return EXIT_FAILURE;
+	}
 
 	timeInit = timerInit.endTimerAndGetElapsedTime();
 
@@ -901,21 +892,21 @@ main(int argc, char **argv)
 
 	// Process single images - includes AN2K files
 	logger->debugMsg("Processing Singles and AN2K files:");
-	NFIQ2UI::procSingle(arguments, model, logger);
+	NFIQ2UI::procSingle(arguments, *model, logger);
 
 	logger->debugMsg("Processing Directories:");
 	for (const auto &i : arguments.vecDirs) {
-		NFIQ2UI::parseDirectory(i, arguments.flags, model, logger);
+		NFIQ2UI::parseDirectory(i, arguments.flags, *model, logger);
 	}
 
 	logger->debugMsg("Processing Batch-files:");
 	for (const auto &i : arguments.vecBatch) {
-		NFIQ2UI::executeBatch(i, arguments.flags, model, logger);
+		NFIQ2UI::executeBatch(i, arguments.flags, *model, logger);
 	}
 
 	logger->debugMsg("Processing RecordStores:");
 	for (const auto &i : arguments.vecRecordStore) {
-		NFIQ2UI::executeRecordStore(i, arguments.flags, model, logger);
+		NFIQ2UI::executeRecordStore(i, arguments.flags, *model, logger);
 	}
 
 	return EXIT_SUCCESS;

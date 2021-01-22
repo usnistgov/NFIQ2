@@ -1,3 +1,4 @@
+#include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiq2.hpp>
 
 #include "nfiq2impl.h"
@@ -12,6 +13,12 @@ NFIQ::NFIQ2Algorithm::NFIQ2Algorithm()
 NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(
     const std::string &fileName, const std::string &fileHash)
     : pimpl { new NFIQ::NFIQ2Algorithm::Impl(fileName, fileHash) }
+{
+}
+
+NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj)
+    : NFIQ::NFIQ2Algorithm { modelInfoObj.getModelPath(),
+	    modelInfoObj.getModelHash() }
 {
 }
 

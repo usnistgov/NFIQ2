@@ -36,8 +36,7 @@ endif()
 include( "${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake" )
 
 include(GNUInstallDirs)
-
-link_directories( "${CMAKE_INSTALL_LIBDIR}" )
+link_directories( "${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build" )
 link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src" )
 link_directories( "${CMAKE_BINARY_DIR}/../../../biomdi" )
 

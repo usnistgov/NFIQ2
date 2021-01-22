@@ -1,6 +1,7 @@
 #include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiqexception.hpp>
 
+#include <algorithm>
 #include <cctype>
 #include <fstream>
 #include <iostream>
@@ -79,10 +80,17 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 						    modelInfoFilePath
 							.find_last_of("/\\");
 
-						this->modelPath =
-						    modelInfoFilePath.substr(
-							0, found) +
-						    '/' + end;
+						if (found ==
+						    std::string::npos) {
+							this->modelPath = "./" +
+							    end;
+						} else {
+							this->modelPath =
+							    modelInfoFilePath
+								.substr(
+								    0, found) +
+							    '/' + end;
+						}
 					}
 				} else if (start ==
 				    ModelInfo::ModelInfoKeyHash) {

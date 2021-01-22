@@ -17,7 +17,7 @@ set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 # ExternalProjects, allowing the project to be built by non-root. The
 # superbuild's install (and ultimate packaging with CPack) will merely copy
 # this staging directory.
-set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging")
+set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/nfiq2")
 
 set(CMAKE_CXX_STANDARD 11)
 

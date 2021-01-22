@@ -274,7 +274,7 @@ set(CPACK_GENERATOR "ZIP")
 
 if (UNIX)
 	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local/nfiq2")
-	execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${INSTALL_STAGING_DIR}/bin/nfiq2 ${INSTALL_STAGING_DIR}/../bin/nfiq2")
+	execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${INSTALL_STAGING_DIR}/bin/nfiq2 "${INSTALL_STAGING_DIR}/../bin/nfiq2")
 endif (UNIX)
 
 if (APPLE)

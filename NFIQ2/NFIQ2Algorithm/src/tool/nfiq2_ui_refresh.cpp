@@ -735,7 +735,7 @@ NFIQ2UI::parseModel(const NFIQ2UI::Arguments &arguments)
 		"nist_plain_tir-ink.txt"
 	};
 	static const std::string ShareDirLocalUnix {
-		"/usr/local/nfiq2/share/nfiq2"
+		"/usr/local/nfiq2/share"
 	};
 	static const std::string ShareDirWin32 {
 		"C:/Program Files (x86)/NFIQ 2/bin"

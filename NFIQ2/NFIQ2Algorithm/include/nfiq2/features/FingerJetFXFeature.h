@@ -129,15 +129,15 @@ class FingerJetFXFeature : BaseFeature {
 	static std::list<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 
-	void find_center_of_minutiae_mass(FRFXLL_Basic_19794_2_Minutia* vecMData, int mcount, int *x, int *y);
+	void find_center_of_minutiae_mass(
+	    FRFXLL_Basic_19794_2_Minutia *vecMData, int mcount, int *x, int *y);
 
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
-	FJFXROIResults computeROI(FRFXLL_Basic_19794_2_Minutia* vecMData,
-	//struct finger_minutiae_data **fmds,
+	FJFXROIResults computeROI(FRFXLL_Basic_19794_2_Minutia *vecMData,
 	    unsigned int minCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<Object> vecRectDimensions);

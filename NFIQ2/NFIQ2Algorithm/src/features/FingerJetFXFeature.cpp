@@ -224,7 +224,6 @@ FingerJetFXFeature::computeFeatureData(
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 		m_lSpeedValues.push_back(speed);
 	}
-
 	return featureDataList;
 }
 
@@ -273,7 +272,6 @@ FingerJetFXFeature::computeROI(
 
 	// compute Centre of Mass based on minutiae
 	int x = 0, y = 0;
-
 	FingerJetFXFeature::find_center_of_minutiae_mass(
 	    minutiaData, minutiaCount, &x, &y);
 
@@ -315,7 +313,6 @@ FingerJetFXFeature::computeROI(
 		}
 
 		unsigned int noOfMinutiaeInRect = 0;
-
 		for (unsigned int k = 0; k < minutiaCount; k++) {
 			if (minutiaData.get()[k].x >= startX &&
 			    minutiaData.get()[k].x <= endX &&

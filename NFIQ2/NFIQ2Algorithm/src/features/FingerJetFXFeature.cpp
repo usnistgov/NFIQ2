@@ -15,23 +15,24 @@ const std::string FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
 void
 FingerJetFXFeature::find_center_of_minutiae_mass(
-    FRFXLL_Basic_19794_2_Minutia *vecMData, int mcount, int *x, int *y)
+    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+    unsigned int minutiaCount, int *x, int *y)
 {
 	int lx, ly, i;
 	lx = ly = 0;
-	for (i = 0; i < mcount; i++) {
-		lx += vecMData[i].x;
-		ly += vecMData[i].y;
+	for (i = 0; i < minutiaCount; i++) {
+		lx += sharedMinutiaData.get()[i].x;
+		ly += sharedMinutiaData.get()[i].y;
 	}
-	*x = lx / mcount;
-	*y = ly / mcount;
+	*x = lx / minutiaCount;
+	*y = ly / minutiaCount;
 }
 
 std::list<NFIQ::QualityFeatureResult>
 FingerJetFXFeature::computeFeatureData(
     const NFIQ::FingerprintImageData fingerprintImage,
-    unsigned char templateData[], size_t &templateSize,
-    bool &templateCouldBeExtracted)
+    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+    unsigned int &minutiaCount, bool &templateCouldBeExtracted)
 {
 	templateCouldBeExtracted = false;
 
@@ -131,11 +132,11 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	unsigned int num_minutia;
+	// unsigned int num_minutia;
 	unsigned int resolution_ppi;
-	FRFXLL_Basic_19794_2_Minutia *mdata;
+	// FRFXLL_Basic_19794_2_Minutia *mdata;
 
-	if (FRFXLLGetMinutiaInfo(hFeatureSet, &num_minutia, &resolution_ppi) !=
+	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minutiaCount, &resolution_ppi) !=
 	    FRFXLL_OK) {
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble =
@@ -153,11 +154,17 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	mdata = (FRFXLL_Basic_19794_2_Minutia *)calloc(
-	    num_minutia, sizeof(FRFXLL_Basic_19794_2_Minutia));
+	FRFXLL_Basic_19794_2_Minutia *vecMDataNew;
+
+	// std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> srdMinData(new
+	// FRFXLL_Basic_19794_2_Minutia);
+
+	// Check if calloc failed
+	vecMDataNew = (FRFXLL_Basic_19794_2_Minutia *)calloc(
+	    minutiaCount, sizeof(FRFXLL_Basic_19794_2_Minutia));
 
 	if ((FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
-		&num_minutia, mdata))) {
+		&minutiaCount, vecMDataNew))) {
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble =
 		    0; // no minutiae found
@@ -173,19 +180,65 @@ FingerJetFXFeature::computeFeatureData(
 
 		return featureDataList;
 	}
+	memcpy(sharedMinutiaData.get(), vecMDataNew,
+	    minutiaCount * sizeof(FRFXLL_Basic_19794_2_Minutia));
+
+	free(vecMDataNew);
+	std::cout << "First x coord: " << sharedMinutiaData.get()[40].x << "\n";
+	// std::shared_ptr<FRFXLL_Basic_19794_2_Minutia*> srdMinData(new
+	// FRFXLL_Basic_19794_2_Minutia*);
+
+	// TemplateSize will be the number of minutia points returned
+	// templateSize = num_minutia;
+
+	// std::cout << "NUM_MINUTIA: " << num_minutia << "\n";
+	// std::cout << "TEMPLATE SIZE: " << templateSize << "\n";
+
+	// /////
+	// #define CBEFF (0x00330502)
+
+	// unsigned short dpcm =
+	//     ((unsigned int)localFingerprintImage.m_ImageDPI * 100 + 50) /
+	//     254;
+	// FRFXLL_OUTPUT_PARAM_ISO_ANSI param = {
+	// 	sizeof(FRFXLL_OUTPUT_PARAM_ISO_ANSI), CBEFF,
+	// 	localFingerprintImage.m_FingerCode, 0, dpcm, dpcm,
+	// 	(unsigned short)localFingerprintImage.m_ImageWidth,
+	// 	(unsigned short)localFingerprintImage.m_ImageHeight, 0, 0,
+	// 	0 /*live-scan plain*/
+	// };
+
+	// if (FRFXLLExport(hFeatureSet, FRFXLL_DT_ISO_FEATURE_SET, &param,
+	// 	vecMData, &templateSize) != FRFXLL_OK) {
+	// 	// return features
+	// 	fd_min_cnt_comrect200x200.featureDataDouble =
+	// 	    0; // no minutiae found
+	// 	res_min_cnt_comrect200x200.featureData =
+	// 	    fd_min_cnt_comrect200x200;
+	// 	res_min_cnt_comrect200x200.returnCode = 0;
+	// 	featureDataList.push_back(res_min_cnt_comrect200x200);
+
+	// 	fd_min_cnt.featureDataDouble = 0; // no minutiae found
+	// 	res_min_cnt.returnCode = 0;
+	// 	res_min_cnt.featureData = fd_min_cnt;
+	// 	featureDataList.push_back(res_min_cnt);
+
+	// 	return featureDataList;
+	// }
+	// /////
 
 	templateCouldBeExtracted = true;
 
 	// close handle
 	FRFXLLCloseHandle(&hFeatureSet);
 
-	// validity check
-	if (num_minutia < 28) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_ISOTemplateTooSmall,
-		    "Created ISO template is too small.");
-	}
+	// // validity check
+	// if (num_minutia < 28) {
+	// 	throw NFIQ::NFIQException(
+	// 	    NFIQ::
+	// 		e_Error_FeatureCalculationError_FJFX_ISOTemplateTooSmall,
+	// 	    "Created ISO template is too small.");
+	// }
 
 	// compute ROI and return features
 	std::vector<FingerJetFXFeature::Object> vecRectDimensions;
@@ -195,9 +248,9 @@ FingerJetFXFeature::computeFeatureData(
 	rect200x200.height = 200;
 	vecRectDimensions.push_back(rect200x200);
 
-	FingerJetFXFeature::FJFXROIResults roiResults =
-	    computeROI( // Will not be mdata - needs to be a vector of minutiae
-		mdata, num_minutia, 32, fingerprintImage, vecRectDimensions);
+	FingerJetFXFeature::FJFXROIResults roiResults = computeROI(
+	    sharedMinutiaData, minutiaCount, 32, fingerprintImage,
+	    vecRectDimensions);
 	double noOfMinInRect200x200 = 0;
 	for (unsigned int i = 0;
 	     i < roiResults.vecNoOfMinutiaeInRectangular.size(); i++) {
@@ -221,7 +274,7 @@ FingerJetFXFeature::computeFeatureData(
 	res_min_cnt_comrect200x200.returnCode = 0;
 	featureDataList.push_back(res_min_cnt_comrect200x200);
 
-	fd_min_cnt.featureDataDouble = num_minutia;
+	fd_min_cnt.featureDataDouble = minutiaCount;
 	res_min_cnt.returnCode = 0;
 	res_min_cnt.featureData = fd_min_cnt;
 	featureDataList.push_back(res_min_cnt);
@@ -235,6 +288,9 @@ FingerJetFXFeature::computeFeatureData(
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 		m_lSpeedValues.push_back(speed);
 	}
+
+	std::cout << "Passed First FJFX"
+		  << "\n";
 	return featureDataList;
 }
 
@@ -269,11 +325,11 @@ FingerJetFXFeature::createContext(FRFXLL_HANDLE_PT phContext)
 }
 
 FingerJetFXFeature::FJFXROIResults
-FingerJetFXFeature::computeROI(FRFXLL_Basic_19794_2_Minutia *vecMData,
-    // struct finger_minutiae_data **fmds,
-    unsigned int minCount, int bs,
+FingerJetFXFeature::computeROI(
+    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+    unsigned int minutiaCount, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage,
-    std::vector<FingerJetFXFeature::Object> vecRectDimensions)
+    std::vector<Object> vecRectDimensions)
 {
 	unsigned int fpHeight = fingerprintImage.m_ImageHeight;
 	unsigned int fpWidth = fingerprintImage.m_ImageWidth;
@@ -285,7 +341,7 @@ FingerJetFXFeature::computeROI(FRFXLL_Basic_19794_2_Minutia *vecMData,
 	int x = 0, y = 0;
 
 	FingerJetFXFeature::find_center_of_minutiae_mass(
-	    vecMData, minCount, &x, &y);
+	    sharedMinutiaData, minutiaCount, &x, &y);
 
 	roiResults.centreOfMassMinutiae.x = x;
 	roiResults.centreOfMassMinutiae.y = y;
@@ -326,9 +382,11 @@ FingerJetFXFeature::computeROI(FRFXLL_Basic_19794_2_Minutia *vecMData,
 
 		unsigned int noOfMinutiaeInRect = 0;
 
-		for (unsigned int k = 0; k < minCount; k++) {
-			if (vecMData[k].x >= startX && vecMData[k].x <= endX &&
-			    vecMData[k].y >= startY && vecMData[k].y <= endY) {
+		for (unsigned int k = 0; k < minutiaCount; k++) {
+			if (sharedMinutiaData.get()[k].x >= startX &&
+			    sharedMinutiaData.get()[k].x <= endX &&
+			    sharedMinutiaData.get()[k].y >= startY &&
+			    sharedMinutiaData.get()[k].y <= endY) {
 				// minutia is inside rectangular
 				noOfMinutiaeInRect++;
 			}

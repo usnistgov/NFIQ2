@@ -119,8 +119,8 @@ class FingerJetFXFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData fingerprintImage,
-	    unsigned char templateData[], size_t &templateSize,
-	    bool &templateCouldBeExtracted);
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int &minutiaCount, bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
 
@@ -130,15 +130,17 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 
 	void find_center_of_minutiae_mass(
-	    FRFXLL_Basic_19794_2_Minutia *vecMData, int mcount, int *x, int *y);
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int minutiaCount, int *x, int *y);
 
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
 #ifndef WITHOUT_BIOMDI_SUPPORT
-	FJFXROIResults computeROI(FRFXLL_Basic_19794_2_Minutia *vecMData,
-	    unsigned int minCount, int bs,
+	FJFXROIResults computeROI(
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<Object> vecRectDimensions);
 #endif

@@ -57,8 +57,8 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    unsigned char templateData[], size_t &templateSize,
-	    bool &templateCouldBeExtracted);
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int minutiaCount, bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
 
@@ -70,15 +70,18 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
     private:
 #ifndef WITHOUT_BIOMDI_SUPPORT
 	std::vector<MinutiaData> computeMuMinQuality(
-	    struct finger_minutiae_data **fmds, unsigned int minCount, int bs,
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    struct finger_minutiae_data **fmds, unsigned int minCount, int bs,
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
-	double computeMMBBasedOnCOM(struct finger_minutiae_data **fmds,
-	    unsigned int minCount, int bs,
+	double computeMMBBasedOnCOM(
+	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
 

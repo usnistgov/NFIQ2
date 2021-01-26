@@ -32,15 +32,14 @@
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
 #if defined WINDOWS || defined WIN32
 #include <sys/queue.h>
 #endif
+
 extern "C" {
 #include <biomdimacro.h>
 #include <fmr.h>
 }
-#endif
 
 class FJFXMinutiaeQualityFeature : BaseFeature {
     public:
@@ -57,7 +56,7 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int minutiaCount, bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
@@ -68,24 +67,21 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 
     private:
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	std::vector<MinutiaData> computeMuMinQuality(
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	double computeMMBBasedOnCOM(
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
-
-#endif
 };
 
 #endif

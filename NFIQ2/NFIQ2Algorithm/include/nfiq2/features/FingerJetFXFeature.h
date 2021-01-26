@@ -25,15 +25,14 @@
 #include <fcntl.h>
 #include <stdint.h>
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
 #if defined WINDOWS || defined WIN32
 #include <sys/queue.h>
 #endif
+
 extern "C" {
 #include <biomdimacro.h>
 #include <fmr.h>
 }
-#endif
 
 class FingerJetFXFeature : BaseFeature {
     public:
@@ -119,7 +118,7 @@ class FingerJetFXFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData fingerprintImage,
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int &minutiaCount, bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
@@ -130,20 +129,18 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 
 	void find_center_of_minutiae_mass(
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int minutiaCount, int *x, int *y);
 
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	FJFXROIResults computeROI(
-	    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
 	    unsigned int minutiaCount, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<Object> vecRectDimensions);
-#endif
 };
 
 #endif

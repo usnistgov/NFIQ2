@@ -5,8 +5,6 @@
 
 #include <sstream>
 
-#define CBEFF (0x00330502)
-
 using namespace NFIQ;
 using namespace cv;
 
@@ -20,11 +18,9 @@ const std::string FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 std::list<NFIQ::QualityFeatureResult>
 FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
-    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
     unsigned int minutiaCount, bool &templateCouldBeExtracted)
 {
-#ifndef WITHOUT_BIOMDI_SUPPORT
-
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
 
 	std::vector<NFIQ::QualityFeatureResult> vecResultMuMinQuality;
@@ -67,8 +63,6 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	std::cout << "We entered FJFXMinQuality"
-		  << "\n";
 	try {
 		NFIQ::Timer timer;
 		timer.startTimer();
@@ -77,10 +71,8 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		// minutiae positions
 		std::vector<MinutiaData> vecMuMinQualityData =
 		    computeMuMinQuality(
-			sharedMinutiaData, minutiaCount, 32, fingerprintImage);
+			minutiaData, minutiaCount, 32, fingerprintImage);
 
-		std::cout << "Computed MuMinQuality"
-			  << "\n";
 		std::vector<unsigned int> vecRanges(
 		    4); // index 0 = -1 .. -0.5, ....
 		for (unsigned int i = 0; i < 4; i++) {
@@ -105,17 +97,14 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		res_mu.returnCode = 0;
 		// return relative value in relation to minutiae count
 		res_mu.featureData.featureDataDouble = (double)vecRanges.at(2) /
-		    ((double)minutiaCount *
-			(double)sizeof(FRFXLL_Basic_19794_2_Minutia));
+		    (double)minutiaCount;
 		featureDataList.push_back(res_mu);
 
 		// compute minutiae quality based on OCL feature computed at
 		// minutiae positions
 		std::vector<MinutiaData> vecOCLMinQualityData =
-		    computeOCLMinQuality(sharedMinutiaData, minutiaCount,
-			BS_OCL, fingerprintImage);
-		std::cout << "Computed VELOCLMINQUALITY"
-			  << "\n";
+		    computeOCLMinQuality(
+			minutiaData, minutiaCount, BS_OCL, fingerprintImage);
 
 		std::vector<unsigned int> vecRangesOCL(
 		    5); // index 0 = 0-20, 1 = 20-40, ..., 5 = 80-100
@@ -144,8 +133,7 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		// return relative value in relation to minutiae count
 		res_ocl.featureData.featureDataDouble = (double)vecRangesOCL.at(
 							    4) /
-		    ((double)minutiaCount *
-			sizeof(FRFXLL_Basic_19794_2_Minutia));
+		    (double)minutiaCount;
 		featureDataList.push_back(res_ocl);
 
 		if (m_bOutputSpeed) {
@@ -173,11 +161,6 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 	}
 
 	return featureDataList;
-#else
-	throw NFIQ::NFIQException(NFIQ::e_Error_FunctionNotImplemented,
-	    "libbiomdi support is not enabled. FJFX minutiae "
-	    "quality feature computation is not possible.");
-#endif
 }
 
 std::string
@@ -189,23 +172,15 @@ FJFXMinutiaeQualityFeature::getModuleID()
 std::list<std::string>
 FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 	featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 	return featureIDs;
-#else
-	// return empty feature list
-	std::list<std::string> featureIDs;
-	return featureIDs;
-#endif
 }
-
-#ifndef WITHOUT_BIOMDI_SUPPORT
 
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeMuMinQuality(
-    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
     unsigned int minutiaCount, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
@@ -216,8 +191,6 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	    fingerprintImage.m_ImageWidth, CV_8UC1,
 	    (void *)fingerprintImage.data());
 
-	// std::cout << "Made Mat from fp image" << "\n";
-	// std::cout << "MinCount: " << minCount << "\n";
 	// compute overall mean and stddev
 	Scalar me;
 	Scalar stddev;
@@ -228,10 +201,8 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	// based on block-wise Mu computation around FJFX minutiae location
 	for (unsigned int i = 0; i < minutiaCount; i++) {
 		MinutiaData minData;
-		int x = (int)sharedMinutiaData.get()[i].x;
-		// std::cout << "X: " << x << "\n";
-		int y = (int)sharedMinutiaData.get()[i].y;
-		// std::cout << "X: " << y << "\n";
+		int x = (int)minutiaData.get()[i].x;
+		int y = (int)minutiaData.get()[i].y;
 		minData.x = x;
 		minData.y = y;
 
@@ -267,7 +238,7 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeOCLMinQuality(
-    std::shared_ptr<FRFXLL_Basic_19794_2_Minutia> &sharedMinutiaData,
+    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
     unsigned int minutiaCount, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
@@ -283,8 +254,8 @@ FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	// based on OCL value computation around FJFX minutiae location
 	for (unsigned int i = 0; i < minutiaCount; i++) {
 		MinutiaData minData;
-		int x = (int)sharedMinutiaData.get()[i].x;
-		int y = (int)sharedMinutiaData.get()[i].y;
+		int x = (int)minutiaData.get()[i].x;
+		int y = (int)minutiaData.get()[i].y;
 		minData.x = x;
 		minData.y = y;
 
@@ -325,5 +296,3 @@ FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 
 	return vecMinData;
 }
-
-#endif

@@ -29,11 +29,6 @@
 #include <sys/queue.h>
 #endif
 
-extern "C" {
-#include <biomdimacro.h>
-#include <fmr.h>
-}
-
 class FingerJetFXFeature : BaseFeature {
     public:
 	typedef enum com_type {

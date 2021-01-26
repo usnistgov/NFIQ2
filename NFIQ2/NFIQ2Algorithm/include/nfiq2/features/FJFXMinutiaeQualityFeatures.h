@@ -36,11 +36,6 @@
 #include <sys/queue.h>
 #endif
 
-extern "C" {
-#include <biomdimacro.h>
-#include <fmr.h>
-}
-
 class FJFXMinutiaeQualityFeature : BaseFeature {
     public:
 	struct MinutiaData {

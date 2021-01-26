@@ -52,3 +52,8 @@ NFIQ2UI::FileNotFoundError::FileNotFoundError(const std::string &info)
     : Exception("FileNotFoundError: " + info)
 {
 }
+
+NFIQ2UI::ModelConstructionError::ModelConstructionError(const std::string &info)
+    : Exception("ModelConstructionError: " + info)
+{
+}

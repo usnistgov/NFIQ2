@@ -3,6 +3,7 @@
 
 #include <nfiq2/fingerprintimagedata.hpp>
 #include <nfiq2/interfacedefinitions.hpp>
+#include <nfiq2/modelinfo.hpp>
 
 #include <list>
 #include <memory>
@@ -17,6 +18,7 @@ class NFIQ2Algorithm {
 #endif
 	NFIQ2Algorithm(
 	    const std::string &fileName, const std::string &fileHash);
+	NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj);
 	~NFIQ2Algorithm();
 
 	/**

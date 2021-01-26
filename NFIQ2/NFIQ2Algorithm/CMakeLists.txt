@@ -4,11 +4,7 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
-set(NFIQ2_CONTAINER_DIR nfiq2)
 include(GNUInstallDirs)
-string(APPEND CMAKE_INSTALL_LIBDIR "/${NFIQ2_CONTAINER_DIR}")
-string(APPEND CMAKE_INSTALL_INCLUDEDIR "/${NFIQ2_CONTAINER_DIR}")
-string(APPEND CMAKE_INSTALL_DATADIR "/${NFIQ2_CONTAINER_DIR}")
 
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
@@ -47,6 +43,7 @@ set(PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/fingerprintimagedata.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/data.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/modelinfo.hpp"
 )
 
 set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")

@@ -11,13 +11,13 @@ set( NO_SEARCH TRUE )
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
-# ExternalProjects have their own install() that we can't control, and
-# the `install' target is executed at superbuild build time. To counteract
-# this, we will set CMAKE_INSTALL_PREFIX to ${INSTALL_STAGING_DIR} for all
-# ExternalProjects, allowing the project to be built by non-root. The
-# superbuild's install (and ultimate packaging with CPack) will merely copy
+# ExternalProjects have their own install() that we can't control, and the
+# `install' target is executed at superbuild build time. To counteract this, we
+# will set CMAKE_INSTALL_PREFIX to ${INSTALL_STAGING_DIR} for all
+# ExternalProjects. The superbuild's install and  packaging with CPack will copy
 # this staging directory.
-set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging")
+set(NFIQ2_CONTAINER_DIR "nfiq2")
+set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CONTAINER_DIR}")
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -205,7 +205,24 @@ ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)
 
 # Tell CPack to pack up the install
 include(GNUInstallDirs)
-install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_BINDIR}/"
+
+# Put all files into nfiq2 container dir
+set(INSTALL_STAGING_BINDIR "${CMAKE_INSTALL_BINDIR}")
+set(INSTALL_STAGING_DATADIR "${CMAKE_INSTALL_DATADIR}")
+set(INSTALL_STAGING_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
+set(INSTALL_STAGING_LIBDIR "${CMAKE_INSTALL_INCLUDEDIR}")
+if (UNIX)
+	set(ORIGINAL_CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_BINDIR}")
+	set(ORIGINAL_CMAKE_INSTALL_DATADIR "${INSTALL_STAGING_DATADIR}")
+	set(ORIGINAL_CMAKE_INSTALL_INCLUDEDIR "${INSTALL_STAGING_INCLUDEDIR}")
+	set(ORIGINAL_CMAKE_INSTALL_LIBDIR "${INSTALL_STAGING_LIBDIR}")
+	string(PREPEND CMAKE_INSTALL_BINDIR "${NFIQ2_CONTAINER_DIR}/")
+	string(PREPEND CMAKE_INSTALL_DATADIR "${NFIQ2_CONTAINER_DIR}/")
+	string(PREPEND CMAKE_INSTALL_INCLUDEDIR "${NFIQ2_CONTAINER_DIR}/")
+	string(PREPEND CMAKE_INSTALL_LIBDIR "${NFIQ2_CONTAINER_DIR}/")
+endif()
+
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/"
 	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	FILE_PERMISSIONS
 		OWNER_READ OWNER_EXECUTE
@@ -213,14 +230,14 @@ install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_BINDIR}/"
 		WORLD_READ WORLD_EXECUTE
 	COMPONENT nfiq2_cli)
 if (UNIX)
-	install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_DATADIR}/"
+	install(DIRECTORY "${INSTALL_STAGING_DIR}/${INSTALL_STAGING_DATADIR}/"
 		DESTINATION ${CMAKE_INSTALL_DATADIR}
 		COMPONENT nfiq2_cli)
 endif()
-install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_LIBDIR}/"
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/"
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	COMPONENT development)
-install(DIRECTORY "${INSTALL_STAGING_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/"
+install(DIRECTORY "${INSTALL_STAGING_DIR}/${INSTALL_STAGING_INCLUDEDIR}/"
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 	COMPONENT development)
 
@@ -271,8 +288,22 @@ set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line I
 set(CPACK_COMPONENT_DEVELOPMENT_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
 
 set(CPACK_GENERATOR "ZIP")
-if (APPLE)
+
+if (UNIX)
 	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+
+	# Make a link (/usr/local/bin/nfiq2 -> /usr/local/nfiq2/bin/nfiq2) using
+	# ln instead of cmake -E create_symlink because it does not have to be
+	# an absolute path and the destination does not have to exist when
+	# created.
+	install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${INSTALL_STAGING_DIR}/../bin)" COMPONENT nfiq2_cli)
+	install(CODE "execute_process(COMMAND ln -s -f \"../nfiq2/bin/nfiq2\" \"nfiq2\" WORKING_DIRECTORY \"${INSTALL_STAGING_DIR}/../bin\")" COMPONENT nfiq2_cli)
+	install(FILES "${INSTALL_STAGING_DIR}/../bin/nfiq2"
+	    DESTINATION "${ORIGINAL_CMAKE_INSTALL_BINDIR}"
+	    COMPONENT nfiq2_cli)
+endif (UNIX)
+
+if (APPLE)
 	list(APPEND CPACK_GENERATOR "productbuild")
 	execute_process(COMMAND sw_vers -productVersion OUTPUT_VARIABLE OSX_VERS)
 	string(STRIP "${OSX_VERS}" OSX_VERS)
@@ -281,7 +312,7 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Install WiX from https://wixtoolset.org/releases/
 	list(APPEND CPACK_GENERATOR "WIX")
 	set(CPACK_PACKAGE_INSTALL_DIRECTORY "NFIQ 2")
-	
+
 	if (CMAKE_SIZEOF_VOID_P MATCHES "8")
 		# 64-bit GUID
 		set(CPACK_WIX_UPGRADE_GUID "492101f0-5052-11eb-bb05-1b5668cc0087")
@@ -356,6 +387,7 @@ elseif (EXISTS "/etc/lsb-release")
 	set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_CONTROL_STRICT_PERMISSION YES)
 	set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_CONTROL_STRICT_PERMISSION YES)
 elseif (EXISTS "/etc/redhat-release")
+	set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/usr/local;/usr/local/bin")
 	list(APPEND CPACK_GENERATOR "RPM")
 	set(CPACK_RPM_COMPONENT_INSTALL ON)
 

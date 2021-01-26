@@ -12,6 +12,7 @@
 #define NFIQ2_UI_REFRESH_H_
 
 #include <be_image_image.h>
+#include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiq2.hpp>
 
 #include "nfiq2_ui_log.h"
@@ -310,8 +311,7 @@ void printHeader(
  *  @return
  *      Returns a tuple containing the model path and the models hash.
  */
-std::tuple<std::string, std::string> parseModel(
-    const NFIQ2UI::Arguments &arguments);
+NFIQ::ModelInfo parseModelInfo(const NFIQ2UI::Arguments &arguments);
 
 } // namespace NFIQ2UI
 

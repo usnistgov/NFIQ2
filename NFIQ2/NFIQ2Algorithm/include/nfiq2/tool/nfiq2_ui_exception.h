@@ -162,6 +162,26 @@ class FileNotFoundError : public Exception {
 	FileNotFoundError(const std::string &info);
 };
 
+/**
+ *  @brief
+ *  The machine learning model object could not be constructed correctly
+ */
+class ModelConstructionError : public Exception {
+    public:
+	/**
+	 *  Construct an ModelConstructionError object with
+	 *  the default information string.
+	 */
+	ModelConstructionError();
+
+	/**
+	 *  Construct an ModelConstructionError object with
+	 *  an information string appended to the
+	 *  default information string.
+	 */
+	ModelConstructionError(const std::string &info);
+};
+
 } // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_EXCEPTION_H_ */

@@ -115,34 +115,26 @@ std::string
 RandomForestML::initModule(
     const std::string &fileName, const std::string &fileHash)
 {
-	try {
-		std::ifstream input(fileName);
-		std::string params((std::istreambuf_iterator<char>(input)),
-		    std::istreambuf_iterator<char>());
-		initModule(params);
-		// calculate and compare the hash
-		std::string hash = calculateHashString(params);
-		if (fileHash.compare(hash) != 0) {
+	std::ifstream input(fileName);
+	std::string params((std::istreambuf_iterator<char>(input)),
+	    std::istreambuf_iterator<char>());
+	initModule(params);
+	// calculate and compare the hash
+	std::string hash = calculateHashString(params);
+	if (fileHash.compare(hash) != 0) {
 #if CV_MAJOR_VERSION <= 2
-			m_pTrainedRF->clear();
-			delete m_pTrainedRF;
-			m_pTrainedRF = NULL;
+		m_pTrainedRF->clear();
+		delete m_pTrainedRF;
+		m_pTrainedRF = NULL;
 #else
-			m_pTrainedRF->clear();
+		m_pTrainedRF->clear();
 #endif
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_InvalidConfiguration,
-			    "The trained network could not be initialized! "
-			    "Error: " +
-				hash);
-		}
-		return hash;
-	} catch (const cv::Exception &e) {
-		std::cout << e.msg.c_str() << std::endl;
-		throw e;
-	} catch (...) {
-		throw;
+		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration,
+		    "The trained network could not be initialized! "
+		    "Error: " +
+			hash);
 	}
+	return hash;
 }
 
 void

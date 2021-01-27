@@ -153,8 +153,14 @@ FingerJetFXFeature::computeFeatureData(
 
 	minutiaData.reserve(minCnt);
 
-	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata(
-	    new FRFXLL_Basic_19794_2_Minutia[minCnt]);
+	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
+
+	try {
+		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
+	} catch (std::bad_alloc) {
+		throw NFIQ::NFIQException(NFIQ::e_Error_NotEnoughMemory,
+		    "Could not allocate space for extracted minutiae records.");
+	}
 
 	if (FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
 		&minCnt, mdata.get()) != FRFXLL_OK) {

@@ -18,7 +18,7 @@ const std::string FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 std::list<NFIQ::QualityFeatureResult>
 FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
-    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     bool &templateCouldBeExtracted)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -178,7 +178,7 @@ FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeMuMinQuality(
-    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -233,7 +233,7 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeOCLMinQuality(
-    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;

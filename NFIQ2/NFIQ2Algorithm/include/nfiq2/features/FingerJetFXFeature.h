@@ -130,14 +130,14 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 
 	std::pair<int, int> centerOfMinutiaeMass(
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData);
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
 
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
 	FJFXROIResults computeROI(
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };

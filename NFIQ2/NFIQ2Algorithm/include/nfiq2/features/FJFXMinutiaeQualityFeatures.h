@@ -48,7 +48,7 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
@@ -60,15 +60,15 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
     private:
 	std::vector<MinutiaData> computeMuMinQuality(
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	double computeMMBBasedOnCOM(
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
 };

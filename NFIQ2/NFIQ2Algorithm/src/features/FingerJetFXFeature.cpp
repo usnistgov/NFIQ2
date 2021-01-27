@@ -15,7 +15,7 @@ const std::string FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
 std::pair<int, int>
 FingerJetFXFeature::centerOfMinutiaeMass(
-    std::vector<FingerJetFXFeature::Minutia> &minutiaData)
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
 {
 	int lx { 0 }, ly { 0 };
 	for (unsigned int i = 0; i < minutiaData.size(); ++i) {
@@ -305,7 +305,7 @@ FingerJetFXFeature::createContext(FRFXLL_HANDLE_PT phContext)
 
 FingerJetFXFeature::FJFXROIResults
 FingerJetFXFeature::computeROI(
-    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)
 {

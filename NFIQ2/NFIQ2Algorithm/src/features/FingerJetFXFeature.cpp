@@ -108,6 +108,18 @@ FingerJetFXFeature::computeFeatureData(
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
 
+		if (m_bOutputSpeed) {
+			NFIQ::QualityFeatureSpeed speed;
+			speed.featureIDGroup =
+			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back(
+			    "FJFXPos_Mu_MinutiaeQuality_2");
+			speed.featureIDs.push_back(
+			    "FJFXPos_OCL_MinutiaeQuality_80");
+			speed.featureSpeed = 0;
+			m_lSpeedValues.push_back(speed);
+		}
+
 		return featureDataList;
 	}
 
@@ -127,6 +139,18 @@ FingerJetFXFeature::computeFeatureData(
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
 
+		if (m_bOutputSpeed) {
+			NFIQ::QualityFeatureSpeed speed;
+			speed.featureIDGroup =
+			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back(
+			    "FJFXPos_Mu_MinutiaeQuality_2");
+			speed.featureIDs.push_back(
+			    "FJFXPos_OCL_MinutiaeQuality_80");
+			speed.featureSpeed = 0;
+			m_lSpeedValues.push_back(speed);
+		}
+
 		return featureDataList;
 	}
 
@@ -144,6 +168,18 @@ FingerJetFXFeature::computeFeatureData(
 		res_min_cnt.returnCode = 0;
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
+
+		if (m_bOutputSpeed) {
+			NFIQ::QualityFeatureSpeed speed;
+			speed.featureIDGroup =
+			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back(
+			    "FJFXPos_Mu_MinutiaeQuality_2");
+			speed.featureIDs.push_back(
+			    "FJFXPos_OCL_MinutiaeQuality_80");
+			speed.featureSpeed = 0;
+			m_lSpeedValues.push_back(speed);
+		}
 
 		return featureDataList;
 	}
@@ -170,6 +206,18 @@ FingerJetFXFeature::computeFeatureData(
 		res_min_cnt.returnCode = 0;
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
+
+		if (m_bOutputSpeed) {
+			NFIQ::QualityFeatureSpeed speed;
+			speed.featureIDGroup =
+			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back(
+			    "FJFXPos_Mu_MinutiaeQuality_2");
+			speed.featureIDs.push_back(
+			    "FJFXPos_OCL_MinutiaeQuality_80");
+			speed.featureSpeed = 0;
+			m_lSpeedValues.push_back(speed);
+		}
 
 		return featureDataList;
 	}

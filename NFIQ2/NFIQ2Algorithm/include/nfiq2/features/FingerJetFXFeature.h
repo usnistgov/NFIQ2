@@ -25,10 +25,6 @@
 #include <fcntl.h>
 #include <stdint.h>
 
-#if defined WINDOWS || defined WIN32
-#include <sys/queue.h>
-#endif
-
 class FingerJetFXFeature : BaseFeature {
     public:
 	typedef enum com_type {
@@ -114,7 +110,7 @@ class FingerJetFXFeature : BaseFeature {
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData fingerprintImage,
 	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int &minutiaCount, bool &templateCouldBeExtracted);
+	    unsigned int &minCnt, bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
 
@@ -123,9 +119,9 @@ class FingerJetFXFeature : BaseFeature {
 	static std::list<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 
-	void find_center_of_minutiae_mass(
+	std::pair<int, int> centerOfMinutiaeMass(
 	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minutiaCount, int *x, int *y);
+	    unsigned int minCnt);
 
     private:
 	FRFXLL_RESULT
@@ -133,9 +129,9 @@ class FingerJetFXFeature : BaseFeature {
 
 	FJFXROIResults computeROI(
 	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minutiaCount, int bs,
+	    unsigned int minCnt, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    std::vector<Object> vecRectDimensions);
+	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };
 
 #endif

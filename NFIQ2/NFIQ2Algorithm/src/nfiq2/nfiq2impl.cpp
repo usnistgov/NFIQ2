@@ -172,11 +172,11 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 	// modules
 
 	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> minutiaData {};
-	unsigned int minutiaCount;
+	unsigned int minCnt { 0 };
 	bool templateCouldBeExtracted = false;
 	std::list<NFIQ::QualityFeatureResult> fjfxFeatures =
 	    fjfxFeatureModule.computeFeatureData(
-		rawImage, minutiaData, minutiaCount, templateCouldBeExtracted);
+		rawImage, minutiaData, minCnt, templateCouldBeExtracted);
 
 	// append to feature vector
 	std::list<NFIQ::QualityFeatureResult>::iterator it_fjfxFeatures;
@@ -217,7 +217,7 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 	// this module uses the already computed FJFX minutiae template
 	std::list<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
 	    fjfxMinQualFeatureModule.computeFeatureData(
-		rawImage, minutiaData, minutiaCount, templateCouldBeExtracted);
+		rawImage, minutiaData, minCnt, templateCouldBeExtracted);
 
 	// append to feature vector
 	std::list<NFIQ::QualityFeatureResult>::iterator it_fjfxMinQualFeatures;

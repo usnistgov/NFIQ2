@@ -19,7 +19,7 @@ std::list<NFIQ::QualityFeatureResult>
 FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-    unsigned int minutiaCount, bool &templateCouldBeExtracted)
+    unsigned int minCnt, bool &templateCouldBeExtracted)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -71,7 +71,7 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		// minutiae positions
 		std::vector<MinutiaData> vecMuMinQualityData =
 		    computeMuMinQuality(
-			minutiaData, minutiaCount, 32, fingerprintImage);
+			minutiaData, minCnt, 32, fingerprintImage);
 
 		std::vector<unsigned int> vecRanges(
 		    4); // index 0 = -1 .. -0.5, ....
@@ -97,14 +97,14 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		res_mu.returnCode = 0;
 		// return relative value in relation to minutiae count
 		res_mu.featureData.featureDataDouble = (double)vecRanges.at(2) /
-		    (double)minutiaCount;
+		    (double)minCnt;
 		featureDataList.push_back(res_mu);
 
 		// compute minutiae quality based on OCL feature computed at
 		// minutiae positions
 		std::vector<MinutiaData> vecOCLMinQualityData =
 		    computeOCLMinQuality(
-			minutiaData, minutiaCount, BS_OCL, fingerprintImage);
+			minutiaData, minCnt, BS_OCL, fingerprintImage);
 
 		std::vector<unsigned int> vecRangesOCL(
 		    5); // index 0 = 0-20, 1 = 20-40, ..., 5 = 80-100
@@ -133,7 +133,7 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		// return relative value in relation to minutiae count
 		res_ocl.featureData.featureDataDouble = (double)vecRangesOCL.at(
 							    4) /
-		    (double)minutiaCount;
+		    (double)minCnt;
 		featureDataList.push_back(res_ocl);
 
 		if (m_bOutputSpeed) {
@@ -181,7 +181,7 @@ FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeMuMinQuality(
     std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-    unsigned int minutiaCount, int bs,
+    unsigned int minCnt, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -199,19 +199,17 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on block-wise Mu computation around FJFX minutiae location
-	for (unsigned int i = 0; i < minutiaCount; i++) {
+	for (unsigned int i = 0; i < minCnt; i++) {
 		MinutiaData minData;
-		int x = (int)minutiaData.get()[i].x;
-		int y = (int)minutiaData.get()[i].y;
-		minData.x = x;
-		minData.y = y;
+		minData.x = static_cast<int>(minutiaData[i].x);
+		minData.y = static_cast<int>(minutiaData[i].y);
 
-		int leftX = (x - (bs / 2));
+		int leftX = (minData.x - (bs / 2));
 		if (leftX < 0) {
 			leftX = 0;
 		}
 
-		int topY = (y - (bs / 2));
+		int topY = (minData.y - (bs / 2));
 		if (topY < 0) {
 			topY = 0;
 		}
@@ -239,7 +237,7 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeOCLMinQuality(
     std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-    unsigned int minutiaCount, int bs,
+    unsigned int minCnt, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -252,19 +250,17 @@ FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on OCL value computation around FJFX minutiae location
-	for (unsigned int i = 0; i < minutiaCount; i++) {
+	for (unsigned int i = 0; i < minCnt; i++) {
 		MinutiaData minData;
-		int x = (int)minutiaData.get()[i].x;
-		int y = (int)minutiaData.get()[i].y;
-		minData.x = x;
-		minData.y = y;
+		minData.x = (int)minutiaData[i].x;
+		minData.y = (int)minutiaData[i].y;
 
-		int leftX = (x - (bs / 2));
+		int leftX = (minData.x - (bs / 2));
 		if (leftX < 0) {
 			leftX = 0;
 		}
 
-		int topY = (y - (bs / 2));
+		int topY = (minData.y - (bs / 2));
 		if (topY < 0) {
 			topY = 0;
 		}

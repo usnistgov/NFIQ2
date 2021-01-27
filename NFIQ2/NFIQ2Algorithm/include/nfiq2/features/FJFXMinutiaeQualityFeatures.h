@@ -2,6 +2,7 @@
 #define FINGERJETFXMINUTIAEQUALITYFEATURE_H
 
 #include <nfiq2/features/BaseFeature.h>
+#include <nfiq2/features/FingerJetFXFeature.h>
 #include <nfiq2/fingerprintimagedata.hpp>
 #include <nfiq2/interfacedefinitions.hpp>
 #include <stdio.h>
@@ -47,8 +48,8 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minCnt, bool &templateCouldBeExtracted);
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
+	    bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
 
@@ -59,18 +60,15 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
     private:
 	std::vector<MinutiaData> computeMuMinQuality(
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minCnt, int bs,
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minCnt, int bs,
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	double computeMMBBasedOnCOM(
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minCnt, int bs,
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
 };

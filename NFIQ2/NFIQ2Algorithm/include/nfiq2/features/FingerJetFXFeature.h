@@ -39,6 +39,16 @@ class FingerJetFXFeature : BaseFeature {
 		    angle; ///< angle in degrees (full range 0..360 degrees)
 		unsigned int quality; ///< minutiae quality
 		unsigned int type;    ///< minutiae type
+
+		Minutia(unsigned int x_, unsigned int y_, unsigned int angle_,
+		    unsigned int quality_, unsigned int type_)
+		    : x(x_)
+		    , y(y_)
+		    , angle(angle_)
+		    , quality(quality_)
+		    , type(type_)
+		{
+		}
 	};
 
 	struct Point {
@@ -109,8 +119,8 @@ class FingerJetFXFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData fingerprintImage,
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int &minCnt, bool &templateCouldBeExtracted);
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
+	    bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
 
@@ -120,16 +130,14 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 
 	std::pair<int, int> centerOfMinutiaeMass(
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minCnt);
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData);
 
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
 	FJFXROIResults computeROI(
-	    std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> &minutiaData,
-	    unsigned int minCnt, int bs,
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };

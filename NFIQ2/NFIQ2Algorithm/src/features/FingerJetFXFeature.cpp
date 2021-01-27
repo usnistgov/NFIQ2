@@ -13,16 +13,16 @@ FingerJetFXFeature::~FingerJetFXFeature()
 
 const std::string FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
-std::pair<int, int>
+std::pair<unsigned int, unsigned int>
 FingerJetFXFeature::centerOfMinutiaeMass(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
 {
-	int lx { 0 }, ly { 0 };
-	for (unsigned int i = 0; i < minutiaData.size(); ++i) {
-		lx += minutiaData[i].x;
-		ly += minutiaData[i].y;
+	unsigned int lx { 0 }, ly { 0 };
+	for (const auto &m : minutiaData) {
+		lx += m.x;
+		ly += m.y;
 	}
-	return std::make_pair<int, int>(
+	return std::make_pair<unsigned int, unsigned int>(
 	    lx / minutiaData.size(), ly / minutiaData.size());
 }
 
@@ -130,8 +130,8 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	unsigned int resolution_ppi;
-	unsigned int minCnt;
+	unsigned int resolution_ppi { 0 };
+	unsigned int minCnt { 0 };
 
 	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, &resolution_ppi) !=
 	    FRFXLL_OK) {
@@ -157,7 +157,7 @@ FingerJetFXFeature::computeFeatureData(
 
 	try {
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
-	} catch (std::bad_alloc) {
+	} catch (const std::bad_alloc &) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_NotEnoughMemory,
 		    "Could not allocate space for extracted minutiae records.");
 	}
@@ -316,12 +316,9 @@ FingerJetFXFeature::computeROI(
 	roiResults.chosenBlockSize = bs;
 
 	// compute Centre of Mass based on minutiae
-	int x = 0, y = 0;
-	std::pair<int, int> coords = FingerJetFXFeature::centerOfMinutiaeMass(
-	    minutiaData);
-
-	roiResults.centreOfMassMinutiae.x = coords.first;
-	roiResults.centreOfMassMinutiae.y = coords.second;
+	std::tie(roiResults.centreOfMassMinutiae.x,
+	    roiResults.centreOfMassMinutiae.y) =
+	    FingerJetFXFeature::centerOfMinutiaeMass(minutiaData);
 
 	// get number of minutiae that lie inside a block defined by the Centre
 	// of Mass (COM)
@@ -331,8 +328,8 @@ FingerJetFXFeature::computeROI(
 		int centre_x = 0, centre_y = 0;
 		if (vecRectDimensions.at(i).comType ==
 		    e_COMType_MinutiaeLocation) {
-			centre_x = coords.first;
-			centre_y = coords.second;
+			centre_x = roiResults.centreOfMassMinutiae.x;
+			centre_y = roiResults.centreOfMassMinutiae.y;
 		}
 
 		unsigned int comRectHeightHalf =

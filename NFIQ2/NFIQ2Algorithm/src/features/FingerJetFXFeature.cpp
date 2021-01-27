@@ -355,11 +355,9 @@ FingerJetFXFeature::computeROI(
 		}
 
 		unsigned int noOfMinutiaeInRect = 0;
-		for (unsigned int k = 0; k < minutiaData.size(); k++) {
-			if (minutiaData[k].x >= startX &&
-			    minutiaData[k].x <= endX &&
-			    minutiaData[k].y >= startY &&
-			    minutiaData[k].y <= endY) {
+		for (const auto &m : minutiaData) {
+			if (m.x >= startX && m.x <= endX && m.y >= startY &&
+			    m.y <= endY) {
 				// minutia is inside rectangular
 				noOfMinutiaeInRect++;
 			}

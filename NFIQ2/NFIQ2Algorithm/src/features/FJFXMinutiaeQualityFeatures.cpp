@@ -196,10 +196,10 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on block-wise Mu computation around FJFX minutiae location
-	for (unsigned int i = 0; i < minutiaData.size(); i++) {
+	for (const auto &minutia : minutiaData) {
 		MinutiaData minData;
-		minData.x = static_cast<int>(minutiaData[i].x);
-		minData.y = static_cast<int>(minutiaData[i].y);
+		minData.x = static_cast<int>(minutia.x);
+		minData.y = static_cast<int>(minutia.y);
 
 		int leftX = (minData.x - (bs / 2));
 		if (leftX < 0) {
@@ -246,10 +246,10 @@ FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on OCL value computation around FJFX minutiae location
-	for (unsigned int i = 0; i < minutiaData.size(); i++) {
+	for (const auto &minutia : minutiaData) {
 		MinutiaData minData;
-		minData.x = (int)minutiaData[i].x;
-		minData.y = (int)minutiaData[i].y;
+		minData.x = static_cast<int>(minutia.x);
+		minData.y = static_cast<int>(minutia.y);
 
 		int leftX = (minData.x - (bs / 2));
 		if (leftX < 0) {

@@ -33,7 +33,6 @@ include( "${ROOT_PATH}/cmake/compiler.cmake" )
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
-add_subdirectory("${ROOT_PATH}/biomdi/" "${BUILD_PATH}/biomdi/")
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
 # forwarding 32/64 compiler flags
@@ -185,7 +184,7 @@ ExternalProject_Add(nfiq2
 		${MULTI_CONFIG_ARGS}
 	BUILD_ALWAYS	YES
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV biomdi iid frf fir fmr FRFXLL FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
 
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval)

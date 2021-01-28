@@ -27,17 +27,10 @@ include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFR
 
 include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
 
-include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/common/src/include")
-include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
-
 set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
 include_directories(${OpenCV_INCLUDE_DIRS})
-
-if("${TARGET_PLATFORM}" MATCHES "win*")
-  include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/windows")
-endif()
 
 set(SOURCE_FILES "")
 file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/*.cpp" )
@@ -65,16 +58,12 @@ set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     OUTPUT_NAME "nfiq2"
 )
 
-# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once biomdi and FJFX builds
+# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once FJFX builds
 # FIXME: are updated.
 link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
-link_directories("${CMAKE_BINARY_DIR}/../../../biomdi")
 link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
-link_directories("${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
 target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
 	FRFXLL_static
-	biomdi
-	fmr
 	${OpenCV_LIBS}
 )
 
@@ -258,14 +247,3 @@ install(FILES
 	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
 	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 	COMPONENT install_staging)
-
-# FIXME: biomdi is going away and doesn't have an install target
-install(FILES
-	${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}biomdi${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}fir${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}fmr${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}frf${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../biomdi/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}iid${CMAKE_STATIC_LIBRARY_SUFFIX}
-	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-	COMPONENT install_staging)
-

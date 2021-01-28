@@ -5,8 +5,6 @@
 
 #include <sstream>
 
-#define CBEFF (0x00330502)
-
 using namespace NFIQ;
 using namespace cv;
 
@@ -20,11 +18,9 @@ const std::string FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 std::list<NFIQ::QualityFeatureResult>
 FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
-    unsigned char templateData[], size_t &templateSize,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     bool &templateCouldBeExtracted)
 {
-#ifndef WITHOUT_BIOMDI_SUPPORT
-
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
 
 	std::vector<NFIQ::QualityFeatureResult> vecResultMuMinQuality;
@@ -71,114 +67,10 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		NFIQ::Timer timer;
 		timer.startTimer();
 
-		// parse ISO template
-		// validity check
-		if (templateSize < 28) {
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError,
-			    "Created ISO template is too small.");
-		}
-
-		struct finger_minutiae_record *fmr;
-		if (new_fmr(FMR_STD_ISO, &fmr) < 0) {
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError,
-			    "Could not allocate FMR.");
-		}
-
-		BDB bdb;
-		INIT_BDB(&bdb, templateData, templateSize);
-		if (scan_fmr(&bdb, fmr) != READ_OK) {
-			if (fmr != NULL) {
-				free_fmr(fmr);
-			}
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError,
-			    "Could not init BDB.");
-		}
-
-		// Get all of the minutiae records
-		int rcount = get_fvmr_count(fmr);
-		if (rcount == 0) {
-			if (fmr != NULL) {
-				free_fmr(fmr);
-			}
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError,
-			    "No minutiae records found.");
-		}
-		struct finger_view_minutiae_record **fvmrs = NULL;
-		fvmrs = (struct finger_view_minutiae_record **)malloc(
-		    rcount * sizeof(struct finger_view_minutiae_record **));
-		if (get_fvmrs(fmr, fvmrs) != rcount) {
-			if (fvmrs) {
-				free(fvmrs);
-			}
-			if (fmr != NULL) {
-				free_fmr(fmr);
-			}
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError,
-			    "Cannot get minutiae records.");
-		}
-
-		// get number of minutiae
-		int minCnt = get_fmd_count(fvmrs[0]);
-		if (minCnt == 0) {
-			if (fvmrs) {
-				free(fvmrs);
-			}
-			if (fmr != NULL) {
-				free_fmr(fmr);
-			}
-
-			res_mu.featureData.featureDataDouble = -1;
-			res_mu.returnCode = 0;
-			featureDataList.push_back(res_mu);
-
-			res_ocl.featureData.featureDataDouble = -1;
-			res_ocl.returnCode = 0;
-			featureDataList.push_back(res_ocl);
-
-			if (m_bOutputSpeed) {
-				NFIQ::QualityFeatureSpeed speed;
-				speed.featureIDGroup =
-				    FJFXMinutiaeQualityFeature::
-					speedFeatureIDGroup;
-				speed.featureIDs.push_back(
-				    "FJFXPos_Mu_MinutiaeQuality_2");
-				speed.featureIDs.push_back(
-				    "FJFXPos_OCL_MinutiaeQuality_80");
-				speed.featureSpeed =
-				    timer.endTimerAndGetElapsedTime();
-				m_lSpeedValues.push_back(speed);
-			}
-			return featureDataList;
-		}
-
-		struct finger_minutiae_data **fmds;
-		fmds = (struct finger_minutiae_data **)malloc(
-		    minCnt * sizeof(struct finger_minutiae_data **));
-
-		if (get_fmds(fvmrs[0], fmds) != minCnt) {
-			if (fmds) {
-				free(fmds);
-			}
-			if (fvmrs) {
-				free(fvmrs);
-			}
-			if (fmr != NULL) {
-				free_fmr(fmr);
-			}
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError,
-			    "Cannot get minutiae data.");
-		}
-
 		// compute minutiae quality based on Mu feature computated at
 		// minutiae positions
 		std::vector<MinutiaData> vecMuMinQualityData =
-		    computeMuMinQuality(fmds, minCnt, 32, fingerprintImage);
+		    computeMuMinQuality(minutiaData, 32, fingerprintImage);
 
 		std::vector<unsigned int> vecRanges(
 		    4); // index 0 = -1 .. -0.5, ....
@@ -204,14 +96,13 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		res_mu.returnCode = 0;
 		// return relative value in relation to minutiae count
 		res_mu.featureData.featureDataDouble = (double)vecRanges.at(2) /
-		    (double)minCnt;
+		    (double)minutiaData.size();
 		featureDataList.push_back(res_mu);
 
 		// compute minutiae quality based on OCL feature computed at
 		// minutiae positions
 		std::vector<MinutiaData> vecOCLMinQualityData =
-		    computeOCLMinQuality(
-			fmds, minCnt, BS_OCL, fingerprintImage);
+		    computeOCLMinQuality(minutiaData, BS_OCL, fingerprintImage);
 
 		std::vector<unsigned int> vecRangesOCL(
 		    5); // index 0 = 0-20, 1 = 20-40, ..., 5 = 80-100
@@ -240,20 +131,8 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 		// return relative value in relation to minutiae count
 		res_ocl.featureData.featureDataDouble = (double)vecRangesOCL.at(
 							    4) /
-		    (double)minCnt;
+		    (double)minutiaData.size();
 		featureDataList.push_back(res_ocl);
-
-		if (fmds) {
-			free(fmds);
-		}
-
-		if (fvmrs) {
-			free(fvmrs);
-		}
-
-		if (fmr != NULL) {
-			free_fmr(fmr);
-		}
 
 		if (m_bOutputSpeed) {
 			NFIQ::QualityFeatureSpeed speed;
@@ -280,11 +159,6 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 	}
 
 	return featureDataList;
-#else
-	throw NFIQ::NFIQException(NFIQ::e_Error_FunctionNotImplemented,
-	    "libbiomdi support is not enabled. FJFX minutiae "
-	    "quality feature computation is not possible.");
-#endif
 }
 
 std::string
@@ -296,23 +170,15 @@ FJFXMinutiaeQualityFeature::getModuleID()
 std::list<std::string>
 FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 	featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 	return featureIDs;
-#else
-	// return empty feature list
-	std::list<std::string> featureIDs;
-	return featureIDs;
-#endif
 }
-
-#ifndef WITHOUT_BIOMDI_SUPPORT
 
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeMuMinQuality(
-    struct finger_minutiae_data **fmds, unsigned int minCount, int bs,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -330,19 +196,17 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on block-wise Mu computation around FJFX minutiae location
-	for (unsigned int i = 0; i < minCount; i++) {
+	for (const auto &minutia : minutiaData) {
 		MinutiaData minData;
-		int x = (int)fmds[i]->x_coord;
-		int y = (int)fmds[i]->y_coord;
-		minData.x = x;
-		minData.y = y;
+		minData.x = static_cast<int>(minutia.x);
+		minData.y = static_cast<int>(minutia.y);
 
-		int leftX = (x - (bs / 2));
+		int leftX = (minData.x - (bs / 2));
 		if (leftX < 0) {
 			leftX = 0;
 		}
 
-		int topY = (y - (bs / 2));
+		int topY = (minData.y - (bs / 2));
 		if (topY < 0) {
 			topY = 0;
 		}
@@ -369,7 +233,7 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 
 std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
 FJFXMinutiaeQualityFeature::computeOCLMinQuality(
-    struct finger_minutiae_data **fmds, unsigned int minCount, int bs,
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -382,19 +246,17 @@ FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on OCL value computation around FJFX minutiae location
-	for (unsigned int i = 0; i < minCount; i++) {
+	for (const auto &minutia : minutiaData) {
 		MinutiaData minData;
-		int x = (int)fmds[i]->x_coord;
-		int y = (int)fmds[i]->y_coord;
-		minData.x = x;
-		minData.y = y;
+		minData.x = static_cast<int>(minutia.x);
+		minData.y = static_cast<int>(minutia.y);
 
-		int leftX = (x - (bs / 2));
+		int leftX = (minData.x - (bs / 2));
 		if (leftX < 0) {
 			leftX = 0;
 		}
 
-		int topY = (y - (bs / 2));
+		int topY = (minData.y - (bs / 2));
 		if (topY < 0) {
 			topY = 0;
 		}
@@ -426,5 +288,3 @@ FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 
 	return vecMinData;
 }
-
-#endif

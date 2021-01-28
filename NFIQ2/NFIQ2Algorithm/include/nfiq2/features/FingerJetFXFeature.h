@@ -25,16 +25,6 @@
 #include <fcntl.h>
 #include <stdint.h>
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
-#if defined WINDOWS || defined WIN32
-#include <sys/queue.h>
-#endif
-extern "C" {
-#include <biomdimacro.h>
-#include <fmr.h>
-}
-#endif
-
 class FingerJetFXFeature : BaseFeature {
     public:
 	typedef enum com_type {
@@ -49,6 +39,16 @@ class FingerJetFXFeature : BaseFeature {
 		    angle; ///< angle in degrees (full range 0..360 degrees)
 		unsigned int quality; ///< minutiae quality
 		unsigned int type;    ///< minutiae type
+
+		Minutia(unsigned int x_, unsigned int y_, unsigned int angle_,
+		    unsigned int quality_, unsigned int type_)
+		    : x(x_)
+		    , y(y_)
+		    , angle(angle_)
+		    , quality(quality_)
+		    , type(type_)
+		{
+		}
 	};
 
 	struct Point {
@@ -119,7 +119,7 @@ class FingerJetFXFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData fingerprintImage,
-	    unsigned char templateData[], size_t &templateSize,
+	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
@@ -129,16 +129,17 @@ class FingerJetFXFeature : BaseFeature {
 	static std::list<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 
+	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
+
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
-	FJFXROIResults computeROI(struct finger_minutiae_data **fmds,
-	    unsigned int minCount, int bs,
+	FJFXROIResults computeROI(
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    std::vector<Object> vecRectDimensions);
-#endif
+	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };
 
 #endif

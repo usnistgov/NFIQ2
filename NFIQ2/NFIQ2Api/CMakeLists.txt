@@ -20,17 +20,10 @@ include_directories("${SUPERBUILD_ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include")
 
 include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/download/FingerJetFXOSE-master/src/libFRFXLL/include")
 
-include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/common/src/include")
-include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/biomdi/fingerminutia/src/include")
-
 set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
 include_directories(${OpenCV_INCLUDE})
-
-if("${TARGET_PLATFORM}" MATCHES "win*")
-  include_directories("${SUPERBUILD_ROOT_PATH}/biomdi/deps/windows")
-endif()
 
 # set and increment version
 include( "${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake" )
@@ -38,7 +31,6 @@ include( "${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake" )
 include(GNUInstallDirs)
 link_directories( "${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build" )
 link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src" )
-link_directories( "${CMAKE_BINARY_DIR}/../../../biomdi" )
 
 # add targets
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -69,14 +61,11 @@ endif()
 set( PROJECT_LIBS
   nfiq2
   FRFXLL_static
-  fmr
-  biomdi
 )
 
 if( USE_SANITIZER )
   target_link_libraries( ${PROJECT_NAME} "asan" )
 endif()
-
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
   if( "${OPENCV_VERSION}" MATCHES "^3.*")

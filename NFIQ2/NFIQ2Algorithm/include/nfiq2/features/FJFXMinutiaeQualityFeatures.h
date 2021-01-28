@@ -2,6 +2,7 @@
 #define FINGERJETFXMINUTIAEQUALITYFEATURE_H
 
 #include <nfiq2/features/BaseFeature.h>
+#include <nfiq2/features/FingerJetFXFeature.h>
 #include <nfiq2/fingerprintimagedata.hpp>
 #include <nfiq2/interfacedefinitions.hpp>
 #include <stdio.h>
@@ -32,16 +33,6 @@
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
-#if defined WINDOWS || defined WIN32
-#include <sys/queue.h>
-#endif
-extern "C" {
-#include <biomdimacro.h>
-#include <fmr.h>
-}
-#endif
-
 class FJFXMinutiaeQualityFeature : BaseFeature {
     public:
 	struct MinutiaData {
@@ -57,7 +48,7 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    unsigned char templateData[], size_t &templateSize,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    bool &templateCouldBeExtracted);
 
 	std::string getModuleID();
@@ -68,21 +59,18 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 
     private:
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	std::vector<MinutiaData> computeMuMinQuality(
-	    struct finger_minutiae_data **fmds, unsigned int minCount, int bs,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    struct finger_minutiae_data **fmds, unsigned int minCount, int bs,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
-	double computeMMBBasedOnCOM(struct finger_minutiae_data **fmds,
-	    unsigned int minCount, int bs,
+	double computeMMBBasedOnCOM(
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
-
-#endif
 };
 
 #endif

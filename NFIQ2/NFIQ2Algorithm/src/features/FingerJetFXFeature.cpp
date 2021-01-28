@@ -5,24 +5,7 @@
 
 #include <sstream>
 
-#define CBEFF (0x00330502)
-
 using namespace NFIQ;
-
-int cMem = 0;
-
-static void *
-m_malloc(size_t size, void *_)
-{
-	++cMem;
-	return malloc(size);
-}
-static void
-m_free(void *p, void *_)
-{
-	free(p);
-	--cMem;
-}
 
 FingerJetFXFeature::~FingerJetFXFeature()
 {
@@ -30,15 +13,27 @@ FingerJetFXFeature::~FingerJetFXFeature()
 
 const std::string FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
+std::pair<unsigned int, unsigned int>
+FingerJetFXFeature::centerOfMinutiaeMass(
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
+{
+	unsigned int lx { 0 }, ly { 0 };
+	for (const auto &m : minutiaData) {
+		lx += m.x;
+		ly += m.y;
+	}
+	return std::make_pair<unsigned int, unsigned int>(
+	    lx / minutiaData.size(), ly / minutiaData.size());
+}
+
 std::list<NFIQ::QualityFeatureResult>
 FingerJetFXFeature::computeFeatureData(
     const NFIQ::FingerprintImageData fingerprintImage,
-    unsigned char templateData[], size_t &templateSize,
+    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     bool &templateCouldBeExtracted)
 {
 	templateCouldBeExtracted = false;
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
 
 	// make local copy of fingerprint image
@@ -91,7 +86,7 @@ FingerJetFXFeature::computeFeatureData(
 	}
 
 	// extract feature set
-	FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetInPlaceFromRaw(hCtx,
+	FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,
 	    (unsigned char *)localFingerprintImage.data(),
 	    localFingerprintImage.size(), localFingerprintImage.m_ImageWidth,
 	    localFingerprintImage.m_ImageHeight,
@@ -135,19 +130,34 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	// export ISO template from handle
+	unsigned int minCnt { 0 };
+	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, nullptr) != FRFXLL_OK) {
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = 0;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
 
-	unsigned short dpcm =
-	    ((unsigned int)localFingerprintImage.m_ImageDPI * 100 + 50) / 254;
-	FRFXLL_OUTPUT_PARAM_ISO_ANSI param = {
-		sizeof(FRFXLL_OUTPUT_PARAM_ISO_ANSI), CBEFF,
-		localFingerprintImage.m_FingerCode, 0, dpcm, dpcm,
-		(unsigned short)localFingerprintImage.m_ImageWidth,
-		(unsigned short)localFingerprintImage.m_ImageHeight, 0, 0,
-		0 /*live-scan plain*/
-	};
-	if (FRFXLLExport(hFeatureSet, FRFXLL_DT_ISO_FEATURE_SET, &param,
-		templateData, &templateSize) != FRFXLL_OK) {
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = 0;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		return featureDataList;
+	}
+	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
+
+	try {
+		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
+	} catch (const std::bad_alloc &) {
+		throw NFIQ::NFIQException(NFIQ::e_Error_NotEnoughMemory,
+		    "Could not allocate space for extracted minutiae records.");
+	}
+
+	if (FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
+		&minCnt, mdata.get()) != FRFXLL_OK) {
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble =
 		    0; // no minutiae found
@@ -164,76 +174,24 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	templateCouldBeExtracted = true;
+	minutiaData.clear();
+	minutiaData.reserve(minCnt);
+	for (int i = 0; i < minCnt; i++) {
+		minutiaData.emplace_back(static_cast<unsigned int>(mdata[i].x),
+		    static_cast<unsigned int>(mdata[i].y),
+		    static_cast<unsigned int>(mdata[i].a),
+		    static_cast<unsigned int>(mdata[i].q),
+		    static_cast<unsigned int>(static_cast<
+			std::underlying_type<FRXLL_MINUTIA_TYPE>::type>(
+			mdata[i].t)));
+	}
 
 	// close handle
 	FRFXLLCloseHandle(&hFeatureSet);
 
-	// parse ISO template
-	// validity check
-	if (templateSize < 28) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_ISOTemplateTooSmall,
-		    "Created ISO template is too small.");
-	}
+	templateCouldBeExtracted = true;
 
-	struct finger_minutiae_record *fmr;
-	if (new_fmr(FMR_STD_ISO, &fmr) < 0) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_CannotAllocateFMR,
-		    "Could not allocate FMR.");
-	}
-
-	BDB bdb;
-	INIT_BDB(&bdb, templateData, templateSize);
-	if (scan_fmr(&bdb, fmr) != READ_OK) {
-		if (fmr != NULL) {
-			free_fmr(fmr);
-		}
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError_FJFX_CannotInitBDB,
-		    "Could not init BDB.");
-	}
-
-	// Get all of the minutiae records
-	int rcount = get_fvmr_count(fmr);
-	if (rcount == 0) {
-		if (fmr != NULL) {
-			free_fmr(fmr);
-		}
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_NoMinutiaeRecords,
-		    "No minutiae records found.");
-	}
-	struct finger_view_minutiae_record **fvmrs = NULL;
-	fvmrs = (struct finger_view_minutiae_record **)malloc(
-	    rcount * sizeof(struct finger_view_minutiae_record **));
-	if (get_fvmrs(fmr, fvmrs) != rcount) {
-		if (fvmrs) {
-			free(fvmrs);
-		}
-		if (fmr != NULL) {
-			free_fmr(fmr);
-		}
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeRecords,
-		    "Cannot get minutiae records.");
-	}
-
-	// get number of minutiae
-	int minCnt = get_fmd_count(fvmrs[0]);
 	if (minCnt == 0) {
-		if (fvmrs) {
-			free(fvmrs);
-		}
-		if (fmr != NULL) {
-			free_fmr(fmr);
-		}
-
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble =
 		    0; // no minutiae found
@@ -257,27 +215,8 @@ FingerJetFXFeature::computeFeatureData(
 			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 			m_lSpeedValues.push_back(speed);
 		}
+
 		return featureDataList;
-	}
-
-	struct finger_minutiae_data **fmds;
-	fmds = (struct finger_minutiae_data **)malloc(
-	    minCnt * sizeof(struct finger_minutiae_data **));
-
-	if (get_fmds(fvmrs[0], fmds) != minCnt) {
-		if (fmds) {
-			free(fmds);
-		}
-		if (fvmrs) {
-			free(fvmrs);
-		}
-		if (fmr != NULL) {
-			free_fmr(fmr);
-		}
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeData,
-		    "Cannot get minutiae data.");
 	}
 
 	// compute ROI and return features
@@ -289,7 +228,7 @@ FingerJetFXFeature::computeFeatureData(
 	vecRectDimensions.push_back(rect200x200);
 
 	FingerJetFXFeature::FJFXROIResults roiResults = computeROI(
-	    fmds, minCnt, 32, fingerprintImage, vecRectDimensions);
+	    minutiaData, 32, fingerprintImage, vecRectDimensions);
 	double noOfMinInRect200x200 = 0;
 	for (unsigned int i = 0;
 	     i < roiResults.vecNoOfMinutiaeInRectangular.size(); i++) {
@@ -318,18 +257,6 @@ FingerJetFXFeature::computeFeatureData(
 	res_min_cnt.featureData = fd_min_cnt;
 	featureDataList.push_back(res_min_cnt);
 
-	if (fmds) {
-		free(fmds);
-	}
-
-	if (fvmrs) {
-		free(fvmrs);
-	}
-
-	if (fmr != NULL) {
-		free_fmr(fmr);
-	}
-
 	if (m_bOutputSpeed) {
 		NFIQ::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
@@ -340,11 +267,6 @@ FingerJetFXFeature::computeFeatureData(
 		m_lSpeedValues.push_back(speed);
 	}
 	return featureDataList;
-#else
-	throw NFIQ::NFIQException(NFIQ::e_Error_FunctionNotImplemented,
-	    "libbiomdi support is not enabled. FJFX feature "
-	    "computation is not possible.");
-#endif
 }
 
 std::string
@@ -356,16 +278,10 @@ FingerJetFXFeature::getModuleID()
 std::list<std::string>
 FingerJetFXFeature::getAllFeatureIDs()
 {
-#ifndef WITHOUT_BIOMDI_SUPPORT
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
 	featureIDs.push_back("FingerJetFX_MinutiaeCount");
 	return featureIDs;
-#else
-	// return empty feature list
-	std::list<std::string> featureIDs;
-	return featureIDs;
-#endif
 }
 
 FRFXLL_RESULT
@@ -373,15 +289,9 @@ FingerJetFXFeature::createContext(FRFXLL_HANDLE_PT phContext)
 {
 	FRFXLL_RESULT rc = FRFXLL_OK;
 
-	FRFXLL_CONTEXT_INIT ctx_init = {
-		sizeof(FRFXLL_CONTEXT_INIT), // length
-		NULL,			     // heapContext
-		&m_malloc,		     // malloc
-		&m_free,		     // free
-	};
 	FRFXLL_HANDLE h_context = NULL;
 
-	rc = FRFXLLCreateContext(&ctx_init, &h_context);
+	rc = FRFXLLCreateLibraryContext(&h_context);
 	if (FRFXLL_SUCCESS(rc)) {
 		*phContext = h_context;
 	}
@@ -389,11 +299,9 @@ FingerJetFXFeature::createContext(FRFXLL_HANDLE_PT phContext)
 	return rc;
 }
 
-#ifndef WITHOUT_BIOMDI_SUPPORT
-
 FingerJetFXFeature::FJFXROIResults
-FingerJetFXFeature::computeROI(struct finger_minutiae_data **fmds,
-    unsigned int minCount, int bs,
+FingerJetFXFeature::computeROI(
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)
 {
@@ -404,11 +312,9 @@ FingerJetFXFeature::computeROI(struct finger_minutiae_data **fmds,
 	roiResults.chosenBlockSize = bs;
 
 	// compute Centre of Mass based on minutiae
-	int x = 0, y = 0;
-	find_center_of_minutiae_mass(fmds, minCount, &x, &y);
-
-	roiResults.centreOfMassMinutiae.x = x;
-	roiResults.centreOfMassMinutiae.y = y;
+	std::tie(roiResults.centreOfMassMinutiae.x,
+	    roiResults.centreOfMassMinutiae.y) =
+	    FingerJetFXFeature::centerOfMinutiaeMass(minutiaData);
 
 	// get number of minutiae that lie inside a block defined by the Centre
 	// of Mass (COM)
@@ -418,8 +324,8 @@ FingerJetFXFeature::computeROI(struct finger_minutiae_data **fmds,
 		int centre_x = 0, centre_y = 0;
 		if (vecRectDimensions.at(i).comType ==
 		    e_COMType_MinutiaeLocation) {
-			centre_x = x;
-			centre_y = y;
+			centre_x = roiResults.centreOfMassMinutiae.x;
+			centre_y = roiResults.centreOfMassMinutiae.y;
 		}
 
 		unsigned int comRectHeightHalf =
@@ -445,11 +351,9 @@ FingerJetFXFeature::computeROI(struct finger_minutiae_data **fmds,
 		}
 
 		unsigned int noOfMinutiaeInRect = 0;
-		for (unsigned int k = 0; k < minCount; k++) {
-			if (fmds[k]->x_coord >= startX &&
-			    fmds[k]->x_coord <= endX &&
-			    fmds[k]->y_coord >= startY &&
-			    fmds[k]->y_coord <= endY) {
+		for (const auto &m : minutiaData) {
+			if (m.x >= startX && m.x <= endX && m.y >= startY &&
+			    m.y <= endY) {
 				// minutia is inside rectangular
 				noOfMinutiaeInRect++;
 			}
@@ -465,5 +369,3 @@ FingerJetFXFeature::computeROI(struct finger_minutiae_data **fmds,
 
 	return roiResults;
 }
-
-#endif

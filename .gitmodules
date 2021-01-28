@@ -4,9 +4,6 @@
 [submodule "digestpp"]
 	path = digestpp
 	url = https://github.com/kerukuro/digestpp.git
-[submodule "biomdi/biomdi"]
-	path = biomdi/biomdi
-	url = https://github.com/usnistgov/biomdi.git
 [submodule "libbiomeval"]
 	path = libbiomeval
 	url = https://github.com/usnistgov/libbiomeval.git

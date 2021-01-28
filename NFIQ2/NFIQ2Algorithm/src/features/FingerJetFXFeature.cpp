@@ -150,9 +150,6 @@ FingerJetFXFeature::computeFeatureData(
 
 		return featureDataList;
 	}
-
-	minutiaData.reserve(minCnt);
-
 	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 
 	try {
@@ -180,6 +177,8 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
+	minutiaData.clear();
+	minutiaData.reserve(minCnt);
 	for (int i = 0; i < minCnt; i++) {
 		minutiaData.emplace_back(static_cast<unsigned int>(mdata[i].x),
 		    static_cast<unsigned int>(mdata[i].y),

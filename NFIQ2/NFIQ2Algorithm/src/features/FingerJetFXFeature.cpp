@@ -130,11 +130,8 @@ FingerJetFXFeature::computeFeatureData(
 		return featureDataList;
 	}
 
-	unsigned int resolution_ppi { 0 };
 	unsigned int minCnt { 0 };
-
-	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, &resolution_ppi) !=
-	    FRFXLL_OK) {
+	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, nullptr) != FRFXLL_OK) {
 		// return features
 		fd_min_cnt_comrect200x200.featureDataDouble =
 		    0; // no minutiae found

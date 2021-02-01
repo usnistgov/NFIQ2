@@ -95,28 +95,57 @@ FingerJetFXFeature::computeFeatureData(
 	if (fxRes != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hCtx);
 
-		// throw NFIQException
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
-		    "Could not create feature set from raw data.");
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = fxRes;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
+
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = fxRes;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		return featureDataList;
 	}
 
 	// close handle
 	FRFXLLCloseHandle(&hCtx);
 	if (hFeatureSet == NULL) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
-		    "Feature set creation failed. Feature set is null.");
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = 0;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
+
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = 0;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		return featureDataList;
 	}
 
 	unsigned int minCnt { 0 };
 	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, nullptr) != FRFXLL_OK) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
-		    "Failed to obtain Minutia Info from feature set.");
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = 0;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
+
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = 0;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		return featureDataList;
 	}
 	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 
@@ -129,10 +158,20 @@ FingerJetFXFeature::computeFeatureData(
 
 	if (FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
 		&minCnt, mdata.get()) != FRFXLL_OK) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
-			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
-		    "Failed to parse Minutia Data into 19794 Minutia Struct.");
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = 0;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
+
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = 0;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		return featureDataList;
 	}
 
 	minutiaData.clear();
@@ -153,9 +192,31 @@ FingerJetFXFeature::computeFeatureData(
 	templateCouldBeExtracted = true;
 
 	if (minCnt == 0) {
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError_FJFX_NoMinutiaeFound,
-		    "Failed to extract Minutiae. Minutiae count is '0'.");
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = 0;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
+
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = 0;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		if (m_bOutputSpeed) {
+			NFIQ::QualityFeatureSpeed speed;
+			speed.featureIDGroup =
+			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
+			speed.featureIDs.push_back(
+			    "FingerJetFX_MinCount_COMMinRect200x200");
+			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+			m_lSpeedValues.push_back(speed);
+		}
+
+		return featureDataList;
 	}
 
 	// compute ROI and return features

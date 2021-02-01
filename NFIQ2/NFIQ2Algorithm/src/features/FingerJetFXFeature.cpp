@@ -153,9 +153,31 @@ FingerJetFXFeature::computeFeatureData(
 	templateCouldBeExtracted = true;
 
 	if (minCnt == 0) {
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError_FJFX_NoMinutiaeFound,
-		    "Failed to extract Minutiae. Minutiae count is '0'.");
+		// return features
+		fd_min_cnt_comrect200x200.featureDataDouble =
+		    0; // no minutiae found
+		res_min_cnt_comrect200x200.featureData =
+		    fd_min_cnt_comrect200x200;
+		res_min_cnt_comrect200x200.returnCode = 0;
+		featureDataList.push_back(res_min_cnt_comrect200x200);
+
+		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		res_min_cnt.returnCode = 0;
+		res_min_cnt.featureData = fd_min_cnt;
+		featureDataList.push_back(res_min_cnt);
+
+		if (m_bOutputSpeed) {
+			NFIQ::QualityFeatureSpeed speed;
+			speed.featureIDGroup =
+			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
+			speed.featureIDs.push_back(
+			    "FingerJetFX_MinCount_COMMinRect200x200");
+			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+			m_lSpeedValues.push_back(speed);
+		}
+
+		return featureDataList;
 	}
 
 	// compute ROI and return features

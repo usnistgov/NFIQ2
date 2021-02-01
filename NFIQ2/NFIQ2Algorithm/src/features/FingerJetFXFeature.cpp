@@ -112,11 +112,10 @@ FingerJetFXFeature::computeFeatureData(
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup =
 			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 			speed.featureIDs.push_back(
-			    "FJFXPos_Mu_MinutiaeQuality_2");
-			speed.featureIDs.push_back(
-			    "FJFXPos_OCL_MinutiaeQuality_80");
-			speed.featureSpeed = 0;
+			    "FingerJetFX_MinCount_COMMinRect200x200");
+			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 			m_lSpeedValues.push_back(speed);
 		}
 
@@ -143,11 +142,10 @@ FingerJetFXFeature::computeFeatureData(
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup =
 			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 			speed.featureIDs.push_back(
-			    "FJFXPos_Mu_MinutiaeQuality_2");
-			speed.featureIDs.push_back(
-			    "FJFXPos_OCL_MinutiaeQuality_80");
-			speed.featureSpeed = 0;
+			    "FingerJetFX_MinCount_COMMinRect200x200");
+			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 			m_lSpeedValues.push_back(speed);
 		}
 
@@ -173,11 +171,10 @@ FingerJetFXFeature::computeFeatureData(
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup =
 			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 			speed.featureIDs.push_back(
-			    "FJFXPos_Mu_MinutiaeQuality_2");
-			speed.featureIDs.push_back(
-			    "FJFXPos_OCL_MinutiaeQuality_80");
-			speed.featureSpeed = 0;
+			    "FingerJetFX_MinCount_COMMinRect200x200");
+			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 			m_lSpeedValues.push_back(speed);
 		}
 
@@ -211,11 +208,10 @@ FingerJetFXFeature::computeFeatureData(
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup =
 			    FingerJetFXFeature::speedFeatureIDGroup;
+			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 			speed.featureIDs.push_back(
-			    "FJFXPos_Mu_MinutiaeQuality_2");
-			speed.featureIDs.push_back(
-			    "FJFXPos_OCL_MinutiaeQuality_80");
-			speed.featureSpeed = 0;
+			    "FingerJetFX_MinCount_COMMinRect200x200");
+			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
 			m_lSpeedValues.push_back(speed);
 		}
 

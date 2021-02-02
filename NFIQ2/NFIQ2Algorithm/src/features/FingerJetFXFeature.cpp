@@ -113,6 +113,7 @@ FingerJetFXFeature::computeFeatureData(
 
 	unsigned int minCnt { 0 };
 	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, nullptr) != FRFXLL_OK) {
+		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
@@ -123,12 +124,14 @@ FingerJetFXFeature::computeFeatureData(
 	try {
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
 	} catch (const std::bad_alloc &) {
+		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(NFIQ::e_Error_NotEnoughMemory,
 		    "Could not allocate space for extracted minutiae records.");
 	}
 
 	if (FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
 		&minCnt, mdata.get()) != FRFXLL_OK) {
+		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,

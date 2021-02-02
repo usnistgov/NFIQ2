@@ -94,7 +94,6 @@ FingerJetFXFeature::computeFeatureData(
 	    &hFeatureSet);
 	if (fxRes != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hCtx);
-
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
@@ -104,7 +103,6 @@ FingerJetFXFeature::computeFeatureData(
 	// close handle
 	FRFXLLCloseHandle(&hCtx);
 	if (hFeatureSet == NULL) {
-
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
@@ -119,8 +117,8 @@ FingerJetFXFeature::computeFeatureData(
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
 		    "Failed to obtain Minutia Info from feature set.");
 	}
-	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 
+	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 	try {
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
 	} catch (const std::bad_alloc &) {

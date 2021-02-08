@@ -32,6 +32,8 @@ find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${Ope
 set(OpenCV_SHARED ON)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
+
 set(SOURCE_FILES "")
 file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/*.cpp" )
 file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
@@ -118,6 +120,8 @@ if (BUILD_NFIQ2_CLI)
 	  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
 	endif()
 
+	target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
+	
 	# Linking in biomeval lib - must occur before individual libs due to linker bug
 	if(MSVC)
 	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})

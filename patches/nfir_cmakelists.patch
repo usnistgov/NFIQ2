@@ -1,0 +1,54 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..3cd42f1
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,48 @@
++cmake_minimum_required(VERSION 3.14)
++project(NFIR)
++
++# ##############################################################################
++option(OPENCV_DIRECTORY "Root directory for OpenCV" "")
++if(OPENCV_DIRECTORY)
++  set(OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
++  find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS
++             ${OpenCV_DIR})
++else()
++   find_package(OpenCV REQUIRED)
++endif()
++
++# ##############################################################################
++set(LIBRARY_SOURCES
++    "src/lib/filter_mask.cpp"
++    "src/lib/filter_mask_gaussian.cpp"
++    "src/lib/filter_mask_ideal.cpp"
++    "src/lib/nfir_lib.cpp"
++    "src/lib/resample.cpp"
++    "src/lib/resample_down.cpp"
++    "src/lib/resample_up.cpp")
++
++# ##############################################################################
++set(STATIC_LIB "nfir-static-lib")
++
++add_library(${STATIC_LIB} STATIC ${LIBRARY_SOURCES})
++
++set_target_properties(
++  ${STATIC_LIB}
++  PROPERTIES PUBLIC_HEADER "include/nfir_lib.h"
++             OUTPUT_NAME "nfir"
++             CXX_STANDARD 11
++             CXX_STANDARD_REQUIRED YES)
++
++target_include_directories(
++  ${STATIC_LIB}
++  PRIVATE "thirdparty/szx/glob" "include"
++  PUBLIC "${OpenCV_INCLUDE_DIRS}")
++
++target_link_libraries(${STATIC_LIB} PUBLIC ${OpenCV_LIBS})
++
++include(GNUInstallDirs)
++
++install(
++  TARGETS ${STATIC_LIB}
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

@@ -174,6 +174,7 @@ ExternalProject_Add(nfir
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		-DOPENCV_DIRECTORY=ON
 	${MULTI_CONFIG_ARGS}
+	PATCH_COMMAND patch < ${ROOT_PATH}/patches/nfir_cmakelists.patch
 	BUILD_ALWAYS	YES
 
 )

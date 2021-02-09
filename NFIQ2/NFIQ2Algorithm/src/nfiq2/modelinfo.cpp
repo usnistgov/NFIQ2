@@ -31,12 +31,12 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 	}
 
 	while (std::getline(fp, line)) {
-		const int eqPos = line.find('=');
+		const std::string::size_type eqPos = line.find('=');
 
 		if (eqPos == std::string::npos) {
 			continue;
 		} else {
-			const unsigned int llen = line.length();
+			const size_t llen = line.length();
 
 			if (eqPos != 0 && eqPos < llen - 1) {
 				const std::string start = trimWhitespace(

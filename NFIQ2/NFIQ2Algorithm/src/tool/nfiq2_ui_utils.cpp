@@ -184,13 +184,13 @@ NFIQ2UI::yesOrNo(const std::string &prompt, bool default_answer,
 // Checks the threads given and prompts user if the requested amount is higher
 // than CPU cores/threads
 unsigned int
-NFIQ2UI::checkThreads(const std::string &optarg)
+NFIQ2UI::checkThreads(const std::string &threadArg)
 {
 	unsigned int n = std::thread::hardware_concurrency();
 	unsigned int input = 1;
 
 	try {
-		input = static_cast<unsigned int>(std::stoul(optarg));
+		input = static_cast<unsigned int>(std::stoul(threadArg));
 	} catch (const std::invalid_argument &e) {
 		std::cerr << e.what() << "\n";
 		std::cerr << "Number not given to threading flag. Single "
@@ -235,7 +235,7 @@ NFIQ2UI::checkThreads(const std::string &optarg)
 }
 
 std::string
-NFIQ2UI::formatDouble(const double &d, const int precision)
+NFIQ2UI::formatDouble(const double &d, const long precision)
 {
 	switch (std::fpclassify(d)) {
 	case FP_NORMAL:
@@ -258,16 +258,22 @@ NFIQ2UI::formatDouble(const double &d, const int precision)
 
 	const std::string::size_type decimalPosition = s.find('.');
 
-	if (decimalPosition == std::string::npos ||
-	    precision >= (s.length() - decimalPosition - 1)) {
+	// Decimal not found
+	if (decimalPosition == std::string::npos) {
 		return s;
 	}
 
+	// Invalid precision, return default precision of string
 	if (precision <= 0) {
 		return s.substr(0, 7);
-	} else {
-		return s.substr(0, decimalPosition + precision + 1);
 	}
+
+	// If precision exceeds the length of the decimal portion of the string
+	if (static_cast<unsigned long>(precision) >= (s.length() - decimalPosition - 1)) {
+		return s;
+	}
+
+	return s.substr(0, decimalPosition + precision + 1);
 }
 
 // Usage of NFIQ2 tool

@@ -464,7 +464,6 @@ void
 Conv2D(const Mat &imDFT, const Mat &filter, Mat &ConvOut, const Size &imageSize,
     const Size &dftSize, bool imDFTFlag)
 {
-	int kernSize = filter.rows;
 	int OutType = filter.type();
 	ConvOut.create(imageSize, OutType);
 

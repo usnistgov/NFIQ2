@@ -22,8 +22,6 @@ using namespace cv;
 double fda(const Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-#define HISTOGRAM_FEATURES 1
-
 FDAFeature::~FDAFeature()
 {
 }
@@ -32,9 +30,8 @@ std::list<std::string>
 FDAFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
-#if HISTOGRAM_FEATURES
 	addHistogramFeatureNames(featureIDs, "FDA_Bin10_", 10);
-#endif
+
 	return featureIDs;
 }
 
@@ -174,7 +171,6 @@ FDAFeature::computeFeatureData(
 
 		Scalar frequencyDomainAnalysis = mean(fdas, maskBseg);
 
-#if HISTOGRAM_FEATURES
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(FDAHISTLIMITS[0]);
 		histogramBins10.push_back(FDAHISTLIMITS[1]);
@@ -187,16 +183,15 @@ FDAFeature::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
 		addHistogramFeatures(featureDataList, "FDA_Bin10_",
 		    histogramBins10, dataVector, 10);
-#endif
 
 		time = timer.endTimerAndGetElapsedTime();
 		if (m_bOutputSpeed) {
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
-#if HISTOGRAM_FEATURES
+
 			addHistogramFeatureNames(
 			    speed.featureIDs, "FDA_Bin10_", 10);
-#endif
+
 			speed.featureSpeed = time;
 			m_lSpeedValues.push_back(speed);
 		}

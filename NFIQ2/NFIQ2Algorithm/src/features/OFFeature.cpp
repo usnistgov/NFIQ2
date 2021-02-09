@@ -19,8 +19,6 @@
 using namespace NFIQ;
 using namespace cv;
 
-#define HISTOGRAM_FEATURES 1
-
 OFFeature::~OFFeature()
 {
 }
@@ -35,9 +33,8 @@ std::list<std::string>
 OFFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
-#if HISTOGRAM_FEATURES
 	addHistogramFeatureNames(featureIDs, "OF_Bin10_", 10);
-#endif
+
 	return featureIDs;
 }
 
@@ -232,7 +229,6 @@ OFFeature::computeFeatureData(
 			OfScore = 1.0 - goqs.val[0];
 		}
 
-#if HISTOGRAM_FEATURES
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(OFHISTLIMITS[0]);
 		histogramBins10.push_back(OFHISTLIMITS[1]);
@@ -245,16 +241,15 @@ OFFeature::computeFeatureData(
 		histogramBins10.push_back(OFHISTLIMITS[8]);
 		addHistogramFeatures(featureDataList, "OF_Bin10_",
 		    histogramBins10, dataVector, 10);
-#endif
 
 		timeOF = timerOF.endTimerAndGetElapsedTime();
 		if (m_bOutputSpeed) {
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
-#if HISTOGRAM_FEATURES
+
 			addHistogramFeatureNames(
 			    speed.featureIDs, "OF_Bin10_", 10);
-#endif
+
 			speed.featureSpeed = timeOF;
 			m_lSpeedValues.push_back(speed);
 		}

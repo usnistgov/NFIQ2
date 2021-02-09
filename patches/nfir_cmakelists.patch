@@ -4,7 +4,7 @@ index 0000000..3cd42f1
 --- /dev/null
 +++ b/CMakeLists.txt
 @@ -0,0 +1,48 @@
-+cmake_minimum_required(VERSION 3.14)
++cmake_minimum_required(VERSION 3.3)
 +project(NFIR)
 +
 +# ##############################################################################

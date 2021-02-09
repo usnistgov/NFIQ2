@@ -82,7 +82,7 @@ GetNfiq2Version(int *major, int *minor, int *patch, const char **ocv)
 }
 // Require an allocated buffer of size 33 to accomodate md5 hash
 DLLEXPORT const char *STDCALL
-InitNfiq2(char* paramHash)
+InitNfiq2(char *paramHash)
 {
 	try {
 		if (g_nfiq2.get() == nullptr) {
@@ -94,7 +94,8 @@ InitNfiq2(char* paramHash)
 			    new NFIQ::NFIQ2Algorithm(GetYamlFilePath(),
 				"ccd75820b48c19f1645ef5e9c481c592"));
 #endif
-			strncpy(paramHash, g_nfiq2->getParameterHash().c_str(), 33);
+			strncpy(
+			    paramHash, g_nfiq2->getParameterHash().c_str(), 33);
 			return paramHash;
 		}
 	} catch (std::exception &exc) {

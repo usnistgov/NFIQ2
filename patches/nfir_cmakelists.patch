@@ -1,14 +1,15 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000..756ce8a
+index 0000000..df835c6
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,60 @@
 +cmake_minimum_required(VERSION 3.3)
 +project(NFIR)
 +
 +# ##############################################################################
-+if(DEFINED OpenCV_DIR)
++set(OpenCV_DIR "" CACHE PATH "Specifies path to OpenCV installation")
++if(OpenCV_DIR)
 +  find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 +else()
 +  find_package(OpenCV REQUIRED)
@@ -28,6 +29,20 @@ index 0000000..756ce8a
 +set(STATIC_LIB "nfir-static-lib")
 +
 +add_library(${STATIC_LIB} STATIC ${LIBRARY_SOURCES})
++
++option(FORCE_WIN_STATIC "Force NFIR to build statically using MSVC" "")
++
++if(FORCE_WIN_STATIC)
++  foreach(flag_var
++      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
++      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
++    if(${flag_var} MATCHES "/MD")
++      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
++    elseif(${flag_var} MATCHES "/MDd")
++      string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
++    endif()
++  endforeach()
++endif()
 +
 +set_target_properties(
 +  ${STATIC_LIB}

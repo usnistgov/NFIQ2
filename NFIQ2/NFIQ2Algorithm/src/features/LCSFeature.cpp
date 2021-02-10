@@ -158,8 +158,6 @@ LCSFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		Scalar localClarityScore = mean(lcs, maskBseg);
-
 		timeLCS = timerLCS.endTimerAndGetElapsedTime();
 
 #if HISTOGRAM_FEATURES

@@ -136,10 +136,6 @@ QualityMapFeatures::computeOrientationMap(cv::Mat &img, bool bFilterByROI,
 				  (img.rows - i) :
 				  bs;
 
-			// take all blocks (even those of not full block size)
-			int mx = 0;
-			int my = 0;
-
 			// check if block is vector of ROI blocks
 			if (bFilterByROI) {
 				// search for ROI block

@@ -1,9 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000..3cd42f1
+index 0000000..07dd851
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,52 @@
 +cmake_minimum_required(VERSION 3.3)
 +project(NFIR)
 +
@@ -31,6 +31,10 @@ index 0000000..3cd42f1
 +set(STATIC_LIB "nfir-static-lib")
 +
 +add_library(${STATIC_LIB} STATIC ${LIBRARY_SOURCES})
++
++if(OPENCV_DIRECTORY AND MSVC)
++  add_definitions("/MT")
++endif(OPENCV_DIRECTORY AND MSVC)
 +
 +set_target_properties(
 +  ${STATIC_LIB}

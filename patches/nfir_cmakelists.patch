@@ -1,20 +1,17 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000..07dd851
+index 0000000..756ce8a
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,52 @@
+@@ -0,0 +1,45 @@
 +cmake_minimum_required(VERSION 3.3)
 +project(NFIR)
 +
 +# ##############################################################################
-+option(OPENCV_DIRECTORY "Root directory for OpenCV" "")
-+if(OPENCV_DIRECTORY)
-+  set(OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
-+  find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS
-+             ${OpenCV_DIR})
++if(DEFINED OpenCV_DIR)
++  find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 +else()
-+   find_package(OpenCV REQUIRED)
++  find_package(OpenCV REQUIRED)
 +endif()
 +
 +# ##############################################################################
@@ -31,10 +28,6 @@ index 0000000..07dd851
 +set(STATIC_LIB "nfir-static-lib")
 +
 +add_library(${STATIC_LIB} STATIC ${LIBRARY_SOURCES})
-+
-+if(OPENCV_DIRECTORY AND MSVC)
-+  add_definitions("/MT")
-+endif(OPENCV_DIRECTORY AND MSVC)
 +
 +set_target_properties(
 +  ${STATIC_LIB}

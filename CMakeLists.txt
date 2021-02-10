@@ -168,16 +168,39 @@ ExternalProject_Add(libbiomeval
 		${MULTI_CONFIG_ARGS}
 )
 
+set(NFIR_CXX_FLAGS
+	-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+)
+
+if (MSVC)
+	foreach(flag_var
+	    CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+	    CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+	  if(${flag_var} MATCHES "/MD")
+	    string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+	  elseif(${flag_var} MATCHES "/MDd")
+	    string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
+	  endif()
+	endforeach()
+
+	list(APPEND NFIR_CXX_FLAGS
+		-DCMAKE_CXX_FLAGS_DEBUG=${CMAKE_CXX_FLAGS_DEBUG}
+		-DCMAKE_CXX_FLAGS_RELEASE=${CMAKE_CXX_FLAGS_RELEASE}
+		-DCMAKE_CXX_FLAGS_MINSIZEREL=${CMAKE_CXX_FLAGS_MINSIZEREL}
+		-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=${CMAKE_CXX_FLAGS_RELWITHDEBINFO}) 
+endif()
+	
 ExternalProject_Add(nfir
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/NFIR
 	CMAKE_ARGS
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-		-DOPENCV_DIRECTORY=ON
-	${MULTI_CONFIG_ARGS}
+		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
+		${MULTI_CONFIG_ARGS}
+		${NFIR_CXX_FLAGS}	
 	PATCH_COMMAND patch < ${ROOT_PATH}/patches/nfir_cmakelists.patch
 	BUILD_ALWAYS	YES
-
 )
+
 ExternalProject_Add_StepDependencies(nfir build OpenCV)
 
 endif(BUILD_NFIQ2_CLI)

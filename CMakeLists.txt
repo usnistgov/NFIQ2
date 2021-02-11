@@ -175,7 +175,7 @@ ExternalProject_Add(nfir
 		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
 		-DFORCE_WIN_STATIC=ON
 		${MULTI_CONFIG_ARGS}
-	PATCH_COMMAND patch < ${ROOT_PATH}/patches/nfir_cmakelists.patch
+	PATCH_COMMAND patch < ${ROOT_PATH}/cmake/nfir_cmakelists.patch
 	BUILD_ALWAYS	YES
 )
 

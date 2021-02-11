@@ -1,9 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000000000000000000000000000000000000..d94e842eba22cdc8f129ed320ab75ee47ccc0789
+index 0000000000000000000000000000000000000000..0987c189bbcef66dcf9fd9a2a81db6d8cc453a77
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,60 @@
+@@ -0,0 +1,65 @@
 +cmake_minimum_required(VERSION 3.3)
 +project(NFIR)
 +
@@ -32,16 +32,21 @@ index 0000000000000000000000000000000000000000..d94e842eba22cdc8f129ed320ab75ee4
 +
 +option(FORCE_WIN_STATIC_RUNTIME "Force NFIR to link to the static run-time library when linking with MSVC" OFF)
 +
-+if(MSVC AND FORCE_WIN_STATIC_RUNTIME)
-+  foreach(flag_var
-+      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-+      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-+    if(${flag_var} MATCHES "/MD")
-+      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-+    elseif(${flag_var} MATCHES "/MDd")
-+      string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
-+    endif()
-+  endforeach()
++if(MSVC)
++  if (FORCE_WIN_STATIC_RUNTIME)
++    foreach(flag_var
++        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
++        CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
++      if(${flag_var} MATCHES "/MD")
++        string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
++      elseif(${flag_var} MATCHES "/MDd")
++        string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
++      endif()
++    endforeach()
++  endif()
++
++  target_compile_definitions(${STATIC_LIB} PRIVATE _WIN32_64)
++  target_compile_options(${STATIC_LIB} PRIVATE "/nologo" "/WX" "/EHsc")
 +endif()
 +
 +set_target_properties(

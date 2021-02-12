@@ -1,6 +1,6 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000000000000000000000000000000000000..0987c189bbcef66dcf9fd9a2a81db6d8cc453a77
+index 0000000000000000000000000000000000000000..7200998f2deed043432dcecfe0f254af5ebbfef4
 --- /dev/null
 +++ b/CMakeLists.txt
 @@ -0,0 +1,65 @@
@@ -46,7 +46,7 @@ index 0000000000000000000000000000000000000000..0987c189bbcef66dcf9fd9a2a81db6d8
 +  endif()
 +
 +  target_compile_definitions(${STATIC_LIB} PRIVATE _WIN32_64)
-+  target_compile_options(${STATIC_LIB} PRIVATE "/nologo" "/WX" "/EHsc")
++  target_compile_options(${STATIC_LIB} PRIVATE "/nologo" "/EHsc")
 +endif()
 +
 +set_target_properties(

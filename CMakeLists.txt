@@ -167,6 +167,20 @@ ExternalProject_Add(libbiomeval
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 )
+	
+ExternalProject_Add(nfir
+	SOURCE_DIR ${PROJECT_SOURCE_DIR}/NFIR
+	CMAKE_ARGS
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
+		-DFORCE_WIN_STATIC_RUNTIME=ON
+		${MULTI_CONFIG_ARGS}
+	PATCH_COMMAND patch < ${ROOT_PATH}/cmake/nfir_cmakelists.patch
+	BUILD_ALWAYS	YES
+)
+
+ExternalProject_Add_StepDependencies(nfir build OpenCV)
+
 endif(BUILD_NFIQ2_CLI)
 
 ExternalProject_Add(nfiq2
@@ -187,7 +201,7 @@ ExternalProject_Add(nfiq2
 ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
 
 if (BUILD_NFIQ2_CLI)
-	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval)
+	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval nfir)
 endif(BUILD_NFIQ2_CLI)
 
 ExternalProject_Add(nfiq2api

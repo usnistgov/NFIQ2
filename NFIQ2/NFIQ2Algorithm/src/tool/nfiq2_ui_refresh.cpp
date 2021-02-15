@@ -66,7 +66,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	const uint16_t bitDepth = img->getBitDepth();
 	const uint32_t colorDepth = img->getColorDepth();
 
-	if ((bitDepth != colorDepth) || (bitDepth != 8)) {
+	if ((bitDepth != colorDepth) || (bitDepth != 8 && bitDepth != 1)) {
 		if (flags.force) {
 			quantized = true;
 			// quantize by force - gets handled below with
@@ -75,10 +75,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		} else {
 			if (interactive && !flags.force) {
 				logger->debugMsg(
-				    "Image is not 8 bit. Asking user to "
+				    "Image is not 8 bit or 1 bit. Asking user to "
 				    "quantize.");
 				const std::string prompt =
-				    "This Image is not 8 bit grayscale. "
+				    "This Image is not 8 bit or 1 bit grayscale. "
 				    "Would "
 				    "you like to quantize/convert this "
 				    "image to 8 bit color and depth?";
@@ -104,7 +104,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 			} else {
 				logger->printError(name, fingerPosition, 255,
-				    "'Error: image is not 8 bit "
+				    "'Error: image is not 8 bit or 1 bit"
 				    "depth and/or color'",
 				    quantized, resampled);
 				return;
@@ -118,26 +118,53 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	BE::Memory::uint8Array grayscaleRawData {};
 
-	try {
-		if (img->getCompressionAlgorithm() ==
-		    BE::Image::CompressionAlgorithm::WSQ20) {
-			std::unique_lock<std::mutex> ulock(mutGray);
-			grayscaleRawData = img->getRawGrayscaleData(8);
-			ulock.unlock();
+	if (bitDepth == 1) {
+		try { // 1-bit quantize
+			if (img->getCompressionAlgorithm() ==
+			    BE::Image::CompressionAlgorithm::WSQ20) {
+				std::unique_lock<std::mutex> ulock(mutGray);
+				grayscaleRawData = img->getRawGrayscaleData(1);
+				ulock.unlock();
 
-		} else {
-			grayscaleRawData = img->getRawGrayscaleData(8);
+			} else {
+				grayscaleRawData = img->getRawGrayscaleData(1);
+			}
+
+		} catch (const BE::Error::Exception &e) {
+			logger->debugMsg(
+			    "Could not get Grayscale raw data from image" +
+			    name);
+			std::string error {
+				"'Error: Could not get Grayscale raw data from image'"
+			};
+			logger->printError(name, fingerPosition, 255,
+			    error.append(e.what()), quantized, resampled);
+			return;
 		}
 
-	} catch (const BE::Error::Exception &e) {
-		logger->debugMsg(
-		    "Could not get Grayscale raw data from image" + name);
-		std::string error {
-			"'Error: Could not get Grayscale raw data from image'"
-		};
-		logger->printError(name, fingerPosition, 255,
-		    error.append(e.what()), quantized, resampled);
-		return;
+	} else { // 8-bit quantize
+		try {
+			if (img->getCompressionAlgorithm() ==
+			    BE::Image::CompressionAlgorithm::WSQ20) {
+				std::unique_lock<std::mutex> ulock(mutGray);
+				grayscaleRawData = img->getRawGrayscaleData(8);
+				ulock.unlock();
+
+			} else {
+				grayscaleRawData = img->getRawGrayscaleData(8);
+			}
+
+		} catch (const BE::Error::Exception &e) {
+			logger->debugMsg(
+			    "Could not get Grayscale raw data from image" +
+			    name);
+			std::string error {
+				"'Error: Could not get Grayscale raw data from image'"
+			};
+			logger->printError(name, fingerPosition, 255,
+			    error.append(e.what()), quantized, resampled);
+			return;
+		}
 	}
 
 	const BE::Image::Size dimensions = img->getDimensions();

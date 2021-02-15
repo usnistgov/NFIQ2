@@ -155,8 +155,6 @@ LCSFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		Scalar localClarityScore = mean(lcs, maskBseg);
-
 		timeLCS = timerLCS.endTimerAndGetElapsedTime();
 
 		std::vector<double> histogramBins10;

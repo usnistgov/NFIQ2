@@ -97,7 +97,6 @@ FDAFeature::computeFeatureData(
 		    (static_cast<double>(cols) - diff) / blk);
 
 		Mat fdas = Mat::zeros(mapRows, mapCols, CV_64F);
-		Mat maskBseg = Mat::zeros(mapRows, mapCols, CV_8U);
 		Mat blkorient = Mat::zeros(mapRows, mapCols, CV_64F);
 		Mat im_roi, blkwim;
 		Mat maskB1;
@@ -123,7 +122,6 @@ FDAFeature::computeFeatureData(
 				    Range(c, min(c + blksize, maskim.cols)));
 				uint8_t mask = allfun(maskB1);
 				if (mask == 1) {
-					maskBseg.at<uint8_t>(br, bc) = mask;
 					covcoef(im_roi, cova, covb, covc,
 					    CENTERED_DIFFERENCES);
 
@@ -150,26 +148,6 @@ FDAFeature::computeFeatureData(
 			br = br + 1;
 			bc = 0;
 		}
-
-		// get mean applying the background mask
-		// Matlab:
-		//       fdas(not(maskBseg)) = NaN; % apply background mask
-		//       double frequencyDomainAnalysis =
-		//       mean(ocls(~isnan(fdas)));
-		//
-		// Each maskBseg entry is true if all elements of the
-		// corresponding maskB1 are non-zero, false if one or more is
-		// zero.  Above matlab code substitutes a NaN for fdas entries
-		// that correspond to masks where one or more entries were 0. It
-		// then takes the mean of all entries that are not NaNs.
-		//
-		// In the code below, each maskBseg entry is 1 if all entries
-		// are non-zero, and 0 otherwise.
-		//  MaskBseg is passed to the mask parameter of the OpenCV mean
-		//  function, so that only fdas
-		// entries with maskBseg == 1 are used in the calculation.
-
-		Scalar frequencyDomainAnalysis = mean(fdas, maskBseg);
 
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(FDAHISTLIMITS[0]);

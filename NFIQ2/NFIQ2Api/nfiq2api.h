@@ -13,6 +13,6 @@
 
 extern "C" DLLEXPORT void STDCALL GetNfiq2Version(
     int *major, int *minor, int *patch, const char **ocv);
-extern "C" DLLEXPORT const char *STDCALL InitNfiq2(char* paramHash);
+extern "C" DLLEXPORT const char *STDCALL InitNfiq2(char *hash);
 extern "C" DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos,
     const unsigned char *pixels, int size, int width, int height, int ppi);

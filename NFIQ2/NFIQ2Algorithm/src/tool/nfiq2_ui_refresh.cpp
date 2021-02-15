@@ -250,9 +250,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// resolution. Quantization will happen below if necessary.
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
-		  NFIQ::FingerprintImageData(postResample.data, postResample.total(),
+	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),
 		postResample.cols, postResample.rows, fingerPosition, 500) :
-		  NFIQ::FingerprintImageData(grayscaleRawData,
+	    NFIQ::FingerprintImageData(grayscaleRawData,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, imageDPI);
 
@@ -880,20 +880,20 @@ main(int argc, char **argv)
 
 	logger->debugMsg("Model Name: " +
 	    (modelInfoObj.getModelName().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelName()));
+		    "<NA>" :
+		    modelInfoObj.getModelName()));
 	logger->debugMsg("Model Trainer: " +
 	    (modelInfoObj.getModelTrainer().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelTrainer()));
+		    "<NA>" :
+		    modelInfoObj.getModelTrainer()));
 	logger->debugMsg("Model Description: " +
 	    (modelInfoObj.getModelDescription().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelDescription()));
+		    "<NA>" :
+		    modelInfoObj.getModelDescription()));
 	logger->debugMsg("Model Version: " +
 	    (modelInfoObj.getModelVersion().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelVersion()));
+		    "<NA>" :
+		    modelInfoObj.getModelVersion()));
 	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
 

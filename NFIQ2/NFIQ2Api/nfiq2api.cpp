@@ -81,7 +81,6 @@ GetNfiq2Version(int *major, int *minor, int *patch, const char **ocv)
 #endif
 }
 DLLEXPORT const char *STDCALL
-
 InitNfiq2()
 {
 	try {

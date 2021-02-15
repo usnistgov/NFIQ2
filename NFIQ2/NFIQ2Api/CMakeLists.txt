@@ -4,12 +4,6 @@ project( Nfiq2Api )
 
 set(CMAKE_CXX_STANDARD 11)
 
-if(UNIX)
-  add_compile_options(-Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wunreachable-code)
-elseif(MSVC)
-  add_compile_options(/permissive- /W4 /w14640)
-endif()
-
 # add files from folder
 file( GLOB SOURCE_FILES "nfiq2*.cpp" )
 file( GLOB HEADER_FILES "nfiq2*.h" )

@@ -4,12 +4,6 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
-if(UNIX)
-	add_compile_options(-Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wunreachable-code)
-elseif(MSVC)
-	add_compile_options(/permissive- /W4 /w14640)
-endif()
-
 include(GNUInstallDirs)
 
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )

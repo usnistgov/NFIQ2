@@ -31,7 +31,7 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 	}
 
 	while (std::getline(fp, line)) {
-		const std::string::size_type eqPos = line.find('=');
+		const size_t eqPos = line.find('=');
 
 		if (eqPos == std::string::npos) {
 			continue;

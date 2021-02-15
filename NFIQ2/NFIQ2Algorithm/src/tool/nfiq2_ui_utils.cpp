@@ -235,7 +235,7 @@ NFIQ2UI::checkThreads(const std::string &threadArg)
 }
 
 std::string
-NFIQ2UI::formatDouble(const double &d, const long precision)
+NFIQ2UI::formatDouble(const double &d, const uint8_t precision)
 {
 	switch (std::fpclassify(d)) {
 	case FP_NORMAL:
@@ -258,18 +258,8 @@ NFIQ2UI::formatDouble(const double &d, const long precision)
 
 	const std::string::size_type decimalPosition = s.find('.');
 
-	// Decimal not found
-	if (decimalPosition == std::string::npos) {
-		return s;
-	}
-
-	// Invalid precision, return default precision of string
-	if (precision <= 0) {
-		return s.substr(0, 7);
-	}
-
-	// If precision exceeds the length of the decimal portion of the string
-	if (static_cast<unsigned long>(precision) >= (s.length() - decimalPosition - 1)) {
+	if (decimalPosition == std::string::npos ||
+	    precision >= (s.length() - decimalPosition - 1)) {
 		return s;
 	}
 

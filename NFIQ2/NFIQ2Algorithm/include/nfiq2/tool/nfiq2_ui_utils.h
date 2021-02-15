@@ -163,7 +163,7 @@ bool yesOrNo(const std::string &prompt, bool default_answer = true,
  */
 unsigned int checkThreads(const std::string &threadArg);
 
-std::string formatDouble(const double &d, const long precision);
+std::string formatDouble(const double &d, const uint8_t precision);
 
 /**
  *  @brief

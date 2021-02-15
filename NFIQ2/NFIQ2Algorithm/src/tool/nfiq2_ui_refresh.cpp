@@ -28,6 +28,9 @@
 #include <nfiq2/tool/nfiq2_ui_threadedlog.h>
 #include <nfiq2/tool/nfiq2_ui_types.h>
 #include <nfiq2/tool/nfiq2_ui_utils.h>
+#include <nfir_lib.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
 
 #include <cmath>
 #include <cstdio>
@@ -113,20 +116,67 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	    std::to_string(quantized));
 	// Now check for PPI
 
+	BE::Memory::uint8Array grayscaleRawData {};
+
+	try {
+		if (img->getCompressionAlgorithm() ==
+		    BE::Image::CompressionAlgorithm::WSQ20) {
+			std::unique_lock<std::mutex> ulock(mutGray);
+			grayscaleRawData = img->getRawGrayscaleData(8);
+			ulock.unlock();
+
+		} else {
+			grayscaleRawData = img->getRawGrayscaleData(8);
+		}
+
+	} catch (const BE::Error::Exception &e) {
+		logger->debugMsg(
+		    "Could not get Grayscale raw data from image" + name);
+		std::string error {
+			"'Error: Could not get Grayscale raw data from image'"
+		};
+		logger->printError(name, fingerPosition, 255,
+		    error.append(e.what()), quantized, resampled);
+		return;
+	}
+
+	const BE::Image::Size dimensions = img->getDimensions();
+	const uint32_t imageWidth = dimensions.xSize;
+	const uint32_t imageHeight = dimensions.ySize;
 	const BE::Image::Resolution resolution = img->getResolution().toUnits(
 	    BE::Image::Resolution::Units::PPI);
 
 	const uint16_t imageDPI = static_cast<uint16_t>(
 	    std::round(resolution.xRes));
 
+	cv::Mat postResample {};
+
 	if ((resolution.xRes != resolution.yRes) || (imageDPI != 500)) {
 		// Possible re-sampling
 		if (flags.force) {
 			resampled = true;
 			// Re-sample by force
+			try {
+				cv::Mat preResample { static_cast<int>(
+							  imageHeight),
+					static_cast<int>(imageWidth), CV_8U,
+					grayscaleRawData };
+				NFIR::resample(preResample, postResample,
+				    imageDPI, 500, "", "");
 
-			/* Re-sample Image Code here
-			 */
+			} catch (const cv::Exception &e) {
+				logger->printError(name, fingerPosition, 255,
+				    "'Error: Matrix creation error: " + e.msg +
+					"'",
+				    quantized, resampled);
+				return;
+
+			} catch (const std::exception &e) {
+				const std::string errStr { e.what() };
+				logger->printError(name, fingerPosition, 255,
+				    "'" + errStr + "'", quantized, resampled);
+				return;
+			}
 
 		} else {
 			if (interactive && !flags.force) {
@@ -140,18 +190,37 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				if (response) {
 					resampled = true;
 					// Re-sample the image
+					try {
+						cv::Mat preResample {
+							static_cast<int>(
+							    imageHeight),
+							static_cast<int>(
+							    imageWidth),
+							CV_8U, grayscaleRawData
+						};
+						NFIR::resample(preResample,
+						    postResample, imageDPI, 500,
+						    "", "");
 
-					/* FIXME: Re-sample Image Code here
-					 */
+					} catch (const cv::Exception &e) {
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'Error: Matrix creation error: " +
+							e.msg + "'",
+						    quantized, resampled);
+						return;
 
-					logger->debugMsg(
-					    "User approved the re-sample");
-					logger->printError(name, fingerPosition,
-					    255,
-					    "'Error: Resampling not "
-					    "implemented'",
-					    quantized, resampled);
-					return;
+					} catch (const std::exception &e) {
+						const std::string errStr {
+							e.what()
+						};
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'" + errStr + "'",
+						    quantized, resampled);
+						return;
+					}
+
 				} else {
 					// User decided not to re-sample
 					logger->debugMsg(
@@ -178,40 +247,13 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// At this point - all images are 500PPI or have been converted to that
 	// resolution. Quantization will happen below if necessary.
 
-	BE::Memory::uint8Array grayscaleRawData {};
+	const NFIQ::FingerprintImageData wrappedImage = resampled ?
+	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),
+		postResample.cols, postResample.rows, fingerPosition, 500) :
+	    NFIQ::FingerprintImageData(grayscaleRawData,
+		grayscaleRawData.size(), imageWidth, imageHeight,
+		fingerPosition, imageDPI);
 
-	try {
-		if (img->getCompressionAlgorithm() ==
-		    BE::Image::CompressionAlgorithm::WSQ20) {
-			std::unique_lock<std::mutex> ulock(mutGray);
-			grayscaleRawData = img->getRawGrayscaleData(8);
-			ulock.unlock();
-
-		} else {
-			grayscaleRawData = img->getRawGrayscaleData(8);
-		}
-
-	} catch (const BE::Error::Exception &e) {
-		logger->debugMsg(
-		    "Could not get Grayscale raw data from image" + name);
-		std::string error {
-			"'Error: Could not get Grayscale raw data from image'"
-		};
-		logger->printError(name, fingerPosition, 255,
-		    error.append(e.what()), quantized, resampled);
-		return;
-	}
-
-	const uint32_t dataSize = static_cast<uint32_t>(
-	    grayscaleRawData.size());
-
-	const BE::Image::Size dimensions = img->getDimensions();
-	const uint32_t imageWidth = dimensions.xSize;
-	const uint32_t imageHeight = dimensions.ySize;
-
-	const NFIQ::FingerprintImageData wrappedImage =
-	    NFIQ::FingerprintImageData(grayscaleRawData, dataSize, imageWidth,
-		imageHeight, fingerPosition, imageDPI);
 	const NFIQ2UI::CoreReturn corereturn = NFIQ2UI::coreCompute(
 	    wrappedImage, model);
 
@@ -735,9 +777,7 @@ NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 	static const std::string DefaultModelInfoFilename {
 		"nist_plain_tir-ink.txt"
 	};
-	static const std::string ShareDirLocalUnix {
-		"/usr/local/nfiq2/share"
-	};
+	static const std::string ShareDirLocalUnix { "/usr/local/nfiq2/share" };
 	static const std::string ShareDirWin32 {
 		"C:/Program Files (x86)/NFIQ 2/bin"
 	};

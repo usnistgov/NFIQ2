@@ -152,8 +152,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	cv::Mat postResample {};
 
 	if ((resolution.xRes != resolution.yRes) || (imageDPI != 500)) {
-		// Possible re-sampling
-		if (flags.force) {
+		// Possible re-sampling - avoid if 72 or 96 PPI
+		if (flags.force && (imageDPI != 72 && imageDPI != 96)) {
 			resampled = true;
 			// Re-sample by force
 			try {
@@ -180,72 +180,89 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 		} else {
 			if (interactive && !flags.force) {
-				const std::string prompt =
-				    "This Image is not 500 PPI. Would you "
-				    "like "
-				    "to re-sample this image to 500 PPI?";
-				const bool response = NFIQ2UI::yesOrNo(
-				    prompt, false, true, true);
+				bool response = false;
 
-				if (response) {
-					resampled = true;
-					// Re-sample the image
-					try {
-						cv::Mat preResample {
-							static_cast<int>(
-							    imageHeight),
-							static_cast<int>(
-							    imageWidth),
-							CV_8U, grayscaleRawData
-						};
-						NFIR::resample(preResample,
-						    postResample, imageDPI, 500,
-						    "", "");
+				if (imageDPI == 72 || imageDPI == 96) {
+					const std::string prompt =
+					    "This image has a default resolution of " +
+					    std::to_string(imageDPI) +
+					    " PPI. Keep this resolution?\n"
+					    "WARNING: NFIQ 2 only officially supports 500 PPI "
+					    "images.\nScores obtained from images of other "
+					    "resolutions may be inaccurate.";
+					response = NFIQ2UI::yesOrNo(
+					    prompt, false, true, true);
+				}
 
-					} catch (const cv::Exception &e) {
+				if (!response) {
+					const std::string prompt =
+					    "This Image is not 500 PPI. "
+					    "Would you like to re-sample this image?";
+					response = NFIQ2UI::yesOrNo(
+					    prompt, false, true, true);
+
+					if (response) {
+						resampled = true;
+						// Re-sample the image
+						try {
+							cv::Mat preResample {
+								static_cast<
+								    int>(
+								    imageHeight),
+								static_cast<
+								    int>(
+								    imageWidth),
+								CV_8U,
+								grayscaleRawData
+							};
+							NFIR::resample(
+							    preResample,
+							    postResample,
+							    imageDPI, 500, "",
+							    "");
+
+						} catch (
+						    const cv::Exception &e) {
+							logger->printError(name,
+							    fingerPosition, 255,
+							    "'Error: Matrix creation error: " +
+								e.msg + "'",
+							    quantized,
+							    resampled);
+							return;
+
+						} catch (
+						    const std::exception &e) {
+							const std::string
+							    errStr { e.what() };
+							logger->printError(name,
+							    fingerPosition, 255,
+							    "'" + errStr + "'",
+							    quantized,
+							    resampled);
+							return;
+						}
+
+					} else {
+						// User decided not to re-sample
+						logger->debugMsg(
+						    "User denied the re-sample");
 						logger->printError(name,
 						    fingerPosition, 255,
-						    "'Error: Matrix creation error: " +
-							e.msg + "'",
-						    quantized, resampled);
-						return;
-
-					} catch (const std::exception &e) {
-						const std::string errStr {
-							e.what()
-						};
-						logger->printError(name,
-						    fingerPosition, 255,
-						    "'" + errStr + "'",
+						    "'Error: User chose not to "
+						    "re-sample image'",
 						    quantized, resampled);
 						return;
 					}
-
-				} else {
-					// User decided not to re-sample
-					logger->debugMsg(
-					    "User denied the re-sample");
-					logger->printError(name, fingerPosition,
-					    255,
-					    "'Error: User chose not to "
-					    "re-sample image'",
-					    quantized, resampled);
-					return;
 				}
-
-			} else {
-				logger->printError(name, fingerPosition, 255,
-				    "'Error: Image is not 500PPI'", quantized,
-				    resampled);
-				return;
 			}
 		}
 	}
-	logger->debugMsg("Successfully passed 500 PPI check. Re-sampled?: " +
+	logger->debugMsg("Successfully passed PPI check. Re-sampled?: " +
 	    std::to_string(resampled));
 
-	// At this point - all images are 500PPI or have been converted to that
-	// resolution. Quantization will happen below if necessary.
+	// At this point - all images are 500PPI, have been converted to that
+	// resolution, or are 72PPI or 96PPI.
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
 	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),

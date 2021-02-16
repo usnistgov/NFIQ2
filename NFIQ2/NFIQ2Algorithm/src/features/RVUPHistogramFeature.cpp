@@ -20,8 +20,6 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
-#define HISTOGRAM_FEATURES 1
-
 RVUPHistogramFeature::~RVUPHistogramFeature()
 {
 }
@@ -142,7 +140,6 @@ RVUPHistogramFeature::computeFeatureData(
 		}
 
 		// RIDGE-VALLEY UNIFORMITY
-#if HISTOGRAM_FEATURES
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(RVUPHISTLIMITS[0]);
 		histogramBins10.push_back(RVUPHISTLIMITS[1]);
@@ -155,17 +152,16 @@ RVUPHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(RVUPHISTLIMITS[8]);
 		addHistogramFeatures(featureDataList, "RVUP_Bin10_",
 		    histogramBins10, rvures, 10);
-#endif
 
 		timeRVU = timerRVU.endTimerAndGetElapsedTime();
 		if (m_bOutputSpeed) {
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup =
 			    RVUPHistogramFeature::speedFeatureIDGroup;
-#if HISTOGRAM_FEATURES
+
 			addHistogramFeatureNames(
 			    speed.featureIDs, "RVUP_Bin10_", 10);
-#endif
+
 			speed.featureSpeed = timeRVU;
 			m_lSpeedValues.push_back(speed);
 		}
@@ -194,9 +190,8 @@ std::list<std::string>
 RVUPHistogramFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
-#if HISTOGRAM_FEATURES
 	addHistogramFeatureNames(featureIDs, "RVUP_Bin10_", 10);
-#endif
+
 	return featureIDs;
 }
 ///////////////////////////////////////////////////////////////////////

@@ -81,11 +81,8 @@ GetNfiq2Version(int *major, int *minor, int *patch, const char **ocv)
 #endif
 }
 DLLEXPORT const char *STDCALL
-InitNfiq2(char *hash)
+InitNfiq2(char **hash)
 {
-	if (hash == nullptr) {
-		return nullptr;
-	}
 	try {
 		if (g_nfiq2.get() == nullptr) {
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
@@ -96,9 +93,11 @@ InitNfiq2(char *hash)
 			    new NFIQ::NFIQ2Algorithm(GetYamlFilePath(),
 				"ccd75820b48c19f1645ef5e9c481c592"));
 #endif
-			strncpy(hash, g_nfiq2->getParameterHash().c_str(),
+			*hash = (char *)malloc(
 			    g_nfiq2->getParameterHash().length() + 1);
-			return hash;
+			strncpy(*hash, g_nfiq2->getParameterHash().c_str(),
+			    g_nfiq2->getParameterHash().length() + 1);
+			return *hash;
 		}
 	} catch (std::exception &exc) {
 		std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;

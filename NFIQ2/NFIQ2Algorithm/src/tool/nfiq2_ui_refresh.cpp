@@ -152,8 +152,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	cv::Mat postResample {};
 
 	if ((resolution.xRes != resolution.yRes) || (imageDPI != 500)) {
-		// Possible re-sampling - avoid if 72 or 96 PPI
-		if (flags.force && (imageDPI != 72 && imageDPI != 96)) {
+		// Possible re-sampling - avoid if 72PPI
+		if (flags.force && imageDPI != 72) {
 			resampled = true;
 			// Re-sample by force
 			try {
@@ -182,7 +182,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			if (interactive && !flags.force) {
 				bool response = false;
 
-				if (imageDPI == 72 || imageDPI == 96) {
+				if (imageDPI == 72) {
 					const std::string prompt =
 					    "This image has a default resolution of " +
 					    std::to_string(imageDPI) +
@@ -262,7 +262,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	    std::to_string(resampled));
 
 	// At this point - all images are 500PPI, have been converted to that
-	// resolution, or are 72PPI or 96PPI.
+	// resolution, or are 72PPI.
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
 	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),

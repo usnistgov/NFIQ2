@@ -118,53 +118,26 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	BE::Memory::uint8Array grayscaleRawData {};
 
-	if (bitDepth == 1) {
-		try { // 1-bit quantize
-			if (img->getCompressionAlgorithm() ==
-			    BE::Image::CompressionAlgorithm::WSQ20) {
-				std::unique_lock<std::mutex> ulock(mutGray);
-				grayscaleRawData = img->getRawGrayscaleData(1);
-				ulock.unlock();
+	try {
+		if (img->getCompressionAlgorithm() ==
+		    BE::Image::CompressionAlgorithm::WSQ20) {
+			std::unique_lock<std::mutex> ulock(mutGray);
+			grayscaleRawData = img->getRawGrayscaleData(8);
+			ulock.unlock();
 
-			} else {
-				grayscaleRawData = img->getRawGrayscaleData(1);
-			}
-
-		} catch (const BE::Error::Exception &e) {
-			logger->debugMsg(
-			    "Could not get Grayscale raw data from image" +
-			    name);
-			std::string error {
-				"'Error: Could not get Grayscale raw data from image'"
-			};
-			logger->printError(name, fingerPosition, 255,
-			    error.append(e.what()), quantized, resampled);
-			return;
+		} else {
+			grayscaleRawData = img->getRawGrayscaleData(8);
 		}
 
-	} else { // 8-bit quantize
-		try {
-			if (img->getCompressionAlgorithm() ==
-			    BE::Image::CompressionAlgorithm::WSQ20) {
-				std::unique_lock<std::mutex> ulock(mutGray);
-				grayscaleRawData = img->getRawGrayscaleData(8);
-				ulock.unlock();
-
-			} else {
-				grayscaleRawData = img->getRawGrayscaleData(8);
-			}
-
-		} catch (const BE::Error::Exception &e) {
-			logger->debugMsg(
-			    "Could not get Grayscale raw data from image" +
-			    name);
-			std::string error {
-				"'Error: Could not get Grayscale raw data from image'"
-			};
-			logger->printError(name, fingerPosition, 255,
-			    error.append(e.what()), quantized, resampled);
-			return;
-		}
+	} catch (const BE::Error::Exception &e) {
+		logger->debugMsg(
+		    "Could not get Grayscale raw data from image" + name);
+		std::string error {
+			"'Error: Could not get Grayscale raw data from image'"
+		};
+		logger->printError(name, fingerPosition, 255,
+		    error.append(e.what()), quantized, resampled);
+		return;
 	}
 
 	const BE::Image::Size dimensions = img->getDimensions();

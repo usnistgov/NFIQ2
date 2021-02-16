@@ -154,16 +154,16 @@ bool yesOrNo(const std::string &prompt, bool default_answer = true,
  *  asked if they would like to change to using n cores
  *  to maintain system stability.
  *
- *  @param[in] optarg
+ *  @param[in] threadArg
  *    The number of desired threads to create for Multi-Threaded
  *    operations.
  *
  *  @return
  *    The number of threads to be used by Multi-threaded operations.
  */
-unsigned int checkThreads(const std::string &optarg);
+unsigned int checkThreads(const std::string &threadArg);
 
-std::string formatDouble(const double &d, const int precision);
+std::string formatDouble(const double &d, const uint8_t precision);
 
 /**
  *  @brief

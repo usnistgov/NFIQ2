@@ -124,7 +124,7 @@ NFIQ2UI::Log::padNA() const
 	}
 
 	const unsigned int padding = numCols - MIN_NUM_COLS;
-	for (auto i = 0; i < padding; i++) {
+	for (unsigned int i = 0; i < padding; i++) {
 		strNA += ",NA";
 	}
 

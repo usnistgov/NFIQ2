@@ -258,7 +258,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						return;
 					}
 				}
-				
+
 			} else {
 				logger->printError(name, fingerPosition, 255,
 				    "'Error: Image is not 500PPI'", quantized,

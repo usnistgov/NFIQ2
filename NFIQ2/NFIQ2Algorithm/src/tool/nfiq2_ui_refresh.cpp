@@ -247,11 +247,13 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						// User decided not to re-sample
 						logger->debugMsg(
 						    "User denied the re-sample");
+						if (!singleImage) {
 						logger->printError(name,
 						    fingerPosition, 255,
 						    "'Error: User chose not to "
 						    "re-sample image'",
 						    quantized, resampled);
+						}
 						return;
 					}
 				}

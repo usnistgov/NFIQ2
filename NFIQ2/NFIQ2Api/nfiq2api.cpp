@@ -81,7 +81,7 @@ GetNfiq2Version(int *major, int *minor, int *patch, const char **ocv)
 #endif
 }
 DLLEXPORT const char *STDCALL
-InitNfiq2()
+InitNfiq2(char **hash)
 {
 	try {
 		if (g_nfiq2.get() == nullptr) {
@@ -93,7 +93,11 @@ InitNfiq2()
 			    new NFIQ::NFIQ2Algorithm(GetYamlFilePath(),
 				"ccd75820b48c19f1645ef5e9c481c592"));
 #endif
-			return g_nfiq2->getParameterHash().c_str();
+			*hash = (char *)malloc(
+			    g_nfiq2->getParameterHash().length() + 1);
+			strncpy(*hash, g_nfiq2->getParameterHash().c_str(),
+			    g_nfiq2->getParameterHash().length() + 1);
+			return *hash;
 		}
 	} catch (std::exception &exc) {
 		std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;

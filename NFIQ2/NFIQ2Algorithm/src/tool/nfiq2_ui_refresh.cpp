@@ -248,15 +248,17 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						logger->debugMsg(
 						    "User denied the re-sample");
 						if (!singleImage) {
-						logger->printError(name,
-						    fingerPosition, 255,
-						    "'Error: User chose not to "
-						    "re-sample image'",
-						    quantized, resampled);
+							logger->printError(name,
+							    fingerPosition, 255,
+							    "'Error: User chose not to "
+							    "re-sample image'",
+							    quantized,
+							    resampled);
 						}
 						return;
 					}
 				}
+				
 			} else {
 				logger->printError(name, fingerPosition, 255,
 				    "'Error: Image is not 500PPI'", quantized,

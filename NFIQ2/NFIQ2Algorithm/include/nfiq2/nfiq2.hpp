@@ -22,6 +22,11 @@ class NFIQ2Algorithm {
 	~NFIQ2Algorithm();
 
 	/**
+	 * Add support for obtaining Features without computing NFIQ2 score
+	 */
+	//std::vector<NFIQ::QualityFeatureData> computeQualityFeatureVectors();
+
+	/**
 	 * @brief
 	 * Computes the quality score from the input fingerprint image
 	 * data.

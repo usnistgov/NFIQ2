@@ -171,7 +171,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				    quantized, resampled);
 				return;
 
-			} catch (const std::exception &e) {
+			} catch (const NFIR::Miscue &e) {
 				const std::string errStr { e.what() };
 				logger->printError(name, fingerPosition, 255,
 				    "'" + errStr + "'", quantized, resampled);

@@ -262,7 +262,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	if (corereturn.qualityScore > 100) {
 		logger->printError(name, fingerPosition,
 		    corereturn.qualityScore,
-		    "NFIQ2 computeQualityScore returned an error code" + corereturn.exceptionStr,
+		    "NFIQ2 computeQualityScore returned an error code: " + corereturn.exceptionStr,
 		    quantized, resampled);
 		return;
 	}

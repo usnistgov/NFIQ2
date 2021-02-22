@@ -262,7 +262,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	if (corereturn.qualityScore > 100) {
 		logger->printError(name, fingerPosition,
 		    corereturn.qualityScore,
-		    "NFIQ2 computeQualityScore returned an error code",
+		    "NFIQ2 computeQualityScore returned an error code" + corereturn.exceptionStr,
 		    quantized, resampled);
 		return;
 	}
@@ -302,12 +302,19 @@ NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
 	std::list<NFIQ::QualityFeatureData> featureVector;
 	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
 
-	const unsigned int qualityScore = model.computeQualityScore(
+	unsigned int qualityScore = 255;
+	std::string exceptionStr = "";
+
+	try {
+		qualityScore = model.computeQualityScore(
 	    wrappedImage, true, actionableQuality, true, featureVector, true,
 	    featureTimings);
+	} catch (const NFIQ::NFIQException &e) {
+		exceptionStr = e.what();
+	}
 
 	const CoreReturn corereturn { featureVector, featureTimings,
-		actionableQuality, qualityScore };
+		actionableQuality, qualityScore, exceptionStr };
 	return corereturn;
 }
 

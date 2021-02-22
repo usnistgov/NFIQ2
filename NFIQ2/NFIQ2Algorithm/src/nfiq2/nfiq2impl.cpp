@@ -408,7 +408,6 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
     std::list<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
     std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
 {
-	try {
 		// crop image (white line removal) and use it for feature
 		// computation
 		NFIQ::FingerprintImageData croppedRawImage =
@@ -441,12 +440,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 		}
 
 		return (unsigned int)qualityScore;
-	} catch (...) {
-		// any algorithmic exception is mapped to a quality score of 255
-		// representing "quality not able to be computed"
-		return QUALITY_SCORE_NOT_AVAILABLE;
-	}
-	return QUALITY_SCORE_NOT_AVAILABLE;
+
 }
 
 std::vector<std::string>

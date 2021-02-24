@@ -138,8 +138,6 @@ struct CoreReturn {
 	std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
 	/** Overall Quality Score for an Image */
 	unsigned int qualityScore;
-
-	std::string exceptionStr;
 };
 
 /**

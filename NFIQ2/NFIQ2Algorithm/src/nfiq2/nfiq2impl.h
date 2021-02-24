@@ -49,6 +49,8 @@ class NFIQ2Algorithm::Impl {
 	 * @fn computeQualityScore
 	 * @brief Computes the quality score from the input fingerprint image
 	 * data
+	 * @throws NFIQ::exception failure to compute, reason in the message
+	 * string
 	 * @param rawImage fingerprint image in raw format
 	 * @param bComputeActionableQuality if to compute actionable quality
 	 * flags or not

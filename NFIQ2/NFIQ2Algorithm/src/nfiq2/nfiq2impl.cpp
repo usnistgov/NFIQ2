@@ -21,8 +21,6 @@
 #include <string>
 #include <vector>
 
-#define QUALITY_SCORE_NOT_AVAILABLE 255
-
 #if defined(__linux) && defined(__i386__)
 void
 set_fpu(unsigned int mode)
@@ -109,8 +107,8 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 		    NFIQ::ActionableQualityFeedbackIdentifier_UniformImage;
 		isUniformImage = (fbUniform.actionableQualityValue <
 			    ActionableQualityFeedbackThreshold_UniformImage ?
-			true :
-			false);
+			      true :
+			      false);
 		actionableQuality.push_back(fbUniform);
 
 		// only return actionable feedback if so configured
@@ -128,16 +126,15 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 				    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow;
 				isEmptyImage = (fb.actionableQualityValue >
 					    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow ?
-					true :
-					false);
+					      true :
+					      false);
 				actionableQuality.push_back(fb);
 			}
 		}
 
 		if (isEmptyImage || isUniformImage) {
 			// empty image or uniform image has been detected
-			// return empty feature vector since this actionable
-			// feedback results in a quality score of 255 other
+			// return empty feature vector
 			// feature values will not be computed in that case
 			return featureVector;
 		}
@@ -394,7 +391,7 @@ NFIQ2Algorithm::Impl::getQualityPrediction(
 {
 	const double utility = 0.0;
 	double deviation = 0.0;
-	double quality = QUALITY_SCORE_NOT_AVAILABLE;
+	double quality {};
 	m_RandomForestML.evaluate(featureVector, utility, quality, deviation);
 
 	return quality;
@@ -408,39 +405,47 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
     std::list<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
     std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
 {
-		// crop image (white line removal) and use it for feature
-		// computation
-		NFIQ::FingerprintImageData croppedRawImage =
-		    rawImage.removeWhiteFrameAroundFingerprint();
+	// crop image (white line removal) and use it for feature
+	// computation
+	NFIQ::FingerprintImageData croppedRawImage =
+	    rawImage.removeWhiteFrameAroundFingerprint();
 
-		// --------------------------------------------------------
-		// compute quality features (including actionable feedback)
-		// --------------------------------------------------------
+	// --------------------------------------------------------
+	// compute quality features (including actionable feedback)
+	// --------------------------------------------------------
 
-		std::list<NFIQ::QualityFeatureData> featureVector =
-		    computeQualityFeatures(croppedRawImage,
-			bComputeActionableQuality, actionableQuality,
-			bOutputSpeed, qualityFeatureSpeed);
+	std::list<NFIQ::QualityFeatureData> featureVector {};
+	try {
+		featureVector = computeQualityFeatures(croppedRawImage,
+		    bComputeActionableQuality, actionableQuality, bOutputSpeed,
+		    qualityFeatureSpeed);
+	} catch (const NFIQ::NFIQException &e) {
+		throw;
+	}
 
-		if (featureVector.size() == 0) {
-			// no features have been computed
-			// return a score of 255 -> no prediction is conducted
-			return QUALITY_SCORE_NOT_AVAILABLE;
-		}
+	if (featureVector.size() == 0) {
+		// no features have been computed
+		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
+		    "No features have been computed");
+	}
 
-		// ---------------------
-		// compute quality score
-		// ---------------------
+	// ---------------------
+	// compute quality score
+	// ---------------------
 
-		double qualityScore = getQualityPrediction(featureVector);
+	double qualityScore {};
+	try {
+		qualityScore = getQualityPrediction(featureVector);
+	} catch (const NFIQ::NFIQException &e) {
+		throw;
+	}
 
-		// return feature vector if requested
-		if (bOutputFeatures) {
-			qualityFeatureData = featureVector;
-		}
+	// return feature vector if requested
+	if (bOutputFeatures) {
+		qualityFeatureData = featureVector;
+	}
 
-		return (unsigned int)qualityScore;
-
+	return (unsigned int)qualityScore;
 }
 
 std::vector<std::string>

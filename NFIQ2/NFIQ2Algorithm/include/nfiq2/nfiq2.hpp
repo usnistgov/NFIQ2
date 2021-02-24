@@ -26,6 +26,8 @@ class NFIQ2Algorithm {
 	 * Computes the quality score from the input fingerprint image
 	 * data.
 	 *
+	 * @throws NFIQ::exception failure to compute, reason in the message
+	 * string
 	 * @param rawImage
 	 * Fingerprint image in raw format
 	 * @param bComputeActionableQuality

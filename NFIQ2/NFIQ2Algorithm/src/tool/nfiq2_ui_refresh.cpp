@@ -304,7 +304,7 @@ NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
 	std::list<NFIQ::QualityFeatureData> featureVector;
 	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
 
-	unsigned int qualityScore = 255;
+	unsigned int qualityScore{};
 
 	try {
 		qualityScore = model.computeQualityScore(wrappedImage, true,

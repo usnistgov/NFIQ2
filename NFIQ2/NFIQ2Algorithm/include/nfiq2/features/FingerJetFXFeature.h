@@ -132,6 +132,8 @@ class FingerJetFXFeature : BaseFeature {
 	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
 
+	std::string parseFRFXLLError(FRFXLL_RESULT fxRes);
+
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);

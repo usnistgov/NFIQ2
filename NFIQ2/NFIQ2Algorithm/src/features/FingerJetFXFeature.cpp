@@ -26,6 +26,35 @@ FingerJetFXFeature::centerOfMinutiaeMass(
 	    lx / minutiaData.size(), ly / minutiaData.size());
 }
 
+std::string
+FingerJetFXFeature::parseFRFXLLError(FRFXLL_RESULT fxRes)
+{
+	switch (fxRes) {
+	case FRFXLL_ERR_FB_TOO_SMALL_AREA:
+		return "FRFXLL_ERR_FB_TOO_SMALL_AREA: Fingerprint area is too small. Most likely this is bacause the tip of the finger is presented.";
+	case FRFXLL_ERR_INVALID_PARAM:
+		return "FRFXLL_ERR_INVALID_PARAM: One or more of the parameters is invalid.";
+	case FRFXLL_ERR_NO_MEMORY:
+		return "FRFXLL_ERR_NO_MEMORY: There is not enough memory to perform the function.";
+	case FRFXLL_ERR_MORE_DATA:
+		return "FRFXLL_ERR_MORE_DATA: More data is available.";
+	case FRFXLL_ERR_INTERNAL:
+		return "FRFXLL_ERR_INTERNAL: An unknown internal error has occurred.";
+	case FRFXLL_ERR_INVALID_BUFFER:
+		return "FRFXLL_ERR_INVALID_BUFFER: The image buffer is too small for in-place processing.";
+	case FRFXLL_ERR_INVALID_HANDLE:
+		return "FRFXLL_ERR_INVALID_HANDLE: The specified handle is invalid.";
+	case FRFXLL_ERR_INVALID_IMAGE:
+		return "FRFXLL_ERR_INVALID_IMAGE: The image buffer is invalid.";
+	case FRFXLL_ERR_INVALID_DATA:
+		return "FRFXLL_ERR_INVALID_DATA: Supplied data is invalid.";
+	case FRFXLL_ERR_NO_FP:
+		return "FRFXLL_ERR_NO_FP: The specified finger or view is not present.";
+	default:
+		return "Unknown FRFXLL Error";
+	}
+}
+
 std::list<NFIQ::QualityFeatureResult>
 FingerJetFXFeature::computeFeatureData(
     const NFIQ::FingerprintImageData fingerprintImage,
@@ -97,7 +126,8 @@ FingerJetFXFeature::computeFeatureData(
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
-		    "Could not create feature set from raw data.");
+		    "Could not create feature set from raw data: " +
+			FingerJetFXFeature::parseFRFXLLError(fxRes));
 	}
 
 	// close handle
@@ -110,12 +140,15 @@ FingerJetFXFeature::computeFeatureData(
 	}
 
 	unsigned int minCnt { 0 };
-	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, nullptr) != FRFXLL_OK) {
+	FRFXLL_RESULT fxResMin = FRFXLLGetMinutiaInfo(
+	    hFeatureSet, &minCnt, nullptr);
+	if (fxResMin != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
-		    "Failed to obtain Minutia Info from feature set.");
+		    "Failed to obtain Minutia Info from feature set: " +
+			FingerJetFXFeature::parseFRFXLLError(fxResMin));
 	}
 
 	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
@@ -127,13 +160,15 @@ FingerJetFXFeature::computeFeatureData(
 		    "Could not allocate space for extracted minutiae records.");
 	}
 
-	if (FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
-		&minCnt, mdata.get()) != FRFXLL_OK) {
+	FRFXLL_RESULT fxResData = FRFXLLGetMinutiae(
+	    hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT, &minCnt, mdata.get());
+	if (fxResData != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
-		    "Failed to parse Minutia Data into 19794 Minutia Struct.");
+		    "Failed to parse Minutia Data into 19794 Minutia Struct: " +
+			FingerJetFXFeature::parseFRFXLLError(fxResData));
 	}
 
 	minutiaData.clear();

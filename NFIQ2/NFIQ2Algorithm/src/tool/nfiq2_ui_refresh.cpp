@@ -256,13 +256,15 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, imageDPI);
 
-	const NFIQ2UI::CoreReturn corereturn = NFIQ2UI::coreCompute(
-	    wrappedImage, model);
+	NFIQ2UI::CoreReturn corereturn;
 
-	if (corereturn.qualityScore > 100) {
-		logger->printError(name, fingerPosition,
-		    corereturn.qualityScore,
-		    "NFIQ2 computeQualityScore returned an error code: " + corereturn.exceptionStr,
+	try {
+		corereturn = NFIQ2UI::coreCompute(wrappedImage, model);
+	} catch (const NFIQ::NFIQException &e) {
+		const std::string expMsg { e.what() };
+		logger->printError(name, fingerPosition, 255,
+		    "'NFIQ2 computeQualityScore returned an error code: " +
+			expMsg + "'",
 		    quantized, resampled);
 		return;
 	}
@@ -303,18 +305,17 @@ NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
 	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
 
 	unsigned int qualityScore = 255;
-	std::string exceptionStr = "";
 
 	try {
-		qualityScore = model.computeQualityScore(
-	    wrappedImage, true, actionableQuality, true, featureVector, true,
-	    featureTimings);
+		qualityScore = model.computeQualityScore(wrappedImage, true,
+		    actionableQuality, true, featureVector, true,
+		    featureTimings);
 	} catch (const NFIQ::NFIQException &e) {
-		exceptionStr = e.what();
+		throw e;
 	}
 
 	const CoreReturn corereturn { featureVector, featureTimings,
-		actionableQuality, qualityScore, exceptionStr };
+		actionableQuality, qualityScore };
 	return corereturn;
 }
 

@@ -28,6 +28,9 @@
 #include <nfiq2/tool/nfiq2_ui_threadedlog.h>
 #include <nfiq2/tool/nfiq2_ui_types.h>
 #include <nfiq2/tool/nfiq2_ui_utils.h>
+#include <nfir_lib.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
 
 #include <cmath>
 #include <cstdio>
@@ -63,7 +66,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	const uint16_t bitDepth = img->getBitDepth();
 	const uint32_t colorDepth = img->getColorDepth();
 
-	if ((bitDepth != colorDepth) || (bitDepth != 8)) {
+	if ((bitDepth != colorDepth) || (bitDepth != 8 && bitDepth != 1)) {
 		if (flags.force) {
 			quantized = true;
 			// quantize by force - gets handled below with
@@ -72,10 +75,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		} else {
 			if (interactive && !flags.force) {
 				logger->debugMsg(
-				    "Image is not 8 bit. Asking user to "
+				    "Image is not 8 bit or 1 bit. Asking user to "
 				    "quantize.");
 				const std::string prompt =
-				    "This Image is not 8 bit grayscale. "
+				    "This Image is not 8 bit or 1 bit grayscale. "
 				    "Would "
 				    "you like to quantize/convert this "
 				    "image to 8 bit color and depth?";
@@ -101,7 +104,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 			} else {
 				logger->printError(name, fingerPosition, 255,
-				    "'Error: image is not 8 bit "
+				    "'Error: image is not 8 bit or 1 bit"
 				    "depth and/or color'",
 				    quantized, resampled);
 				return;
@@ -112,71 +115,6 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	    "Successfully passed bit and color depth check. Quantized?: " +
 	    std::to_string(quantized));
 	// Now check for PPI
-
-	const BE::Image::Resolution resolution = img->getResolution().toUnits(
-	    BE::Image::Resolution::Units::PPI);
-
-	const uint16_t imageDPI = static_cast<uint16_t>(
-	    std::round(resolution.xRes));
-
-	if ((resolution.xRes != resolution.yRes) || (imageDPI != 500)) {
-		// Possible re-sampling
-		if (flags.force) {
-			resampled = true;
-			// Re-sample by force
-
-			/* Re-sample Image Code here
-			 */
-
-		} else {
-			if (interactive && !flags.force) {
-				const std::string prompt =
-				    "This Image is not 500 PPI. Would you "
-				    "like "
-				    "to re-sample this image to 500 PPI?";
-				const bool response = NFIQ2UI::yesOrNo(
-				    prompt, false, true, true);
-
-				if (response) {
-					resampled = true;
-					// Re-sample the image
-
-					/* FIXME: Re-sample Image Code here
-					 */
-
-					logger->debugMsg(
-					    "User approved the re-sample");
-					logger->printError(name, fingerPosition,
-					    255,
-					    "'Error: Resampling not "
-					    "implemented'",
-					    quantized, resampled);
-					return;
-				} else {
-					// User decided not to re-sample
-					logger->debugMsg(
-					    "User denied the re-sample");
-					logger->printError(name, fingerPosition,
-					    255,
-					    "'Error: User chose not to "
-					    "re-sample image'",
-					    quantized, resampled);
-					return;
-				}
-
-			} else {
-				logger->printError(name, fingerPosition, 255,
-				    "'Error: Image is not 500PPI'", quantized,
-				    resampled);
-				return;
-			}
-		}
-	}
-	logger->debugMsg("Successfully passed 500 PPI check. Re-sampled?: " +
-	    std::to_string(resampled));
-
-	// At this point - all images are 500PPI or have been converted to that
-	// resolution. Quantization will happen below if necessary.
 
 	BE::Memory::uint8Array grayscaleRawData {};
 
@@ -202,16 +140,122 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		return;
 	}
 
-	const uint32_t dataSize = static_cast<uint32_t>(
-	    grayscaleRawData.size());
-
 	const BE::Image::Size dimensions = img->getDimensions();
 	const uint32_t imageWidth = dimensions.xSize;
 	const uint32_t imageHeight = dimensions.ySize;
+	const BE::Image::Resolution resolution = img->getResolution().toUnits(
+	    BE::Image::Resolution::Units::PPI);
 
-	const NFIQ::FingerprintImageData wrappedImage =
-	    NFIQ::FingerprintImageData(grayscaleRawData, dataSize, imageWidth,
-		imageHeight, fingerPosition, imageDPI);
+	const uint16_t imageDPI = static_cast<uint16_t>(
+	    std::round(resolution.xRes));
+
+	cv::Mat postResample {};
+
+	if ((resolution.xRes != resolution.yRes) || (imageDPI != 500)) {
+		// Possible re-sampling
+		if (flags.force) {
+			resampled = true;
+			// Re-sample by force
+			try {
+				cv::Mat preResample { static_cast<int>(
+							  imageHeight),
+					static_cast<int>(imageWidth), CV_8U,
+					grayscaleRawData };
+				NFIR::resample(preResample, postResample,
+				    imageDPI, 500, "", "");
+
+			} catch (const cv::Exception &e) {
+				logger->printError(name, fingerPosition, 255,
+				    "'Error: Matrix creation error: " + e.msg +
+					"'",
+				    quantized, resampled);
+				return;
+
+			} catch (const NFIR::Miscue &e) {
+				const std::string errStr { e.what() };
+				logger->printError(name, fingerPosition, 255,
+				    "'" + errStr + "'", quantized, resampled);
+				return;
+			}
+
+		} else {
+			if (interactive && !flags.force) {
+				const std::string prompt =
+				    "This Image is not 500 PPI. Would you "
+				    "like "
+				    "to re-sample this image to 500 PPI?";
+				const bool response = NFIQ2UI::yesOrNo(
+				    prompt, false, true, true);
+
+				if (response) {
+					resampled = true;
+					// Re-sample the image
+					try {
+						cv::Mat preResample {
+							static_cast<int>(
+							    imageHeight),
+							static_cast<int>(
+							    imageWidth),
+							CV_8U, grayscaleRawData
+						};
+						NFIR::resample(preResample,
+						    postResample, imageDPI, 500,
+						    "", "");
+
+					} catch (const cv::Exception &e) {
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'Error: Matrix creation error: " +
+							e.msg + "'",
+						    quantized, resampled);
+						return;
+
+					} catch (const std::exception &e) {
+						const std::string errStr {
+							e.what()
+						};
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'" + errStr + "'",
+						    quantized, resampled);
+						return;
+					}
+
+				} else {
+					// User decided not to re-sample
+					logger->debugMsg(
+					    "User denied the re-sample");
+					if (!singleImage) {
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'Error: User chose not to "
+						    "re-sample image'",
+						    quantized, resampled);
+					}
+					return;
+				}
+
+			} else {
+				logger->printError(name, fingerPosition, 255,
+				    "'Error: Image is not 500PPI'", quantized,
+				    resampled);
+				return;
+			}
+		}
+	}
+	logger->debugMsg("Successfully passed 500 PPI check. Re-sampled?: " +
+	    std::to_string(resampled));
+
+	// At this point - all images are 500PPI or have been converted to that
+	// resolution. Quantization will happen below if necessary.
+
+	const NFIQ::FingerprintImageData wrappedImage = resampled ?
+	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),
+		postResample.cols, postResample.rows, fingerPosition, 500) :
+	    NFIQ::FingerprintImageData(grayscaleRawData,
+		grayscaleRawData.size(), imageWidth, imageHeight,
+		fingerPosition, imageDPI);
+
 	const NFIQ2UI::CoreReturn corereturn = NFIQ2UI::coreCompute(
 	    wrappedImage, model);
 
@@ -735,9 +779,7 @@ NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 	static const std::string DefaultModelInfoFilename {
 		"nist_plain_tir-ink.txt"
 	};
-	static const std::string ShareDirLocalUnix {
-		"/usr/local/nfiq2/share"
-	};
+	static const std::string ShareDirLocalUnix { "/usr/local/nfiq2/share" };
 	static const std::string ShareDirWin32 {
 		"C:/Program Files (x86)/NFIQ 2/bin"
 	};

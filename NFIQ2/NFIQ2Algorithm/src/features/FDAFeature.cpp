@@ -22,8 +22,6 @@ using namespace cv;
 double fda(const Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-#define HISTOGRAM_FEATURES 1
-
 FDAFeature::~FDAFeature()
 {
 }
@@ -32,9 +30,8 @@ std::list<std::string>
 FDAFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
-#if HISTOGRAM_FEATURES
 	addHistogramFeatureNames(featureIDs, "FDA_Bin10_", 10);
-#endif
+
 	return featureIDs;
 }
 
@@ -100,7 +97,6 @@ FDAFeature::computeFeatureData(
 		    (static_cast<double>(cols) - diff) / blk);
 
 		Mat fdas = Mat::zeros(mapRows, mapCols, CV_64F);
-		Mat maskBseg = Mat::zeros(mapRows, mapCols, CV_8U);
 		Mat blkorient = Mat::zeros(mapRows, mapCols, CV_64F);
 		Mat im_roi, blkwim;
 		Mat maskB1;
@@ -126,7 +122,6 @@ FDAFeature::computeFeatureData(
 				    Range(c, min(c + blksize, maskim.cols)));
 				uint8_t mask = allfun(maskB1);
 				if (mask == 1) {
-					maskBseg.at<uint8_t>(br, bc) = mask;
 					covcoef(im_roi, cova, covb, covc,
 					    CENTERED_DIFFERENCES);
 
@@ -154,27 +149,6 @@ FDAFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		// get mean applying the background mask
-		// Matlab:
-		//       fdas(not(maskBseg)) = NaN; % apply background mask
-		//       double frequencyDomainAnalysis =
-		//       mean(ocls(~isnan(fdas)));
-		//
-		// Each maskBseg entry is true if all elements of the
-		// corresponding maskB1 are non-zero, false if one or more is
-		// zero.  Above matlab code substitutes a NaN for fdas entries
-		// that correspond to masks where one or more entries were 0. It
-		// then takes the mean of all entries that are not NaNs.
-		//
-		// In the code below, each maskBseg entry is 1 if all entries
-		// are non-zero, and 0 otherwise.
-		//  MaskBseg is passed to the mask parameter of the OpenCV mean
-		//  function, so that only fdas
-		// entries with maskBseg == 1 are used in the calculation.
-
-		Scalar frequencyDomainAnalysis = mean(fdas, maskBseg);
-
-#if HISTOGRAM_FEATURES
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(FDAHISTLIMITS[0]);
 		histogramBins10.push_back(FDAHISTLIMITS[1]);
@@ -187,16 +161,15 @@ FDAFeature::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
 		addHistogramFeatures(featureDataList, "FDA_Bin10_",
 		    histogramBins10, dataVector, 10);
-#endif
 
 		time = timer.endTimerAndGetElapsedTime();
 		if (m_bOutputSpeed) {
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
-#if HISTOGRAM_FEATURES
+
 			addHistogramFeatureNames(
 			    speed.featureIDs, "FDA_Bin10_", 10);
-#endif
+
 			speed.featureSpeed = time;
 			m_lSpeedValues.push_back(speed);
 		}

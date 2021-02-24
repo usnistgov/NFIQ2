@@ -13,8 +13,6 @@
 using namespace NFIQ;
 using namespace cv;
 
-#define HISTOGRAM_FEATURES 1
-
 OCLHistogramFeature::~OCLHistogramFeature()
 {
 }
@@ -89,7 +87,6 @@ OCLHistogramFeature::computeFeatureData(
 			}
 		}
 
-#if HISTOGRAM_FEATURES
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(OCLPHISTLIMITS[0]);
 		histogramBins10.push_back(OCLPHISTLIMITS[1]);
@@ -102,17 +99,16 @@ OCLHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(OCLPHISTLIMITS[8]);
 		addHistogramFeatures(
 		    featureDataList, "OCL_Bin10_", histogramBins10, oclres, 10);
-#endif
 
 		timeOCL = timerOCL.endTimerAndGetElapsedTime();
 		if (m_bOutputSpeed) {
 			NFIQ::QualityFeatureSpeed speed;
 			speed.featureIDGroup =
 			    OCLHistogramFeature::speedFeatureIDGroup;
-#if HISTOGRAM_FEATURES
+
 			addHistogramFeatureNames(
 			    speed.featureIDs, "OCL_Bin10_", 10);
-#endif
+
 			speed.featureSpeed = timeOCL;
 			m_lSpeedValues.push_back(speed);
 		}
@@ -183,8 +179,7 @@ std::list<std::string>
 OCLHistogramFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
-#if HISTOGRAM_FEATURES
 	addHistogramFeatureNames(featureIDs, "OCL_Bin10_", 10);
-#endif
+
 	return featureIDs;
 }

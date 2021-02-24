@@ -94,84 +94,46 @@ FingerJetFXFeature::computeFeatureData(
 	    &hFeatureSet);
 	if (fxRes != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hCtx);
-
-		// return features
-		fd_min_cnt_comrect200x200.featureDataDouble =
-		    0; // no minutiae found
-		res_min_cnt_comrect200x200.featureData =
-		    fd_min_cnt_comrect200x200;
-		res_min_cnt_comrect200x200.returnCode = fxRes;
-		featureDataList.push_back(res_min_cnt_comrect200x200);
-
-		fd_min_cnt.featureDataDouble = 0; // no minutiae found
-		res_min_cnt.returnCode = fxRes;
-		res_min_cnt.featureData = fd_min_cnt;
-		featureDataList.push_back(res_min_cnt);
-
-		return featureDataList;
+		throw NFIQ::NFIQException(
+		    NFIQ::
+			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
+		    "Could not create feature set from raw data.");
 	}
 
 	// close handle
 	FRFXLLCloseHandle(&hCtx);
 	if (hFeatureSet == NULL) {
-		// return features
-		fd_min_cnt_comrect200x200.featureDataDouble =
-		    0; // no minutiae found
-		res_min_cnt_comrect200x200.featureData =
-		    fd_min_cnt_comrect200x200;
-		res_min_cnt_comrect200x200.returnCode = 0;
-		featureDataList.push_back(res_min_cnt_comrect200x200);
-
-		fd_min_cnt.featureDataDouble = 0; // no minutiae found
-		res_min_cnt.returnCode = 0;
-		res_min_cnt.featureData = fd_min_cnt;
-		featureDataList.push_back(res_min_cnt);
-
-		return featureDataList;
+		throw NFIQ::NFIQException(
+		    NFIQ::
+			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
+		    "Feature set creation failed. Feature set is null.");
 	}
 
 	unsigned int minCnt { 0 };
 	if (FRFXLLGetMinutiaInfo(hFeatureSet, &minCnt, nullptr) != FRFXLL_OK) {
-		// return features
-		fd_min_cnt_comrect200x200.featureDataDouble =
-		    0; // no minutiae found
-		res_min_cnt_comrect200x200.featureData =
-		    fd_min_cnt_comrect200x200;
-		res_min_cnt_comrect200x200.returnCode = 0;
-		featureDataList.push_back(res_min_cnt_comrect200x200);
-
-		fd_min_cnt.featureDataDouble = 0; // no minutiae found
-		res_min_cnt.returnCode = 0;
-		res_min_cnt.featureData = fd_min_cnt;
-		featureDataList.push_back(res_min_cnt);
-
-		return featureDataList;
+		FRFXLLCloseHandle(&hFeatureSet);
+		throw NFIQ::NFIQException(
+		    NFIQ::
+			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
+		    "Failed to obtain Minutia Info from feature set.");
 	}
-	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 
+	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 	try {
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
 	} catch (const std::bad_alloc &) {
+		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(NFIQ::e_Error_NotEnoughMemory,
 		    "Could not allocate space for extracted minutiae records.");
 	}
 
 	if (FRFXLLGetMinutiae(hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT,
 		&minCnt, mdata.get()) != FRFXLL_OK) {
-		// return features
-		fd_min_cnt_comrect200x200.featureDataDouble =
-		    0; // no minutiae found
-		res_min_cnt_comrect200x200.featureData =
-		    fd_min_cnt_comrect200x200;
-		res_min_cnt_comrect200x200.returnCode = 0;
-		featureDataList.push_back(res_min_cnt_comrect200x200);
-
-		fd_min_cnt.featureDataDouble = 0; // no minutiae found
-		res_min_cnt.returnCode = 0;
-		res_min_cnt.featureData = fd_min_cnt;
-		featureDataList.push_back(res_min_cnt);
-
-		return featureDataList;
+		FRFXLLCloseHandle(&hFeatureSet);
+		throw NFIQ::NFIQException(
+		    NFIQ::
+			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
+		    "Failed to parse Minutia Data into 19794 Minutia Struct.");
 	}
 
 	minutiaData.clear();

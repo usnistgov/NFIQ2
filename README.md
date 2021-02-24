@@ -36,14 +36,21 @@ If you would like more information please read the [NFIQ 2 Report](https://www.n
 
 Dependencies
 ------------
-The following dependencies are included in this repository as git submodules:
 
- * [Biometric Evaluation Framework](https://github.com/usnistgov/libbiomeval) ([public domain license](https://github.com/usnistgov/libbiomeval/blob/master/LICENSE.md))
-   * Only required for standalone executable.
-   * Requires other non-bundled dependencies, please see the [README](https://github.com/usnistgov/libbiomeval/blob/master/README.md).
+Building the NFIQ 2 library requires the following dependencies, included in
+this repository as git submodules:
+
  * [digestpp](https://github.com/kerukuro/digestpp) ([public domain license](https://github.com/kerukuro/digestpp/blob/master/LICENSE))
  * [FingerJetFX OSE](https://github.com/FingerJetFXOSE/FingerJetFXOSE) ([LGPLv3 license](https://github.com/FingerJetFXOSE/FingerJetFXOSE/blob/master/COPYRIGHT.txt))
  * [OpenCV](https://github.com/opencv/opencv) ([Apache 2 License](https://github.com/opencv/opencv/blob/master/LICENSE))
+
+If building the standalone command-line executable, additional dependencies are
+required, included in this repository as git submodules:
+
+ * [Biometric Evaluation Framework](https://github.com/usnistgov/libbiomeval) ([public domain license](https://github.com/usnistgov/libbiomeval/blob/master/LICENSE.md))
+   * Requires other non-bundled dependencies, please see the [README](https://github.com/usnistgov/libbiomeval/blob/master/README.md).
+ * [NIST Fingerprint Image Resampler](https://github.com/usnistgov/nfir) (public domain license)
+   * Requires [OpenCV](https://github.com/opencv/opencv), which is required by NFIQ 2 library.
 
 Quick Build
 -----------
@@ -79,6 +86,14 @@ Known Limitations
    * Xcode 10 and later does not support 32-bit applications. In order to build
      NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
    * There has been no effort to test this code on Apple's M1 ARM architecture.
+     This will change shortly.
+
+Build Options
+-------------
+The CMake builds supports the following options:
+
+ * `BUILD_NFIQ2_CLI` (default: `ON`)
+   * Whether or not to build the standalone command-line executable.
 
 Communication
 -------------

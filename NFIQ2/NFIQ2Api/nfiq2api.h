@@ -11,8 +11,16 @@
 #define __attribute__(X)
 #endif
 
-extern "C" DLLEXPORT void STDCALL GetNfiq2Version(
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+DLLEXPORT void STDCALL GetNfiq2Version(
     int *major, int *minor, int *patch, const char **ocv);
-extern "C" DLLEXPORT const char *STDCALL InitNfiq2(char **hash);
-extern "C" DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos,
+DLLEXPORT const char *STDCALL InitNfiq2(char **hash);
+DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos,
     const unsigned char *pixels, int size, int width, int height, int ppi);
+
+#ifdef __cplusplus
+}
+#endif

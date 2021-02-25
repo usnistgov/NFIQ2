@@ -389,8 +389,8 @@ double
 NFIQ2Algorithm::Impl::getQualityPrediction(
     std::list<NFIQ::QualityFeatureData> &featureVector) const
 {
-	const double utility = 0.0;
-	double deviation = 0.0;
+	const double utility {};
+	double deviation {};
 	double quality {};
 	m_RandomForestML.evaluate(featureVector, utility, quality, deviation);
 

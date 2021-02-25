@@ -14,6 +14,15 @@
 #define __attribute__(X)
 #endif
 
+#ifndef I_UNDERSTAND_THIS_NFIQ2_API_WILL_BE_REMOVED
+#error "You have included nfiq2api.h. Please use the official C++ API. \
+    An official C API will be added soon, but this is not it. You can track \
+    progress on the C API at https://github.com/usnistgov/NFIQ2/issues/33. \
+    If you understand and wish to bypass this error, define the symbol \
+    I_UNDERSTAND_THIS_NFIQ2_API_WILL_BE_REMOVED in all compilation units that \
+    include nfiq2api.h."
+#endif /* I_UNDERSTAND_THIS_NFIQ2_API_WILL_BE_REMOVED */
+
 #ifdef __cplusplus
 extern "C" {
 #endif

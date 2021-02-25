@@ -27,7 +27,7 @@ FingerJetFXFeature::centerOfMinutiaeMass(
 }
 
 std::string
-FingerJetFXFeature::parseFRFXLLError(FRFXLL_RESULT fxRes)
+FingerJetFXFeature::parseFRFXLLError(const FRFXLL_RESULT fxRes)
 {
 	switch (fxRes) {
 	case FRFXLL_ERR_FB_TOO_SMALL_AREA:
@@ -115,7 +115,7 @@ FingerJetFXFeature::computeFeatureData(
 	}
 
 	// extract feature set
-	FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,
+	const FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,
 	    (unsigned char *)localFingerprintImage.data(),
 	    localFingerprintImage.size(), localFingerprintImage.m_ImageWidth,
 	    localFingerprintImage.m_ImageHeight,
@@ -140,7 +140,7 @@ FingerJetFXFeature::computeFeatureData(
 	}
 
 	unsigned int minCnt { 0 };
-	FRFXLL_RESULT fxResMin = FRFXLLGetMinutiaInfo(
+	const FRFXLL_RESULT fxResMin = FRFXLLGetMinutiaInfo(
 	    hFeatureSet, &minCnt, nullptr);
 	if (fxResMin != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hFeatureSet);
@@ -160,7 +160,7 @@ FingerJetFXFeature::computeFeatureData(
 		    "Could not allocate space for extracted minutiae records.");
 	}
 
-	FRFXLL_RESULT fxResData = FRFXLLGetMinutiae(
+	const FRFXLL_RESULT fxResData = FRFXLLGetMinutiae(
 	    hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT, &minCnt, mdata.get());
 	if (fxResData != FRFXLL_OK) {
 		FRFXLLCloseHandle(&hFeatureSet);

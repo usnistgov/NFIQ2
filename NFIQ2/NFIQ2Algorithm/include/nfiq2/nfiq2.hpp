@@ -43,6 +43,10 @@ class NFIQ2Algorithm {
 	 * @param qualityFeatureSpeed
 	 * List of feature computation speed
 	 *
+	 *
+	 * @throws NFIQException
+	 * Failure to compute (reason contained within message string).
+	 *
 	 * @return
 	 * Achieved quality score
 	 */

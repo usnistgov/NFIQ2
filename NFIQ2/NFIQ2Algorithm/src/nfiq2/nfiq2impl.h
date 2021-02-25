@@ -49,8 +49,8 @@ class NFIQ2Algorithm::Impl {
 	 * @fn computeQualityScore
 	 * @brief Computes the quality score from the input fingerprint image
 	 * data
-	 * @throws NFIQ::exception failure to compute, reason in the message
-	 * string
+	 * @throws NFIQException
+	 * Failure to compute (reason contained within message string).
 	 * @param rawImage fingerprint image in raw format
 	 * @param bComputeActionableQuality if to compute actionable quality
 	 * flags or not
@@ -113,6 +113,11 @@ class NFIQ2Algorithm::Impl {
 	    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
 	    bool bOutputSpeed,
 	    std::list<NFIQ::QualityFeatureSpeed> &speedValues) const;
+
+	/**
+	 * @throws NFIQException
+	 * Failure to compute (OpenCV reason contained within message string).
+	 */
 	double getQualityPrediction(
 	    std::list<NFIQ::QualityFeatureData> &featureVector) const;
 

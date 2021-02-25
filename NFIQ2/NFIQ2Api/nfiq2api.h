@@ -1,3 +1,6 @@
+#ifndef NFIQ2API_H_
+#define NFIQ2API_H_
+
 #ifdef _WIN32
 #include <windows.h>
 #define DLLEXPORT __declspec(dllexport)
@@ -18,9 +21,11 @@ extern "C" {
 DLLEXPORT void STDCALL GetNfiq2Version(
     int *major, int *minor, int *patch, const char **ocv);
 DLLEXPORT const char *STDCALL InitNfiq2(char **hash);
-DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos,
-    const unsigned char *pixels, int size, int width, int height, int ppi);
+DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos, const unsigned char *pixels,
+    int size, int width, int height, int ppi);
 
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* NFIQ2API_H_ */

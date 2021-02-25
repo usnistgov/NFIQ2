@@ -31,25 +31,33 @@ FingerJetFXFeature::parseFRFXLLError(const FRFXLL_RESULT fxRes)
 {
 	switch (fxRes) {
 	case FRFXLL_ERR_FB_TOO_SMALL_AREA:
-		return "FRFXLL_ERR_FB_TOO_SMALL_AREA: Fingerprint area is too small. Most likely this is bacause the tip of the finger is presented.";
+		return "FRFXLL_ERR_FB_TOO_SMALL_AREA: Fingerprint area is too "
+		       "small. Most likely this is bacause the tip of the "
+		       "finger is presented.";
 	case FRFXLL_ERR_INVALID_PARAM:
-		return "FRFXLL_ERR_INVALID_PARAM: One or more of the parameters is invalid.";
+		return "FRFXLL_ERR_INVALID_PARAM: One or more of the "
+		       "parameters is invalid.";
 	case FRFXLL_ERR_NO_MEMORY:
-		return "FRFXLL_ERR_NO_MEMORY: There is not enough memory to perform the function.";
+		return "FRFXLL_ERR_NO_MEMORY: There is not enough memory to "
+		       "perform the function.";
 	case FRFXLL_ERR_MORE_DATA:
 		return "FRFXLL_ERR_MORE_DATA: More data is available.";
 	case FRFXLL_ERR_INTERNAL:
-		return "FRFXLL_ERR_INTERNAL: An unknown internal error has occurred.";
+		return "FRFXLL_ERR_INTERNAL: An unknown internal error has "
+		       "occurred.";
 	case FRFXLL_ERR_INVALID_BUFFER:
-		return "FRFXLL_ERR_INVALID_BUFFER: The image buffer is too small for in-place processing.";
+		return "FRFXLL_ERR_INVALID_BUFFER: The image buffer is too "
+		       "small for in-place processing.";
 	case FRFXLL_ERR_INVALID_HANDLE:
-		return "FRFXLL_ERR_INVALID_HANDLE: The specified handle is invalid.";
+		return "FRFXLL_ERR_INVALID_HANDLE: The specified handle is "
+		       "invalid.";
 	case FRFXLL_ERR_INVALID_IMAGE:
 		return "FRFXLL_ERR_INVALID_IMAGE: The image buffer is invalid.";
 	case FRFXLL_ERR_INVALID_DATA:
 		return "FRFXLL_ERR_INVALID_DATA: Supplied data is invalid.";
 	case FRFXLL_ERR_NO_FP:
-		return "FRFXLL_ERR_NO_FP: The specified finger or view is not present.";
+		return "FRFXLL_ERR_NO_FP: The specified finger or view is not "
+		       "present.";
 	default:
 		return "Unknown FRFXLL Error";
 	}

@@ -96,14 +96,13 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					logger->debugMsg(
 					    "User denied the quantize");
 					logger->printError(name, fingerPosition,
-					    255,
 					    "'Error: User chose not to "
 					    "quantize image'",
 					    quantized, resampled);
 					return;
 				}
 			} else {
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'Error: image is not 8 bit or 1 bit"
 				    "depth and/or color'",
 				    quantized, resampled);
@@ -135,8 +134,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		std::string error {
 			"'Error: Could not get Grayscale raw data from image'"
 		};
-		logger->printError(name, fingerPosition, 255,
-		    error.append(e.what()), quantized, resampled);
+		logger->printError(name, fingerPosition, error.append(e.what()),
+		    quantized, resampled);
 		return;
 	}
 
@@ -165,7 +164,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				    imageDPI, 500, "", "");
 
 			} catch (const cv::Exception &e) {
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'Error: Matrix creation error: " + e.msg +
 					"'",
 				    quantized, resampled);
@@ -173,7 +172,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 			} catch (const NFIR::Miscue &e) {
 				const std::string errStr { e.what() };
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'" + errStr + "'", quantized, resampled);
 				return;
 			}
@@ -204,7 +203,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 					} catch (const cv::Exception &e) {
 						logger->printError(name,
-						    fingerPosition, 255,
+						    fingerPosition,
 						    "'Error: Matrix creation error: " +
 							e.msg + "'",
 						    quantized, resampled);
@@ -215,7 +214,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 							e.what()
 						};
 						logger->printError(name,
-						    fingerPosition, 255,
+						    fingerPosition,
 						    "'" + errStr + "'",
 						    quantized, resampled);
 						return;
@@ -227,7 +226,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					    "User denied the re-sample");
 					if (!singleImage) {
 						logger->printError(name,
-						    fingerPosition, 255,
+						    fingerPosition,
 						    "'Error: User chose not to "
 						    "re-sample image'",
 						    quantized, resampled);
@@ -236,7 +235,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 
 			} else {
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'Error: Image is not 500PPI'", quantized,
 				    resampled);
 				return;
@@ -262,7 +261,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		corereturn = NFIQ2UI::coreCompute(wrappedImage, model);
 	} catch (const NFIQ::NFIQException &e) {
 		const std::string expMsg { e.what() };
-		logger->printError(name, fingerPosition, 255,
+		logger->printError(name, fingerPosition,
 		    "'NFIQ2 computeQualityScore returned an error code: " +
 			expMsg + "'",
 		    quantized, resampled);
@@ -518,7 +517,7 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "'Error: Could not open RecordStore'" };
 		threadedlogger->printError(
-		    name, 0, 255, error.append(e.what()), false, false);
+		    name, 0, error.append(e.what()), false, false);
 		return;
 	}
 
@@ -556,7 +555,7 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "'Error: Could not open RecordStore'" };
 		logger->printError(
-		    filename, 0, 255, error.append(e.what()), false, false);
+		    filename, 0, error.append(e.what()), false, false);
 		return;
 	}
 

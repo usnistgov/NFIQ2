@@ -299,7 +299,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	    std::to_string(resampled));
 
 	// At this point - all images are 500PPI, have been converted to that
-	// resolution, or are 72PPI.
+	// resolution, or are assumed to be that resolution.
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
 		  NFIQ::FingerprintImageData(postResample.data, postResample.total(),

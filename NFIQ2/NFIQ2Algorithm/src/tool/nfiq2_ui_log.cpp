@@ -136,7 +136,7 @@ void
 NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
     const std::string &errmsg, const bool quantized, const bool resampled) const
 {
-	const std::string errscore { "NA" };
+	static const std::string errscore { "NA" };
 	*(this->out) << name << "," << std::to_string(fingerCode) << ","
 		     << errscore << "," << errmsg << "," << quantized << ","
 		     << resampled << padNA() << "\n";

@@ -115,8 +115,8 @@ class Log {
 	 *    If the image was resampled 0 = not resampled, 1 = resampled.
 	 */
 	void printError(const std::string &name, uint8_t fingerCode,
-	    const std::string &errscore, const std::string &errmsg, const bool quantized,
-	    const bool resampled) const;
+	    const std::string &errscore, const std::string &errmsg,
+	    const bool quantized, const bool resampled) const;
 
 	/**
 	 *  @brief

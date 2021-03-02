@@ -78,8 +78,8 @@ NFIQ2UI::getImages(
 		std::string error {
 			"'Error: Could not obtain data from path : "
 		};
-		logger->printError(
-		    path, 0, "'NA'", error.append(e.what()) + "'", false, false);
+		logger->printError(path, 0, "'NA'",
+		    error.append(e.what()) + "'", false, false);
 	}
 
 	return vecCouple;

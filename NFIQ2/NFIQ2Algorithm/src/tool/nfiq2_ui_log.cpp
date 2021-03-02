@@ -134,8 +134,8 @@ NFIQ2UI::Log::padNA() const
 // Prints out an error score if the image was unable to be processed correctly
 void
 NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
-    const std::string &errscore, const std::string &errmsg, const bool quantized,
-    const bool resampled) const
+    const std::string &errscore, const std::string &errmsg,
+    const bool quantized, const bool resampled) const
 {
 	*(this->out) << name << "," << std::to_string(fingerCode) << ","
 		     << errscore << "," << errmsg << "," << quantized << ","

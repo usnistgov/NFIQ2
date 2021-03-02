@@ -303,7 +303,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
 		  NFIQ::FingerprintImageData(postResample.data, postResample.total(),
-		postResample.cols, postResample.rows, fingerPosition, 500) :
+		postResample.cols, postResample.rows, fingerPosition,
+		requiredDPI) :
 		  NFIQ::FingerprintImageData(grayscaleRawData,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredDPI);

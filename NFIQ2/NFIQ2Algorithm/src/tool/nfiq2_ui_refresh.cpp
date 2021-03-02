@@ -151,9 +151,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	cv::Mat postResample {};
 
-	if ((resolution.xRes != resolution.yRes) || (imageDPI != 500)) {
+	static const uint8_t defaultDPI { 72 };
+	static const uint16_t requiredDPI { 500 };
+	if ((resolution.xRes != resolution.yRes) || (imageDPI != requiredDPI)) {
 		// Possible re-sampling - avoid if 72PPI
-		if (flags.force && imageDPI != 72) {
+		if (flags.force && imageDPI != defaultDPI) {
 			resampled = true;
 			// Re-sample by force
 			try {
@@ -162,7 +164,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					static_cast<int>(imageWidth), CV_8U,
 					grayscaleRawData };
 				NFIR::resample(preResample, postResample,
-				    imageDPI, 500, "", "");
+				    imageDPI, requiredDPI, "", "");
 
 			} catch (const cv::Exception &e) {
 				logger->printError(name, fingerPosition, 255,
@@ -182,7 +184,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			if (interactive && !flags.force) {
 				bool response = false;
 
-				if (imageDPI == 72) {
+				if (imageDPI == defaultDPI) {
 					const std::string prompt =
 					    "This image has a default resolution of " +
 					    std::to_string(imageDPI) +
@@ -218,7 +220,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 							NFIR::resample(
 							    preResample,
 							    postResample,
-							    imageDPI, 500, "",
+							    imageDPI,
+							    requiredDPI, "",
 							    "");
 
 						} catch (

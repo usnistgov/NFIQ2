@@ -185,21 +185,43 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				bool response = false;
 
 				if (imageDPI == defaultDPI) {
-					const std::string prompt =
-					    "This image has a default resolution of " +
-					    std::to_string(imageDPI) +
-					    " PPI. Keep this resolution?\n"
-					    "WARNING: NFIQ 2 only officially supports 500 PPI "
-					    "images.\nScores obtained from images of other "
-					    "resolutions may be inaccurate.";
+					const std::string prompt {
+						"The resolution of \"" + name +
+						"\" was parsed as " +
+						std::to_string(defaultDPI) +
+						" "
+						"PPI, which is sometimes used "
+						"to indicate that resolution "
+						"information was not recorded. "
+						"NFIQ 2 only supports " +
+						std::to_string(requiredDPI) +
+						" PPI images. This "
+						"application can resample "
+						"images, but doing so "
+						"introduces error.\n"
+						"Assume this image was "
+						"actually captured at " +
+						std::to_string(requiredDPI) +
+						" PPI?"
+					};
 					response = NFIQ2UI::yesOrNo(
 					    prompt, false, true, true);
 				}
 
 				if (!response) {
-					const std::string prompt =
-					    "This Image is not 500 PPI. "
-					    "Would you like to re-sample this image?";
+					const std::string prompt {
+						"The resolution of \"" + name +
+						"\" was parsed as " +
+						std::to_string(imageDPI) +
+						" PPI, not " +
+						std::to_string(requiredDPI) +
+						" PPI, as required for NFIQ 2. "
+						"Would you like to introduce "
+						"error and re-sample this "
+						"image to " +
+						std::to_string(requiredDPI) +
+						" PPI?"
+					};
 					response = NFIQ2UI::yesOrNo(
 					    prompt, false, true, true);
 
@@ -264,8 +286,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 			} else {
 				logger->printError(name, fingerPosition, 255,
-				    "'Error: Image is not 500PPI'", quantized,
-				    resampled);
+				    "'Error: Image is " +
+					std::to_string(imageDPI) +
+					" PPI, not " +
+					std::to_string(requiredDPI) + " PPI'",
+				    quantized, resampled);
 				return;
 			}
 		}

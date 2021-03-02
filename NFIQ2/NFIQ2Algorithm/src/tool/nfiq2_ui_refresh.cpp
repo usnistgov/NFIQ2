@@ -66,7 +66,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	const uint16_t bitDepth = img->getBitDepth();
 	const uint32_t colorDepth = img->getColorDepth();
 
-	if ((bitDepth != colorDepth) || (bitDepth != 8)) {
+	if ((bitDepth != colorDepth) || (bitDepth != 8 && bitDepth != 1)) {
 		if (flags.force) {
 			quantized = true;
 			// quantize by force - gets handled below with
@@ -75,10 +75,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		} else {
 			if (interactive && !flags.force) {
 				logger->debugMsg(
-				    "Image is not 8 bit. Asking user to "
+				    "Image is not 8 bit or 1 bit. Asking user to "
 				    "quantize.");
 				const std::string prompt =
-				    "This Image is not 8 bit grayscale. "
+				    "This Image is not 8 bit or 1 bit grayscale. "
 				    "Would "
 				    "you like to quantize/convert this "
 				    "image to 8 bit color and depth?";
@@ -104,7 +104,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 			} else {
 				logger->printError(name, fingerPosition, 255,
-				    "'Error: image is not 8 bit "
+				    "'Error: image is not 8 bit or 1 bit"
 				    "depth and/or color'",
 				    quantized, resampled);
 				return;
@@ -173,7 +173,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				    quantized, resampled);
 				return;
 
-			} catch (const std::exception &e) {
+			} catch (const NFIR::Miscue &e) {
 				const std::string errStr { e.what() };
 				logger->printError(name, fingerPosition, 255,
 				    "'" + errStr + "'", quantized, resampled);

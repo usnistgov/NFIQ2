@@ -56,7 +56,6 @@ GetYamlFilePath()
 		}
 	}
 #endif
-	std::cout << "YAML file: " << p << std::endl;
 	return p;
 }
 

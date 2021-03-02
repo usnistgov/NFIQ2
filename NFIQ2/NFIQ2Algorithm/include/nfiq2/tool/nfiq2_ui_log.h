@@ -98,7 +98,7 @@ class Log {
 	 *  @details
 	 *    Prints Error scores generated from NFIQ2 for images that failed
 	 *    processing.
-	 *    Error code 255 is printed if image could not be evaluated and
+	 *    Error 'NA' is printed if image could not be evaluated and
 	 * padding is added to ensure consistency.
 	 *
 	 *  @param[in] name
@@ -115,7 +115,7 @@ class Log {
 	 *    If the image was resampled 0 = not resampled, 1 = resampled.
 	 */
 	void printError(const std::string &name, uint8_t fingerCode,
-	    unsigned int score, const std::string &errmsg, const bool quantized,
+	    const std::string &errscore, const std::string &errmsg, const bool quantized,
 	    const bool resampled) const;
 
 	/**

@@ -153,11 +153,12 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	static const uint8_t defaultDPI { 72 };
 	static const uint16_t requiredDPI { 500 };
-	if ((resolution.xRes != resolution.yRes) || (imageDPI != requiredDPI)) {
-		// Possible re-sampling - avoid if 72PPI
+
+	if (resolution.xRes != resolution.yRes ||
+	    resolution.xRes != requiredDPI) {
 		if (flags.force && imageDPI != defaultDPI) {
+			// resample by force
 			resampled = true;
-			// Re-sample by force
 			try {
 				cv::Mat preResample { static_cast<int>(
 							  imageHeight),
@@ -180,35 +181,37 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				return;
 			}
 
-		} else {
-			if (interactive && !flags.force) {
-				bool response = false;
+		} else if (flags.force && imageDPI == defaultDPI) {
+			// Don't resample, continue as if it was 500 ppi
+		} else if (interactive && !flags.force) {
+			// Ask to resample
+			if (imageDPI == defaultDPI) {
+				// Ask to leave image be
+				const std::string prompt {
+					"The resolution of \"" + name +
+					"\" was parsed as " +
+					std::to_string(defaultDPI) +
+					" "
+					"PPI, which is sometimes used "
+					"to indicate that resolution "
+					"information was not recorded. "
+					"NFIQ 2 only supports " +
+					std::to_string(requiredDPI) +
+					" PPI images. This "
+					"application can resample "
+					"images, but doing so "
+					"introduces error.\n"
+					"Assume this image was "
+					"actually captured at " +
+					std::to_string(requiredDPI) + " PPI?"
+				};
+				bool response = NFIQ2UI::yesOrNo(
+				    prompt, false, true, true);
 
-				if (imageDPI == defaultDPI) {
-					const std::string prompt {
-						"The resolution of \"" + name +
-						"\" was parsed as " +
-						std::to_string(defaultDPI) +
-						" "
-						"PPI, which is sometimes used "
-						"to indicate that resolution "
-						"information was not recorded. "
-						"NFIQ 2 only supports " +
-						std::to_string(requiredDPI) +
-						" PPI images. This "
-						"application can resample "
-						"images, but doing so "
-						"introduces error.\n"
-						"Assume this image was "
-						"actually captured at " +
-						std::to_string(requiredDPI) +
-						" PPI?"
-					};
-					response = NFIQ2UI::yesOrNo(
-					    prompt, false, true, true);
-				}
-
-				if (!response) {
+				if (response) {
+					// Yes, leave the image be
+				} else {
+					// Ask to resample
 					const std::string prompt {
 						"The resolution of \"" + name +
 						"\" was parsed as " +
@@ -222,10 +225,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						std::to_string(requiredDPI) +
 						" PPI?"
 					};
-					response = NFIQ2UI::yesOrNo(
+					bool response = NFIQ2UI::yesOrNo(
 					    prompt, false, true, true);
 
 					if (response) {
+						// Yes, resample image
 						resampled = true;
 						// Re-sample the image
 						try {
@@ -269,7 +273,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						}
 
 					} else {
-						// User decided not to re-sample
+						// No, don't resample image -
+						// fail
 						logger->debugMsg(
 						    "User denied the re-sample");
 						if (!singleImage) {
@@ -285,16 +290,84 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 
 			} else {
-				logger->printError(name, fingerPosition, 255,
-				    "'Error: Image is " +
+				// DPI is other than default DPI - Ask to
+				// resample
+				const std::string prompt {
+					"The resolution of \"" + name +
+					"\" was parsed as " +
 					std::to_string(imageDPI) +
 					" PPI, not " +
-					std::to_string(requiredDPI) + " PPI'",
-				    quantized, resampled);
-				return;
+					std::to_string(requiredDPI) +
+					" PPI, as required for NFIQ 2. "
+					"Would you like to introduce "
+					"error and re-sample this "
+					"image to " +
+					std::to_string(requiredDPI) + " PPI?"
+				};
+				bool response = NFIQ2UI::yesOrNo(
+				    prompt, false, true, true);
+
+				if (response) {
+					// Yes, resample image
+					resampled = true;
+					// Re-sample the image
+					try {
+						cv::Mat preResample {
+							static_cast<int>(
+							    imageHeight),
+							static_cast<int>(
+							    imageWidth),
+							CV_8U, grayscaleRawData
+						};
+						NFIR::resample(preResample,
+						    postResample, imageDPI,
+						    requiredDPI, "", "");
+
+					} catch (const cv::Exception &e) {
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'Error: Matrix creation error: " +
+							e.msg + "'",
+						    quantized, resampled);
+						return;
+
+					} catch (const std::exception &e) {
+						const std::string errStr {
+							e.what()
+						};
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'" + errStr + "'",
+						    quantized, resampled);
+						return;
+					}
+
+				} else {
+					// No, don't resample image - fail
+					logger->debugMsg(
+					    "User denied the re-sample");
+					if (!singleImage) {
+						logger->printError(name,
+						    fingerPosition, 255,
+						    "'Error: User chose not to "
+						    "re-sample image'",
+						    quantized, resampled);
+					}
+					return;
+				}
 			}
+
+		} else {
+			// Error
+			logger->printError(name, fingerPosition, 255,
+			    "'Error: Image is " + std::to_string(imageDPI) +
+				" PPI, not " + std::to_string(requiredDPI) +
+				" PPI'",
+			    quantized, resampled);
+			return;
 		}
 	}
+
 	logger->debugMsg("Successfully passed PPI check. Re-sampled?: " +
 	    std::to_string(resampled));
 

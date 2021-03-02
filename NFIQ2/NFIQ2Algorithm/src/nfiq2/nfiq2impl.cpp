@@ -109,8 +109,8 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 		    NFIQ::ActionableQualityFeedbackIdentifier_UniformImage;
 		isUniformImage = (fbUniform.actionableQualityValue <
 			    ActionableQualityFeedbackThreshold_UniformImage ?
-			true :
-			false);
+			      true :
+			      false);
 		actionableQuality.push_back(fbUniform);
 
 		// only return actionable feedback if so configured
@@ -128,8 +128,8 @@ NFIQ2Algorithm::Impl::computeQualityFeatures(
 				    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow;
 				isEmptyImage = (fb.actionableQualityValue >
 					    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow ?
-					true :
-					false);
+					      true :
+					      false);
 				actionableQuality.push_back(fb);
 			}
 		}

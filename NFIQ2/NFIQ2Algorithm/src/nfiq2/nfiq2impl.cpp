@@ -423,7 +423,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 		featureVector = computeQualityFeatures(croppedRawImage,
 		    bComputeActionableQuality, actionableQuality, bOutputSpeed,
 		    qualityFeatureSpeed);
-	} catch (const NFIQ::NFIQException &e) {
+	} catch (const NFIQ::NFIQException &) {
 		throw;
 	} catch (const std::exception &e) {
 		/*
@@ -446,7 +446,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 	double qualityScore {};
 	try {
 		qualityScore = getQualityPrediction(featureVector);
-	} catch (const NFIQ::NFIQException &e) {
+	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
 

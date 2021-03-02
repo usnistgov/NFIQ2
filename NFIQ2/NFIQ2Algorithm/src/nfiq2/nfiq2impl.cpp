@@ -421,6 +421,12 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 		    qualityFeatureSpeed);
 	} catch (const NFIQ::NFIQException &e) {
 		throw;
+	} catch (const std::exception &e) {
+		/*
+		 * Nothing should get here, but computeQualityFeatures() calls
+		 * a lot of code...
+		 */
+		throw NFIQ::NFIQException(e_Error_UnknownError, e.what());
 	}
 
 	if (featureVector.size() == 0) {

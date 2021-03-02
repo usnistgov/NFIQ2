@@ -250,19 +250,21 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// resolution. Quantization will happen below if necessary.
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
-	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),
+		  NFIQ::FingerprintImageData(postResample.data, postResample.total(),
 		postResample.cols, postResample.rows, fingerPosition, 500) :
-	    NFIQ::FingerprintImageData(grayscaleRawData,
+		  NFIQ::FingerprintImageData(grayscaleRawData,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, imageDPI);
 
-	const NFIQ2UI::CoreReturn corereturn = NFIQ2UI::coreCompute(
-	    wrappedImage, model);
+	NFIQ2UI::CoreReturn corereturn;
 
-	if (corereturn.qualityScore > 100) {
-		logger->printError(name, fingerPosition,
-		    corereturn.qualityScore,
-		    "NFIQ2 computeQualityScore returned an error code",
+	try {
+		corereturn = NFIQ2UI::coreCompute(wrappedImage, model);
+	} catch (const NFIQ::NFIQException &e) {
+		const std::string expMsg { e.what() };
+		logger->printError(name, fingerPosition, 255,
+		    "'NFIQ2 computeQualityScore returned an error code: " +
+			expMsg + "'",
 		    quantized, resampled);
 		return;
 	}
@@ -302,9 +304,15 @@ NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
 	std::list<NFIQ::QualityFeatureData> featureVector;
 	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
 
-	const unsigned int qualityScore = model.computeQualityScore(
-	    wrappedImage, true, actionableQuality, true, featureVector, true,
-	    featureTimings);
+	unsigned int qualityScore {};
+
+	try {
+		qualityScore = model.computeQualityScore(wrappedImage, true,
+		    actionableQuality, true, featureVector, true,
+		    featureTimings);
+	} catch (const NFIQ::NFIQException &e) {
+		throw;
+	}
 
 	const CoreReturn corereturn { featureVector, featureTimings,
 		actionableQuality, qualityScore };
@@ -880,20 +888,20 @@ main(int argc, char **argv)
 
 	logger->debugMsg("Model Name: " +
 	    (modelInfoObj.getModelName().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelName()));
+			  "<NA>" :
+			  modelInfoObj.getModelName()));
 	logger->debugMsg("Model Trainer: " +
 	    (modelInfoObj.getModelTrainer().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelTrainer()));
+			  "<NA>" :
+			  modelInfoObj.getModelTrainer()));
 	logger->debugMsg("Model Description: " +
 	    (modelInfoObj.getModelDescription().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelDescription()));
+			  "<NA>" :
+			  modelInfoObj.getModelDescription()));
 	logger->debugMsg("Model Version: " +
 	    (modelInfoObj.getModelVersion().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelVersion()));
+			  "<NA>" :
+			  modelInfoObj.getModelVersion()));
 	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
 

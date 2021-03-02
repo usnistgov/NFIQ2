@@ -51,7 +51,7 @@ NFIQ2UI::getImages(const BE::Memory::uint8Array &dataArray,
 	default:
 		logger->debugMsg("Image type could not be determined. " + name +
 		    " will not be processed");
-		logger->printError(name, 0, "'NA'",
+		logger->printError(name, 0, "NA",
 		    "'Error: Could not determine FileType'", 0, 0);
 
 		return vecCouple;
@@ -78,8 +78,8 @@ NFIQ2UI::getImages(
 		std::string error {
 			"'Error: Could not obtain data from path : "
 		};
-		logger->printError(path, 0, "'NA'",
-		    error.append(e.what()) + "'", false, false);
+		logger->printError(
+		    path, 0, "NA", error.append(e.what()) + "'", false, false);
 	}
 
 	return vecCouple;
@@ -105,7 +105,7 @@ NFIQ2UI::getImagesFromImage(const BE::Memory::uint8Array &dataArray,
 		// Unable to open the image
 		std::string error { "'Error: Could not open image : " };
 		logger->printError(
-		    name, 0, "'NA'", error.append(e.what()) + "'", 0, 0);
+		    name, 0, "NA", error.append(e.what()) + "'", 0, 0);
 	}
 	return vecCouple;
 }
@@ -129,7 +129,7 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 			"'Error AN2K Record could not be opened : "
 		};
 		logger->printError(
-		    name, 0, "'NA'", error.append(e.what()) + "'", 0, 0);
+		    name, 0, "NA", error.append(e.what()) + "'", 0, 0);
 		return vecCouple;
 	}
 
@@ -211,7 +211,7 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 
 			logger->printError(
 			    name + "_" + std::to_string(fingerPosition),
-			    static_cast<uint8_t>(fingerPosition), "'NA'",
+			    static_cast<uint8_t>(fingerPosition), "NA",
 			    "'Error: Invalid FingerPosition for NFIQ2 (not "
 			    "0-12)'",
 			    0, 0);
@@ -245,7 +245,7 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 			"'ERROR: ANSI2004 RECORD COULD NOT BE OPENED : "
 		};
 		logger->printError(
-		    name, 0, "'NA'", error.append(e.what()) + "'", 0, 0);
+		    name, 0, "NA", error.append(e.what()) + "'", 0, 0);
 		return vecCouple;
 	}
 
@@ -327,7 +327,7 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 
 			logger->printError(
 			    name + "_" + std::to_string(fingerPosition),
-			    static_cast<uint8_t>(fingerPosition), "'NA'",
+			    static_cast<uint8_t>(fingerPosition), "NA",
 			    "'Error: Invalid finger print position for "
 			    "NFIQ2'",
 			    0, 0);

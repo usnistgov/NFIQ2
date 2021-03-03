@@ -113,7 +113,7 @@ NFIQ2UI::resampleHelper(BE::Memory::uint8Array &grayscaleRawData,
 			logger->printSingleError(errStr);
 		} else {
 			logger->printError(imageProps.name,
-			    imageProps.fingerPosition, 255, errStr,
+			    imageProps.fingerPosition, errStr,
 			    imageProps.quantized, imageProps.resampled);
 		}
 		throw NFIQ2UI::ResampleError();
@@ -126,7 +126,7 @@ NFIQ2UI::resampleHelper(BE::Memory::uint8Array &grayscaleRawData,
 			logger->printSingleError(errStr);
 		} else {
 			logger->printError(imageProps.name,
-			    imageProps.fingerPosition, 255, errStr,
+			    imageProps.fingerPosition, errStr,
 			    imageProps.quantized, imageProps.resampled);
 		}
 		throw NFIQ2UI::ResampleError();
@@ -178,7 +178,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						    errStr);
 					} else {
 						logger->printError(name,
-						    fingerPosition, 255, errStr,
+						    fingerPosition, errStr,
 						    quantized, resampled);
 					}
 					return;
@@ -192,7 +192,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					logger->printSingleError(errStr);
 				} else {
 					logger->printError(name, fingerPosition,
-					    255, errStr, quantized, resampled);
+					    errStr, quantized, resampled);
 				}
 				return;
 			}
@@ -225,8 +225,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
-			logger->printError(name, fingerPosition, 255, errStr,
-			    quantized, resampled);
+			logger->printError(
+			    name, fingerPosition, errStr, quantized, resampled);
 		}
 		return;
 	}
@@ -289,7 +289,6 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 							&) {
 							return;
 						}
-
 					} else {
 						// No, don't resample image -
 						// fail
@@ -305,7 +304,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 								errStr);
 						} else {
 							logger->printError(name,
-							    fingerPosition, 255,
+							    fingerPosition,
 							    errStr, quantized,
 							    resampled);
 						}
@@ -345,7 +344,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						    errStr);
 					} else {
 						logger->printError(name,
-						    fingerPosition, 255, errStr,
+						    fingerPosition, errStr,
 						    quantized, resampled);
 					}
 					return;
@@ -358,8 +357,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			if (singleImage) {
 				logger->printSingleError(errStr);
 			} else {
-				logger->printError(name, fingerPosition, 255,
-				    errStr, quantized, resampled);
+				logger->printError(name, fingerPosition, errStr,
+				    quantized, resampled);
 			}
 			return;
 		}
@@ -391,8 +390,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
-			logger->printError(name, fingerPosition, 255, errStr,
-			    quantized, resampled);
+			logger->printError(
+			    name, fingerPosition, errStr, quantized, resampled);
 		}
 		return;
 	}
@@ -646,7 +645,7 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "'Error: Could not open RecordStore'" };
 		threadedlogger->printError(
-		    name, 0, 255, error.append(e.what()), false, false);
+		    name, 0, error.append(e.what()), false, false);
 		return;
 	}
 
@@ -684,7 +683,7 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "'Error: Could not open RecordStore'" };
 		logger->printError(
-		    filename, 0, 255, error.append(e.what()), false, false);
+		    filename, 0, error.append(e.what()), false, false);
 		return;
 	}
 

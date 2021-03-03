@@ -140,6 +140,21 @@ struct CoreReturn {
 	unsigned int qualityScore;
 };
 
+struct ResampleDims {
+	uint32_t imageHeight;
+	uint32_t imageWidth;
+	uint16_t imageDPI;
+	uint16_t requiredDPI;
+};
+
+struct ImageProps {
+	std::string name;
+	uint8_t fingerPosition;
+	bool quantized;
+	bool resampled;
+	bool singleImage;
+};
+
 /**
  *  @brief
  *  Thread Safe Concurrent Queue used for multi threaded batch operations.

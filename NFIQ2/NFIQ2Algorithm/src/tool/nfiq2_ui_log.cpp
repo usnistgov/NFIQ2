@@ -149,6 +149,13 @@ NFIQ2UI::Log::printSingle(unsigned int qualityScore) const
 	*(this->out) << qualityScore << "\n";
 }
 
+// Prints the error of a single image
+void
+NFIQ2UI::Log::printSingleError(const std::string &errmsg) const
+{
+	*(this->out) << errmsg << "\n";
+}
+
 // Prints output from Multi-threaded operations
 void
 NFIQ2UI::Log::printThreaded(const std::string &message) const

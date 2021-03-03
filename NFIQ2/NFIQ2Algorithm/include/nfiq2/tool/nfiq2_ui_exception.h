@@ -182,6 +182,19 @@ class ModelConstructionError : public Exception {
 	ModelConstructionError(const std::string &info);
 };
 
+/**
+ *  @brief
+ *  The resampling operation failed
+ */
+class ResampleError : public Exception {
+    public:
+	/**
+	 *  Construct an ResampleError object with
+	 *  the default information string.
+	 */
+	ResampleError();
+};
+
 } // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_EXCEPTION_H_ */

@@ -57,3 +57,8 @@ NFIQ2UI::ModelConstructionError::ModelConstructionError(const std::string &info)
     : Exception("ModelConstructionError: " + info)
 {
 }
+
+NFIQ2UI::ResampleError::ResampleError()
+    : Exception()
+{
+}

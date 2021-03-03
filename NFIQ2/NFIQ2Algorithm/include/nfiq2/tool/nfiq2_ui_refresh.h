@@ -12,8 +12,11 @@
 #define NFIQ2_UI_REFRESH_H_
 
 #include <be_image_image.h>
+#include <be_io_utility.h>
 #include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiq2.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
 
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
@@ -23,6 +26,20 @@
 #include <vector>
 
 namespace NFIQ2UI {
+
+bool quantizeCheck();
+
+bool defaultCheck(const std::string &name, const uint16_t defaultDPI,
+    const uint16_t requiredDPI);
+
+bool resampleCheck(const std::string &name, const uint16_t imageDPI,
+    const uint16_t requiredDPI);
+
+cv::Mat resampleHelper(
+    BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
+    std::shared_ptr<NFIQ2UI::Log> logger,
+    const NFIQ2UI::ResampleDims resampleDims,
+    const NFIQ2UI::ImageProps imageProps);
 
 /**
  *  @brief

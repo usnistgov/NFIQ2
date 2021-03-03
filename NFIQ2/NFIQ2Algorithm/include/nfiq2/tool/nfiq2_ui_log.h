@@ -130,6 +130,7 @@ class Log {
 	 */
 	void printSingle(unsigned int qualityScore) const;
 
+	void printSingleError(const std::string &errmsg) const;
 	/**
 	 *  @brief
 	 *  Prints a score produced by a Multi-Threaded operation.

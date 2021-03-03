@@ -155,7 +155,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	static const uint16_t requiredDPI { 500 };
 
 	if (resolution.xRes != resolution.yRes ||
-	    resolution.xRes != requiredDPI) {
+	    imageDPI != requiredDPI) {
 		if (flags.force && imageDPI != defaultDPI) {
 			// resample by force
 			resampled = true;

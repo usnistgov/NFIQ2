@@ -1,5 +1,6 @@
 # NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
 
+[![Download Latest Version](https://img.shields.io/badge/download-v2.1--pre-informational)](https://github.com/usnistgov/NFIQ2/releases)
 [![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=master)](https://travis-ci.org/usnistgov/NFIQ2)
 [![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/master?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/master)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
@@ -33,6 +34,17 @@ Operationally, NFIQ has increased the reliability, accuracy, and interoperabilit
 systems by identifying the samples that are likely to cause recognition failure.
 
 If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
+
+Download
+--------
+Pre-built versions of the NFIQ 2 library and standalone executable for many
+platforms are available to download on the
+[Releases](https://github.com/usnistgov/NFIQ2/releases) page. Unless you are
+*actively developing* code for NFIQ 2, we suggest you download from
+[Releases](https://github.com/usnistgov/NFIQ2/releases) instead of attempting to
+compile.
+
+--------------------------------------------------------------------------------
 
 Dependencies
 ------------

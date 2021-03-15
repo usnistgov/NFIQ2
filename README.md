@@ -117,8 +117,6 @@ Known Limitations
  * **macOS**:
    * Xcode 10 and later does not support 32-bit applications. In order to build
      NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
-   * There has been no effort to test this code on Apple's M1 ARM architecture.
-     This will change shortly.
 
 Build Options
 -------------

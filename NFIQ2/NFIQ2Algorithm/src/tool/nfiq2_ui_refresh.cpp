@@ -66,7 +66,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	const uint16_t bitDepth = img->getBitDepth();
 	const uint32_t colorDepth = img->getColorDepth();
 
-	if ((bitDepth != colorDepth) || (bitDepth != 8)) {
+	if ((bitDepth != colorDepth) || (bitDepth != 8 && bitDepth != 1)) {
 		if (flags.force) {
 			quantized = true;
 			// quantize by force - gets handled below with
@@ -75,10 +75,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		} else {
 			if (interactive && !flags.force) {
 				logger->debugMsg(
-				    "Image is not 8 bit. Asking user to "
+				    "Image is not 8 bit or 1 bit. Asking user to "
 				    "quantize.");
 				const std::string prompt =
-				    "This Image is not 8 bit grayscale. "
+				    "This Image is not 8 bit or 1 bit grayscale. "
 				    "Would "
 				    "you like to quantize/convert this "
 				    "image to 8 bit color and depth?";
@@ -96,15 +96,14 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					logger->debugMsg(
 					    "User denied the quantize");
 					logger->printError(name, fingerPosition,
-					    255,
 					    "'Error: User chose not to "
 					    "quantize image'",
 					    quantized, resampled);
 					return;
 				}
 			} else {
-				logger->printError(name, fingerPosition, 255,
-				    "'Error: image is not 8 bit "
+				logger->printError(name, fingerPosition,
+				    "'Error: image is not 8 bit or 1 bit"
 				    "depth and/or color'",
 				    quantized, resampled);
 				return;
@@ -135,8 +134,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		std::string error {
 			"'Error: Could not get Grayscale raw data from image'"
 		};
-		logger->printError(name, fingerPosition, 255,
-		    error.append(e.what()), quantized, resampled);
+		logger->printError(name, fingerPosition, error.append(e.what()),
+		    quantized, resampled);
 		return;
 	}
 
@@ -165,15 +164,15 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				    imageDPI, 500, "", "");
 
 			} catch (const cv::Exception &e) {
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'Error: Matrix creation error: " + e.msg +
 					"'",
 				    quantized, resampled);
 				return;
 
-			} catch (const std::exception &e) {
+			} catch (const NFIR::Miscue &e) {
 				const std::string errStr { e.what() };
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'" + errStr + "'", quantized, resampled);
 				return;
 			}
@@ -204,7 +203,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 					} catch (const cv::Exception &e) {
 						logger->printError(name,
-						    fingerPosition, 255,
+						    fingerPosition,
 						    "'Error: Matrix creation error: " +
 							e.msg + "'",
 						    quantized, resampled);
@@ -215,7 +214,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 							e.what()
 						};
 						logger->printError(name,
-						    fingerPosition, 255,
+						    fingerPosition,
 						    "'" + errStr + "'",
 						    quantized, resampled);
 						return;
@@ -227,7 +226,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					    "User denied the re-sample");
 					if (!singleImage) {
 						logger->printError(name,
-						    fingerPosition, 255,
+						    fingerPosition,
 						    "'Error: User chose not to "
 						    "re-sample image'",
 						    quantized, resampled);
@@ -236,7 +235,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 
 			} else {
-				logger->printError(name, fingerPosition, 255,
+				logger->printError(name, fingerPosition,
 				    "'Error: Image is not 500PPI'", quantized,
 				    resampled);
 				return;
@@ -250,19 +249,21 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// resolution. Quantization will happen below if necessary.
 
 	const NFIQ::FingerprintImageData wrappedImage = resampled ?
-	    NFIQ::FingerprintImageData(postResample.data, postResample.total(),
+		  NFIQ::FingerprintImageData(postResample.data, postResample.total(),
 		postResample.cols, postResample.rows, fingerPosition, 500) :
-	    NFIQ::FingerprintImageData(grayscaleRawData,
+		  NFIQ::FingerprintImageData(grayscaleRawData,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, imageDPI);
 
-	const NFIQ2UI::CoreReturn corereturn = NFIQ2UI::coreCompute(
-	    wrappedImage, model);
+	NFIQ2UI::CoreReturn corereturn;
 
-	if (corereturn.qualityScore > 100) {
+	try {
+		corereturn = NFIQ2UI::coreCompute(wrappedImage, model);
+	} catch (const NFIQ::NFIQException &e) {
+		const std::string expMsg { e.what() };
 		logger->printError(name, fingerPosition,
-		    corereturn.qualityScore,
-		    "NFIQ2 computeQualityScore returned an error code",
+		    "'NFIQ2 computeQualityScore returned an error code: " +
+			expMsg + "'",
 		    quantized, resampled);
 		return;
 	}
@@ -302,9 +303,15 @@ NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
 	std::list<NFIQ::QualityFeatureData> featureVector;
 	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
 
-	const unsigned int qualityScore = model.computeQualityScore(
-	    wrappedImage, true, actionableQuality, true, featureVector, true,
-	    featureTimings);
+	unsigned int qualityScore {};
+
+	try {
+		qualityScore = model.computeQualityScore(wrappedImage, true,
+		    actionableQuality, true, featureVector, true,
+		    featureTimings);
+	} catch (const NFIQ::NFIQException &e) {
+		throw;
+	}
 
 	const CoreReturn corereturn { featureVector, featureTimings,
 		actionableQuality, qualityScore };
@@ -510,7 +517,7 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "'Error: Could not open RecordStore'" };
 		threadedlogger->printError(
-		    name, 0, 255, error.append(e.what()), false, false);
+		    name, 0, error.append(e.what()), false, false);
 		return;
 	}
 
@@ -548,7 +555,7 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "'Error: Could not open RecordStore'" };
 		logger->printError(
-		    filename, 0, 255, error.append(e.what()), false, false);
+		    filename, 0, error.append(e.what()), false, false);
 		return;
 	}
 
@@ -880,20 +887,20 @@ main(int argc, char **argv)
 
 	logger->debugMsg("Model Name: " +
 	    (modelInfoObj.getModelName().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelName()));
+			  "<NA>" :
+			  modelInfoObj.getModelName()));
 	logger->debugMsg("Model Trainer: " +
 	    (modelInfoObj.getModelTrainer().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelTrainer()));
+			  "<NA>" :
+			  modelInfoObj.getModelTrainer()));
 	logger->debugMsg("Model Description: " +
 	    (modelInfoObj.getModelDescription().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelDescription()));
+			  "<NA>" :
+			  modelInfoObj.getModelDescription()));
 	logger->debugMsg("Model Version: " +
 	    (modelInfoObj.getModelVersion().empty() ?
-		    "<NA>" :
-		    modelInfoObj.getModelVersion()));
+			  "<NA>" :
+			  modelInfoObj.getModelVersion()));
 	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
 

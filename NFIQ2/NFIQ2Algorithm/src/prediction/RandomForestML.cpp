@@ -103,8 +103,7 @@ RandomForestML::initModule()
 		initModule(params);
 		return calculateHashString(params);
 	} catch (const cv::Exception &e) {
-		std::cout << e.msg.c_str() << std::endl;
-		throw e;
+		throw NFIQException(e_Error_UnknownError, e.msg);
 	} catch (...) {
 		throw;
 	}
@@ -195,8 +194,7 @@ RandomForestML::evaluate(
 #endif
 
 	} catch (const cv::Exception &e) {
-		std::cout << e.msg.c_str() << std::endl;
-		throw e;
+		throw NFIQException(e_Error_MachineLearningError, e.msg);
 	}
 }
 

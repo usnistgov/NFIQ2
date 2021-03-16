@@ -13,15 +13,16 @@
 using namespace NFIQ;
 using namespace cv;
 
-OCLHistogramFeature::~OCLHistogramFeature()
+NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature()
 {
 }
 
-const std::string OCLHistogramFeature::speedFeatureIDGroup =
-    "Orientation certainty";
+const std::string
+    NFIQ::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
+	"Orientation certainty";
 
 std::list<NFIQ::QualityFeatureResult>
-OCLHistogramFeature::computeFeatureData(
+NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -128,7 +129,8 @@ OCLHistogramFeature::computeFeatureData(
 }
 
 bool
-OCLHistogramFeature::getOCLValueOfBlock(const cv::Mat &block, double &ocl)
+NFIQ::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
+    const cv::Mat &block, double &ocl)
 {
 	double eigv_max = 0.0, eigv_min = 0.0;
 	// compute the numerical gradients of the block
@@ -170,13 +172,13 @@ OCLHistogramFeature::getOCLValueOfBlock(const cv::Mat &block, double &ocl)
 }
 
 std::string
-OCLHistogramFeature::getModuleID()
+NFIQ::QualityFeatures::OCLHistogramFeature::getModuleID()
 {
 	return "NFIQ2_OCLHistogram";
 }
 
 std::list<std::string>
-OCLHistogramFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::OCLHistogramFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "OCL_Bin10_", 10);

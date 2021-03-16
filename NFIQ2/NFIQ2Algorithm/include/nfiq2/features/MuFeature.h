@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+namespace NFIQ { namespace QualityFeatures {
+
 class MuFeature : BaseFeature {
     public:
 	MuFeature(bool bOutputSpeed,
@@ -30,6 +32,8 @@ class MuFeature : BaseFeature {
 	static std::list<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 };
+
+}}
 
 #endif
 

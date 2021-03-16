@@ -28,6 +28,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdint.h>
 
+namespace NFIQ { namespace QualityFeatures {
+
 /* Ideal Standard Deviation of pixel values in a neighborhood. */
 #define IDEALSTDEV 64
 /* Ideal Mean of pixel values in a neighborhood. */
@@ -73,6 +75,7 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	    unsigned int regionSize);
 };
 
+}}
 #endif
 
 /******************************************************************************/

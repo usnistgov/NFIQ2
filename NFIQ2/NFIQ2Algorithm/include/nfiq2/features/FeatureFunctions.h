@@ -7,6 +7,10 @@
 
 #include <list>
 
+namespace NFIQ {
+
+namespace QualityFeatures {
+
 void ridgesegment(const cv::Mat &Image, int blksze, double thresh,
     cv::OutputArray NormImage, cv::Mat &MaskImage, cv::OutputArray MaskIndex);
 
@@ -55,5 +59,7 @@ void addSamplingFeatureNames(
 void addHistogramFeatureNames(
     std::list<std::string> &featureNames, const char *prefix, int binCount);
 #endif
+}
+}
 
 /******************************************************************************/

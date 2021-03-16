@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace NFIQ { namespace QualityFeatures {
+
 static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
 class RVUPHistogramFeature : BaseFeature {
@@ -42,6 +44,8 @@ class RVUPHistogramFeature : BaseFeature {
 	int screenRes;
 	bool padFlag;
 };
+
+}}
 
 #endif
 

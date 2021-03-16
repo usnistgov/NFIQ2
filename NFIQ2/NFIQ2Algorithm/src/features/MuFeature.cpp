@@ -7,14 +7,15 @@
 using namespace NFIQ;
 using namespace cv;
 
-MuFeature::~MuFeature()
+NFIQ::QualityFeatures::MuFeature::~MuFeature()
 {
 }
 
-const std::string MuFeature::speedFeatureIDGroup = "Contrast";
+const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =
+    "Contrast";
 
 std::list<NFIQ::QualityFeatureResult>
-MuFeature::computeFeatureData(
+NFIQ::QualityFeatures::MuFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage, double &sigma)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -151,13 +152,13 @@ MuFeature::computeFeatureData(
 }
 
 std::string
-MuFeature::getModuleID()
+NFIQ::QualityFeatures::MuFeature::getModuleID()
 {
 	return "NFIQ2_Mu";
 }
 
 std::list<std::string>
-MuFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("MMB");

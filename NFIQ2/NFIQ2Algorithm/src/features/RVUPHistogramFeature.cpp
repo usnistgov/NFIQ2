@@ -20,15 +20,16 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
-RVUPHistogramFeature::~RVUPHistogramFeature()
+NFIQ::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature()
 {
 }
 
-const std::string RVUPHistogramFeature::speedFeatureIDGroup =
-    "Ridge valley uniformity";
+const std::string
+    NFIQ::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =
+	"Ridge valley uniformity";
 
 std::list<NFIQ::QualityFeatureResult>
-RVUPHistogramFeature::computeFeatureData(
+NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -181,13 +182,13 @@ RVUPHistogramFeature::computeFeatureData(
 }
 
 std::string
-RVUPHistogramFeature::getModuleID()
+NFIQ::QualityFeatures::RVUPHistogramFeature::getModuleID()
 {
 	return "NFIQ2_RVUPHistogram";
 }
 
 std::list<std::string>
-RVUPHistogramFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "RVUP_Bin10_", 10);
@@ -238,7 +239,8 @@ rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
 	}
 
 	Mat blockRotated;
-	getRotatedBlock(block, orientation, padFlag, blockRotated);
+	NFIQ::QualityFeatures::getRotatedBlock(
+	    block, orientation, padFlag, blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;
@@ -258,7 +260,8 @@ rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	getRidgeValleyStructure(blockCropped, ridval, dt);
+	NFIQ::QualityFeatures::getRidgeValleyStructure(
+	    blockCropped, ridval, dt);
 
 	// Ridge-valley thickness
 	//  change = xor(ridval,circshift(ridval,1)); // find the bin change

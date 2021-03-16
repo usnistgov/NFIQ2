@@ -19,14 +19,16 @@ using namespace NFIQ;
 using namespace cv;
 using namespace std;
 
-QualityMapFeatures::~QualityMapFeatures()
+NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures()
 {
 }
 
-const std::string QualityMapFeatures::speedFeatureIDGroup = "Quality map";
+const std::string
+    NFIQ::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
+	"Quality map";
 
 std::list<NFIQ::QualityFeatureResult>
-QualityMapFeatures::computeFeatureData(
+NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     ImgProcROIFeature::ImgProcROIResults imgProcResults)
 {
@@ -113,9 +115,9 @@ QualityMapFeatures::computeFeatureData(
 }
 
 cv::Mat
-QualityMapFeatures::computeOrientationMap(cv::Mat &img, bool bFilterByROI,
-    double &coherenceSum, double &coherenceRel, unsigned int bs,
-    ImgProcROIFeature::ImgProcROIResults roiResults)
+NFIQ::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
+    bool bFilterByROI, double &coherenceSum, double &coherenceRel,
+    unsigned int bs, ImgProcROIFeature::ImgProcROIResults roiResults)
 {
 	coherenceSum = 0.0;
 	coherenceRel = 0.0;
@@ -226,7 +228,7 @@ QualityMapFeatures::computeOrientationMap(cv::Mat &img, bool bFilterByROI,
 }
 
 bool
-QualityMapFeatures::getAngleOfBlock(
+NFIQ::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
     const cv::Mat &block, double &angle, double &coherence)
 {
 	// compute the numerical gradients of the block
@@ -287,7 +289,8 @@ QualityMapFeatures::getAngleOfBlock(
 }
 
 cv::Mat
-QualityMapFeatures::computeNumericalGradientX(const cv::Mat &mat)
+NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
+    const cv::Mat &mat)
 {
 	cv::Mat out(mat.rows, mat.cols, CV_64F, Scalar(0));
 
@@ -308,7 +311,7 @@ QualityMapFeatures::computeNumericalGradientX(const cv::Mat &mat)
 }
 
 void
-QualityMapFeatures::computeNumericalGradients(
+NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
@@ -319,13 +322,13 @@ QualityMapFeatures::computeNumericalGradients(
 }
 
 std::string
-QualityMapFeatures::getModuleID()
+NFIQ::QualityFeatures::QualityMapFeatures::getModuleID()
 {
 	return "NFIQ2_QualityMap";
 }
 
 std::list<std::string>
-QualityMapFeatures::getAllFeatureIDs()
+NFIQ::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("OrientationMap_ROIFilter_CoherenceRel");

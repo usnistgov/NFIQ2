@@ -22,12 +22,12 @@ using namespace cv;
 double fda(const Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-FDAFeature::~FDAFeature()
+NFIQ::QualityFeatures::FDAFeature::~FDAFeature()
 {
 }
 
 std::list<std::string>
-FDAFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "FDA_Bin10_", 10);
@@ -35,16 +35,17 @@ FDAFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-const std::string FDAFeature::speedFeatureIDGroup = "Frequency domain";
+const std::string NFIQ::QualityFeatures::FDAFeature::speedFeatureIDGroup =
+    "Frequency domain";
 
 std::string
-FDAFeature::getModuleID()
+NFIQ::QualityFeatures::FDAFeature::getModuleID()
 {
 	return "NFIQ2_FDA";
 }
 
 std::list<NFIQ::QualityFeatureResult>
-FDAFeature::computeFeatureData(
+NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -233,7 +234,8 @@ fda(const Mat &block, const double orientation, const int v1sz_x,
 	// rotate image to get the ridges horizontal using nearest-neighbor
 	// interpolation
 	Mat blockRotated;
-	getRotatedBlock(block, orientation + (M_PI / 2), padFlag, blockRotated);
+	NFIQ::QualityFeatures::getRotatedBlock(
+	    block, orientation + (M_PI / 2), padFlag, blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;

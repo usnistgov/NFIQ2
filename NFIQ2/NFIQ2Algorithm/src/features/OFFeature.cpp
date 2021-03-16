@@ -19,18 +19,18 @@
 using namespace NFIQ;
 using namespace cv;
 
-OFFeature::~OFFeature()
+NFIQ::QualityFeatures::OFFeature::~OFFeature()
 {
 }
 
 std::string
-OFFeature::getModuleID()
+NFIQ::QualityFeatures::OFFeature::getModuleID()
 {
 	return "NFIQ2_OF";
 }
 
 std::list<std::string>
-OFFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::OFFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "OF_Bin10_", 10);
@@ -38,10 +38,11 @@ OFFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-const std::string OFFeature::speedFeatureIDGroup = "Orientation flow";
+const std::string NFIQ::QualityFeatures::OFFeature::speedFeatureIDGroup =
+    "Orientation flow";
 
 std::list<NFIQ::QualityFeatureResult>
-OFFeature::computeFeatureData(
+NFIQ::QualityFeatures::OFFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;

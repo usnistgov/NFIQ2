@@ -86,7 +86,7 @@ class NFIQ2Algorithm::Impl {
 	double getQualityPrediction(
 	    std::list<NFIQ::QualityFeatureData> &featureVector) const;
 
-	RandomForestML m_RandomForestML;
+	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};
 };
 } // namespace NFIQ

@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace NFIQ { namespace QualityFeatures {
+
 static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
 	0.87 };
 
@@ -41,6 +43,8 @@ class LCSFeature : BaseFeature {
 	int scannerRes;
 	bool padFlag;
 };
+
+}}
 
 #endif
 

@@ -18,6 +18,8 @@
 #include <string>
 #include <vector>
 
+namespace NFIQ { namespace QualityFeatures {
+
 #define LOW_FLOW_MAP_NO_DIRECTION 0
 #define LOW_FLOW_MAP_LOW_FLOW 127
 #define LOW_FLOW_MAP_HIGH_FLOW 255
@@ -64,6 +66,8 @@ class QualityMapFeatures : BaseFeature {
 	static void computeNumericalGradients(
 	    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 };
+
+}}
 
 #endif
 

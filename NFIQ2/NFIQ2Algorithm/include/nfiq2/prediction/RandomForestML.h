@@ -18,6 +18,8 @@
 
 #undef EMBED_RANDOMFOREST_PARAMETERS
 
+namespace NFIQ { namespace Prediction {
+
 class RandomForestML {
     public:
 	RandomForestML();
@@ -48,6 +50,8 @@ class RandomForestML {
 	std::string joinRFTrainedParamsString();
 #endif
 };
+
+}}
 
 #endif
 

@@ -8,15 +8,16 @@
 using namespace NFIQ;
 using namespace cv;
 
-FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
 {
 }
 
-const std::string FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
-    "Minutiae quality";
+const std::string
+    NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
+	"Minutiae quality";
 
 std::list<NFIQ::QualityFeatureResult>
-FJFXMinutiaeQualityFeature::computeFeatureData(
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     bool &templateCouldBeExtracted)
@@ -162,13 +163,13 @@ FJFXMinutiaeQualityFeature::computeFeatureData(
 }
 
 std::string
-FJFXMinutiaeQualityFeature::getModuleID()
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleID()
 {
 	return "NFIQ2_FJFXPos_MinutiaeQuality";
 }
 
 std::list<std::string>
-FJFXMinutiaeQualityFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
@@ -176,8 +177,8 @@ FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
-FJFXMinutiaeQualityFeature::computeMuMinQuality(
+std::vector<NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
@@ -231,8 +232,8 @@ FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	return vecMinData;
 }
 
-std::vector<FJFXMinutiaeQualityFeature::MinutiaData>
-FJFXMinutiaeQualityFeature::computeOCLMinQuality(
+std::vector<NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage)
 {

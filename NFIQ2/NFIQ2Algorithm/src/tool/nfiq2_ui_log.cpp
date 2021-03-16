@@ -8,7 +8,7 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include <nfiq2/nfiq2.hpp>
+#include <nfiq2/nfiq2features.hpp>
 #include <nfiq2/tool/nfiq2_ui_exception.h>
 #include <nfiq2/tool/nfiq2_ui_log.h>
 #include <nfiq2/tool/nfiq2_ui_types.h>
@@ -186,7 +186,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->actionable) {
 		std::vector<std::string> vHeaders =
-		    NFIQ::NFIQ2Algorithm::getAllActionableIdentifiers();
+		    NFIQ::FeatureCalculation::getAllActionableIdentifiers();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -202,7 +202,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->verbose) {
 		std::vector<std::string> vHeaders =
-		    NFIQ::NFIQ2Algorithm::getAllQualityFeatureIDs();
+		    NFIQ::FeatureCalculation::getAllQualityFeatureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -218,7 +218,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->speed) {
 		std::vector<std::string> sHeaders =
-		    NFIQ::NFIQ2Algorithm::getAllSpeedFeatureGroups();
+		    NFIQ::FeatureCalculation::getAllSpeedFeatureGroups();
 
 		for (auto it = sHeaders.begin(); it != sHeaders.end(); ++it) {
 			if (it != sHeaders.begin()) {

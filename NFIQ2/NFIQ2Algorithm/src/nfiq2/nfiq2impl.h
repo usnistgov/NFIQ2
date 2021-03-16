@@ -71,34 +71,6 @@ class NFIQ2Algorithm::Impl {
 
 	/**
 	 * @brief
-	 * Obtain all actionable quality feedback identifiers.
-	 *
-	 * @return
-	 * Vector of strings containing all actionable quality feedback
-	 * identifiers.
-	 */
-	static std::vector<std::string> getAllActionableIdentifiers();
-
-	/**
-	 * @brief
-	 * Obtain all quality feature IDs from quality modules.
-	 *
-	 * @return
-	 * Vector of strings containing all quality feature IDs.
-	 */
-	static std::vector<std::string> getAllQualityFeatureIDs();
-
-	/**
-	 * @brief
-	 * Obtain all speed feature groups from quality modules.
-	 *
-	 * @return
-	 * Vector of strings containing all speed feature groups.
-	 */
-	static std::vector<std::string> getAllSpeedFeatureGroups();
-
-	/**
-	 * @brief
 	 * Obtain MD5 checksum of Random Forest parameter file loaded.
 	 *
 	 * @return
@@ -107,13 +79,6 @@ class NFIQ2Algorithm::Impl {
 	std::string getParameterHash() const;
 
     private:
-	std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
-	    const NFIQ::FingerprintImageData &rawImage,
-	    bool bComputeActionableQuality,
-	    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
-	    bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &speedValues) const;
-
 	/**
 	 * @throws NFIQException
 	 * Failure to compute (OpenCV reason contained within message string).

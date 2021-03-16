@@ -22,11 +22,6 @@ class NFIQ2Algorithm {
 	~NFIQ2Algorithm();
 
 	/**
-	 * Add support for obtaining Features without computing NFIQ2 score
-	 */
-	//std::vector<NFIQ::QualityFeatureData> computeQualityFeatureVectors();
-
-	/**
 	 * @brief
 	 * Computes the quality score from the input fingerprint image
 	 * data.
@@ -60,34 +55,6 @@ class NFIQ2Algorithm {
 	    std::list<NFIQ::QualityFeatureData> &qualityFeatureData,
 	    bool bOutputSpeed,
 	    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
-
-	/**
-	 * @brief
-	 * Obtain all actionable quality feedback identifiers.
-	 *
-	 * @return
-	 * Vector of strings containing all actionable quality feedback
-	 * identifiers.
-	 */
-	static std::vector<std::string> getAllActionableIdentifiers();
-
-	/**
-	 * @brief
-	 * Obtain all quality feature IDs from quality modules.
-	 *
-	 * @return
-	 * Vector of strings containing all quality feature IDs.
-	 */
-	static std::vector<std::string> getAllQualityFeatureIDs();
-
-	/**
-	 * @brief
-	 * Obtain all speed feature groups from quality modules.
-	 *
-	 * @return
-	 * Vector of strings containing all speed feature groups.
-	 */
-	static std::vector<std::string> getAllSpeedFeatureGroups();
 
 	/**
 	 * @brief

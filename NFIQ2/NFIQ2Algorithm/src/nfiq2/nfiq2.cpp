@@ -35,24 +35,6 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 	    qualityFeatureData, bOutputSpeed, qualityFeatureSpeed));
 }
 
-std::vector<std::string>
-NFIQ::NFIQ2Algorithm::getAllActionableIdentifiers()
-{
-	return NFIQ::NFIQ2Algorithm::Impl::getAllActionableIdentifiers();
-}
-
-std::vector<std::string>
-NFIQ::NFIQ2Algorithm::getAllQualityFeatureIDs()
-{
-	return NFIQ::NFIQ2Algorithm::Impl::getAllQualityFeatureIDs();
-}
-
-std::vector<std::string>
-NFIQ::NFIQ2Algorithm::getAllSpeedFeatureGroups()
-{
-	return NFIQ::NFIQ2Algorithm::Impl::getAllSpeedFeatureGroups();
-}
-
 std::string
 NFIQ::NFIQ2Algorithm::getParameterHash() const
 {

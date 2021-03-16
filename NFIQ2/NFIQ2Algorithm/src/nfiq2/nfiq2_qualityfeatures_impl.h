@@ -1,14 +1,14 @@
-#ifndef NFIQ2_NFIQ2FEATURES_H_
-#define NFIQ2_NFIQ2FEATURES_H_
+#ifndef NFIQ2_NFIQ2_QUALITYFEATURES_IMPL_H_
+#define NFIQ2_NFIQ2_QUALITYFEATURES_IMPL_H_
 
 #include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/interfacedefinitions.hpp>
+#include <nfiq2/nfiq2_qualityfeatures.hpp>
 
 #include <list>
-#include <memory>
 #include <string>
+#include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ { namespace QualityFeatures { namespace Impl {
 /**
  * @brief
  * Obtain all actionable quality feedback identifiers.
@@ -60,7 +60,6 @@ std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
     std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> &speedValues);
-
-}}
+}}}
 
 #endif

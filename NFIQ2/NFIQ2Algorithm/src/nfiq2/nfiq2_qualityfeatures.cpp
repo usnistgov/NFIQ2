@@ -1,4 +1,4 @@
-#include "nfiq2featuresimpl.h"
+#include "nfiq2_qualityfeatures_impl.h"
 
 #include <list>
 #include <string>

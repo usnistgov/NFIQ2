@@ -9,7 +9,7 @@
 #include <nfiq2/features/QualityMapFeatures.h>
 #include <nfiq2/features/RVUPHistogramFeature.h>
 #include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/nfiq2features.hpp>
+#include <nfiq2/nfiq2_qualityfeatures.hpp>
 #include <nfiq2/nfiqexception.hpp>
 #include <nfiq2/timer.hpp>
 #include <string.h>

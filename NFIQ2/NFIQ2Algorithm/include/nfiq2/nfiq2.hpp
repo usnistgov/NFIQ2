@@ -58,34 +58,6 @@ class NFIQ2Algorithm {
 
 	/**
 	 * @brief
-	 * Obtain all actionable quality feedback identifiers.
-	 *
-	 * @return
-	 * Vector of strings containing all actionable quality feedback
-	 * identifiers.
-	 */
-	static std::vector<std::string> getAllActionableIdentifiers();
-
-	/**
-	 * @brief
-	 * Obtain all quality feature IDs from quality modules.
-	 *
-	 * @return
-	 * Vector of strings containing all quality feature IDs.
-	 */
-	static std::vector<std::string> getAllQualityFeatureIDs();
-
-	/**
-	 * @brief
-	 * Obtain all speed feature groups from quality modules.
-	 *
-	 * @return
-	 * Vector of strings containing all speed feature groups.
-	 */
-	static std::vector<std::string> getAllSpeedFeatureGroups();
-
-	/**
-	 * @brief
 	 * Obtain MD5 checksum of Random Forest parameter file loaded.
 	 *
 	 * @return

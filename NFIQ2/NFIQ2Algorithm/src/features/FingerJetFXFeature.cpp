@@ -107,7 +107,7 @@ FingerJetFXFeature::computeFeatureData(
 	// create context for feature extraction
 	// the created context function is modified to override default settings
 	FRFXLL_HANDLE hCtx = NULL, hFeatureSet = NULL;
-	if (createContext(&hCtx) != FRFXLL_OK) {
+	if (!FRFXLL_SUCCESS(createContext(&hCtx))) {
 		throw NFIQ::NFIQException(
 		    NFIQ::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateContext,
@@ -129,7 +129,7 @@ FingerJetFXFeature::computeFeatureData(
 	    localFingerprintImage.m_ImageHeight,
 	    localFingerprintImage.m_ImageDPI, FRFXLL_FEX_ENABLE_ENHANCEMENT,
 	    &hFeatureSet);
-	if (fxRes != FRFXLL_OK) {
+	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);
 		throw NFIQ::NFIQException(
 		    NFIQ::
@@ -150,7 +150,7 @@ FingerJetFXFeature::computeFeatureData(
 	unsigned int minCnt { 0 };
 	const FRFXLL_RESULT fxResMin = FRFXLLGetMinutiaInfo(
 	    hFeatureSet, &minCnt, nullptr);
-	if (fxResMin != FRFXLL_OK) {
+	if (!FRFXLL_SUCCESS(fxResMin)) {
 		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(
 		    NFIQ::
@@ -170,7 +170,7 @@ FingerJetFXFeature::computeFeatureData(
 
 	const FRFXLL_RESULT fxResData = FRFXLLGetMinutiae(
 	    hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT, &minCnt, mdata.get());
-	if (fxResData != FRFXLL_OK) {
+	if (!FRFXLL_SUCCESS(fxResData)) {
 		FRFXLLCloseHandle(&hFeatureSet);
 		throw NFIQ::NFIQException(
 		    NFIQ::

@@ -1,5 +1,6 @@
 # NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
 
+[![Download Latest Version](https://img.shields.io/badge/download-v2.1--pre-informational)](https://github.com/usnistgov/NFIQ2/releases)
 [![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=master)](https://travis-ci.org/usnistgov/NFIQ2)
 [![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/master?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/master)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
@@ -34,6 +35,17 @@ systems by identifying the samples that are likely to cause recognition failure.
 
 If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
 
+Download
+--------
+Pre-built versions of the NFIQ 2 library and standalone executable for many
+platforms are available to download on the
+[Releases](https://github.com/usnistgov/NFIQ2/releases) page. Unless you are
+*actively developing* code for NFIQ 2, we suggest you download from
+[Releases](https://github.com/usnistgov/NFIQ2/releases) instead of attempting to
+compile.
+
+--------------------------------------------------------------------------------
+
 Dependencies
 ------------
 
@@ -52,25 +64,57 @@ required, included in this repository as git submodules:
  * [NIST Fingerprint Image Resampler](https://github.com/usnistgov/nfir) (public domain license)
    * Requires [OpenCV](https://github.com/opencv/opencv), which is required by NFIQ 2 library.
 
-Quick Build
------------
-**Linux and macOS:**
+Quick Build: Library
+--------------------
+
+You must *recursively* clone the repository to retrieve git submodules
+(i.e., do **not** use the GitHub ZIP file download).
 ```bash
+git clone --recursive https://github.com/usnistgov/NFIQ2.git
+cd NFIQ2
+mkdir build
+cd build
+cmake .. -DBUILD_NFIQ2_CLI=OFF
+cmake --build .
+```
+
+Quick Build: Library + Command Line Interface
+---------------------------------------------
+You must *recursively* clone the repository to retrieve git submodules
+(i.e., do **not** use the GitHub ZIP file download).
+```bash
+git clone --recursive https://github.com/usnistgov/NFIQ2.git
+cd NFIQ2
 mkdir build
 cd build
 cmake ..
 cmake --build .
 ```
 
-**Windows:**
-```bash
-mkdir build
-cd build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=%vcpkg_root%\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=%platform%-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A %platform%
-cmake --build .
+### Build Notes:
+ * Standard CMake arguments are interpreted.
+   * On Windows, change architectures with `-A x64` or `-A Win32`
+   * Change generators with `-G`
+   * Change build types with `CMAKE_CONFIGURATION_TYPES` and/or
+     `CMAKE_BUILD_TYPE`
+
+ * Dependencies for `libbiomeval` must be satisfied.
+    * On Windows with Visual Studio, this is done with
+      [vcpkg](https://github.com/microsoft/vcpkg), which will require passing
+      the vcpkg `CMAKE_TOOLCHAIN_FILE` and `VCPKG_TARGET_TRIPLET` options
+      to CMake.
+
+For example, a 64-bit release build with the default Visual Studio generator
+might look like:
+
+```
+cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A x64
 ```
 
-OpenCV version
+Builds for other OS can typically find dependencies on the system without
+intervention.
+
+OpenCV Version
 --------------
 Originally, all major versions of OpenCV were supported by NFIQ 2. Due to the
 limited testing resources as well as slight differences in results between
@@ -85,8 +129,6 @@ Known Limitations
  * **macOS**:
    * Xcode 10 and later does not support 32-bit applications. In order to build
      NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
-   * There has been no effort to test this code on Apple's M1 ARM architecture.
-     This will change shortly.
 
 Build Options
 -------------

@@ -111,10 +111,9 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 
 	std::list<NFIQ::QualityFeatureData> featureVector {};
 	try {
-		featureVector =
-		    NFIQ::FeatureCalculation::computeQualityFeatures(
-			croppedRawImage, bComputeActionableQuality,
-			actionableQuality, bOutputSpeed, qualityFeatureSpeed);
+		featureVector = NFIQ::QualityFeatures::computeQualityFeatures(
+		    croppedRawImage, bComputeActionableQuality,
+		    actionableQuality, bOutputSpeed, qualityFeatureSpeed);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	} catch (const std::exception &e) {

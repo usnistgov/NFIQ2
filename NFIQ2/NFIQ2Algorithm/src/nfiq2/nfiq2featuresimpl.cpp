@@ -21,7 +21,7 @@
 #include <vector>
 
 std::list<NFIQ::QualityFeatureData>
-NFIQ::FeatureCalculation::Impl::computeQualityFeatures(
+NFIQ::QualityFeatures::Impl::computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
     std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> &speedValues)
@@ -331,7 +331,7 @@ NFIQ::FeatureCalculation::Impl::computeQualityFeatures(
 }
 
 std::vector<std::string>
-NFIQ::FeatureCalculation::Impl::getAllActionableIdentifiers()
+NFIQ::QualityFeatures::Impl::getAllActionableIdentifiers()
 {
 	static const std::vector<std::string> actionableIdentifiers {
 		NFIQ::
@@ -346,7 +346,7 @@ NFIQ::FeatureCalculation::Impl::getAllActionableIdentifiers()
 }
 
 std::vector<std::string>
-NFIQ::FeatureCalculation::Impl::getAllQualityFeatureIDs()
+NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs()
 {
 	std::list<std::list<std::string>> lol { FDAFeature::getAllFeatureIDs(),
 		FingerJetFXFeature::getAllFeatureIDs(),
@@ -368,7 +368,7 @@ NFIQ::FeatureCalculation::Impl::getAllQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ::FeatureCalculation::Impl::getAllSpeedFeatureGroups()
+NFIQ::QualityFeatures::Impl::getAllSpeedFeatureGroups()
 {
 	static const std::vector<std::string> speedFeatureGroups {
 		FDAFeature::speedFeatureIDGroup,

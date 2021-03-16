@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace FeatureCalculation { namespace Impl {
+namespace NFIQ { namespace QualityFeatures { namespace Impl {
 /**
  * @brief
  * Obtain all actionable quality feedback identifiers.

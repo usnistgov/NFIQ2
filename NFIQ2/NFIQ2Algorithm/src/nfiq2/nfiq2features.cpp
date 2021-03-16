@@ -5,30 +5,30 @@
 #include <vector>
 
 std::vector<std::string>
-NFIQ::FeatureCalculation::getAllActionableIdentifiers()
+NFIQ::QualityFeatures::getAllActionableIdentifiers()
 {
-	return NFIQ::FeatureCalculation::Impl::getAllActionableIdentifiers();
+	return NFIQ::QualityFeatures::Impl::getAllActionableIdentifiers();
 }
 
 std::vector<std::string>
-NFIQ::FeatureCalculation::getAllQualityFeatureIDs()
+NFIQ::QualityFeatures::getAllQualityFeatureIDs()
 {
-	return NFIQ::FeatureCalculation::Impl::getAllQualityFeatureIDs();
+	return NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs();
 }
 
 std::vector<std::string>
-NFIQ::FeatureCalculation::getAllSpeedFeatureGroups()
+NFIQ::QualityFeatures::getAllSpeedFeatureGroups()
 {
-	return NFIQ::FeatureCalculation::Impl::getAllSpeedFeatureGroups();
+	return NFIQ::QualityFeatures::Impl::getAllSpeedFeatureGroups();
 }
 
 std::list<NFIQ::QualityFeatureData>
-NFIQ::FeatureCalculation::computeQualityFeatures(
+NFIQ::QualityFeatures::computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
     std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> &speedValues)
 {
-	return NFIQ::FeatureCalculation::Impl::computeQualityFeatures(rawImage,
+	return NFIQ::QualityFeatures::Impl::computeQualityFeatures(rawImage,
 	    bComputeActionableQuality, actionableQuality, bOutputSpeed,
 	    speedValues);
 }

@@ -3,13 +3,12 @@
 
 #include <nfiq2/fingerprintimagedata.hpp>
 #include <nfiq2/interfacedefinitions.hpp>
-#include <nfiq2/modelinfo.hpp>
 
 #include <list>
 #include <memory>
 #include <string>
 
-namespace NFIQ { namespace FeatureCalculation {
+namespace NFIQ { namespace QualityFeatures {
 /**
  * @brief
  * Obtain all actionable quality feedback identifiers.
@@ -55,7 +54,7 @@ std::vector<std::string> getAllSpeedFeatureGroups();
  *
  * @return
  * A list of fingerprint quality feature data. This can be used with model
- * paramenters to produce a final NFIQ 2 score. 
+ * paramenters to produce a final NFIQ 2 score.
  */
 std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,

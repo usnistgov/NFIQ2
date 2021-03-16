@@ -186,7 +186,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->actionable) {
 		std::vector<std::string> vHeaders =
-		    NFIQ::FeatureCalculation::getAllActionableIdentifiers();
+		    NFIQ::QualityFeatures::getAllActionableIdentifiers();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -202,7 +202,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->verbose) {
 		std::vector<std::string> vHeaders =
-		    NFIQ::FeatureCalculation::getAllQualityFeatureIDs();
+		    NFIQ::QualityFeatures::getAllQualityFeatureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -218,7 +218,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->speed) {
 		std::vector<std::string> sHeaders =
-		    NFIQ::FeatureCalculation::getAllSpeedFeatureGroups();
+		    NFIQ::QualityFeatures::getAllSpeedFeatureGroups();
 
 		for (auto it = sHeaders.begin(); it != sHeaders.end(); ++it) {
 			if (it != sHeaders.begin()) {

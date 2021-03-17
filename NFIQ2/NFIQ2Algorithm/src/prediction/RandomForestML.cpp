@@ -23,7 +23,7 @@ using namespace NFIQ;
 using namespace cv;
 
 std::string
-RandomForestML::calculateHashString(const std::string &s)
+NFIQ::Prediction::RandomForestML::calculateHashString(const std::string &s)
 {
 	// calculate and compare the hash
 	digestpp::md5 hasher;
@@ -34,7 +34,7 @@ RandomForestML::calculateHashString(const std::string &s)
 }
 
 void
-RandomForestML::initModule(const std::string &params)
+NFIQ::Prediction::RandomForestML::initModule(const std::string &params)
 {
 	// create file storage with parameters in memory
 	FileStorage fs(params.c_str(),
@@ -52,7 +52,7 @@ RandomForestML::initModule(const std::string &params)
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 std::string
-RandomForestML::joinRFTrainedParamsString()
+NFIQ::Prediction::RandomForestML::joinRFTrainedParamsString()
 {
 	unsigned int size = sizeof(g_strRandomForestTrainedParams) /
 	    sizeof(g_strRandomForestTrainedParams[0]);
@@ -64,14 +64,14 @@ RandomForestML::joinRFTrainedParamsString()
 }
 #endif
 
-RandomForestML::RandomForestML()
+NFIQ::Prediction::RandomForestML::RandomForestML()
 {
 #if CV_MAJOR_VERSION <= 2
 	m_pTrainedRF = NULL;
 #endif
 }
 
-RandomForestML::~RandomForestML()
+NFIQ::Prediction::RandomForestML::~RandomForestML()
 {
 #if CV_MAJOR_VERSION <= 2
 	if (m_pTrainedRF != nullptr) {
@@ -88,7 +88,7 @@ RandomForestML::~RandomForestML()
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 std::string
-RandomForestML::initModule()
+NFIQ::Prediction::RandomForestML::initModule()
 {
 	try {
 		// get parameters from string
@@ -111,7 +111,7 @@ RandomForestML::initModule()
 #endif
 
 std::string
-RandomForestML::initModule(
+NFIQ::Prediction::RandomForestML::initModule(
     const std::string &fileName, const std::string &fileHash)
 {
 	std::ifstream input(fileName);
@@ -137,7 +137,7 @@ RandomForestML::initModule(
 }
 
 void
-RandomForestML::evaluate(
+NFIQ::Prediction::RandomForestML::evaluate(
     const std::list<NFIQ::QualityFeatureData> &featureVector,
     const double &utilityValue, double &qualityValue, double &deviation) const
 {
@@ -199,7 +199,7 @@ RandomForestML::evaluate(
 }
 
 std::string
-RandomForestML::getModuleID()
+NFIQ::Prediction::RandomForestML::getModuleID()
 {
 	return "NFIQ2_RandomForest";
 }

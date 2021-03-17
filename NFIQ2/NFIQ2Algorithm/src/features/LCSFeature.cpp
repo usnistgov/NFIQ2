@@ -18,18 +18,18 @@ using namespace cv;
 double loclar(Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
-LCSFeature::~LCSFeature()
+NFIQ::QualityFeatures::LCSFeature::~LCSFeature()
 {
 }
 
 std::string
-LCSFeature::getModuleID()
+NFIQ::QualityFeatures::LCSFeature::getModuleID()
 {
 	return "NFIQ2_LCS";
 }
 
 std::list<std::string>
-LCSFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::LCSFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "LCS_Bin10_", 10);
@@ -37,10 +37,11 @@ LCSFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-const std::string LCSFeature::speedFeatureIDGroup = "Local clarity";
+const std::string NFIQ::QualityFeatures::LCSFeature::speedFeatureIDGroup =
+    "Local clarity";
 
 std::list<NFIQ::QualityFeatureResult>
-LCSFeature::computeFeatureData(
+NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::list<NFIQ::QualityFeatureResult> featureDataList;
@@ -235,7 +236,8 @@ loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
 	}
 
 	Mat blockRotated;
-	getRotatedBlock(block, orientation, padFlag, blockRotated);
+	NFIQ::QualityFeatures::getRotatedBlock(
+	    block, orientation, padFlag, blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;
@@ -257,7 +259,7 @@ loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	getRidgeValleyStructure(v2, ridval, dt);
+	NFIQ::QualityFeatures::getRidgeValleyStructure(v2, ridval, dt);
 
 	// Ridge-valley thickness
 	//  begrid = ridval(1); % begining with ridge?

@@ -7,14 +7,15 @@
 
 using namespace NFIQ;
 
-FingerJetFXFeature::~FingerJetFXFeature()
+NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature()
 {
 }
 
-const std::string FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
+const std::string
+    NFIQ::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
 std::pair<unsigned int, unsigned int>
-FingerJetFXFeature::centerOfMinutiaeMass(
+NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
 {
 	unsigned int lx { 0 }, ly { 0 };
@@ -27,7 +28,8 @@ FingerJetFXFeature::centerOfMinutiaeMass(
 }
 
 std::string
-FingerJetFXFeature::parseFRFXLLError(const FRFXLL_RESULT fxRes)
+NFIQ::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
+    const FRFXLL_RESULT fxRes)
 {
 	switch (fxRes) {
 	case FRFXLL_ERR_FB_TOO_SMALL_AREA:
@@ -64,7 +66,7 @@ FingerJetFXFeature::parseFRFXLLError(const FRFXLL_RESULT fxRes)
 }
 
 std::list<NFIQ::QualityFeatureResult>
-FingerJetFXFeature::computeFeatureData(
+NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
     const NFIQ::FingerprintImageData fingerprintImage,
     std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     bool &templateCouldBeExtracted)
@@ -275,13 +277,13 @@ FingerJetFXFeature::computeFeatureData(
 }
 
 std::string
-FingerJetFXFeature::getModuleID()
+NFIQ::QualityFeatures::FingerJetFXFeature::getModuleID()
 {
 	return "NFIQ2_FingerJetFX";
 }
 
 std::list<std::string>
-FingerJetFXFeature::getAllFeatureIDs()
+NFIQ::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
 {
 	std::list<std::string> featureIDs;
 	featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
@@ -290,7 +292,8 @@ FingerJetFXFeature::getAllFeatureIDs()
 }
 
 FRFXLL_RESULT
-FingerJetFXFeature::createContext(FRFXLL_HANDLE_PT phContext)
+NFIQ::QualityFeatures::FingerJetFXFeature::createContext(
+    FRFXLL_HANDLE_PT phContext)
 {
 	FRFXLL_RESULT rc = FRFXLL_OK;
 
@@ -304,8 +307,8 @@ FingerJetFXFeature::createContext(FRFXLL_HANDLE_PT phContext)
 	return rc;
 }
 
-FingerJetFXFeature::FJFXROIResults
-FingerJetFXFeature::computeROI(
+NFIQ::QualityFeatures::FingerJetFXFeature::FJFXROIResults
+NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
     const NFIQ::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)

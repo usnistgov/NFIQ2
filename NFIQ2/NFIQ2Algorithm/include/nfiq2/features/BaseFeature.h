@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+namespace NFIQ { namespace QualityFeatures {
+
 class BaseFeature {
     public:
 	BaseFeature(bool bOutputSpeed,
@@ -23,6 +25,8 @@ class BaseFeature {
 	bool m_bOutputSpeed;
 	std::list<NFIQ::QualityFeatureSpeed> &m_lSpeedValues;
 };
+
+}}
 
 #endif
 

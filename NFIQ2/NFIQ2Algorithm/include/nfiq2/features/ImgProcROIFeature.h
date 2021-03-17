@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 
+namespace NFIQ { namespace QualityFeatures {
+
 class ImgProcROIFeature : BaseFeature {
     public:
 	struct ImgProcROIResults {
@@ -58,6 +60,8 @@ class ImgProcROIFeature : BaseFeature {
     private:
 	static bool isBlackPixelAvailable(cv::Mat &img, cv::Point &point);
 };
+
+}}
 
 #endif
 

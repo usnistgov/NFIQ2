@@ -25,6 +25,8 @@
 #include <fcntl.h>
 #include <stdint.h>
 
+namespace NFIQ { namespace QualityFeatures {
+
 class FingerJetFXFeature : BaseFeature {
     public:
 	typedef enum com_type {
@@ -143,6 +145,7 @@ class FingerJetFXFeature : BaseFeature {
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };
+}}
 
 #endif
 

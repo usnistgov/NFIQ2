@@ -116,6 +116,16 @@ class Log {
 	    const std::string &errmsg, const bool quantized,
 	    const bool resampled) const;
 
+	/**
+	 *  @brief
+	 *    Wrapper around original printError method that takes an
+	 * 	  imageProps struct
+	 *
+	 *  @param[in] errmsg
+	 *    Error message if applicable. Will be "NA" otherwise
+	 *  @param[in] imageProps
+	 *    A struct containing image property information
+	 */
 	void printError(
 	    const std::string &errmsg, const ImageProps &imageProps) const;
 

@@ -212,7 +212,7 @@ class ResampleError : public Exception {
 	bool errorWasHandled() const noexcept;
 
     private:
-	bool _errorHandled;
+	bool _errorHandled { false };
 };
 
 } // namespace NFIQ2UI

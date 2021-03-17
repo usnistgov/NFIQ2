@@ -62,14 +62,10 @@ NFIQ2UI::askIfQuantize()
 
 bool
 NFIQ2UI::askIfDefaultResolution(const std::string &name,
-    const uint16_t defaultDPI, const uint16_t requiredDPI)
+    const uint16_t imageDPI, const uint16_t requiredDPI)
 {
-	// 72PPI is default resolution
-	if (defaultDPI != 72) {
-		return false;
-	}
 	const std::string prompt { "The resolution of \"" + name +
-		"\" was parsed as " + std::to_string(defaultDPI) +
+		"\" was parsed as " + std::to_string(imageDPI) +
 		" PPI, which is "
 		"sometimes used to indicate that resolution information was not "
 		"recorded. NFIQ 2 only supports " +
@@ -98,67 +94,51 @@ NFIQ2UI::askIfResample(const std::string &name, const uint16_t imageDPI,
 cv::Mat
 NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
     const NFIQ2UI::DimensionInfo &dimensionInfo,
-    const NFIQ2UI::ImageProps &imageProps,
-    std::shared_ptr<NFIQ2UI::Log> logger = nullptr)
+    const NFIQ2UI::ImageProps &imageProps, std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	cv::Mat postResample {};
 
-	if (logger != nullptr) {
-		try {
-			cv::Mat preResample { static_cast<int>(
-						  dimensionInfo.imageHeight),
-				static_cast<int>(dimensionInfo.imageWidth),
-				CV_8U, grayscaleRawData };
-			NFIR::resample(preResample, postResample,
-			    dimensionInfo.imageDPI, dimensionInfo.requiredDPI,
-			    "", "");
+	try {
+		cv::Mat preResample { static_cast<int>(
+					  dimensionInfo.imageHeight),
+			static_cast<int>(dimensionInfo.imageWidth), CV_8U,
+			grayscaleRawData };
+		NFIR::resample(preResample, postResample,
+		    dimensionInfo.imageDPI, dimensionInfo.requiredDPI, "", "");
 
-		} catch (const cv::Exception &e) {
-			const std::string errStr =
-			    "'Error: Matrix creation error: " + e.msg + "'";
-			if (imageProps.singleImage) {
-				logger->printSingleError(errStr);
-			} else {
-				logger->printError(imageProps.name,
-				    imageProps.fingerPosition, errStr,
-				    imageProps.quantized, imageProps.resampled);
-			}
-			throw NFIQ2UI::ResampleError(errStr, true);
+	} catch (const cv::Exception &e) {
+		const std::string errStr = "'Error: Matrix creation error: " +
+		    e.msg + "'";
 
-		} catch (const NFIR::Miscue &e) {
-			std::string errStr = "'NFIR resample error: ";
-			errStr = errStr.append(e.what()) + "'";
-
-			if (imageProps.singleImage) {
-				logger->printSingleError(errStr);
-			} else {
-				logger->printError(imageProps.name,
-				    imageProps.fingerPosition, errStr,
-				    imageProps.quantized, imageProps.resampled);
-			}
-			throw NFIQ2UI::ResampleError(errStr, true);
-		}
-	} else {
-		try {
-			cv::Mat preResample { static_cast<int>(
-						  dimensionInfo.imageHeight),
-				static_cast<int>(dimensionInfo.imageWidth),
-				CV_8U, grayscaleRawData };
-			NFIR::resample(preResample, postResample,
-			    dimensionInfo.imageDPI, dimensionInfo.requiredDPI,
-			    "", "");
-
-		} catch (const cv::Exception &e) {
-			const std::string errStr =
-			    "'Error: Matrix creation error: " + e.msg + "'";
-			throw NFIQ2UI::ResampleError(errStr, false);
-
-		} catch (const NFIR::Miscue &e) {
-			std::string errStr = "'NFIR resample error: ";
-			errStr = errStr.append(e.what()) + "'";
-
+		if (logger == nullptr) {
 			throw NFIQ2UI::ResampleError(errStr, false);
 		}
+
+		if (imageProps.singleImage) {
+			logger->printSingleError(errStr);
+		} else {
+			logger->printError(imageProps.name,
+			    imageProps.fingerPosition, errStr,
+			    imageProps.quantized, imageProps.resampled);
+		}
+		throw NFIQ2UI::ResampleError(errStr, true);
+
+	} catch (const NFIR::Miscue &e) {
+		std::string errStr = "'NFIR resample error: ";
+		errStr = errStr.append(e.what()) + "'";
+
+		if (logger == nullptr) {
+			throw NFIQ2UI::ResampleError(errStr, false);
+		}
+
+		if (imageProps.singleImage) {
+			logger->printSingleError(errStr);
+		} else {
+			logger->printError(imageProps.name,
+			    imageProps.fingerPosition, errStr,
+			    imageProps.quantized, imageProps.resampled);
+		}
+		throw NFIQ2UI::ResampleError(errStr, true);
 	}
 	return postResample;
 }
@@ -300,7 +280,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		} else if (flags.force && imageDPI == defaultDPI) {
 			// Don't resample, continue as if it was 500 ppi
 		} else if (interactive && !flags.force) {
-			if (NFIQ2UI::askIfDefaultResolution(
+			if (imageDPI == defaultDPI &&
+			    NFIQ2UI::askIfDefaultResolution(
 				name, imageDPI, requiredDPI)) {
 				// Yes, leave the image be
 			} else {

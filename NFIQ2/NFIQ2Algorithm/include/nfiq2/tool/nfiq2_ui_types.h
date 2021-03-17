@@ -140,11 +140,19 @@ struct CoreReturn {
 	unsigned int qualityScore;
 };
 
+/**
+ *  @brief
+ *  Contains dimension information about an image
+ *
+ *  @details
+ *  Contains image height, width and dpi. Required dpi is set
+ *  to a default of 500 for NFIQ 2 compliance
+ */
 struct DimensionInfo {
-	uint32_t imageHeight;
-	uint32_t imageWidth;
-	uint16_t imageDPI;
-	uint16_t requiredDPI;
+	uint32_t imageHeight {};
+	uint32_t imageWidth {};
+	uint16_t imageDPI {};
+	uint16_t requiredDPI { 500 };
 
 	DimensionInfo(uint32_t imageHeight_, uint32_t imageWidth_,
 	    uint16_t imageDPI_, uint16_t requiredDPI_)
@@ -156,12 +164,20 @@ struct DimensionInfo {
 	}
 };
 
+/**
+ *  @brief
+ *  Contains image property information
+ *
+ *  @details
+ *  Contains image name, its finger position, whether its been quantized
+ *  or resampled and whether it was passed to NFIQ 2 as a single image
+ */
 struct ImageProps {
-	std::string name;
-	uint8_t fingerPosition;
-	bool quantized;
-	bool resampled;
-	bool singleImage;
+	std::string name {};
+	uint8_t fingerPosition {};
+	bool quantized {};
+	bool resampled {};
+	bool singleImage {};
 
 	ImageProps(std::string name_, uint8_t fingerPosition_, bool quantized_,
 	    bool resampled_, bool singleImage_)

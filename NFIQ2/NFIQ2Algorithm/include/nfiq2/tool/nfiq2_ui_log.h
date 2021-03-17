@@ -141,6 +141,16 @@ class Log {
 	 */
 	void printSingle(unsigned int qualityScore) const;
 
+	/**
+	 *  @brief
+	 *  Prints a single error.
+	 *
+	 *  @details
+	 *  Used for Single independent Image.
+	 *
+	 *  @param[in] errmsg
+	 *    The error message to be printed out.
+	 */
 	void printSingleError(const std::string &errmsg) const;
 	/**
 	 *  @brief

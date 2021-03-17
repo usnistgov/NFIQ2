@@ -64,6 +64,10 @@ bool
 NFIQ2UI::askIfDefaultResolution(const std::string &name,
     const uint16_t defaultDPI, const uint16_t requiredDPI)
 {
+	// 72PPI is default resolution
+	if (defaultDPI != 72) {
+		return false;
+	}
 	const std::string prompt { "The resolution of \"" + name +
 		"\" was parsed as " + std::to_string(defaultDPI) +
 		" PPI, which is "
@@ -305,82 +309,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		} else if (flags.force && imageDPI == defaultDPI) {
 			// Don't resample, continue as if it was 500 ppi
 		} else if (interactive && !flags.force) {
-			// Ask to resample
-			if (imageDPI == defaultDPI) {
-				// Ask to leave image be
-				if (NFIQ2UI::askIfDefaultResolution(
-					name, defaultDPI, requiredDPI)) {
-					// Yes, leave the image be
-				} else {
-					// Ask to resample
-					if (NFIQ2UI::askIfResample(
-						name, imageDPI, requiredDPI)) {
-						// Yes, resample image
-						imageProps.resampled = true;
-						try {
-							postResample = NFIQ2UI::
-							    resampleAndLogError(
-								grayscaleRawData,
-								dimensionInfo,
-								imageProps,
-								logger);
-						} catch (
-						    const NFIQ2UI::ResampleError
-							&e) {
-							if (e.errorWasHandled()) {
-								// dont handle
-								// the error
-							} else {
-								// handle the
-								// error
-								if (imageProps
-									.singleImage) {
-									logger->printSingleError(
-									    e.what());
-								} else {
-									logger->printError(
-									    imageProps
-										.name,
-									    imageProps
-										.fingerPosition,
-									    e.what(),
-									    imageProps
-										.quantized,
-									    imageProps
-										.resampled);
-								}
-							}
-							return;
-						}
-					} else {
-						// No, don't resample image -
-						// fail
-						logger->debugMsg(
-						    "User denied the re-sample");
-						const std::string errStr {
-							"'Error: User chose not to "
-							"re-sample image'"
-						};
-						if (singleImage) {
-							logger
-							    ->printSingleError(
-								errStr);
-						} else {
-							logger->printError(name,
-							    fingerPosition,
-							    errStr,
-							    imageProps
-								.quantized,
-							    imageProps
-								.resampled);
-						}
-						return;
-					}
-				}
-
+			if (NFIQ2UI::askIfDefaultResolution(
+				name, imageDPI, requiredDPI)) {
+				// Yes, leave the image be
 			} else {
-				// DPI is other than default DPI - Ask to
-				// resample
+				// Ask to resample
 				if (NFIQ2UI::askIfResample(
 					name, imageDPI, requiredDPI)) {
 					// Yes, resample image
@@ -394,9 +327,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					} catch (
 					    const NFIQ2UI::ResampleError &e) {
 						if (e.errorWasHandled()) {
-							// dont handle the error
+							// dont handle
+							// the error
 						} else {
-							// handle the error
+							// handle the
+							// error
 							if (imageProps
 								.singleImage) {
 								logger
@@ -417,7 +352,6 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						}
 						return;
 					}
-
 				} else {
 					// No, don't resample image -
 					// fail

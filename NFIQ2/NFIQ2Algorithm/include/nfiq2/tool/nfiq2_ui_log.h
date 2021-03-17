@@ -116,6 +116,9 @@ class Log {
 	    const std::string &errmsg, const bool quantized,
 	    const bool resampled) const;
 
+	void printError(
+	    const std::string &errmsg, const ImageProps &imageProps) const;
+
 	/**
 	 *  @brief
 	 *  Prints a single score.

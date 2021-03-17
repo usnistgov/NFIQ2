@@ -205,10 +205,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						logger->printSingleError(
 						    errStr);
 					} else {
-						logger->printError(name,
-						    fingerPosition, errStr,
-						    imageProps.quantized,
-						    imageProps.resampled);
+						logger->printError(
+						    errStr, imageProps);
 					}
 					return;
 				}
@@ -220,9 +218,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				if (singleImage) {
 					logger->printSingleError(errStr);
 				} else {
-					logger->printError(name, fingerPosition,
-					    errStr, imageProps.quantized,
-					    imageProps.resampled);
+					logger->printError(errStr, imageProps);
 				}
 				return;
 			}
@@ -255,8 +251,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
-			logger->printError(name, fingerPosition, errStr,
-			    imageProps.quantized, imageProps.resampled);
+			logger->printError(errStr, imageProps);
 		}
 		return;
 	}
@@ -296,11 +291,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						    e.what());
 					} else {
 						logger->printError(
-						    imageProps.name,
-						    imageProps.fingerPosition,
-						    e.what(),
-						    imageProps.quantized,
-						    imageProps.resampled);
+						    e.what(), imageProps);
 					}
 				}
 				return;
@@ -339,15 +330,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 									e.what());
 							} else {
 								logger->printError(
-								    imageProps
-									.name,
-								    imageProps
-									.fingerPosition,
 								    e.what(),
-								    imageProps
-									.quantized,
-								    imageProps
-									.resampled);
+								    imageProps);
 							}
 						}
 						return;
@@ -365,10 +349,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						logger->printSingleError(
 						    errStr);
 					} else {
-						logger->printError(name,
-						    fingerPosition, errStr,
-						    imageProps.quantized,
-						    imageProps.resampled);
+						logger->printError(
+						    errStr, imageProps);
 					}
 					return;
 				}
@@ -380,8 +362,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			if (singleImage) {
 				logger->printSingleError(errStr);
 			} else {
-				logger->printError(name, fingerPosition, errStr,
-				    imageProps.quantized, imageProps.resampled);
+				logger->printError(errStr, imageProps);
 			}
 			return;
 		}
@@ -413,8 +394,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
-			logger->printError(name, fingerPosition, errStr,
-			    imageProps.quantized, imageProps.resampled);
+			logger->printError(errStr, imageProps);
 		}
 		return;
 	}

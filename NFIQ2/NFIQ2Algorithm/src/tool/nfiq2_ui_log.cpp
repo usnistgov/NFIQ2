@@ -142,6 +142,15 @@ NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
 		     << resampled << padNA() << "\n";
 }
 
+// Wrapper for printError that takes in an ImageProps
+void
+NFIQ2UI::Log::printError(
+    const std::string &errmsg, const ImageProps &imageProps) const
+{
+	NFIQ2UI::Log::printError(imageProps.name, imageProps.fingerPosition,
+	    errmsg, imageProps.quantized, imageProps.resampled);
+}
+
 // Prints the quality score of a single image
 void
 NFIQ2UI::Log::printSingle(unsigned int qualityScore) const

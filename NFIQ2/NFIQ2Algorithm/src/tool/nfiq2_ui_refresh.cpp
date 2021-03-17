@@ -92,7 +92,7 @@ NFIQ2UI::resampleCheck(const std::string &name, const uint16_t imageDPI,
 }
 
 cv::Mat
-NFIQ2UI::resampleHelper(BE::Memory::uint8Array &grayscaleRawData,
+NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
     const NFIQ2UI::ResampleDims resampleDims,
     const NFIQ2UI::ImageProps imageProps,
     std::shared_ptr<NFIQ2UI::Log> logger = nullptr)
@@ -280,7 +280,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			// resample by force
 			resampled = true;
 			try {
-				postResample = NFIQ2UI::resampleHelper(
+				postResample = NFIQ2UI::resampleAndLogError(
 				    grayscaleRawData, resampleDims, imageProps,
 				    logger);
 			} catch (const NFIQ2UI::ResampleError &e) {
@@ -320,7 +320,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						resampled = true;
 						try {
 							postResample = NFIQ2UI::
-							    resampleHelper(
+							    resampleAndLogError(
 								grayscaleRawData,
 								resampleDims,
 								imageProps,
@@ -384,8 +384,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					// Yes, resample image
 					resampled = true;
 					try {
-						postResample =
-						    NFIQ2UI::resampleHelper(
+						postResample = NFIQ2UI::
+						    resampleAndLogError(
 							grayscaleRawData,
 							resampleDims,
 							imageProps, logger);

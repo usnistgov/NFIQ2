@@ -35,7 +35,7 @@ bool defaultCheck(const std::string &name, const uint16_t defaultDPI,
 bool resampleCheck(const std::string &name, const uint16_t imageDPI,
     const uint16_t requiredDPI);
 
-cv::Mat resampleHelper(
+cv::Mat resampleAndLogError(
     BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
     const NFIQ2UI::ResampleDims resampleDims,
     const NFIQ2UI::ImageProps imageProps, std::shared_ptr<NFIQ2UI::Log> logger);

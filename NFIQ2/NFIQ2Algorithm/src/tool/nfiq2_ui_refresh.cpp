@@ -93,8 +93,8 @@ NFIQ2UI::askIfResample(const std::string &name, const uint16_t imageDPI,
 
 cv::Mat
 NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
-    const NFIQ2UI::DimensionInfo dimensionInfo,
-    const NFIQ2UI::ImageProps imageProps,
+    const NFIQ2UI::DimensionInfo &dimensionInfo,
+    const NFIQ2UI::ImageProps &imageProps,
     std::shared_ptr<NFIQ2UI::Log> logger = nullptr)
 {
 	cv::Mat postResample {};
@@ -167,9 +167,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
     const bool singleImage, const bool interactive,
     const uint8_t fingerPosition, const std::string &warning)
 {
-	// Indicate whether it was quantized or re-sampled
-	bool quantized = false;
-	bool resampled = false;
+	NFIQ2UI::ImageProps imageProps { name, fingerPosition, false, false,
+		singleImage };
 
 	// Starting Checks for Image: 8 bit color and depth
 	const uint16_t bitDepth = img->getBitDepth();
@@ -177,7 +176,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	if ((bitDepth != colorDepth) || (bitDepth != 8 && bitDepth != 1)) {
 		if (flags.force) {
-			quantized = true;
+			imageProps.quantized = true;
 			// quantize by force - gets handled with
 			// getRawGrayscaleData
 		} else {
@@ -186,7 +185,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				    "Image is not 8 bit or 1 bit. Asking user to "
 				    "quantize.");
 				if (NFIQ2UI::askIfQuantize()) {
-					quantized = true;
+					imageProps.quantized = true;
 					// Approved the quantize
 					logger->debugMsg(
 					    "User approved the quantize");
@@ -204,7 +203,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					} else {
 						logger->printError(name,
 						    fingerPosition, errStr,
-						    quantized, resampled);
+						    imageProps.quantized,
+						    imageProps.resampled);
 					}
 					return;
 				}
@@ -217,7 +217,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					logger->printSingleError(errStr);
 				} else {
 					logger->printError(name, fingerPosition,
-					    errStr, quantized, resampled);
+					    errStr, imageProps.quantized,
+					    imageProps.resampled);
 				}
 				return;
 			}
@@ -225,7 +226,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	}
 	logger->debugMsg(
 	    "Successfully passed bit and color depth check. Quantized?: " +
-	    std::to_string(quantized));
+	    std::to_string(imageProps.quantized));
 
 	// Now check for PPI
 	BE::Memory::uint8Array grayscaleRawData {};
@@ -250,8 +251,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
-			logger->printError(
-			    name, fingerPosition, errStr, quantized, resampled);
+			logger->printError(name, fingerPosition, errStr,
+			    imageProps.quantized, imageProps.resampled);
 		}
 		return;
 	}
@@ -272,13 +273,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	const NFIQ2UI::DimensionInfo dimensionInfo { imageHeight, imageWidth,
 		imageDPI, requiredDPI };
-	const NFIQ2UI::ImageProps imageProps { name, fingerPosition, quantized,
-		resampled, singleImage };
 
 	if (resolution.xRes != resolution.yRes || imageDPI != requiredDPI) {
 		if (flags.force && imageDPI != defaultDPI) {
 			// resample by force
-			resampled = true;
+			imageProps.resampled = true;
 			try {
 				postResample = NFIQ2UI::resampleAndLogError(
 				    grayscaleRawData, dimensionInfo, imageProps,
@@ -317,7 +316,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					if (NFIQ2UI::askIfResample(
 						name, imageDPI, requiredDPI)) {
 						// Yes, resample image
-						resampled = true;
+						imageProps.resampled = true;
 						try {
 							postResample = NFIQ2UI::
 							    resampleAndLogError(
@@ -369,8 +368,11 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						} else {
 							logger->printError(name,
 							    fingerPosition,
-							    errStr, quantized,
-							    resampled);
+							    errStr,
+							    imageProps
+								.quantized,
+							    imageProps
+								.resampled);
 						}
 						return;
 					}
@@ -382,7 +384,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				if (NFIQ2UI::askIfResample(
 					name, imageDPI, requiredDPI)) {
 					// Yes, resample image
-					resampled = true;
+					imageProps.resampled = true;
 					try {
 						postResample = NFIQ2UI::
 						    resampleAndLogError(
@@ -431,7 +433,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					} else {
 						logger->printError(name,
 						    fingerPosition, errStr,
-						    quantized, resampled);
+						    imageProps.quantized,
+						    imageProps.resampled);
 					}
 					return;
 				}
@@ -444,19 +447,19 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				logger->printSingleError(errStr);
 			} else {
 				logger->printError(name, fingerPosition, errStr,
-				    quantized, resampled);
+				    imageProps.quantized, imageProps.resampled);
 			}
 			return;
 		}
 	}
 
 	logger->debugMsg("Successfully passed PPI check. Re-sampled?: " +
-	    std::to_string(resampled));
+	    std::to_string(imageProps.resampled));
 
 	// At this point - all images are 500PPI, have been converted to that
 	// resolution, or are assumed to be that resolution.
 
-	const NFIQ::FingerprintImageData wrappedImage = resampled ?
+	const NFIQ::FingerprintImageData wrappedImage = imageProps.resampled ?
 		  NFIQ::FingerprintImageData(postResample.data, postResample.total(),
 		postResample.cols, postResample.rows, fingerPosition,
 		requiredDPI) :
@@ -476,8 +479,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
-			logger->printError(
-			    name, fingerPosition, errStr, quantized, resampled);
+			logger->printError(name, fingerPosition, errStr,
+			    imageProps.quantized, imageProps.resampled);
 		}
 		return;
 	}
@@ -490,9 +493,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	} else {
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition,
-		    corereturn.qualityScore, warning, quantized, resampled,
-		    corereturn.featureVector, corereturn.featureTimings,
-		    corereturn.actionableQuality);
+		    corereturn.qualityScore, warning, imageProps.quantized,
+		    imageProps.resampled, corereturn.featureVector,
+		    corereturn.featureTimings, corereturn.actionableQuality);
 	}
 }
 

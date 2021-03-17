@@ -37,8 +37,9 @@ bool askIfResample(const std::string &name, const uint16_t imageDPI,
 
 cv::Mat resampleAndLogError(
     BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
-    const NFIQ2UI::DimensionInfo dimensionInfo,
-    const NFIQ2UI::ImageProps imageProps, std::shared_ptr<NFIQ2UI::Log> logger);
+    const NFIQ2UI::DimensionInfo &dimensionInfo,
+    const NFIQ2UI::ImageProps &imageProps,
+    std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief

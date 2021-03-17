@@ -52,7 +52,7 @@ std::mutex mutGray;
 
 // Wrappers for yesOrNo Prompts
 bool
-NFIQ2UI::quantizeCheck()
+NFIQ2UI::askIfQuantize()
 {
 	const std::string prompt =
 	    "This Image is not 8 bit or 1 bit grayscale. Would you like to "
@@ -61,8 +61,8 @@ NFIQ2UI::quantizeCheck()
 }
 
 bool
-NFIQ2UI::defaultCheck(const std::string &name, const uint16_t defaultDPI,
-    const uint16_t requiredDPI)
+NFIQ2UI::askIfDefaultResolution(const std::string &name,
+    const uint16_t defaultDPI, const uint16_t requiredDPI)
 {
 	const std::string prompt { "The resolution of \"" + name +
 		"\" was parsed as " + std::to_string(defaultDPI) +
@@ -78,7 +78,7 @@ NFIQ2UI::defaultCheck(const std::string &name, const uint16_t defaultDPI,
 }
 
 bool
-NFIQ2UI::resampleCheck(const std::string &name, const uint16_t imageDPI,
+NFIQ2UI::askIfResample(const std::string &name, const uint16_t imageDPI,
     const uint16_t requiredDPI)
 {
 	const std::string prompt { "The resolution of \"" + name +
@@ -93,7 +93,7 @@ NFIQ2UI::resampleCheck(const std::string &name, const uint16_t imageDPI,
 
 cv::Mat
 NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
-    const NFIQ2UI::ResampleDims resampleDims,
+    const NFIQ2UI::DimensionInfo dimensionInfo,
     const NFIQ2UI::ImageProps imageProps,
     std::shared_ptr<NFIQ2UI::Log> logger = nullptr)
 {
@@ -102,12 +102,12 @@ NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
 	if (logger != nullptr) {
 		try {
 			cv::Mat preResample { static_cast<int>(
-						  resampleDims.imageHeight),
-				static_cast<int>(resampleDims.imageWidth),
+						  dimensionInfo.imageHeight),
+				static_cast<int>(dimensionInfo.imageWidth),
 				CV_8U, grayscaleRawData };
 			NFIR::resample(preResample, postResample,
-			    resampleDims.imageDPI, resampleDims.requiredDPI, "",
-			    "");
+			    dimensionInfo.imageDPI, dimensionInfo.requiredDPI,
+			    "", "");
 
 		} catch (const cv::Exception &e) {
 			const std::string errStr =
@@ -137,12 +137,12 @@ NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
 	} else {
 		try {
 			cv::Mat preResample { static_cast<int>(
-						  resampleDims.imageHeight),
-				static_cast<int>(resampleDims.imageWidth),
+						  dimensionInfo.imageHeight),
+				static_cast<int>(dimensionInfo.imageWidth),
 				CV_8U, grayscaleRawData };
 			NFIR::resample(preResample, postResample,
-			    resampleDims.imageDPI, resampleDims.requiredDPI, "",
-			    "");
+			    dimensionInfo.imageDPI, dimensionInfo.requiredDPI,
+			    "", "");
 
 		} catch (const cv::Exception &e) {
 			const std::string errStr =
@@ -185,7 +185,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				logger->debugMsg(
 				    "Image is not 8 bit or 1 bit. Asking user to "
 				    "quantize.");
-				if (NFIQ2UI::quantizeCheck()) {
+				if (NFIQ2UI::askIfQuantize()) {
 					quantized = true;
 					// Approved the quantize
 					logger->debugMsg(
@@ -270,7 +270,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	static const uint8_t defaultDPI { 72 };
 	static const uint16_t requiredDPI { 500 };
 
-	const NFIQ2UI::ResampleDims resampleDims { imageHeight, imageWidth,
+	const NFIQ2UI::DimensionInfo dimensionInfo { imageHeight, imageWidth,
 		imageDPI, requiredDPI };
 	const NFIQ2UI::ImageProps imageProps { name, fingerPosition, quantized,
 		resampled, singleImage };
@@ -281,7 +281,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			resampled = true;
 			try {
 				postResample = NFIQ2UI::resampleAndLogError(
-				    grayscaleRawData, resampleDims, imageProps,
+				    grayscaleRawData, dimensionInfo, imageProps,
 				    logger);
 			} catch (const NFIQ2UI::ResampleError &e) {
 				if (e.errorWasHandled()) {
@@ -309,12 +309,12 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			// Ask to resample
 			if (imageDPI == defaultDPI) {
 				// Ask to leave image be
-				if (NFIQ2UI::defaultCheck(
+				if (NFIQ2UI::askIfDefaultResolution(
 					name, defaultDPI, requiredDPI)) {
 					// Yes, leave the image be
 				} else {
 					// Ask to resample
-					if (NFIQ2UI::resampleCheck(
+					if (NFIQ2UI::askIfResample(
 						name, imageDPI, requiredDPI)) {
 						// Yes, resample image
 						resampled = true;
@@ -322,7 +322,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 							postResample = NFIQ2UI::
 							    resampleAndLogError(
 								grayscaleRawData,
-								resampleDims,
+								dimensionInfo,
 								imageProps,
 								logger);
 						} catch (
@@ -379,7 +379,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			} else {
 				// DPI is other than default DPI - Ask to
 				// resample
-				if (NFIQ2UI::resampleCheck(
+				if (NFIQ2UI::askIfResample(
 					name, imageDPI, requiredDPI)) {
 					// Yes, resample image
 					resampled = true;
@@ -387,7 +387,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						postResample = NFIQ2UI::
 						    resampleAndLogError(
 							grayscaleRawData,
-							resampleDims,
+							dimensionInfo,
 							imageProps, logger);
 					} catch (
 					    const NFIQ2UI::ResampleError &e) {

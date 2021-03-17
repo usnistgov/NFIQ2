@@ -140,13 +140,13 @@ struct CoreReturn {
 	unsigned int qualityScore;
 };
 
-struct ResampleDims {
+struct DimensionInfo {
 	uint32_t imageHeight;
 	uint32_t imageWidth;
 	uint16_t imageDPI;
 	uint16_t requiredDPI;
 
-	ResampleDims(uint32_t imageHeight_, uint32_t imageWidth_,
+	DimensionInfo(uint32_t imageHeight_, uint32_t imageWidth_,
 	    uint16_t imageDPI_, uint16_t requiredDPI_)
 	    : imageHeight { imageHeight_ }
 	    , imageWidth { imageWidth_ }

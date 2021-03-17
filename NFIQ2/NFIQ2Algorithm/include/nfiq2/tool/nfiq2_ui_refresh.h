@@ -27,17 +27,17 @@
 
 namespace NFIQ2UI {
 
-bool quantizeCheck();
+bool askIfQuantize();
 
-bool defaultCheck(const std::string &name, const uint16_t defaultDPI,
+bool askIfDefaultResolution(const std::string &name, const uint16_t defaultDPI,
     const uint16_t requiredDPI);
 
-bool resampleCheck(const std::string &name, const uint16_t imageDPI,
+bool askIfResample(const std::string &name, const uint16_t imageDPI,
     const uint16_t requiredDPI);
 
 cv::Mat resampleAndLogError(
     BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
-    const NFIQ2UI::ResampleDims resampleDims,
+    const NFIQ2UI::DimensionInfo dimensionInfo,
     const NFIQ2UI::ImageProps imageProps, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**

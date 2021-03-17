@@ -193,6 +193,26 @@ class ResampleError : public Exception {
 	 *  the default information string.
 	 */
 	ResampleError();
+
+	/**
+	 *  Construct an ResampleError object with
+	 *  an information string appended to the
+	 *  default information string if the errorHandled
+	 *  boolean is flipped.
+	 */
+	ResampleError(const std::string &info, const bool errorHandled);
+
+	/**
+	 *  Obtain whether this exception was already handled or if it must
+	 *  be handled by the function catching the exception
+	 *
+	 *  @return
+	 *  A boolean indicating whether the error was handled
+	 */
+	bool errorWasHandled() const noexcept;
+
+    private:
+	bool _errorHandled;
 };
 
 } // namespace NFIQ2UI

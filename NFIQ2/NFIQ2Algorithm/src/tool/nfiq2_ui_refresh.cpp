@@ -93,43 +93,68 @@ NFIQ2UI::resampleCheck(const std::string &name, const uint16_t imageDPI,
 
 cv::Mat
 NFIQ2UI::resampleHelper(BE::Memory::uint8Array &grayscaleRawData,
-    std::shared_ptr<NFIQ2UI::Log> logger,
     const NFIQ2UI::ResampleDims resampleDims,
-    const NFIQ2UI::ImageProps imageProps)
+    const NFIQ2UI::ImageProps imageProps,
+    std::shared_ptr<NFIQ2UI::Log> logger = nullptr)
 {
 	cv::Mat postResample {};
-	try {
-		cv::Mat preResample { static_cast<int>(
-					  resampleDims.imageHeight),
-			static_cast<int>(resampleDims.imageWidth), CV_8U,
-			grayscaleRawData };
-		NFIR::resample(preResample, postResample, resampleDims.imageDPI,
-		    resampleDims.requiredDPI, "", "");
 
-	} catch (const cv::Exception &e) {
-		const std::string errStr = "'Error: Matrix creation error: " +
-		    e.msg + "'";
-		if (imageProps.singleImage) {
-			logger->printSingleError(errStr);
-		} else {
-			logger->printError(imageProps.name,
-			    imageProps.fingerPosition, errStr,
-			    imageProps.quantized, imageProps.resampled);
+	if (logger != nullptr) {
+		try {
+			cv::Mat preResample { static_cast<int>(
+						  resampleDims.imageHeight),
+				static_cast<int>(resampleDims.imageWidth),
+				CV_8U, grayscaleRawData };
+			NFIR::resample(preResample, postResample,
+			    resampleDims.imageDPI, resampleDims.requiredDPI, "",
+			    "");
+
+		} catch (const cv::Exception &e) {
+			const std::string errStr =
+			    "'Error: Matrix creation error: " + e.msg + "'";
+			if (imageProps.singleImage) {
+				logger->printSingleError(errStr);
+			} else {
+				logger->printError(imageProps.name,
+				    imageProps.fingerPosition, errStr,
+				    imageProps.quantized, imageProps.resampled);
+			}
+			throw NFIQ2UI::ResampleError(errStr, true);
+
+		} catch (const NFIR::Miscue &e) {
+			std::string errStr = "'NFIR resample error: ";
+			errStr = errStr.append(e.what()) + "'";
+
+			if (imageProps.singleImage) {
+				logger->printSingleError(errStr);
+			} else {
+				logger->printError(imageProps.name,
+				    imageProps.fingerPosition, errStr,
+				    imageProps.quantized, imageProps.resampled);
+			}
+			throw NFIQ2UI::ResampleError(errStr, true);
 		}
-		throw NFIQ2UI::ResampleError();
+	} else {
+		try {
+			cv::Mat preResample { static_cast<int>(
+						  resampleDims.imageHeight),
+				static_cast<int>(resampleDims.imageWidth),
+				CV_8U, grayscaleRawData };
+			NFIR::resample(preResample, postResample,
+			    resampleDims.imageDPI, resampleDims.requiredDPI, "",
+			    "");
 
-	} catch (const NFIR::Miscue &e) {
-		std::string errStr = "'NFIR resample error: ";
-		errStr = errStr.append(e.what()) + "'";
+		} catch (const cv::Exception &e) {
+			const std::string errStr =
+			    "'Error: Matrix creation error: " + e.msg + "'";
+			throw NFIQ2UI::ResampleError(errStr, false);
 
-		if (imageProps.singleImage) {
-			logger->printSingleError(errStr);
-		} else {
-			logger->printError(imageProps.name,
-			    imageProps.fingerPosition, errStr,
-			    imageProps.quantized, imageProps.resampled);
+		} catch (const NFIR::Miscue &e) {
+			std::string errStr = "'NFIR resample error: ";
+			errStr = errStr.append(e.what()) + "'";
+
+			throw NFIQ2UI::ResampleError(errStr, false);
 		}
-		throw NFIQ2UI::ResampleError();
 	}
 	return postResample;
 }
@@ -256,9 +281,25 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			resampled = true;
 			try {
 				postResample = NFIQ2UI::resampleHelper(
-				    grayscaleRawData, logger, resampleDims,
-				    imageProps);
-			} catch (const NFIQ2UI::ResampleError &) {
+				    grayscaleRawData, resampleDims, imageProps,
+				    logger);
+			} catch (const NFIQ2UI::ResampleError &e) {
+				if (e.errorWasHandled()) {
+					// dont handle the error
+				} else {
+					// handle the error
+					if (imageProps.singleImage) {
+						logger->printSingleError(
+						    e.what());
+					} else {
+						logger->printError(
+						    imageProps.name,
+						    imageProps.fingerPosition,
+						    e.what(),
+						    imageProps.quantized,
+						    imageProps.resampled);
+					}
+				}
 				return;
 			}
 
@@ -281,12 +322,35 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 							postResample = NFIQ2UI::
 							    resampleHelper(
 								grayscaleRawData,
-								logger,
 								resampleDims,
-								imageProps);
+								imageProps,
+								logger);
 						} catch (
 						    const NFIQ2UI::ResampleError
-							&) {
+							&e) {
+							if (e.errorWasHandled()) {
+								// dont handle
+								// the error
+							} else {
+								// handle the
+								// error
+								if (imageProps
+									.singleImage) {
+									logger->printSingleError(
+									    e.what());
+								} else {
+									logger->printError(
+									    imageProps
+										.name,
+									    imageProps
+										.fingerPosition,
+									    e.what(),
+									    imageProps
+										.quantized,
+									    imageProps
+										.resampled);
+								}
+							}
 							return;
 						}
 					} else {
@@ -323,10 +387,32 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						postResample =
 						    NFIQ2UI::resampleHelper(
 							grayscaleRawData,
-							logger, resampleDims,
-							imageProps);
+							resampleDims,
+							imageProps, logger);
 					} catch (
-					    const NFIQ2UI::ResampleError &) {
+					    const NFIQ2UI::ResampleError &e) {
+						if (e.errorWasHandled()) {
+							// dont handle the error
+						} else {
+							// handle the error
+							if (imageProps
+								.singleImage) {
+								logger
+								    ->printSingleError(
+									e.what());
+							} else {
+								logger->printError(
+								    imageProps
+									.name,
+								    imageProps
+									.fingerPosition,
+								    e.what(),
+								    imageProps
+									.quantized,
+								    imageProps
+									.resampled);
+							}
+						}
 						return;
 					}
 

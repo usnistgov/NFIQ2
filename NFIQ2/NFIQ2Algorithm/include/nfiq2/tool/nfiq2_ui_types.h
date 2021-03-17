@@ -146,13 +146,13 @@ struct ResampleDims {
 	uint16_t imageDPI;
 	uint16_t requiredDPI;
 
-	ResampleDims(uint32_t imageHeight_, uint32_t imageWidth_, uint16_t imageDPI_, 
-		uint16_t requiredDPI_) 
-		: imageHeight {imageHeight_}
-		, imageWidth {imageWidth_}
-		, imageDPI {imageDPI_}
-		, requiredDPI {requiredDPI_}
-	{	
+	ResampleDims(uint32_t imageHeight_, uint32_t imageWidth_,
+	    uint16_t imageDPI_, uint16_t requiredDPI_)
+	    : imageHeight { imageHeight_ }
+	    , imageWidth { imageWidth_ }
+	    , imageDPI { imageDPI_ }
+	    , requiredDPI { requiredDPI_ }
+	{
 	}
 };
 
@@ -164,12 +164,12 @@ struct ImageProps {
 	bool singleImage;
 
 	ImageProps(std::string name_, uint8_t fingerPosition_, bool quantized_,
-		bool resampled_, bool singleImage_)
-		: name {name_} 
-		, fingerPosition {fingerPosition_}
-		, quantized {quantized_}
-		, resampled {resampled_}
-		, singleImage {singleImage_}
+	    bool resampled_, bool singleImage_)
+	    : name { name_ }
+	    , fingerPosition { fingerPosition_ }
+	    , quantized { quantized_ }
+	    , resampled { resampled_ }
+	    , singleImage { singleImage_ }
 	{
 	}
 };

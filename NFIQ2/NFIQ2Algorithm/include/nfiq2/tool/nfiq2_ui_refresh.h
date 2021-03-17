@@ -37,9 +37,8 @@ bool resampleCheck(const std::string &name, const uint16_t imageDPI,
 
 cv::Mat resampleHelper(
     BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
-    std::shared_ptr<NFIQ2UI::Log> logger,
     const NFIQ2UI::ResampleDims resampleDims,
-    const NFIQ2UI::ImageProps imageProps);
+    const NFIQ2UI::ImageProps imageProps, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief

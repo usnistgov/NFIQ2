@@ -10,6 +10,33 @@
 #include <string>
 
 namespace NFIQ {
+class NFIQ2Results {
+    public:
+	NFIQ2Results();
+	NFIQ2Results(
+	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
+	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
+	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
+
+	void setActionable(
+	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality);
+	void setQuality(
+	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData);
+	void setSpeed(
+	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
+
+	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
+	std::vector<NFIQ::QualityFeatureData> getQuality() const;
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeed() const;
+
+    private:
+	class Impl;
+	std::unique_ptr<NFIQ2Results::Impl> pimpl;
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality_ {};
+	std::vector<NFIQ::QualityFeatureData> qualityfeatureData_ {};
+	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed_ {};
+};
+
 /** Wrapper to return quality scores for a fingerprint image */
 class NFIQ2Algorithm {
     public:
@@ -48,6 +75,7 @@ class NFIQ2Algorithm {
 	 * @return
 	 * Achieved quality score
 	 */
+	// Change this so that only pass in bools - not the lists
 	unsigned int computeQualityScore(NFIQ::FingerprintImageData rawImage,
 	    bool bComputeActionableQuality,
 	    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
@@ -55,6 +83,12 @@ class NFIQ2Algorithm {
 	    std::list<NFIQ::QualityFeatureData> &qualityFeatureData,
 	    bool bOutputSpeed,
 	    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+
+	unsigned int computeQualityScore(
+	    NFIQ::FingerprintImageData rawImage) const;
+
+	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
+	    NFIQ::FingerprintImageData rawImage) const;
 
 	/**
 	 * @brief

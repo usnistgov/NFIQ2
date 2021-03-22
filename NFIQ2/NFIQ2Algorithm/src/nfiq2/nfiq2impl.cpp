@@ -154,3 +154,72 @@ NFIQ2Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
 }
+
+unsigned int
+NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
+    NFIQ::FingerprintImageData rawImage) const
+{
+
+	std::list<NFIQ::ActionableQualityFeedback> actionableQuality {};
+	std::list<NFIQ::QualityFeatureData> qualityFeatureData {};
+	std::list<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
+
+	return computeQualityScore(rawImage, true, actionableQuality, true,
+	    qualityFeatureData, true, qualityFeatureSpeed);
+}
+
+NFIQ::NFIQ2Results
+NFIQ::NFIQ2Algorithm::Impl::computeQualityFeaturesAndScore(
+    NFIQ::FingerprintImageData rawImage) const
+{
+	return NFIQ::NFIQ2Results();
+}
+
+NFIQ::NFIQ2Results::Impl::Impl()
+{
+}
+
+NFIQ::NFIQ2Results::Impl::Impl(
+    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
+    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
+    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed)
+    : actionableQuality_ { actionableQuality }
+    , qualityfeatureData_ { qualityfeatureData }
+    , qualityFeatureSpeed_ { qualityFeatureSpeed }
+{
+}
+
+void
+NFIQ::NFIQ2Results::Impl::setActionable(
+    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality)
+{
+	this->actionableQuality_ = actionableQuality;
+}
+void
+NFIQ::NFIQ2Results::Impl::setQuality(
+    std::vector<NFIQ::QualityFeatureData> qualityfeatureData)
+{
+	this->qualityfeatureData_ = qualityfeatureData;
+}
+void
+NFIQ::NFIQ2Results::Impl::setSpeed(
+    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed)
+{
+	this->qualityFeatureSpeed_ = qualityFeatureSpeed;
+}
+
+std::vector<NFIQ::ActionableQualityFeedback>
+NFIQ::NFIQ2Results::Impl::getActionable() const
+{
+	return this->actionableQuality_;
+}
+std::vector<NFIQ::QualityFeatureData>
+NFIQ::NFIQ2Results::Impl::getQuality() const
+{
+	return this->qualityfeatureData_;
+}
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::NFIQ2Results::Impl::getSpeed() const
+{
+	return this->qualityFeatureSpeed_;
+}

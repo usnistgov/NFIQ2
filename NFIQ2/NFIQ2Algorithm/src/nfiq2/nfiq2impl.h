@@ -69,6 +69,12 @@ class NFIQ2Algorithm::Impl {
 	    bool bOutputSpeed,
 	    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
 
+	unsigned int computeQualityScore(
+	    NFIQ::FingerprintImageData rawImage) const;
+
+	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
+	    NFIQ::FingerprintImageData rawImage) const;
+
 	/**
 	 * @brief
 	 * Obtain MD5 checksum of Random Forest parameter file loaded.
@@ -88,6 +94,30 @@ class NFIQ2Algorithm::Impl {
 
 	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};
+};
+
+class NFIQ2Results::Impl {
+    public:
+	Impl();
+	Impl(std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
+	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
+	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
+
+	void setActionable(
+	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality);
+	void setQuality(
+	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData);
+	void setSpeed(
+	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
+
+	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
+	std::vector<NFIQ::QualityFeatureData> getQuality() const;
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeed() const;
+
+    private:
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality_ {};
+	std::vector<NFIQ::QualityFeatureData> qualityfeatureData_ {};
+	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed_ {};
 };
 } // namespace NFIQ
 

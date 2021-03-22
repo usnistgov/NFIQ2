@@ -172,7 +172,72 @@ NFIQ::NFIQ2Results
 NFIQ::NFIQ2Algorithm::Impl::computeQualityFeaturesAndScore(
     NFIQ::FingerprintImageData rawImage) const
 {
-	return NFIQ::NFIQ2Results();
+	std::list<NFIQ::ActionableQualityFeedback> actionableQuality {};
+	std::list<NFIQ::QualityFeatureData> qualityfeatureData {};
+	std::list<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
+
+	// crop image (white line removal) and use it for feature
+	// computation
+	NFIQ::FingerprintImageData croppedRawImage {};
+	try {
+		croppedRawImage = rawImage.removeWhiteFrameAroundFingerprint();
+	} catch (const NFIQ::NFIQException &) {
+		throw;
+	}
+
+	// --------------------------------------------------------
+	// compute quality features (including actionable feedback)
+	// --------------------------------------------------------
+
+	try {
+		qualityfeatureData =
+		    NFIQ::QualityFeatures::computeQualityFeatures(
+			croppedRawImage, true, actionableQuality, true,
+			qualityFeatureSpeed);
+	} catch (const NFIQ::NFIQException &) {
+		throw;
+	} catch (const std::exception &e) {
+		/*
+		 * Nothing should get here, but computeQualityFeatures() calls
+		 * a lot of code...
+		 */
+		throw NFIQ::NFIQException(e_Error_UnknownError, e.what());
+	}
+
+	if (qualityfeatureData.size() == 0) {
+		// no features have been computed
+		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
+		    "No features have been computed");
+	}
+
+	// ---------------------
+	// compute quality score
+	// ---------------------
+
+	double qualityScore {};
+	try {
+		qualityScore = getQualityPrediction(qualityfeatureData);
+	} catch (const NFIQ::NFIQException &) {
+		throw;
+	}
+
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQualityVector {};
+	actionableQualityVector.reserve(actionableQuality.size());
+	std::copy(actionableQuality.begin(), actionableQuality.end(),
+	    actionableQualityVector.begin());
+
+	std::vector<NFIQ::QualityFeatureData> qualityfeatureDataVector {};
+	qualityfeatureDataVector.reserve(qualityfeatureData.size());
+	std::copy(qualityfeatureData.begin(), qualityfeatureData.end(),
+	    qualityfeatureDataVector.begin());
+
+	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeedVector {};
+	qualityFeatureSpeedVector.reserve(qualityFeatureSpeed.size());
+	std::copy(qualityFeatureSpeed.begin(), qualityFeatureSpeed.end(),
+	    qualityFeatureSpeedVector.begin());
+
+	return NFIQ::NFIQ2Results(actionableQualityVector,
+	    qualityfeatureDataVector, qualityFeatureSpeedVector, qualityScore);
 }
 
 NFIQ::NFIQ2Results::Impl::Impl()
@@ -182,11 +247,20 @@ NFIQ::NFIQ2Results::Impl::Impl()
 NFIQ::NFIQ2Results::Impl::Impl(
     std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
     std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
-    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed)
+    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed,
+    unsigned int qualityScore)
     : actionableQuality_ { actionableQuality }
     , qualityfeatureData_ { qualityfeatureData }
     , qualityFeatureSpeed_ { qualityFeatureSpeed }
 {
+	if (qualityScore < 1 || qualityScore > 100) {
+		const std::string errStr { "Invalid quality score: " +
+			to_string(qualityScore) +
+			". Valid scores are between 1 and 100" };
+		throw NFIQ::NFIQException(
+		    NFIQ::e_Error_InvalidNFIQ2Score, errStr);
+	}
+	this->qualityScore_ = qualityScore;
 }
 
 void
@@ -208,6 +282,19 @@ NFIQ::NFIQ2Results::Impl::setSpeed(
 	this->qualityFeatureSpeed_ = qualityFeatureSpeed;
 }
 
+void
+NFIQ::NFIQ2Results::Impl::setScore(unsigned int qualityScore)
+{
+	if (qualityScore < 1 || qualityScore > 100) {
+		const std::string errStr { "Invalid quality score: " +
+			to_string(qualityScore) +
+			". Valid scores are between 1 and 100" };
+		throw NFIQ::NFIQException(
+		    NFIQ::e_Error_InvalidNFIQ2Score, errStr);
+	}
+	this->qualityScore_ = qualityScore;
+}
+
 std::vector<NFIQ::ActionableQualityFeedback>
 NFIQ::NFIQ2Results::Impl::getActionable() const
 {
@@ -222,4 +309,10 @@ std::vector<NFIQ::QualityFeatureSpeed>
 NFIQ::NFIQ2Results::Impl::getSpeed() const
 {
 	return this->qualityFeatureSpeed_;
+}
+
+unsigned int
+NFIQ::NFIQ2Results::Impl::getScore() const
+{
+	return this->qualityScore_;
 }

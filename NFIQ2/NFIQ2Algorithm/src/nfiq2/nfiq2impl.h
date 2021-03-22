@@ -101,7 +101,8 @@ class NFIQ2Results::Impl {
 	Impl();
 	Impl(std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
 	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
+	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed,
+	    unsigned int qualityScore);
 
 	void setActionable(
 	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality);
@@ -109,15 +110,18 @@ class NFIQ2Results::Impl {
 	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData);
 	void setSpeed(
 	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
+	void setScore(unsigned int qualityScore);
 
 	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
 	std::vector<NFIQ::QualityFeatureData> getQuality() const;
 	std::vector<NFIQ::QualityFeatureSpeed> getSpeed() const;
+	unsigned int getScore() const;
 
     private:
 	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality_ {};
 	std::vector<NFIQ::QualityFeatureData> qualityfeatureData_ {};
 	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed_ {};
+	unsigned int qualityScore_ {};
 };
 } // namespace NFIQ
 

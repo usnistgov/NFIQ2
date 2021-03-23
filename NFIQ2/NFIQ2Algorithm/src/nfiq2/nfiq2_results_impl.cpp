@@ -16,14 +16,7 @@ NFIQ::NFIQ2Results::Impl::Impl(
     , qualityfeatureData_ { qualityfeatureData }
     , qualityFeatureSpeed_ { qualityFeatureSpeed }
 {
-	if (qualityScore < 1 || qualityScore > 100) {
-		const std::string errStr { "Invalid quality score: " +
-			std::to_string(qualityScore) +
-			". Valid scores are between 1 and 100" };
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_InvalidNFIQ2Score, errStr);
-	}
-	this->qualityScore_ = qualityScore;
+	setScore(qualityScore);
 }
 
 NFIQ::NFIQ2Results::Impl::~Impl()
@@ -52,10 +45,10 @@ NFIQ::NFIQ2Results::Impl::setSpeed(
 void
 NFIQ::NFIQ2Results::Impl::setScore(unsigned int qualityScore)
 {
-	if (qualityScore < 1 || qualityScore > 100) {
+	if (qualityScore > 100) {
 		const std::string errStr { "Invalid quality score: " +
 			std::to_string(qualityScore) +
-			". Valid scores are between 1 and 100" };
+			". Valid scores are between 0 and 100" };
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_InvalidNFIQ2Score, errStr);
 	}

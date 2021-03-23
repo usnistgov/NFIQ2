@@ -176,65 +176,21 @@ NFIQ::NFIQ2Algorithm::Impl::computeQualityFeaturesAndScore(
 	std::list<NFIQ::QualityFeatureData> qualityfeatureData {};
 	std::list<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
 
-	// crop image (white line removal) and use it for feature
-	// computation
-	NFIQ::FingerprintImageData croppedRawImage {};
-	try {
-		croppedRawImage = rawImage.removeWhiteFrameAroundFingerprint();
-	} catch (const NFIQ::NFIQException &) {
-		throw;
-	}
-
-	// --------------------------------------------------------
-	// compute quality features (including actionable feedback)
-	// --------------------------------------------------------
-
-	try {
-		qualityfeatureData =
-		    NFIQ::QualityFeatures::computeQualityFeatures(
-			croppedRawImage, true, actionableQuality, true,
-			qualityFeatureSpeed);
-	} catch (const NFIQ::NFIQException &) {
-		throw;
-	} catch (const std::exception &e) {
-		/*
-		 * Nothing should get here, but computeQualityFeatures() calls
-		 * a lot of code...
-		 */
-		throw NFIQ::NFIQException(e_Error_UnknownError, e.what());
-	}
-
-	if (qualityfeatureData.size() == 0) {
-		// no features have been computed
-		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
-		    "No features have been computed");
-	}
-
-	// ---------------------
-	// compute quality score
-	// ---------------------
-
-	double qualityScore {};
-	try {
-		qualityScore = getQualityPrediction(qualityfeatureData);
-	} catch (const NFIQ::NFIQException &) {
-		throw;
-	}
+	unsigned int qualityScore = computeQualityScore(rawImage, true,
+	    actionableQuality, true, qualityfeatureData, true,
+	    qualityFeatureSpeed);
 
 	std::vector<NFIQ::ActionableQualityFeedback> actionableQualityVector {};
-	actionableQualityVector.reserve(actionableQuality.size());
 	std::copy(actionableQuality.begin(), actionableQuality.end(),
-	    actionableQualityVector.begin());
+	    std::back_inserter(actionableQualityVector));
 
 	std::vector<NFIQ::QualityFeatureData> qualityfeatureDataVector {};
-	qualityfeatureDataVector.reserve(qualityfeatureData.size());
 	std::copy(qualityfeatureData.begin(), qualityfeatureData.end(),
-	    qualityfeatureDataVector.begin());
+	    std::back_inserter(qualityfeatureDataVector));
 
 	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeedVector {};
-	qualityFeatureSpeedVector.reserve(qualityFeatureSpeed.size());
 	std::copy(qualityFeatureSpeed.begin(), qualityFeatureSpeed.end(),
-	    qualityFeatureSpeedVector.begin());
+	    std::back_inserter(qualityFeatureSpeedVector));
 
 	return NFIQ::NFIQ2Results(actionableQualityVector,
 	    qualityfeatureDataVector, qualityFeatureSpeedVector, qualityScore);

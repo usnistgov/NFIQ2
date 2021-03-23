@@ -27,12 +27,12 @@ const std::string
     NFIQ::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
 	"Quality map";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     ImgProcROIFeature::ImgProcROIResults imgProcResults)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
@@ -327,10 +327,10 @@ NFIQ::QualityFeatures::QualityMapFeatures::getModuleID()
 	return "NFIQ2_QualityMap";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	featureIDs.push_back("OrientationMap_ROIFilter_CoherenceRel");
 	featureIDs.push_back("OrientationMap_ROIFilter_CoherenceSum");
 	return featureIDs;

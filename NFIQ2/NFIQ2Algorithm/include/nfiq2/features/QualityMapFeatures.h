@@ -27,11 +27,11 @@ namespace NFIQ { namespace QualityFeatures {
 class QualityMapFeatures : BaseFeature {
     public:
 	QualityMapFeatures(bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &speedValues)
+	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
 	    : BaseFeature(bOutputSpeed, speedValues) {};
 	virtual ~QualityMapFeatures();
 
-	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    ImgProcROIFeature::ImgProcROIResults imgProcResults);
 
@@ -39,7 +39,7 @@ class QualityMapFeatures : BaseFeature {
 
 	void initModule() { /* not needed here */ };
 
-	static std::list<std::string> getAllFeatureIDs();
+	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 
 	// compute orientation angle of a block

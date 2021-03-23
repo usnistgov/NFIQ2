@@ -83,7 +83,7 @@ typedef struct feature_data_t {
  */
 typedef struct feature_speed_t {
 	std::string featureIDGroup; ///< The name of the feature group
-	std::list<std::string>
+	std::vector<std::string>
 	    featureIDs;	     ///< The unique IDs of the features that
 			     ///< are used for determing the speed
 	double featureSpeed; ///< The speed of feature data computation in
@@ -147,7 +147,7 @@ typedef struct utility_sample_t {
 typedef struct utility_provider_content_t {
 	std::string providerID; ///< The provider ID for which the utility was
 				///< computed
-	std::list<NFIQ::UtilitySample>
+	std::vector<NFIQ::UtilitySample>
 	    utilitySamples; ///< A list of utility values and its
 			    ///< information (imageID, return code)
 } UtilityProviderContent;
@@ -156,10 +156,10 @@ typedef struct utility_provider_content_t {
  * This type represents the content of an utility exchange file
  */
 typedef struct utility_content_t {
-	std::string databaseID;		    ///< The ID of the database
-	std::string utilityID;		    ///< The utility ID
-	std::list<std::string> providerIDs; ///< A list of provider IDs
-	std::list<NFIQ::UtilitySample>
+	std::string databaseID;		      ///< The ID of the database
+	std::string utilityID;		      ///< The utility ID
+	std::vector<std::string> providerIDs; ///< A list of provider IDs
+	std::vector<NFIQ::UtilitySample>
 	    samples; ///< Results of the utility computation for images of
 		     ///< the database
 } UtilityContent;
@@ -181,7 +181,7 @@ typedef struct quality_feature_sample_t {
 typedef struct quality_feature_content_t {
 	std::string databaseID; ///< The ID of the database
 	std::string featureID;	///< The feature ID
-	std::list<NFIQ::QualityFeatureSample>
+	std::vector<NFIQ::QualityFeatureSample>
 	    samples; ///< Results of the quality feature computation for
 		     ///< images of the database
 } QualityFeatureContent;
@@ -209,7 +209,7 @@ typedef struct comparison_probe_result_t {
 typedef struct comparison_scores_sample_t {
 	NFIQ::ImageID referenceImageID; ///< The ID of the reference/enrolment
 					///< fingerprint image
-	std::list<NFIQ::ComparisonProbeResult>
+	std::vector<NFIQ::ComparisonProbeResult>
 	    probes; ///< A list of probe images + results for which
 		    ///< comparisons where conducted
 } ComparisonScoresSample;
@@ -221,7 +221,7 @@ typedef struct comparison_scores_content_t {
 	std::string databaseID; ///< The ID of the database
 	std::string providerID; ///< The ID of the provider used for comparison
 				///< scores computation
-	std::list<NFIQ::ComparisonScoresSample>
+	std::vector<NFIQ::ComparisonScoresSample>
 	    references; ///< Results of the comparison scores computation
 			///< for this reference fingerprint image
 } ComparisonScoresContent;
@@ -230,7 +230,7 @@ typedef struct comparison_scores_content_t {
  * This type represents the structure of a sample needed for training
  */
 typedef struct training_sample_t {
-	std::list<NFIQ::QualityFeatureData>
+	std::vector<NFIQ::QualityFeatureData>
 	    featureDataVector; ///< The quality feature data vector used
 			       ///< for training
 	double utilityValue;   ///< The assigned utility value
@@ -263,7 +263,7 @@ typedef struct weight_image_id_t {
  */
 typedef struct training_id_t {
 	std::string databaseID; ///< The ID of the database
-	std::list<NFIQ::WeightImageID>
+	std::vector<NFIQ::WeightImageID>
 	    imageIDs; ///< A list of image IDs + their weights
 } TrainingID;
 
@@ -283,7 +283,7 @@ typedef struct database_image_id {
 typedef struct evaluation_id {
 	std::string
 	    databaseID; ///< The ID of the database where image is stored
-	std::list<NFIQ::ImageID> imageIDs; ///< A list of image IDs
+	std::vector<NFIQ::ImageID> imageIDs; ///< A list of image IDs
 } EvaluationID;
 } // namespace NFIQ
 

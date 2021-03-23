@@ -44,11 +44,11 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	};
 
 	FJFXMinutiaeQualityFeature(bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &speedValues)
+	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
 	    : BaseFeature(bOutputSpeed, speedValues) {};
 	virtual ~FJFXMinutiaeQualityFeature();
 
-	std::list<NFIQ::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    bool &templateCouldBeExtracted);
@@ -57,7 +57,7 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	void initModule() { /* not needed here */ };
 
-	static std::list<std::string> getAllFeatureIDs();
+	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 
     private:

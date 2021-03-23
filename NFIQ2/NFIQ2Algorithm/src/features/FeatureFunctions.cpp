@@ -542,7 +542,7 @@ NFIQ::QualityFeatures::computeNumericalGradients(
 
 void
 NFIQ::QualityFeatures::addSamplingFeatures(
-    std::list<NFIQ::QualityFeatureResult> &featureDataList,
+    std::vector<NFIQ::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &dataVector)
 {
 	const int sampleSize = dataVector.size();
@@ -580,7 +580,7 @@ NFIQ::QualityFeatures::addSamplingFeatures(
 
 void
 NFIQ::QualityFeatures::addHistogramFeatures(
-    std::list<NFIQ::QualityFeatureResult> &featureDataList,
+    std::vector<NFIQ::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount)
 {
@@ -664,7 +664,7 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 
 void
 NFIQ::QualityFeatures::addSamplingFeatureNames(
-    std::list<std::string> &featureNames, const char *prefix)
+    std::vector<std::string> &featureNames, const char *prefix)
 {
 	for (int i = 0; i < maxSampleCount; i++) {
 		std::stringstream s;
@@ -675,7 +675,7 @@ NFIQ::QualityFeatures::addSamplingFeatureNames(
 
 void
 NFIQ::QualityFeatures::addHistogramFeatureNames(
-    std::list<std::string> &featureNames, const char *prefix, int binCount)
+    std::vector<std::string> &featureNames, const char *prefix, int binCount)
 {
 	for (int i = 0; i < binCount; i++) {
 		std::stringstream s;

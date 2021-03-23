@@ -111,10 +111,10 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 		if (g_nfiq2.get() != nullptr) {
 			NFIQ::FingerprintImageData rawImage(
 			    pixels, size, width, height, fpos, ppi);
-			std::list<NFIQ::ActionableQualityFeedback>
+			std::vector<NFIQ::ActionableQualityFeedback>
 			    actionableQuality;
-			std::list<NFIQ::QualityFeatureData> featureVector;
-			std::list<NFIQ::QualityFeatureSpeed> featureTimings;
+			std::vector<NFIQ::QualityFeatureData> featureVector;
+			std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
 			int qualityScore = (int)g_nfiq2->computeQualityScore(
 			    rawImage, true, actionableQuality, false,
 			    featureVector, false, featureTimings);

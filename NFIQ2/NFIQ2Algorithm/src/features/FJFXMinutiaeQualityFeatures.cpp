@@ -16,13 +16,13 @@ const std::string
     NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 	"Minutiae quality";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     bool &templateCouldBeExtracted)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	std::vector<NFIQ::QualityFeatureResult> vecResultMuMinQuality;
 	NFIQ::QualityFeatureData fd_mu;
@@ -168,10 +168,10 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleID()
 	return "NFIQ2_FJFXPos_MinutiaeQuality";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 	featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 	return featureIDs;

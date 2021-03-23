@@ -33,7 +33,8 @@ class RandomForestML {
 	std::string initModule(
 	    const std::string &fileName, const std::string &fileHash);
 
-	void evaluate(const std::list<NFIQ::QualityFeatureData> &featureVector,
+	void evaluate(
+	    const std::vector<NFIQ::QualityFeatureData> &featureVector,
 	    const double &utilityValue, double &qualityValue,
 	    double &deviation) const;
 

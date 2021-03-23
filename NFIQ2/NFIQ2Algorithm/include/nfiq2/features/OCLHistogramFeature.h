@@ -24,18 +24,18 @@ static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 class OCLHistogramFeature : BaseFeature {
     public:
 	OCLHistogramFeature(bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &speedValues)
+	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
 	    : BaseFeature(bOutputSpeed, speedValues) {};
 	virtual ~OCLHistogramFeature();
 
-	virtual std::list<NFIQ::QualityFeatureResult> computeFeatureData(
+	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	virtual std::string getModuleID();
 
 	virtual void initModule() { /* not needed here */ };
 
-	static std::list<std::string> getAllFeatureIDs();
+	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 
 	// compute OCL value of a given block with block size BSxBS

@@ -25,10 +25,10 @@ NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj)
 unsigned int
 NFIQ::NFIQ2Algorithm::computeQualityScore(NFIQ::FingerprintImageData rawImage,
     bool bComputeActionableQuality,
-    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
+    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputFeatures,
-    std::list<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
-    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
+    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
+    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
 {
 	return (this->pimpl->computeQualityScore(rawImage,
 	    bComputeActionableQuality, actionableQuality, bOutputFeatures,

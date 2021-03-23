@@ -21,11 +21,11 @@ const std::string
     NFIQ::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
 	"Orientation certainty";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	Mat img;
 
@@ -177,10 +177,10 @@ NFIQ::QualityFeatures::OCLHistogramFeature::getModuleID()
 	return "NFIQ2_OCLHistogram";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::OCLHistogramFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "OCL_Bin10_", 10);
 
 	return featureIDs;

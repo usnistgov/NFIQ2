@@ -17,13 +17,13 @@ namespace NFIQ { namespace QualityFeatures {
 class BaseFeature {
     public:
 	BaseFeature(bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &speedValues)
+	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
 	    : m_bOutputSpeed(bOutputSpeed)
 	    , m_lSpeedValues(speedValues) {};
 	virtual ~BaseFeature() {};
 
 	bool m_bOutputSpeed;
-	std::list<NFIQ::QualityFeatureSpeed> &m_lSpeedValues;
+	std::vector<NFIQ::QualityFeatureSpeed> &m_lSpeedValues;
 };
 
 }}

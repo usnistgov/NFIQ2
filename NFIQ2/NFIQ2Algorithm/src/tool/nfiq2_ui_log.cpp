@@ -44,9 +44,9 @@ void
 NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     unsigned int score, const std::string &errmsg, const bool quantized,
     const bool resampled,
-    const std::list<NFIQ::QualityFeatureData> &featureVector,
-    const std::list<NFIQ::QualityFeatureSpeed> &featureTimings,
-    const std::list<NFIQ::ActionableQualityFeedback> &actionableQuality) const
+    const std::vector<NFIQ::QualityFeatureData> &featureVector,
+    const std::vector<NFIQ::QualityFeatureSpeed> &featureTimings,
+    const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality) const
 {
 	*(this->out) << name << "," << std::to_string(fingerCode) << ","
 		     << score << "," << errmsg << "," << quantized << ","

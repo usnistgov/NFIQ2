@@ -52,11 +52,11 @@ class NFIQ2Algorithm {
 	// Change this so that only pass in bools - not the lists
 	unsigned int computeQualityScore(NFIQ::FingerprintImageData rawImage,
 	    bool bComputeActionableQuality,
-	    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
+	    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
 	    bool bOutputFeatures,
-	    std::list<NFIQ::QualityFeatureData> &qualityFeatureData,
+	    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
 	    bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+	    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
 
 	unsigned int computeQualityScore(
 	    NFIQ::FingerprintImageData rawImage) const;

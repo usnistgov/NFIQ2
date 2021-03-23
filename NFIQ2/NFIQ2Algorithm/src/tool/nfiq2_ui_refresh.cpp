@@ -299,9 +299,9 @@ NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
 	// compute quality now
 	// call wrapper class with fingerprint image to get score
 	// input is always raw image with set image parameters
-	std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
-	std::list<NFIQ::QualityFeatureData> featureVector;
-	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality;
+	std::vector<NFIQ::QualityFeatureData> featureVector;
+	std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
 
 	unsigned int qualityScore {};
 

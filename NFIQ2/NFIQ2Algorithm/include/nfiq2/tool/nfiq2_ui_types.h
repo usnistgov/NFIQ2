@@ -131,11 +131,11 @@ struct ImgCouple {
  */
 struct CoreReturn {
 	/** List of Feature Scores */
-	std::list<NFIQ::QualityFeatureData> featureVector;
+	std::vector<NFIQ::QualityFeatureData> featureVector;
 	/** List of Feature Score Timings */
-	std::list<NFIQ::QualityFeatureSpeed> featureTimings;
+	std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
 	/** List of Actionable Quality Scores */
-	std::list<NFIQ::ActionableQualityFeedback> actionableQuality;
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality;
 	/** Overall Quality Score for an Image */
 	unsigned int qualityScore;
 };

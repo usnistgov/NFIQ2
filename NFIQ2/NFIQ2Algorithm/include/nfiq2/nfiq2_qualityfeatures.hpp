@@ -56,10 +56,10 @@ std::vector<std::string> getAllSpeedFeatureGroups();
  * A list of fingerprint quality feature data. This can be used with model
  * paramenters to produce a final NFIQ 2 score.
  */
-std::list<NFIQ::QualityFeatureData> computeQualityFeatures(
+std::vector<NFIQ::QualityFeatureData> computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
-    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
-    bool bOutputSpeed, std::list<NFIQ::QualityFeatureSpeed> &speedValues);
+    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
+    bool bOutputSpeed, std::vector<NFIQ::QualityFeatureSpeed> &speedValues);
 
 }}
 

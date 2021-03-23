@@ -63,11 +63,11 @@ class NFIQ2Algorithm::Impl {
 	 */
 	unsigned int computeQualityScore(NFIQ::FingerprintImageData rawImage,
 	    bool bComputeActionableQuality,
-	    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
+	    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
 	    bool bOutputFeatures,
-	    std::list<NFIQ::QualityFeatureData> &qualityFeatureData,
+	    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
 	    bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+	    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
 
 	unsigned int computeQualityScore(
 	    NFIQ::FingerprintImageData rawImage) const;
@@ -90,7 +90,7 @@ class NFIQ2Algorithm::Impl {
 	 * Failure to compute (OpenCV reason contained within message string).
 	 */
 	double getQualityPrediction(
-	    std::list<NFIQ::QualityFeatureData> &featureVector) const;
+	    std::vector<NFIQ::QualityFeatureData> &featureVector) const;
 
 	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};

@@ -3,6 +3,7 @@
 
 #include <nfiq2/interfacedefinitions.hpp>
 
+#include <memory>
 #include <string>
 #include <vector>
 

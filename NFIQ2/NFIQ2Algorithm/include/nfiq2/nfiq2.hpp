@@ -4,43 +4,13 @@
 #include <nfiq2/fingerprintimagedata.hpp>
 #include <nfiq2/interfacedefinitions.hpp>
 #include <nfiq2/modelinfo.hpp>
+#include <nfiq2/nfiq2_results.hpp>
 
 #include <list>
 #include <memory>
 #include <string>
 
 namespace NFIQ {
-class NFIQ2Results {
-    public:
-	NFIQ2Results();
-	NFIQ2Results(
-	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
-	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed,
-	    unsigned int qualityScore);
-
-	void setActionable(
-	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality);
-	void setQuality(
-	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData);
-	void setSpeed(
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
-	void setScore(unsigned int qualityScore);
-
-	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
-	std::vector<NFIQ::QualityFeatureData> getQuality() const;
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeed() const;
-	unsigned int getScore() const;
-
-    private:
-	class Impl;
-	std::shared_ptr<NFIQ2Results::Impl> pimpl;
-	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality_ {};
-	std::vector<NFIQ::QualityFeatureData> qualityfeatureData_ {};
-	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed_ {};
-	unsigned int qualityScore_ {};
-};
-
 /** Wrapper to return quality scores for a fingerprint image */
 class NFIQ2Algorithm {
     public:

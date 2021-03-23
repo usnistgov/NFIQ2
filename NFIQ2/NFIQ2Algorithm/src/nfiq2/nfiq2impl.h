@@ -95,34 +95,6 @@ class NFIQ2Algorithm::Impl {
 	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};
 };
-
-class NFIQ2Results::Impl {
-    public:
-	Impl();
-	Impl(std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
-	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed,
-	    unsigned int qualityScore);
-
-	void setActionable(
-	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality);
-	void setQuality(
-	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData);
-	void setSpeed(
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
-	void setScore(unsigned int qualityScore);
-
-	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
-	std::vector<NFIQ::QualityFeatureData> getQuality() const;
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeed() const;
-	unsigned int getScore() const;
-
-    private:
-	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality_ {};
-	std::vector<NFIQ::QualityFeatureData> qualityfeatureData_ {};
-	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed_ {};
-	unsigned int qualityScore_ {};
-};
 } // namespace NFIQ
 
 #endif

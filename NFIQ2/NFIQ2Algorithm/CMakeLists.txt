@@ -47,6 +47,7 @@ set(PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/modelinfo.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2_qualityfeatures.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2_results.hpp"
 )
 
 set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")

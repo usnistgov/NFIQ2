@@ -8,10 +8,10 @@ NFIQ::NFIQ2Results::NFIQ2Results()
 }
 
 NFIQ::NFIQ2Results::NFIQ2Results(
-    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
-    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
-    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed,
-    unsigned int qualityScore)
+    const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
+    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData,
+    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed,
+    const unsigned int qualityScore)
     : pimpl { new NFIQ::NFIQ2Results::Impl(actionableQuality,
 	  qualityfeatureData, qualityFeatureSpeed, qualityScore) }
 {
@@ -21,25 +21,25 @@ NFIQ::NFIQ2Results::~NFIQ2Results() = default;
 
 void
 NFIQ::NFIQ2Results::setActionable(
-    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality)
+    const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality)
 {
 	this->pimpl->setActionable(actionableQuality);
 }
 void
 NFIQ::NFIQ2Results::setQuality(
-    std::vector<NFIQ::QualityFeatureData> qualityfeatureData)
+    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData)
 {
 	this->pimpl->setQuality(qualityfeatureData);
 }
 void
 NFIQ::NFIQ2Results::setSpeed(
-    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed)
+    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed)
 {
 	this->pimpl->setSpeed(qualityFeatureSpeed);
 }
 
 void
-NFIQ::NFIQ2Results::setScore(unsigned int qualityScore)
+NFIQ::NFIQ2Results::setScore(const unsigned int qualityScore)
 {
 	this->pimpl->setScore(qualityScore);
 }

@@ -11,20 +11,20 @@ namespace NFIQ {
 class NFIQ2Results {
     public:
 	NFIQ2Results();
-	NFIQ2Results(
-	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality,
-	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData,
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed,
-	    unsigned int qualityScore);
+	NFIQ2Results(const std::vector<NFIQ::ActionableQualityFeedback>
+			 &actionableQuality,
+	    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData,
+	    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed,
+	    const unsigned int qualityScore);
 	~NFIQ2Results();
 
-	void setActionable(
-	    std::vector<NFIQ::ActionableQualityFeedback> actionableQuality);
+	void setActionable(const std::vector<NFIQ::ActionableQualityFeedback>
+		&actionableQuality);
 	void setQuality(
-	    std::vector<NFIQ::QualityFeatureData> qualityfeatureData);
+	    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData);
 	void setSpeed(
-	    std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed);
-	void setScore(unsigned int qualityScore);
+	    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed);
+	void setScore(const unsigned int qualityScore);
 
 	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
 	std::vector<NFIQ::QualityFeatureData> getQuality() const;

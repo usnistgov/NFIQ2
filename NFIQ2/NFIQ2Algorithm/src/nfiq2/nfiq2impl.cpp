@@ -93,7 +93,8 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
     bool bComputeActionableQuality,
     std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputFeatures,
-    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
+    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
+    bool bOutputSpeed,
     std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
 {
 	// crop image (white line removal) and use it for feature
@@ -176,22 +177,10 @@ NFIQ::NFIQ2Algorithm::Impl::computeQualityFeaturesAndScore(
 	std::vector<NFIQ::QualityFeatureData> qualityfeatureData {};
 	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
 
-	unsigned int qualityScore = computeQualityScore(rawImage, true,
+	const unsigned int qualityScore = computeQualityScore(rawImage, true,
 	    actionableQuality, true, qualityfeatureData, true,
 	    qualityFeatureSpeed);
 
-	std::vector<NFIQ::ActionableQualityFeedback> actionableQualityVector {};
-	std::copy(actionableQuality.begin(), actionableQuality.end(),
-	    std::back_inserter(actionableQualityVector));
-
-	std::vector<NFIQ::QualityFeatureData> qualityfeatureDataVector {};
-	std::copy(qualityfeatureData.begin(), qualityfeatureData.end(),
-	    std::back_inserter(qualityfeatureDataVector));
-
-	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeedVector {};
-	std::copy(qualityFeatureSpeed.begin(), qualityFeatureSpeed.end(),
-	    std::back_inserter(qualityFeatureSpeedVector));
-
-	return NFIQ::NFIQ2Results(actionableQualityVector,
-	    qualityfeatureDataVector, qualityFeatureSpeedVector, qualityScore);
+	return NFIQ::NFIQ2Results(actionableQuality, qualityfeatureData,
+	    qualityFeatureSpeed, qualityScore);
 }

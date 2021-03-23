@@ -161,7 +161,8 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 		rawImage, minutiaData, templateCouldBeExtracted);
 
 	// append to feature vector
-	std::vector<NFIQ::QualityFeatureResult>::iterator it_fjfxMinQualFeatures;
+	std::vector<NFIQ::QualityFeatureResult>::iterator
+	    it_fjfxMinQualFeatures;
 	for (it_fjfxMinQualFeatures = fjfxMinQualFeatures.begin();
 	     it_fjfxMinQualFeatures != fjfxMinQualFeatures.end();
 	     ++it_fjfxMinQualFeatures) {
@@ -348,7 +349,7 @@ NFIQ::QualityFeatures::Impl::getAllActionableIdentifiers()
 std::vector<std::string>
 NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs()
 {
-	const std::vector<std::vector<std::string>> vov { 
+	const std::vector<std::vector<std::string>> vov {
 		FDAFeature::getAllFeatureIDs(),
 		FingerJetFXFeature::getAllFeatureIDs(),
 		FJFXMinutiaeQualityFeature::getAllFeatureIDs(),
@@ -357,12 +358,14 @@ NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs()
 		OCLHistogramFeature::getAllFeatureIDs(),
 		OFFeature::getAllFeatureIDs(),
 		QualityMapFeatures::getAllFeatureIDs(),
-		RVUPHistogramFeature::getAllFeatureIDs() };
+		RVUPHistogramFeature::getAllFeatureIDs()
+	};
 
 	std::vector<std::string> qualityFeatureIDs {};
 
 	for (auto &vec : vov) {
-		qualityFeatureIDs.insert(qualityFeatureIDs.cend(), vec.cbegin(), vec.cend());
+		qualityFeatureIDs.insert(
+		    qualityFeatureIDs.cend(), vec.cbegin(), vec.cend());
 	}
 
 	return qualityFeatureIDs;

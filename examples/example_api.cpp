@@ -9,7 +9,7 @@ main(int argc, char **argv)
 {
 	if (argc != 3) {
 		std::cout << "Incorrect Number of Arguments\n";
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 
 	NFIQ::ModelInfo modelInfoObj {};
@@ -18,7 +18,7 @@ main(int argc, char **argv)
 	} catch (...) {
 		std::cout
 		    << "Could not parse model info file. Ensure it is the first argument on the cmd line\n";
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 
 	std::shared_ptr<NFIQ::NFIQ2Algorithm> model {};
@@ -27,7 +27,7 @@ main(int argc, char **argv)
 	} catch (...) {
 		std::cout
 		    << "Could not initialize model from model info file\n";
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 
 	cv::Mat imgMat {};
@@ -36,7 +36,7 @@ main(int argc, char **argv)
 	} catch (...) {
 		std::cout
 		    << "Could not parse image file. Ensure it is the second argument on the cmd line\n";
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 
 	// Will be populated by decompressed fingerprint image
@@ -50,7 +50,7 @@ main(int argc, char **argv)
 		results = (*model).computeQualityFeaturesAndScore(rawImage);
 	} catch (...) {
 		std::cout << "Error in calculating quality score\n";
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 
 	std::cout << "NFIQ 2 Quality Score: " << results.getScore() << "\n";

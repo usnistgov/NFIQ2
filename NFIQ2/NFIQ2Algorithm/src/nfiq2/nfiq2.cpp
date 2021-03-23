@@ -27,7 +27,8 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(NFIQ::FingerprintImageData rawImage,
     bool bComputeActionableQuality,
     std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputFeatures,
-    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
+    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
+    bool bOutputSpeed,
     std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
 {
 	return (this->pimpl->computeQualityScore(rawImage,

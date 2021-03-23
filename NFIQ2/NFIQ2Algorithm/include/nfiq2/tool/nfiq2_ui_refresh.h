@@ -12,8 +12,11 @@
 #define NFIQ2_UI_REFRESH_H_
 
 #include <be_image_image.h>
+#include <be_io_utility.h>
 #include <nfiq2/modelinfo.hpp>
 #include <nfiq2/nfiq2.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
 
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"
@@ -23,6 +26,86 @@
 #include <vector>
 
 namespace NFIQ2UI {
+
+/**
+ * @brief
+ *  Prompts the user if the supplied image is not 8 bit color depth, allowing
+ *  them to quantize the image to 8 bit.
+ *
+ * @return
+ *  Yes/No response to quantize prompt
+ */
+bool askIfQuantize();
+
+/**
+ * @brief
+ *  Prompts the user if supplied a 72 PPI (default resolution) image.
+ *
+ * @details
+ *  Allows the user to select whether they wish to stick with the original
+ *  image resolution or if they wish to resample it.
+ *
+ * @param[in] name
+ *  The images name
+ * @param[in] imageDPI
+ *  The image resolution
+ * @param[in] requiredDPI
+ *  The required DPI for NFIQ 2 to produce an accurate score (500PPI)
+ *
+ * @return
+ *  Yes/No response to resample prompt
+ */
+bool askIfDefaultResolution(const std::string &name, const uint16_t imageDPI,
+    const uint16_t requiredDPI);
+
+/**
+ * @brief
+ *  Prompts the user if supplied a non 500 PPI image.
+ *
+ * @details
+ *  Allows the user to select whether they wish to stick with the original
+ *  image resolution or if they wish to resample it.
+ *
+ * @param[in] name
+ *  The images name
+ * @param[in] imageDPI
+ *  The image resolution
+ * @param[in] requiredDPI
+ *  The required DPI for NFIQ 2 to produce an accurate score (500PPI)
+ *
+ * @return
+ *  Yes/No response to resample prompt
+ */
+bool askIfResample(const std::string &name, const uint16_t imageDPI,
+    const uint16_t requiredDPI);
+
+/**
+ * @brief
+ * Resampling helper function that performs the resampling
+ * operation on a fingerprint image
+ *
+ * @details
+ * Has the ability to log errors if a logger is passed in,
+ * if a logger is not passed in then it will throw an exception
+ * to the calling function
+ *
+ * @param[in] grayscaleRawData
+ *  The raw quantized bytes of a fingerprint image
+ * @param[in] dimensionInfo
+ *  A struct containing image dimension information
+ * @param[in] imageProps
+ *  A struct containing image property information
+ * @param[in] logger
+ *  Default to nullptr if there is no logger object
+ *
+ * @return
+ *  The resampled matrix
+ */
+cv::Mat resampleAndLogError(
+    BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
+    const NFIQ2UI::DimensionInfo &dimensionInfo,
+    const NFIQ2UI::ImageProps &imageProps,
+    std::shared_ptr<NFIQ2UI::Log> logger = nullptr);
 
 /**
  *  @brief

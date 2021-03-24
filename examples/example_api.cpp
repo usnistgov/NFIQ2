@@ -60,7 +60,7 @@ main(int argc, char **argv)
 			  << "\n";
 	}
 
-	for (auto i : results.getQuality()) {
+	for (const auto &i : results.getQuality()) {
 		std::cout << "Feature Quality Score: " << i.featureDataDouble
 			  << "\n";
 	}

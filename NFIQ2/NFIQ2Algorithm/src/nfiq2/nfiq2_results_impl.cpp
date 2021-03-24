@@ -3,9 +3,7 @@
 #include <string>
 #include <vector>
 
-NFIQ::NFIQ2Results::Impl::Impl()
-{
-}
+NFIQ::NFIQ2Results::Impl::Impl() = default;
 
 NFIQ::NFIQ2Results::Impl::Impl(
     const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,

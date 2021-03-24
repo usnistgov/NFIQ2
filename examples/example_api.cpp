@@ -65,7 +65,7 @@ main(int argc, char **argv)
 			  << "\n";
 	}
 
-	for (auto i : results.getSpeed()) {
+	for (const auto &i : results.getSpeed()) {
 		std::cout << "Feature Quality Speed: " << i.featureSpeed
 			  << "\n";
 	}

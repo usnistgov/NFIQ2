@@ -55,7 +55,7 @@ main(int argc, char **argv)
 
 	std::cout << "NFIQ 2 Quality Score: " << results.getScore() << "\n";
 
-	for (auto i : results.getActionable()) {
+	for (const auto &i : results.getActionable()) {
 		std::cout << "Actionable Score: " << i.actionableQualityValue
 			  << "\n";
 	}

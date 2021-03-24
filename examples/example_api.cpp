@@ -20,6 +20,14 @@ main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 
+	// Note: NFIQ 2 only operates on images captured at a resolution of
+	// 500 PPI. Unfortunately, the images contained within this repository
+	// are encoded in PGM format, which does not encode resolution
+	// information. ALWAYS make use of image libraries to decode image
+	// resolution information and convert to PPI to avoid erroneous NFIQ 2
+	// results.
+	static const uint16_t PPI = 500;
+
 	NFIQ::ModelInfo modelInfoObj {};
 	try {
 		modelInfoObj = NFIQ::ModelInfo(argv[1]);
@@ -49,16 +57,10 @@ main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 
-	// Note: NFIQ 2 only operates on images captured at a resolution of
-	// 500 PPI. Unfortunately, the images contained within this repository
-	// are encoded in PGM format, which does not encode resolution
-	// information. ALWAYS make use of image libraries to decode image
-	// resolution information and convert to PPI to avoid erroneous NFIQ 2
-	// results.
 	NFIQ::FingerprintImageData rawImage = NFIQ::FingerprintImageData(
 	    imgMat.data, static_cast<uint32_t>(imgMat.total()),
 	    static_cast<uint32_t>(imgMat.cols),
-	    static_cast<uint32_t>(imgMat.rows), 0, 500);
+	    static_cast<uint32_t>(imgMat.rows), 0, PPI);
 
 	NFIQ::NFIQ2Results results {};
 	try {

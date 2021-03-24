@@ -161,9 +161,9 @@ NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
     NFIQ::FingerprintImageData rawImage) const
 {
 
-	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality {};
-	std::vector<NFIQ::QualityFeatureData> qualityFeatureData {};
-	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
+	static std::vector<NFIQ::ActionableQualityFeedback> actionableQuality {};
+	static std::vector<NFIQ::QualityFeatureData> qualityFeatureData {};
+	static std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
 
 	return computeQualityScore(rawImage, true, actionableQuality, true,
 	    qualityFeatureData, true, qualityFeatureSpeed);

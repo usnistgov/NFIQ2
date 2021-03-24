@@ -39,7 +39,6 @@ main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 
-	// Will be populated by decompressed fingerprint image
 	NFIQ::FingerprintImageData rawImage = NFIQ::FingerprintImageData(
 	    imgMat.data, static_cast<uint32_t>(imgMat.total()),
 	    static_cast<uint32_t>(imgMat.cols),

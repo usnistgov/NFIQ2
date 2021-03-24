@@ -16,7 +16,7 @@ class NFIQ2Results::Impl {
 	    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData,
 	    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed,
 	    const unsigned int qualityScore);
-	virtual ~Impl();
+	~Impl();
 
 	void setActionable(const std::vector<NFIQ::ActionableQualityFeedback>
 		&actionableQuality);

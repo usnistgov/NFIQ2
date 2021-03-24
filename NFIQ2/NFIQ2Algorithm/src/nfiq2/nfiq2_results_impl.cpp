@@ -19,9 +19,7 @@ NFIQ::NFIQ2Results::Impl::Impl(
 	setScore(qualityScore);
 }
 
-NFIQ::NFIQ2Results::Impl::~Impl()
-{
-}
+NFIQ::NFIQ2Results::Impl::~Impl() = default;
 
 void
 NFIQ::NFIQ2Results::Impl::setActionable(

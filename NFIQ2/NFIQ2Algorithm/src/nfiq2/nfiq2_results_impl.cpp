@@ -7,39 +7,20 @@ NFIQ::NFIQ2Results::Impl::Impl() = default;
 
 NFIQ::NFIQ2Results::Impl::Impl(
     const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
-    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData,
+    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
     const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed,
     const unsigned int qualityScore)
     : actionableQuality_ { actionableQuality }
-    , qualityfeatureData_ { qualityfeatureData }
+    , qualityFeatureData_ { qualityFeatureData }
     , qualityFeatureSpeed_ { qualityFeatureSpeed }
+    , qualityScore_ { NFIQ::NFIQ2Results::checkScore(qualityScore) }
 {
-	setScore(qualityScore);
 }
 
 NFIQ::NFIQ2Results::Impl::~Impl() = default;
 
-void
-NFIQ::NFIQ2Results::Impl::setActionable(
-    const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality)
-{
-	this->actionableQuality_ = actionableQuality;
-}
-void
-NFIQ::NFIQ2Results::Impl::setQuality(
-    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData)
-{
-	this->qualityfeatureData_ = qualityfeatureData;
-}
-void
-NFIQ::NFIQ2Results::Impl::setSpeed(
-    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed)
-{
-	this->qualityFeatureSpeed_ = qualityFeatureSpeed;
-}
-
-void
-NFIQ::NFIQ2Results::Impl::setScore(const unsigned int qualityScore)
+unsigned int
+NFIQ::NFIQ2Results::Impl::checkScore(const unsigned int qualityScore)
 {
 	if (qualityScore > 100) {
 		const std::string errStr { "Invalid quality score: " +
@@ -48,21 +29,46 @@ NFIQ::NFIQ2Results::Impl::setScore(const unsigned int qualityScore)
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_InvalidNFIQ2Score, errStr);
 	}
-	this->qualityScore_ = qualityScore;
+	return qualityScore;
+}
+
+void
+NFIQ::NFIQ2Results::Impl::setActionableQualityFeedback(
+    const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality)
+{
+	this->actionableQuality_ = actionableQuality;
+}
+void
+NFIQ::NFIQ2Results::Impl::setQualityFeatures(
+    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
+{
+	this->qualityFeatureData_ = qualityFeatureData;
+}
+void
+NFIQ::NFIQ2Results::Impl::setQualityFeatureSpeed(
+    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed)
+{
+	this->qualityFeatureSpeed_ = qualityFeatureSpeed;
+}
+
+void
+NFIQ::NFIQ2Results::Impl::setScore(const unsigned int qualityScore)
+{
+	this->qualityScore_ = NFIQ::NFIQ2Results::checkScore(qualityScore);
 }
 
 std::vector<NFIQ::ActionableQualityFeedback>
-NFIQ::NFIQ2Results::Impl::getActionable() const
+NFIQ::NFIQ2Results::Impl::getActionableQualityFeedback() const
 {
 	return this->actionableQuality_;
 }
 std::vector<NFIQ::QualityFeatureData>
-NFIQ::NFIQ2Results::Impl::getQuality() const
+NFIQ::NFIQ2Results::Impl::getQualityFeatures() const
 {
-	return this->qualityfeatureData_;
+	return this->qualityFeatureData_;
 }
 std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::NFIQ2Results::Impl::getSpeed() const
+NFIQ::NFIQ2Results::Impl::getQualityFeatureSpeed() const
 {
 	return this->qualityFeatureSpeed_;
 }

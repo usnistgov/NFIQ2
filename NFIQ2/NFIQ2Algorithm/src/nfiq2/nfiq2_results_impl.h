@@ -13,27 +13,31 @@ class NFIQ2Results::Impl {
 	Impl();
 	Impl(const std::vector<NFIQ::ActionableQualityFeedback>
 		 &actionableQuality,
-	    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData,
+	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
 	    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed,
 	    const unsigned int qualityScore);
 	~Impl();
 
-	void setActionable(const std::vector<NFIQ::ActionableQualityFeedback>
+	static unsigned int checkScore(const unsigned int qualityScore);
+
+	void setActionableQualityFeedback(
+	    const std::vector<NFIQ::ActionableQualityFeedback>
 		&actionableQuality);
-	void setQuality(
-	    const std::vector<NFIQ::QualityFeatureData> &qualityfeatureData);
-	void setSpeed(
+	void setQualityFeatures(
+	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData);
+	void setQualityFeatureSpeed(
 	    const std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed);
 	void setScore(const unsigned int qualityScore);
 
-	std::vector<NFIQ::ActionableQualityFeedback> getActionable() const;
-	std::vector<NFIQ::QualityFeatureData> getQuality() const;
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeed() const;
+	std::vector<NFIQ::ActionableQualityFeedback>
+	getActionableQualityFeedback() const;
+	std::vector<NFIQ::QualityFeatureData> getQualityFeatures() const;
+	std::vector<NFIQ::QualityFeatureSpeed> getQualityFeatureSpeed() const;
 	unsigned int getScore() const;
 
     private:
 	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality_ {};
-	std::vector<NFIQ::QualityFeatureData> qualityfeatureData_ {};
+	std::vector<NFIQ::QualityFeatureData> qualityFeatureData_ {};
 	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed_ {};
 	unsigned int qualityScore_ {};
 };

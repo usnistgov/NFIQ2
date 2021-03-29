@@ -45,6 +45,26 @@ class NFIQ2Algorithm::Impl {
 	// --- Public functions --- //
 	/******************************************************************************/
 
+	unsigned int computeQualityScore(
+	    const NFIQ::FingerprintImageData &rawImage) const;
+
+	unsigned int computeQualityScore(
+	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
+	    const;
+
+	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
+	    const NFIQ::FingerprintImageData &rawImage) const;
+
+	/**
+	 * @brief
+	 * Obtain MD5 checksum of Random Forest parameter file loaded.
+	 *
+	 * @return
+	 * MD5 checksum of the Random Forest parameter file loaded.
+	 */
+	std::string getParameterHash() const;
+
+    private:
 	/**
 	 * @fn computeQualityScore
 	 * @brief Computes the quality score from the input fingerprint image
@@ -61,7 +81,8 @@ class NFIQ2Algorithm::Impl {
 	 * @param qualityFeatureSpeed list of feature computation speed
 	 * @return achieved quality score
 	 */
-	unsigned int computeQualityScore(NFIQ::FingerprintImageData rawImage,
+	unsigned int computeQualityScore(
+	    const NFIQ::FingerprintImageData &rawImage,
 	    bool bComputeActionableQuality,
 	    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
 	    bool bOutputFeatures,
@@ -69,28 +90,12 @@ class NFIQ2Algorithm::Impl {
 	    bool bOutputSpeed,
 	    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
 
-	unsigned int computeQualityScore(
-	    NFIQ::FingerprintImageData rawImage) const;
-
-	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
-	    NFIQ::FingerprintImageData rawImage) const;
-
-	/**
-	 * @brief
-	 * Obtain MD5 checksum of Random Forest parameter file loaded.
-	 *
-	 * @return
-	 * MD5 checksum of the Random Forest parameter file loaded.
-	 */
-	std::string getParameterHash() const;
-
-    private:
 	/**
 	 * @throws NFIQException
 	 * Failure to compute (OpenCV reason contained within message string).
 	 */
 	double getQualityPrediction(
-	    std::vector<NFIQ::QualityFeatureData> &featureVector) const;
+	    const std::vector<NFIQ::QualityFeatureData> &featureVector) const;
 
 	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};

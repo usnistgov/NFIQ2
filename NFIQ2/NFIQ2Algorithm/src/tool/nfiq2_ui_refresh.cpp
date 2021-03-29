@@ -363,10 +363,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredDPI);
 
-	NFIQ2UI::CoreReturn corereturn;
-
+	NFIQ::NFIQ2Results nfiq2Results{};
 	try {
-		corereturn = NFIQ2UI::coreCompute(wrappedImage, model);
+		nfiq2Results = model.computeQualityFeaturesAndScore(wrappedImage);
 	} catch (const NFIQ::NFIQException &e) {
 		std::string errStr {
 			"'Error: NFIQ2 computeQualityScore returned an error code: "
@@ -383,14 +382,15 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// Print score:
 	if (singleImage) {
 		// print just the plain score to std::out
-		logger->printSingle(corereturn.qualityScore);
+		logger->printSingle(nfiq2Results.getScore());
 
 	} else {
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition,
-		    corereturn.qualityScore, warning, imageProps.quantized,
-		    imageProps.resampled, corereturn.featureVector,
-		    corereturn.featureTimings, corereturn.actionableQuality);
+		    nfiq2Results.getScore(), warning, imageProps.quantized,
+		    imageProps.resampled, nfiq2Results.getQualityFeatures(),
+		    nfiq2Results.getQualityFeatureSpeed(), 
+		    nfiq2Results.getActionableQualityFeedback());
 	}
 }
 
@@ -401,33 +401,6 @@ NFIQ2UI::executeSingle(const NFIQ2UI::ImgCouple &couple, const Flags &flags,
 {
 	NFIQ2UI::executeSingle(couple.img, couple.imgName, flags, model, logger,
 	    singleImage, interactive, couple.fingerPosition, couple.warning);
-}
-
-// Wrapper for NFIQ2 computeQualityScore()
-NFIQ2UI::CoreReturn
-NFIQ2UI::coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
-    const NFIQ::NFIQ2Algorithm &model)
-{
-	// compute quality now
-	// call wrapper class with fingerprint image to get score
-	// input is always raw image with set image parameters
-	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality;
-	std::vector<NFIQ::QualityFeatureData> featureVector;
-	std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
-
-	unsigned int qualityScore {};
-
-	try {
-		qualityScore = model.computeQualityScore(wrappedImage, true,
-		    actionableQuality, true, featureVector, true,
-		    featureTimings);
-	} catch (const NFIQ::NFIQException &e) {
-		throw;
-	}
-
-	const CoreReturn corereturn { featureVector, featureTimings,
-		actionableQuality, qualityScore };
-	return corereturn;
 }
 
 // Parsing a directory recursively finding all fingerprint images

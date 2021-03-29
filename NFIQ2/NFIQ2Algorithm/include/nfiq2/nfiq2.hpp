@@ -22,47 +22,15 @@ class NFIQ2Algorithm {
 	NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj);
 	~NFIQ2Algorithm();
 
-	/**
-	 * @brief
-	 * Computes the quality score from the input fingerprint image
-	 * data.
-	 *
-	 * @param rawImage
-	 * Fingerprint image in raw format
-	 * @param bComputeActionableQuality
-	 * If to compute actionable quality flags or not
-	 * @param actionableQuality
-	 * Compute actionable quality values
-	 * @param bOutputFeatures
-	 * If to output feature values
-	 * @param qualityfeatureData
-	 * List of computed feature data values
-	 * @param bOutputSpeed
-	 * If to output speed of computed features
-	 * @param qualityFeatureSpeed
-	 * List of feature computation speed
-	 *
-	 *
-	 * @throws NFIQException
-	 * Failure to compute (reason contained within message string).
-	 *
-	 * @return
-	 * Achieved quality score
-	 */
-	// Change this so that only pass in bools - not the lists
-	unsigned int computeQualityScore(NFIQ::FingerprintImageData rawImage,
-	    bool bComputeActionableQuality,
-	    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
-	    bool bOutputFeatures,
-	    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
-	    bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+	unsigned int computeQualityScore(
+	    const NFIQ::FingerprintImageData &rawImage) const;
 
 	unsigned int computeQualityScore(
-	    NFIQ::FingerprintImageData rawImage) const;
+	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
+	    const;
 
 	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
-	    NFIQ::FingerprintImageData rawImage) const;
+	    const NFIQ::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @brief

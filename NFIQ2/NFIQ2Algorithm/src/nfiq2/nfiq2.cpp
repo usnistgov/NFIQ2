@@ -23,29 +23,22 @@ NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj)
 }
 
 unsigned int
-NFIQ::NFIQ2Algorithm::computeQualityScore(NFIQ::FingerprintImageData rawImage,
-    bool bComputeActionableQuality,
-    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
-    bool bOutputFeatures,
-    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
-    bool bOutputSpeed,
-    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
-{
-	return (this->pimpl->computeQualityScore(rawImage,
-	    bComputeActionableQuality, actionableQuality, bOutputFeatures,
-	    qualityFeatureData, bOutputSpeed, qualityFeatureSpeed));
-}
-
-unsigned int
 NFIQ::NFIQ2Algorithm::computeQualityScore(
-    NFIQ::FingerprintImageData rawImage) const
+    const NFIQ::FingerprintImageData &rawImage) const
 {
 	return (this->pimpl->computeQualityScore(rawImage));
 }
 
+unsigned int
+NFIQ::NFIQ2Algorithm::computeQualityScore(
+    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData) const
+{
+	return (this->pimpl->computeQualityScore(qualityFeatureData));
+}
+
 NFIQ::NFIQ2Results
 NFIQ::NFIQ2Algorithm::computeQualityFeaturesAndScore(
-    NFIQ::FingerprintImageData rawImage) const
+    const NFIQ::FingerprintImageData &rawImage) const
 {
 	return (this->pimpl->computeQualityFeaturesAndScore(rawImage));
 }

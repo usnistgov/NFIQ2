@@ -58,7 +58,7 @@ FingerprintImageData::~FingerprintImageData()
 }
 
 NFIQ::FingerprintImageData
-FingerprintImageData::removeWhiteFrameAroundFingerprint()
+FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 {
 	// make local copy of internal fingerprint image
 	NFIQ::FingerprintImageData localFingerprintImage(this->m_ImageWidth,

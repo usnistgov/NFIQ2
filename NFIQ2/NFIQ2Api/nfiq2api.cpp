@@ -116,8 +116,7 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 			std::vector<NFIQ::QualityFeatureData> featureVector;
 			std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
 			int qualityScore = (int)g_nfiq2->computeQualityScore(
-			    rawImage, true, actionableQuality, false,
-			    featureVector, false, featureTimings);
+			    rawImage);
 			return qualityScore;
 		}
 	} catch (const NFIQ::NFIQException &exc) {

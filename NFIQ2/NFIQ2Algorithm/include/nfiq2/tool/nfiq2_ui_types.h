@@ -123,25 +123,6 @@ struct ImgCouple {
 
 /**
  *  @brief
- *  Contains Feature and Quality Scores.
- *
- *  @details
- *  Content from featureVector can be obtained by using the Verbose flag.
- *  Content from featureTimings can be obtained by using the Speed flag.
- */
-struct CoreReturn {
-	/** List of Feature Scores */
-	std::vector<NFIQ::QualityFeatureData> featureVector;
-	/** List of Feature Score Timings */
-	std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
-	/** List of Actionable Quality Scores */
-	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality;
-	/** Overall Quality Score for an Image */
-	unsigned int qualityScore;
-};
-
-/**
- *  @brief
  *  Contains dimension information about an image
  *
  *  @details

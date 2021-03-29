@@ -5,9 +5,9 @@
 #include "opencv2/core/version.hpp"
 #include <string>
 
-const unsigned int NFIQ::Version::Major = @NFIQ2_VERSION_MAJOR@;
-const unsigned int NFIQ::Version::Minor = @NFIQ2_VERSION_MINOR@;
-const unsigned int NFIQ::Version::Patch = @NFIQ2_VERSION_PATCH@;
+const unsigned int NFIQ::Version::Major = @NFIQ2_VERSION_MAJOR @;
+const unsigned int NFIQ::Version::Minor = @NFIQ2_VERSION_MINOR @;
+const unsigned int NFIQ::Version::Patch = @NFIQ2_VERSION_PATCH @;
 
 const std::string NFIQ::Version::Full = "@NFIQ2_VERSION_FULL@";
 const std::string NFIQ::Version::Pretty = "@NFIQ2_VERSION@";

@@ -166,8 +166,8 @@ NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
 	static std::vector<NFIQ::QualityFeatureData> qualityFeatureData {};
 	static std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
 
-	return computeQualityScore(rawImage, true, actionableQuality, true,
-	    qualityFeatureData, true, qualityFeatureSpeed);
+	return computeQualityScore(rawImage, false, actionableQuality, false,
+	    qualityFeatureData, false, qualityFeatureSpeed);
 }
 
 NFIQ::NFIQ2Results

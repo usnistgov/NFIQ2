@@ -8,6 +8,12 @@ int debug = 0;
 #include <stdlib.h>
 #include <string.h>
 
+// Image size thresholds from FJFX
+#define FRFXLL_EXTRACT_MIN_500WIDTH 196
+#define FRFXLL_EXTRACT_MAX_500WIDTH 800
+#define FRFXLL_EXTRACT_MIN_500HEIGHT 196
+#define FRFXLL_EXTRACT_MAX_500HEIGHT 1000
+
 using namespace NFIQ;
 
 static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);
@@ -160,6 +166,29 @@ FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 	}
 	cv::Rect roi(leftIndex, topRowIndex, width, height);
 	cv::Mat roiImg = img(roi);
+
+	// Values are from FJFX image size thresholds
+	if (roiImg.rows > FRFXLL_EXTRACT_MAX_500HEIGHT) {
+		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		    "Height is too large after trimming whitespace. HxW: " +
+			std::to_string(roiImg.rows) + "x" +
+			std::to_string(roiImg.cols));
+	} else if (roiImg.rows < FRFXLL_EXTRACT_MIN_500HEIGHT) {
+		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		    "Height is too small after trimming whitespace. HxW: " +
+			std::to_string(roiImg.rows) + "x" +
+			std::to_string(roiImg.cols));
+	} else if (roiImg.cols > FRFXLL_EXTRACT_MAX_500WIDTH) {
+		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		    "Width is too large after trimming whitespace. HxW: " +
+			std::to_string(roiImg.rows) + "x" +
+			std::to_string(roiImg.cols));
+	} else if (roiImg.cols < FRFXLL_EXTRACT_MIN_500WIDTH) {
+		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		    "Width is too small after trimming whitespace. HxW: " +
+			std::to_string(roiImg.rows) + "x" +
+			std::to_string(roiImg.cols));
+	}
 
 	NFIQ::FingerprintImageData croppedImage;
 	croppedImage.m_ImageHeight = roiImg.rows;

@@ -1,7 +1,7 @@
-#ifndef NFIQ2_DATA_H_
-#define NFIQ2_DATA_H_
+#ifndef NFIQ2_DATA_HPP_
+#define NFIQ2_DATA_HPP_
 
-#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2_nfiqexception.hpp>
 
 #include <fstream>
 #include <iostream>

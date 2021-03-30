@@ -1,4 +1,4 @@
-#include <nfiq2/nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualityfeatures.hpp>
 
 #include <iostream>
 

@@ -1,7 +1,7 @@
 // Includes the core API calls to compute NFIQ2 Scores
-#include <nfiq2/nfiq2.hpp>
+#include <nfiq2.hpp>
 // Include the API calls to compute NFIQ2 Quality Features
-#include <nfiq2/nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualityfeatures.hpp>
 // OpenCV Matrix and Image parsing headers
 #include <opencv2/core/mat.hpp>
 #include <opencv2/imgcodecs.hpp>

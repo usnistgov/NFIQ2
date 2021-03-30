@@ -1,5 +1,5 @@
-#include <nfiq2/features/FeatureFunctions.h>
-#include <nfiq2/nfiqexception.hpp>
+#include <features/FeatureFunctions.h>
+#include <nfiq2_nfiqexception.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 

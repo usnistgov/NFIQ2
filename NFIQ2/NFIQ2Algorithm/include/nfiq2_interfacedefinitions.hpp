@@ -1,7 +1,7 @@
-#ifndef NFIQ2_INTERFACEDEFINITIONS_H_
-#define NFIQ2_INTERFACEDEFINITIONS_H_
+#ifndef NFIQ2_INTERFACEDEFINITIONS_HPP_
+#define NFIQ2_INTERFACEDEFINITIONS_HPP_
 
-#include <nfiq2/data.hpp>
+#include <nfiq2_data.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 

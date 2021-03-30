@@ -1,8 +1,8 @@
 #ifndef NFIQ2_NFIQ2_QUALITYFEATURES_IMPL_H_
 #define NFIQ2_NFIQ2_QUALITYFEATURES_IMPL_H_
 
-#include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/nfiq2_qualityfeatures.hpp>
+#include <nfiq2_fingerprintimagedata.hpp>
+#include <nfiq2_qualityfeatures.hpp>
 
 #include <list>
 #include <string>

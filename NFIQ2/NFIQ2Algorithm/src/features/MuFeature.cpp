@@ -1,6 +1,6 @@
-#include <nfiq2/features/MuFeature.h>
-#include <nfiq2/nfiqexception.hpp>
-#include <nfiq2/timer.hpp>
+#include <features/MuFeature.h>
+#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_timer.hpp>
 
 #include <sstream>
 

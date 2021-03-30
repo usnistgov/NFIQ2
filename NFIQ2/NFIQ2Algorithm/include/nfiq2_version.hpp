@@ -1,5 +1,5 @@
-#ifndef NFIQ2_VERSION_H_
-#define NFIQ2_VERSION_H_
+#ifndef NFIQ2_VERSION_HPP_
+#define NFIQ2_VERSION_HPP_
 
 #include <string>
 

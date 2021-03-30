@@ -1,10 +1,10 @@
 #ifndef FINGERJETFXMINUTIAEQUALITYFEATURE_H
 #define FINGERJETFXMINUTIAEQUALITYFEATURE_H
 
-#include <nfiq2/features/BaseFeature.h>
-#include <nfiq2/features/FingerJetFXFeature.h>
-#include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/interfacedefinitions.hpp>
+#include <features/BaseFeature.h>
+#include <features/FingerJetFXFeature.h>
+#include <nfiq2_fingerprintimagedata.hpp>
+#include <nfiq2_interfacedefinitions.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 

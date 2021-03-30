@@ -18,19 +18,19 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
-#include <nfiq2/modelinfo.hpp>
-#include <nfiq2/nfiq2.hpp>
-#include <nfiq2/timer.hpp>
-#include <nfiq2/tool/nfiq2_ui_exception.h>
-#include <nfiq2/tool/nfiq2_ui_image.h>
-#include <nfiq2/tool/nfiq2_ui_log.h>
-#include <nfiq2/tool/nfiq2_ui_refresh.h>
-#include <nfiq2/tool/nfiq2_ui_threadedlog.h>
-#include <nfiq2/tool/nfiq2_ui_types.h>
-#include <nfiq2/tool/nfiq2_ui_utils.h>
+#include <nfiq2.hpp>
+#include <nfiq2_modelinfo.hpp>
+#include <nfiq2_timer.hpp>
 #include <nfir_lib.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
+#include <tool/nfiq2_ui_exception.h>
+#include <tool/nfiq2_ui_image.h>
+#include <tool/nfiq2_ui_log.h>
+#include <tool/nfiq2_ui_refresh.h>
+#include <tool/nfiq2_ui_threadedlog.h>
+#include <tool/nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_utils.h>
 
 #include <cmath>
 #include <cstdio>
@@ -363,9 +363,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredDPI);
 
-	NFIQ::NFIQ2Results nfiq2Results{};
+	NFIQ::NFIQ2Results nfiq2Results {};
 	try {
-		nfiq2Results = model.computeQualityFeaturesAndScore(wrappedImage);
+		nfiq2Results = model.computeQualityFeaturesAndScore(
+		    wrappedImage);
 	} catch (const NFIQ::NFIQException &e) {
 		std::string errStr {
 			"'Error: NFIQ2 computeQualityScore returned an error code: "
@@ -389,7 +390,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		logger->printScore(name, fingerPosition,
 		    nfiq2Results.getScore(), warning, imageProps.quantized,
 		    imageProps.resampled, nfiq2Results.getQualityFeatures(),
-		    nfiq2Results.getQualityFeatureSpeed(), 
+		    nfiq2Results.getQualityFeatureSpeed(),
 		    nfiq2Results.getActionableQualityFeedback());
 	}
 }

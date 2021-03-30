@@ -1,8 +1,8 @@
+#include <features/FeatureFunctions.h>
+#include <features/OFFeature.h>
 #include <math.h>
-#include <nfiq2/features/FeatureFunctions.h>
-#include <nfiq2/features/OFFeature.h>
-#include <nfiq2/nfiqexception.hpp>
-#include <nfiq2/timer.hpp>
+#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_timer.hpp>
 #include <opencv2/core/core.hpp>
 
 #include <sstream>

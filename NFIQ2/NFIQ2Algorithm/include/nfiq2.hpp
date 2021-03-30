@@ -1,10 +1,10 @@
-#ifndef NFIQ2_NFIQ2_H_
-#define NFIQ2_NFIQ2_H_
+#ifndef NFIQ2_HPP_
+#define NFIQ2_HPP_
 
-#include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/interfacedefinitions.hpp>
-#include <nfiq2/modelinfo.hpp>
-#include <nfiq2/nfiq2_results.hpp>
+#include <nfiq2_fingerprintimagedata.hpp>
+#include <nfiq2_interfacedefinitions.hpp>
+#include <nfiq2_modelinfo.hpp>
+#include <nfiq2_results.hpp>
 
 #include <list>
 #include <memory>

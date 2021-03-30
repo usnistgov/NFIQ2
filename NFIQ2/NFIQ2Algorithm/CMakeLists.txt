@@ -40,14 +40,14 @@ file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
 file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
 
 set(PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/interfacedefinitions.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/fingerprintimagedata.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/data.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiqexception.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/modelinfo.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2_qualityfeatures.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2/nfiq2_results.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_interfacedefinitions.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_fingerprintimagedata.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_data.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_nfiqexception.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_modelinfo.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_qualityfeatures.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_results.hpp"
 )
 
 set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")
@@ -127,7 +127,7 @@ if (BUILD_NFIQ2_CLI)
 	else()
 	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
 	endif()
-	
+
 	# Linking in biomeval lib - must occur before individual libs due to linker bug
 	if(MSVC)
 	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})

@@ -31,12 +31,13 @@ class OCLHistogramFeature : BaseFeature {
 	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
-	virtual std::string getModuleID();
+	std::string getModuleName() const override;
 
 	virtual void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
+	static const std::string moduleName;
 
 	// compute OCL value of a given block with block size BSxBS
 	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);

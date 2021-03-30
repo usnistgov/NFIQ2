@@ -181,8 +181,12 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	return featureDataList;
 }
 
+const std::string NFIQ::QualityFeatures::RVUPHistogramFeature::moduleName {
+	"NFIQ2_RVUPHistogram"
+};
+
 std::string
-NFIQ::QualityFeatures::RVUPHistogramFeature::getModuleID()
+NFIQ::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 {
 	return "NFIQ2_RVUPHistogram";
 }

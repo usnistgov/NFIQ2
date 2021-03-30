@@ -321,10 +321,13 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
 	grad_y = computeNumericalGradientX(mat.t()).t();
 }
 
+const std::string NFIQ::QualityFeatures::QualityMapFeatures::moduleName {
+	"NFIQ2_QualityMap"
+};
 std::string
-NFIQ::QualityFeatures::QualityMapFeatures::getModuleID()
+NFIQ::QualityFeatures::QualityMapFeatures::getModuleName() const
 {
-	return "NFIQ2_QualityMap";
+	return moduleName;
 }
 
 std::vector<std::string>

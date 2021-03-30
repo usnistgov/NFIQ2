@@ -171,8 +171,12 @@ NFIQ::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
 	return true;
 }
 
+const std::string NFIQ::QualityFeatures::OCLHistogramFeature::moduleName {
+	"NFIQ2_OCLHistogram"
+};
+
 std::string
-NFIQ::QualityFeatures::OCLHistogramFeature::getModuleID()
+NFIQ::QualityFeatures::OCLHistogramFeature::getModuleName() const
 {
 	return "NFIQ2_OCLHistogram";
 }

@@ -22,10 +22,12 @@ NFIQ::QualityFeatures::LCSFeature::~LCSFeature()
 {
 }
 
+const std::string NFIQ::QualityFeatures::LCSFeature::moduleName { "NFIQ2_LCS" };
+
 std::string
-NFIQ::QualityFeatures::LCSFeature::getModuleID()
+NFIQ::QualityFeatures::LCSFeature::getModuleName() const
 {
-	return "NFIQ2_LCS";
+	return moduleName;
 }
 
 std::vector<std::string>

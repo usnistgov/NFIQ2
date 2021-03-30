@@ -124,12 +124,13 @@ class FingerJetFXFeature : BaseFeature {
 	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    bool &templateCouldBeExtracted);
 
-	std::string getModuleID();
+	std::string getModuleName() const override;
 
 	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
+	static const std::string moduleName;
 
 	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);

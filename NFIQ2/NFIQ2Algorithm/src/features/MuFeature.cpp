@@ -151,10 +151,12 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	return featureDataList;
 }
 
+const std::string NFIQ::QualityFeatures::MuFeature::moduleName { "NFIQ2_Mu" };
+
 std::string
-NFIQ::QualityFeatures::MuFeature::getModuleID()
+NFIQ::QualityFeatures::MuFeature::getModuleName() const
 {
-	return "NFIQ2_Mu";
+	return moduleName;
 }
 
 std::vector<std::string>

@@ -162,10 +162,14 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	return featureDataList;
 }
 
+const std::string
+    NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::moduleName {
+	    "NFIQ2_FJFXPos_MinutiaeQuality"
+    };
 std::string
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleID()
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 {
-	return "NFIQ2_FJFXPos_MinutiaeQuality";
+	return moduleName;
 }
 
 std::vector<std::string>

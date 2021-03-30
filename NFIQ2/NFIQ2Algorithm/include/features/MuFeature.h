@@ -25,12 +25,13 @@ class MuFeature : BaseFeature {
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage, double &sigma);
 
-	std::string getModuleID();
+	std::string getModuleName() const override;
 
 	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
+	static const std::string moduleName;
 };
 
 }}

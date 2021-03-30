@@ -172,27 +172,6 @@ void executeSingle(const NFIQ2UI::ImgCouple &couple, const Flags &flags,
 
 /**
  *  @brief
- *  Calls NFIQ2 computeQualityScore to generate image scores.
- *
- *  @details
- *  Returns Feature and Feature speed in the form of lists,
- *  as well as the overall score for a single image.
- *
- *  @param[in] wrappedImage
- *      Argument to NFIQ2's computeQualityScore. Needed for NFIQ2 score
- *      generation.
- *  @param[in] model
- *      Machine learning model that NFIQ2 relies on for score generation.
- *
- *  @return
- *      CoreReturn contains information about an image's qualityScore
- *      and featureVector information.
- */
-CoreReturn coreCompute(const NFIQ::FingerprintImageData &wrappedImage,
-    const NFIQ::NFIQ2Algorithm &model);
-
-/**
- *  @brief
  *  Uses executeSingle to iterate through a directory.
  *
  *  @details

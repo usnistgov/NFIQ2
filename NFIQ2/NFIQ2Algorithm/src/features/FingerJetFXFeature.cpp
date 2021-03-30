@@ -65,7 +65,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 	}
 }
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
     const NFIQ::FingerprintImageData fingerprintImage,
     std::vector<FingerJetFXFeature::Minutia> &minutiaData,
@@ -73,7 +73,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 {
 	templateCouldBeExtracted = false;
 
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// make local copy of fingerprint image
 	// since FJFX somehow transforms the input image
@@ -282,10 +282,10 @@ NFIQ::QualityFeatures::FingerJetFXFeature::getModuleID()
 	return "NFIQ2_FingerJetFX";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
 	featureIDs.push_back("FingerJetFX_MinutiaeCount");
 	return featureIDs;

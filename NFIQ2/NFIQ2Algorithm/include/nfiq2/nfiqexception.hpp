@@ -51,7 +51,9 @@ typedef enum error_code_e {
 	e_Error_FeatureCalculationError_FJFX_NoMinutiaeRecords = 50,
 	e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeRecords = 51,
 	e_Error_FeatureCalculationError_FJFX_NoMinutiaeFound = 52,
-	e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeData = 53
+	e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeData = 53,
+	// Scores must be between 0 and 100
+	e_Error_InvalidNFIQ2Score = 54
 } ErrorCode;
 
 /**

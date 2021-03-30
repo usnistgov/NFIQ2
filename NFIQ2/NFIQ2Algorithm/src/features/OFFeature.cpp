@@ -29,10 +29,10 @@ NFIQ::QualityFeatures::OFFeature::getModuleID()
 	return "NFIQ2_OF";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::OFFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "OF_Bin10_", 10);
 
 	return featureIDs;
@@ -41,11 +41,11 @@ NFIQ::QualityFeatures::OFFeature::getAllFeatureIDs()
 const std::string NFIQ::QualityFeatures::OFFeature::speedFeatureIDGroup =
     "Orientation flow";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::OFFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {

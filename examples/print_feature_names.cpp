@@ -1,4 +1,4 @@
-#include <nfiq2/nfiq2.hpp>
+#include <nfiq2/nfiq2_qualityfeatures.hpp>
 
 #include <iostream>
 
@@ -7,7 +7,7 @@ main()
 {
 	std::cout << "NFIQ 2 Features:\n";
 	for (const auto &features :
-	    NFIQ::NFIQ2Algorithm::getAllQualityFeatureIDs()) {
+	    NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
 		std::cout << " * " << features << '\n';
 	}
 

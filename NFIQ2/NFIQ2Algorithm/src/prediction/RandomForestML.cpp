@@ -138,7 +138,7 @@ NFIQ::Prediction::RandomForestML::initModule(
 
 void
 NFIQ::Prediction::RandomForestML::evaluate(
-    const std::list<NFIQ::QualityFeatureData> &featureVector,
+    const std::vector<NFIQ::QualityFeatureData> &featureVector,
     const double &utilityValue, double &qualityValue, double &deviation) const
 {
 	try {
@@ -163,7 +163,7 @@ NFIQ::Prediction::RandomForestML::evaluate(
 
 		// copy data to structure
 		Mat sample_data = Mat(1, featureVector.size(), CV_32FC1);
-		std::list<NFIQ::QualityFeatureData>::const_iterator it_feat;
+		std::vector<NFIQ::QualityFeatureData>::const_iterator it_feat;
 		unsigned int counterFeatures = 0;
 		for (it_feat = featureVector.begin();
 		     it_feat != featureVector.end(); it_feat++) {

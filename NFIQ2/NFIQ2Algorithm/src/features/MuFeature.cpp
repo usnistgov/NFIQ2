@@ -14,11 +14,11 @@ NFIQ::QualityFeatures::MuFeature::~MuFeature()
 const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =
     "Contrast";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::MuFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage, double &sigma)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
@@ -157,10 +157,10 @@ NFIQ::QualityFeatures::MuFeature::getModuleID()
 	return "NFIQ2_Mu";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	featureIDs.push_back("MMB");
 	featureIDs.push_back("Mu");
 	return featureIDs;

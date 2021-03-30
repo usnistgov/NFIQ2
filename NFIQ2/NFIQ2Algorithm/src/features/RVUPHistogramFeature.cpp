@@ -28,11 +28,11 @@ const std::string
     NFIQ::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =
 	"Ridge valley uniformity";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
@@ -187,10 +187,10 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::getModuleID()
 	return "NFIQ2_RVUPHistogram";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "RVUP_Bin10_", 10);
 
 	return featureIDs;

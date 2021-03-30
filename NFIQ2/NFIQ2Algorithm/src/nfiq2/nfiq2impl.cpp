@@ -78,7 +78,7 @@ NFIQ2Algorithm::Impl::~Impl()
 
 double
 NFIQ2Algorithm::Impl::getQualityPrediction(
-    std::list<NFIQ::QualityFeatureData> &featureVector) const
+    const std::vector<NFIQ::QualityFeatureData> &featureVector) const
 {
 	const double utility {};
 	double deviation {};
@@ -89,12 +89,13 @@ NFIQ2Algorithm::Impl::getQualityPrediction(
 }
 
 unsigned int
-NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
-    bool bComputeActionableQuality,
-    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
+NFIQ2Algorithm::Impl::computeQualityScore(
+    const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
+    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputFeatures,
-    std::list<NFIQ::QualityFeatureData> &qualityFeatureData, bool bOutputSpeed,
-    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
+    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
+    bool bOutputSpeed,
+    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const
 {
 	// crop image (white line removal) and use it for feature
 	// computation
@@ -109,7 +110,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(NFIQ::FingerprintImageData rawImage,
 	// compute quality features (including actionable feedback)
 	// --------------------------------------------------------
 
-	std::list<NFIQ::QualityFeatureData> featureVector {};
+	std::vector<NFIQ::QualityFeatureData> featureVector {};
 	try {
 		featureVector = NFIQ::QualityFeatures::computeQualityFeatures(
 		    croppedRawImage, bComputeActionableQuality,
@@ -153,4 +154,40 @@ std::string
 NFIQ2Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
+}
+
+unsigned int
+NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
+    const NFIQ::FingerprintImageData &rawImage) const
+{
+	static std::vector<NFIQ::ActionableQualityFeedback>
+	    actionableQuality {};
+	static std::vector<NFIQ::QualityFeatureData> qualityFeatureData {};
+	static std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
+
+	return computeQualityScore(rawImage, false, actionableQuality, false,
+	    qualityFeatureData, false, qualityFeatureSpeed);
+}
+
+unsigned int
+NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
+    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData) const
+{
+	return (unsigned int)getQualityPrediction(qualityFeatureData);
+}
+
+NFIQ::NFIQ2Results
+NFIQ::NFIQ2Algorithm::Impl::computeQualityFeaturesAndScore(
+    const NFIQ::FingerprintImageData &rawImage) const
+{
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality {};
+	std::vector<NFIQ::QualityFeatureData> qualityfeatureData {};
+	std::vector<NFIQ::QualityFeatureSpeed> qualityFeatureSpeed {};
+
+	const unsigned int qualityScore = computeQualityScore(rawImage, true,
+	    actionableQuality, true, qualityfeatureData, true,
+	    qualityFeatureSpeed);
+
+	return NFIQ::NFIQ2Results(actionableQuality, qualityfeatureData,
+	    qualityFeatureSpeed, qualityScore);
 }

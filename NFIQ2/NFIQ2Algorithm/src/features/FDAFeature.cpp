@@ -26,10 +26,10 @@ NFIQ::QualityFeatures::FDAFeature::~FDAFeature()
 {
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "FDA_Bin10_", 10);
 
 	return featureIDs;
@@ -44,11 +44,11 @@ NFIQ::QualityFeatures::FDAFeature::getModuleID()
 	return "NFIQ2_FDA";
 }
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {

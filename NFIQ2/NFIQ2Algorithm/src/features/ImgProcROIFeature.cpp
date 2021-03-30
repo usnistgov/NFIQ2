@@ -16,12 +16,12 @@ const std::string
     NFIQ::QualityFeatures::ImgProcROIFeature::speedFeatureIDGroup =
 	"Region of interest";
 
-std::list<NFIQ::QualityFeatureResult>
+std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     ImgProcROIFeature::ImgProcROIResults &imgProcResults)
 {
-	std::list<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
@@ -95,10 +95,10 @@ NFIQ::QualityFeatures::ImgProcROIFeature::getModuleID()
 	return "NFIQ2_ImgProcROI";
 }
 
-std::list<std::string>
+std::vector<std::string>
 NFIQ::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
 {
-	std::list<std::string> featureIDs;
+	std::vector<std::string> featureIDs;
 	featureIDs.push_back("ImgProcROIArea_Mean");
 	return featureIDs;
 }

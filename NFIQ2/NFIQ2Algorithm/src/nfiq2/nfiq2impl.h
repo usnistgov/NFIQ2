@@ -49,25 +49,33 @@ class NFIQ2Algorithm::Impl {
 	 * @fn computeQualityScore
 	 * @brief Computes the quality score from the input fingerprint image
 	 * data
-	 * @throws NFIQException
-	 * Failure to compute (reason contained within message string).
 	 * @param rawImage fingerprint image in raw format
-	 * @param bComputeActionableQuality if to compute actionable quality
-	 * flags or not
-	 * @param actionableQuality compute actionable quality values
-	 * @param bOutputFeatures if to output feature values
 	 * @param qualityfeatureData list of computed feature data values
-	 * @param bOutputSpeed if to output speed of computed features
-	 * @param qualityFeatureSpeed list of feature computation speed
 	 * @return achieved quality score
 	 */
-	unsigned int computeQualityScore(NFIQ::FingerprintImageData rawImage,
-	    bool bComputeActionableQuality,
-	    std::list<NFIQ::ActionableQualityFeedback> &actionableQuality,
-	    bool bOutputFeatures,
-	    std::list<NFIQ::QualityFeatureData> &qualityFeatureData,
-	    bool bOutputSpeed,
-	    std::list<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+	unsigned int computeQualityScore(
+	    const NFIQ::FingerprintImageData &rawImage) const;
+
+	/**
+	 * @fn computeQualityScore
+	 * @brief Computes the quality score from the extracted image
+	 * quality feature data
+	 * @param qualityfeatureData list of computed feature data values
+	 * @return achieved quality score
+	 */
+	unsigned int computeQualityScore(
+	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
+	    const;
+
+	/**
+	 * @fn computeQualityFeaturesAndScore
+	 * @brief Computes the quality score from the input fingerprint image
+	 * data
+	 * @param rawImage fingerprint image in raw format
+	 * @return Object containing score, actionable, quality and speed data
+	 */
+	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
+	    const NFIQ::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @brief
@@ -80,11 +88,36 @@ class NFIQ2Algorithm::Impl {
 
     private:
 	/**
+	 * @fn computeQualityScore
+	 * @brief Computes the quality score from the input fingerprint image
+	 * data
+	 * @throws NFIQException
+	 * Failure to compute (reason contained within message string).
+	 * @param rawImage fingerprint image in raw format
+	 * @param bComputeActionableQuality if to compute actionable quality
+	 * flags or not
+	 * @param actionableQuality compute actionable quality values
+	 * @param bOutputFeatures if to output feature values
+	 * @param qualityfeatureData list of computed feature data values
+	 * @param bOutputSpeed if to output speed of computed features
+	 * @param qualityFeatureSpeed list of feature computation speed
+	 * @return achieved quality score
+	 */
+	unsigned int computeQualityScore(
+	    const NFIQ::FingerprintImageData &rawImage,
+	    bool bComputeActionableQuality,
+	    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
+	    bool bOutputFeatures,
+	    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
+	    bool bOutputSpeed,
+	    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+
+	/**
 	 * @throws NFIQException
 	 * Failure to compute (OpenCV reason contained within message string).
 	 */
 	double getQualityPrediction(
-	    std::list<NFIQ::QualityFeatureData> &featureVector) const;
+	    const std::vector<NFIQ::QualityFeatureData> &featureVector) const;
 
 	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};

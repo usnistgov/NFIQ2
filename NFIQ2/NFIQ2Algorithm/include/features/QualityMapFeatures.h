@@ -1,9 +1,9 @@
 #ifndef QUALITYMAPFEATURES_H
 #define QUALITYMAPFEATURES_H
 
-#include <nfiq2/features/BaseFeature.h>
-#include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/interfacedefinitions.hpp>
+#include <features/BaseFeature.h>
+#include <nfiq2_fingerprintimagedata.hpp>
+#include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>

@@ -1,7 +1,7 @@
-#include <nfiq2/features/FDAFeature.h>
-#include <nfiq2/features/FeatureFunctions.h>
-#include <nfiq2/nfiqexception.hpp>
-#include <nfiq2/timer.hpp>
+#include <features/FDAFeature.h>
+#include <features/FeatureFunctions.h>
+#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_timer.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 

@@ -1,5 +1,5 @@
-#ifndef NFIQ2_MODELINFO_H_
-#define NFIQ2_MODELINFO_H_
+#ifndef NFIQ2_MODELINFO_HPP_
+#define NFIQ2_MODELINFO_HPP_
 
 #include <string>
 

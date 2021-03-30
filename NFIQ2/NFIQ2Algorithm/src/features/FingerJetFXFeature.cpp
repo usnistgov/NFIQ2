@@ -1,6 +1,6 @@
-#include <nfiq2/features/FingerJetFXFeature.h>
-#include <nfiq2/nfiqexception.hpp>
-#include <nfiq2/timer.hpp>
+#include <features/FingerJetFXFeature.h>
+#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_timer.hpp>
 #include <string.h>
 
 #include <sstream>

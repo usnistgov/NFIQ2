@@ -1,7 +1,7 @@
-#ifndef NFIQ2_NFIQ2_RESULTS_H_
-#define NFIQ2_NFIQ2_RESULTS_H_
+#ifndef NFIQ2_RESULTS_HPP_
+#define NFIQ2_RESULTS_HPP_
 
-#include <nfiq2/interfacedefinitions.hpp>
+#include <nfiq2_interfacedefinitions.hpp>
 
 #include <memory>
 #include <string>

@@ -13,8 +13,8 @@
 
 #include <be_image_image.h>
 #include <be_io_utility.h>
-#include <nfiq2/modelinfo.hpp>
-#include <nfiq2/nfiq2.hpp>
+#include <nfiq2.hpp>
+#include <nfiq2_modelinfo.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 

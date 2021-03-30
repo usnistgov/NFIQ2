@@ -1,5 +1,5 @@
-#include <nfiq2/modelinfo.hpp>
-#include <nfiq2/nfiqexception.hpp>
+#include <nfiq2_modelinfo.hpp>
+#include <nfiq2_nfiqexception.hpp>
 
 #include <algorithm>
 #include <cctype>

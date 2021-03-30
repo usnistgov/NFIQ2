@@ -1,7 +1,7 @@
-#ifndef NFIQ2_FINGERPRINTIMAGEDATA_H_
-#define NFIQ2_FINGERPRINTIMAGEDATA_H_
+#ifndef NFIQ2_FINGERPRINTIMAGEDATA_HPP_
+#define NFIQ2_FINGERPRINTIMAGEDATA_HPP_
 
-#include <nfiq2/data.hpp>
+#include <nfiq2_data.hpp>
 
 #define MU_THRESHOLD 250
 

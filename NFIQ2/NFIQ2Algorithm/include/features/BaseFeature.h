@@ -1,8 +1,8 @@
 #ifndef BASEFEATURE_H
 #define BASEFEATURE_H
 
-#include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/interfacedefinitions.hpp>
+#include <nfiq2_fingerprintimagedata.hpp>
+#include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdio.h>

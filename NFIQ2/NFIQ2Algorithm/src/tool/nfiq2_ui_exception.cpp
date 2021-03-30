@@ -8,7 +8,7 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include <nfiq2/tool/nfiq2_ui_exception.h>
+#include <tool/nfiq2_ui_exception.h>
 
 #include <string>
 

@@ -1,7 +1,7 @@
-#include <nfiq2/features/FeatureFunctions.h>
-#include <nfiq2/features/RVUPHistogramFeature.h>
-#include <nfiq2/nfiqexception.hpp>
-#include <nfiq2/timer.hpp>
+#include <features/FeatureFunctions.h>
+#include <features/RVUPHistogramFeature.h>
+#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_timer.hpp>
 #include <opencv2/core/core.hpp>
 
 #include <cmath>

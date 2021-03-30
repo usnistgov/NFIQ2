@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 #include <be_io_recordstore.h>
-#include <nfiq2/tool/nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_types.h>
 
 #include <string>
 #include <vector>

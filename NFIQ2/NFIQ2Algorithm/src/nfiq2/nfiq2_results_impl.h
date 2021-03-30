@@ -1,7 +1,7 @@
 #ifndef NFIQ2_NFIQ2_RESULTS_IMPL_H_
 #define NFIQ2_NFIQ2_RESULTS_IMPL_H_
 
-#include <nfiq2/nfiq2_results.hpp>
+#include <nfiq2_results.hpp>
 
 #include "nfiq2_results_impl.h"
 

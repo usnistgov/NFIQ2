@@ -1,9 +1,9 @@
 #ifndef MUFEATURE_H
 #define MUFEATURE_H
 
-#include <nfiq2/features/BaseFeature.h>
-#include <nfiq2/fingerprintimagedata.hpp>
-#include <nfiq2/interfacedefinitions.hpp>
+#include <features/BaseFeature.h>
+#include <nfiq2_fingerprintimagedata.hpp>
+#include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdio.h>

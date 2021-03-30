@@ -8,11 +8,11 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include <nfiq2/nfiq2_qualityfeatures.hpp>
-#include <nfiq2/tool/nfiq2_ui_exception.h>
-#include <nfiq2/tool/nfiq2_ui_log.h>
-#include <nfiq2/tool/nfiq2_ui_types.h>
-#include <nfiq2/tool/nfiq2_ui_utils.h>
+#include <nfiq2_qualityfeatures.hpp>
+#include <tool/nfiq2_ui_exception.h>
+#include <tool/nfiq2_ui_log.h>
+#include <tool/nfiq2_ui_types.h>
+#include <tool/nfiq2_ui_utils.h>
 
 #include <iomanip>
 #include <iostream>

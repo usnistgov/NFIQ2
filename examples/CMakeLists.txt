@@ -54,6 +54,19 @@ set_target_properties(print_feature_names PROPERTIES
 	CXX_EXTENSIONS NO)
 list(APPEND ALL_TARGETS print_feature_names)
 
+#
+# Tool that computes quality scores
+#
+
+add_executable(example_api example_api.cpp)
+target_link_libraries(example_api ${REQUIRED_LIBS})
+set_target_properties(example_api PROPERTIES
+	MACOSX_RPATH YES
+	CXX_STANDARD 11
+	CXX_STANDARD_REQUIRED YES
+	CXX_EXTENSIONS NO)
+list(APPEND ALL_TARGETS example_api)
+
 ################################################################################
 
 # Enable warnings for all targets

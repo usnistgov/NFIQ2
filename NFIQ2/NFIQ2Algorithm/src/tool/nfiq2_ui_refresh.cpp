@@ -363,9 +363,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredDPI);
 
-	NFIQ::NFIQ2Results nfiq2Results{};
+	NFIQ::NFIQ2Results nfiq2Results {};
 	try {
-		nfiq2Results = model.computeQualityFeaturesAndScore(wrappedImage);
+		nfiq2Results = model.computeQualityFeaturesAndScore(
+		    wrappedImage);
 	} catch (const NFIQ::NFIQException &e) {
 		std::string errStr {
 			"'Error: NFIQ2 computeQualityScore returned an error code: "
@@ -389,7 +390,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		logger->printScore(name, fingerPosition,
 		    nfiq2Results.getScore(), warning, imageProps.quantized,
 		    imageProps.resampled, nfiq2Results.getQualityFeatures(),
-		    nfiq2Results.getQualityFeatureSpeed(), 
+		    nfiq2Results.getQualityFeatureSpeed(),
 		    nfiq2Results.getActionableQualityFeedback());
 	}
 }

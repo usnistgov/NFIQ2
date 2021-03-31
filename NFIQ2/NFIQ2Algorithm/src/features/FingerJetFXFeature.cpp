@@ -65,13 +65,28 @@ NFIQ::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 	}
 }
 
+bool
+NFIQ::QualityFeatures::FingerJetFXFeature::getTemplateStatus() const
+{
+	return (this->templateCouldBeExtracted_);
+}
+
+std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
+NFIQ::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
+{
+	if (!this->templateCouldBeExtracted_) {
+		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+			"Template could not be extracted." };
+	}
+
+	return (this->minutiaData_);
+}
+
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData fingerprintImage,
-    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-    bool &templateCouldBeExtracted)
+    const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	templateCouldBeExtracted = false;
+	this->templateCouldBeExtracted_ = false;
 
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -181,10 +196,11 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 			FingerJetFXFeature::parseFRFXLLError(fxResData));
 	}
 
-	minutiaData.clear();
-	minutiaData.reserve(minCnt);
+	this->minutiaData_.clear();
+	this->minutiaData_.reserve(minCnt);
 	for (int i = 0; i < minCnt; i++) {
-		minutiaData.emplace_back(static_cast<unsigned int>(mdata[i].x),
+		this->minutiaData_.emplace_back(
+		    static_cast<unsigned int>(mdata[i].x),
 		    static_cast<unsigned int>(mdata[i].y),
 		    static_cast<unsigned int>(mdata[i].a),
 		    static_cast<unsigned int>(mdata[i].q),
@@ -196,7 +212,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// close handle
 	FRFXLLCloseHandle(&hFeatureSet);
 
-	templateCouldBeExtracted = true;
+	this->templateCouldBeExtracted_ = true;
 
 	if (minCnt == 0) {
 		// return features
@@ -235,7 +251,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	vecRectDimensions.push_back(rect200x200);
 
 	FingerJetFXFeature::FJFXROIResults roiResults = computeROI(
-	    minutiaData, 32, fingerprintImage, vecRectDimensions);
+	    32, fingerprintImage, vecRectDimensions);
 	double noOfMinInRect200x200 = 0;
 	for (unsigned int i = 0;
 	     i < roiResults.vecNoOfMinutiaeInRectangular.size(); i++) {
@@ -311,8 +327,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::createContext(
 }
 
 NFIQ::QualityFeatures::FingerJetFXFeature::FJFXROIResults
-NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
     const NFIQ::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)
 {
@@ -325,7 +340,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(
 	// compute Centre of Mass based on minutiae
 	std::tie(roiResults.centreOfMassMinutiae.x,
 	    roiResults.centreOfMassMinutiae.y) =
-	    FingerJetFXFeature::centerOfMinutiaeMass(minutiaData);
+	    FingerJetFXFeature::centerOfMinutiaeMass(this->minutiaData_);
 
 	// get number of minutiae that lie inside a block defined by the Centre
 	// of Mass (COM)
@@ -362,7 +377,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(
 		}
 
 		unsigned int noOfMinutiaeInRect = 0;
-		for (const auto &m : minutiaData) {
+		for (const auto &m : this->minutiaData_) {
 			if (m.x >= startX && m.x <= endX && m.y >= startY &&
 			    m.y <= endY) {
 				// minutia is inside rectangular

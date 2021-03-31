@@ -120,9 +120,7 @@ class FingerJetFXFeature : BaseFeature {
 	virtual ~FingerJetFXFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData fingerprintImage,
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    bool &templateCouldBeExtracted);
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::string getModuleName() const override;
 
@@ -137,12 +135,21 @@ class FingerJetFXFeature : BaseFeature {
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
 
+	/** @throw NFIQ::NFIQException
+	 * Template could not be extracted.
+	 */
+	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+
+	bool getTemplateStatus() const;
+
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
-	FJFXROIResults computeROI(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
+	bool templateCouldBeExtracted_ { false };
+
+	FJFXROIResults computeROI(int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };

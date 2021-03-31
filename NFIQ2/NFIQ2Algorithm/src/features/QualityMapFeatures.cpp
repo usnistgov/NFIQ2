@@ -29,8 +29,7 @@ const std::string
 
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage,
-    ImgProcROIFeature::ImgProcROIResults imgProcResults)
+    const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -67,7 +66,8 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		double coherenceSumFilter = 0.0;
 		double coherenceRelFilter = 0.0;
 		Mat orientationMapImgFilter = computeOrientationMap(img, true,
-		    coherenceSumFilter, coherenceRelFilter, 16, imgProcResults);
+		    coherenceSumFilter, coherenceRelFilter, 16,
+		    this->imgProcResults_);
 
 		// return features based on coherence values of orientation map
 		NFIQ::QualityFeatureData fd_om_2;

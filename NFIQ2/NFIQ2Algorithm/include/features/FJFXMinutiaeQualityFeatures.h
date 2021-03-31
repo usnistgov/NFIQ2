@@ -44,14 +44,16 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	};
 
 	FJFXMinutiaeQualityFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues,
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
+	    const bool templateCouldBeExtracted)
+	    : BaseFeature(bOutputSpeed, speedValues)
+	    , minutiaData_ { minutiaData }
+	    , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
 	virtual ~FJFXMinutiaeQualityFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    bool &templateCouldBeExtracted);
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::string getModuleName() const override;
 
@@ -61,17 +63,23 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
+	/** @throw NFIQ::NFIQException
+	 * Template could not be extracted.
+	 */
+	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+
+	bool getTemplateStatus() const;
+
     private:
+	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
+	bool templateCouldBeExtracted_ { false };
 	std::vector<MinutiaData> computeMuMinQuality(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	    int bs, const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	    int bs, const NFIQ::FingerprintImageData &fingerprintImage);
 
-	double computeMMBBasedOnCOM(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	double computeMMBBasedOnCOM(int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
 };

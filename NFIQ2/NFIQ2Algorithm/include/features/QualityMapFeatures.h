@@ -27,13 +27,14 @@ namespace NFIQ { namespace QualityFeatures {
 class QualityMapFeatures : BaseFeature {
     public:
 	QualityMapFeatures(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues,
+	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
+	    : BaseFeature(bOutputSpeed, speedValues)
+	    , imgProcResults_ { imgProcResults } {};
 	virtual ~QualityMapFeatures();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage,
-	    ImgProcROIFeature::ImgProcROIResults imgProcResults);
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::string getModuleName() const override;
 
@@ -66,6 +67,9 @@ class QualityMapFeatures : BaseFeature {
 	static cv::Mat computeNumericalGradientX(const cv::Mat &mat);
 	static void computeNumericalGradients(
 	    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
+
+    private:
+	ImgProcROIFeature::ImgProcROIResults imgProcResults_ {};
 };
 
 }}

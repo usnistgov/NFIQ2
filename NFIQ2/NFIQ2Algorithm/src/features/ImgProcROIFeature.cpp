@@ -16,10 +16,20 @@ const std::string
     NFIQ::QualityFeatures::ImgProcROIFeature::speedFeatureIDGroup =
 	"Region of interest";
 
+NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
+NFIQ::QualityFeatures::ImgProcROIFeature::getImgProcResults()
+{
+	if (!this->imgProcComputed_) {
+		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+			"Img Proc Results could not be computed." };
+	}
+
+	return (this->imgProcResults_);
+}
+
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage,
-    ImgProcROIFeature::ImgProcROIResults &imgProcResults)
+    const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -50,7 +60,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 	// compute ROI (and other features based on ROI)
 	// ---------------------------------------------
 	try {
-		imgProcResults = computeROI(
+		this->imgProcResults_ = computeROI(
 		    img, 16); // block size = 16x16 pixels
 
 		NFIQ::QualityFeatureData fd_roi_pixel_area_mean;
@@ -58,7 +68,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		fd_roi_pixel_area_mean.featureDataType =
 		    NFIQ::e_QualityFeatureDataTypeDouble;
 		fd_roi_pixel_area_mean.featureDataDouble =
-		    imgProcResults.meanOfROIPixels;
+		    this->imgProcResults_.meanOfROIPixels;
 		NFIQ::QualityFeatureResult res_roi_pixel_area_mean;
 		res_roi_pixel_area_mean.featureData = fd_roi_pixel_area_mean;
 		res_roi_pixel_area_mean.returnCode = 0;
@@ -85,6 +95,8 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
+
+	this->imgProcComputed_ = true;
 
 	return featureDataList;
 }

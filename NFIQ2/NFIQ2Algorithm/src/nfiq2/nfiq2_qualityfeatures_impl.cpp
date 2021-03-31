@@ -111,11 +111,8 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// this module returns the FJFX minutiae template to be used in other
 	// modules
 
-	std::vector<FingerJetFXFeature::Minutia> minutiaData {};
-	bool templateCouldBeExtracted = false;
 	std::vector<NFIQ::QualityFeatureResult> fjfxFeatures =
-	    fjfxFeatureModule.computeFeatureData(
-		rawImage, minutiaData, templateCouldBeExtracted);
+	    fjfxFeatureModule.computeFeatureData(rawImage);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_fjfxFeatures;
@@ -151,12 +148,12 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX minutiae quality features
 	// FJFXPos_Mu_MinutiaeQuality_2
 	// FJFXPos_OCL_MinutiaeQuality_80
-	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule(
-	    bOutputSpeed, speedValues);
+	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule(bOutputSpeed,
+	    speedValues, fjfxFeatureModule.getMinutiaData(),
+	    fjfxFeatureModule.getTemplateStatus());
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
-	    fjfxMinQualFeatureModule.computeFeatureData(
-		rawImage, minutiaData, templateCouldBeExtracted);
+	    fjfxMinQualFeatureModule.computeFeatureData(rawImage);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator
@@ -179,10 +176,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute ROI features
 	// ImgProcROIArea_Mean
 	ImgProcROIFeature roiFeatureModule(bOutputSpeed, speedValues);
-	// this module returns ROI information to be used within other modules
-	ImgProcROIFeature::ImgProcROIResults imgProcResults;
+
 	std::vector<NFIQ::QualityFeatureResult> roiFeatures =
-	    roiFeatureModule.computeFeatureData(rawImage, imgProcResults);
+	    roiFeatureModule.computeFeatureData(rawImage);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_roiFeatures;
@@ -200,8 +196,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// add ROI information to actionable quality feedback
 	NFIQ::ActionableQualityFeedback fb_roi;
 	fb_roi.actionableQualityValue =
-	    imgProcResults.noOfROIPixels; // absolute number of ROI pixels
-					  // (foreground)
+	    roiFeatureModule.getImgProcResults()
+		.noOfROIPixels; // absolute number of ROI pixels
+				// (foreground)
 	fb_roi.identifier = NFIQ::
 	    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground;
 	actionableQuality.push_back(fb_roi);
@@ -288,9 +285,10 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute quality map features
 	// OrientationMap_ROIFilter_CoherenceRel
 	// OrientationMap_ROIFilter_CoherenceSum
-	QualityMapFeatures qmFeatureModule(bOutputSpeed, speedValues);
+	QualityMapFeatures qmFeatureModule(
+	    bOutputSpeed, speedValues, roiFeatureModule.getImgProcResults());
 	std::vector<NFIQ::QualityFeatureResult> qmFeatures =
-	    qmFeatureModule.computeFeatureData(rawImage, imgProcResults);
+	    qmFeatureModule.computeFeatureData(rawImage);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_qmFeatures;

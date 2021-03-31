@@ -16,7 +16,7 @@ const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =
 
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::MuFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage, double &sigma)
+    const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -114,7 +114,8 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		// calculate stddev of input image = sigma and mu = mean
 		meanStdDev(img, mu, stddev);
 		// assign sigma value
-		sigma = stddev.val[0];
+		this->sigma = stddev.val[0];
+		this->sigmaComputed = true;
 
 		// return mu value
 		NFIQ::QualityFeatureData fd_mu;
@@ -149,6 +150,16 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	}
 
 	return featureDataList;
+}
+
+double
+NFIQ::QualityFeatures::MuFeature::getSigma() const
+{
+	if (!this->sigmaComputed)
+		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+			"Sigma has not been computed." };
+
+	return (this->sigma);
 }
 
 const std::string NFIQ::QualityFeatures::MuFeature::moduleName { "NFIQ2_Mu" };

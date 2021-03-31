@@ -20,7 +20,7 @@ std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-    bool &templateCouldBeExtracted)
+    const bool &templateCouldBeExtracted)
 {
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 

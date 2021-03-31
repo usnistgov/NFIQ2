@@ -63,7 +63,11 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
+	/** @throw NFIQ::NFIQException
+	 * Template could not be extracted.
+	 */
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+
 	bool getTemplateStatus() const;
 
     private:

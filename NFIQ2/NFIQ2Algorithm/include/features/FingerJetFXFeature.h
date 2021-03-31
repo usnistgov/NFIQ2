@@ -134,7 +134,11 @@ class FingerJetFXFeature : BaseFeature {
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
 
+	/** @throw NFIQ::NFIQException
+	 * Template could not be extracted.
+	 */
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+
 	bool getTemplateStatus() const;
 
     private:

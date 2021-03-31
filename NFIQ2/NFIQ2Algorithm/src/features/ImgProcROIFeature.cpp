@@ -89,10 +89,14 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 	return featureDataList;
 }
 
+const std::string NFIQ::QualityFeatures::ImgProcROIFeature::moduleName {
+	"NFIQ2_ImgProcROI"
+};
+
 std::string
-NFIQ::QualityFeatures::ImgProcROIFeature::getModuleID()
+NFIQ::QualityFeatures::ImgProcROIFeature::getModuleName() const
 {
-	return "NFIQ2_ImgProcROI";
+	return moduleName;
 }
 
 std::vector<std::string>

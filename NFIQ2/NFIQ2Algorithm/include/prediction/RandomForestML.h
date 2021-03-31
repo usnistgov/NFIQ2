@@ -25,7 +25,8 @@ class RandomForestML {
 	RandomForestML();
 	virtual ~RandomForestML();
 
-	std::string getModuleID();
+	static const std::string moduleName;
+	std::string getModuleName() const;
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 	std::string initModule();

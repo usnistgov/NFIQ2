@@ -23,10 +23,11 @@ NFIQ::QualityFeatures::OFFeature::~OFFeature()
 {
 }
 
+const std::string NFIQ::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };
 std::string
-NFIQ::QualityFeatures::OFFeature::getModuleID()
+NFIQ::QualityFeatures::OFFeature::getModuleName() const
 {
-	return "NFIQ2_OF";
+	return moduleName;
 }
 
 std::vector<std::string>

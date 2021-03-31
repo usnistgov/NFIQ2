@@ -276,10 +276,13 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	return featureDataList;
 }
 
+const std::string NFIQ::QualityFeatures::FingerJetFXFeature::moduleName {
+	"NFIQ2_FingerJetFX"
+};
 std::string
-NFIQ::QualityFeatures::FingerJetFXFeature::getModuleID()
+NFIQ::QualityFeatures::FingerJetFXFeature::getModuleName() const
 {
-	return "NFIQ2_FingerJetFX";
+	return moduleName;
 }
 
 std::vector<std::string>

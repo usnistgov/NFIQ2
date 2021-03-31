@@ -25,7 +25,7 @@ class MuFeature : BaseFeature {
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
-	std::string getModuleID();
+	std::string getModuleName() const override;
 
 	/** @throw NFIQ::NFIQException
 	 * Sigma has not yet been calculated.
@@ -36,6 +36,7 @@ class MuFeature : BaseFeature {
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
+	static const std::string moduleName;
 
     private:
 	bool sigmaComputed { false };

@@ -37,12 +37,13 @@ class OFFeature : BaseFeature {
 	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 
-	virtual std::string getModuleID();
+	std::string getModuleName() const override;
 
 	virtual void initModule() {};
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
+	static const std::string moduleName;
 
     private:
 	int blocksize; /*!< Processing is done in subblocks of this size. */

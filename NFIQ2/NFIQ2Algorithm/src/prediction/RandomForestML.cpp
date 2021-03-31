@@ -198,8 +198,12 @@ NFIQ::Prediction::RandomForestML::evaluate(
 	}
 }
 
+const std::string NFIQ::Prediction::RandomForestML::moduleName {
+	"NFIQ2_RandomForest"
+};
+
 std::string
-NFIQ::Prediction::RandomForestML::getModuleID()
+NFIQ::Prediction::RandomForestML::getModuleName() const
 {
-	return "NFIQ2_RandomForest";
+	return moduleName;
 }

@@ -22,6 +22,9 @@ class BaseFeature {
 	    , m_lSpeedValues(speedValues) {};
 	virtual ~BaseFeature() {};
 
+	/** @return Identifier for this particular feature */
+	virtual std::string getModuleName() const = 0;
+
 	bool m_bOutputSpeed;
 	std::vector<NFIQ::QualityFeatureSpeed> &m_lSpeedValues;
 };

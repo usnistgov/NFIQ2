@@ -35,12 +35,13 @@ class QualityMapFeatures : BaseFeature {
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    ImgProcROIFeature::ImgProcROIResults imgProcResults);
 
-	std::string getModuleID();
+	std::string getModuleName() const override;
 
 	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
+	static const std::string moduleName;
 
 	// compute orientation angle of a block
 	static bool getAngleOfBlock(

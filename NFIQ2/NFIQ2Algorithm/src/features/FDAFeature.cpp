@@ -38,10 +38,11 @@ NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()
 const std::string NFIQ::QualityFeatures::FDAFeature::speedFeatureIDGroup =
     "Frequency domain";
 
+const std::string NFIQ::QualityFeatures::FDAFeature::moduleName { "NFIQ2_FDA" };
 std::string
-NFIQ::QualityFeatures::FDAFeature::getModuleID()
+NFIQ::QualityFeatures::FDAFeature::getModuleName() const
 {
-	return "NFIQ2_FDA";
+	return moduleName;
 }
 
 std::vector<NFIQ::QualityFeatureResult>

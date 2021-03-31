@@ -285,10 +285,10 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute quality map features
 	// OrientationMap_ROIFilter_CoherenceRel
 	// OrientationMap_ROIFilter_CoherenceSum
-	QualityMapFeatures qmFeatureModule(bOutputSpeed, speedValues);
+	QualityMapFeatures qmFeatureModule(
+	    bOutputSpeed, speedValues, roiFeatureModule.getImgProcResults());
 	std::vector<NFIQ::QualityFeatureResult> qmFeatures =
-	    qmFeatureModule.computeFeatureData(
-		rawImage, roiFeatureModule.getImgProcResults());
+	    qmFeatureModule.computeFeatureData(rawImage);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_qmFeatures;

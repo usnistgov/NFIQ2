@@ -15,15 +15,17 @@ const std::string
     NFIQ::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
 std::pair<unsigned int, unsigned int>
-NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass()
+NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
+    const std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
+	&minutiaData)
 {
 	unsigned int lx { 0 }, ly { 0 };
-	for (const auto &m : this->minutiaData_) {
+	for (const auto &m : minutiaData) {
 		lx += m.x;
 		ly += m.y;
 	}
 	return std::make_pair<unsigned int, unsigned int>(
-	    lx / this->minutiaData_.size(), ly / this->minutiaData_.size());
+	    lx / minutiaData.size(), ly / minutiaData.size());
 }
 
 std::string
@@ -83,7 +85,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData fingerprintImage)
+    const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	this->templateCouldBeExtracted_ = false;
 
@@ -339,7 +341,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
 	// compute Centre of Mass based on minutiae
 	std::tie(roiResults.centreOfMassMinutiae.x,
 	    roiResults.centreOfMassMinutiae.y) =
-	    FingerJetFXFeature::centerOfMinutiaeMass();
+	    FingerJetFXFeature::centerOfMinutiaeMass(this->minutiaData_);
 
 	// get number of minutiae that lie inside a block defined by the Centre
 	// of Mass (COM)

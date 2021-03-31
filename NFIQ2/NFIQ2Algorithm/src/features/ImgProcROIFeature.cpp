@@ -19,6 +19,11 @@ const std::string
 NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
 NFIQ::QualityFeatures::ImgProcROIFeature::getImgProcResults()
 {
+	if (!this->imgProcComputed_) {
+		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+			"Img Proc Results could not be computed." };
+	}
+
 	return (this->imgProcResults_);
 }
 
@@ -90,6 +95,8 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
+
+	this->imgProcComputed_ = true;
 
 	return featureDataList;
 }

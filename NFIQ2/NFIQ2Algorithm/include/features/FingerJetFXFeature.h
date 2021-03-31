@@ -120,7 +120,7 @@ class FingerJetFXFeature : BaseFeature {
 	virtual ~FingerJetFXFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData fingerprintImage);
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 
 	std::string getModuleName() const override;
 
@@ -130,7 +130,9 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
-	std::pair<unsigned int, unsigned int> centerOfMinutiaeMass();
+	static std::pair<unsigned int, unsigned int>
+	centerOfMinutiaeMass(const std::vector<
+	    NFIQ::QualityFeatures::FingerJetFXFeature::Minutia> &minutiaData);
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
 

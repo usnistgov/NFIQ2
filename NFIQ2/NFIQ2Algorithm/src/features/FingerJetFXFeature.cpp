@@ -16,8 +16,7 @@ const std::string
 
 std::pair<unsigned int, unsigned int>
 NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
-    const std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
-	&minutiaData)
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
 {
 	unsigned int lx { 0 }, ly { 0 };
 	for (const auto &m : minutiaData) {

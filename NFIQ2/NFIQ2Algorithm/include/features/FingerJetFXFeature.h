@@ -130,9 +130,8 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
-	static std::pair<unsigned int, unsigned int>
-	centerOfMinutiaeMass(const std::vector<
-	    NFIQ::QualityFeatures::FingerJetFXFeature::Minutia> &minutiaData);
+	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
 

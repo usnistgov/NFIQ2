@@ -125,7 +125,7 @@ NFIQ2UI::getFileContent(const std::string &filename)
 			content.push_back(line);
 		}
 	} catch (const std::ifstream::failure &e) {
-		std::cerr << "'Error: Could not get line from Batch file'"
+		std::cerr << "Error: Could not get line from Batch file"
 			  << e.what() << "\n";
 	}
 	batchOpen.close();

@@ -172,28 +172,28 @@ FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 		    "Width is too small after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
-			" - but minimum width is " +
+			", but minimum width is " +
 			std::to_string(fingerJetMinWidth + 1));
 	} else if (roiImg.cols >= fingerJetMaxWidth) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Width is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
-			" - but maximum width is " +
+			", but maximum width is " +
 			std::to_string(fingerJetMaxWidth - 1));
 	} else if (roiImg.rows <= fingerJetMinHeight) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Height is too small after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
-			" - but minimum height is " +
+			", but minimum height is " +
 			std::to_string(fingerJetMinHeight + 1));
 	} else if (roiImg.rows >= fingerJetMaxHeight) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Height is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
-			" - but maximum height is " +
+			", but maximum height is " +
 			std::to_string(fingerJetMaxHeight - 1));
 	}
 

@@ -2,6 +2,7 @@
 **/.DS_Store/
 **/.vscode/
 **/build*
+!.github/**
 **/dist/
 **/CMakeFiles/
 **/download/

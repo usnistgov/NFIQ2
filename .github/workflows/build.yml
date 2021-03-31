@@ -1,0 +1,64 @@
+name: Build libnfiq2
+
+on:
+  push:
+    branches:
+      - master
+      -
+
+env:
+  CONFIGURATION: Release
+  BITS_64: ON
+  BITS_32: OFF
+  BUILD_NFIQ2_CLI: OFF
+  CHECK_STYLE: OFF
+
+jobs:
+  build-nix:
+    name: macOS/Linux
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Create Build Directory
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake -D32BITS="${BITS_32}" -D64BITS="${BITS_64}" -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
+
+    - name: Build All
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake --build .
+
+  build-win:
+    name: Windows (x64)
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}\build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}\build
+      run: cmake -D32BITS="${BITS_32}" -D64BITS="${BITS_64}" -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
+
+    - name: Build All
+      shell: bash
+      working-directory: ${{runner.workspace}}\build
+      run: cmake --build . --config "${CONFIGURATION}"

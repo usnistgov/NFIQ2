@@ -141,8 +141,8 @@ class FingerJetFXFeature : BaseFeature {
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
-	std::vector<FingerJetFXFeature::Minutia> minutiaData {};
-	bool templateCouldBeExtracted { false };
+	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
+	bool templateCouldBeExtracted_ { false };
 
 	FJFXROIResults computeROI(int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,

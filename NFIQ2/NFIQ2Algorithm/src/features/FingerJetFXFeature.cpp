@@ -18,12 +18,12 @@ std::pair<unsigned int, unsigned int>
 NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass()
 {
 	unsigned int lx { 0 }, ly { 0 };
-	for (const auto &m : this->minutiaData) {
+	for (const auto &m : this->minutiaData_) {
 		lx += m.x;
 		ly += m.y;
 	}
 	return std::make_pair<unsigned int, unsigned int>(
-	    lx / this->minutiaData.size(), ly / this->minutiaData.size());
+	    lx / this->minutiaData_.size(), ly / this->minutiaData_.size());
 }
 
 std::string
@@ -67,25 +67,25 @@ NFIQ::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 bool
 NFIQ::QualityFeatures::FingerJetFXFeature::getTemplateStatus() const
 {
-	return (this->templateCouldBeExtracted);
+	return (this->templateCouldBeExtracted_);
 }
 
 std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 {
-	if (!this->templateCouldBeExtracted) {
+	if (!this->templateCouldBeExtracted_) {
 		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
 			"Template could not be extracted." };
 	}
 
-	return (this->minutiaData);
+	return (this->minutiaData_);
 }
 
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
     const NFIQ::FingerprintImageData fingerprintImage)
 {
-	this->templateCouldBeExtracted = false;
+	this->templateCouldBeExtracted_ = false;
 
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -195,10 +195,10 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 			FingerJetFXFeature::parseFRFXLLError(fxResData));
 	}
 
-	this->minutiaData.clear();
-	this->minutiaData.reserve(minCnt);
+	this->minutiaData_.clear();
+	this->minutiaData_.reserve(minCnt);
 	for (int i = 0; i < minCnt; i++) {
-		this->minutiaData.emplace_back(
+		this->minutiaData_.emplace_back(
 		    static_cast<unsigned int>(mdata[i].x),
 		    static_cast<unsigned int>(mdata[i].y),
 		    static_cast<unsigned int>(mdata[i].a),
@@ -211,7 +211,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// close handle
 	FRFXLLCloseHandle(&hFeatureSet);
 
-	this->templateCouldBeExtracted = true;
+	this->templateCouldBeExtracted_ = true;
 
 	if (minCnt == 0) {
 		// return features
@@ -376,7 +376,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
 		}
 
 		unsigned int noOfMinutiaeInRect = 0;
-		for (const auto &m : this->minutiaData) {
+		for (const auto &m : this->minutiaData_) {
 			if (m.x >= startX && m.x <= endX && m.y >= startY &&
 			    m.y <= endY) {
 				// minutia is inside rectangular

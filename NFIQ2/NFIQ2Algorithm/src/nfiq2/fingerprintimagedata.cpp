@@ -167,26 +167,34 @@ FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 	static const uint16_t fingerJetMaxHeight = 1000;
 
 	// Values are from FJFX image size thresholds
-	if (roiImg.cols < fingerJetMinWidth) {
+	if (roiImg.cols <= fingerJetMinWidth) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Width is too small after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
-			std::to_string(roiImg.rows));
-	} else if (roiImg.cols > fingerJetMaxWidth) {
+			std::to_string(roiImg.rows) +
+			" - but minimum width is " +
+			std::to_string(fingerJetMinWidth + 1));
+	} else if (roiImg.cols >= fingerJetMaxWidth) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Width is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
-			std::to_string(roiImg.rows));
-	} else if (roiImg.rows < fingerJetMinHeight) {
+			std::to_string(roiImg.rows) +
+			" - but maximum width is " +
+			std::to_string(fingerJetMaxWidth - 1));
+	} else if (roiImg.rows <= fingerJetMinHeight) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Height is too small after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
-			std::to_string(roiImg.rows));
-	} else if (roiImg.rows > fingerJetMaxHeight) {
+			std::to_string(roiImg.rows) +
+			" - but minimum height is " +
+			std::to_string(fingerJetMinHeight + 1));
+	} else if (roiImg.rows >= fingerJetMaxHeight) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
 		    "Height is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
-			std::to_string(roiImg.rows));
+			std::to_string(roiImg.rows) +
+			" - but maximum height is " +
+			std::to_string(fingerJetMaxHeight - 1));
 	}
 
 	NFIQ::FingerprintImageData croppedImage;

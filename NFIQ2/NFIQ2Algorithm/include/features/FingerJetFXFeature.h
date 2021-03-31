@@ -120,9 +120,7 @@ class FingerJetFXFeature : BaseFeature {
 	virtual ~FingerJetFXFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData fingerprintImage,
-	    std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    bool &templateCouldBeExtracted);
+	    const NFIQ::FingerprintImageData fingerprintImage);
 
 	std::string getModuleName() const override;
 
@@ -132,17 +130,21 @@ class FingerJetFXFeature : BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
-	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
+	std::pair<unsigned int, unsigned int> centerOfMinutiaeMass();
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
+
+	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+	bool getTemplateStatus() const;
 
     private:
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
-	FJFXROIResults computeROI(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
+	std::vector<FingerJetFXFeature::Minutia> minutiaData {};
+	bool templateCouldBeExtracted { false };
+
+	FJFXROIResults computeROI(int bs,
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };

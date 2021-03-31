@@ -52,7 +52,7 @@ NFIQ2UI::getImages(const BE::Memory::uint8Array &dataArray,
 		logger->debugMsg("Image type could not be determined. " + name +
 		    " will not be processed");
 		logger->printError(
-		    name, 0, "'Error: Could not determine FileType'", 0, 0);
+		    name, 0, "Error: Could not determine FileType", 0, 0);
 
 		return vecCouple;
 	}
@@ -76,10 +76,10 @@ NFIQ2UI::getImages(
 		}
 	} catch (const BE::Error::Exception &e) {
 		std::string error {
-			"'Error: Could not obtain data from path : "
+			"Error: Could not obtain data from path : "
 		};
 		logger->printError(
-		    path, 0, error.append(e.what()) + "'", false, false);
+		    path, 0, error.append(e.what()), false, false);
 	}
 
 	return vecCouple;
@@ -103,8 +103,8 @@ NFIQ2UI::getImagesFromImage(const BE::Memory::uint8Array &dataArray,
 
 	} catch (const BE::Error::Exception &e) {
 		// Unable to open the image
-		std::string error { "'Error: Could not open image : " };
-		logger->printError(name, 0, error.append(e.what()) + "'", 0, 0);
+		std::string error { "Error: Could not open image : " };
+		logger->printError(name, 0, error.append(e.what()), 0, 0);
 	}
 	return vecCouple;
 }
@@ -125,9 +125,9 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 
 	} catch (const BE::Error::Exception &e) {
 		std::string error {
-			"'Error AN2K Record could not be opened : "
+			"Error AN2K Record could not be opened : "
 		};
-		logger->printError(name, 0, error.append(e.what()) + "'", 0, 0);
+		logger->printError(name, 0, error.append(e.what()), 0, 0);
 		return vecCouple;
 	}
 
@@ -210,8 +210,8 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 			logger->printError(
 			    name + "_" + std::to_string(fingerPosition),
 			    static_cast<uint8_t>(fingerPosition),
-			    "'Error: Invalid FingerPosition for NFIQ2 (not "
-			    "0-12)'",
+			    "Error: Invalid FingerPosition for NFIQ2 (not "
+			    "0-12)",
 			    0, 0);
 		}
 	}
@@ -240,9 +240,9 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 	} catch (const BE::Error::Exception &e) {
 		// Could not make ANSI2004Record
 		std::string error {
-			"'ERROR: ANSI2004 RECORD COULD NOT BE OPENED : "
+			"ERROR: ANSI2004 RECORD COULD NOT BE OPENED : "
 		};
-		logger->printError(name, 0, error.append(e.what()) + "'", 0, 0);
+		logger->printError(name, 0, error.append(e.what()), 0, 0);
 		return vecCouple;
 	}
 
@@ -325,8 +325,8 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 			logger->printError(
 			    name + "_" + std::to_string(fingerPosition),
 			    static_cast<uint8_t>(fingerPosition),
-			    "'Error: Invalid finger print position for "
-			    "NFIQ2'",
+			    "Error: Invalid finger print position for "
+			    "NFIQ2",
 			    0, 0);
 		}
 	}

@@ -48,9 +48,9 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     const std::vector<NFIQ::QualityFeatureSpeed> &featureTimings,
     const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality) const
 {
-	*(this->out) << name << "," << std::to_string(fingerCode) << ","
-		     << score << "," << errmsg << "," << quantized << ","
-		     << resampled;
+	*(this->out) << "\"" << name << "\""
+		     << "," << std::to_string(fingerCode) << "," << score << ","
+		     << errmsg << "," << quantized << "," << resampled;
 	if (this->actionable || this->verbose || this->speed) {
 		*(this->out) << ",";
 	}
@@ -137,9 +137,11 @@ NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
     const std::string &errmsg, const bool quantized, const bool resampled) const
 {
 	static const std::string errscore { "NA" };
-	*(this->out) << name << "," << std::to_string(fingerCode) << ","
-		     << errscore << "," << errmsg << "," << quantized << ","
-		     << resampled << padNA() << "\n";
+	*(this->out) << "\"" << name << "\""
+		     << "," << std::to_string(fingerCode) << "," << errscore
+		     << ","
+		     << "\"" << errmsg << "\""
+		     << "," << quantized << "," << resampled << padNA() << "\n";
 }
 
 // Wrapper for printError that takes in an ImageProps
@@ -185,13 +187,13 @@ NFIQ2UI::Log::debugMsg(const std::string &message) const
 void
 NFIQ2UI::Log::printCSVHeader() const
 {
-	*(this->out) << "Filename"
+	*(this->out) << "\"Filename\""
 		     << ","
 		     << "FingerCode"
 		     << ","
 		     << "QualityScore"
 		     << ","
-		     << "OptionalError"
+		     << "\"OptionalError\""
 		     << ","
 		     << "Quantized"
 		     << ","

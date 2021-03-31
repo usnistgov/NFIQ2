@@ -107,8 +107,8 @@ NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
 		    dimensionInfo.imageDPI, dimensionInfo.requiredDPI, "", "");
 
 	} catch (const cv::Exception &e) {
-		const std::string errStr = "'Error: Matrix creation error: " +
-		    e.msg + "'";
+		const std::string errStr = "Error: Matrix creation error: " +
+		    e.msg;
 
 		if (logger == nullptr) {
 			throw NFIQ2UI::ResampleError(errStr, false);
@@ -124,8 +124,8 @@ NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
 		throw NFIQ2UI::ResampleError(errStr, true);
 
 	} catch (const NFIR::Miscue &e) {
-		std::string errStr = "'NFIR resample error: ";
-		errStr = errStr.append(e.what()) + "'";
+		std::string errStr = "NFIR resample error: ";
+		errStr = errStr.append(e.what());
 
 		if (logger == nullptr) {
 			throw NFIQ2UI::ResampleError(errStr, false);
@@ -178,8 +178,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					logger->debugMsg(
 					    "User denied the quantize");
 					const std::string errStr {
-						"'Error: User chose not to "
-						"quantize image'"
+						"Error: User chose not to "
+						"quantize image"
 					};
 					if (singleImage) {
 						logger->printSingleError(
@@ -192,8 +192,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 			} else {
 				const std::string errStr {
-					"'Error: image is not 8 bit or 1 bit"
-					"depth and/or color'"
+					"Error: image is not 8 bit or 1 bit"
+					"depth and/or color"
 				};
 				if (singleImage) {
 					logger->printSingleError(errStr);
@@ -225,9 +225,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		    "Could not get Grayscale raw data from image" + name);
 
 		std::string errStr {
-			"'Error: Could not get Grayscale raw data from image: "
+			"Error: Could not get Grayscale raw data from image: "
 		};
-		errStr = errStr.append(e.what()) + "'";
+		errStr = errStr.append(e.what());
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
@@ -323,8 +323,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 					logger->debugMsg(
 					    "User denied the re-sample");
 					const std::string errStr {
-						"'Error: User chose not to "
-						"re-sample image'"
+						"Error: User chose not to "
+						"re-sample image"
 					};
 					if (singleImage) {
 						logger->printSingleError(
@@ -337,9 +337,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				}
 			}
 		} else {
-			const std::string errStr = "'Error: Image is " +
+			const std::string errStr = "Error: Image is " +
 			    std::to_string(imageDPI) + " PPI, not " +
-			    std::to_string(requiredDPI) + " PPI'";
+			    std::to_string(requiredDPI) + " PPI";
 			if (singleImage) {
 				logger->printSingleError(errStr);
 			} else {
@@ -369,9 +369,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		    wrappedImage);
 	} catch (const NFIQ::NFIQException &e) {
 		std::string errStr {
-			"'Error: NFIQ2 computeQualityScore returned an error code: "
+			"Error: NFIQ2 computeQualityScore returned an error code: "
 		};
-		errStr = errStr.append(e.what()) + "'";
+		errStr = errStr.append(e.what());
 		if (singleImage) {
 			logger->printSingleError(errStr);
 		} else {
@@ -601,7 +601,7 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 	try {
 		rs = BE::IO::RecordStore::openRecordStore(name);
 	} catch (const BE::Error::Exception &e) {
-		std::string error { "'Error: Could not open RecordStore'" };
+		std::string error { "Error: Could not open RecordStore" };
 		threadedlogger->printError(
 		    name, 0, error.append(e.what()), false, false);
 		return;
@@ -639,7 +639,7 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 	try {
 		rs = BE::IO::RecordStore::openRecordStore(filename);
 	} catch (const BE::Error::Exception &e) {
-		std::string error { "'Error: Could not open RecordStore'" };
+		std::string error { "Error: Could not open RecordStore" };
 		logger->printError(
 		    filename, 0, error.append(e.what()), false, false);
 		return;

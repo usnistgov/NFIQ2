@@ -111,8 +111,11 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// this module returns the FJFX minutiae template to be used in other
 	// modules
 
+	std::vector<FingerJetFXFeature::Minutia> minutiaData {};
+	bool templateCouldBeExtracted = false;
 	std::vector<NFIQ::QualityFeatureResult> fjfxFeatures =
-	    fjfxFeatureModule.computeFeatureData(rawImage);
+	    fjfxFeatureModule.computeFeatureData(
+		rawImage, minutiaData, templateCouldBeExtracted);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_fjfxFeatures;
@@ -152,9 +155,8 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    bOutputSpeed, speedValues);
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
-	    fjfxMinQualFeatureModule.computeFeatureData(rawImage,
-		fjfxFeatureModule.getMinutiaData(),
-		fjfxFeatureModule.getTemplateStatus());
+	    fjfxMinQualFeatureModule.computeFeatureData(
+		rawImage, minutiaData, templateCouldBeExtracted);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator

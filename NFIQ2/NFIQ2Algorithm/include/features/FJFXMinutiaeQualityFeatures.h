@@ -51,7 +51,7 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    const bool &templateCouldBeExtracted);
+	    bool &templateCouldBeExtracted);
 
 	std::string getModuleName() const override;
 

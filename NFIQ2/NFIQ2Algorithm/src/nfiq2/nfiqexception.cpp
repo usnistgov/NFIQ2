@@ -63,7 +63,8 @@ const std::string c_ErrorMessages[] = {
 	/* 51 */ "Cannot get minutiae records",
 	/* 52 */ "No minutiae have been found (min count = 0)",
 	/* 53 */ "Cannot get minutiae data",
-	/* 54 */ "Invalid NFIQ2 Score"
+	/* 54 */ "Invalid NFIQ2 Score",
+	/* 55 */ "Invalid Image Size"
 };
 
 NFIQException::NFIQException(uint32_t returnCode)

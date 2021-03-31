@@ -30,15 +30,13 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 
 	// compute Mu at first since it is used to detect empty images
 	// but the feature value for prediction will added later
-	// also return sigma value for actionable quality feedback
 
 	// compute contrast features
 	// MMB
 	// Mu
 	MuFeature muFeatureModule(bOutputSpeed, speedValues);
-	double sigma = 255.0;
 	std::vector<NFIQ::QualityFeatureResult> muFeatures =
-	    muFeatureModule.computeFeatureData(rawImage, sigma);
+	    muFeatureModule.computeFeatureData(rawImage);
 
 	// find Mu feature to get its value and return actionable feedback for
 	// empty images
@@ -47,7 +45,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 		// check for uniform image by using the Sigma value
 		bool isUniformImage = false;
 		NFIQ::ActionableQualityFeedback fbUniform;
-		fbUniform.actionableQualityValue = sigma;
+		fbUniform.actionableQualityValue = muFeatureModule.getSigma();
 		fbUniform.identifier =
 		    NFIQ::ActionableQualityFeedbackIdentifier_UniformImage;
 		isUniformImage = (fbUniform.actionableQualityValue <

@@ -148,13 +148,12 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX minutiae quality features
 	// FJFXPos_Mu_MinutiaeQuality_2
 	// FJFXPos_OCL_MinutiaeQuality_80
-	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule(
-	    bOutputSpeed, speedValues);
+	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule(bOutputSpeed,
+	    speedValues, fjfxFeatureModule.getMinutiaData(),
+	    fjfxFeatureModule.getTemplateStatus());
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
-	    fjfxMinQualFeatureModule.computeFeatureData(rawImage,
-		fjfxFeatureModule.getMinutiaData(),
-		fjfxFeatureModule.getTemplateStatus());
+	    fjfxMinQualFeatureModule.computeFeatureData(rawImage);
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator

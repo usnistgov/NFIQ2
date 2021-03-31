@@ -16,11 +16,27 @@ const std::string
     NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 	"Minutiae quality";
 
+std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
+{
+	if (!this->templateCouldBeExtracted_) {
+		// This should never be reached but is here for consistency
+		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+			"Template could not be extracted." };
+	}
+
+	return (this->minutiaData_);
+}
+
+bool
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getTemplateStatus() const
+{
+	return (this->templateCouldBeExtracted_);
+}
+
 std::vector<NFIQ::QualityFeatureResult>
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage,
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-    const bool &templateCouldBeExtracted)
+    const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
@@ -41,7 +57,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	res_ocl.featureData = fd_ocl;
 	res_ocl.returnCode = 0;
 
-	if (!templateCouldBeExtracted) {
+	if (!this->templateCouldBeExtracted_) {
 		res_mu.featureData.featureDataDouble = -1;
 		res_mu.returnCode = 0;
 		featureDataList.push_back(res_mu);
@@ -71,7 +87,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		// compute minutiae quality based on Mu feature computated at
 		// minutiae positions
 		std::vector<MinutiaData> vecMuMinQualityData =
-		    computeMuMinQuality(minutiaData, 32, fingerprintImage);
+		    computeMuMinQuality(32, fingerprintImage);
 
 		std::vector<unsigned int> vecRanges(
 		    4); // index 0 = -1 .. -0.5, ....
@@ -97,13 +113,13 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		res_mu.returnCode = 0;
 		// return relative value in relation to minutiae count
 		res_mu.featureData.featureDataDouble = (double)vecRanges.at(2) /
-		    (double)minutiaData.size();
+		    (double)this->minutiaData_.size();
 		featureDataList.push_back(res_mu);
 
 		// compute minutiae quality based on OCL feature computed at
 		// minutiae positions
 		std::vector<MinutiaData> vecOCLMinQualityData =
-		    computeOCLMinQuality(minutiaData, BS_OCL, fingerprintImage);
+		    computeOCLMinQuality(BS_OCL, fingerprintImage);
 
 		std::vector<unsigned int> vecRangesOCL(
 		    5); // index 0 = 0-20, 1 = 20-40, ..., 5 = 80-100
@@ -132,7 +148,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		// return relative value in relation to minutiae count
 		res_ocl.featureData.featureDataDouble = (double)vecRangesOCL.at(
 							    4) /
-		    (double)minutiaData.size();
+		    (double)this->minutiaData_.size();
 		featureDataList.push_back(res_ocl);
 
 		if (m_bOutputSpeed) {
@@ -183,8 +199,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 
 std::vector<NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
-    const NFIQ::FingerprintImageData &fingerprintImage)
+    int bs, const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
 
@@ -201,7 +216,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on block-wise Mu computation around FJFX minutiae location
-	for (const auto &minutia : minutiaData) {
+	for (const auto &minutia : this->minutiaData_) {
 		MinutiaData minData;
 		minData.x = static_cast<int>(minutia.x);
 		minData.y = static_cast<int>(minutia.y);
@@ -238,8 +253,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 
 std::vector<NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData, int bs,
-    const NFIQ::FingerprintImageData &fingerprintImage)
+    int bs, const NFIQ::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
 
@@ -251,7 +265,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values
 	// based on OCL value computation around FJFX minutiae location
-	for (const auto &minutia : minutiaData) {
+	for (const auto &minutia : this->minutiaData_) {
 		MinutiaData minData;
 		minData.x = static_cast<int>(minutia.x);
 		minData.y = static_cast<int>(minutia.y);

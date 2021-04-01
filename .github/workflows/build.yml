@@ -123,7 +123,8 @@ jobs:
       with:
         submodules: true
 
-    - name: vcpkg Cache
+    - name: Package Cache (Windows)
+      if: ${{ runner.os == 'Windows' }}
       uses: actions/cache@v2
       env:
         cache-name: vcpkg-0
@@ -158,7 +159,8 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{ github.workspace }}\build
 
-    - name: Install vcpkg Packages
+    - name: Install Packages (Windows)
+      if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
         vcpkg install --triplet=${{ matrix.arch }}-windows-static \

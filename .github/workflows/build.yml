@@ -85,7 +85,7 @@ jobs:
     - name: NFIR Cache
       uses: actions/cache@v2
       env:
-        cache-name: NFIR
+        cache-name: nfir
       with:
         path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
@@ -134,9 +134,9 @@ jobs:
     - name: vcpkg Cache
       uses: actions/cache@v2
       env:
-        cache-name: vcpkg
+        cache-name: vcpkg-0
       with:
-        path: vcpkg/installed
+        path: ${VCPKG_INSTALLATION_ROOT}/installed
         key: ${{ matrix.os }}-${{ matrix.arch }}-${{ env.cache-name }}
 
     - name: OpenCV Cache
@@ -178,6 +178,7 @@ jobs:
       shell: bash
       run: |
         vcpkg install --triplet=${{ matrix.arch }}-windows-static \
+          berkeleydb \
           hwloc \
           libjpeg-turbo \
           liblzma \

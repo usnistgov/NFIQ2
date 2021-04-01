@@ -2,7 +2,6 @@
 
 [![Download Latest Version](https://img.shields.io/badge/download-v2.1--pre-informational)](https://github.com/usnistgov/NFIQ2/releases)
 [![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=master)](https://travis-ci.org/usnistgov/NFIQ2)
-[![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/master?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/master)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
 Overview

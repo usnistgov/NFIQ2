@@ -82,14 +82,6 @@ jobs:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
-    - name: NFIR Cache
-      uses: actions/cache@v2
-      env:
-        cache-name: nfir
-      with:
-        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
-        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
-
     - name: FingerJet Cache
       uses: actions/cache@v2
       env:
@@ -152,14 +144,6 @@ jobs:
       uses: actions/cache@v2
       env:
         cache-name: libbiomeval
-      with:
-        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
-        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
-
-    - name: NFIR Cache
-      uses: actions/cache@v2
-      env:
-        cache-name: nfir
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}

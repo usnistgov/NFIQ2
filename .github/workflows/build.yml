@@ -30,9 +30,11 @@ jobs:
 
     - name: OpenCV Cache
       uses: actions/cache@v2
+      env:
+        cache-name: OpenCV
       with:
-        path: ${{github.workspace}}/build/OpenCV-prefix
-        key: ${{ runner.os }}-build-opencv-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
+        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
 
     - name: Biometric Evaluation Cache
       uses: actions/cache@v2

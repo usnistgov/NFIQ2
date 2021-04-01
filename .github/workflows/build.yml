@@ -1,6 +1,10 @@
 name: Build libnfiq2
 
 on:
+  pull_request:
+    branches:
+      - master
+      - github-actions
   push:
     branches:
       - master

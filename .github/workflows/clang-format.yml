@@ -26,10 +26,6 @@ jobs:
       with:
         submodules: false
 
-    - name: Install clang-format
-      shell: bash
-      run: sudo apt -y install clang-format-11
-
     - name: Run clang-format
       shell: bash
       working-directory: ${{ github.workspace }}

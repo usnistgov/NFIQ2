@@ -25,6 +25,7 @@ jobs:
 
     runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
         config:
           # https://github.com/actions/virtual-environments

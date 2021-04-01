@@ -71,7 +71,7 @@ jobs:
       env:
         cache-name: OpenCV
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
 
     - name: Biometric Evaluation Cache
@@ -79,7 +79,7 @@ jobs:
       env:
         cache-name: libbiomeval
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: NFIR Cache
@@ -87,7 +87,7 @@ jobs:
       env:
         cache-name: nfir
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: FingerJet Cache
@@ -95,11 +95,11 @@ jobs:
       env:
         cache-name: fingerjetfxose
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: Create Build Directory
-      run: cmake -E make_directory ${{github.workspace}}/build
+      run: cmake -E make_directory ${{ github.workspace }}/build
 
     - name: Get CMake Version
       shell: bash
@@ -107,12 +107,12 @@ jobs:
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ github.workspace }}/build
       run: cmake -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
 
     - name: Build
       shell: bash
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ github.workspace }}/build
       run: cmake --build .
 
   build-win:
@@ -145,7 +145,7 @@ jobs:
       env:
         cache-name: OpenCV
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
 
     - name: Biometric Evaluation Cache
@@ -153,7 +153,7 @@ jobs:
       env:
         cache-name: libbiomeval
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: NFIR Cache
@@ -161,7 +161,7 @@ jobs:
       env:
         cache-name: nfir
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: FingerJet Cache
@@ -169,11 +169,11 @@ jobs:
       env:
         cache-name: fingerjetfxose
       with:
-        path: ${{github.workspace}}/build/${{ env.cache-name }}
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}
         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{github.workspace}}\build
+      run: cmake -E make_directory ${{ github.workspace }}\build
 
     - name: Install vcpkg Packages
       shell: bash
@@ -194,7 +194,7 @@ jobs:
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{github.workspace}}\build
+      working-directory: ${{ github.workspace }}\build
       run: |
         cmake \
             -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
@@ -209,5 +209,5 @@ jobs:
 
     - name: Build
       shell: bash
-      working-directory: ${{github.workspace}}\build
+      working-directory: ${{ github.workspace }}\build
       run: cmake --build . --config "${CONFIGURATION}"

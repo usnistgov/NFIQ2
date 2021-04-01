@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         # https://github.com/actions/virtual-environments
-        os: [ubuntu-20.04, ubuntu-18.04, macOS-10.15, macOS-11]
+        os: [ubuntu-20.04, ubuntu-18.04, macOS-10.15]
 
     steps:
     - name: Checkout NFIQ2 and Submodules

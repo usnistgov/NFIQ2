@@ -10,7 +10,6 @@ on:
       - master
       - github_actions
     paths-ignore:
-      - '.github/**'
       - '**.md'
       - 'complianceTestSet/**'
       - '.travis.yml'

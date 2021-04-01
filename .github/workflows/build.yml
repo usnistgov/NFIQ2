@@ -31,6 +31,7 @@ jobs:
         config:
           # https://github.com/actions/virtual-environments
           - { os: macOS-10.15, arch: x64 }
+          - { os: ubuntu-16.04, arch: x64 }
           - { os: ubuntu-18.04, arch: x64 }
           - { os: ubuntu-20.04, arch: x64 }
           - { os: windows-2019, arch: x64 }

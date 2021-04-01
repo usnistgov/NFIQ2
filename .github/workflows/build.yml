@@ -113,3 +113,10 @@ jobs:
       shell: bash
       working-directory: ${{github.workspace}}\build
       run: cmake --build . --config "${CONFIGURATION}"
+
+    - name: Output CMake Error Log
+      shell: bash
+      working-directory: ${{github.workspace}}\build
+      run: |
+        cat OpenCV-prefix/src/OpenCV-build/CMakeFiles/CMakeOutput.log
+        cat OpenCV-prefix/src/OpenCV-build/CMakeFiles/CMakeError.log

@@ -28,16 +28,16 @@ jobs:
         submodules: true
 
     - name: Create Build Directory
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{github.workspace}}/build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{github.workspace}}/build
       run: cmake -D32BITS="${BITS_32}" -D64BITS="${BITS_64}" -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
 
     - name: Build All
       shell: bash
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{github.workspace}}/build
       run: cmake --build .
 
   build-win:
@@ -51,14 +51,14 @@ jobs:
         submodules: true
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}\build
+      run: cmake -E make_directory ${{github.workspace}}\build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}\build
+      working-directory: ${{github.workspace}}\build
       run: cmake -D32BITS="${BITS_32}" -D64BITS="${BITS_64}" -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
 
     - name: Build All
       shell: bash
-      working-directory: ${{runner.workspace}}\build
+      working-directory: ${{github.workspace}}\build
       run: cmake --build . --config "${CONFIGURATION}"

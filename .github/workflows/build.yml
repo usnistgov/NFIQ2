@@ -156,7 +156,7 @@ jobs:
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 
- - name: Build
+    - name: Build
       shell: bash
       env:
         # On Windows (multi-generator), pass the --config flag

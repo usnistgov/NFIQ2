@@ -23,7 +23,8 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout NFIQ2 and Submodules
+      uses: actions/checkout@v2
       with:
         submodules: true
 
@@ -76,7 +77,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout NFIQ2 and Submodules
+      uses: actions/checkout@v2
       with:
         submodules: true
 

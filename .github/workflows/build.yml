@@ -106,7 +106,7 @@ jobs:
         cache-name: OpenCV
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
-        key: ${{ matrix.config.os }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
+        key: ${{ matrix.config.os }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}-blowcache
 
     - name: Biometric Evaluation Cache
       uses: actions/cache@v2
@@ -114,7 +114,7 @@ jobs:
         cache-name: libbiomeval
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
-        key: ${{ matrix.config.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+        key: ${{ matrix.config.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}-blowcache
 
     - name: FingerJet Cache
       uses: actions/cache@v2
@@ -122,7 +122,7 @@ jobs:
         cache-name: fingerjetfxose
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}
-        key: ${{ matrix.config.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+        key: ${{ matrix.config.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}-blowcache
 
     - name: Create Build Directory
       run: cmake -E make_directory ${{ github.workspace }}/build

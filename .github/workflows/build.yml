@@ -112,7 +112,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: cmake -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
 
-    - name: Build All
+    - name: Build
       shell: bash
       working-directory: ${{github.workspace}}/build
       run: cmake --build .
@@ -207,14 +207,7 @@ jobs:
       shell: bash
       run: cmake --version
 
-    - name: Build All
+    - name: Build
       shell: bash
       working-directory: ${{github.workspace}}\build
       run: cmake --build . --config "${CONFIGURATION}"
-
-    - name: Output CMake Error Log
-      shell: bash
-      working-directory: ${{github.workspace}}\build
-      run: |
-        cat OpenCV-prefix/src/OpenCV-build/CMakeFiles/CMakeOutput.log
-        cat OpenCV-prefix/src/OpenCV-build/CMakeFiles/CMakeError.log

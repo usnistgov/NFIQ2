@@ -10,10 +10,11 @@ on:
       - master
       - github_actions
     paths-ignore:
-      - '**.md'
-      - 'complianceTestSet/**'
+      - '.gitignore'
       - '.travis.yml'
+      - '**.md'
       - 'appveyor.yml'
+      - 'complianceTestSet/**'
 
 jobs:
   clang-format:

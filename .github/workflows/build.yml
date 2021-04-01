@@ -18,7 +18,6 @@ on:
 env:
   CONFIGURATION: Release
   BUILD_NFIQ2_CLI: ON
-  CHECK_STYLE: OFF
 
 jobs:
   build-nix:

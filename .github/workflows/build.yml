@@ -17,8 +17,6 @@ on:
 
 env:
   CONFIGURATION: Release
-  BITS_64: ON
-  BITS_32: OFF
   BUILD_NFIQ2_CLI: OFF
   CHECK_STYLE: OFF
 
@@ -80,7 +78,7 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: cmake -D32BITS="${BITS_32}" -D64BITS="${BITS_64}" -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
+      run: cmake -DCMAKE_BUILD_TYPE="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
 
     - name: Build All
       shell: bash
@@ -104,7 +102,11 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{github.workspace}}\build
-      run: cmake -D32BITS="${BITS_32}" -D64BITS="${BITS_64}" -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} ${GITHUB_WORKSPACE}
+      run: |
+        cmake \
+            -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
+            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            ${GITHUB_WORKSPACE}
 
     - name: Get CMake Version
       shell: bash

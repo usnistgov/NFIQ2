@@ -48,7 +48,7 @@ jobs:
         cache-name: NFIR
       with:
         path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
     - name: FingerJet Cache
       uses: actions/cache@v2

@@ -58,7 +58,6 @@ jobs:
       shell: bash
       run: |
         brew install \
-            clang-format \
             berkeley-db \
             hwloc \
             jpeg-turbo \

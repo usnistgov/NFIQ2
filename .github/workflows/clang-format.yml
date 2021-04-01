@@ -1,0 +1,60 @@
+name: Check Code Formatting
+
+on:
+  pull_request:
+    branches:
+      - master
+      - github_actions
+  push:
+    branches:
+      - master
+      - github_actions
+    paths-ignore:
+      - '**.md'
+      - 'complianceTestSet/**'
+      - '.travis.yml'
+      - 'appveyor.yml'
+
+jobs:
+  clang-format:
+    name: clang-format
+    runs-on: macOS-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+      with:
+        submodules: false
+
+    - name: Install clang-format
+      shell: bash
+      run: brew install clang-format
+
+    - name: Run clang-format
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        echo -n "Checking coding style with clang-format..."
+        fail=0
+        echo "::group::Suggested Fix-up Commands"
+        while read -r i; do
+            if ! clang-format --Werror --dry-run "${i}" > /dev/null 2>&1; then
+                if [ "${fail}" == "0" ]; then
+                    echo "[FAIL]"
+                fi
+                fail=1
+                echo "::warning file=${i}::Please run clang-format -i ${i}"
+            fi
+        done < <(find NFIQ2 \( -name "*.c" -o -name "*.h" \
+            -o -name "*.cpp" -o -name "*.hpp" \) -a \! -path '*wsq*' \
+            -a \! -name 'RandomForestTrainedParams.h')
+        echo "::endgroup::"
+        if [ "${fail}" == "1" ]; then
+            msg="Please run the above files through clang-format using the "
+            msg+=".clang-format configuration and push your changes to the "
+            msg+="same branch. See CONTRIBUTING.md for more information."
+            echo "::error ::${msg}"
+            exit 1
+        else
+            echo "[OKAY]"
+        fi

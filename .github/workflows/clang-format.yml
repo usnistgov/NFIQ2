@@ -18,7 +18,7 @@ on:
 jobs:
   clang-format:
     name: clang-format
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
@@ -28,7 +28,7 @@ jobs:
 
     - name: Install clang-format
       shell: bash
-      run: brew install clang-format
+      run: sudo apt -y install clang-format-11
 
     - name: Run clang-format
       shell: bash
@@ -38,7 +38,8 @@ jobs:
         fail=0
         echo "::group::Suggested Fix-up Commands"
         while read -r i; do
-            if ! clang-format --Werror --dry-run "${i}" > /dev/null 2>&1; then
+            if ! clang-format-11 --Werror --dry-run "${i}" > /dev/null 2>&1;
+            then
                 if [ "${fail}" == "0" ]; then
                     echo "[FAIL]"
                 fi

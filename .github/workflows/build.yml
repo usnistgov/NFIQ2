@@ -18,14 +18,12 @@ on:
 
 env:
   CONFIGURATION: Release
-  BUILD_NFIQ2_CLI: OFF
+  BUILD_NFIQ2_CLI: ON
   CHECK_STYLE: OFF
 
 jobs:
   build-nix:
     name: macOS/Linux
-    env:
-        BUILD_NFIQ2_CLI: ON
 
     runs-on: ${{ matrix.os }}
     strategy:

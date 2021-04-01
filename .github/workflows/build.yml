@@ -101,6 +101,13 @@ jobs:
       with:
         submodules: true
 
+    - name: vcpkg Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: vcpkg
+      with:
+        path: vcpkg/installed
+        key: ${{ matrix.os }}-${{ matrix.arch }}-${{ env.cache-name }}
 
     - name: OpenCV Cache
       uses: actions/cache@v2
@@ -137,11 +144,29 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}\build
 
+    - name: Install vcpkg Packages
+      shell: bash
+      run: |
+        vcpkg install --triplet=${{ matrix.arch }}-windows-static \
+          hwloc \
+          libjpeg-turbo \
+          liblzma \
+          libpng \
+          openjpeg \
+          openssl \
+          sqlite3 \
+          tiff \
+          zlib
+        # getopt is not static
+        vcpkg install --triplet=${{ matrix.arch }}-windows getopt
+
     - name: Configure CMake
       shell: bash
       working-directory: ${{github.workspace}}\build
       run: |
         cmake \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.arch }}-windows-static \
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}

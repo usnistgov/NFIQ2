@@ -9,6 +9,11 @@ on:
     branches:
       - master
       - github-actions
+    paths-ignore:
+      - '**.md'
+      - 'complianceTestSet/**'
+      - '.travis.yml'
+      - 'appveyor.yml'
 
 env:
   CONFIGURATION: Release

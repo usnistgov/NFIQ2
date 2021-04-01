@@ -86,9 +86,14 @@ jobs:
       run: cmake --build .
 
   build-win:
-    name: Windows (x64)
+    name: Windows
 
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [windows-2019, windows-2016]
+        arch: [x86, x64]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout NFIQ2 and Submodules

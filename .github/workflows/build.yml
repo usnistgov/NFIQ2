@@ -1,4 +1,4 @@
-name: Build libnfiq2
+name: Build Libraries and CLI
 
 on:
   pull_request:
@@ -10,6 +10,7 @@ on:
       - master
       - github_actions
     paths-ignore:
+      - '.github/**'
       - '**.md'
       - 'complianceTestSet/**'
       - '.travis.yml'
@@ -38,7 +39,7 @@ jobs:
       with:
         submodules: true
 
-    - name: Install apt Packages
+    - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
@@ -53,7 +54,7 @@ jobs:
             libtiff-dev \
             zlib1g-dev
 
-    - name: Install homebrew Packages
+    - name: Install Packages (macOS)
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |

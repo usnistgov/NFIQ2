@@ -23,6 +23,8 @@ env:
 jobs:
   build-nix:
     name: macOS/Linux
+    env:
+        BUILD_NFIQ2_CLI: ON
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -35,6 +37,37 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: true
+
+    - name: Install apt Packages
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        sudo apt -y install \
+            libdb++-dev \
+            libhwloc-dev \
+            libjpeg-dev \
+            libopenjp2-7-dev \
+            libpng-dev \
+            libsqlite3-dev \
+            libssl-dev \
+            libtiff-dev \
+            zlib1g-dev
+
+    - name: Install homebrew Packages
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: |
+        brew install \
+            clang-format \
+            berkeley-db \
+            hwloc \
+            jpeg-turbo \
+            libpng \
+            libtiff \
+            openjpeg \
+            openssl \
+            sqlite \
+            zlib
 
     - name: OpenCV Cache
       uses: actions/cache@v2

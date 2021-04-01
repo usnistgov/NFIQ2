@@ -96,6 +96,39 @@ jobs:
       with:
         submodules: true
 
+
+    - name: OpenCV Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: OpenCV
+      with:
+        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
+
+    - name: Biometric Evaluation Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: libbiomeval
+      with:
+        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
+    - name: NFIR Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: NFIR
+      with:
+        path: ${{github.workspace}}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
+    - name: FingerJet Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: fingerjetfxose
+      with:
+        path: ${{github.workspace}}/build/${{ env.cache-name }}
+        key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}\build
 

@@ -134,7 +134,7 @@ jobs:
       shell: bash
       run: cmake --version
 
-    - name: Configure CMake (macOS, Linux)
+    - name: Configure CMake (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}
       shell: bash
       working-directory: ${{ github.workspace }}/build
@@ -144,7 +144,7 @@ jobs:
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 
-    - name: Configure CMake (Windows)
+    - name: Configure CMake (Multi-config Generator)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       env:
@@ -159,14 +159,14 @@ jobs:
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 
-    - name: Build (Multi-config Generator)
-      if: ${{ runner.os == 'Windows' }}
-      shell: bash
-      working-directory: ${{ github.workspace }}/build
-      run: cmake --build . --config ${CONFIGURATION}
-
     - name: Build (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: cmake --build .
+
+    - name: Build (Multi-config Generator)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: cmake --build . --config ${CONFIGURATION}

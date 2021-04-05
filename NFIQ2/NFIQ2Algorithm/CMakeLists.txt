@@ -64,14 +64,14 @@ set(PREDICTION_FILES
     "src/prediction/RandomForestML.cpp")
 
 set(PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_interfacedefinitions.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_fingerprintimagedata.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_data.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_nfiqexception.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_modelinfo.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_qualityfeatures.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2_results.hpp"
+    "include/nfiq2.hpp"
+    "include/nfiq2_interfacedefinitions.hpp"
+    "include/nfiq2_fingerprintimagedata.hpp"
+    "include/nfiq2_data.hpp"
+    "include/nfiq2_nfiqexception.hpp"
+    "include/nfiq2_modelinfo.hpp"
+    "include/nfiq2_qualityfeatures.hpp"
+    "include/nfiq2_results.hpp"
 )
 
 set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")

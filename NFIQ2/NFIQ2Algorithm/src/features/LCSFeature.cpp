@@ -22,12 +22,6 @@ NFIQ::QualityFeatures::LCSFeature::~LCSFeature()
 {
 }
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::LCSFeature::getSpeedValues() const
-{
-	return this->m_lSpeedValues;
-}
-
 const std::string NFIQ::QualityFeatures::LCSFeature::moduleName { "NFIQ2_LCS" };
 
 std::string
@@ -186,7 +180,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "LCS_Bin10_", 10);
 
 		speed.featureSpeed = timeLCS;
-		m_lSpeedValues.push_back(speed);
+		appendSpeedValues(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

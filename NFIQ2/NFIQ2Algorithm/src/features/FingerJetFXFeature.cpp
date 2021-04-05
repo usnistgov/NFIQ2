@@ -11,12 +11,6 @@ NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature()
 {
 }
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::FingerJetFXFeature::getSpeedValues() const
-{
-	return this->m_lSpeedValues;
-}
-
 const std::string
     NFIQ::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
@@ -241,7 +235,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		speed.featureIDs.push_back(
 		    "FingerJetFX_MinCount_COMMinRect200x200");
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		m_lSpeedValues.push_back(speed);
+		appendSpeedValues(speed);
 
 		return featureDataList;
 	}
@@ -289,7 +283,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 	speed.featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
 	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-	m_lSpeedValues.push_back(speed);
+	appendSpeedValues(speed);
 
 	return featureDataList;
 }

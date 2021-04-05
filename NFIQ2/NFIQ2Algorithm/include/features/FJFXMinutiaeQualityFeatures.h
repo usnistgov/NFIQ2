@@ -35,7 +35,7 @@ namespace NFIQ { namespace QualityFeatures {
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-class FJFXMinutiaeQualityFeature : BaseFeature {
+class FJFXMinutiaeQualityFeature : public BaseFeature {
     public:
 	struct MinutiaData {
 		int x;		///< x-coordinate from top-left corner
@@ -53,8 +53,6 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

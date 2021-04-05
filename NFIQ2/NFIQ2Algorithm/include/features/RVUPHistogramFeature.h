@@ -15,7 +15,7 @@ namespace NFIQ { namespace QualityFeatures {
 
 static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
-class RVUPHistogramFeature : BaseFeature {
+class RVUPHistogramFeature : public BaseFeature {
     public:
 	RVUPHistogramFeature()
 	    : BaseFeature()
@@ -28,8 +28,6 @@ class RVUPHistogramFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

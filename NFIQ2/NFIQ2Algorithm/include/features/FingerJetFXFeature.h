@@ -27,7 +27,7 @@
 
 namespace NFIQ { namespace QualityFeatures {
 
-class FingerJetFXFeature : BaseFeature {
+class FingerJetFXFeature : public BaseFeature {
     public:
 	typedef enum com_type {
 		e_COMType_MinutiaeLocation = 1,
@@ -117,8 +117,6 @@ class FingerJetFXFeature : BaseFeature {
 	FingerJetFXFeature()
 	    : BaseFeature() {};
 	virtual ~FingerJetFXFeature();
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;

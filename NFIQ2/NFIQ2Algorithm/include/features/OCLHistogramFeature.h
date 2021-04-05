@@ -21,7 +21,7 @@ namespace NFIQ { namespace QualityFeatures {
 static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 	0.81, 0.852, 0.898 };
 
-class OCLHistogramFeature : BaseFeature {
+class OCLHistogramFeature : public BaseFeature {
     public:
 	OCLHistogramFeature()
 	    : BaseFeature() {};
@@ -29,8 +29,6 @@ class OCLHistogramFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

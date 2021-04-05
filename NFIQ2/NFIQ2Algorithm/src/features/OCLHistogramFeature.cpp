@@ -17,12 +17,6 @@ NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature()
 {
 }
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::OCLHistogramFeature::getSpeedValues() const
-{
-	return this->m_lSpeedValues;
-}
-
 const std::string
     NFIQ::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
 	"Orientation certainty";
@@ -116,7 +110,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "OCL_Bin10_", 10);
 
 		speed.featureSpeed = timeOCL;
-		m_lSpeedValues.push_back(speed);
+		appendSpeedValues(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

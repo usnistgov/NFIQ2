@@ -16,7 +16,7 @@
 
 namespace NFIQ { namespace QualityFeatures {
 
-class ImgProcROIFeature : BaseFeature {
+class ImgProcROIFeature : public BaseFeature {
     public:
 	struct ImgProcROIResults {
 		unsigned int
@@ -45,8 +45,6 @@ class ImgProcROIFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

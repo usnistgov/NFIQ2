@@ -24,7 +24,7 @@ namespace NFIQ { namespace QualityFeatures {
 #define LOW_FLOW_MAP_LOW_FLOW 127
 #define LOW_FLOW_MAP_HIGH_FLOW 255
 
-class QualityMapFeatures : BaseFeature {
+class QualityMapFeatures : public BaseFeature {
     public:
 	QualityMapFeatures(
 	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
@@ -34,8 +34,6 @@ class QualityMapFeatures : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

@@ -12,12 +12,6 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
 {
 }
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getSpeedValues() const
-{
-	return this->m_lSpeedValues;
-}
-
 const std::string
     NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 	"Minutiae quality";
@@ -79,7 +73,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 		speed.featureSpeed = 0;
-		m_lSpeedValues.push_back(speed);
+		appendSpeedValues(speed);
 
 		return featureDataList;
 	}
@@ -162,7 +156,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		m_lSpeedValues.push_back(speed);
+		appendSpeedValues(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

@@ -15,7 +15,7 @@
 
 namespace NFIQ { namespace QualityFeatures {
 
-class MuFeature : BaseFeature {
+class MuFeature : public BaseFeature {
     public:
 	MuFeature()
 	    : BaseFeature() {};
@@ -23,8 +23,6 @@ class MuFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
-	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

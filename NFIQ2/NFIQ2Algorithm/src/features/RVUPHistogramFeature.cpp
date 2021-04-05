@@ -24,12 +24,6 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature()
 {
 }
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::RVUPHistogramFeature::getSpeedValues() const
-{
-	return this->m_lSpeedValues;
-}
-
 const std::string
     NFIQ::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =
 	"Ridge valley uniformity";
@@ -169,7 +163,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "RVUP_Bin10_", 10);
 
 		speed.featureSpeed = timeRVU;
-		m_lSpeedValues.push_back(speed);
+		appendSpeedValues(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

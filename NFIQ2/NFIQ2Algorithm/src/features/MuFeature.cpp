@@ -11,12 +11,6 @@ NFIQ::QualityFeatures::MuFeature::~MuFeature()
 {
 }
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::MuFeature::getSpeedValues() const
-{
-	return this->m_lSpeedValues;
-}
-
 const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =
     "Contrast";
 
@@ -152,7 +146,7 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	speed.featureIDs.push_back("MMB");
 	speed.featureIDs.push_back("Mu");
 	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-	m_lSpeedValues.push_back(speed);
+	appendSpeedValues(speed);
 
 	return featureDataList;
 }

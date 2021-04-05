@@ -11,6 +11,12 @@ NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature()
 {
 }
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::FingerJetFXFeature::getSpeedValues() const
+{
+	return this->m_lSpeedValues;
+}
+
 const std::string
     NFIQ::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
 
@@ -228,16 +234,14 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
 
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    FingerJetFXFeature::speedFeatureIDGroup;
-			speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
-			speed.featureIDs.push_back(
-			    "FingerJetFX_MinCount_COMMinRect200x200");
-			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-			m_lSpeedValues.push_back(speed);
-		}
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
+		speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
+		speed.featureIDs.push_back(
+		    "FingerJetFX_MinCount_COMMinRect200x200");
+		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		m_lSpeedValues.push_back(speed);
 
 		return featureDataList;
 	}
@@ -280,15 +284,13 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	res_min_cnt.featureData = fd_min_cnt;
 	featureDataList.push_back(res_min_cnt);
 
-	if (m_bOutputSpeed) {
-		NFIQ::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
-		speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
-		speed.featureIDs.push_back(
-		    "FingerJetFX_MinCount_COMMinRect200x200");
-		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		m_lSpeedValues.push_back(speed);
-	}
+	NFIQ::QualityFeatureSpeed speed;
+	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
+	speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
+	speed.featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
+	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+	m_lSpeedValues.push_back(speed);
+
 	return featureDataList;
 }
 

@@ -17,9 +17,8 @@ static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
 class RVUPHistogramFeature : BaseFeature {
     public:
-	RVUPHistogramFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues)
+	RVUPHistogramFeature()
+	    : BaseFeature()
 	    , blocksize(32)
 	    , threshold(0.1)
 	    , slantedBlockSizeX(32)
@@ -29,6 +28,8 @@ class RVUPHistogramFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
+
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

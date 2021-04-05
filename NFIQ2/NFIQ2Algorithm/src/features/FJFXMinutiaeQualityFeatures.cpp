@@ -12,6 +12,12 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
 {
 }
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getSpeedValues() const
+{
+	return this->m_lSpeedValues;
+}
+
 const std::string
     NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 	"Minutiae quality";
@@ -66,17 +72,15 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		res_ocl.returnCode = 0;
 		featureDataList.push_back(res_ocl);
 
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
-			speed.featureIDs.push_back(
-			    "FJFXPos_Mu_MinutiaeQuality_2");
-			speed.featureIDs.push_back(
-			    "FJFXPos_OCL_MinutiaeQuality_80");
-			speed.featureSpeed = 0;
-			m_lSpeedValues.push_back(speed);
-		}
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup =
+		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
+		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
+		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
+		speed.featureSpeed = 0;
+		m_lSpeedValues.push_back(speed);
+
 		return featureDataList;
 	}
 
@@ -151,17 +155,15 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		    (double)this->minutiaData_.size();
 		featureDataList.push_back(res_ocl);
 
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
-			speed.featureIDs.push_back(
-			    "FJFXPos_Mu_MinutiaeQuality_2");
-			speed.featureIDs.push_back(
-			    "FJFXPos_OCL_MinutiaeQuality_80");
-			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-			m_lSpeedValues.push_back(speed);
-		}
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup =
+		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
+		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
+		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
+		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		m_lSpeedValues.push_back(speed);
+
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute FJFX based minutiae quality features: "

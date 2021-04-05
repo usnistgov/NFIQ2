@@ -26,6 +26,12 @@ NFIQ::QualityFeatures::FDAFeature::~FDAFeature()
 {
 }
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::FDAFeature::getSpeedValues() const
+{
+	return this->m_lSpeedValues;
+}
+
 std::vector<std::string>
 NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()
 {
@@ -165,16 +171,15 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		    histogramBins10, dataVector, 10);
 
 		time = timer.endTimerAndGetElapsedTime();
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
 
-			addHistogramFeatureNames(
-			    speed.featureIDs, "FDA_Bin10_", 10);
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
 
-			speed.featureSpeed = time;
-			m_lSpeedValues.push_back(speed);
-		}
+		addHistogramFeatureNames(speed.featureIDs, "FDA_Bin10_", 10);
+
+		speed.featureSpeed = time;
+		m_lSpeedValues.push_back(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

@@ -114,10 +114,11 @@ class FingerJetFXFeature : BaseFeature {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	FingerJetFXFeature()
+	    : BaseFeature() {};
 	virtual ~FingerJetFXFeature();
+
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;

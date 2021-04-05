@@ -23,6 +23,12 @@ NFIQ::QualityFeatures::OFFeature::~OFFeature()
 {
 }
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::OFFeature::getSpeedValues() const
+{
+	return this->m_lSpeedValues;
+}
+
 const std::string NFIQ::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };
 std::string
 NFIQ::QualityFeatures::OFFeature::getModuleName() const
@@ -245,16 +251,15 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		    histogramBins10, dataVector, 10);
 
 		timeOF = timerOF.endTimerAndGetElapsedTime();
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
-			addHistogramFeatureNames(
-			    speed.featureIDs, "OF_Bin10_", 10);
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
-			speed.featureSpeed = timeOF;
-			m_lSpeedValues.push_back(speed);
-		}
+		addHistogramFeatureNames(speed.featureIDs, "OF_Bin10_", 10);
+
+		speed.featureSpeed = timeOF;
+		m_lSpeedValues.push_back(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

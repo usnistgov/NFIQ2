@@ -17,13 +17,14 @@ namespace NFIQ { namespace QualityFeatures {
 
 class MuFeature : BaseFeature {
     public:
-	MuFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	MuFeature()
+	    : BaseFeature() {};
 	virtual ~MuFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
+
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

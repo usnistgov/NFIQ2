@@ -23,6 +23,12 @@ NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures()
 {
 }
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::QualityMapFeatures::getSpeedValues() const
+{
+	return this->m_lSpeedValues;
+}
+
 const std::string
     NFIQ::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
 	"Quality map";
@@ -90,17 +96,14 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 
 		featureDataList.push_back(res_om_1);
 
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    QualityMapFeatures::speedFeatureIDGroup;
-			speed.featureIDs.push_back(
-			    "OrientationMap_ROIFilter_CoherenceSum");
-			speed.featureIDs.push_back(
-			    "OrientationMap_ROIFilter_CoherenceRel");
-			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-			m_lSpeedValues.push_back(speed);
-		}
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = QualityMapFeatures::speedFeatureIDGroup;
+		speed.featureIDs.push_back(
+		    "OrientationMap_ROIFilter_CoherenceSum");
+		speed.featureIDs.push_back(
+		    "OrientationMap_ROIFilter_CoherenceRel");
+		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		m_lSpeedValues.push_back(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

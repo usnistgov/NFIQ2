@@ -43,17 +43,18 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 		double quality; ///< computed minutiae quality value
 	};
 
-	FJFXMinutiaeQualityFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues,
+	FJFXMinutiaeQualityFeature(
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    const bool templateCouldBeExtracted)
-	    : BaseFeature(bOutputSpeed, speedValues)
+	    : BaseFeature()
 	    , minutiaData_ { minutiaData }
 	    , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
 	virtual ~FJFXMinutiaeQualityFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
+
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

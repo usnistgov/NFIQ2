@@ -22,6 +22,12 @@ NFIQ::QualityFeatures::LCSFeature::~LCSFeature()
 {
 }
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::LCSFeature::getSpeedValues() const
+{
+	return this->m_lSpeedValues;
+}
+
 const std::string NFIQ::QualityFeatures::LCSFeature::moduleName { "NFIQ2_LCS" };
 
 std::string
@@ -173,16 +179,15 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "LCS_Bin10_",
 		    histogramBins10, dataVector, 10);
 
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
 
-			addHistogramFeatureNames(
-			    speed.featureIDs, "LCS_Bin10_", 10);
+		addHistogramFeatureNames(speed.featureIDs, "LCS_Bin10_", 10);
 
-			speed.featureSpeed = timeLCS;
-			m_lSpeedValues.push_back(speed);
-		}
+		speed.featureSpeed = timeLCS;
+		m_lSpeedValues.push_back(speed);
+
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute LCS: " << e.what();

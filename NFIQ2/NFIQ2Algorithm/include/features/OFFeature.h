@@ -24,9 +24,8 @@ static double OFHISTLIMITS[9] = { 1.715e-2, 3.5e-2, 5.57e-2, 8.1e-2, 1.15e-1,
 
 class OFFeature : BaseFeature {
     public:
-	OFFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues)
+	OFFeature()
+	    : BaseFeature()
 	    , blocksize(16)
 	    , slantedBlockSizeX(32)
 	    , slantedBlockSizeY(16)
@@ -36,6 +35,8 @@ class OFFeature : BaseFeature {
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
+
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
 	std::string getModuleName() const override;
 

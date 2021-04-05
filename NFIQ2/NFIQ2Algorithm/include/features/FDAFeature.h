@@ -23,9 +23,8 @@ static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
 
 class FDAFeature : BaseFeature {
     public:
-	FDAFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues)
+	FDAFeature()
+	    : BaseFeature()
 	    , blocksize(32)
 	    , threshold(0.1)
 	    , slantedBlockSizeX(32)
@@ -43,6 +42,8 @@ class FDAFeature : BaseFeature {
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
+
+	std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const override;
 
     private:
 	int blocksize;

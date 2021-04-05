@@ -34,9 +34,15 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute contrast features
 	// MMB
 	// Mu
-	MuFeature muFeatureModule(bOutputSpeed, speedValues);
+	MuFeature muFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> muFeatures =
 	    muFeatureModule.computeFeatureData(rawImage);
+
+	if (bOutputSpeed) {
+		for (const auto i : muFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// find Mu feature to get its value and return actionable feedback for
 	// empty images
@@ -87,9 +93,14 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// FDA_Bin10_[0-9]
 	// FDA_Bin10_Mean
 	// FDA_Bin10_StdDev
-	FDAFeature fdaFeatureModule(bOutputSpeed, speedValues);
+	FDAFeature fdaFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> fdaFeatures =
 	    fdaFeatureModule.computeFeatureData(rawImage);
+	if (bOutputSpeed) {
+		for (const auto i : fdaFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_fdaFeatures;
@@ -107,12 +118,17 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX features
 	// FingerJetFX_MinCount_COMMinRect200x200
 	// FingerJetFX_MinutiaeCount
-	FingerJetFXFeature fjfxFeatureModule(bOutputSpeed, speedValues);
+	FingerJetFXFeature fjfxFeatureModule {};
 	// this module returns the FJFX minutiae template to be used in other
 	// modules
 
 	std::vector<NFIQ::QualityFeatureResult> fjfxFeatures =
 	    fjfxFeatureModule.computeFeatureData(rawImage);
+	if (bOutputSpeed) {
+		for (const auto i : fjfxFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_fjfxFeatures;
@@ -148,12 +164,18 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX minutiae quality features
 	// FJFXPos_Mu_MinutiaeQuality_2
 	// FJFXPos_OCL_MinutiaeQuality_80
-	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule(bOutputSpeed,
-	    speedValues, fjfxFeatureModule.getMinutiaData(),
-	    fjfxFeatureModule.getTemplateStatus());
+	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule {
+		fjfxFeatureModule.getMinutiaData(),
+		fjfxFeatureModule.getTemplateStatus()
+	};
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
 	    fjfxMinQualFeatureModule.computeFeatureData(rawImage);
+	if (bOutputSpeed) {
+		for (const auto i : fjfxMinQualFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator
@@ -175,10 +197,15 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 
 	// compute ROI features
 	// ImgProcROIArea_Mean
-	ImgProcROIFeature roiFeatureModule(bOutputSpeed, speedValues);
+	ImgProcROIFeature roiFeatureModule {};
 
 	std::vector<NFIQ::QualityFeatureResult> roiFeatures =
 	    roiFeatureModule.computeFeatureData(rawImage);
+	if (bOutputSpeed) {
+		for (const auto i : roiFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_roiFeatures;
@@ -207,9 +234,15 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// LCS_Bin10_[0-9]
 	// LCS_Bin10_Mean
 	// LCS_Bin10_StdDev
-	LCSFeature lcsFeatureModule(bOutputSpeed, speedValues);
+	LCSFeature lcsFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> lcsFeatures =
 	    lcsFeatureModule.computeFeatureData(rawImage);
+
+	if (bOutputSpeed) {
+		for (const auto i : lcsFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_lcsFeatures;
@@ -244,9 +277,15 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// OCL_Bin10_[0-9]
 	// OCL_Bin10_Mean
 	// OCL_Bin10_StdDev
-	OCLHistogramFeature oclFeatureModule(bOutputSpeed, speedValues);
+	OCLHistogramFeature oclFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> oclFeatures =
 	    oclFeatureModule.computeFeatureData(rawImage);
+
+	if (bOutputSpeed) {
+		for (const auto i : oclFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_oclFeatures;
@@ -265,9 +304,15 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// OF_Bin10_[0-9]
 	// OF_Bin10_Mean
 	// OF_Bin10_StdDev
-	OFFeature ofFeatureModule(bOutputSpeed, speedValues);
+	OFFeature ofFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> ofFeatures =
 	    ofFeatureModule.computeFeatureData(rawImage);
+
+	if (bOutputSpeed) {
+		for (const auto i : ofFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_ofFeatures;
@@ -285,10 +330,17 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute quality map features
 	// OrientationMap_ROIFilter_CoherenceRel
 	// OrientationMap_ROIFilter_CoherenceSum
-	QualityMapFeatures qmFeatureModule(
-	    bOutputSpeed, speedValues, roiFeatureModule.getImgProcResults());
+	QualityMapFeatures qmFeatureModule {
+		roiFeatureModule.getImgProcResults()
+	};
 	std::vector<NFIQ::QualityFeatureResult> qmFeatures =
 	    qmFeatureModule.computeFeatureData(rawImage);
+
+	if (bOutputSpeed) {
+		for (const auto i : qmFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_qmFeatures;
@@ -307,9 +359,15 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// RVUP_Bin10_[0-9]
 	// RVUP_Bin10_Mean
 	// RVUP_Bin10_StdDev
-	RVUPHistogramFeature rvupFeatureModule(bOutputSpeed, speedValues);
+	RVUPHistogramFeature rvupFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> rvupFeatures =
 	    rvupFeatureModule.computeFeatureData(rawImage);
+
+	if (bOutputSpeed) {
+		for (const auto i : rvupFeatureModule.getSpeedValues()) {
+			speedValues.push_back(i);
+		}
+	}
 
 	// append to feature vector
 	std::vector<NFIQ::QualityFeatureResult>::iterator it_rvupFeatures;

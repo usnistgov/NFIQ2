@@ -48,7 +48,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       uses: actions/cache@v2
       env:
-        cache-name: vcpkg-0
+        cache-name: vcpkg
       with:
         path: |
           ${VCPKG_INSTALLATION_ROOT}/installed

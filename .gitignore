@@ -1,7 +1,8 @@
 **/.vs/
-**/.DS_Store/
+**.DS_Store
 **/.vscode/
 **/build*
+!.github/workflow/build.yml
 **/dist/
 **/CMakeFiles/
 **/download/

@@ -34,10 +34,34 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
-set(SOURCE_FILES "")
-file( GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/*.cpp" )
-file( GLOB FEATURES_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/features/*.cpp" )
-file( GLOB PREDICTION_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/prediction/*.cpp" )
+set(SOURCE_FILES
+    "src/nfiq2/data.cpp"
+    "src/nfiq2/fingerprintimagedata.cpp"
+    "src/nfiq2/modelinfo.cpp"
+    "src/nfiq2/nfiq2.cpp"
+    "src/nfiq2/nfiq2_qualityfeatures.cpp"
+    "src/nfiq2/nfiq2_qualityfeatures_impl.cpp"
+    "src/nfiq2/nfiq2_results.cpp"
+    "src/nfiq2/nfiq2_results_impl.cpp"
+    "src/nfiq2/nfiq2impl.cpp"
+    "src/nfiq2/nfiqexception.cpp"
+    "src/nfiq2/version.cpp")
+
+set(FEATURES_FILES
+    "src/features/FDAFeature.cpp"
+    "src/features/FJFXMinutiaeQualityFeatures.cpp"
+    "src/features/FeatureFunctions.cpp"
+    "src/features/FingerJetFXFeature.cpp"
+    "src/features/ImgProcROIFeature.cpp"
+    "src/features/LCSFeature.cpp"
+    "src/features/MuFeature.cpp"
+    "src/features/OCLHistogramFeature.cpp"
+    "src/features/OFFeature.cpp"
+    "src/features/QualityMapFeatures.cpp"
+    "src/features/RVUPHistogramFeature.cpp")
+
+set(PREDICTION_FILES
+    "src/prediction/RandomForestML.cpp")
 
 set(PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/nfiq2.hpp"

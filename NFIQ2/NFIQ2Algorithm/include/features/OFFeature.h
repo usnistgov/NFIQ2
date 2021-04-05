@@ -34,8 +34,8 @@ class OFFeature : BaseFeature {
 	    , angleMin(4.0) {};
 	virtual ~OFFeature();
 
-	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
 

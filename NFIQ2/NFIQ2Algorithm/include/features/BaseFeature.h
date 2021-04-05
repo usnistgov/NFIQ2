@@ -16,9 +16,9 @@ namespace NFIQ { namespace QualityFeatures {
 
 class BaseFeature {
     public:
-	BaseFeature() {};
+	BaseFeature();
 
-	virtual ~BaseFeature() {};
+	virtual ~BaseFeature();
 
 	/** @return Identifier for this particular feature */
 	virtual std::string getModuleName() const = 0;
@@ -28,16 +28,10 @@ class BaseFeature {
 	    const NFIQ::FingerprintImageData &fingerprintImage) = 0;
 
 	/** @return vector of computed quality feature speeds */
-	virtual std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const
-	{
-		return this->speedValues;
-	}
+	virtual std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const;
 
     protected:
-	void appendSpeedValues(const NFIQ::QualityFeatureSpeed &speedFeature)
-	{
-		speedValues.push_back(speedFeature);
-	}
+	void appendSpeedValues(const NFIQ::QualityFeatureSpeed &speedFeature);
 
 	std::vector<NFIQ::QualityFeatureSpeed> speedValues {};
 };

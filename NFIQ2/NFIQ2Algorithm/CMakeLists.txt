@@ -65,14 +65,15 @@ set(PREDICTION_FILES
 
 set(PUBLIC_HEADERS
     "include/nfiq2.hpp"
-    "include/nfiq2_interfacedefinitions.hpp"
-    "include/nfiq2_fingerprintimagedata.hpp"
     "include/nfiq2_data.hpp"
-    "include/nfiq2_nfiqexception.hpp"
+    "include/nfiq2_fingerprintimagedata.hpp"
+    "include/nfiq2_interfacedefinitions.hpp"
     "include/nfiq2_modelinfo.hpp"
+    "include/nfiq2_nfiqexception.hpp"
     "include/nfiq2_qualityfeatures.hpp"
     "include/nfiq2_results.hpp"
-)
+    "include/nfiq2_timer.hpp"
+    "include/nfiq2_version.hpp")
 
 set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")
 add_library( ${NFIQ2_STATIC_LIBRARY_TARGET} STATIC

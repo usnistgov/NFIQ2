@@ -33,7 +33,7 @@ class FDAFeature : BaseFeature {
 	    , padFlag(true) {};
 
 	virtual ~FDAFeature();
-	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;

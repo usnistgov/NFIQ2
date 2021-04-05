@@ -28,7 +28,7 @@ class OCLHistogramFeature : BaseFeature {
 	    : BaseFeature(bOutputSpeed, speedValues) {};
 	virtual ~OCLHistogramFeature();
 
-	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;

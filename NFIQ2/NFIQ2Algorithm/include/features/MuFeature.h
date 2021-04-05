@@ -22,7 +22,7 @@ class MuFeature : BaseFeature {
 	    : BaseFeature(bOutputSpeed, speedValues) {};
 	virtual ~MuFeature();
 
-	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;

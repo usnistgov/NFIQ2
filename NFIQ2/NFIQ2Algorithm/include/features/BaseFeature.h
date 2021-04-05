@@ -25,8 +25,9 @@ class BaseFeature {
 	/** @return Identifier for this particular feature */
 	virtual std::string getModuleName() const = 0;
 
+	/** @return vector of computed quality features */
 	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	    const NFIQ::FingerprintImageData &fingerprintImage) = 0;
 
 	bool m_bOutputSpeed;
 	std::vector<NFIQ::QualityFeatureSpeed> &m_lSpeedValues;

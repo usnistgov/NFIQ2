@@ -16,11 +16,6 @@ namespace NFIQ { namespace QualityFeatures {
 
 class BaseFeature {
     public:
-	BaseFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : m_bOutputSpeed(bOutputSpeed)
-	    , m_lSpeedValues(speedValues) {};
-
 	BaseFeature() {};
 
 	virtual ~BaseFeature() {};
@@ -36,7 +31,6 @@ class BaseFeature {
 	virtual std::vector<NFIQ::QualityFeatureSpeed>
 	getSpeedValues() const = 0;
 
-	bool m_bOutputSpeed;
 	std::vector<NFIQ::QualityFeatureSpeed> m_lSpeedValues {};
 };
 

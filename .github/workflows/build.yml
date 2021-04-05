@@ -55,7 +55,7 @@ jobs:
       env:
         cache-name: vcpkg-install
       with:
-        path: "${VCPKG_INSTALLATION_ROOT}\installed"
+        path: "${VCPKG_INSTALLATION_ROOT}\\installed"
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Package Archive Cache (Windows)
@@ -64,7 +64,7 @@ jobs:
       env:
         cache-name: vcpkg-archive
       with:
-        path: "%USERPROFILE%\AppData\Local\vcpkg\archives"
+        path: "%USERPROFILE%\\AppData\\Local\\vcpkg\\archives"
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install Packages (Linux)

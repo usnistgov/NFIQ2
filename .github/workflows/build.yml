@@ -48,11 +48,18 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       uses: actions/cache@v2
       env:
-        cache-name: vcpkg
+        cache-name: vcpkg-install
       with:
-        path: |
-          ${VCPKG_INSTALLATION_ROOT}/installed
-          '%USERPROFILE%/AppData/Local/vcpkg/archives'
+        path: "${VCPKG_INSTALLATION_ROOT}\installed"
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
+
+    - name: Package Archive Cache (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      uses: actions/cache@v2
+      env:
+        cache-name: vcpkg-archive
+      with:
+        path: "%USERPROFILE%\AppData\Local\vcpkg\archives"
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install Packages (Linux)

@@ -114,9 +114,9 @@ jobs:
     - name: OpenCV Cache
       uses: actions/cache@v2
       env:
-        cache-name: OpenCV
+        cache-name: OpenCV-0
       with:
-        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
+        path: ${{ github.workspace }}/build/OpenCV-prefix
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
 
     - name: Biometric Evaluation Cache

@@ -167,7 +167,7 @@ ExternalProject_Add(libbiomeval
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 )
-	
+
 ExternalProject_Add(nfir
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/NFIR
 	CMAKE_ARGS
@@ -178,7 +178,6 @@ ExternalProject_Add(nfir
 	PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${PROJECT_SOURCE_DIR}/cmake/nfir_CMakeLists.txt
                        ${PROJECT_SOURCE_DIR}/NFIR/CMakeLists.txt
-	BUILD_ALWAYS	YES
 )
 
 ExternalProject_Add_StepDependencies(nfir build OpenCV)

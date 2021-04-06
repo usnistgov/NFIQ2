@@ -80,7 +80,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("ImgProcROIArea_Mean");
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		setSpeed(speed);
+		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

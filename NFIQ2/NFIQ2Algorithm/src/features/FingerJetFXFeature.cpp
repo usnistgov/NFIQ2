@@ -235,7 +235,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		speed.featureIDs.push_back(
 		    "FingerJetFX_MinCount_COMMinRect200x200");
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		setSpeed(speed);
+		this->setSpeed(speed);
 
 		return featureDataList;
 	}
@@ -283,7 +283,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 	speed.featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
 	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-	setSpeed(speed);
+	this->setSpeed(speed);
 
 	return featureDataList;
 }

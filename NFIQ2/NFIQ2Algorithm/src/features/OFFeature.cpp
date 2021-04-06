@@ -253,7 +253,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "OF_Bin10_", 10);
 
 		speed.featureSpeed = timeOF;
-		setSpeed(speed);
+		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

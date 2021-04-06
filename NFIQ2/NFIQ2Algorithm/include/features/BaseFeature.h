@@ -31,10 +31,10 @@ class BaseFeature {
 	virtual NFIQ::QualityFeatureSpeed getSpeed() const;
 
     protected:
-	void setSpeed(const NFIQ::QualityFeatureSpeed &speedFeature);
+	void setSpeed(const NFIQ::QualityFeatureSpeed &featureSpeed);
 
     private:
-	NFIQ::QualityFeatureSpeed speedValue {};
+	NFIQ::QualityFeatureSpeed speed {};
 };
 
 }}

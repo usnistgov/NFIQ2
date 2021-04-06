@@ -173,7 +173,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "FDA_Bin10_", 10);
 
 		speed.featureSpeed = time;
-		setSpeed(speed);
+		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

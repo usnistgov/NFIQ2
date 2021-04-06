@@ -10,12 +10,12 @@ NFIQ::QualityFeatures::BaseFeature::~BaseFeature() {};
 NFIQ::QualityFeatureSpeed
 NFIQ::QualityFeatures::BaseFeature::getSpeed() const
 {
-	return this->speedValue;
+	return this->speed;
 }
 
 void
 NFIQ::QualityFeatures::BaseFeature::setSpeed(
-    const NFIQ::QualityFeatureSpeed &speedFeature)
+    const NFIQ::QualityFeatureSpeed &featureSpeed)
 {
-	this->speedValue = speedFeature;
+	this->speed = featureSpeed;
 }

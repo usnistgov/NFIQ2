@@ -1,8 +1,8 @@
 # NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
 
 [![Download Latest Version](https://img.shields.io/badge/download-v2.1--pre-informational)](https://github.com/usnistgov/NFIQ2/releases)
-[![Linux Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=master)](https://travis-ci.org/usnistgov/NFIQ2)
-[![Windows Build Status (AppVeyor)](https://ci.appveyor.com/api/projects/status/0ilbxxilcyed409s/branch/master?svg=true)](https://ci.appveyor.com/project/usnistgov/nfiq2/branch/master)
+[![Build Libraries and CLI](https://github.com/usnistgov/NFIQ2/actions/workflows/build.yml/badge.svg)](https://github.com/usnistgov/NFIQ2/actions/workflows/build.yml)
+[![Legacy Mac Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=master)](https://travis-ci.org/usnistgov/NFIQ2)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
 Overview

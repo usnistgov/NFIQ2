@@ -5,8 +5,8 @@ project( Nfiq2Api )
 set(CMAKE_CXX_STANDARD 11)
 
 # add files from folder
-file( GLOB SOURCE_FILES "nfiq2*.cpp" )
-file( GLOB HEADER_FILES "nfiq2*.h" )
+set(SOURCE_FILES "nfiq2api.cpp")
+set(HEADER_FILES "nfiq2api.h")
 
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )

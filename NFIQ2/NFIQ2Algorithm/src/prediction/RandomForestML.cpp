@@ -8,6 +8,7 @@
 #include <opencv2/core/version.hpp>
 
 #if defined WINDOWS || defined WIN32
+#define NOMINMAX
 #include <windows.h>
 #else
 #include <unistd.h>
@@ -15,6 +16,17 @@
 #include <float.h>
 #include <math.h>
 #include <time.h>
+
+/*
+ * FIXME: Issue on GitHub Actions where it appears NOMINMAX isn't getting set,
+ *        which breaks digestpp.hpp
+ */
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
 
 #include "digestpp.hpp"
 #include <numeric> // std::accumulate

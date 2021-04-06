@@ -1,0 +1,172 @@
+name: Build Libraries and CLI
+
+on:
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '.travis.yml'
+      - '**.md'
+      - 'appveyor.yml'
+      - 'complianceTestSet/**'
+  push:
+    paths-ignore:
+      - '.gitignore'
+      - '.travis.yml'
+      - '**.md'
+      - 'appveyor.yml'
+      - 'complianceTestSet/**'
+
+env:
+  CONFIGURATION: Release
+  BUILD_NFIQ2_CLI: ON
+
+jobs:
+  build:
+    name: Build Matrix
+
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          # https://github.com/actions/virtual-environments
+          - { os: macOS-10.15, arch: x64 }
+          - { os: ubuntu-16.04, arch: x64 }
+          - { os: ubuntu-18.04, arch: x64 }
+          - { os: ubuntu-20.04, arch: x64 }
+          - { os: windows-2019, arch: x64 }
+          - { os: windows-2019, arch: x86 }
+          - { os: windows-2016, arch: x64 }
+          - { os: windows-2016, arch: x86 }
+
+    steps:
+    - name: Checkout Code and Submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Package Cache (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      uses: actions/cache@v2
+      env:
+        cache-name: vcpkg
+      with:
+        path: |
+          ${VCPKG_INSTALLATION_ROOT}/installed
+          '%USERPROFILE%/AppData/Local/vcpkg/archives'
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
+
+    - name: Install Packages (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        sudo apt -y install \
+            libdb++-dev \
+            libhwloc-dev \
+            libjpeg-dev \
+            libopenjp2-7-dev \
+            libpng-dev \
+            libsqlite3-dev \
+            libssl-dev \
+            libtiff-dev \
+            zlib1g-dev
+
+    - name: Install Packages (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: |
+        brew install \
+            berkeley-db \
+            hwloc \
+            jpeg-turbo \
+            libpng \
+            libtiff \
+            openjpeg \
+            openssl \
+            sqlite \
+            zlib
+
+    - name: Install Packages (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      run: |
+        vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
+          berkeleydb \
+          hwloc \
+          libjpeg-turbo \
+          liblzma \
+          libpng \
+          openjpeg \
+          openssl \
+          sqlite3 \
+          tiff \
+          zlib
+        # getopt is not static
+        vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+
+    - name: OpenCV Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: OpenCV
+      with:
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
+
+    - name: Biometric Evaluation Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: libbiomeval
+      with:
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
+    - name: FingerJet Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: fingerjetfxose
+      with:
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
+    - name: Create Build Directory
+      run: cmake -E make_directory ${{ github.workspace }}/build
+
+    - name: Get CMake Version
+      shell: bash
+      run: cmake --version
+
+    - name: Configure CMake (Single-config Generator)
+      if: ${{ runner.os != 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: |
+        cmake \
+            -DCMAKE_BUILD_TYPE="${CONFIGURATION}" \
+            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            ${GITHUB_WORKSPACE}
+
+    - name: Configure CMake (Multi-config Generator)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      env:
+        cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
+      working-directory: ${{ github.workspace }}\build
+      run: |
+        cmake \
+            -A ${cmake_arch_flag} \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
+            -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
+            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            ${GITHUB_WORKSPACE}
+
+    - name: Build (Single-config Generator)
+      if: ${{ runner.os != 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: cmake --build .
+
+    - name: Build (Multi-config Generator)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: cmake --build . --config ${CONFIGURATION}

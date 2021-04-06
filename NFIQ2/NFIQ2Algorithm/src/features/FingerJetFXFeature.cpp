@@ -7,9 +7,10 @@
 
 using namespace NFIQ;
 
-NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature()
-{
-}
+NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature()
+    : BaseFeature() {};
+
+NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 
 const std::string
     NFIQ::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";

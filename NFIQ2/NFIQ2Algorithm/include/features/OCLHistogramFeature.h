@@ -23,16 +23,13 @@ static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 
 class OCLHistogramFeature : public BaseFeature {
     public:
-	OCLHistogramFeature()
-	    : BaseFeature() {};
+	OCLHistogramFeature();
 	virtual ~OCLHistogramFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
-
-	virtual void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;

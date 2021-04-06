@@ -18,20 +18,13 @@ static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
 
 class LCSFeature : public BaseFeature {
     public:
-	LCSFeature()
-	    : BaseFeature()
-	    , blocksize(32)
-	    , threshold(0.1)
-	    , scannerRes(500)
-	    , padFlag(false) {};
+	LCSFeature();
 	virtual ~LCSFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
-
-	virtual void initModule() {};
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;

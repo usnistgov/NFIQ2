@@ -27,17 +27,13 @@ namespace NFIQ { namespace QualityFeatures {
 class QualityMapFeatures : public BaseFeature {
     public:
 	QualityMapFeatures(
-	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
-	    : BaseFeature()
-	    , imgProcResults_ { imgProcResults } {};
+	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);
 	virtual ~QualityMapFeatures();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
-
-	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;

@@ -8,9 +8,10 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature()
-{
-}
+NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature()
+    : BaseFeature() {};
+
+NFIQ::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
 
 const std::string
     NFIQ::QualityFeatures::ImgProcROIFeature::speedFeatureIDGroup =

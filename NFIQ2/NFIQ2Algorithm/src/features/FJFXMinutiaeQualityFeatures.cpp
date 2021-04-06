@@ -8,9 +8,15 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::~FJFXMinutiaeQualityFeature()
-{
-}
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
+    const bool templateCouldBeExtracted)
+    : BaseFeature()
+    , minutiaData_ { minutiaData }
+    , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
+
+NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::
+    ~FJFXMinutiaeQualityFeature() = default;
 
 const std::string
     NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =

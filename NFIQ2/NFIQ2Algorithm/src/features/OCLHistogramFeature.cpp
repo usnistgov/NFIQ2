@@ -13,9 +13,10 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature()
-{
-}
+NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature()
+    : BaseFeature() {};
+
+NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
 
 const std::string
     NFIQ::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =

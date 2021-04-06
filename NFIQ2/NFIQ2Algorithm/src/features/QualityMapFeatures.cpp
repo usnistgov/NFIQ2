@@ -19,9 +19,12 @@ using namespace NFIQ;
 using namespace cv;
 using namespace std;
 
-NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures()
-{
-}
+NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
+    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
+    : BaseFeature()
+    , imgProcResults_ { imgProcResults } {};
+
+NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
 
 const std::string
     NFIQ::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =

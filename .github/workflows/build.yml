@@ -124,26 +124,11 @@ jobs:
     - name: Echo Vars
       if: ${{ runner.os == 'Windows' }}
       run: |
-        "echo VCPKG_INSTALLATION_ROOT=$env:VCPKG_INSTALLATION_ROOT"
-        "echo LOCALAPPDATA=$env:LOCALAPPDATA"
-        "ls $env:VCPKG_INSTALLATION_ROOT\\buildtrees"
-        "ls $env:VCPKG_INSTALLATION_ROOT\\installed"
-        "ls $env:VCPKG_INSTALLATION_ROOT\\packages"
-        "ls $env:LOCALAPPDATA\\vcpkg\\archives"
-        'ls $env:VCPKG_INSTALLATION_ROOT\\buildtrees'
-        'ls $env:VCPKG_INSTALLATION_ROOT\\installed'
-        'ls $env:VCPKG_INSTALLATION_ROOT\\packages'
-        'ls $env:LOCALAPPDATA\\vcpkg\\archives'
         echo VCPKG_INSTALLATION_ROOT=$env:VCPKG_INSTALLATION_ROOT
         echo LOCALAPPDATA=$env:LOCALAPPDATA
-        ls $env:VCPKG_INSTALLATION_ROOT\\buildtrees
-        ls $env:VCPKG_INSTALLATION_ROOT\\installed
-        ls $env:VCPKG_INSTALLATION_ROOT\\packages
-        ls $env:LOCALAPPDATA\\vcpkg\\archives
-        ls $env:VCPKG_INSTALLATION_ROOT\\buildtrees
-        ls $env:VCPKG_INSTALLATION_ROOT\\installed
-        ls $env:VCPKG_INSTALLATION_ROOT\\packages
-        ls $env:LOCALAPPDATA\\vcpkg\\archives
+        ls $env:VCPKG_INSTALLATION_ROOT/buildtrees
+        ls $env:VCPKG_INSTALLATION_ROOT/installed
+        ls $env:VCPKG_INSTALLATION_ROOT/packages
 
     - name: Create Build Directory
       if: steps.make-builddir-cache.outputs.cache-hit != 'true'

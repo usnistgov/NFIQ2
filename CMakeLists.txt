@@ -70,16 +70,6 @@ if( NOT "${ANDROID_ABI}" STREQUAL "")
   )
 endif()
 
-# forwarding android build flags
-if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
-  message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
-  set(IOS_CMAKE_ARGS
-    -DPLATFORM=${PLATFORM}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DENABLE_ARC=${ENABLE_ARC}
-  )
-endif()
-
 include(ExternalProject)
 
 set(MULTI_CONFIG_ARGS)
@@ -163,7 +153,6 @@ ExternalProject_Add(OpenCV
 		${OPENCV_CMAKE_ARGS}
 		${COMPILER_CMAKE_ARGS}
 		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 )
@@ -208,7 +197,6 @@ ExternalProject_Add(nfiq2
 		${COMPILER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 		${EMBEDDING_CMAKE_ARGS}
@@ -227,7 +215,6 @@ ExternalProject_Add(nfiq2api
 		${COMPILER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

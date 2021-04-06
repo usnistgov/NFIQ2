@@ -2,19 +2,19 @@ name: Check Code Formatting
 
 on:
   pull_request:
-    branches:
-      - master
-      - github_actions
+    paths:
+      - '**.c'
+      - '**.h'
+      - '**.cpp'
+      - '**.hpp'
   push:
     branches:
       - master
-      - github_actions
-    paths-ignore:
-      - '.gitignore'
-      - '.travis.yml'
-      - '**.md'
-      - 'appveyor.yml'
-      - 'complianceTestSet/**'
+    paths:
+      - '**.c'
+      - '**.h'
+      - '**.cpp'
+      - '**.hpp'
 
 jobs:
   clang-format:

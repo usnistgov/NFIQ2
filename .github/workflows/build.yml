@@ -129,6 +129,7 @@ jobs:
         ls $env:VCPKG_INSTALLATION_ROOT/buildtrees
         ls $env:VCPKG_INSTALLATION_ROOT/installed
         ls $env:VCPKG_INSTALLATION_ROOT/packages
+        ls $env:LOCALAPPDATA/vcpkg/archives
 
     - name: Create Build Directory
       if: steps.make-builddir-cache.outputs.cache-hit != 'true'

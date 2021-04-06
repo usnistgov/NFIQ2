@@ -67,11 +67,11 @@ jobs:
         cache-name: vcpkg-install-and-more
       with:
         path: |
-          "$env:VCPKG_INSTALLATION_ROOT\\buildtrees"
-          "$env:VCPKG_INSTALLATION_ROOT\\installed"
-          "$env:VCPKG_INSTALLATION_ROOT\\packages"
-          "$env:LOCALAPPDATA\\vcpkg\\archives"
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
+          $env:VCPKG_INSTALLATION_ROOT/buildtrees
+          $env:VCPKG_INSTALLATION_ROOT/installed
+          $env:VCPKG_INSTALLATION_ROOT/packages
+          $env:LOCALAPPDATA/vcpkg/archives
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-3
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}

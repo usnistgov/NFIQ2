@@ -8,8 +8,7 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature()
-    : BaseFeature() {};
+NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature() = default;
 
 NFIQ::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
 

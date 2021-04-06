@@ -21,8 +21,7 @@ using namespace std;
 
 NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
-    : BaseFeature()
-    , imgProcResults_ { imgProcResults } {};
+    : imgProcResults_ { imgProcResults } {};
 
 NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
 

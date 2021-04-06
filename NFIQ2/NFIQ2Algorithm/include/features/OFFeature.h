@@ -37,15 +37,21 @@ class OFFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	int blocksize; /*!< Processing is done in subblocks of this size. */
-	int slantedBlockSizeX; /*!< Size of the rotated block in the x dimension
-				*/
-	int slantedBlockSizeY; /*!< Size of the rotated block in the y dimension
-				*/
-	double threshold;      /*!< Threshold for differentiating
-				  foreground/background      blocks */
-	double angleMin; /*!< Minimum angle change inclusion in the quality
-			    measure */
+	const int blocksize {
+		16
+	}; /*!< Processing is done in subblocks of this size. */
+	const int slantedBlockSizeX {
+		32
+	}; /*!< Size of the rotated block in the x dimension
+	    */
+	const int slantedBlockSizeY {
+		16
+	}; /*!< Size of the rotated block in the y dimension
+	    */
+	const double threshold { .1 }; /*!< Threshold for differentiating
+				foreground/background      blocks */
+	const double angleMin { 4.0 }; /*!< Minimum angle change inclusion in
+			       the quality measure */
 };
 
 }}

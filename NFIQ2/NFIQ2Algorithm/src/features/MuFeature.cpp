@@ -7,8 +7,7 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::MuFeature::MuFeature()
-    : BaseFeature() {};
+NFIQ::QualityFeatures::MuFeature::MuFeature() = default;
 
 NFIQ::QualityFeatures::MuFeature::~MuFeature() = default;
 

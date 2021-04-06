@@ -36,10 +36,11 @@ class FDAFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	int blocksize;
-	double threshold;
-	int slantedBlockSizeX, slantedBlockSizeY;
-	bool padFlag; // used by getRotatedBlock
+	const int blocksize { 32 };
+	const double threshold { .1 };
+	const int slantedBlockSizeX { 32 };
+	const int slantedBlockSizeY { 16 };
+	const bool padFlag { true }; // used by getRotatedBlock
 };
 }}
 

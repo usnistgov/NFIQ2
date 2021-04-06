@@ -29,12 +29,12 @@ class RVUPHistogramFeature : public BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
-    protected:
-	int blocksize;
-	double threshold;
-	int slantedBlockSizeX, slantedBlockSizeY;
-	int screenRes;
-	bool padFlag;
+    private:
+	const int blocksize { 32 };
+	const double threshold { .1 };
+	const int slantedBlockSizeX { 32 };
+	const int slantedBlockSizeY { 16 };
+	const bool padFlag { true };
 };
 
 }}

@@ -7,8 +7,7 @@
 
 using namespace NFIQ;
 
-NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature()
-    : BaseFeature() {};
+NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature() = default;
 
 NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 

@@ -19,13 +19,7 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::OFFeature::OFFeature()
-    : BaseFeature()
-    , blocksize(16)
-    , slantedBlockSizeX(32)
-    , slantedBlockSizeY(16)
-    , threshold(0.1)
-    , angleMin(4.0) {};
+NFIQ::QualityFeatures::OFFeature::OFFeature() = default;
 
 NFIQ::QualityFeatures::OFFeature::~OFFeature() = default;
 

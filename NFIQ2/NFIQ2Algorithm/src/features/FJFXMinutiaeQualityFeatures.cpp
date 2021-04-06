@@ -11,8 +11,7 @@ using namespace cv;
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     const bool templateCouldBeExtracted)
-    : BaseFeature()
-    , minutiaData_ { minutiaData }
+    : minutiaData_ { minutiaData }
     , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
 
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::

@@ -13,8 +13,7 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature()
-    : BaseFeature() {};
+NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature() = default;
 
 NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
 

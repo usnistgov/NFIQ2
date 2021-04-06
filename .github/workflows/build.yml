@@ -137,6 +137,15 @@ jobs:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
 
+    - name: Artifact Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: artifacts
+      with:
+        path: ${{ github.workspace }}/build/install_staging
+        # TODO: Is there a better file to hash?
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
     - name: Create Build Directory
       run: cmake -E make_directory ${{ github.workspace }}/build
 

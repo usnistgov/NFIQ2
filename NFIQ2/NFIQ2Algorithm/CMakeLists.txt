@@ -13,7 +13,6 @@ endif()
 
 include(GNUInstallDirs)
 
-include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 

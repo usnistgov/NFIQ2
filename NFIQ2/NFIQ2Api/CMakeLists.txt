@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(SOURCE_FILES "nfiq2api.cpp")
 set(HEADER_FILES "nfiq2api.h")
 
-include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 

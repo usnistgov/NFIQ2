@@ -31,9 +31,6 @@ set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CON
 
 set(CMAKE_CXX_STANDARD 11)
 
-# set colors for cmake comand line
-include( "${ROOT_PATH}/cmake/colors.cmake" )
-
 # detect target platform
 include( "${ROOT_PATH}/cmake/target.cmake" )
 
@@ -60,7 +57,7 @@ endif()
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
-  message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
+  message( STATUS "-- Forwarding Android build flags to the external projects" )
   set(ANDROID_CMAKE_ARGS
     -DANDROID_ABI=${ANDROID_ABI}
     -DANDROID_PLATFORM=${ANDROID_PLATFORM}

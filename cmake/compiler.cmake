@@ -4,9 +4,9 @@ include(CheckCXXSourceRuns)
 add_definitions("-D_USE_MATH_DEFINES")
 if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
 #####################################################
-  message( STATUS "${Gn}Detected ${CMAKE_CXX_COMPILER_ID} compiler${Na}" )
+  message( STATUS "Detected ${CMAKE_CXX_COMPILER_ID} compiler" )
   if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
-    message( STATUS "${Gn}Detected Android${Na}" )
+    message( STATUS "Detected Android" )
     set( LINK_LIB_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/lib/${ANDROID_ABI}/lib")
     set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/${ANDROID_ABI}/lib")
   else()
@@ -15,7 +15,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
   endif()
 ##################################################
   if( USE_SANITIZER )
-    message( STATUS "${Pk}Configure diagnostic build with sanitizer${Na}")
+    message( STATUS "Configure diagnostic build with sanitizer")
     add_definitions( "-O0 -Wno-unused-variable -fsanitize=address -fsanitize=leak -fstack-check -fno-omit-frame-pointer -static-libasan" )
   else()
     add_definitions( "-O3 -Wno-unused-variable " )
@@ -54,7 +54,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
   endif()
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  message( STATUS "${Gn}Detected MSVC compiler (Windows)${Na}" )
+  message( STATUS "Detected MSVC compiler (Windows)" )
   set( LINK_LIB_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/lib/Release/")
   set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/Release/")
 
@@ -103,7 +103,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   endforeach(flag_var)
 
 else()
-  message( STATUS "${Rd}Detected compiler ${CMAKE_CXX_COMPILER_ID} which is currently not supported${Na}" )
+  message( STATUS "Detected compiler ${CMAKE_CXX_COMPILER_ID} which is currently not supported" )
 endif()
 
 if(CMAKE_HOST_WIN32 AND MINGW)

@@ -62,7 +62,9 @@ jobs:
       env:
         cache-name: builddir
       with:
-        path: ${{ github.workspace }}/build/OpenCV-prefix
+        path: |
+          ${{ github.workspace }}/build/OpenCV-prefix
+          !${{ github.workspace }}/build/nfiq2*-prefix
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.CONFIGURATION }}-${{ env.cache-name }}-${{ hashFiles('NFIQ2/version.cmake') }}
         restore-keys: |
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('NFIQ2/version.cmake') }}

@@ -19,9 +19,9 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::OFFeature::~OFFeature()
-{
-}
+NFIQ::QualityFeatures::OFFeature::OFFeature() = default;
+
+NFIQ::QualityFeatures::OFFeature::~OFFeature() = default;
 
 const std::string NFIQ::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };
 std::string

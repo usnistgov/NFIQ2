@@ -7,9 +7,9 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::MuFeature::~MuFeature()
-{
-}
+NFIQ::QualityFeatures::MuFeature::MuFeature() = default;
+
+NFIQ::QualityFeatures::MuFeature::~MuFeature() = default;
 
 const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =
     "Contrast";

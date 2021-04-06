@@ -114,16 +114,13 @@ class FingerJetFXFeature : public BaseFeature {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature()
-	    : BaseFeature() {};
+	FingerJetFXFeature();
 	virtual ~FingerJetFXFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
-
-	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;

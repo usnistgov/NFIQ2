@@ -18,9 +18,9 @@ using namespace cv;
 double loclar(Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
-NFIQ::QualityFeatures::LCSFeature::~LCSFeature()
-{
-}
+NFIQ::QualityFeatures::LCSFeature::LCSFeature() = default;
+
+NFIQ::QualityFeatures::LCSFeature::~LCSFeature() = default;
 
 const std::string NFIQ::QualityFeatures::LCSFeature::moduleName { "NFIQ2_LCS" };
 

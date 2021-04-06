@@ -24,13 +24,7 @@ static double OFHISTLIMITS[9] = { 1.715e-2, 3.5e-2, 5.57e-2, 8.1e-2, 1.15e-1,
 
 class OFFeature : public BaseFeature {
     public:
-	OFFeature()
-	    : BaseFeature()
-	    , blocksize(16)
-	    , slantedBlockSizeX(32)
-	    , slantedBlockSizeY(16)
-	    , threshold(0.1)
-	    , angleMin(4.0) {};
+	OFFeature();
 	virtual ~OFFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
@@ -38,24 +32,22 @@ class OFFeature : public BaseFeature {
 
 	std::string getModuleName() const override;
 
-	virtual void initModule() {};
-
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
     private:
-	int blocksize; /*!< Processing is done in subblocks of this size. */
-	int slantedBlockSizeX; /*!< Size of the rotated block in the x dimension
-				*/
-	int slantedBlockSizeY; /*!< Size of the rotated block in the y dimension
-				*/
-	double threshold;      /*!< Threshold for differentiating
-				  foreground/background      blocks */
-	double angleMin; /*!< Minimum angle change inclusion in the quality
-			    measure */
+	/** Processing is done in subblocks of this size. */
+	const int blocksize { 16 };
+	/** Size of the rotated block in the x dimension */
+	const int slantedBlockSizeX { 32 };
+	/** Size of the rotated block in the y dimension */
+	const int slantedBlockSizeY { 16 };
+	/**Threshold for differentiating foreground/background blocks */
+	const double threshold { .1 };
+	/**Minimum angle change inclusion in the quality measure */
+	const double angleMin { 4.0 };
 };
-
 }}
 
 #endif

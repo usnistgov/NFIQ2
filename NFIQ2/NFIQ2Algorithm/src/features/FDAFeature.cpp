@@ -22,9 +22,9 @@ using namespace cv;
 double fda(const Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-NFIQ::QualityFeatures::FDAFeature::~FDAFeature()
-{
-}
+NFIQ::QualityFeatures::FDAFeature::FDAFeature() = default;
+
+NFIQ::QualityFeatures::FDAFeature::~FDAFeature() = default;
 
 std::vector<std::string>
 NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()

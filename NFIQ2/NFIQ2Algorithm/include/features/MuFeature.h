@@ -17,8 +17,7 @@ namespace NFIQ { namespace QualityFeatures {
 
 class MuFeature : public BaseFeature {
     public:
-	MuFeature()
-	    : BaseFeature() {};
+	MuFeature();
 	virtual ~MuFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
@@ -30,8 +29,6 @@ class MuFeature : public BaseFeature {
 	 * Sigma has not yet been calculated.
 	 */
 	double getSigma() const;
-
-	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;

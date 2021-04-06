@@ -18,12 +18,7 @@ static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
 
 class LCSFeature : public BaseFeature {
     public:
-	LCSFeature()
-	    : BaseFeature()
-	    , blocksize(32)
-	    , threshold(0.1)
-	    , scannerRes(500)
-	    , padFlag(false) {};
+	LCSFeature();
 	virtual ~LCSFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
@@ -31,17 +26,15 @@ class LCSFeature : public BaseFeature {
 
 	std::string getModuleName() const override;
 
-	virtual void initModule() {};
-
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
-    protected:
-	int blocksize;
-	double threshold;
-	int scannerRes;
-	bool padFlag;
+    private:
+	const int blocksize { 32 };
+	const double threshold { .1 };
+	const int scannerRes { 500 };
+	const bool padFlag { false };
 };
 
 }}

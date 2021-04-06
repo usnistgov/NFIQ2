@@ -23,31 +23,24 @@ static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
 
 class FDAFeature : public BaseFeature {
     public:
-	FDAFeature()
-	    : BaseFeature()
-	    , blocksize(32)
-	    , threshold(0.1)
-	    , slantedBlockSizeX(32)
-	    , slantedBlockSizeY(16)
-	    , padFlag(true) {};
-
+	FDAFeature();
 	virtual ~FDAFeature();
+
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
-
-	virtual void initModule() {};
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
     private:
-	int blocksize;
-	double threshold;
-	int slantedBlockSizeX, slantedBlockSizeY;
-	bool padFlag; // used by getRotatedBlock
+	const int blocksize { 32 };
+	const double threshold { .1 };
+	const int slantedBlockSizeX { 32 };
+	const int slantedBlockSizeY { 16 };
+	const bool padFlag { true }; // used by getRotatedBlock
 };
 }}
 

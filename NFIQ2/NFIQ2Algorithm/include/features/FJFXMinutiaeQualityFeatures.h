@@ -45,18 +45,13 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 
 	FJFXMinutiaeQualityFeature(
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    const bool templateCouldBeExtracted)
-	    : BaseFeature()
-	    , minutiaData_ { minutiaData }
-	    , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
+	    const bool templateCouldBeExtracted);
 	virtual ~FJFXMinutiaeQualityFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
-
-	void initModule() { /* not needed here */ };
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;

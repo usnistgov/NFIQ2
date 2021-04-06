@@ -20,9 +20,9 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
-NFIQ::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature()
-{
-}
+NFIQ::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature() = default;
+
+NFIQ::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
 
 const std::string
     NFIQ::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =

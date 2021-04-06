@@ -61,7 +61,7 @@ jobs:
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install vcpkg
-      if: ${{ runner.os == 'Windows' }} && ${{ steps.${{ env.vcpkg }}.outputs.cache-hit != 'true' }}
+      if: ${{ runner.os == 'Windows' }} && ${{ steps.fresh-vcpkg.outputs.cache-hit != 'true' }}
       run: |
         git clone https://github.com/microsoft/vcpkg.git ${{ env.vcpkg }}
         .\\${{ env.vcpkg }}\\bootstrap-vcpkg.bat

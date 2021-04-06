@@ -50,6 +50,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       run: |
         "echo %LOCALAPPDATA%"
+        "echo $env:LOCALAPPDATA"
         "echo ${VCPKG_INSTALLATION_ROOT}"
         "echo %VCPKG_INSTALLATION_ROOT%"
         "echo $env:VCPKG_INSTALLATION_ROOT"
@@ -62,10 +63,10 @@ jobs:
         cache-name: vcpkg-install-and-more
       with:
         path: |
-          "${VCPKG_INSTALLATION_ROOT}\\buildtrees"
-          "${VCPKG_INSTALLATION_ROOT}\\installed"
-          "${VCPKG_INSTALLATION_ROOT}\\packages"
-          "%LOCALAPPDATA%\\vcpkg\\archives"
+          "$env:VCPKG_INSTALLATION_ROOT\\buildtrees"
+          "$env:VCPKG_INSTALLATION_ROOT\\installed"
+          "$env:VCPKG_INSTALLATION_ROOT\\packages"
+          "$env:LOCALAPPDATA\\vcpkg\\archives"
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install Packages (Linux)

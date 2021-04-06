@@ -46,16 +46,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Echo variables
-      if: ${{ runner.os == 'Windows' }}
-      run: |
-        "echo %LOCALAPPDATA%"
-        "echo $env:LOCALAPPDATA"
-        "echo ${VCPKG_INSTALLATION_ROOT}"
-        "echo %VCPKG_INSTALLATION_ROOT%"
-        "echo $env:VCPKG_INSTALLATION_ROOT"
-        "echo $env.VCPKG_INSTALLATION_ROOT"
-
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       uses: actions/cache@v2

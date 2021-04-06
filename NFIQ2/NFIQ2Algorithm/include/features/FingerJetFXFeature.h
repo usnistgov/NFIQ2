@@ -115,6 +115,7 @@ class FingerJetFXFeature : public BaseFeature {
 	};
 
 	FingerJetFXFeature();
+	FingerJetFXFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~FingerJetFXFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

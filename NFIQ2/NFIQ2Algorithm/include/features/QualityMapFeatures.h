@@ -28,6 +28,9 @@ class QualityMapFeatures : public BaseFeature {
     public:
 	QualityMapFeatures(
 	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);
+	QualityMapFeatures(
+	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults,
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~QualityMapFeatures();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

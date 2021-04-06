@@ -18,6 +18,7 @@ namespace NFIQ { namespace QualityFeatures {
 class MuFeature : public BaseFeature {
     public:
 	MuFeature();
+	MuFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~MuFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

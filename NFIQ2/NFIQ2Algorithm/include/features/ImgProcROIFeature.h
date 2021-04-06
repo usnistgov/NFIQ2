@@ -40,6 +40,7 @@ class ImgProcROIFeature : public BaseFeature {
 	};
 
 	ImgProcROIFeature();
+	ImgProcROIFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~ImgProcROIFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

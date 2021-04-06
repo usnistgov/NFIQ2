@@ -18,6 +18,8 @@ static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 class RVUPHistogramFeature : public BaseFeature {
     public:
 	RVUPHistogramFeature();
+	RVUPHistogramFeature(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~RVUPHistogramFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

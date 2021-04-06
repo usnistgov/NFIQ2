@@ -22,6 +22,12 @@ void rvuhist(Mat block, const double orientation, const int v1sz_x,
 
 NFIQ::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature() = default;
 
+NFIQ::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
 
 const std::string

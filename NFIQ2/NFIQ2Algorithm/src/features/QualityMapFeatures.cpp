@@ -23,6 +23,14 @@ NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
     : imgProcResults_ { imgProcResults } {};
 
+NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
+    const ImgProcROIFeature::ImgProcROIResults &imgProcResults,
+    const NFIQ::FingerprintImageData &fingerprintImage)
+    : imgProcResults_ { imgProcResults }
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
 
 const std::string

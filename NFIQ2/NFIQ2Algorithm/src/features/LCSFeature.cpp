@@ -20,6 +20,12 @@ double loclar(Mat &block, const double orientation, const int v1sz_x,
 
 NFIQ::QualityFeatures::LCSFeature::LCSFeature() = default;
 
+NFIQ::QualityFeatures::LCSFeature::LCSFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::LCSFeature::~LCSFeature() = default;
 
 const std::string NFIQ::QualityFeatures::LCSFeature::moduleName { "NFIQ2_LCS" };

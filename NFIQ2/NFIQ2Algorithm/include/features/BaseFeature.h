@@ -30,11 +30,19 @@ class BaseFeature {
 	/** @return computed quality feature speed */
 	virtual NFIQ::QualityFeatureSpeed getSpeed() const;
 
+	/** @return computed quality features */
+	virtual std::vector<NFIQ::QualityFeatureResult> getFeatures() const;
+
     protected:
 	void setSpeed(const NFIQ::QualityFeatureSpeed &featureSpeed);
 
+	void setFeatures(
+	    const std::vector<NFIQ::QualityFeatureResult> &featureResult);
+
     private:
 	NFIQ::QualityFeatureSpeed speed {};
+
+	std::vector<NFIQ::QualityFeatureResult> features {};
 };
 
 }}

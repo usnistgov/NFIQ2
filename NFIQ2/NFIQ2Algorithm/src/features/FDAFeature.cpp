@@ -24,6 +24,12 @@ double fda(const Mat &block, const double orientation, const int v1sz_x,
 
 NFIQ::QualityFeatures::FDAFeature::FDAFeature() = default;
 
+NFIQ::QualityFeatures::FDAFeature::FDAFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::FDAFeature::~FDAFeature() = default;
 
 std::vector<std::string>

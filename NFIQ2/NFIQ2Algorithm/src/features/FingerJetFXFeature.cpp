@@ -9,6 +9,12 @@ using namespace NFIQ;
 
 NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature() = default;
 
+NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 
 const std::string

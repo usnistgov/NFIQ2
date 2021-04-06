@@ -21,6 +21,12 @@ using namespace cv;
 
 NFIQ::QualityFeatures::OFFeature::OFFeature() = default;
 
+NFIQ::QualityFeatures::OFFeature::OFFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::OFFeature::~OFFeature() = default;
 
 const std::string NFIQ::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };

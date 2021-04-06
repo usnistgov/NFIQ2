@@ -10,6 +10,12 @@ using namespace cv;
 
 NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature() = default;
 
+NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
 
 const std::string

@@ -9,6 +9,12 @@ using namespace cv;
 
 NFIQ::QualityFeatures::MuFeature::MuFeature() = default;
 
+NFIQ::QualityFeatures::MuFeature::MuFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	setFeatures(computeFeatureData(fingerprintImage));
+}
+
 NFIQ::QualityFeatures::MuFeature::~MuFeature() = default;
 
 const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =

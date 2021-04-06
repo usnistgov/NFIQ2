@@ -46,6 +46,16 @@ jobs:
       with:
         submodules: true
 
+    - name: Echo Vars
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        "echo VCPKG_INSTALLATION_ROOT=$env:VCPKG_INSTALLATION_ROOT"
+        "echo LOCALAPPDATA=$env:LOCALAPPDATA"
+        "ls $env:VCPKG_INSTALLATION_ROOT\\buildtrees"
+        "ls $env:VCPKG_INSTALLATION_ROOT\\installed"
+        "ls $env:VCPKG_INSTALLATION_ROOT\\packages"
+        "ls $env:LOCALAPPDATA\\vcpkg\\archives"
+
     - name: Build Directory Cache
       id: make-builddir-cache
       uses: actions/cache@v2

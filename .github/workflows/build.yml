@@ -113,8 +113,9 @@ jobs:
     - name: Install Packages (Windows)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
+      working-directory: ${{ env.vcpkg }}
       run: |
-        ${{ github.workspace }}/${{ env.vcpkg }}/vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
+        ./vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
           hwloc \
           libjpeg-turbo \
@@ -126,7 +127,7 @@ jobs:
           tiff \
           zlib
         # getopt is not static
-        ${{ github.workspace }}/${{ env.vcpkg }}/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+        ./vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Echo Vars
       if: ${{ runner.os == 'Windows' }}

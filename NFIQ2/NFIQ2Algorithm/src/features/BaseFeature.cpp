@@ -5,7 +5,7 @@
 
 NFIQ::QualityFeatures::BaseFeature::BaseFeature() = default;
 
-NFIQ::QualityFeatures::BaseFeature::~BaseFeature() {};
+NFIQ::QualityFeatures::BaseFeature::~BaseFeature() = default;
 
 NFIQ::QualityFeatureSpeed
 NFIQ::QualityFeatures::BaseFeature::getSpeed() const

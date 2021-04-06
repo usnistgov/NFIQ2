@@ -9,6 +9,8 @@ on:
       - 'appveyor.yml'
       - 'complianceTestSet/**'
   push:
+    branches:
+      - master
     paths-ignore:
       - '.gitignore'
       - '.travis.yml'

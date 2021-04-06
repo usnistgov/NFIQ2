@@ -21,6 +21,7 @@ on:
 env:
   CONFIGURATION: Release
   BUILD_NFIQ2_CLI: ON
+  vcpkg: fresh-vcpkg
 
 jobs:
   build:
@@ -46,6 +47,27 @@ jobs:
       with:
         submodules: true
 
+    - name: Fresh vcpkg install cache (Windows)
+      id: vcpkg-cache
+      uses: actions/cache@v2
+      if: ${{ runner.os == 'Windows' }}
+      env:
+        cache-name: ${{ env.vcpkg }}
+      with:
+        path: ${{ github.workspace }}/${{ env.vcpkg }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('.github/workflows/build.yml') }}
+        restore-keys: |
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('.github/workflows/build.yml') }}
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
+
+    - name: Install vcpkg
+      id: vcpkg-cache
+      if: ${{ runner.os == 'Windows' }}
+      if: steps.make-builddir-cache.outputs.cache-hit != 'true'
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git ${{ env.vcpkg }}
+        .\${{ env.vcpkg }}\bootstrap-vcpkg.bat
+
     - name: Build Directory Cache
       id: make-builddir-cache
       uses: actions/cache@v2
@@ -59,19 +81,6 @@ jobs:
         restore-keys: |
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('NFIQ2/version.cmake') }}
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-
-
-    - name: Package Cache (Windows)
-      if: ${{ runner.os == 'Windows' }}
-      uses: actions/cache@v2
-      env:
-        cache-name: vcpkg-install-and-more
-      with:
-        path: |
-          $env:VCPKG_INSTALLATION_ROOT/buildtrees
-          $env:VCPKG_INSTALLATION_ROOT/installed
-          $env:VCPKG_INSTALLATION_ROOT/packages
-          $env:LOCALAPPDATA/vcpkg/archives
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-3
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -107,7 +116,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
-        vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
+        ${{ github.workspace }}/${{ env.vcpkg }}/vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
           hwloc \
           libjpeg-turbo \
@@ -119,7 +128,7 @@ jobs:
           tiff \
           zlib
         # getopt is not static
-        vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+        ${{ github.workspace }}/${{ env.vcpkg }}/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Echo Vars
       if: ${{ runner.os == 'Windows' }}

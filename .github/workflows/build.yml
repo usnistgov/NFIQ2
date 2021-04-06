@@ -47,7 +47,7 @@ jobs:
       with:
         submodules: true
 
-    - name: Fresh vcpkg install cache (Windows)
+    - name: vcpkg Cache (Windows)
       id: vcpkg-cache
       uses: actions/cache@v2
       if: ${{ runner.os == 'Windows' }}
@@ -62,8 +62,9 @@ jobs:
 
     - name: Install vcpkg
       id: vcpkg-cache
-      if: ${{ runner.os == 'Windows' }}
-      if: steps.make-builddir-cache.outputs.cache-hit != 'true'
+      if: |
+        ${{ runner.os == 'Windows' }} &&
+        steps.make-builddir-cache.outputs.cache-hit != 'true'
       run: |
         git clone https://github.com/microsoft/vcpkg.git ${{ env.vcpkg }}
         .\${{ env.vcpkg }}\bootstrap-vcpkg.bat

@@ -44,7 +44,6 @@ jobs:
     - name: Checkout Code and Submodules
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0
         submodules: true
 
     - name: Echo variables

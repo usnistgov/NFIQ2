@@ -27,7 +27,7 @@
 
 namespace NFIQ { namespace QualityFeatures {
 
-class FingerJetFXFeature : BaseFeature {
+class FingerJetFXFeature : public BaseFeature {
     public:
 	typedef enum com_type {
 		e_COMType_MinutiaeLocation = 1,
@@ -114,9 +114,8 @@ class FingerJetFXFeature : BaseFeature {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	FingerJetFXFeature()
+	    : BaseFeature() {};
 	virtual ~FingerJetFXFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

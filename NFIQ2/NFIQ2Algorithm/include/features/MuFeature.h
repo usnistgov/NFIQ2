@@ -15,11 +15,10 @@
 
 namespace NFIQ { namespace QualityFeatures {
 
-class MuFeature : BaseFeature {
+class MuFeature : public BaseFeature {
     public:
-	MuFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	MuFeature()
+	    : BaseFeature() {};
 	virtual ~MuFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

@@ -35,7 +35,7 @@ namespace NFIQ { namespace QualityFeatures {
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-class FJFXMinutiaeQualityFeature : BaseFeature {
+class FJFXMinutiaeQualityFeature : public BaseFeature {
     public:
 	struct MinutiaData {
 		int x;		///< x-coordinate from top-left corner
@@ -43,11 +43,10 @@ class FJFXMinutiaeQualityFeature : BaseFeature {
 		double quality; ///< computed minutiae quality value
 	};
 
-	FJFXMinutiaeQualityFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues,
+	FJFXMinutiaeQualityFeature(
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    const bool templateCouldBeExtracted)
-	    : BaseFeature(bOutputSpeed, speedValues)
+	    : BaseFeature()
 	    , minutiaData_ { minutiaData }
 	    , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
 	virtual ~FJFXMinutiaeQualityFeature();

@@ -155,17 +155,15 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		    histogramBins10, rvures, 10);
 
 		timeRVU = timerRVU.endTimerAndGetElapsedTime();
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    RVUPHistogramFeature::speedFeatureIDGroup;
 
-			addHistogramFeatureNames(
-			    speed.featureIDs, "RVUP_Bin10_", 10);
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup =
+		    RVUPHistogramFeature::speedFeatureIDGroup;
 
-			speed.featureSpeed = timeRVU;
-			m_lSpeedValues.push_back(speed);
-		}
+		addHistogramFeatureNames(speed.featureIDs, "RVUP_Bin10_", 10);
+
+		speed.featureSpeed = timeRVU;
+		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

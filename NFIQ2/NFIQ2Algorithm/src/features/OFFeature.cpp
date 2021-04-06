@@ -245,16 +245,15 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		    histogramBins10, dataVector, 10);
 
 		timeOF = timerOF.endTimerAndGetElapsedTime();
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
-			addHistogramFeatureNames(
-			    speed.featureIDs, "OF_Bin10_", 10);
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
-			speed.featureSpeed = timeOF;
-			m_lSpeedValues.push_back(speed);
-		}
+		addHistogramFeatureNames(speed.featureIDs, "OF_Bin10_", 10);
+
+		speed.featureSpeed = timeOF;
+		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

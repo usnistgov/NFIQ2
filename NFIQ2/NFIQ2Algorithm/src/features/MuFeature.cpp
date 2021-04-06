@@ -140,14 +140,13 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		    "Unknown exception occurred!");
 	}
 
-	if (m_bOutputSpeed) {
-		NFIQ::QualityFeatureSpeed speed;
-		speed.featureIDGroup = MuFeature::speedFeatureIDGroup;
-		speed.featureIDs.push_back("MMB");
-		speed.featureIDs.push_back("Mu");
-		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		m_lSpeedValues.push_back(speed);
-	}
+	// Speed
+	NFIQ::QualityFeatureSpeed speed;
+	speed.featureIDGroup = MuFeature::speedFeatureIDGroup;
+	speed.featureIDs.push_back("MMB");
+	speed.featureIDs.push_back("Mu");
+	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+	this->setSpeed(speed);
 
 	return featureDataList;
 }

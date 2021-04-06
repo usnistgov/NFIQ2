@@ -16,7 +16,7 @@
 
 namespace NFIQ { namespace QualityFeatures {
 
-class ImgProcROIFeature : BaseFeature {
+class ImgProcROIFeature : public BaseFeature {
     public:
 	struct ImgProcROIResults {
 		unsigned int
@@ -39,9 +39,8 @@ class ImgProcROIFeature : BaseFeature {
 					  ///< grayvalues of all ROI pixels
 	};
 
-	ImgProcROIFeature(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues)
-	    : BaseFeature(bOutputSpeed, speedValues) {};
+	ImgProcROIFeature()
+	    : BaseFeature() {};
 	virtual ~ImgProcROIFeature();
 
 	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(

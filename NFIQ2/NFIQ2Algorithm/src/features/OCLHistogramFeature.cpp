@@ -102,17 +102,16 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		    featureDataList, "OCL_Bin10_", histogramBins10, oclres, 10);
 
 		timeOCL = timerOCL.endTimerAndGetElapsedTime();
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    OCLHistogramFeature::speedFeatureIDGroup;
 
-			addHistogramFeatureNames(
-			    speed.featureIDs, "OCL_Bin10_", 10);
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = OCLHistogramFeature::speedFeatureIDGroup;
 
-			speed.featureSpeed = timeOCL;
-			m_lSpeedValues.push_back(speed);
-		}
+		addHistogramFeatureNames(speed.featureIDs, "OCL_Bin10_", 10);
+
+		speed.featureSpeed = timeOCL;
+		this->setSpeed(speed);
+
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature OCL histogram: " << e.what();

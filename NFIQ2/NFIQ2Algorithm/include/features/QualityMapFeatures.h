@@ -24,12 +24,11 @@ namespace NFIQ { namespace QualityFeatures {
 #define LOW_FLOW_MAP_LOW_FLOW 127
 #define LOW_FLOW_MAP_HIGH_FLOW 255
 
-class QualityMapFeatures : BaseFeature {
+class QualityMapFeatures : public BaseFeature {
     public:
-	QualityMapFeatures(bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &speedValues,
+	QualityMapFeatures(
 	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
-	    : BaseFeature(bOutputSpeed, speedValues)
+	    : BaseFeature()
 	    , imgProcResults_ { imgProcResults } {};
 	virtual ~QualityMapFeatures();
 

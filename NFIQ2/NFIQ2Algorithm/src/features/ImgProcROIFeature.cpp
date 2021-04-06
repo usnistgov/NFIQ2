@@ -75,14 +75,13 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 		featureDataList.push_back(res_roi_pixel_area_mean);
 
-		if (m_bOutputSpeed) {
-			NFIQ::QualityFeatureSpeed speed;
-			speed.featureIDGroup =
-			    ImgProcROIFeature::speedFeatureIDGroup;
-			speed.featureIDs.push_back("ImgProcROIArea_Mean");
-			speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-			m_lSpeedValues.push_back(speed);
-		}
+		// Speed
+		NFIQ::QualityFeatureSpeed speed;
+		speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
+		speed.featureIDs.push_back("ImgProcROIArea_Mean");
+		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		this->setSpeed(speed);
+
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "

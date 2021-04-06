@@ -61,7 +61,6 @@ jobs:
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install vcpkg
-      id: vcpkg-cache
       if: |
         ${{ runner.os == 'Windows' }} &&
         steps.make-builddir-cache.outputs.cache-hit != 'true'

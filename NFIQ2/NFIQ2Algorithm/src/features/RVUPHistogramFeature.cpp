@@ -163,7 +163,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "RVUP_Bin10_", 10);
 
 		speed.featureSpeed = timeRVU;
-		appendSpeedValues(speed);
+		setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

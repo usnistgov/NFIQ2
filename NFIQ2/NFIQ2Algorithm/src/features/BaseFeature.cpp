@@ -7,15 +7,15 @@ NFIQ::QualityFeatures::BaseFeature::BaseFeature() = default;
 
 NFIQ::QualityFeatures::BaseFeature::~BaseFeature() {};
 
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::BaseFeature::getSpeedValues() const
+NFIQ::QualityFeatureSpeed
+NFIQ::QualityFeatures::BaseFeature::getSpeed() const
 {
-	return this->speedValues;
+	return this->speedValue;
 }
 
 void
-NFIQ::QualityFeatures::BaseFeature::appendSpeedValues(
+NFIQ::QualityFeatures::BaseFeature::setSpeed(
     const NFIQ::QualityFeatureSpeed &speedFeature)
 {
-	this->speedValues.push_back(speedFeature);
+	this->speedValue = speedFeature;
 }

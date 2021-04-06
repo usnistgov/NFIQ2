@@ -73,7 +73,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 		speed.featureSpeed = 0;
-		appendSpeedValues(speed);
+		setSpeed(speed);
 
 		return featureDataList;
 	}
@@ -156,7 +156,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		appendSpeedValues(speed);
+		setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

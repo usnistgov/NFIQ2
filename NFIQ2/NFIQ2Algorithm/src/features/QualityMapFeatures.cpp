@@ -97,7 +97,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		speed.featureIDs.push_back(
 		    "OrientationMap_ROIFilter_CoherenceRel");
 		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-		appendSpeedValues(speed);
+		setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

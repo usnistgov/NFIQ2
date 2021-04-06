@@ -39,9 +39,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    muFeatureModule.computeFeatureData(rawImage);
 
 	if (bOutputSpeed) {
-		for (const auto i : muFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(muFeatureModule.getSpeed());
 	}
 
 	// find Mu feature to get its value and return actionable feedback for
@@ -96,10 +94,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	FDAFeature fdaFeatureModule {};
 	std::vector<NFIQ::QualityFeatureResult> fdaFeatures =
 	    fdaFeatureModule.computeFeatureData(rawImage);
+
 	if (bOutputSpeed) {
-		for (const auto i : fdaFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(fdaFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -124,10 +121,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 
 	std::vector<NFIQ::QualityFeatureResult> fjfxFeatures =
 	    fjfxFeatureModule.computeFeatureData(rawImage);
+
 	if (bOutputSpeed) {
-		for (const auto i : fjfxFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(fjfxFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -171,10 +167,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
 	    fjfxMinQualFeatureModule.computeFeatureData(rawImage);
+
 	if (bOutputSpeed) {
-		for (const auto i : fjfxMinQualFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(fjfxMinQualFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -201,10 +196,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 
 	std::vector<NFIQ::QualityFeatureResult> roiFeatures =
 	    roiFeatureModule.computeFeatureData(rawImage);
+
 	if (bOutputSpeed) {
-		for (const auto i : roiFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(roiFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -239,9 +233,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    lcsFeatureModule.computeFeatureData(rawImage);
 
 	if (bOutputSpeed) {
-		for (const auto i : lcsFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(lcsFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -282,9 +274,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    oclFeatureModule.computeFeatureData(rawImage);
 
 	if (bOutputSpeed) {
-		for (const auto i : oclFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(oclFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -309,9 +299,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    ofFeatureModule.computeFeatureData(rawImage);
 
 	if (bOutputSpeed) {
-		for (const auto i : ofFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(ofFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -337,9 +325,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    qmFeatureModule.computeFeatureData(rawImage);
 
 	if (bOutputSpeed) {
-		for (const auto i : qmFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(qmFeatureModule.getSpeed());
 	}
 
 	// append to feature vector
@@ -364,9 +350,7 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	    rvupFeatureModule.computeFeatureData(rawImage);
 
 	if (bOutputSpeed) {
-		for (const auto i : rvupFeatureModule.getSpeedValues()) {
-			speedValues.push_back(i);
-		}
+		speedValues.push_back(rvupFeatureModule.getSpeed());
 	}
 
 	// append to feature vector

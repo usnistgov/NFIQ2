@@ -146,7 +146,7 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	speed.featureIDs.push_back("MMB");
 	speed.featureIDs.push_back("Mu");
 	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
-	appendSpeedValues(speed);
+	setSpeed(speed);
 
 	return featureDataList;
 }

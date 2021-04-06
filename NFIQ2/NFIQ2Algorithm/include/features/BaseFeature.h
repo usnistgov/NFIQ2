@@ -27,13 +27,14 @@ class BaseFeature {
 	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
 	    const NFIQ::FingerprintImageData &fingerprintImage) = 0;
 
-	/** @return vector of computed quality feature speeds */
-	virtual std::vector<NFIQ::QualityFeatureSpeed> getSpeedValues() const;
+	/** @return computed quality feature speed */
+	virtual NFIQ::QualityFeatureSpeed getSpeed() const;
 
     protected:
-	void appendSpeedValues(const NFIQ::QualityFeatureSpeed &speedFeature);
+	void setSpeed(const NFIQ::QualityFeatureSpeed &speedFeature);
 
-	std::vector<NFIQ::QualityFeatureSpeed> speedValues {};
+    private:
+	NFIQ::QualityFeatureSpeed speedValue {};
 };
 
 }}

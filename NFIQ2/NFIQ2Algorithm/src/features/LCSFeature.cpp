@@ -180,7 +180,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		addHistogramFeatureNames(speed.featureIDs, "LCS_Bin10_", 10);
 
 		speed.featureSpeed = timeLCS;
-		appendSpeedValues(speed);
+		setSpeed(speed);
 
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

@@ -168,6 +168,7 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=../${{ env.vcpkg }}/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
+            -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 

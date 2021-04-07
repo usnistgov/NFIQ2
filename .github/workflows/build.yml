@@ -21,7 +21,7 @@ on:
 env:
   CONFIGURATION: Release
   BUILD_NFIQ2_CLI: ON
-  vcpkg: fresh-vcpkg
+  vcpkg: fresh_vcpkg
 
 jobs:
   build:
@@ -47,38 +47,24 @@ jobs:
       with:
         submodules: true
 
-    - name: vcpkg Cache (Windows)
-      id: vcpkg-cache
-      uses: actions/cache@v2
-      if: ${{ runner.os == 'Windows' }}
-      env:
-        cache-name: ${{ env.vcpkg }}
-      with:
-        path: ${{ github.workspace }}/${{ env.vcpkg }}
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('.github/workflows/build.yml') }}
-        restore-keys: |
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('.github/workflows/build.yml') }}
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
-
     - name: Install vcpkg
-      if: ${{ runner.os == 'Windows' && steps.vcpkg-cache.outputs.cache-hit != 'true' }}
+      if: ${{ runner.os == 'Windows' }}
       run: |
         git clone https://github.com/microsoft/vcpkg.git ${{ env.vcpkg }}
         .\\${{ env.vcpkg }}\\bootstrap-vcpkg.bat -disableMetrics
 
-    - name: Build Directory Cache
-      id: make-builddir-cache
+    - name: Package Cache (Windows)
+      if: ${{ runner.os == 'Windows' }}
       uses: actions/cache@v2
+      working-directory: ${{ github.workspace }}/${{ env.vcpkg }}
       env:
-        cache-name: builddir-ninja
+        cache-name: ${{ env.vcpkg }}
       with:
-        path: |
-          ${{ github.workspace }}/build/OpenCV-prefix
-          !${{ github.workspace }}/build/nfiq2*-prefix
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.CONFIGURATION }}-${{ env.cache-name }}-${{ hashFiles('NFIQ2/version.cmake') }}
+        path: installed
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('installed/vcpkg/status') }}
         restore-keys: |
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('NFIQ2/version.cmake') }}
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('installed/vcpkg/status') }}
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -129,15 +115,34 @@ jobs:
         # getopt is not static
         ./vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
+    - name: OpenCV Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: OpenCV
+      with:
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
+
+    - name: Biometric Evaluation Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: libbiomeval
+      with:
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
+    - name: FingerJet Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: fingerjetfxose
+      with:
+        path: ${{ github.workspace }}/build/${{ env.cache-name }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+
     - name: Create Build Directory
-      if: steps.make-builddir-cache.outputs.cache-hit != 'true'
       run: cmake -E make_directory ${{ github.workspace }}/build
 
     - name: Get CMake Version
-      shell: bash
-      run: cmake --version
-
-    - name: Testing cache
       shell: bash
       run: cmake --version
 
@@ -151,20 +156,20 @@ jobs:
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 
-    - uses: seanmiddleditch/gha-setup-ninja@master
-      name: Install ninja
-
-    - name: Create Build Directory (Ninja)
+    - name: Configure CMake (Multi-config Generator)
       if: ${{ runner.os == 'Windows' }}
-      run: cmake -E make_directory ${{ github.workspace }}\build_ninja
-
-    - name: Configure CMake (Ninja)
-      if: ${{ runner.os == 'Windows' }}
+      shell: bash
       env:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
-      working-directory: ${{ github.workspace }}\build_ninja
+      working-directory: ${{ github.workspace }}\build
       run: |
-        cmake -DCMAKE_TOOLCHAIN_FILE=..\\${{ env.vcpkg }}\\scripts\\buildsystems\\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} -G Ninja ..
+        cmake \
+            -A ${cmake_arch_flag} \
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.vcpkg }}/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
+            -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
+            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            ${GITHUB_WORKSPACE}
 
     - name: Build (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}
@@ -172,7 +177,8 @@ jobs:
       working-directory: ${{ github.workspace }}/build
       run: cmake --build .
 
-    - name: Build (Ninja)
+    - name: Build (Multi-config Generator)
       if: ${{ runner.os == 'Windows' }}
-      working-directory: ${{ github.workspace }}/build_ninja
-      run: cmake --build .
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: cmake --build . --config ${CONFIGURATION}

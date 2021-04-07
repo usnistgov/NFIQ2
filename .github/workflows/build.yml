@@ -135,12 +135,12 @@ jobs:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}-1
 
-    - name: Create Build Directory
-      run: cmake -E make_directory ${{ github.workspace }}/build
-
     - name: Get CMake Version
       shell: bash
       run: cmake --version
+
+    - name: Create Build Directory
+      run: cmake -E make_directory ${{ github.workspace }}/build
 
     - name: Configure CMake (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}

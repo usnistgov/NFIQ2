@@ -1,6 +1,7 @@
 #ifndef NFIQ2_QUALITYFEATURES_HPP_
 #define NFIQ2_QUALITYFEATURES_HPP_
 
+#include <features/BaseFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
 
@@ -60,6 +61,19 @@ std::vector<NFIQ::QualityFeatureData> computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
     std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
     bool bOutputSpeed, std::vector<NFIQ::QualityFeatureSpeed> &speedValues);
+
+/**
+ * @brief
+ * Obtain computed quality feature data from a fingerprint image.
+ *
+ * @param rawImage
+ * Fingerprint image in raw format
+ *
+ * @return
+ * A vector if BaseFeature modules containing computed feature data
+ */
+std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+getComputedQualityFeatures(const NFIQ::FingerprintImageData &rawImage);
 
 }}
 

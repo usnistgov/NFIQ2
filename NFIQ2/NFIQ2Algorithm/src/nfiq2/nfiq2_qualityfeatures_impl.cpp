@@ -1,3 +1,4 @@
+#include <features/BaseFeature.h>
 #include <features/FDAFeature.h>
 #include <features/FJFXMinutiaeQualityFeatures.h>
 #include <features/FingerJetFXFeature.h>
@@ -17,8 +18,46 @@
 #include <iomanip>
 #include <iostream>
 #include <list>
+#include <memory>
 #include <string>
 #include <vector>
+
+std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+NFIQ::QualityFeatures::Impl::getComputedQualityFeatures(
+    const NFIQ::FingerprintImageData &rawImage)
+{
+	std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	    features {};
+
+	features.push_back(std::make_shared<MuFeature>(rawImage));
+
+	features.push_back(std::make_shared<FDAFeature>(rawImage));
+
+	std::shared_ptr<FingerJetFXFeature> fjfxFeatureModule =
+	    std::make_shared<FingerJetFXFeature>(rawImage);
+	features.push_back(fjfxFeatureModule);
+
+	features.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(
+	    rawImage, fjfxFeatureModule->getMinutiaData(),
+	    fjfxFeatureModule->getTemplateStatus()));
+
+	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
+	    std::make_shared<ImgProcROIFeature>(rawImage);
+	features.push_back(roiFeatureModule);
+
+	features.push_back(std::make_shared<LCSFeature>(rawImage));
+
+	features.push_back(std::make_shared<OCLHistogramFeature>(rawImage));
+
+	features.push_back(std::make_shared<OFFeature>(rawImage));
+
+	features.push_back(std::make_shared<QualityMapFeatures>(
+	    rawImage, roiFeatureModule->getImgProcResults()));
+
+	features.push_back(std::make_shared<RVUPHistogramFeature>(rawImage));
+
+	return features;
+}
 
 std::vector<NFIQ::QualityFeatureData>
 NFIQ::QualityFeatures::Impl::computeQualityFeatures(

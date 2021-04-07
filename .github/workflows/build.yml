@@ -164,12 +164,7 @@ jobs:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
       working-directory: ${{ github.workspace }}\build_ninja
       run: |
-        cmake \
-            -DCMAKE_TOOLCHAIN_FILE=../${{ env.vcpkg }}/scripts/buildsystems/vcpkg.cmake \
-            -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
-            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
-            -G Ninja \
-            ${GITHUB_WORKSPACE}
+        cmake -DCMAKE_TOOLCHAIN_FILE=..\\${{ env.vcpkg }}\\scripts\\buildsystems\\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} -G Ninja ..
 
     - name: Build (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}

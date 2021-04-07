@@ -151,8 +151,10 @@ jobs:
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 
+    - uses: seanmiddleditch/gha-setup-ninja@master
+      name: Install ninja
+
     - name: Configure CMake (Ninja)
-      uses: seanmiddleditch/gha-setup-ninja@master
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       env:

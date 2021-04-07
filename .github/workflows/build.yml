@@ -41,12 +41,6 @@ jobs:
           - { os: windows-2016, arch: x86 }
 
     steps:
-
-    - name: Remove default vcpkg
-      shell: bash
-      if: ${{ runner.os == 'Windows' }}
-      run: rm -rf ${VCPKG_INSTALLATION_ROOT}
-
     - name: Checkout Code and Submodules
       uses: actions/checkout@v2
       with:
@@ -55,15 +49,15 @@ jobs:
     - name: Install vcpkg
       if: ${{ runner.os == 'Windows' }}
       run: |
-        git clone https://github.com/microsoft/vcpkg.git fresh_vcpkg
-        .\\fresh_vcpkg\\bootstrap-vcpkg.bat -disableMetrics
+        git clone https://github.com/microsoft/vcpkg.git fresh-vcpkg
+        .\\fresh-vcpkg\\bootstrap-vcpkg.bat -disableMetrics
 
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       id: vcpkg-cache
       uses: actions/cache@v2
       with:
-        path: fresh_vcpkg\installed
+        path: fresh-vcpkg\installed
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-0
         restore-keys: |
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-0
@@ -167,11 +161,10 @@ jobs:
       run: |
         cmake \
             -A ${cmake_arch_flag} \
-            -DCMAKE_TOOLCHAIN_FILE=../fresh_vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=../fresh-vcpkg/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DVCPKG_VERBOSE=ON \
-            -DZ_VCPKG_ROOT_DIR=../fresh_vcpkg \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 

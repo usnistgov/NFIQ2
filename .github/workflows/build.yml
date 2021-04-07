@@ -152,7 +152,9 @@ jobs:
 
     - name: Get CMake Version
       shell: bash
-      run: cmake --version
+      run: |
+        cmake --version
+        cmake --version
 
     - name: Configure CMake (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}

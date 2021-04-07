@@ -22,6 +22,129 @@
 #include <string>
 #include <vector>
 
+std::vector<NFIQ::ActionableQualityFeedback>
+NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
+    const NFIQ::FingerprintImageData &rawImage)
+{
+	return NFIQ::QualityFeatures::getActionableQualityFeedback(
+	    NFIQ::QualityFeatures::getComputedQualityFeatures(rawImage));
+}
+
+std::vector<NFIQ::ActionableQualityFeedback>
+NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features)
+{
+	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality {};
+
+	for (const auto feature : features) {
+		if (feature->getModuleName().compare("NFIQ2_Mu") == 0) {
+			// Uniform and Contrast
+			const std::shared_ptr<MuFeature> muFeatureModule =
+			    std::dynamic_pointer_cast<MuFeature>(feature);
+
+			std::vector<NFIQ::QualityFeatureResult> muFeatures =
+			    muFeatureModule->getFeatures();
+
+			std::vector<NFIQ::QualityFeatureResult>::iterator
+			    it_muFeatures;
+			// check for uniform image by using the Sigma value
+			bool isUniformImage = false;
+			NFIQ::ActionableQualityFeedback fbUniform;
+			fbUniform.actionableQualityValue =
+			    muFeatureModule->getSigma();
+			fbUniform.identifier = NFIQ::
+			    ActionableQualityFeedbackIdentifier_UniformImage;
+			isUniformImage = (fbUniform.actionableQualityValue <
+				    ActionableQualityFeedbackThreshold_UniformImage ?
+				      true :
+				      false);
+			actionableQuality.push_back(fbUniform);
+
+			// Mu is computed always since it is used as feature
+			// anyway
+			bool isEmptyImage = false;
+			for (it_muFeatures = muFeatures.begin();
+			     it_muFeatures != muFeatures.end();
+			     ++it_muFeatures) {
+				if (it_muFeatures->featureData.featureID
+					.compare("Mu") == 0) {
+					NFIQ::ActionableQualityFeedback fb;
+					fb.actionableQualityValue =
+					    it_muFeatures->featureData
+						.featureDataDouble;
+					fb.identifier = NFIQ::
+					    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow;
+					isEmptyImage = (fb.actionableQualityValue >
+						    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow ?
+						      true :
+						      false);
+					actionableQuality.push_back(fb);
+				}
+			}
+
+			if (isEmptyImage || isUniformImage) {
+				// empty image or uniform image has been
+				// detected return empty feature vector feature
+				// values will not be computed in that case
+				return actionableQuality;
+			}
+
+		} else if (feature->getModuleName().compare(
+			       "NFIQ2_FingerJetFX") == 0) {
+			// Minutiae
+			const std::shared_ptr<FingerJetFXFeature>
+			    fjfxFeatureModule =
+				std::dynamic_pointer_cast<FingerJetFXFeature>(
+				    feature);
+
+			std::vector<NFIQ::QualityFeatureResult> fjfxFeatures =
+			    fjfxFeatureModule->getFeatures();
+
+			std::vector<NFIQ::QualityFeatureResult>::iterator
+			    it_fjfxFeatures;
+
+			for (it_fjfxFeatures = fjfxFeatures.begin();
+			     it_fjfxFeatures != fjfxFeatures.end();
+			     ++it_fjfxFeatures) {
+				if (it_fjfxFeatures->featureData.featureID
+					.compare("FingerJetFX_MinutiaeCount") ==
+				    0) {
+					// return informative feature about
+					// number of minutiae
+					NFIQ::ActionableQualityFeedback fb;
+					fb.actionableQualityValue =
+					    it_fjfxFeatures->featureData
+						.featureDataDouble;
+					fb.identifier = NFIQ::
+					    ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae;
+					actionableQuality.push_back(fb);
+				}
+			}
+
+		} else if (feature->getModuleName().compare(
+			       "NFIQ2_ImgProcROI") == 0) {
+			// FP Foreground
+			const std::shared_ptr<ImgProcROIFeature>
+			    roiFeatureModule =
+				std::dynamic_pointer_cast<ImgProcROIFeature>(
+				    feature);
+
+			// add ROI information to actionable quality feedback
+			NFIQ::ActionableQualityFeedback fb_roi;
+			fb_roi.actionableQualityValue =
+			    roiFeatureModule->getImgProcResults()
+				.noOfROIPixels; // absolute number of ROI pixels
+						// (foreground)
+			fb_roi.identifier = NFIQ::
+			    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground;
+			actionableQuality.push_back(fb_roi);
+		}
+	}
+
+	return actionableQuality;
+}
+
 std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 NFIQ::QualityFeatures::Impl::getComputedQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage)

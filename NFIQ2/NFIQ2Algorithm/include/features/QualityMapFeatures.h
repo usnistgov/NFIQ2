@@ -26,9 +26,8 @@ namespace NFIQ { namespace QualityFeatures {
 
 class QualityMapFeatures : public BaseFeature {
     public:
-	QualityMapFeatures(
-	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults,
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	QualityMapFeatures(const NFIQ::FingerprintImageData &fingerprintImage,
+	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);
 	virtual ~QualityMapFeatures();
 
 	std::string getModuleName() const override;

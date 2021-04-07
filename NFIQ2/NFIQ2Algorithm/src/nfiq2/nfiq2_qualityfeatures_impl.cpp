@@ -160,10 +160,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX minutiae quality features
 	// FJFXPos_Mu_MinutiaeQuality_2
 	// FJFXPos_OCL_MinutiaeQuality_80
-	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule {
+	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule { rawImage,
 		fjfxFeatureModule.getMinutiaData(),
-		fjfxFeatureModule.getTemplateStatus(), rawImage
-	};
+		fjfxFeatureModule.getTemplateStatus() };
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
 	    fjfxMinQualFeatureModule.getFeatures();
@@ -318,9 +317,8 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute quality map features
 	// OrientationMap_ROIFilter_CoherenceRel
 	// OrientationMap_ROIFilter_CoherenceSum
-	QualityMapFeatures qmFeatureModule {
-		roiFeatureModule.getImgProcResults(), rawImage
-	};
+	QualityMapFeatures qmFeatureModule { rawImage,
+		roiFeatureModule.getImgProcResults() };
 	std::vector<NFIQ::QualityFeatureResult> qmFeatures =
 	    qmFeatureModule.getFeatures();
 

@@ -44,9 +44,9 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	};
 
 	FJFXMinutiaeQualityFeature(
+	    const NFIQ::FingerprintImageData &fingerprintImage,
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    const bool templateCouldBeExtracted,
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	    const bool templateCouldBeExtracted);
 
 	virtual ~FJFXMinutiaeQualityFeature();
 

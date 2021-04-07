@@ -20,8 +20,8 @@ using namespace cv;
 using namespace std;
 
 NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
-    const ImgProcROIFeature::ImgProcROIResults &imgProcResults,
-    const NFIQ::FingerprintImageData &fingerprintImage)
+    const NFIQ::FingerprintImageData &fingerprintImage,
+    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
     : imgProcResults_ { imgProcResults }
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));

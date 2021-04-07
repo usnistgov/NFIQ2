@@ -24,7 +24,6 @@ static double OFHISTLIMITS[9] = { 1.715e-2, 3.5e-2, 5.57e-2, 8.1e-2, 1.15e-1,
 
 class OFFeature : public BaseFeature {
     public:
-	OFFeature();
 	OFFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~OFFeature();
 

@@ -114,7 +114,6 @@ class FingerJetFXFeature : public BaseFeature {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature();
 	FingerJetFXFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~FingerJetFXFeature();
 

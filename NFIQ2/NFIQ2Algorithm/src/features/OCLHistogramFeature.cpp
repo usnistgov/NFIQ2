@@ -13,12 +13,10 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature() = default;
-
 NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	setFeatures(computeFeatureData(fingerprintImage));
+	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
 NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;

@@ -7,12 +7,10 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::MuFeature::MuFeature() = default;
-
 NFIQ::QualityFeatures::MuFeature::MuFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {
-	setFeatures(computeFeatureData(fingerprintImage));
+	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
 NFIQ::QualityFeatures::MuFeature::~MuFeature() = default;

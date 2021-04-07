@@ -39,7 +39,6 @@ class ImgProcROIFeature : public BaseFeature {
 					  ///< grayvalues of all ROI pixels
 	};
 
-	ImgProcROIFeature();
 	ImgProcROIFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~ImgProcROIFeature();
 

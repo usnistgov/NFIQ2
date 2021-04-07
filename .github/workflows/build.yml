@@ -111,12 +111,27 @@ jobs:
         # getopt is not static
         fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
+    - name: Create Build Directory
+      run: cmake -E make_directory ${{ github.workspace }}/build
+
     - name: OpenCV Cache
       uses: actions/cache@v2
       env:
         cache-name: OpenCV
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}-1
+
+    - name: Extra Cache for msbuild
+      if: ${{ runner.os == 'Windows' }}
+      uses: actions/cache@v2
+      env:
+        cache-name: msbuild-extras
+      with:
+        path: |
+          ${{ github.workspace }}/build/${{ matrix.config.arch }}/${{ env.CONFIGURATION }}/OpenCV
+          ${{ github.workspace }}/build/OpenCV.vcxproj*
+          ${{ github.workspace }}/build/${{ matrix.config.arch }}/${{ env.CONFIGURATION }}/libbiomeval
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}-1
 
     - name: Biometric Evaluation Cache
@@ -138,9 +153,6 @@ jobs:
     - name: Get CMake Version
       shell: bash
       run: cmake --version
-
-    - name: Create Build Directory
-      run: cmake -E make_directory ${{ github.workspace }}/build
 
     - name: Configure CMake (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}

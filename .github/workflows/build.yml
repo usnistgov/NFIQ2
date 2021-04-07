@@ -44,8 +44,9 @@ jobs:
     steps:
 
     - name: Remove default vcpkg
+      shell: bash
       if: ${{ runner.os == 'Windows' }}
-      run: Remove-Item -Recurse -Force some_dir C:/vcpkg
+      run: rm -rf ${VCPKG_INSTALLATION_ROOT}
 
     - name: Checkout Code and Submodules
       uses: actions/checkout@v2

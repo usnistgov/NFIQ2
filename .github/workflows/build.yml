@@ -160,7 +160,6 @@ jobs:
 
     - name: Configure CMake (Ninja)
       if: ${{ runner.os == 'Windows' }}
-      shell: bash
       env:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
       working-directory: ${{ github.workspace }}\build_ninja
@@ -180,6 +179,5 @@ jobs:
 
     - name: Build (Ninja)
       if: ${{ runner.os == 'Windows' }}
-      shell: bash
       working-directory: ${{ github.workspace }}/build_ninja
       run: cmake --build .

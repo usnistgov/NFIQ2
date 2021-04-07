@@ -31,9 +31,6 @@ class QualityMapFeatures : public BaseFeature {
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~QualityMapFeatures();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -65,6 +62,9 @@ class QualityMapFeatures : public BaseFeature {
 	    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	ImgProcROIFeature::ImgProcROIResults imgProcResults_ {};
 };
 

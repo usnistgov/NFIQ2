@@ -42,9 +42,6 @@ class ImgProcROIFeature : public BaseFeature {
 	ImgProcROIFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~ImgProcROIFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -59,6 +56,9 @@ class ImgProcROIFeature : public BaseFeature {
 	ImgProcROIResults getImgProcResults();
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	ImgProcROIResults imgProcResults_ {};
 	bool imgProcComputed_ { false };
 	static bool isBlackPixelAvailable(cv::Mat &img, cv::Point &point);

@@ -26,9 +26,6 @@ class FDAFeature : public BaseFeature {
 	FDAFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~FDAFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -36,6 +33,9 @@ class FDAFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	const int blocksize { 32 };
 	const double threshold { .1 };
 	const int slantedBlockSizeX { 32 };

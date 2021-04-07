@@ -21,9 +21,6 @@ class RVUPHistogramFeature : public BaseFeature {
 	    const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~RVUPHistogramFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -31,6 +28,9 @@ class RVUPHistogramFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	const int blocksize { 32 };
 	const double threshold { .1 };
 	const int slantedBlockSizeX { 32 };

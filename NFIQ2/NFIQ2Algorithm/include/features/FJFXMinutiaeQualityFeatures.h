@@ -50,9 +50,6 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 
 	virtual ~FJFXMinutiaeQualityFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -67,6 +64,9 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	bool getTemplateStatus() const;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
 	bool templateCouldBeExtracted_ { false };
 	std::vector<MinutiaData> computeMuMinQuality(

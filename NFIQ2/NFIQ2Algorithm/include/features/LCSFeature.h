@@ -21,9 +21,6 @@ class LCSFeature : public BaseFeature {
 	LCSFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~LCSFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -31,6 +28,9 @@ class LCSFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	const int blocksize { 32 };
 	const double threshold { .1 };
 	const int scannerRes { 500 };

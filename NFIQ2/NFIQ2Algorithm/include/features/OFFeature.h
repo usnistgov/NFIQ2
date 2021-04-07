@@ -27,9 +27,6 @@ class OFFeature : public BaseFeature {
 	OFFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~OFFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -37,6 +34,9 @@ class OFFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	/** Processing is done in subblocks of this size. */
 	const int blocksize { 16 };
 	/** Size of the rotated block in the x dimension */

@@ -26,9 +26,6 @@ class OCLHistogramFeature : public BaseFeature {
 	OCLHistogramFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~OCLHistogramFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllFeatureIDs();
@@ -37,6 +34,10 @@ class OCLHistogramFeature : public BaseFeature {
 
 	// compute OCL value of a given block with block size BSxBS
 	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);
+
+    private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 };
 
 }}

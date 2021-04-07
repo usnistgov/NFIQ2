@@ -20,9 +20,6 @@ class MuFeature : public BaseFeature {
 	MuFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~MuFeature();
 
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
-
 	std::string getModuleName() const override;
 
 	/** @throw NFIQ::NFIQException
@@ -35,6 +32,9 @@ class MuFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	bool sigmaComputed { false };
 	double sigma {};
 };

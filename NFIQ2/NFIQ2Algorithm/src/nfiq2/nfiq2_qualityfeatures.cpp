@@ -1,6 +1,7 @@
 #include "nfiq2_qualityfeatures_impl.h"
 
 #include <list>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -31,4 +32,12 @@ NFIQ::QualityFeatures::computeQualityFeatures(
 	return NFIQ::QualityFeatures::Impl::computeQualityFeatures(rawImage,
 	    bComputeActionableQuality, actionableQuality, bOutputSpeed,
 	    speedValues);
+}
+
+std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+NFIQ::QualityFeatures::computeQualityFeatureModules(
+    const NFIQ::FingerprintImageData &rawImage)
+{
+	return NFIQ::QualityFeatures::Impl::computeQualityFeatureModules(
+	    rawImage);
 }

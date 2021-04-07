@@ -23,10 +23,6 @@ class BaseFeature {
 	/** @return Identifier for this particular feature */
 	virtual std::string getModuleName() const = 0;
 
-	/** @return vector of computed quality features */
-	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) = 0;
-
 	/** @return computed quality feature speed */
 	virtual NFIQ::QualityFeatureSpeed getSpeed() const;
 
@@ -40,6 +36,10 @@ class BaseFeature {
 	    const std::vector<NFIQ::QualityFeatureResult> &featureResult);
 
     private:
+	/** @return vector of computed quality features */
+	virtual std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage) = 0;
+
 	NFIQ::QualityFeatureSpeed speed {};
 
 	std::vector<NFIQ::QualityFeatureResult> features {};

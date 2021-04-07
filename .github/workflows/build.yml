@@ -42,6 +42,11 @@ jobs:
           - { os: windows-2016, arch: x86 }
 
     steps:
+
+    - name: Remove default vcpkg
+      if: ${{ runner.os == 'Windows' }}
+      run: Remove-Item -Recurse -Force some_dir C:/vcpkg
+
     - name: Checkout Code and Submodules
       uses: actions/checkout@v2
       with:

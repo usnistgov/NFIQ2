@@ -56,14 +56,13 @@ jobs:
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       uses: actions/cache@v2
-      working-directory: ${{ github.workspace }}/${{ env.vcpkg }}
       env:
         cache-name: ${{ env.vcpkg }}
       with:
         path: installed
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('installed/vcpkg/status') }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('fresh_vcpkg/installed/vcpkg/status') }}
         restore-keys: |
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('installed/vcpkg/status') }}
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('fresh_vcpkg/installed/vcpkg/status') }}
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
 
     - name: Install Packages (Linux)

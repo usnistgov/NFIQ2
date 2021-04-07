@@ -9,6 +9,8 @@ on:
       - 'appveyor.yml'
       - 'complianceTestSet/**'
   push:
+    branches:
+      - master
     paths-ignore:
       - '.gitignore'
       - '.travis.yml'
@@ -44,16 +46,21 @@ jobs:
       with:
         submodules: true
 
+    - name: Install vcpkg
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git fresh-vcpkg
+        .\\fresh-vcpkg\\bootstrap-vcpkg.bat -disableMetrics
+
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
+      id: vcpkg-cache
       uses: actions/cache@v2
-      env:
-        cache-name: vcpkg
       with:
-        path: |
-          ${VCPKG_INSTALLATION_ROOT}/installed
-          '%USERPROFILE%/AppData/Local/vcpkg/archives'
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
+        path: fresh-vcpkg\installed
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+        restore-keys: |
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -89,7 +96,8 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
-        vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
+        fresh-vcpkg/vcpkg install \
+          --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
           hwloc \
           libjpeg-turbo \
@@ -101,7 +109,7 @@ jobs:
           tiff \
           zlib
         # getopt is not static
-        vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+        fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: OpenCV Cache
       uses: actions/cache@v2
@@ -109,7 +117,7 @@ jobs:
         cache-name: OpenCV
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}-1
 
     - name: Biometric Evaluation Cache
       uses: actions/cache@v2
@@ -117,7 +125,7 @@ jobs:
         cache-name: libbiomeval
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}-1
 
     - name: FingerJet Cache
       uses: actions/cache@v2
@@ -125,7 +133,7 @@ jobs:
         cache-name: fingerjetfxose
       with:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}-1
 
     - name: Create Build Directory
       run: cmake -E make_directory ${{ github.workspace }}/build
@@ -153,9 +161,10 @@ jobs:
       run: |
         cmake \
             -A ${cmake_arch_flag} \
-            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=../fresh-vcpkg/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
+            -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
             ${GITHUB_WORKSPACE}
 

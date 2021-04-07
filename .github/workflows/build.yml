@@ -156,7 +156,7 @@ jobs:
       run: |
         cmake \
             -A ${cmake_arch_flag} \
-            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=../${{ env.vcpkg }}/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \

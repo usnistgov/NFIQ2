@@ -23,11 +23,8 @@ static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 
 class OCLHistogramFeature : public BaseFeature {
     public:
-	OCLHistogramFeature();
+	OCLHistogramFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~OCLHistogramFeature();
-
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
 
@@ -37,6 +34,10 @@ class OCLHistogramFeature : public BaseFeature {
 
 	// compute OCL value of a given block with block size BSxBS
 	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);
+
+    private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
 };
 
 }}

@@ -34,9 +34,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute contrast features
 	// MMB
 	// Mu
-	MuFeature muFeatureModule {};
+	MuFeature muFeatureModule { rawImage };
 	std::vector<NFIQ::QualityFeatureResult> muFeatures =
-	    muFeatureModule.computeFeatureData(rawImage);
+	    muFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(muFeatureModule.getSpeed());
@@ -91,9 +91,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// FDA_Bin10_[0-9]
 	// FDA_Bin10_Mean
 	// FDA_Bin10_StdDev
-	FDAFeature fdaFeatureModule {};
+	FDAFeature fdaFeatureModule { rawImage };
 	std::vector<NFIQ::QualityFeatureResult> fdaFeatures =
-	    fdaFeatureModule.computeFeatureData(rawImage);
+	    fdaFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(fdaFeatureModule.getSpeed());
@@ -115,12 +115,12 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX features
 	// FingerJetFX_MinCount_COMMinRect200x200
 	// FingerJetFX_MinutiaeCount
-	FingerJetFXFeature fjfxFeatureModule {};
+	FingerJetFXFeature fjfxFeatureModule { rawImage };
 	// this module returns the FJFX minutiae template to be used in other
 	// modules
 
 	std::vector<NFIQ::QualityFeatureResult> fjfxFeatures =
-	    fjfxFeatureModule.computeFeatureData(rawImage);
+	    fjfxFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(fjfxFeatureModule.getSpeed());
@@ -160,13 +160,12 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute FJFX minutiae quality features
 	// FJFXPos_Mu_MinutiaeQuality_2
 	// FJFXPos_OCL_MinutiaeQuality_80
-	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule {
+	FJFXMinutiaeQualityFeature fjfxMinQualFeatureModule { rawImage,
 		fjfxFeatureModule.getMinutiaData(),
-		fjfxFeatureModule.getTemplateStatus()
-	};
+		fjfxFeatureModule.getTemplateStatus() };
 	// this module uses the already computed FJFX minutiae template
 	std::vector<NFIQ::QualityFeatureResult> fjfxMinQualFeatures =
-	    fjfxMinQualFeatureModule.computeFeatureData(rawImage);
+	    fjfxMinQualFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(fjfxMinQualFeatureModule.getSpeed());
@@ -192,10 +191,10 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 
 	// compute ROI features
 	// ImgProcROIArea_Mean
-	ImgProcROIFeature roiFeatureModule {};
+	ImgProcROIFeature roiFeatureModule { rawImage };
 
 	std::vector<NFIQ::QualityFeatureResult> roiFeatures =
-	    roiFeatureModule.computeFeatureData(rawImage);
+	    roiFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(roiFeatureModule.getSpeed());
@@ -228,9 +227,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// LCS_Bin10_[0-9]
 	// LCS_Bin10_Mean
 	// LCS_Bin10_StdDev
-	LCSFeature lcsFeatureModule {};
+	LCSFeature lcsFeatureModule { rawImage };
 	std::vector<NFIQ::QualityFeatureResult> lcsFeatures =
-	    lcsFeatureModule.computeFeatureData(rawImage);
+	    lcsFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(lcsFeatureModule.getSpeed());
@@ -269,9 +268,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// OCL_Bin10_[0-9]
 	// OCL_Bin10_Mean
 	// OCL_Bin10_StdDev
-	OCLHistogramFeature oclFeatureModule {};
+	OCLHistogramFeature oclFeatureModule { rawImage };
 	std::vector<NFIQ::QualityFeatureResult> oclFeatures =
-	    oclFeatureModule.computeFeatureData(rawImage);
+	    oclFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(oclFeatureModule.getSpeed());
@@ -294,9 +293,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// OF_Bin10_[0-9]
 	// OF_Bin10_Mean
 	// OF_Bin10_StdDev
-	OFFeature ofFeatureModule {};
+	OFFeature ofFeatureModule { rawImage };
 	std::vector<NFIQ::QualityFeatureResult> ofFeatures =
-	    ofFeatureModule.computeFeatureData(rawImage);
+	    ofFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(ofFeatureModule.getSpeed());
@@ -318,11 +317,10 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// compute quality map features
 	// OrientationMap_ROIFilter_CoherenceRel
 	// OrientationMap_ROIFilter_CoherenceSum
-	QualityMapFeatures qmFeatureModule {
-		roiFeatureModule.getImgProcResults()
-	};
+	QualityMapFeatures qmFeatureModule { rawImage,
+		roiFeatureModule.getImgProcResults() };
 	std::vector<NFIQ::QualityFeatureResult> qmFeatures =
-	    qmFeatureModule.computeFeatureData(rawImage);
+	    qmFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(qmFeatureModule.getSpeed());
@@ -345,9 +343,9 @@ NFIQ::QualityFeatures::Impl::computeQualityFeatures(
 	// RVUP_Bin10_[0-9]
 	// RVUP_Bin10_Mean
 	// RVUP_Bin10_StdDev
-	RVUPHistogramFeature rvupFeatureModule {};
+	RVUPHistogramFeature rvupFeatureModule { rawImage };
 	std::vector<NFIQ::QualityFeatureResult> rvupFeatures =
-	    rvupFeatureModule.computeFeatureData(rawImage);
+	    rvupFeatureModule.getFeatures();
 
 	if (bOutputSpeed) {
 		speedValues.push_back(rvupFeatureModule.getSpeed());

@@ -23,11 +23,8 @@ static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
 
 class FDAFeature : public BaseFeature {
     public:
-	FDAFeature();
+	FDAFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~FDAFeature();
-
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
 
@@ -36,6 +33,9 @@ class FDAFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	const int blocksize { 32 };
 	const double threshold { .1 };
 	const int slantedBlockSizeX { 32 };

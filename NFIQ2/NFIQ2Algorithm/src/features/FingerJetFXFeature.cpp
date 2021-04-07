@@ -7,7 +7,11 @@
 
 using namespace NFIQ;
 
-NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature() = default;
+NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	this->setFeatures(computeFeatureData(fingerprintImage));
+}
 
 NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 

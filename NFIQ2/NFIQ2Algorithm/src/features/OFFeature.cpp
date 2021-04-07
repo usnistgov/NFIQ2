@@ -19,7 +19,11 @@
 using namespace NFIQ;
 using namespace cv;
 
-NFIQ::QualityFeatures::OFFeature::OFFeature() = default;
+NFIQ::QualityFeatures::OFFeature::OFFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	this->setFeatures(computeFeatureData(fingerprintImage));
+}
 
 NFIQ::QualityFeatures::OFFeature::~OFFeature() = default;
 

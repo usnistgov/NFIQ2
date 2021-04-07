@@ -22,7 +22,11 @@ using namespace cv;
 double fda(const Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-NFIQ::QualityFeatures::FDAFeature::FDAFeature() = default;
+NFIQ::QualityFeatures::FDAFeature::FDAFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage)
+{
+	this->setFeatures(computeFeatureData(fingerprintImage));
+}
 
 NFIQ::QualityFeatures::FDAFeature::~FDAFeature() = default;
 

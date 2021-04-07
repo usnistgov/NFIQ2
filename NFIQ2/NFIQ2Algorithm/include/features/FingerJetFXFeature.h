@@ -114,11 +114,8 @@ class FingerJetFXFeature : public BaseFeature {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature();
+	FingerJetFXFeature(const NFIQ::FingerprintImageData &fingerprintImage);
 	virtual ~FingerJetFXFeature();
-
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage) override;
 
 	std::string getModuleName() const override;
 
@@ -139,6 +136,9 @@ class FingerJetFXFeature : public BaseFeature {
 	bool getTemplateStatus() const;
 
     private:
+	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
+	    const NFIQ::FingerprintImageData &fingerprintImage);
+
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 

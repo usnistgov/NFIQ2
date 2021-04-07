@@ -9,10 +9,14 @@ using namespace NFIQ;
 using namespace cv;
 
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
+    const NFIQ::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     const bool templateCouldBeExtracted)
     : minutiaData_ { minutiaData }
-    , templateCouldBeExtracted_ { templateCouldBeExtracted } {};
+    , templateCouldBeExtracted_ { templateCouldBeExtracted }
+{
+	this->setFeatures(computeFeatureData(fingerprintImage));
+};
 
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::
     ~FJFXMinutiaeQualityFeature() = default;

@@ -163,6 +163,7 @@ jobs:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
       working-directory: ${{ github.workspace }}\build
       run: |
+        export VCPKG_ROOT=../${{ env.vcpkg }}
         cmake \
             -A ${cmake_arch_flag} \
             -DCMAKE_TOOLCHAIN_FILE=../${{ env.vcpkg }}/scripts/buildsystems/vcpkg.cmake \
@@ -178,8 +179,8 @@ jobs:
       working-directory: ${{ github.workspace }}/build
       run: cmake --build .
 
-#    - name: Build (Multi-config Generator)
-#      if: ${{ runner.os == 'Windows' }}
-#      shell: bash
-#      working-directory: ${{ github.workspace }}/build
-#      run: cmake --build . --config ${CONFIGURATION}
+   - name: Build (Multi-config Generator)
+     if: ${{ runner.os == 'Windows' }}
+     shell: bash
+     working-directory: ${{ github.workspace }}/build
+     run: cmake --build . --config ${CONFIGURATION}

@@ -21,7 +21,6 @@ on:
 env:
   CONFIGURATION: Release
   BUILD_NFIQ2_CLI: ON
-  vcpkg: fresh_vcpkg
 
 jobs:
   build:
@@ -61,16 +60,13 @@ jobs:
 
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
-      uses: actions/cache@v2
       id: vcpkg-cache
-      env:
-        cache-name: fresh_vcpkg
+      uses: actions/cache@v2
       with:
-        path: ${{ github.workspace }}/fresh_vcpkg/installed
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('fresh_vcpkg/installed/vcpkg/status') }}
+        path: fresh_vcpkg\installed
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-0
         restore-keys: |
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}-${{ hashFiles('fresh_vcpkg/installed/vcpkg/status') }}
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ env.cache-name }}
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-0
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -105,9 +101,9 @@ jobs:
     - name: Install Packages (Windows)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
-      working-directory: fresh_vcpkg
       run: |
-        ./vcpkg install --triplet=${{ matrix.config.arch }}-windows-static \
+        fresh-vcpkg/vcpkg install \
+          --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
           hwloc \
           libjpeg-turbo \
@@ -119,7 +115,7 @@ jobs:
           tiff \
           zlib
         # getopt is not static
-        ./vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+        fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: OpenCV Cache
       uses: actions/cache@v2

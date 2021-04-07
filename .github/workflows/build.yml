@@ -137,6 +137,10 @@ jobs:
       shell: bash
       run: cmake --version
 
+    - name: Testing cache
+      shell: bash
+      run: cmake --version
+
     - name: Configure CMake (Single-config Generator)
       if: ${{ runner.os != 'Windows' }}
       shell: bash

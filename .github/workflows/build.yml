@@ -154,12 +154,16 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@master
       name: Install ninja
 
+    - name: Create Build Directory (Ninja)
+      if: ${{ runner.os == 'Windows' }}
+      run: cmake -E make_directory ${{ github.workspace }}\build_ninja
+
     - name: Configure CMake (Ninja)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       env:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
-      working-directory: ${{ github.workspace }}\build
+      working-directory: ${{ github.workspace }}\build_ninja
       run: |
         cmake \
             -DCMAKE_TOOLCHAIN_FILE=../${{ env.vcpkg }}/scripts/buildsystems/vcpkg.cmake \
@@ -174,8 +178,8 @@ jobs:
       working-directory: ${{ github.workspace }}/build
       run: cmake --build .
 
-    - name: Build (Multi-config Generator)
+    - name: Build (Ninja)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
-      working-directory: ${{ github.workspace }}/build
+      working-directory: ${{ github.workspace }}/build_ninja
       run: cmake --build .

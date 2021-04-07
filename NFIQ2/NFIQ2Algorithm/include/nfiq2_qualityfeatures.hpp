@@ -73,7 +73,7 @@ std::vector<NFIQ::QualityFeatureData> computeQualityFeatures(
  * A vector if BaseFeature modules containing computed feature data
  */
 std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-computeQualityFeatureModules(const NFIQ::FingerprintImageData &rawImage);
+getComputedQualityFeatures(const NFIQ::FingerprintImageData &rawImage);
 
 }}
 

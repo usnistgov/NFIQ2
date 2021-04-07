@@ -35,9 +35,9 @@ NFIQ::QualityFeatures::computeQualityFeatures(
 }
 
 std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-NFIQ::QualityFeatures::computeQualityFeatureModules(
+NFIQ::QualityFeatures::getComputedQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage)
 {
-	return NFIQ::QualityFeatures::Impl::computeQualityFeatureModules(
+	return NFIQ::QualityFeatures::Impl::getComputedQualityFeatures(
 	    rawImage);
 }

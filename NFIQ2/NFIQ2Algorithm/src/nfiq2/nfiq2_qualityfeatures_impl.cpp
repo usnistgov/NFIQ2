@@ -23,40 +23,40 @@
 #include <vector>
 
 std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-NFIQ::QualityFeatures::Impl::computeQualityFeatureModules(
+NFIQ::QualityFeatures::Impl::getComputedQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage)
 {
 	std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-	    modules {};
+	    features {};
 
-	modules.push_back(std::make_shared<MuFeature>(rawImage));
+	features.push_back(std::make_shared<MuFeature>(rawImage));
 
-	modules.push_back(std::make_shared<FDAFeature>(rawImage));
+	features.push_back(std::make_shared<FDAFeature>(rawImage));
 
 	std::shared_ptr<FingerJetFXFeature> fjfxFeatureModule =
 	    std::make_shared<FingerJetFXFeature>(rawImage);
-	modules.push_back(fjfxFeatureModule);
+	features.push_back(fjfxFeatureModule);
 
-	modules.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(rawImage,
-	    fjfxFeatureModule->getMinutiaData(),
+	features.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(
+	    rawImage, fjfxFeatureModule->getMinutiaData(),
 	    fjfxFeatureModule->getTemplateStatus()));
 
 	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
 	    std::make_shared<ImgProcROIFeature>(rawImage);
-	modules.push_back(roiFeatureModule);
+	features.push_back(roiFeatureModule);
 
-	modules.push_back(std::make_shared<LCSFeature>(rawImage));
+	features.push_back(std::make_shared<LCSFeature>(rawImage));
 
-	modules.push_back(std::make_shared<OCLHistogramFeature>(rawImage));
+	features.push_back(std::make_shared<OCLHistogramFeature>(rawImage));
 
-	modules.push_back(std::make_shared<OFFeature>(rawImage));
+	features.push_back(std::make_shared<OFFeature>(rawImage));
 
-	modules.push_back(std::make_shared<QualityMapFeatures>(
+	features.push_back(std::make_shared<QualityMapFeatures>(
 	    rawImage, roiFeatureModule->getImgProcResults()));
 
-	modules.push_back(std::make_shared<RVUPHistogramFeature>(rawImage));
+	features.push_back(std::make_shared<RVUPHistogramFeature>(rawImage));
 
-	return modules;
+	return features;
 }
 
 std::vector<NFIQ::QualityFeatureData>

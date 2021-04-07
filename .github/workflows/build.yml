@@ -178,7 +178,6 @@ jobs:
 
     - name: Build (Multi-config Generator)
       if: ${{ runner.os == 'Windows' }}
-      uses: seanmiddleditch/gha-setup-ninja@master
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: cmake --build .

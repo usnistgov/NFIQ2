@@ -111,6 +111,14 @@ jobs:
         # getopt is not static
         fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 
+    - name: Build Directory Cache
+      id: builddir-cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ github.workspace }}/build
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-1
+
+# Remove me
     - name: OpenCV Cache
       uses: actions/cache@v2
       env:
@@ -119,6 +127,7 @@ jobs:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('opencv/modules/core/include/opencv2/core/version.hpp') }}-1
 
+# Remove me
     - name: Biometric Evaluation Cache
       uses: actions/cache@v2
       env:
@@ -127,6 +136,7 @@ jobs:
         path: ${{ github.workspace }}/build/${{ env.cache-name }}-prefix
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-build-${{ env.cache-name }}-${{ hashFiles('.gitmodules') }}-1
 
+# Remove me
     - name: FingerJet Cache
       uses: actions/cache@v2
       env:
@@ -140,6 +150,7 @@ jobs:
       run: cmake --version
 
     - name: Create Build Directory
+      if:  steps.builddir-cache.outputs.cache-hit != 'true'
       run: cmake -E make_directory ${{ github.workspace }}/build
 
     - name: Configure CMake (Single-config Generator)

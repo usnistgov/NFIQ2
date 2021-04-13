@@ -58,3 +58,33 @@ NFIQ::QualityFeatures::getActionableQualityFeedback(
 	return NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 	    rawImage);
 }
+
+std::vector<NFIQ::QualityFeatureData>
+NFIQ::QualityFeatures::getQualityFeatures(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features)
+{
+	return NFIQ::QualityFeatures::Impl::getQualityFeatures(features);
+}
+
+std::vector<NFIQ::QualityFeatureData>
+NFIQ::QualityFeatures::getQualityFeatures(
+    const NFIQ::FingerprintImageData &rawImage)
+{
+	return NFIQ::QualityFeatures::Impl::getQualityFeatures(rawImage);
+}
+
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::getQualityFeatureSpeeds(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features)
+{
+	return NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(features);
+}
+
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::getQualityFeatureSpeeds(
+    const NFIQ::FingerprintImageData &rawImage)
+{
+	return NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(rawImage);
+}

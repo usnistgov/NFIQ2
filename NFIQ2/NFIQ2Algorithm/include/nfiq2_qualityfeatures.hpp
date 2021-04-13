@@ -102,6 +102,20 @@ std::vector<NFIQ::ActionableQualityFeedback> getActionableQualityFeedback(
 std::vector<NFIQ::ActionableQualityFeedback> getActionableQualityFeedback(
     const NFIQ::FingerprintImageData &rawImage);
 
+std::vector<NFIQ::QualityFeatureData> getQualityFeatures(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features);
+
+std::vector<NFIQ::QualityFeatureData> getQualityFeatures(
+    const NFIQ::FingerprintImageData &rawImage);
+
+std::vector<NFIQ::QualityFeatureSpeed> getQualityFeatureSpeeds(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features);
+
+std::vector<NFIQ::QualityFeatureSpeed> getQualityFeatureSpeeds(
+    const NFIQ::FingerprintImageData &rawImage);
+
 }}
 
 #endif

@@ -28,7 +28,6 @@ class NFIQ2Algorithm {
 	 * @brief Computes the quality score from the input fingerprint image
 	 * data
 	 * @param rawImage fingerprint image in raw format
-	 * @param qualityfeatureData list of computed feature data values
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(
@@ -45,6 +44,14 @@ class NFIQ2Algorithm {
 	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
 	    const;
 
+	/**
+	 * @fn computeQualityScore
+	 * @brief Computes the quality score from a vector of extracted feature
+	 * from a cropped fingerprint image
+	 * @param features list of computed feature metrics that contain quality
+	 * information for a fingerprint image
+	 * @return achieved quality score
+	 */
 	unsigned int computeQualityScore(const std::vector<
 	    std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>> &features)
 	    const;

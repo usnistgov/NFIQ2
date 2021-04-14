@@ -165,3 +165,22 @@ jobs:
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: cmake --build . --config ${CONFIGURATION}
+
+    - name: Download Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+
+    - name: Run Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        tar xf nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    # FIXME: Does github actions have pandas installed? Let's find out 
+    - name: Diff Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: python ./diff.py CTS_MASTER_OUTPUT.csv github.csv
+

@@ -22,6 +22,49 @@
 #include <string>
 #include <vector>
 
+std::vector<NFIQ::QualityFeatureSpeed>
+NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features)
+{
+	std::vector<NFIQ::QualityFeatureSpeed> speedVector {};
+
+	for (const auto &feature : features) {
+		speedVector.push_back(feature->getSpeed());
+	}
+
+	return speedVector;
+}
+
+std::vector<NFIQ::QualityFeatureData>
+NFIQ::QualityFeatures::Impl::getQualityFeatureData(
+    const NFIQ::FingerprintImageData &rawImage)
+{
+	return NFIQ::QualityFeatures::getQualityFeatureData(
+	    NFIQ::QualityFeatures::getComputedQualityFeatures(rawImage));
+}
+
+std::vector<NFIQ::QualityFeatureData>
+NFIQ::QualityFeatures::Impl::getQualityFeatureData(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features)
+{
+	std::vector<NFIQ::QualityFeatureData> featureVector {};
+
+	for (const auto &feature : features) {
+		for (auto &result : feature->getFeatures()) {
+			if (result.returnCode == 0) {
+				featureVector.push_back(result.featureData);
+			} else {
+				result.featureData.featureDataDouble = 0;
+				featureVector.push_back(result.featureData);
+			}
+		}
+	}
+
+	return featureVector;
+}
+
 std::vector<NFIQ::ActionableQualityFeedback>
 NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
     const NFIQ::FingerprintImageData &rawImage)

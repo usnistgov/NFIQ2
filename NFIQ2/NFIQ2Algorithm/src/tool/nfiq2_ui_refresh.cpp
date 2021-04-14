@@ -365,28 +365,14 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 	std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 	    features {};
+	unsigned int score {};
 	try {
 		features = NFIQ::QualityFeatures::computeQualityFeatures(
 		    wrappedImage);
-	} catch (const NFIQ::NFIQException &e) {
-		std::string errStr {
-			"Error: NFIQ2 could not compute quality features successfully: "
-		};
-		errStr = errStr.append(e.what());
-		if (singleImage) {
-			logger->printSingleError(errStr);
-		} else {
-			logger->printError(errStr, imageProps);
-		}
-		return;
-	}
-
-	unsigned int score {};
-	try {
 		score = model.computeQualityScore(features);
 	} catch (const NFIQ::NFIQException &e) {
 		std::string errStr {
-			"Error: NFIQ2 could not compute a quality score from successfully computed features: "
+			"Error: NFIQ2 computeQualityScore returned an error code: "
 		};
 		errStr = errStr.append(e.what());
 		if (singleImage) {

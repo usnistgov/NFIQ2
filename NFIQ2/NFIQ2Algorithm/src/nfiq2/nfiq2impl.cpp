@@ -121,14 +121,6 @@ unsigned int
 NFIQ2Algorithm::Impl::computeQualityScore(
     const NFIQ::FingerprintImageData &rawImage) const
 {
-	// crop image (white line removal) and use it for feature
-	// computation
-	NFIQ::FingerprintImageData croppedRawImage {};
-	try {
-		croppedRawImage = rawImage.removeWhiteFrameAroundFingerprint();
-	} catch (const NFIQ::NFIQException &) {
-		throw;
-	}
 
 	// --------------------------------------------------------
 	// compute quality features (including actionable feedback)
@@ -138,7 +130,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	    features {};
 	try {
 		features = NFIQ::QualityFeatures::computeQualityFeatures(
-		    croppedRawImage);
+		    rawImage);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	} catch (const std::exception &e) {

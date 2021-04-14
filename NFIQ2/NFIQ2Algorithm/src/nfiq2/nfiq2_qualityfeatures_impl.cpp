@@ -20,6 +20,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 std::vector<NFIQ::QualityFeatureSpeed>
@@ -80,6 +81,9 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 {
 	std::vector<NFIQ::ActionableQualityFeedback> actionableQuality {};
 
+	std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
+	    actionableMap {};
+
 	for (const auto feature : features) {
 		if (feature->getModuleName().compare("NFIQ2_Mu") == 0) {
 			// Uniform and Contrast
@@ -102,7 +106,7 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 				    ActionableQualityFeedbackThreshold_UniformImage ?
 				      true :
 				      false);
-			actionableQuality.push_back(fbUniform);
+			actionableMap["UniformImage"] = fbUniform;
 
 			// Mu is computed always since it is used as feature
 			// anyway
@@ -122,7 +126,8 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 						    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow ?
 						      true :
 						      false);
-					actionableQuality.push_back(fb);
+					actionableMap
+					    ["EmptyImageOrContrastTooLow"] = fb;
 				}
 			}
 
@@ -161,7 +166,9 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 						.featureDataDouble;
 					fb.identifier = NFIQ::
 					    ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae;
-					actionableQuality.push_back(fb);
+					actionableMap
+					    ["FingerprintImageWithMinutiae"] =
+						fb;
 				}
 			}
 
@@ -181,9 +188,18 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 						// (foreground)
 			fb_roi.identifier = NFIQ::
 			    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground;
-			actionableQuality.push_back(fb_roi);
+			actionableMap["SufficientFingerprintForeground"] =
+			    fb_roi;
 		}
 	}
+
+	actionableQuality.push_back(actionableMap.at("UniformImage"));
+	actionableQuality.push_back(
+	    actionableMap.at("EmptyImageOrContrastTooLow"));
+	actionableQuality.push_back(
+	    actionableMap.at("FingerprintImageWithMinutiae"));
+	actionableQuality.push_back(
+	    actionableMap.at("SufficientFingerprintForeground"));
 
 	return actionableQuality;
 }
@@ -192,35 +208,39 @@ std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 NFIQ::QualityFeatures::Impl::computeQualityFeatures(
     const NFIQ::FingerprintImageData &rawImage)
 {
+	const NFIQ::FingerprintImageData croppedImage =
+	    rawImage.removeWhiteFrameAroundFingerprint();
+
 	std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 	    features {};
 
-	features.push_back(std::make_shared<MuFeature>(rawImage));
-
-	features.push_back(std::make_shared<FDAFeature>(rawImage));
+	features.push_back(std::make_shared<FDAFeature>(croppedImage));
 
 	std::shared_ptr<FingerJetFXFeature> fjfxFeatureModule =
-	    std::make_shared<FingerJetFXFeature>(rawImage);
+	    std::make_shared<FingerJetFXFeature>(croppedImage);
 	features.push_back(fjfxFeatureModule);
 
 	features.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(
-	    rawImage, fjfxFeatureModule->getMinutiaData(),
+	    croppedImage, fjfxFeatureModule->getMinutiaData(),
 	    fjfxFeatureModule->getTemplateStatus()));
 
 	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
-	    std::make_shared<ImgProcROIFeature>(rawImage);
+	    std::make_shared<ImgProcROIFeature>(croppedImage);
 	features.push_back(roiFeatureModule);
 
-	features.push_back(std::make_shared<LCSFeature>(rawImage));
+	features.push_back(std::make_shared<LCSFeature>(croppedImage));
 
-	features.push_back(std::make_shared<OCLHistogramFeature>(rawImage));
+	features.push_back(std::make_shared<MuFeature>(croppedImage));
 
-	features.push_back(std::make_shared<OFFeature>(rawImage));
+	features.push_back(std::make_shared<OCLHistogramFeature>(croppedImage));
+
+	features.push_back(std::make_shared<OFFeature>(croppedImage));
 
 	features.push_back(std::make_shared<QualityMapFeatures>(
-	    rawImage, roiFeatureModule->getImgProcResults()));
+	    croppedImage, roiFeatureModule->getImgProcResults()));
 
-	features.push_back(std::make_shared<RVUPHistogramFeature>(rawImage));
+	features.push_back(
+	    std::make_shared<RVUPHistogramFeature>(croppedImage));
 
 	return features;
 }

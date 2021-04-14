@@ -24,14 +24,6 @@
 
 std::vector<NFIQ::QualityFeatureSpeed>
 NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(
-    const NFIQ::FingerprintImageData &rawImage)
-{
-	return NFIQ::QualityFeatures::getQualityFeatureSpeeds(
-	    NFIQ::QualityFeatures::getComputedQualityFeatures(rawImage));
-}
-
-std::vector<NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(
     const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 	&features)
 {
@@ -45,15 +37,15 @@ NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(
 }
 
 std::vector<NFIQ::QualityFeatureData>
-NFIQ::QualityFeatures::Impl::getQualityFeatures(
+NFIQ::QualityFeatures::Impl::getQualityFeatureData(
     const NFIQ::FingerprintImageData &rawImage)
 {
-	return NFIQ::QualityFeatures::getQualityFeatures(
+	return NFIQ::QualityFeatures::getQualityFeatureData(
 	    NFIQ::QualityFeatures::getComputedQualityFeatures(rawImage));
 }
 
 std::vector<NFIQ::QualityFeatureData>
-NFIQ::QualityFeatures::Impl::getQualityFeatures(
+NFIQ::QualityFeatures::Impl::getQualityFeatureData(
     const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 	&features)
 {

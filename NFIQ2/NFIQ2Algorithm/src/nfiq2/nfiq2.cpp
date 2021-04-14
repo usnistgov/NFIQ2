@@ -36,11 +36,12 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
 	return (this->pimpl->computeQualityScore(qualityFeatureData));
 }
 
-NFIQ::NFIQ2Results
-NFIQ::NFIQ2Algorithm::computeQualityFeaturesAndScore(
-    const NFIQ::FingerprintImageData &rawImage) const
+unsigned int
+NFIQ::NFIQ2Algorithm::computeQualityScore(
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features) const
 {
-	return (this->pimpl->computeQualityFeaturesAndScore(rawImage));
+	return (this->pimpl->computeQualityScore(features));
 }
 
 std::string

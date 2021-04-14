@@ -4,6 +4,7 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
 #include <nfiq2_modelinfo.hpp>
+#include <nfiq2_qualityfeatures.hpp>
 #include <nfiq2_results.hpp>
 
 #include <list>
@@ -44,15 +45,9 @@ class NFIQ2Algorithm {
 	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
 	    const;
 
-	/**
-	 * @fn computeQualityFeaturesAndScore
-	 * @brief Computes the quality score from the input fingerprint image
-	 * data
-	 * @param rawImage fingerprint image in raw format
-	 * @return Object containing score, actionable, quality and speed data
-	 */
-	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
-	    const NFIQ::FingerprintImageData &rawImage) const;
+	unsigned int computeQualityScore(const std::vector<
+	    std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>> &features)
+	    const;
 
 	/**
 	 * @brief

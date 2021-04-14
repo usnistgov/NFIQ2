@@ -86,32 +86,11 @@ class NFIQ2Algorithm::Impl {
 	 */
 	std::string getParameterHash() const;
 
-    private:
-	/**
-	 * @fn computeQualityScore
-	 * @brief Computes the quality score from the input fingerprint image
-	 * data
-	 * @throws NFIQException
-	 * Failure to compute (reason contained within message string).
-	 * @param rawImage fingerprint image in raw format
-	 * @param bComputeActionableQuality if to compute actionable quality
-	 * flags or not
-	 * @param actionableQuality compute actionable quality values
-	 * @param bOutputFeatures if to output feature values
-	 * @param qualityfeatureData list of computed feature data values
-	 * @param bOutputSpeed if to output speed of computed features
-	 * @param qualityFeatureSpeed list of feature computation speed
-	 * @return achieved quality score
-	 */
-	unsigned int computeQualityScore(
-	    const NFIQ::FingerprintImageData &rawImage,
-	    bool bComputeActionableQuality,
-	    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
-	    bool bOutputFeatures,
-	    std::vector<NFIQ::QualityFeatureData> &qualityFeatureData,
-	    bool bOutputSpeed,
-	    std::vector<NFIQ::QualityFeatureSpeed> &qualityFeatureSpeed) const;
+	unsigned int computeQualityScore(const std::vector<
+	    std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>> &features)
+	    const;
 
+    private:
 	/**
 	 * @throws NFIQException
 	 * Failure to compute (OpenCV reason contained within message string).

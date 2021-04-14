@@ -363,13 +363,30 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredDPI);
 
-	NFIQ::NFIQ2Results nfiq2Results {};
+	std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	    features {};
 	try {
-		nfiq2Results = model.computeQualityFeaturesAndScore(
+		features = NFIQ::QualityFeatures::computeQualityFeatures(
 		    wrappedImage);
 	} catch (const NFIQ::NFIQException &e) {
 		std::string errStr {
-			"Error: NFIQ2 computeQualityScore returned an error code: "
+			"Error: NFIQ2 could not compute quality features successfully: "
+		};
+		errStr = errStr.append(e.what());
+		if (singleImage) {
+			logger->printSingleError(errStr);
+		} else {
+			logger->printError(errStr, imageProps);
+		}
+		return;
+	}
+
+	unsigned int score {};
+	try {
+		score = model.computeQualityScore(features);
+	} catch (const NFIQ::NFIQException &e) {
+		std::string errStr {
+			"Error: NFIQ2 could not compute a quality score from successfully computed features: "
 		};
 		errStr = errStr.append(e.what());
 		if (singleImage) {
@@ -383,15 +400,16 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// Print score:
 	if (singleImage) {
 		// print just the plain score to std::out
-		logger->printSingle(nfiq2Results.getScore());
+		logger->printSingle(score);
 
 	} else {
 		// Print full score with optional headers
-		logger->printScore(name, fingerPosition,
-		    nfiq2Results.getScore(), warning, imageProps.quantized,
-		    imageProps.resampled, nfiq2Results.getQualityFeatures(),
-		    nfiq2Results.getQualityFeatureSpeed(),
-		    nfiq2Results.getActionableQualityFeedback());
+		logger->printScore(name, fingerPosition, score, warning,
+		    imageProps.quantized, imageProps.resampled,
+		    NFIQ::QualityFeatures::getQualityFeatureData(features),
+		    NFIQ::QualityFeatures::getQualityFeatureSpeeds(features),
+		    NFIQ::QualityFeatures::getActionableQualityFeedback(
+			features));
 	}
 }
 

@@ -106,7 +106,9 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 				    ActionableQualityFeedbackThreshold_UniformImage ?
 				      true :
 				      false);
-			actionableMap["UniformImage"] = fbUniform;
+			actionableMap
+			    [ActionableQualityFeedbackIdentifier_UniformImage] =
+				fbUniform;
 
 			// Mu is computed always since it is used as feature
 			// anyway
@@ -127,7 +129,8 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 						      true :
 						      false);
 					actionableMap
-					    ["EmptyImageOrContrastTooLow"] = fb;
+					    [ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow] =
+						fb;
 				}
 			}
 
@@ -167,7 +170,7 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 					fb.identifier = NFIQ::
 					    ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae;
 					actionableMap
-					    ["FingerprintImageWithMinutiae"] =
+					    [ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae] =
 						fb;
 				}
 			}
@@ -188,18 +191,20 @@ NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
 						// (foreground)
 			fb_roi.identifier = NFIQ::
 			    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground;
-			actionableMap["SufficientFingerprintForeground"] =
-			    fb_roi;
+			actionableMap
+			    [ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground] =
+				fb_roi;
 		}
 	}
 
-	actionableQuality.push_back(actionableMap.at("UniformImage"));
 	actionableQuality.push_back(
-	    actionableMap.at("EmptyImageOrContrastTooLow"));
-	actionableQuality.push_back(
-	    actionableMap.at("FingerprintImageWithMinutiae"));
-	actionableQuality.push_back(
-	    actionableMap.at("SufficientFingerprintForeground"));
+	    actionableMap.at(ActionableQualityFeedbackIdentifier_UniformImage));
+	actionableQuality.push_back(actionableMap.at(
+	    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow));
+	actionableQuality.push_back(actionableMap.at(
+	    ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae));
+	actionableQuality.push_back(actionableMap.at(
+	    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground));
 
 	return actionableQuality;
 }

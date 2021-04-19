@@ -58,17 +58,18 @@ NFIQ::QualityFeatures::Impl::getQualityFeatureData(
 
 	std::unordered_map<std::string, NFIQ::QualityFeatureData> qualityMap {};
 
+	auto counter = 0;
 	for (const auto &feature : features) {
-		auto result = feature->getFeatures();
-		for (auto i = 0; i < qualityIdentifiers.size(); i++) {
-			if (result.at(i).returnCode == 0) {
-				qualityMap[qualityIdentifiers.at(i)] =
-				    result.at(i).featureData;
+		for (auto &result : feature->getFeatures()) {
+			if (result.returnCode == 0) {
+				qualityMap[qualityIdentifiers.at(counter)] =
+				    result.featureData;
 			} else {
-				result.at(i).featureData.featureDataDouble = 0;
-				qualityMap[qualityIdentifiers.at(i)] =
-				    result.at(i).featureData;
+				result.featureData.featureDataDouble = 0;
+				qualityMap[qualityIdentifiers.at(counter)] =
+				    result.featureData;
 			}
+			counter++;
 		}
 	}
 
@@ -257,9 +258,9 @@ std::vector<std::string>
 NFIQ::QualityFeatures::Impl::getAllActionableIdentifiers()
 {
 	static const std::vector<std::string> actionableIdentifiers {
+		NFIQ::ActionableQualityFeedbackIdentifier::UniformImage,
 		NFIQ::ActionableQualityFeedbackIdentifier::
 		    EmptyImageOrContrastTooLow,
-		NFIQ::ActionableQualityFeedbackIdentifier::UniformImage,
 		NFIQ::ActionableQualityFeedbackIdentifier::
 		    FingerprintImageWithMinutiae,
 		ActionableQualityFeedbackIdentifier::

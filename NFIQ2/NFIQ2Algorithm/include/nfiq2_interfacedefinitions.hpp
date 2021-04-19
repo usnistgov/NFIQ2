@@ -10,33 +10,27 @@
 #include <vector>
 
 namespace NFIQ {
-static const std::string
-    ActionableQualityFeedbackIdentifier_EmptyImageOrContrastTooLow {
-	    "EmptyImageOrContrastTooLow"
-    };
-static const std::string ActionableQualityFeedbackIdentifier_UniformImage {
-	"UniformImage"
-};
-static const std::string
-    ActionableQualityFeedbackIdentifier_FingerprintImageWithMinutiae {
-	    "FingerprintImageWithMinutiae"
-    };
-static const std::string
-    ActionableQualityFeedbackIdentifier_SufficientFingerprintForeground {
-	    "SufficientFingerprintForeground"
-    };
+namespace ActionableQualityFeedbackIdentifier {
 
-static const double
-    ActionableQualityFeedbackThreshold_EmptyImageOrContrastTooLow { 250.0 };
-static const double ActionableQualityFeedbackThreshold_UniformImage { 1.0 };
+static const std::string EmptyImageOrContrastTooLow {
+	"EmptyImageOrContrastTooLow"
+};
+static const std::string UniformImage { "UniformImage" };
+static const std::string FingerprintImageWithMinutiae {
+	"FingerprintImageWithMinutiae"
+};
+static const std::string SufficientFingerprintForeground {
+	"SufficientFingerprintForeground"
+};
+}
+namespace ActionableQualityFeedbackThreshold {
+static const double EmptyImageOrContrastTooLow { 250.0 };
+static const double UniformImage { 1.0 };
 /** Minimum 5 minutiae shall be found */
-static const double
-    ActionableQualityFeedbackThreshold_FingerprintImageWithMinutiae { 5.0 };
+static const double FingerprintImageWithMinutiae { 5.0 };
 /** Minimum foreground pixels */
-static const double
-    ActionableQualityFeedbackThreshold_SufficientFingerprintForeground {
-	    50000.0
-    };
+static const double SufficientFingerprintForeground { 50000.0 };
+}
 
 struct actionable_quality_feedback_t {
 	std::string identifier;

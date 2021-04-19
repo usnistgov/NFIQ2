@@ -94,8 +94,14 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	&features) const
 {
 
-	std::vector<NFIQ::QualityFeatureData> featureVector =
+	std::unordered_map<std::string, NFIQ::QualityFeatureData> featureMap =
 	    NFIQ::QualityFeatures::getQualityFeatureData(features);
+
+	std::vector<NFIQ::QualityFeatureData> featureVector {};
+
+	for (const auto &i : NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
+		featureVector.push_back(featureMap[i]);
+	}
 
 	if (featureVector.size() == 0) {
 		// no features have been computed
@@ -141,8 +147,14 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 		throw NFIQ::NFIQException(e_Error_UnknownError, e.what());
 	}
 
-	std::vector<NFIQ::QualityFeatureData> featureVector =
+	std::unordered_map<std::string, NFIQ::QualityFeatureData> featureMap =
 	    NFIQ::QualityFeatures::getQualityFeatureData(features);
+
+	std::vector<NFIQ::QualityFeatureData> featureVector {};
+
+	for (const auto &i : NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
+		featureVector.push_back(featureMap[i]);
+	}
 
 	if (featureVector.size() == 0) {
 		// no features have been computed

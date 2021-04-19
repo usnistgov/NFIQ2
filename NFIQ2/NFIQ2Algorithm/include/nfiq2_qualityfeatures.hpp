@@ -44,36 +44,12 @@ std::vector<std::string> getAllSpeedFeatureGroups();
  *
  * @param rawImage
  * Fingerprint image in raw format
- * @param bComputeActionableQuality
- * If to compute actionable quality flags or not
- * @param actionableQuality
- * Compute actionable quality values
- * @param bOutputSpeed
- * If to output speed of computed features
- * @param speedValues
- * List of feature computation speed
- *
- * @return
- * A list of fingerprint quality feature data. This can be used with model
- * paramenters to produce a final NFIQ 2 score.
- */
-std::vector<NFIQ::QualityFeatureData> computeQualityFeatures(
-    const NFIQ::FingerprintImageData &rawImage, bool bComputeActionableQuality,
-    std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality,
-    bool bOutputSpeed, std::vector<NFIQ::QualityFeatureSpeed> &speedValues);
-
-/**
- * @brief
- * Obtain computed quality feature data from a fingerprint image.
- *
- * @param rawImage
- * Fingerprint image in raw format
  *
  * @return
  * A vector if BaseFeature modules containing computed feature data
  */
 std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-getComputedQualityFeatures(const NFIQ::FingerprintImageData &rawImage);
+computeQualityFeatures(const NFIQ::FingerprintImageData &rawImage);
 
 /**
  * @brief

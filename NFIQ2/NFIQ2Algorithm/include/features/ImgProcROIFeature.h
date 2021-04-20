@@ -19,24 +19,25 @@ namespace NFIQ { namespace QualityFeatures {
 class ImgProcROIFeature : public BaseFeature {
     public:
 	struct ImgProcROIResults {
-		unsigned int
-		    chosenBlockSize; ///< the input block size in pixels
-		unsigned int noOfCompleteBlocks; ///< the overall number of
-						 ///< complete blocks (with full
-						 ///< block size) in the image
-		unsigned int noOfAllBlocks; ///< the overall number of blocks
-					    ///< in the image
-		std::vector<cv::Rect> vecROIBlocks; ///< the detected ROI blocks
-						    ///< with position and size
-		unsigned int
-		    noOfROIPixels; ///< the number of ROI pixels detected
-				   ///< in the image (not blocks)
-		unsigned int
-		    noOfImagePixels;	  ///< the number of pixels of the image
-		double meanOfROIPixels;	  ///< the mean of all grayvalues of all
-					  ///< ROI pixels
-		double stdDevOfROIPixels; ///< the standard deviation of all
-					  ///< grayvalues of all ROI pixels
+		/** input block size in pixels */
+		unsigned int chosenBlockSize {};
+		/**
+		 * overall number of complete blocks (with full block size)
+		 * in the image
+		 */
+		unsigned int noOfCompleteBlocks {};
+		/** overall number of blocks in the image */
+		unsigned int noOfAllBlocks {};
+		/** detected ROI blocks with position and size */
+		std::vector<cv::Rect> vecROIBlocks {};
+		/** number of ROI pixels detected in the image (not blocks) */
+		unsigned int noOfROIPixels {};
+		/** number of pixels of the image */
+		unsigned int noOfImagePixels {};
+		/** mean of all grayvalues of all ROI pixels */
+		double meanOfROIPixels {};
+		/** standard deviation of all grayvalues of all ROI pixels */
+		double stdDevOfROIPixels {};
 	};
 
 	ImgProcROIFeature(const NFIQ::FingerprintImageData &fingerprintImage);

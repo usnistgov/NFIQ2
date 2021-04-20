@@ -25,5 +25,5 @@ It also contains actionable quality scores. Speed output has been omitted.
 
  - ***YOUR_NFIQ2_OUTPUT.csv*** contains the user generated NFIQ 2.0 csv output to be checked.
  - ***DIFF_OUTPUT_PATH*** is a an optional system path where the user can save diff output to a file using the ***-o*** flag.
- - To print either a "**True**" or "**False**" to indicate whether the two csv files are the same, the user can add the option ***-s*** flag.
+ - To print either a "**True**" or "**False**" to indicate whether the two csv files are the same, the user can add the optional ***-s*** flag.
 

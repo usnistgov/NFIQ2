@@ -289,7 +289,7 @@ NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs()
 
 	for (auto &vec : vov) {
 		qualityFeatureIDs.insert(
-		    qualityFeatureIDs.cend(), vec.cbegin(), vec.cend());
+		    qualityFeatureIDs.end(), vec.cbegin(), vec.cend());
 	}
 
 	return qualityFeatureIDs;

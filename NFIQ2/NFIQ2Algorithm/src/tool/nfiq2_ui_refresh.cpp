@@ -389,13 +389,43 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		logger->printSingle(score);
 
 	} else {
+
+		std::unordered_map<std::string, NFIQ::QualityFeatureData>
+		    featureMap = NFIQ::QualityFeatures::getQualityFeatureData(
+			features);
+
+		std::vector<NFIQ::QualityFeatureData> featureVector {};
+		for (const auto &i :
+		    NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
+			featureVector.push_back(featureMap[i]);
+		}
+
+		std::unordered_map<std::string, NFIQ::QualityFeatureSpeed>
+		    speedMap = NFIQ::QualityFeatures::getQualityFeatureSpeeds(
+			features);
+
+		std::vector<NFIQ::QualityFeatureSpeed> speedVector {};
+		for (const auto &i :
+		    NFIQ::QualityFeatures::getAllSpeedFeatureGroups()) {
+			speedVector.push_back(speedMap[i]);
+		}
+
+		std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
+		    actionableMap =
+			NFIQ::QualityFeatures::getActionableQualityFeedback(
+			    features);
+
+		std::vector<NFIQ::ActionableQualityFeedback>
+		    actionableVector {};
+		for (const auto &i :
+		    NFIQ::QualityFeatures::getAllActionableIdentifiers()) {
+			actionableVector.push_back(actionableMap[i]);
+		}
+
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,
-		    imageProps.quantized, imageProps.resampled,
-		    NFIQ::QualityFeatures::getQualityFeatureData(features),
-		    NFIQ::QualityFeatures::getQualityFeatureSpeeds(features),
-		    NFIQ::QualityFeatures::getActionableQualityFeedback(
-			features));
+		    imageProps.quantized, imageProps.resampled, featureVector,
+		    speedVector, actionableVector);
 	}
 }
 

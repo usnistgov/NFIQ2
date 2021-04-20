@@ -78,12 +78,12 @@ NFIQ2Algorithm::Impl::~Impl()
 
 double
 NFIQ2Algorithm::Impl::getQualityPrediction(
-    const std::vector<NFIQ::QualityFeatureData> &featureVector) const
+    std::unordered_map<std::string, NFIQ::QualityFeatureData> &featureMap) const
 {
 	const double utility {};
 	double deviation {};
 	double quality {};
-	m_RandomForestML.evaluate(featureVector, utility, quality, deviation);
+	m_RandomForestML.evaluate(featureMap, utility, quality, deviation);
 
 	return quality;
 }
@@ -97,13 +97,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	std::unordered_map<std::string, NFIQ::QualityFeatureData> featureMap =
 	    NFIQ::QualityFeatures::getQualityFeatureData(features);
 
-	std::vector<NFIQ::QualityFeatureData> featureVector {};
-
-	for (const auto &i : NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
-		featureVector.push_back(featureMap[i]);
-	}
-
-	if (featureVector.size() == 0) {
+	if (featureMap.size() == 0) {
 		// no features have been computed
 		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
 		    "No features have been computed");
@@ -115,7 +109,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 	double qualityScore {};
 	try {
-		qualityScore = getQualityPrediction(featureVector);
+		qualityScore = getQualityPrediction(featureMap);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
@@ -150,13 +144,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	std::unordered_map<std::string, NFIQ::QualityFeatureData> featureMap =
 	    NFIQ::QualityFeatures::getQualityFeatureData(features);
 
-	std::vector<NFIQ::QualityFeatureData> featureVector {};
-
-	for (const auto &i : NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
-		featureVector.push_back(featureMap[i]);
-	}
-
-	if (featureVector.size() == 0) {
+	if (featureMap.size() == 0) {
 		// no features have been computed
 		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
 		    "No features have been computed");
@@ -168,7 +156,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 	double qualityScore {};
 	try {
-		qualityScore = getQualityPrediction(featureVector);
+		qualityScore = getQualityPrediction(featureMap);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
@@ -180,11 +168,4 @@ std::string
 NFIQ2Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
-}
-
-unsigned int
-NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
-    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData) const
-{
-	return (unsigned int)getQualityPrediction(qualityFeatureData);
 }

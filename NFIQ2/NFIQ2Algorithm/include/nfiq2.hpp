@@ -10,6 +10,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace NFIQ {
 /** Wrapper to return quality scores for a fingerprint image */
@@ -32,17 +33,6 @@ class NFIQ2Algorithm {
 	 */
 	unsigned int computeQualityScore(
 	    const NFIQ::FingerprintImageData &rawImage) const;
-
-	/**
-	 * @fn computeQualityScore
-	 * @brief Computes the quality score from the extracted image
-	 * quality feature data
-	 * @param qualityfeatureData list of computed feature data values
-	 * @return achieved quality score
-	 */
-	unsigned int computeQualityScore(
-	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
-	    const;
 
 	/**
 	 * @fn computeQualityScore

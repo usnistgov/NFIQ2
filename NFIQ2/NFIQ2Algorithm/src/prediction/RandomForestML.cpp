@@ -153,10 +153,10 @@ NFIQ::Prediction::RandomForestML::evaluate(
     const std::unordered_map<std::string, NFIQ::QualityFeatureData> &featureMap,
     const double &utilityValue, double &qualityValue, double &deviation) const
 {
-	static const std::vector<std::string> rfFeatureOrder { "FDA_Bin10_0", "FDA_Bin10_1",
-		"FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4", "FDA_Bin10_5",
-		"FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8", "FDA_Bin10_9",
-		"FDA_Bin10_Mean", "FDA_Bin10_StdDev",
+	static const std::vector<std::string> rfFeatureOrder { "FDA_Bin10_0",
+		"FDA_Bin10_1", "FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4",
+		"FDA_Bin10_5", "FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8",
+		"FDA_Bin10_9", "FDA_Bin10_Mean", "FDA_Bin10_StdDev",
 		"FingerJetFX_MinCount_COMMinRect200x200",
 		"FingerJetFX_MinutiaeCount", "FJFXPos_Mu_MinutiaeQuality_2",
 		"FJFXPos_OCL_MinutiaeQuality_80", "ImgProcROIArea_Mean",

@@ -56,25 +56,24 @@ NFIQ::QualityFeatures::Impl::getQualityFeatureData(
 	std::vector<std::string> qualityIdentifiers =
 	    NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs();
 
-	std::unordered_map<std::string, NFIQ::QualityFeatureData>
-	    featureDataMap {};
+	std::unordered_map<std::string, NFIQ::QualityFeatureData> quality {};
 
 	auto counter = 0;
 	for (const auto &feature : features) {
 		for (auto &result : feature->getFeatures()) {
 			if (result.returnCode == 0) {
-				featureDataMap[qualityIdentifiers.at(counter)] =
+				quality[qualityIdentifiers.at(counter)] =
 				    result.featureData;
 			} else {
 				result.featureData.featureDataDouble = 0;
-				featureDataMap[qualityIdentifiers.at(counter)] =
+				quality[qualityIdentifiers.at(counter)] =
 				    result.featureData;
 			}
 			counter++;
 		}
 	}
 
-	return featureDataMap;
+	return quality;
 }
 
 std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>

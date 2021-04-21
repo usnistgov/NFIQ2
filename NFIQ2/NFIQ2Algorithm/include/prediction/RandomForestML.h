@@ -8,6 +8,7 @@
 
 #include <list>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #if CV_MAJOR_VERSION <= 2
 #include <opencv/cv.h>
@@ -35,7 +36,8 @@ class RandomForestML {
 	    const std::string &fileName, const std::string &fileHash);
 
 	void evaluate(
-	    const std::vector<NFIQ::QualityFeatureData> &featureVector,
+	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+		&features,
 	    const double &utilityValue, double &qualityValue,
 	    double &deviation) const;
 

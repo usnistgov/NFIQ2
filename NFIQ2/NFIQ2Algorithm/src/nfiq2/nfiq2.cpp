@@ -31,15 +31,16 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
 
 unsigned int
 NFIQ::NFIQ2Algorithm::computeQualityScore(
-    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData) const
+    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+	&features) const
 {
-	return (this->pimpl->computeQualityScore(qualityFeatureData));
+	return (this->pimpl->computeQualityScore(features));
 }
 
 unsigned int
 NFIQ::NFIQ2Algorithm::computeQualityScore(
-    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-	&features) const
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
+    const
 {
 	return (this->pimpl->computeQualityScore(features));
 }

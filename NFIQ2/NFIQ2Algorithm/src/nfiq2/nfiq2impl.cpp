@@ -78,12 +78,13 @@ NFIQ2Algorithm::Impl::~Impl()
 
 double
 NFIQ2Algorithm::Impl::getQualityPrediction(
-    const std::vector<NFIQ::QualityFeatureData> &featureVector) const
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
+    const
 {
 	const double utility {};
 	double deviation {};
 	double quality {};
-	m_RandomForestML.evaluate(featureVector, utility, quality, deviation);
+	m_RandomForestML.evaluate(features, utility, quality, deviation);
 
 	return quality;
 }
@@ -94,16 +95,10 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	&features) const
 {
 
-	std::unordered_map<std::string, NFIQ::QualityFeatureData> featureMap =
-	    NFIQ::QualityFeatures::getQualityFeatureData(features);
+	const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	    quality = NFIQ::QualityFeatures::getQualityFeatureData(features);
 
-	std::vector<NFIQ::QualityFeatureData> featureVector {};
-
-	for (const auto &i : NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
-		featureVector.push_back(featureMap[i]);
-	}
-
-	if (featureVector.size() == 0) {
+	if (quality.size() == 0) {
 		// no features have been computed
 		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
 		    "No features have been computed");
@@ -115,7 +110,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 	double qualityScore {};
 	try {
-		qualityScore = getQualityPrediction(featureVector);
+		qualityScore = getQualityPrediction(quality);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
@@ -147,16 +142,10 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 		throw NFIQ::NFIQException(e_Error_UnknownError, e.what());
 	}
 
-	std::unordered_map<std::string, NFIQ::QualityFeatureData> featureMap =
-	    NFIQ::QualityFeatures::getQualityFeatureData(features);
+	const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	    quality = NFIQ::QualityFeatures::getQualityFeatureData(features);
 
-	std::vector<NFIQ::QualityFeatureData> featureVector {};
-
-	for (const auto &i : NFIQ::QualityFeatures::getAllQualityFeatureIDs()) {
-		featureVector.push_back(featureMap[i]);
-	}
-
-	if (featureVector.size() == 0) {
+	if (quality.size() == 0) {
 		// no features have been computed
 		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
 		    "No features have been computed");
@@ -168,7 +157,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 	double qualityScore {};
 	try {
-		qualityScore = getQualityPrediction(featureVector);
+		qualityScore = getQualityPrediction(quality);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
@@ -176,15 +165,16 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	return (unsigned int)qualityScore;
 }
 
+unsigned int
+NFIQ2Algorithm::Impl::computeQualityScore(
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
+    const
+{
+	return (unsigned int)getQualityPrediction(features);
+}
+
 std::string
 NFIQ2Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
-}
-
-unsigned int
-NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
-    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData) const
-{
-	return (unsigned int)getQualityPrediction(qualityFeatureData);
 }

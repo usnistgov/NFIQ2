@@ -72,10 +72,12 @@ class Log {
 	void printScore(const std::string &name, uint8_t fingerCode,
 	    unsigned int score, const std::string &errmsg, const bool quantized,
 	    const bool resampled,
-	    const std::vector<NFIQ::QualityFeatureData> &featureVector,
-	    const std::vector<NFIQ::QualityFeatureSpeed> &featureTimings,
-	    const std::vector<NFIQ::ActionableQualityFeedback>
-		&actionableQuality) const;
+	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+		&features,
+	    const std::unordered_map<std::string, NFIQ::QualityFeatureSpeed>
+		&speed,
+	    const std::unordered_map<std::string,
+		NFIQ::ActionableQualityFeedback> &actionable) const;
 
 	/**
 	 *  @brief

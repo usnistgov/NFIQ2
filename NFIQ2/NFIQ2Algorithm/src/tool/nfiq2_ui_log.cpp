@@ -49,7 +49,6 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     const std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
 	&actionableMap) const
 {
-
 	*(this->out) << "\"" << name << "\""
 		     << "," << std::to_string(fingerCode) << "," << score << ","
 		     << errmsg << "," << quantized << "," << resampled;

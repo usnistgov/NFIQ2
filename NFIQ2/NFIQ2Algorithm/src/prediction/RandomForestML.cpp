@@ -150,10 +150,10 @@ NFIQ::Prediction::RandomForestML::initModule(
 
 void
 NFIQ::Prediction::RandomForestML::evaluate(
-    std::unordered_map<std::string, NFIQ::QualityFeatureData> &featureMap,
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &featureMap,
     const double &utilityValue, double &qualityValue, double &deviation) const
 {
-	std::vector<std::string> rfFeatureOrder { "FDA_Bin10_0", "FDA_Bin10_1",
+	static const std::vector<std::string> rfFeatureOrder { "FDA_Bin10_0", "FDA_Bin10_1",
 		"FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4", "FDA_Bin10_5",
 		"FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8", "FDA_Bin10_9",
 		"FDA_Bin10_Mean", "FDA_Bin10_StdDev",
@@ -178,7 +178,7 @@ NFIQ::Prediction::RandomForestML::evaluate(
 
 	std::vector<NFIQ::QualityFeatureData> featureVector {};
 	for (const auto &i : rfFeatureOrder) {
-		featureVector.push_back(featureMap[i]);
+		featureVector.push_back(featureMap.at(i));
 	}
 
 	try {

@@ -35,7 +35,7 @@ class RandomForestML {
 	std::string initModule(
 	    const std::string &fileName, const std::string &fileHash);
 
-	void evaluate(std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	void evaluate(const std::unordered_map<std::string, NFIQ::QualityFeatureData>
 			  &featureMap,
 	    const double &utilityValue, double &qualityValue,
 	    double &deviation) const;

@@ -73,11 +73,11 @@ class Log {
 	    unsigned int score, const std::string &errmsg, const bool quantized,
 	    const bool resampled,
 	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
-		&featureMap,
+		&features,
 	    const std::unordered_map<std::string, NFIQ::QualityFeatureSpeed>
-		&speedMap,
+		&speed,
 	    const std::unordered_map<std::string,
-		NFIQ::ActionableQualityFeedback> &actionableMap) const;
+		NFIQ::ActionableQualityFeedback> &actionable) const;
 
 	/**
 	 *  @brief

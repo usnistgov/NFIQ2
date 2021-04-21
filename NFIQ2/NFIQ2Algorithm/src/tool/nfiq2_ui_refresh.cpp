@@ -389,6 +389,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		logger->printSingle(score);
 
 	} else {
+
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,
 		    imageProps.quantized, imageProps.resampled,

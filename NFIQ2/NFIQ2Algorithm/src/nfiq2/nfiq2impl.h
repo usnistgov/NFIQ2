@@ -57,17 +57,6 @@ class NFIQ2Algorithm::Impl {
 
 	/**
 	 * @fn computeQualityScore
-	 * @brief Computes the quality score from the extracted image
-	 * quality feature data
-	 * @param qualityfeatureData list of computed feature data values
-	 * @return achieved quality score
-	 */
-	unsigned int computeQualityScore(
-	    const std::vector<NFIQ::QualityFeatureData> &qualityFeatureData)
-	    const;
-
-	/**
-	 * @fn computeQualityScore
 	 * @brief Computes the quality score from a vector of extracted feature
 	 * from a cropped fingerprint image
 	 * @param features list of computed feature metrics that contain quality
@@ -79,14 +68,15 @@ class NFIQ2Algorithm::Impl {
 	    const;
 
 	/**
-	 * @fn computeQualityFeaturesAndScore
-	 * @brief Computes the quality score from the input fingerprint image
-	 * data
-	 * @param rawImage fingerprint image in raw format
-	 * @return Object containing score, actionable, quality and speed data
+	 * @fn computeQualityScore
+	 * @brief Computes the quality score from the extracted image
+	 * quality feature data
+	 * @param features map of string, quality feature data pairs
+	 * @return achieved quality score
 	 */
-	NFIQ::NFIQ2Results computeQualityFeaturesAndScore(
-	    const NFIQ::FingerprintImageData &rawImage) const;
+	unsigned int computeQualityScore(
+	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+		&features) const;
 
 	/**
 	 * @brief
@@ -103,7 +93,8 @@ class NFIQ2Algorithm::Impl {
 	 * Failure to compute (OpenCV reason contained within message string).
 	 */
 	double getQualityPrediction(
-	    const std::vector<NFIQ::QualityFeatureData> &featureVector) const;
+	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+		&features) const;
 
 	NFIQ::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};

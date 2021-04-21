@@ -150,9 +150,44 @@ NFIQ::Prediction::RandomForestML::initModule(
 
 void
 NFIQ::Prediction::RandomForestML::evaluate(
-    const std::vector<NFIQ::QualityFeatureData> &featureVector,
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features,
     const double &utilityValue, double &qualityValue, double &deviation) const
 {
+	/**
+	   The following ordering of feature keys is critical to the
+	   correct computation of NFIQ 2 scores. Any modification to this
+	   ordering will result in incorrectly generated NFIQ 2 scores. This is
+	   based on the training model currently in use and may be updated in
+	   the future.
+	*/
+	static const std::vector<std::string> rfFeatureOrder { "FDA_Bin10_0",
+		"FDA_Bin10_1", "FDA_Bin10_2", "FDA_Bin10_3", "FDA_Bin10_4",
+		"FDA_Bin10_5", "FDA_Bin10_6", "FDA_Bin10_7", "FDA_Bin10_8",
+		"FDA_Bin10_9", "FDA_Bin10_Mean", "FDA_Bin10_StdDev",
+		"FingerJetFX_MinCount_COMMinRect200x200",
+		"FingerJetFX_MinutiaeCount", "FJFXPos_Mu_MinutiaeQuality_2",
+		"FJFXPos_OCL_MinutiaeQuality_80", "ImgProcROIArea_Mean",
+		"LCS_Bin10_0", "LCS_Bin10_1", "LCS_Bin10_2", "LCS_Bin10_3",
+		"LCS_Bin10_4", "LCS_Bin10_5", "LCS_Bin10_6", "LCS_Bin10_7",
+		"LCS_Bin10_8", "LCS_Bin10_9", "LCS_Bin10_Mean",
+		"LCS_Bin10_StdDev", "MMB", "Mu", "OCL_Bin10_0", "OCL_Bin10_1",
+		"OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5",
+		"OCL_Bin10_6", "OCL_Bin10_7", "OCL_Bin10_8", "OCL_Bin10_9",
+		"OCL_Bin10_Mean", "OCL_Bin10_StdDev", "OF_Bin10_0",
+		"OF_Bin10_1", "OF_Bin10_2", "OF_Bin10_3", "OF_Bin10_4",
+		"OF_Bin10_5", "OF_Bin10_6", "OF_Bin10_7", "OF_Bin10_8",
+		"OF_Bin10_9", "OF_Bin10_Mean", "OF_Bin10_StdDev",
+		"OrientationMap_ROIFilter_CoherenceRel",
+		"OrientationMap_ROIFilter_CoherenceSum", "RVUP_Bin10_0",
+		"RVUP_Bin10_1", "RVUP_Bin10_2", "RVUP_Bin10_3", "RVUP_Bin10_4",
+		"RVUP_Bin10_5", "RVUP_Bin10_6", "RVUP_Bin10_7", "RVUP_Bin10_8",
+		"RVUP_Bin10_9", "RVUP_Bin10_Mean", "RVUP_Bin10_StdDev" };
+
+	std::vector<NFIQ::QualityFeatureData> featureVector {};
+	for (const auto &i : rfFeatureOrder) {
+		featureVector.push_back(features.at(i));
+	}
+
 	try {
 #if CV_MAJOR_VERSION <= 2
 		if (m_pTrainedRF == nullptr) {

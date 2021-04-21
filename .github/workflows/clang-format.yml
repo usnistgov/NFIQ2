@@ -43,13 +43,11 @@ jobs:
                 fail=1
                 echo "::warning file=${i}::Please run clang-format -i ${i}"
             fi
-            if [ "${fail}" != "0" ]; then
-                echo "::endgroup::"
-            fi
         done < <(find NFIQ2 \( -name "*.c" -o -name "*.h" \
             -o -name "*.cpp" -o -name "*.hpp" \) -a \! -path '*wsq*' \
             -a \! -name 'RandomForestTrainedParams.h')
         if [ "${fail}" == "1" ]; then
+            echo "::endgroup::"
             msg="Please run the above files through clang-format using the "
             msg+=".clang-format configuration and push your changes to the "
             msg+="same branch. See CONTRIBUTING.md for more information."

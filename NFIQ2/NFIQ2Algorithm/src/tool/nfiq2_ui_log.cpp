@@ -44,9 +44,10 @@ void
 NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     unsigned int score, const std::string &errmsg, const bool quantized,
     const bool resampled,
-    const std::vector<NFIQ::QualityFeatureData> &featureVector,
-    const std::vector<NFIQ::QualityFeatureSpeed> &featureTimings,
-    const std::vector<NFIQ::ActionableQualityFeedback> &actionableQuality) const
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features,
+    const std::unordered_map<std::string, NFIQ::QualityFeatureSpeed> &speed,
+    const std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
+	&actionable) const
 {
 	*(this->out) << "\"" << name << "\""
 		     << "," << std::to_string(fingerCode) << "," << score << ","
@@ -57,14 +58,15 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	// Print out actionable first
 	if (this->actionable) {
-		for (auto i = actionableQuality.begin();
-		     i != actionableQuality.end(); ++i) {
-			if (i != actionableQuality.begin()) {
+		const auto actionableIDs =
+		    NFIQ::QualityFeatures::getAllActionableIdentifiers();
+		for (const auto &i : actionableIDs) {
+			if (i != actionableIDs.front()) {
 				*(this->out) << ",";
 			}
 
 			*(this->out) << NFIQ2UI::formatDouble(
-			    i->actionableQualityValue, 5);
+			    actionable.at(i).actionableQualityValue, 5);
 		}
 		if (this->verbose || this->speed) {
 			*(this->out) << ",";
@@ -72,14 +74,15 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 	}
 
 	if (this->verbose) {
-		for (auto i = featureVector.begin(); i != featureVector.end();
-		     ++i) {
-			if (i != featureVector.begin()) {
+		const auto featureIDs =
+		    NFIQ::QualityFeatures::getAllQualityFeatureIDs();
+		for (const auto &i : featureIDs) {
+			if (i != featureIDs.front()) {
 				*(this->out) << ",";
 			}
 
-			*(this->out)
-			    << NFIQ2UI::formatDouble(i->featureDataDouble, 5);
+			*(this->out) << NFIQ2UI::formatDouble(
+			    features.at(i).featureDataDouble, 5);
 		}
 		if (this->speed) {
 			*(this->out) << ",";
@@ -87,13 +90,15 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 	}
 
 	if (this->speed) {
-		for (auto i = featureTimings.begin(); i != featureTimings.end();
-		     ++i) {
-			if (i != featureTimings.begin()) {
+		const auto speedIDs =
+		    NFIQ::QualityFeatures::getAllSpeedFeatureGroups();
+		for (const auto &i : speedIDs) {
+			if (i != speedIDs.front()) {
 				*(this->out) << ",";
 			}
 
-			*(this->out) << std::setprecision(5) << i->featureSpeed;
+			*(this->out)
+			    << std::setprecision(5) << speed.at(i).featureSpeed;
 		}
 	}
 	*(this->out) << "\n";

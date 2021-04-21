@@ -47,6 +47,17 @@ class NFIQ2Algorithm {
 	    const;
 
 	/**
+	 * @fn computeQualityScore
+	 * @brief Computes the quality score from the extracted image
+	 * quality feature data
+	 * @param featureMap map of string, quality feature data pairs
+	 * @return achieved quality score
+	 */
+	unsigned int computeQualityScore(
+	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+		&featureMap) const;
+
+	/**
 	 * @brief
 	 * Obtain MD5 checksum of Random Forest parameter file loaded.
 	 *

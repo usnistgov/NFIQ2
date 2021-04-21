@@ -37,6 +37,13 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
 	return (this->pimpl->computeQualityScore(features));
 }
 
+unsigned int 
+NFIQ::NFIQ2Algorithm::computeQualityScore(
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &qualityMap) const 
+{
+    return (this->pimpl->computeQualityScore(qualityMap));
+}
+
 std::string
 NFIQ::NFIQ2Algorithm::getParameterHash() const
 {

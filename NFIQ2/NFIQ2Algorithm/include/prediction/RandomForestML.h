@@ -37,7 +37,7 @@ class RandomForestML {
 
 	void evaluate(
 	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
-		&feature,
+		&features,
 	    const double &utilityValue, double &qualityValue,
 	    double &deviation) const;
 

@@ -39,10 +39,10 @@ NFIQ::NFIQ2Algorithm::computeQualityScore(
 
 unsigned int
 NFIQ::NFIQ2Algorithm::computeQualityScore(
-    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &qualityMap)
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
     const
 {
-	return (this->pimpl->computeQualityScore(qualityMap));
+	return (this->pimpl->computeQualityScore(features));
 }
 
 std::string

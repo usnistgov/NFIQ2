@@ -50,12 +50,12 @@ class NFIQ2Algorithm {
 	 * @fn computeQualityScore
 	 * @brief Computes the quality score from the extracted image
 	 * quality feature data
-	 * @param featureMap map of string, quality feature data pairs
+	 * @param features map of string, quality feature data pairs
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(
 	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
-		&featureMap) const;
+		&features) const;
 
 	/**
 	 * @brief

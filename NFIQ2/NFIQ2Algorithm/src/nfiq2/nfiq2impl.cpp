@@ -78,13 +78,13 @@ NFIQ2Algorithm::Impl::~Impl()
 
 double
 NFIQ2Algorithm::Impl::getQualityPrediction(
-    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &featureMap)
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
     const
 {
 	const double utility {};
 	double deviation {};
 	double quality {};
-	m_RandomForestML.evaluate(featureMap, utility, quality, deviation);
+	m_RandomForestML.evaluate(features, utility, quality, deviation);
 
 	return quality;
 }
@@ -96,9 +96,10 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 {
 
 	const std::unordered_map<std::string, NFIQ::QualityFeatureData>
-	    featureMap = NFIQ::QualityFeatures::getQualityFeatureData(features);
+	    featureDataMap = NFIQ::QualityFeatures::getQualityFeatureData(
+		features);
 
-	if (featureMap.size() == 0) {
+	if (featureDataMap.size() == 0) {
 		// no features have been computed
 		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
 		    "No features have been computed");
@@ -110,7 +111,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 	double qualityScore {};
 	try {
-		qualityScore = getQualityPrediction(featureMap);
+		qualityScore = getQualityPrediction(featureDataMap);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
@@ -143,9 +144,10 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 	}
 
 	const std::unordered_map<std::string, NFIQ::QualityFeatureData>
-	    featureMap = NFIQ::QualityFeatures::getQualityFeatureData(features);
+	    featureDataMap = NFIQ::QualityFeatures::getQualityFeatureData(
+		features);
 
-	if (featureMap.size() == 0) {
+	if (featureDataMap.size() == 0) {
 		// no features have been computed
 		throw NFIQ::NFIQException(e_Error_FeatureCalculationError,
 		    "No features have been computed");
@@ -157,7 +159,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 	double qualityScore {};
 	try {
-		qualityScore = getQualityPrediction(featureMap);
+		qualityScore = getQualityPrediction(featureDataMap);
 	} catch (const NFIQ::NFIQException &) {
 		throw;
 	}
@@ -167,10 +169,10 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 
 unsigned int
 NFIQ2Algorithm::Impl::computeQualityScore(
-    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &featureMap)
-    const
+    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	&featureDataMap) const
 {
-	return (unsigned int)getQualityPrediction(featureMap);
+	return (unsigned int)getQualityPrediction(featureDataMap);
 }
 
 std::string

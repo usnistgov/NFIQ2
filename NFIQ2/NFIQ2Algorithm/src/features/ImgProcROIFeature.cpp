@@ -6,7 +6,6 @@
 #include <sstream>
 
 using namespace NFIQ;
-using namespace cv;
 
 NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
@@ -43,10 +42,10 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
-	Mat img;
+	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (cv::Exception &e) {
@@ -129,43 +128,43 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 	ImgProcROIResults roiResults;
 
 	// 1. erode image to get fingerprint details more clearly
-	Mat erodedImg;
-	Mat element(5, 5, CV_8U, Scalar(1));
+	cv::Mat erodedImg;
+	cv::Mat element(5, 5, CV_8U, cv::Scalar(1));
 	erode(img, erodedImg, element);
 
 	// 2. Gaussian blur to get important area
-	Mat blurImg;
-	GaussianBlur(erodedImg, blurImg, Size(41, 41), 0.0);
+	cv::Mat blurImg;
+	GaussianBlur(erodedImg, blurImg, cv::Size(41, 41), 0.0);
 
 	// 3. Binarize image with Otsu method
-	Mat threshImg;
-	threshold(blurImg, threshImg, 0, 255, THRESH_OTSU);
+	cv::Mat threshImg;
+	threshold(blurImg, threshImg, 0, 255, cv::THRESH_OTSU);
 
 	// 4. Blur image again
-	Mat blurImg2;
-	GaussianBlur(threshImg, blurImg2, Size(91, 91), 0.0);
+	cv::Mat blurImg2;
+	GaussianBlur(threshImg, blurImg2, cv::Size(91, 91), 0.0);
 
 	// 5. Binarize image again with Otsu method
-	Mat threshImg2;
-	threshold(blurImg2, threshImg2, 0, 255, THRESH_OTSU);
+	cv::Mat threshImg2;
+	threshold(blurImg2, threshImg2, 0, 255, cv::THRESH_OTSU);
 
 	// 6. try find white holes in black image
-	Mat contImg = threshImg2.clone();
-	std::vector<std::vector<Point>> contours;
-	std::vector<Vec4i> hierarchy;
+	cv::Mat contImg = threshImg2.clone();
+	std::vector<std::vector<cv::Point>> contours;
+	std::vector<cv::Vec4i> hierarchy;
 
 	// find contours in image
 #if CV_MAJOR_VERSION <= 2
 	findContours(contImg, contours, hierarchy, CV_RETR_CCOMP,
-	    CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	    CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 #else
 	findContours(contImg, contours, hierarchy, cv::RETR_CCOMP,
-	    cv::CHAIN_APPROX_SIMPLE, Point(0, 0));
+	    cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 #endif /* CV_MAJOR_VERSION */
 
 	// if holes are found -> close holes
 	if (hierarchy.size() > 2) {
-		Mat filledImg;
+		cv::Mat filledImg;
 #if CV_MAJOR_VERSION <= 2
 		cvtColor(threshImg2, filledImg, CV_GRAY2BGR);
 #else
@@ -176,10 +175,10 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 		     idx++) {
 #if CV_MAJOR_VERSION <= 2
 			drawContours(filledImg, contours, idx,
-			    Scalar(0, 0, 0, 0), CV_FILLED, 8, hierarchy);
+			    cv::Scalar(0, 0, 0, 0), CV_FILLED, 8, hierarchy);
 #else
 			drawContours(filledImg, contours, idx,
-			    Scalar(0, 0, 0, 0), cv::FILLED, 8, hierarchy);
+			    cv::Scalar(0, 0, 0, 0), cv::FILLED, 8, hierarchy);
 #endif /* CV_MAJOR_VERSION */
 		}
 #if CV_MAJOR_VERSION <= 2
@@ -191,15 +190,15 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 
 	// 7. remove smaller blobs at the edges that are not part of the
 	// fingerprint
-	Mat ffImg = threshImg2.clone();
-	Point point;
-	std::vector<Rect> vecRects;
-	std::vector<Point> vecPoints;
+	cv::Mat ffImg = threshImg2.clone();
+	cv::Point point;
+	std::vector<cv::Rect> vecRects;
+	std::vector<cv::Point> vecPoints;
 	while (isBlackPixelAvailable(ffImg, point)) {
 		// execute flood fill algorithm starting with discovered seed
 		// and save flooded area on copied image
-		Rect rect;
-		floodFill(ffImg, point, Scalar(255, 255, 255, 0), &rect);
+		cv::Rect rect;
+		floodFill(ffImg, point, cv::Scalar(255, 255, 255, 0), &rect);
 		vecRects.push_back(rect);
 		vecPoints.push_back(point);
 	}
@@ -222,8 +221,8 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 			// apply floodfill on original image
 			// start seed first detected point
 			floodFill(threshImg2,
-			    Point(vecPoints.at(i).x, vecPoints.at(i).y),
-			    Scalar(255, 255, 255, 0));
+			    cv::Point(vecPoints.at(i).x, vecPoints.at(i).y),
+			    cv::Scalar(255, 255, 255, 0));
 		}
 	}
 
@@ -271,7 +270,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 	// 8. compute and draw blocks
 	unsigned int width = img.cols;
 	unsigned int height = img.rows;
-	Mat bsImg(height, width, CV_8UC1, Scalar(255, 0, 0, 0));
+	cv::Mat bsImg(height, width, CV_8UC1, cv::Scalar(255, 0, 0, 0));
 
 	unsigned int noOfAllBlocks = 0;
 	unsigned int noOfCompleteBlocks = 0;
@@ -286,27 +285,27 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 				takenBS_Y = (height - i);
 			}
 
-			Mat block = threshImg2(
-			    Rect(j, i, takenBS_X, takenBS_Y));
+			cv::Mat block = threshImg2(
+			    cv::Rect(j, i, takenBS_X, takenBS_Y));
 			noOfAllBlocks++;
 			if (takenBS_X == bs && takenBS_Y == bs) {
 				noOfCompleteBlocks++;
 			}
 			// count number of black pixels in block
-			Scalar m = mean(block);
+			cv::Scalar m = mean(block);
 			if (m.val[0] < 255) {
 				// take block
 #if CV_MAJOR_VERSION <= 2
-				rectangle(bsImg, Point(j, i),
-				    Point(j + takenBS_X, i + takenBS_Y),
-				    Scalar(0, 0, 0, 0), CV_FILLED);
+				rectangle(bsImg, cv::Point(j, i),
+				    cv::Point(j + takenBS_X, i + takenBS_Y),
+				    cv::Scalar(0, 0, 0, 0), CV_FILLED);
 #else
-				rectangle(bsImg, Point(j, i),
-				    Point(j + takenBS_X, i + takenBS_Y),
-				    Scalar(0, 0, 0, 0), cv::FILLED);
+				rectangle(bsImg, cv::Point(j, i),
+				    cv::Point(j + takenBS_X, i + takenBS_Y),
+				    cv::Scalar(0, 0, 0, 0), cv::FILLED);
 #endif /* CV_MAJOR_VERSION */
 				roiResults.vecROIBlocks.push_back(
-				    Rect(j, i, takenBS_X, takenBS_Y));
+				    cv::Rect(j, i, takenBS_X, takenBS_Y));
 			}
 		}
 	}

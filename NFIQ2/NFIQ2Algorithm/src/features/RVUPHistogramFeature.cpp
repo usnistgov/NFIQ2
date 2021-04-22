@@ -13,10 +13,9 @@
 #endif
 
 using namespace NFIQ;
-using namespace cv;
 using namespace std;
 
-void rvuhist(Mat block, const double orientation, const int v1sz_x,
+void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
@@ -44,10 +43,10 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
-	Mat img;
+	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (cv::Exception &e) {
@@ -67,15 +66,15 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	try {
 		timerRVU.start();
 
-		Mat maskim;
+		cv::Mat maskim;
 		const int blksize = this->blocksize;
 		const int v1sz_x = this->slantedBlockSizeX;
 		const int v1sz_y = this->slantedBlockSizeY;
 
 		assert((blksize > 0) && (this->threshold > 0));
 
-		ridgesegment(img, blksize, this->threshold, noArray(), maskim,
-		    noArray());
+		ridgesegment(img, blksize, this->threshold, cv::noArray(),
+		    maskim, cv::noArray());
 
 		int rows = img.rows;
 		int cols = img.cols;
@@ -94,11 +93,11 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		int mapCols = static_cast<int>(
 		    (static_cast<double>(cols) - diff) / blk);
 
-		Mat maskBseg = Mat::zeros(mapRows, mapCols, CV_8UC1);
-		Mat blkorient = Mat::zeros(mapRows, mapCols, CV_64F);
+		cv::Mat maskBseg = cv::Mat::zeros(mapRows, mapCols, CV_8UC1);
+		cv::Mat blkorient = cv::Mat::zeros(mapRows, mapCols, CV_64F);
 
-		Mat im_roi, blkwim;
-		Mat maskB1;
+		cv::Mat im_roi, blkwim;
+		cv::Mat maskB1;
 		double cova, covb, covc;
 		// Image processed NOT from beg to end but with a border around
 		// - can't be vectorized:(
@@ -113,11 +112,12 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 			     c < cols - (blksize + blkoffset - 1);
 			     c += blksize) {
 				im_roi = img(
-				    Range(r, min(r + blksize, img.rows)),
-				    Range(c, min(c + blksize, img.cols)));
+				    cv::Range(r, min(r + blksize, img.rows)),
+				    cv::Range(c, min(c + blksize, img.cols)));
 				maskB1 = maskim(
-				    Range(r, min(r + blksize, maskim.rows)),
-				    Range(c, min(c + blksize, maskim.cols)));
+				    cv::Range(r, min(r + blksize, maskim.rows)),
+				    cv::Range(
+					c, min(c + blksize, maskim.cols)));
 				maskBseg.at<uint8_t>(br, bc) = allfun(maskB1);
 				covcoef(im_roi, cova, covb, covc,
 				    CENTERED_DIFFERENCES);
@@ -127,9 +127,9 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 				    cova, covb, covc);
 				// overlapping windows (border = blkoffset)
 				blkwim = img(
-				    Range(r - blkoffset,
+				    cv::Range(r - blkoffset,
 					min(r + blksize + blkoffset, img.rows)),
-				    Range(c - blkoffset,
+				    cv::Range(c - blkoffset,
 					min(c + blksize + blkoffset,
 					    img.cols)));
 				if (maskBseg.at<uint8_t>(br, bc) == 1) {
@@ -231,8 +231,9 @@ perpendicular to the ridge direction %                     within the block
 ***/
 
 void
-rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
-    bool padFlag, std::vector<double> &rvures, std::vector<uint8_t> &NaNvec)
+rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
+    const int v1sz_y, bool padFlag, std::vector<double> &rvures,
+    std::vector<uint8_t> &NaNvec)
 {
 	// sanity check: check block size
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
@@ -244,7 +245,7 @@ rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
 			  << std::endl;
 	}
 
-	Mat blockRotated;
+	cv::Mat blockRotated;
 	NFIQ::QualityFeatures::getRotatedBlock(
 	    block, orientation, padFlag, blockRotated);
 
@@ -260,9 +261,9 @@ rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
 	// Note: Matlab uses matrix indices starting at 1, OpenCV starts at 0.
 	// Also, OpenCV ranges are open-ended on the upper end.
 
-	Mat blockCropped = blockRotated(
-	    Range((icBlock - (yoff - 1) - 1), (icBlock + yoff)),
-	    Range((icBlock - (xoff - 1) - 1), (icBlock + xoff))); // v2
+	cv::Mat blockCropped = blockRotated(
+	    cv::Range((icBlock - (yoff - 1) - 1), (icBlock + yoff)),
+	    cv::Range((icBlock - (xoff - 1) - 1), (icBlock + xoff))); // v2
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;

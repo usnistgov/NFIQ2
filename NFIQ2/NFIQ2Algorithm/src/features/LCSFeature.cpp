@@ -13,9 +13,8 @@
 #endif
 
 using namespace NFIQ;
-using namespace cv;
 
-double loclar(Mat &block, const double orientation, const int v1sz_x,
+double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
 NFIQ::QualityFeatures::LCSFeature::LCSFeature(
@@ -58,10 +57,10 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
-	Mat img;
+	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (cv::Exception &e) {
@@ -83,9 +82,9 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		const int v1sz_x = blocksize;
 		const int v1sz_y = blocksize / 2;
 
-		Mat maskim;
-		ridgesegment(
-		    img, blocksize, threshold, noArray(), maskim, noArray());
+		cv::Mat maskim;
+		ridgesegment(img, blocksize, threshold, cv::noArray(), maskim,
+		    cv::noArray());
 
 		// ----------
 		// compute LCS
@@ -106,15 +105,15 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		int mapCols = static_cast<int>(
 		    (static_cast<double>(cols) - diff) / blk);
 
-		Mat maskBseg = Mat::zeros(mapRows, mapCols, CV_8UC1);
-		Mat blkorient = Mat::zeros(mapRows, mapCols, CV_64F);
+		cv::Mat maskBseg = cv::Mat::zeros(mapRows, mapCols, CV_8UC1);
+		cv::Mat blkorient = cv::Mat::zeros(mapRows, mapCols, CV_64F);
 
 		std::vector<double> dataVector;
 		dataVector.reserve(mapRows * mapCols);
 
-		Mat im_roi, blkwim;
-		Mat maskB1;
-		Mat lcs = Mat::zeros(mapRows, mapCols, CV_64F);
+		cv::Mat im_roi, blkwim;
+		cv::Mat maskB1;
+		cv::Mat lcs = cv::Mat::zeros(mapRows, mapCols, CV_64F);
 		double cova, covb, covc;
 		// Image processed NOT from beg to end but with a border around
 		// - can't be vectorized:(
@@ -127,12 +126,16 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 			     c < cols - (blocksize + blkoffset - 1);
 			     c += blocksize) {
 				im_roi = img(
-				    Range(r, min(r + blocksize, img.rows)),
-				    Range(c, min(c + blocksize, img.cols)));
+				    cv::Range(
+					r, cv::min(r + blocksize, img.rows)),
+				    cv::Range(
+					c, cv::min(c + blocksize, img.cols)));
 				//      blkim = im(r:r+blksz-1, c:c+blksz-1);
 				maskB1 = maskim(
-				    Range(r, min(r + blocksize, maskim.rows)),
-				    Range(c, min(c + blocksize, maskim.cols)));
+				    cv::Range(
+					r, cv::min(r + blocksize, maskim.rows)),
+				    cv::Range(c,
+					cv::min(c + blocksize, maskim.cols)));
 				//      maskB1 = maskim(r:r+blksz-1,
 				//      c:c+blksz-1);
 				maskBseg.at<uint8_t>(br, bc) = allfun(maskB1);
@@ -143,11 +146,12 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 				blkorient.at<double>(br, bc) = ridgeorient(
 				    cova, covb, covc);
 				// overlapping windows (border = blkoffset)
-				blkwim = img(Range(r - blkoffset,
-						 min(r + blocksize + blkoffset,
-						     img.rows)),
-				    Range(c - blkoffset,
-					min(c + blocksize + blkoffset,
+				blkwim = img(
+				    cv::Range(r - blkoffset,
+					cv::min(r + blocksize + blkoffset,
+					    img.rows)),
+				    cv::Range(c - blkoffset,
+					cv::min(c + blocksize + blkoffset,
 					    img.cols)));
 				lcs.at<double>(br, bc) = loclar(blkwim,
 				    blkorient.at<double>(br, bc), v1sz_x,
@@ -227,8 +231,8 @@ scanner resolution [ppi]
 ***/
 
 double
-loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
-    const int screenRes, const bool padFlag)
+loclar(cv::Mat &block, const double orientation, const int v1sz_x,
+    const int v1sz_y, const int screenRes, const bool padFlag)
 {
 	// sanity check: check block size
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
@@ -240,7 +244,7 @@ loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
 			  << std::endl;
 	}
 
-	Mat blockRotated;
+	cv::Mat blockRotated;
 	NFIQ::QualityFeatures::getRotatedBlock(
 	    block, orientation, padFlag, blockRotated);
 
@@ -260,7 +264,8 @@ loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
 	int rowend = icBlock + yoff;
 	int colstart = icBlock - (xoff - 1) - 1;
 	int colend = icBlock + xoff;
-	Mat v2 = blockRotated(Range(rowstart, rowend), Range(colstart, colend));
+	cv::Mat v2 = blockRotated(
+	    cv::Range(rowstart, rowend), cv::Range(colstart, colend));
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
@@ -372,12 +377,12 @@ loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
 		// of all if all(NWr >= NWrmin) && all(NWr <= NWrmax) && all(NWv
 		// >= NWvmin) && all(NWv <= NWvmax)
 
-		Scalar muNWr {}, muNWv {};
+		cv::Scalar muNWr {}, muNWv {};
 		if (!NWr.empty()) {
-			muNWr = mean(NWr, noArray());
+			muNWr = mean(NWr, cv::noArray());
 		}
 		if (!NWv.empty()) {
-			muNWv = mean(NWv, noArray());
+			muNWv = mean(NWv, cv::noArray());
 		}
 
 		if ((muNWr.val[0] >= NWrmin) && (muNWr.val[0] <= NWrmax) &&
@@ -391,7 +396,7 @@ loclar(Mat &block, const double orientation, const int v1sz_x, const int v1sz_y,
 			// exceed their threshold Likewise, compute the number
 			// of pixels in valley regions that are below their
 			// threshold
-			Mat ridgecol, valleycol;
+			cv::Mat ridgecol, valleycol;
 			int ridgeGood = 0, valleyGood = 0;
 			int ridgePixelCount = 0, valleyPixelCount = 0;
 			for (int i = 0; i < v2.cols; i++) {

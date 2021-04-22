@@ -31,7 +31,6 @@ set_fpu(unsigned int mode)
 
 using namespace NFIQ;
 using namespace std;
-using namespace cv;
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2Algorithm::Impl::Impl()

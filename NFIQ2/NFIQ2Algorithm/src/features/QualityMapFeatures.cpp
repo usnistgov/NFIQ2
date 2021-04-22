@@ -16,7 +16,6 @@
 #endif
 
 using namespace NFIQ;
-using namespace cv;
 using namespace std;
 
 NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
@@ -48,10 +47,10 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 	NFIQ::Timer timer;
 	timer.start();
 
-	Mat img;
+	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (cv::Exception &e) {
@@ -71,8 +70,8 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		// uses block size 16
 		double coherenceSumFilter = 0.0;
 		double coherenceRelFilter = 0.0;
-		Mat orientationMapImgFilter = computeOrientationMap(img, true,
-		    coherenceSumFilter, coherenceRelFilter, 16,
+		cv::Mat orientationMapImgFilter = computeOrientationMap(img,
+		    true, coherenceSumFilter, coherenceRelFilter, 16,
 		    this->imgProcResults_);
 
 		// return features based on coherence values of orientation map
@@ -125,11 +124,11 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 	coherenceSum = 0.0;
 	coherenceRel = 0.0;
 
-	Mat visImage;
+	cv::Mat visImage;
 
 	// result image (block pixel values = orientation in degrees)
-	Mat omImg = Mat(img.rows, img.cols, CV_8UC1,
-	    Scalar(0, 0, 0, 0)); // empty black image
+	cv::Mat omImg = cv::Mat(img.rows, img.cols, CV_8UC1,
+	    cv::Scalar(0, 0, 0, 0)); // empty black image
 
 	// divide into blocks
 	for (int i = 0; i < img.rows; i += bs) {
@@ -183,7 +182,8 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 			}
 
 			// get current block
-			Mat bl_img = img(Rect(j, i, actualBS_X, actualBS_Y));
+			cv::Mat bl_img = img(
+			    cv::Rect(j, i, actualBS_X, actualBS_Y));
 
 			// get orientation angle of current block
 			double angle = 0.0;
@@ -236,7 +236,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
 {
 	// compute the numerical gradients of the block
 	// in x and y direction
-	Mat grad_x, grad_y;
+	cv::Mat grad_x, grad_y;
 	computeNumericalGradients(block, grad_x, grad_y);
 
 	// compute gsx and gsy which are average squared gradients
@@ -295,7 +295,7 @@ cv::Mat
 NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
     const cv::Mat &mat)
 {
-	cv::Mat out(mat.rows, mat.cols, CV_64F, Scalar(0));
+	cv::Mat out(mat.rows, mat.cols, CV_64F, cv::Scalar(0));
 
 	for (int y = 0; y < mat.rows; ++y) {
 		const uchar *in_r = mat.ptr<uchar>(y);

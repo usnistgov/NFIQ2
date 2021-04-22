@@ -6,7 +6,6 @@
 #include <sstream>
 
 using namespace NFIQ;
-using namespace cv;
 
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
     const NFIQ::FingerprintImageData &fingerprintImage,
@@ -209,13 +208,13 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	std::vector<MinutiaData> vecMinData;
 
 	// get matrix from fingerprint image
-	Mat img = Mat(fingerprintImage.m_ImageHeight,
+	cv::Mat img = cv::Mat(fingerprintImage.m_ImageHeight,
 	    fingerprintImage.m_ImageWidth, CV_8UC1,
 	    (void *)fingerprintImage.data());
 
 	// compute overall mean and stddev
-	Scalar me;
-	Scalar stddev;
+	cv::Scalar me;
+	cv::Scalar stddev;
 	meanStdDev(img, me, stddev);
 
 	// iterate through all minutiae positions and
@@ -245,8 +244,9 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 			takenBS_Y = (fingerprintImage.m_ImageHeight - topY);
 		}
 
-		Mat block = img(Rect(leftX, topY, takenBS_X, takenBS_Y));
-		Scalar m = mean(block);
+		cv::Mat block = img(
+		    cv::Rect(leftX, topY, takenBS_X, takenBS_Y));
+		cv::Scalar m = mean(block);
 		// use normalization of mean and stddev of overall image
 		minData.quality = ((me.val[0] - m.val[0]) / stddev.val[0]);
 
@@ -263,7 +263,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	std::vector<MinutiaData> vecMinData;
 
 	// get matrix from fingerprint image
-	Mat img = Mat(fingerprintImage.m_ImageHeight,
+	cv::Mat img = cv::Mat(fingerprintImage.m_ImageHeight,
 	    fingerprintImage.m_ImageWidth, CV_8UC1,
 	    (void *)fingerprintImage.data());
 
@@ -295,7 +295,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 			topY = (fingerprintImage.m_ImageHeight - bs);
 		}
 
-		Mat block = img(Rect(leftX, topY, bs, bs));
+		cv::Mat block = img(cv::Rect(leftX, topY, bs, bs));
 
 		// get OCL value of block
 		// ignore return value as if false is returned OCL value is 0

@@ -11,7 +11,6 @@
 #endif
 
 using namespace NFIQ;
-using namespace cv;
 
 NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
@@ -31,7 +30,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 {
 	std::vector<NFIQ::QualityFeatureResult> featureDataList;
 
-	Mat img;
+	cv::Mat img;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
@@ -41,7 +40,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (cv::Exception &e) {
@@ -77,8 +76,8 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 					// ignore other blocks
 
 					// get current block
-					Mat bl_img = img(
-					    Rect(j, i, actualBS_X, actualBS_Y));
+					cv::Mat bl_img = img(cv::Rect(
+					    j, i, actualBS_X, actualBS_Y));
 
 					// get OCL value of current block
 					double bl_ocl = 0.0;
@@ -137,7 +136,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
 {
 	double eigv_max = 0.0, eigv_min = 0.0;
 	// compute the numerical gradients of the block
-	Mat grad_x, grad_y;
+	cv::Mat grad_x, grad_y;
 	computeNumericalGradients(block, grad_x, grad_y);
 
 	// compute covariance matrix

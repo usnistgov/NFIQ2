@@ -32,7 +32,6 @@
 #include <numeric> // std::accumulate
 
 using namespace NFIQ;
-using namespace cv;
 
 std::string
 NFIQ::Prediction::RandomForestML::calculateHashString(const std::string &s)
@@ -49,13 +48,14 @@ void
 NFIQ::Prediction::RandomForestML::initModule(const std::string &params)
 {
 	// create file storage with parameters in memory
-	FileStorage fs(params.c_str(),
-	    FileStorage::READ | FileStorage::MEMORY | FileStorage::FORMAT_YAML);
+	cv::FileStorage fs(params.c_str(),
+	    cv::FileStorage::READ | cv::FileStorage::MEMORY |
+		cv::FileStorage::FORMAT_YAML);
 	// now import data structures
 #if CV_MAJOR_VERSION <= 2
-	m_pTrainedRF = new CvRTrees();
+	m_pTrainedRF = new cv::CvRTrees();
 	m_pTrainedRF->read(
-	    fs.fs, cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
+	    fs.fs, cv::cvGetFileNodeByName(fs.fs, NULL, "my_random_trees"));
 #else
 	m_pTrainedRF = cv::ml::RTrees::create();
 	m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
@@ -209,7 +209,8 @@ NFIQ::Prediction::RandomForestML::evaluate(
 		deviation = 0.0; // ignore deviation here
 
 		// copy data to structure
-		Mat sample_data = Mat(1, featureVector.size(), CV_32FC1);
+		cv::Mat sample_data = cv::Mat(
+		    1, featureVector.size(), CV_32FC1);
 		std::vector<NFIQ::QualityFeatureData>::const_iterator it_feat;
 		unsigned int counterFeatures = 0;
 		for (it_feat = featureVector.begin();
@@ -228,14 +229,14 @@ NFIQ::Prediction::RandomForestML::evaluate(
 #if CV_MAJOR_VERSION <= 2
 		// returns probability that between 0 and 1 that result belongs
 		// to second class
-		float prob = m_pTrainedRF->predict_prob(sample_data, Mat());
+		float prob = m_pTrainedRF->predict_prob(sample_data, cv::Mat());
 		// return quality value
 		qualityValue = (int)((prob * 100) + 0.5);
 #else
 		// returns probability that between 0 and 1 that result belongs
 		// to second class
 		float prob = m_pTrainedRF->predict(
-		    sample_data, noArray(), cv::ml::StatModel::RAW_OUTPUT);
+		    sample_data, cv::noArray(), cv::ml::StatModel::RAW_OUTPUT);
 		// return quality value
 		qualityValue = (int)(prob + 0.5);
 #endif

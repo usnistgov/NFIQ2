@@ -5,7 +5,6 @@
 #include <sstream>
 
 using namespace NFIQ;
-using namespace cv;
 
 NFIQ::QualityFeatures::MuFeature::MuFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
@@ -30,10 +29,10 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
-	Mat img;
+	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (cv::Exception &e) {
@@ -71,9 +70,9 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 
 				// create block and calculate mean of greyscale
 				// values
-				Mat block = img(
-				    Rect(j, i, takenBS_X, takenBS_Y));
-				Scalar m = mean(block);
+				cv::Mat block = img(
+				    cv::Rect(j, i, takenBS_X, takenBS_Y));
+				cv::Scalar m = mean(block);
 				vecMeans.push_back(m.val[0]);
 			}
 		}
@@ -112,8 +111,8 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	// compute Mu and Standard Deviation = Sigma
 	// -----------------------------------------
 
-	Scalar stddev;
-	Scalar mu;
+	cv::Scalar stddev;
+	cv::Scalar mu;
 	try {
 		// calculate stddev of input image = sigma and mu = mean
 		meanStdDev(img, mu, stddev);

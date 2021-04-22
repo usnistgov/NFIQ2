@@ -24,8 +24,6 @@
 
 #include <errno.h>
 #include <fcntl.h>
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
 #include <stdint.h>
 
 namespace NFIQ { namespace QualityFeatures {

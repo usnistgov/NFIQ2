@@ -3,7 +3,6 @@
 
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
 
 #include <list>
 

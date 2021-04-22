@@ -13,4 +13,4 @@
 [submodule "NFIR"]
 	path = NFIR
 	url = https://github.com/usnistgov/NFIR.git
-	ignore = untracked
+	ignore = all

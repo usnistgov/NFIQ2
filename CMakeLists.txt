@@ -125,7 +125,7 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_JASPER=OFF
 	-DBUILD_JPEG=OFF
 	-DWITH_ADE=OFF
-	-DBUILD_LIST="core,ml,imgproc,highgui,flann,features2d,calib3d,video,objdetect,photo")
+	-DBUILD_LIST=core,ml,imgproc)
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
 list(APPEND OPENCV_CMAKE_ARGS
@@ -177,7 +177,10 @@ ExternalProject_Add(nfir
 		${MULTI_CONFIG_ARGS}
 	PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${PROJECT_SOURCE_DIR}/cmake/nfir_CMakeLists.txt
-                       ${PROJECT_SOURCE_DIR}/NFIR/CMakeLists.txt
+                       ${PROJECT_SOURCE_DIR}/NFIR/CMakeLists.txt &&
+                       ${CMAKE_COMMAND} -E copy_if_different
+                       ${PROJECT_SOURCE_DIR}/cmake/nfir_lib.h
+                       ${PROJECT_SOURCE_DIR}/NFIR/include/nfir_lib.h
 )
 
 ExternalProject_Add_StepDependencies(nfir build OpenCV)

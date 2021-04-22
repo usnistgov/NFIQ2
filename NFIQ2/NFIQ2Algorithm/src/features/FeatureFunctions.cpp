@@ -1,6 +1,6 @@
 #include <features/FeatureFunctions.h>
 #include <nfiq2_nfiqexception.hpp>
-#include <opencv2/core/core.hpp>
+#include <opencv2/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
 #define USE_MATH_DEFINES

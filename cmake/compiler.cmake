@@ -24,6 +24,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
   else()
     add_definitions("-DLINUX -fPIC")
   endif()
+  add_definitions(_USE_MATH_DEFINES)
 
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_definitions("-Wno-unused-but-set-variable ")

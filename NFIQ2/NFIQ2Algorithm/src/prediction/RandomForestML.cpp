@@ -5,8 +5,6 @@
 #include <prediction/RandomForestTrainedParams.h>
 #endif
 
-#include <opencv2/core/version.hpp>
-
 #if defined WINDOWS || defined WIN32
 #define NOMINMAX
 #include <windows.h>

@@ -4,7 +4,7 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/imgproc.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 

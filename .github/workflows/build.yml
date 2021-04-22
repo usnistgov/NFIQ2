@@ -197,5 +197,5 @@ jobs:
       shell: bash
       run: |
         python -m pip install pandas
-        python ./diff.py CTS_MASTER_OUTPUT.csv github.csv
+        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv
 

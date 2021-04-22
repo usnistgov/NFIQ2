@@ -65,7 +65,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	NFIQ::Timer timerRVU;
 	double timeRVU = 0.0;
 	try {
-		timerRVU.startTimer();
+		timerRVU.start();
 
 		Mat maskim;
 		const int blksize = this->blocksize;
@@ -158,7 +158,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "RVUP_Bin10_",
 		    histogramBins10, rvures, 10);
 
-		timeRVU = timerRVU.endTimerAndGetElapsedTime();
+		timeRVU = timerRVU.stop();
 
 		NFIQ::QualityFeatureSpeed speed;
 		speed.featureIDGroup =

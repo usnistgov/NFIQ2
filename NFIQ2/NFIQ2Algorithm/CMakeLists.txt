@@ -44,6 +44,7 @@ set(SOURCE_FILES
     "src/nfiq2/nfiq2_qualityfeatures_impl.cpp"
     "src/nfiq2/nfiq2_results.cpp"
     "src/nfiq2/nfiq2_results_impl.cpp"
+    "src/nfiq2/nfiq2_timer.cpp"
     "src/nfiq2/nfiqexception.cpp"
     "src/nfiq2/version.cpp")
 

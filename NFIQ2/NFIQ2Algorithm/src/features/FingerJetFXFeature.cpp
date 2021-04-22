@@ -123,7 +123,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	res_min_cnt_comrect200x200.returnCode = 0;
 
 	NFIQ::Timer timer;
-	timer.startTimer();
+	timer.start();
 
 	// create context for feature extraction
 	// the created context function is modified to override default settings
@@ -238,7 +238,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 		speed.featureIDs.push_back(
 		    "FingerJetFX_MinCount_COMMinRect200x200");
-		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
 		return featureDataList;
@@ -286,7 +286,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
 	speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 	speed.featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
-	speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
 	return featureDataList;

@@ -89,7 +89,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 	try {
 		NFIQ::Timer timer;
-		timer.startTimer();
+		timer.start();
 
 		// compute minutiae quality based on Mu feature computated at
 		// minutiae positions
@@ -164,7 +164,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
 		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
-		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {

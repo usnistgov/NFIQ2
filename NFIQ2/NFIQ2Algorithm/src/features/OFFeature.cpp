@@ -75,7 +75,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 	NFIQ::Timer timerOF;
 	double timeOF = 0.0;
 	try {
-		timerOF.startTimer();
+		timerOF.start();
 
 		int rows = img.rows;
 		int cols = img.cols;
@@ -248,7 +248,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "OF_Bin10_",
 		    histogramBins10, dataVector, 10);
 
-		timeOF = timerOF.endTimerAndGetElapsedTime();
+		timeOF = timerOF.stop();
 
 		// Speed
 		NFIQ::QualityFeatureSpeed speed;

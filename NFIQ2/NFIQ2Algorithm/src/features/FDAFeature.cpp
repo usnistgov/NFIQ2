@@ -73,7 +73,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 	NFIQ::Timer timer;
 	double time = 0.0;
 	try {
-		timer.startTimer();
+		timer.start();
 
 		Mat maskim;
 		const int blksize = this->blocksize;
@@ -168,7 +168,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "FDA_Bin10_",
 		    histogramBins10, dataVector, 10);
 
-		time = timer.endTimerAndGetElapsedTime();
+		time = timer.stop();
 
 		// Speed
 		NFIQ::QualityFeatureSpeed speed;

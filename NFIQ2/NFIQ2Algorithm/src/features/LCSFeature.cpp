@@ -75,7 +75,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 	NFIQ::Timer timerLCS;
 	double timeLCS = 0.0;
 	try {
-		timerLCS.startTimer();
+		timerLCS.start();
 
 		int rows = img.rows;
 		int cols = img.cols;
@@ -162,7 +162,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		timeLCS = timerLCS.endTimerAndGetElapsedTime();
+		timeLCS = timerLCS.stop();
 
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(LCSHISTLIMITS[0]);

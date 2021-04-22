@@ -1,4 +1,4 @@
-#include <nfiq2.hpp>
+#include <nfiq2_nfiq2algorithm.hpp>
 #include <nfiq2_nfiqexception.hpp>
 #include <opencv2/core/core_c.h>
 #include <opencv2/core/version.hpp>

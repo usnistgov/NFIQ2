@@ -38,12 +38,12 @@ set(SOURCE_FILES
     "src/nfiq2/data.cpp"
     "src/nfiq2/fingerprintimagedata.cpp"
     "src/nfiq2/modelinfo.cpp"
-    "src/nfiq2/nfiq2.cpp"
+    "src/nfiq2/nfiq2_nfiq2algorithm.cpp"
+    "src/nfiq2/nfiq2_nfiq2algorithm_impl.cpp"
     "src/nfiq2/nfiq2_qualityfeatures.cpp"
     "src/nfiq2/nfiq2_qualityfeatures_impl.cpp"
     "src/nfiq2/nfiq2_results.cpp"
     "src/nfiq2/nfiq2_results_impl.cpp"
-    "src/nfiq2/nfiq2impl.cpp"
     "src/nfiq2/nfiqexception.cpp"
     "src/nfiq2/version.cpp")
 
@@ -65,11 +65,11 @@ set(PREDICTION_FILES
     "src/prediction/RandomForestML.cpp")
 
 set(PUBLIC_HEADERS
-    "include/nfiq2.hpp"
     "include/nfiq2_data.hpp"
     "include/nfiq2_fingerprintimagedata.hpp"
     "include/nfiq2_interfacedefinitions.hpp"
     "include/nfiq2_modelinfo.hpp"
+    "include/nfiq2_nfiq2algorithm.hpp"
     "include/nfiq2_nfiqexception.hpp"
     "include/nfiq2_qualityfeatures.hpp"
     "include/nfiq2_results.hpp"

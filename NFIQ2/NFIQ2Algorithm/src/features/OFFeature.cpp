@@ -16,7 +16,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 
 NFIQ::QualityFeatures::OFFeature::OFFeature(

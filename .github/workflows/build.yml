@@ -177,6 +177,7 @@ jobs:
       run: |
         unzip nfiq2_compliance.zip
         ../build/install_staging/nfiq2/bin/nfiq2 -i nfiq2_compliance/images -a -v -q -o github.csv
+        unzip -q nfiq2_compliance.zip
 
     # FIXME: Does github actions have pandas installed? Let's find out
     - name: Diff Compliance Test

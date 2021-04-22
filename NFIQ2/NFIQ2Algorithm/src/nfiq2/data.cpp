@@ -4,33 +4,32 @@
 #include <sstream>
 
 using namespace std;
-using namespace NFIQ;
 
-Data::Data()
+NFIQ::Data::Data()
 {
 }
 
-Data::Data(const uint8_t *pData, uint32_t dataSize)
+NFIQ::Data::Data(const uint8_t *pData, uint32_t dataSize)
     : std::basic_string<uint8_t>(pData, dataSize)
 {
 }
 
-Data::Data(const Data &otherData)
+NFIQ::Data::Data(const Data &otherData)
     : std::basic_string<uint8_t>(otherData)
 {
 }
 
-Data::Data(const std::basic_string<uint8_t> &otherData)
+NFIQ::Data::Data(const std::basic_string<uint8_t> &otherData)
     : std::basic_string<uint8_t>(otherData)
 {
 }
 
-Data::~Data()
+NFIQ::Data::~Data()
 {
 }
 
 void
-Data::writeToFile(const std::string &filename) const
+NFIQ::Data::writeToFile(const std::string &filename) const
 {
 	bool success = false;
 	if (!filename.empty()) {
@@ -53,7 +52,7 @@ Data::writeToFile(const std::string &filename) const
 }
 
 void
-Data::readFromFile(const std::string &filename)
+NFIQ::Data::readFromFile(const std::string &filename)
 {
 	bool success = false;
 	if (!filename.empty()) {
@@ -91,7 +90,7 @@ Data::readFromFile(const std::string &filename)
 }
 
 std::string
-Data::toHexString() const
+NFIQ::Data::toHexString() const
 {
 	if (this->size() <= 0) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_NoDataAvailable);
@@ -112,7 +111,7 @@ Data::toHexString() const
 }
 
 void
-Data::fromBase64String(const std::string &base64String)
+NFIQ::Data::fromBase64String(const std::string &base64String)
 {
 	const char *ptr = base64String.data();
 	size_t len = base64String.size();
@@ -168,7 +167,7 @@ Data::fromBase64String(const std::string &base64String)
 }
 
 std::string
-Data::toBase64String() const
+NFIQ::Data::toBase64String() const
 {
 	const char base64Lookup[65] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 		'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',

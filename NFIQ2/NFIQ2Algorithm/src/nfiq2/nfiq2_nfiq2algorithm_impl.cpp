@@ -29,12 +29,11 @@ set_fpu(unsigned int mode)
 }
 #endif
 
-using namespace NFIQ;
 using namespace std;
 using namespace cv;
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ2Algorithm::Impl::Impl()
+NFIQ::NFIQ2Algorithm::Impl::Impl()
 {
 #if defined(__linux) && defined(__i386__)
 	set_fpu(0x27F); /* use double-precision rounding */
@@ -44,7 +43,7 @@ NFIQ2Algorithm::Impl::Impl()
 }
 #endif
 
-NFIQ2Algorithm::Impl::Impl(
+NFIQ::NFIQ2Algorithm::Impl::Impl(
     const std::string &fileName, const std::string &fileHash)
 {
 #if defined(__linux) && defined(__i386__)
@@ -71,12 +70,12 @@ NFIQ2Algorithm::Impl::Impl(
 	}
 }
 
-NFIQ2Algorithm::Impl::~Impl()
+NFIQ::NFIQ2Algorithm::Impl::~Impl()
 {
 }
 
 double
-NFIQ2Algorithm::Impl::getQualityPrediction(
+NFIQ::NFIQ2Algorithm::Impl::getQualityPrediction(
     const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
     const
 {
@@ -89,7 +88,7 @@ NFIQ2Algorithm::Impl::getQualityPrediction(
 }
 
 unsigned int
-NFIQ2Algorithm::Impl::computeQualityScore(
+NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
     const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
 	&features) const
 {
@@ -118,7 +117,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2Algorithm::Impl::computeQualityScore(
+NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
     const NFIQ::FingerprintImageData &rawImage) const
 {
 
@@ -165,7 +164,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2Algorithm::Impl::computeQualityScore(
+NFIQ::NFIQ2Algorithm::Impl::computeQualityScore(
     const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
     const
 {
@@ -173,7 +172,7 @@ NFIQ2Algorithm::Impl::computeQualityScore(
 }
 
 std::string
-NFIQ2Algorithm::Impl::getParameterHash() const
+NFIQ::NFIQ2Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
 }

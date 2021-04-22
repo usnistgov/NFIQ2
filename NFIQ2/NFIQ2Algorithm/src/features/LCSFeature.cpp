@@ -12,7 +12,6 @@
 #include <windows.h>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 
 double loclar(Mat &block, const double orientation, const int v1sz_x,

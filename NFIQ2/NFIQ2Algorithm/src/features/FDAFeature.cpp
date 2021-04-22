@@ -16,7 +16,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 
 double fda(const Mat &block, const double orientation, const int v1sz_x,

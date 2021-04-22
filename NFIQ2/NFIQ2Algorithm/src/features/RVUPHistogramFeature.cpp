@@ -12,7 +12,6 @@
 #include <windows.h>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 using namespace std;
 

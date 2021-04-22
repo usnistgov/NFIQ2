@@ -171,6 +171,11 @@ jobs:
       shell: bash
       run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
 
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
     - name: Run Compliance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
       working-directory: ${{ github.workspace }}/complianceTestSet

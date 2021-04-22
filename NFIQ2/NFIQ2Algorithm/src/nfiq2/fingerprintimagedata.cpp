@@ -3,7 +3,6 @@
 int debug = 0;
 
 #include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <stdlib.h>
 #include <string.h>

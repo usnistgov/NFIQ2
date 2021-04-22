@@ -65,6 +65,7 @@ set(PREDICTION_FILES
     "src/prediction/RandomForestML.cpp")
 
 set(PUBLIC_HEADERS
+    "include/nfiq2.hpp"
     "include/nfiq2_data.hpp"
     "include/nfiq2_fingerprintimagedata.hpp"
     "include/nfiq2_interfacedefinitions.hpp"

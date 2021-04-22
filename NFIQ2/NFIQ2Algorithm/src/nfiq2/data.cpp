@@ -3,8 +3,6 @@
 #include <iomanip>
 #include <sstream>
 
-using namespace std;
-
 NFIQ::Data::Data()
 {
 }
@@ -97,7 +95,7 @@ NFIQ::Data::toHexString() const
 	}
 
 	std::stringstream ss;
-	ss << setfill('0') << right;
+	ss << std::setfill('0') << std::right;
 
 	for (unsigned long nPos = 0; nPos < this->size(); nPos++) {
 		if (nPos > 0) {

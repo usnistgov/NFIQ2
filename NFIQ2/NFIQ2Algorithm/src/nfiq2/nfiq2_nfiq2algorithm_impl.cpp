@@ -29,7 +29,6 @@ set_fpu(unsigned int mode)
 }
 #endif
 
-using namespace std;
 using namespace cv;
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS

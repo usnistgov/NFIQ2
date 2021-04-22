@@ -16,7 +16,6 @@
 #endif
 
 using namespace cv;
-using namespace std;
 
 NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ::FingerprintImageData &fingerprintImage,

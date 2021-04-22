@@ -3,7 +3,6 @@
 
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/version.hpp>
-#include <stdio.h>
 #include <stdlib.h>
 
 #include <list>

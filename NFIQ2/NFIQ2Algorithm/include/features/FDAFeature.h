@@ -3,7 +3,6 @@
 #include <features/BaseFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
-#include <stdio.h>
 #include <stdlib.h>
 
 #include <list>

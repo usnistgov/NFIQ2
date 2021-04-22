@@ -4,7 +4,6 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/version.hpp>
 
-#include <list>
 #include <string>
 #include <unordered_map>
 #include <vector>

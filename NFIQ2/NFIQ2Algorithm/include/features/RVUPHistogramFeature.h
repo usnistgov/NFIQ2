@@ -5,7 +5,6 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
 
-#include <list>
 #include <string>
 #include <vector>
 

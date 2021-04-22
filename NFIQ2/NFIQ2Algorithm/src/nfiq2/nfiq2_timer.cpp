@@ -12,6 +12,9 @@ NFIQ::Timer::start()
 double
 NFIQ::Timer::getElapsedTime()
 {
+	if (this->endTime < this->startTime)
+		return std::numeric_limits<double>::signaling_NaN();
+
 	return std::chrono::duration<double, std::milli>(
 	    this->endTime - this->startTime)
 	    .count();

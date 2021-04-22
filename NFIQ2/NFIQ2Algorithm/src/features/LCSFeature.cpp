@@ -7,8 +7,9 @@
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
-#include <float.h>
 #include <windows.h>
+
+#include <cfloat>
 #endif
 
 using namespace NFIQ;

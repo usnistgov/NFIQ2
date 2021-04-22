@@ -1,5 +1,4 @@
-#include "nfiq2_results_impl.h"
-
+#include "nfiq2_results_impl.hpp"
 #include <string>
 #include <vector>
 

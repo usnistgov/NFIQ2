@@ -13,8 +13,7 @@
 #include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_qualityfeatures.hpp>
 
-#include "nfiq2_qualityfeatures_impl.h"
-
+#include "nfiq2_qualityfeatures_impl.hpp"
 #include <iomanip>
 #include <iostream>
 #include <list>

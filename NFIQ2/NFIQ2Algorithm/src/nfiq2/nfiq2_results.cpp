@@ -1,6 +1,6 @@
 #include <nfiq2_results.hpp>
 
-#include "nfiq2_results_impl.h"
+#include "nfiq2_results_impl.hpp"
 
 NFIQ::NFIQ2Results::NFIQ2Results()
     : pimpl { new NFIQ::NFIQ2Results::Impl() }

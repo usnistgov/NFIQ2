@@ -3,7 +3,7 @@
 #include <chrono>
 
 void
-NFIQ::Timer::startTimer()
+NFIQ::Timer::start()
 {
 	this->endTime = std::chrono::steady_clock::time_point {};
 	this->startTime = std::chrono::steady_clock::now();

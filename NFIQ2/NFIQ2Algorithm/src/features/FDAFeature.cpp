@@ -73,7 +73,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 	NFIQ::Timer timer;
 	double time = 0.0;
 	try {
-		timer.startTimer();
+		timer.start();
 
 		Mat maskim;
 		const int blksize = this->blocksize;

@@ -11,7 +11,7 @@ class Timer {
 	 * @brief Start the timer.
 	 * @note Resets currently running timer.
 	 */
-	void startTimer();
+	void start();
 
 	/** Stop the timer. */
 	void endTimer();

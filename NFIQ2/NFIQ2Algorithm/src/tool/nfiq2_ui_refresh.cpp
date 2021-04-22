@@ -962,7 +962,7 @@ main(int argc, char **argv)
 	// Initialize Model
 	NFIQ::Timer timerInit;
 	double timeInit = 0.0;
-	timerInit.startTimer();
+	timerInit.start();
 
 	NFIQ::ModelInfo modelInfoObj {};
 

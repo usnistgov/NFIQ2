@@ -45,7 +45,7 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	}
 
 	NFIQ::Timer timer;
-	timer.startTimer();
+	timer.start();
 
 	// -------------------------
 	// compute Mu Mu Block (MMB)

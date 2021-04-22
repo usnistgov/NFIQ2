@@ -123,7 +123,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	res_min_cnt_comrect200x200.returnCode = 0;
 
 	NFIQ::Timer timer;
-	timer.startTimer();
+	timer.start();
 
 	// create context for feature extraction
 	// the created context function is modified to override default settings

@@ -57,7 +57,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 	double timeOCL = 0.0;
 	std::vector<double> oclres;
 	try {
-		timerOCL.startTimer();
+		timerOCL.start();
 
 		// divide into blocks
 		for (int i = 0; i < img.rows; i += BS_OCL) {

@@ -65,7 +65,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	NFIQ::Timer timerRVU;
 	double timeRVU = 0.0;
 	try {
-		timerRVU.startTimer();
+		timerRVU.start();
 
 		Mat maskim;
 		const int blksize = this->blocksize;

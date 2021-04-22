@@ -46,7 +46,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 	}
 
 	NFIQ::Timer timer;
-	timer.startTimer();
+	timer.start();
 
 	Mat img;
 	try {

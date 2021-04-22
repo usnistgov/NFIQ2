@@ -89,7 +89,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 	try {
 		NFIQ::Timer timer;
-		timer.startTimer();
+		timer.start();
 
 		// compute minutiae quality based on Mu feature computated at
 		// minutiae positions

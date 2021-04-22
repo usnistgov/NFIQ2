@@ -75,7 +75,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 	NFIQ::Timer timerLCS;
 	double timeLCS = 0.0;
 	try {
-		timerLCS.startTimer();
+		timerLCS.start();
 
 		int rows = img.rows;
 		int cols = img.cols;

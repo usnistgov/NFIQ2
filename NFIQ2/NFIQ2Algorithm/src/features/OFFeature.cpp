@@ -75,7 +75,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 	NFIQ::Timer timerOF;
 	double timeOF = 0.0;
 	try {
-		timerOF.startTimer();
+		timerOF.start();
 
 		int rows = img.rows;
 		int cols = img.cols;

@@ -58,7 +58,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 	}
 
 	NFIQ::Timer timer;
-	timer.startTimer();
+	timer.start();
 
 	// ---------------------------------------------
 	// compute ROI (and other features based on ROI)

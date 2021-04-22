@@ -13,9 +13,6 @@ class Timer {
 	 */
 	void start();
 
-	/** Stop the timer. */
-	void endTimer();
-
 	/**
 	 * @brief Gets the elapsed time.
 	 * @return Elapsed time (milliseconds).

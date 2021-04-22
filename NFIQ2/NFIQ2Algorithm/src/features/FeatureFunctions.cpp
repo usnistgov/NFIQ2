@@ -4,8 +4,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #define USE_MATH_DEFINES
-#include <math.h>
-
+#include <cmath>
 #include <cstring>
 #include <limits>
 

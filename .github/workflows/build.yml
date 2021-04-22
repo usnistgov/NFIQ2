@@ -171,13 +171,22 @@ jobs:
       shell: bash
       run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
 
-    - name: Run Compliance Test
+    - name: Run Compliance Test (Windows)
+      if: ${{ runner.os == 'Windows' }}
       working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash
       run: |
-        unzip nfiq2_compliance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -i nfiq2_compliance/images -a -v -q -o github.csv
         unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m .../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Run Compliance Test (Linux)
+      if: ${{ runner.os != 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
 
     # FIXME: Does github actions have pandas installed? Let's find out
     - name: Diff Compliance Test

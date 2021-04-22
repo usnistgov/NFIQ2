@@ -13,7 +13,7 @@
 
 #include <be_image_image.h>
 #include <be_io_recordstore.h>
-#include <nfiq2.hpp>
+#include <nfiq2_nfiq2algorithm.hpp>
 
 #include <condition_variable>
 #include <iostream>

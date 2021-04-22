@@ -1,5 +1,5 @@
-#ifndef NFIQ2ALGORITHMIMPL_H_
-#define NFIQ2ALGORITHMIMPL_H_
+#ifndef NFIQ2_NFIQ2ALGORITHM_IMPL_HPP_
+#define NFIQ2_NFIQ2ALGORITHM_IMPL_HPP_
 
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>

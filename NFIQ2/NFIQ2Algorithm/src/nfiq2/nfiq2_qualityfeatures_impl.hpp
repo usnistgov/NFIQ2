@@ -1,5 +1,5 @@
-#ifndef NFIQ2_NFIQ2_QUALITYFEATURES_IMPL_H_
-#define NFIQ2_NFIQ2_QUALITYFEATURES_IMPL_H_
+#ifndef NFIQ2_QUALITYFEATURES_IMPL_HPP_
+#define NFIQ2_QUALITYFEATURES_IMPL_HPP_
 
 #include <features/BaseFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>

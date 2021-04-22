@@ -25,6 +25,21 @@ jobs:
     needs: build
     name: Compliance Test
 
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          # https://github.com/actions/virtual-environments
+          - { os: macOS-10.15, arch: x64 }
+          - { os: ubuntu-16.04, arch: x64 }
+          - { os: ubuntu-18.04, arch: x64 }
+          - { os: ubuntu-20.04, arch: x64 }
+          - { os: windows-2019, arch: x64 }
+          - { os: windows-2019, arch: x86 }
+          - { os: windows-2016, arch: x64 }
+          - { os: windows-2016, arch: x86 }
+
+    steps:
     - name: Download Compliance Test
       working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash

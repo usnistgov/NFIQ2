@@ -1,6 +1,5 @@
 #include <features/FeatureFunctions.h>
 #include <nfiq2_nfiqexception.hpp>
-#include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 
 #define USE_MATH_DEFINES

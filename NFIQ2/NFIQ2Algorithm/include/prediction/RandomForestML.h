@@ -2,7 +2,7 @@
 #define RANDOMFORESTML_H
 
 #include <nfiq2_interfacedefinitions.hpp>
-#include <opencv2/core/version.hpp>
+#include <opencv2/ml.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,12 +10,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#if CV_MAJOR_VERSION <= 2
-#include <opencv/cv.h>
-#include <opencv/ml.h>
-#else
-#include <opencv2/ml.hpp>
-#endif /* CV_MAJOR_VERSION */
 
 #undef EMBED_RANDOMFOREST_PARAMETERS
 
@@ -42,11 +36,7 @@ class RandomForestML {
 	    double &deviation) const;
 
     private:
-#if CV_MAJOR_VERSION <= 2
-	CvRTrees *m_pTrainedRF;
-#else
 	cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
-#endif
 
 	std::string calculateHashString(const std::string &s);
 	void initModule(const std::string &params);

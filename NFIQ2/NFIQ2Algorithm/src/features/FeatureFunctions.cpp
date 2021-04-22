@@ -386,19 +386,10 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 
 	// Round to 10 decimal points to preserve score consistency across
 	// platforms (10^10)
-#if CV_MAJOR_VERSION <= 2
-	for (int i = 0; i < dt1.rows; i++) {
-		for (int j = 0; j < dt1.cols; j++) {
-			dt1.at<double>(
-			    i, j) = round(dt1.at<double>(i, j) * 10000000000) /
-			    10000000000;
-		}
-	}
-#else
+
 	dt1.forEach<double>([&](double &val, const int *position) {
 		val = round(val * 10000000000) / 10000000000;
 	});
-#endif /* CV_MAJOR_VERSION */
 
 	//%% Block segmentation into ridge and valley regions
 	//  dt = x*dt1(2) + dt1(1);

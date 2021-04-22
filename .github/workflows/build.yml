@@ -182,7 +182,7 @@ jobs:
       shell: bash
       run: |
         unzip -q nfiq2_compliance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m .../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
 
     - name: Run Compliance Test (Linux)
       if: ${{ runner.os != 'Windows' }}

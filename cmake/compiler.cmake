@@ -1,6 +1,7 @@
 option(USE_SANITIZER "Using the GCC sanitizer" OFF)
 include(CheckCXXSourceRuns)
 
+add_definitions("-D_USE_MATH_DEFINES")
 if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
 #####################################################
   message( STATUS "${Gn}Detected ${CMAKE_CXX_COMPILER_ID} compiler${Na}" )
@@ -24,7 +25,6 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
   else()
     add_definitions("-DLINUX -fPIC")
   endif()
-  add_definitions("-D_USE_MATH_DEFINES")
 
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_definitions("-Wno-unused-but-set-variable ")

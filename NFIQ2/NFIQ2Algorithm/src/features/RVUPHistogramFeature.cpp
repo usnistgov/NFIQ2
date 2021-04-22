@@ -238,10 +238,12 @@ rvuhist(Mat block, const double orientation, const int v1sz_x, const int v1sz_y,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		std::cerr << "block rows = " << block.rows << std::endl;
-		std::cerr << "warning: Wrong block size! Consider block with "
-			     "size of even number"
-			  << std::endl;
+		throw NFIQ::NFIQException {
+			NFIQ::e_Error_FeatureCalculationError,
+			"Wrong block size! Consider block with size of even number "
+			"(block rows = " +
+			    std::to_string(block.rows) + ')'
+		};
 	}
 
 	Mat blockRotated;

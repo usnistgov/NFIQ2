@@ -7,7 +7,6 @@
 #include <math.h>
 
 #include <cstring>
-#include <iostream>
 #include <limits>
 
 #ifndef M_PI
@@ -306,10 +305,12 @@ NFIQ::QualityFeatures::getRotatedBlock(
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		std::cerr << "block rows = " << block.rows << std::endl;
-		std::cerr << "warning: Wrong block size! Consider block with "
-			     "size of even number"
-			  << std::endl;
+		throw NFIQ::NFIQException {
+			NFIQ::e_Error_FeatureCalculationError,
+			"Wrong block size! Consider block with size of even number "
+			"(block rows = " +
+			    std::to_string(block.rows) + ')'
+		};
 	}
 
 	if (padFlag) {

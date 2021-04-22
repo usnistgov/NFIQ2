@@ -5,10 +5,10 @@
 #include <features/FingerJetFXFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
-#include <stdlib.h>
 
 #include "FRFXLL.h"
 
+#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

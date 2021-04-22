@@ -9,10 +9,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
-#include <stdlib.h>
 
 #include "ImgProcROIFeature.h"
 
+#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

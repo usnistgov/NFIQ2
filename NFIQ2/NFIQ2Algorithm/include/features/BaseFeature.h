@@ -5,8 +5,8 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <stdlib.h>
 
+#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

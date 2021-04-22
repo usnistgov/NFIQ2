@@ -2,8 +2,8 @@
 #define NFIQ2_INTERFACEDEFINITIONS_HPP_
 
 #include <nfiq2_data.hpp>
-#include <stdlib.h>
 
+#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

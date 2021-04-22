@@ -49,7 +49,7 @@ NFIQ::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
 	Matlab: im = (im-mean(im(:))) ./ std(im(:));
 	***/
 	cv::Scalar imMean = 0, imStd = 0;
-	meanStdDev(double_im, imMean, imStd, cv::noArray());
+	cv::meanStdDev(double_im, imMean, imStd, cv::noArray());
 	double_im = (double_im - imMean.val[0]) / imStd.val[0];
 	/***For each block in the image, compute the standard deviation. Replace
 	each element of the block with its standard deviation value. Matlab: fun
@@ -67,7 +67,7 @@ NFIQ::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
 			im_roi = stddevim(
 			    cv::Range(r, cv::min(r + blksze, stddevim.rows)),
 			    cv::Range(c, cv::min(c + blksze, stddevim.cols)));
-			meanStdDev(im_roi, imMean, imStd, cv::noArray());
+			cv::meanStdDev(im_roi, imMean, imStd, cv::noArray());
 			im_roi = imStd.val[0];
 		}
 	}
@@ -107,7 +107,7 @@ NFIQ::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
 		mean, unit standard deviation. Matlab: im = im -
 		mean(im(maskind)); normim = im/std(im(maskind));
 		***/
-		meanStdDev(double_im, imMean, imStd, maskImage);
+		cv::meanStdDev(double_im, imMean, imStd, maskImage);
 		normImage = (double_im - imMean.val[0]) / imStd.val[0];
 	}
 
@@ -374,7 +374,7 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 
 	cv::Mat dt1;
 	try {
-		solve(dttemp, v3, dt1, cv::DECOMP_QR);
+		cv::solve(dttemp, v3, dt1, cv::DECOMP_QR);
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during ridge/valley processing: "
@@ -477,7 +477,7 @@ NFIQ::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
 	cv::Mat kernROI(
 	    kernTmp, cv::Range(0, filter.rows), cv::Range(0, filter.cols));
 	filter.copyTo(kernROI);
-	dft(kernTmp, kernTmp, cv::DFT_COMPLEX_OUTPUT);
+	cv::dft(kernTmp, kernTmp, cv::DFT_COMPLEX_OUTPUT);
 
 	// Multiply the two cv::DFTs
 	bool conjugateFlag = false;
@@ -486,7 +486,7 @@ NFIQ::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
 
 	cv::Mat invDFT;
 	// Get the inverse cv::DFT
-	dft(MulOut, invDFT, cv::DFT_INVERSE + cv::DFT_SCALE, 0);
+	cv::dft(MulOut, invDFT, cv::DFT_INVERSE + cv::DFT_SCALE, 0);
 	invDFT(cv::Rect(0, 0, ConvOut.cols, ConvOut.rows)).copyTo(ConvOut);
 
 	return;
@@ -635,7 +635,7 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 
 	cv::Mat dataMat(dataVector);
 	cv::Scalar mean, stdDev;
-	meanStdDev(dataMat, mean, stdDev);
+	cv::meanStdDev(dataMat, mean, stdDev);
 
 	NFIQ::QualityFeatureData meanFD, stdDevFD;
 	NFIQ::QualityFeatureResult meanFR, stdDevFR;

@@ -215,7 +215,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	// compute overall mean and stddev
 	cv::Scalar me;
 	cv::Scalar stddev;
-	meanStdDev(img, me, stddev);
+	cv::meanStdDev(img, me, stddev);
 
 	// iterate through all minutiae positions and
 	// compute own minutiae quality values

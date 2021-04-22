@@ -282,11 +282,11 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	cv::Mat planes[] = { tmpM, cv::Mat::zeros(tmpM.size(), CV_64F) };
 	cv::Mat complex;
 	merge(planes, 2, complex);
-	dft(complex, complex,
+	cv::dft(complex, complex,
 	    cv::DFT_COMPLEX_OUTPUT | cv::DFT_ROWS); // fourier transform
 
 	// Get Amplitude (Magnitude), cutting out DC (index 0,0)
-	// dftAmp = abs(dft(1, 2:end));
+	// dftAmp = abs(cv::dft(1, 2:end));
 	split(complex, planes);
 	magnitude(planes[0], planes[1],
 	    planes[0]); // sqrt(Re(DFT(I))^2 + Im(DFT(I))^2)

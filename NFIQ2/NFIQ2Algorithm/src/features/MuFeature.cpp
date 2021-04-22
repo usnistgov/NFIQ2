@@ -116,7 +116,7 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 	cv::Scalar mu;
 	try {
 		// calculate stddev of input image = sigma and mu = mean
-		meanStdDev(img, mu, stddev);
+		cv::meanStdDev(img, mu, stddev);
 		// assign sigma value
 		this->sigma = stddev.val[0];
 		this->sigmaComputed = true;

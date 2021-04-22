@@ -130,23 +130,23 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 	// 1. erode image to get fingerprint details more clearly
 	cv::Mat erodedImg;
 	cv::Mat element(5, 5, CV_8U, cv::Scalar(1));
-	erode(img, erodedImg, element);
+	cv::erode(img, erodedImg, element);
 
 	// 2. Gaussian blur to get important area
 	cv::Mat blurImg;
-	GaussianBlur(erodedImg, blurImg, cv::Size(41, 41), 0.0);
+	cv::GaussianBlur(erodedImg, blurImg, cv::Size(41, 41), 0.0);
 
 	// 3. Binarize image with Otsu method
 	cv::Mat threshImg;
-	threshold(blurImg, threshImg, 0, 255, cv::THRESH_OTSU);
+	cv::threshold(blurImg, threshImg, 0, 255, cv::THRESH_OTSU);
 
 	// 4. Blur image again
 	cv::Mat blurImg2;
-	GaussianBlur(threshImg, blurImg2, cv::Size(91, 91), 0.0);
+	cv::GaussianBlur(threshImg, blurImg2, cv::Size(91, 91), 0.0);
 
 	// 5. Binarize image again with Otsu method
 	cv::Mat threshImg2;
-	threshold(blurImg2, threshImg2, 0, 255, cv::THRESH_OTSU);
+	cv::threshold(blurImg2, threshImg2, 0, 255, cv::THRESH_OTSU);
 
 	// 6. try find white holes in black image
 	cv::Mat contImg = threshImg2.clone();
@@ -158,7 +158,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 	findContours(contImg, contours, hierarchy, CV_RETR_CCOMP,
 	    CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 #else
-	findContours(contImg, contours, hierarchy, cv::RETR_CCOMP,
+	cv::findContours(contImg, contours, hierarchy, cv::RETR_CCOMP,
 	    cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 #endif /* CV_MAJOR_VERSION */
 
@@ -168,7 +168,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 #if CV_MAJOR_VERSION <= 2
 		cvtColor(threshImg2, filledImg, CV_GRAY2BGR);
 #else
-		cvtColor(threshImg2, filledImg, cv::COLOR_GRAY2BGR);
+		cv::cvtColor(threshImg2, filledImg, cv::COLOR_GRAY2BGR);
 #endif /* CV_MAJOR_VERSION */
 
 		for (unsigned int idx = 0; idx < (hierarchy.size() - 2);
@@ -177,14 +177,14 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 			drawContours(filledImg, contours, idx,
 			    cv::Scalar(0, 0, 0, 0), CV_FILLED, 8, hierarchy);
 #else
-			drawContours(filledImg, contours, idx,
+			cv::drawContours(filledImg, contours, idx,
 			    cv::Scalar(0, 0, 0, 0), cv::FILLED, 8, hierarchy);
 #endif /* CV_MAJOR_VERSION */
 		}
 #if CV_MAJOR_VERSION <= 2
 		cvtColor(filledImg, threshImg2, CV_BGR2GRAY);
 #else
-		cvtColor(filledImg, threshImg2, cv::COLOR_BGR2GRAY);
+		cv::cvtColor(filledImg, threshImg2, cv::COLOR_BGR2GRAY);
 #endif /* CV_MAJOR_VERSION */
 	}
 
@@ -198,7 +198,8 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 		// execute flood fill algorithm starting with discovered seed
 		// and save flooded area on copied image
 		cv::Rect rect;
-		floodFill(ffImg, point, cv::Scalar(255, 255, 255, 0), &rect);
+		cv::floodFill(
+		    ffImg, point, cv::Scalar(255, 255, 255, 0), &rect);
 		vecRects.push_back(rect);
 		vecPoints.push_back(point);
 	}
@@ -220,7 +221,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 		if (i != maxIdx) {
 			// apply floodfill on original image
 			// start seed first detected point
-			floodFill(threshImg2,
+			cv::floodFill(threshImg2,
 			    cv::Point(vecPoints.at(i).x, vecPoints.at(i).y),
 			    cv::Scalar(255, 255, 255, 0));
 		}
@@ -300,7 +301,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 				    cv::Point(j + takenBS_X, i + takenBS_Y),
 				    cv::Scalar(0, 0, 0, 0), CV_FILLED);
 #else
-				rectangle(bsImg, cv::Point(j, i),
+				cv::rectangle(bsImg, cv::Point(j, i),
 				    cv::Point(j + takenBS_X, i + takenBS_Y),
 				    cv::Scalar(0, 0, 0, 0), cv::FILLED);
 #endif /* CV_MAJOR_VERSION */

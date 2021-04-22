@@ -4,7 +4,6 @@ on:
   pull_request:
     paths-ignore:
       - '.github/workflows/clang-format.yml'
-      - '.github/workflows/compliance-test.yml'
       - '.gitignore'
       - '.travis.yml'
       - '**.md'
@@ -15,7 +14,6 @@ on:
       - master
     paths-ignore:
       - '.github/workflows/clang-format.yml'
-      - '.github/workflows/compliance-test.yml'
       - '.gitignore'
       - '.travis.yml'
       - '**.md'
@@ -169,3 +167,36 @@ jobs:
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: cmake --build . --config ${CONFIGURATION}
+
+    - name: Download Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Run Compliance Test (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Run Compliance Test (Linux)
+      if: ${{ runner.os != 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Diff Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        python -m pip install pandas
+        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv

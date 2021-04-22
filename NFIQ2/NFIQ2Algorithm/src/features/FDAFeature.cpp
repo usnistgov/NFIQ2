@@ -168,7 +168,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "FDA_Bin10_",
 		    histogramBins10, dataVector, 10);
 
-		time = timer.endTimerAndGetElapsedTime();
+		time = timer.stop();
 
 		// Speed
 		NFIQ::QualityFeatureSpeed speed;

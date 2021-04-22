@@ -14,16 +14,16 @@ class Timer {
 	void start();
 
 	/**
-	 * @brief Gets the elapsed time.
+	 * @brief Obtain the elapsed time.
 	 * @return Elapsed time (milliseconds).
 	 */
 	double getElapsedTime();
 
 	/**
-	 * @brief End timer, returning the elapsed time.
+	 * @brief Stop the timer.
 	 * @return Elapsed time (milliseconds).
 	 */
-	double endTimerAndGetElapsedTime();
+	double stop();
 
     private:
 	/** Time when timer was started. */

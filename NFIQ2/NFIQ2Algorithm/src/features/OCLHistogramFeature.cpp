@@ -105,7 +105,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		addHistogramFeatures(
 		    featureDataList, "OCL_Bin10_", histogramBins10, oclres, 10);
 
-		timeOCL = timerOCL.endTimerAndGetElapsedTime();
+		timeOCL = timerOCL.stop();
 
 		// Speed
 		NFIQ::QualityFeatureSpeed speed;

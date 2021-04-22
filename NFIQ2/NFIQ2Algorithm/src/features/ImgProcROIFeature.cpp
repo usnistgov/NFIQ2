@@ -83,7 +83,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		NFIQ::QualityFeatureSpeed speed;
 		speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("ImgProcROIArea_Mean");
-		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {

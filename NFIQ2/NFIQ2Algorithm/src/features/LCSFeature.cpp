@@ -162,7 +162,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		timeLCS = timerLCS.endTimerAndGetElapsedTime();
+		timeLCS = timerLCS.stop();
 
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(LCSHISTLIMITS[0]);

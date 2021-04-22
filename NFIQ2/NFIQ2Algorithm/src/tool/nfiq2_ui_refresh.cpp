@@ -1004,7 +1004,7 @@ main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	timeInit = timerInit.endTimerAndGetElapsedTime();
+	timeInit = timerInit.stop();
 
 	std::stringstream loggerStream;
 	loggerStream << "Model Initialization: " << std::setprecision(3)

@@ -158,7 +158,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "RVUP_Bin10_",
 		    histogramBins10, rvures, 10);
 
-		timeRVU = timerRVU.endTimerAndGetElapsedTime();
+		timeRVU = timerRVU.stop();
 
 		NFIQ::QualityFeatureSpeed speed;
 		speed.featureIDGroup =

@@ -102,7 +102,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		    "OrientationMap_ROIFilter_CoherenceSum");
 		speed.featureIDs.push_back(
 		    "OrientationMap_ROIFilter_CoherenceRel");
-		speed.featureSpeed = timer.endTimerAndGetElapsedTime();
+		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
 	} catch (cv::Exception &e) {

@@ -248,7 +248,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, "OF_Bin10_",
 		    histogramBins10, dataVector, 10);
 
-		timeOF = timerOF.endTimerAndGetElapsedTime();
+		timeOF = timerOF.stop();
 
 		// Speed
 		NFIQ::QualityFeatureSpeed speed;

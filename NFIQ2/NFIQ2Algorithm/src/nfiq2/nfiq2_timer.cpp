@@ -18,7 +18,7 @@ NFIQ::Timer::getElapsedTime()
 }
 
 double
-NFIQ::Timer::endTimerAndGetElapsedTime()
+NFIQ::Timer::stop()
 {
 	this->endTime = std::chrono::steady_clock::now();
 	return this->getElapsedTime();

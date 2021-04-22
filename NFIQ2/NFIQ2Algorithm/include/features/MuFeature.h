@@ -7,7 +7,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

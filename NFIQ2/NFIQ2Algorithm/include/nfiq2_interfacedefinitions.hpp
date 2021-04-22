@@ -3,7 +3,6 @@
 
 #include <nfiq2_data.hpp>
 
-#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

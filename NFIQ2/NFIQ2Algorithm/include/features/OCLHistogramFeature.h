@@ -10,7 +10,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

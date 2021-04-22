@@ -12,7 +12,6 @@
 
 #include "ImgProcROIFeature.h"
 
-#include <cstdlib>
 #include <list>
 #include <string>
 #include <vector>

@@ -7,8 +7,6 @@ int debug = 0;
 #include <opencv2/imgproc/imgproc.hpp>
 #include <string.h>
 
-#include <cstdlib>
-
 using namespace NFIQ;
 
 static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);

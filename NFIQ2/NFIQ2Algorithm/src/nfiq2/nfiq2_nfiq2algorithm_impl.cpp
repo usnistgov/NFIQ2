@@ -14,8 +14,7 @@
 #include <nfiq2_timer.hpp>
 #include <string.h>
 
-#include "nfiq2impl.h"
-
+#include "nfiq2_nfiq2algorithm_impl.hpp"
 #include <iomanip>
 #include <iostream>
 #include <list>

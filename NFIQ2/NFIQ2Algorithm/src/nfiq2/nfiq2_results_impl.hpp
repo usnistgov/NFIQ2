@@ -1,10 +1,9 @@
-#ifndef NFIQ2_NFIQ2_RESULTS_IMPL_H_
-#define NFIQ2_NFIQ2_RESULTS_IMPL_H_
+#ifndef NFIQ2_RESULTS_IMPL_HPP_
+#define NFIQ2_RESULTS_IMPL_HPP_
 
 #include <nfiq2_results.hpp>
 
-#include "nfiq2_results_impl.h"
-
+#include "nfiq2_results_impl.hpp"
 #include <vector>
 
 namespace NFIQ {

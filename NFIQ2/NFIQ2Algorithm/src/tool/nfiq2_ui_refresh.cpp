@@ -18,8 +18,8 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
-#include <nfiq2.hpp>
 #include <nfiq2_modelinfo.hpp>
+#include <nfiq2_nfiq2algorithm.hpp>
 #include <nfiq2_timer.hpp>
 #include <nfir_lib.h>
 #include <opencv2/highgui/highgui.hpp>

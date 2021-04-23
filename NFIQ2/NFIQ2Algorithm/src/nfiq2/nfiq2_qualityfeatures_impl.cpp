@@ -15,7 +15,6 @@
 
 #include "nfiq2_qualityfeatures_impl.hpp"
 #include <iomanip>
-#include <iostream>
 #include <list>
 #include <memory>
 #include <string>

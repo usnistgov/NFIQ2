@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
-#include <iostream>
 #include <string>
 
 static std::string trimWhitespace(const std::string &s);

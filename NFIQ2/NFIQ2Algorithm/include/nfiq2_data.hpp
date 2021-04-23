@@ -4,7 +4,6 @@
 #include <nfiq2_nfiqexception.hpp>
 
 #include <fstream>
-#include <iostream>
 #include <string>
 #include <vector>
 

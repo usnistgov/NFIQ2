@@ -171,7 +171,7 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 			    BORDER_REFLECT_101);
 			Sobel(doubleIm, dfy, CV_64F, 0, 1, 3, 1, 0,
 			    BORDER_REFLECT_101);
-		} catch (cv::Exception &e) {
+		} catch (const cv::Exception &e) {
 			std::stringstream ssErr;
 			ssErr << "Call to OpenCV Sobel operator function "
 				 "failed: "
@@ -327,7 +327,7 @@ NFIQ::QualityFeatures::getRotatedBlock(
 		rot_mat = getRotationMatrix2D(center, orientDegrees, 1);
 		warpAffine(Inblock, rotatedBlock, rot_mat, rotatedBlock.size(),
 		    INTER_NEAREST);
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during block rotation: " << e.what();
 		throw NFIQ::NFIQException(
@@ -374,7 +374,7 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const Mat &blockCropped,
 	Mat dt1;
 	try {
 		solve(dttemp, v3, dt1, DECOMP_QR);
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during ridge/valley processing: "
 			 "solve(DECOMP_QR) "

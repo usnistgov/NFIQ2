@@ -98,7 +98,7 @@ InitNfiq2(char **hash)
 			    g_nfiq2->getParameterHash().length() + 1);
 			return *hash;
 		}
-	} catch (std::exception &exc) {
+	} catch (const std::exception &exc) {
 		std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;
 	}
 	return nullptr;
@@ -124,7 +124,7 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 			  << exc.getReturnCode()
 			  << "]: " << exc.getErrorMessage() << std::endl;
 		return 255;
-	} catch (std::exception &exc) {
+	} catch (const std::exception &exc) {
 		std::cerr << "NFIQ2 ERROR => " << exc.what() << std::endl;
 		return -1;
 	}

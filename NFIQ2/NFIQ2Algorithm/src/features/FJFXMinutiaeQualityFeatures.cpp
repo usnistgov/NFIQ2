@@ -166,13 +166,13 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute FJFX based minutiae quality features: "
 		      << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (NFIQ::NFIQException &e) {
+	} catch (const NFIQ::NFIQException &e) {
 		throw;
 	} catch (...) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,

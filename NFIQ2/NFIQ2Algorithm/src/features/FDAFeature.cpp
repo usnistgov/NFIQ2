@@ -178,13 +178,13 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		speed.featureSpeed = time;
 		this->setSpeed(speed);
 
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "
 		      << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (NFIQ::NFIQException &e) {
+	} catch (const NFIQ::NFIQException &e) {
 		throw;
 	} catch (...) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,

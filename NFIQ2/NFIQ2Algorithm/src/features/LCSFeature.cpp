@@ -190,7 +190,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		ssErr << "Cannot compute LCS: " << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &e) {
+	} catch (const NFIQ::NFIQException &) {
 		throw;
 	} catch (...) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,

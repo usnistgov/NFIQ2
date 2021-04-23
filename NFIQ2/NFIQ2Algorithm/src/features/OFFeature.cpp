@@ -5,18 +5,14 @@
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
 
+#include <cmath>
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
-#include <float.h>
 #include <windows.h>
-#endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
+#include <cfloat>
 #endif
-
-using namespace NFIQ;
 
 NFIQ::QualityFeatures::OFFeature::OFFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)

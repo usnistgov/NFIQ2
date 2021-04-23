@@ -1,13 +1,10 @@
 #include <features/FingerJetFXFeature.h>
 #include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_timer.hpp>
-#include <string.h>
 
 #include <memory>
 #include <sstream>
 #include <tuple>
-
-using namespace NFIQ;
 
 NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)

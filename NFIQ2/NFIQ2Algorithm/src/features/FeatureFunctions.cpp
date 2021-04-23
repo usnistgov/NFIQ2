@@ -2,20 +2,12 @@
 #include <nfiq2_nfiqexception.hpp>
 #include <opencv2/imgproc.hpp>
 
-#define USE_MATH_DEFINES
-#include <math.h>
-
+#include <cmath>
 #include <cstring>
-#include <iostream>
 #include <limits>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 
 static const int maxSampleCount = 50;
 
-using namespace NFIQ;
 /***
 From the matlab code:
 % RIDGESEGMENT - Normalises fingerprint image and segments ridge region
@@ -305,10 +297,12 @@ NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		std::cerr << "block rows = " << block.rows << std::endl;
-		std::cerr << "warning: Wrong block size! Consider block with "
-			     "size of even number"
-			  << std::endl;
+		throw NFIQ::NFIQException {
+			NFIQ::e_Error_FeatureCalculationError,
+			"Wrong block size! Consider block with size of even number "
+			"(block rows = " +
+			    std::to_string(block.rows) + ')'
+		};
 	}
 
 	if (padFlag) {

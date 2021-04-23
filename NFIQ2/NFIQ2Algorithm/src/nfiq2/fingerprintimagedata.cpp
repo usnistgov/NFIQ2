@@ -3,15 +3,12 @@
 int debug = 0;
 
 #include <opencv2/imgproc.hpp>
-#include <stdlib.h>
 #include <string.h>
-
-using namespace NFIQ;
 
 static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);
 static double computeMuFromColumn(unsigned int columnIndex, cv::Mat &img);
 
-FingerprintImageData::FingerprintImageData()
+NFIQ::FingerprintImageData::FingerprintImageData()
     : Data()
     , m_ImageWidth(0)
     , m_ImageHeight(0)
@@ -20,7 +17,7 @@ FingerprintImageData::FingerprintImageData()
 {
 }
 
-FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
+NFIQ::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
     uint32_t imageHeight, uint8_t fingerCode, uint16_t imageDPI)
     : Data()
     , m_ImageWidth(imageWidth)
@@ -30,7 +27,7 @@ FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
 {
 }
 
-FingerprintImageData::FingerprintImageData(const uint8_t *pData,
+NFIQ::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
     uint32_t dataSize, uint32_t imageWidth, uint32_t imageHeight,
     uint8_t fingerCode, uint16_t imageDPI)
     : Data(pData, dataSize)
@@ -41,7 +38,7 @@ FingerprintImageData::FingerprintImageData(const uint8_t *pData,
 {
 }
 
-FingerprintImageData::FingerprintImageData(
+NFIQ::FingerprintImageData::FingerprintImageData(
     const FingerprintImageData &otherData)
     : Data(otherData)
 {
@@ -51,12 +48,12 @@ FingerprintImageData::FingerprintImageData(
 	m_ImageDPI = otherData.m_ImageDPI;
 }
 
-FingerprintImageData::~FingerprintImageData()
+NFIQ::FingerprintImageData::~FingerprintImageData()
 {
 }
 
 NFIQ::FingerprintImageData
-FingerprintImageData::removeWhiteFrameAroundFingerprint() const
+NFIQ::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 {
 	// make local copy of internal fingerprint image
 	NFIQ::FingerprintImageData localFingerprintImage(this->m_ImageWidth,

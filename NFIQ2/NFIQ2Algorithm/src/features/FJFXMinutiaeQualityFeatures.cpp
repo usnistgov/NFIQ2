@@ -5,8 +5,6 @@
 
 #include <sstream>
 
-using namespace NFIQ;
-
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
     const NFIQ::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,

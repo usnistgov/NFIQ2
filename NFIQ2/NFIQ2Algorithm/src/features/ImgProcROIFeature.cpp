@@ -5,8 +5,6 @@
 
 #include <sstream>
 
-using namespace NFIQ;
-
 NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {

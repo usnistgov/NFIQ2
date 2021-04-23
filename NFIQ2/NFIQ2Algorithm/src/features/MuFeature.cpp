@@ -5,8 +5,6 @@
 
 #include <sstream>
 
-using namespace NFIQ;
-
 NFIQ::QualityFeatures::MuFeature::MuFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {

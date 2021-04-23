@@ -4,8 +4,6 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
 
-#include <list>
-
 namespace NFIQ {
 
 namespace QualityFeatures {

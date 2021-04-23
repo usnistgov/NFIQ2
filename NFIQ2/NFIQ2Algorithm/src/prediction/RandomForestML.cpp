@@ -11,9 +11,9 @@
 #else
 #include <unistd.h>
 #endif
-#include <float.h>
-#include <math.h>
-#include <time.h>
+#include <cfloat>
+#include <cmath>
+#include <ctime>
 
 /*
  * FIXME: Issue on GitHub Actions where it appears NOMINMAX isn't getting set,
@@ -28,8 +28,6 @@
 
 #include "digestpp.hpp"
 #include <numeric> // std::accumulate
-
-using namespace NFIQ;
 
 std::string
 NFIQ::Prediction::RandomForestML::calculateHashString(const std::string &s)

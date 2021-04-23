@@ -6,11 +6,10 @@
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
-#include <float.h>
 #include <windows.h>
-#endif
 
-using namespace NFIQ;
+#include <cfloat>
+#endif
 
 NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)

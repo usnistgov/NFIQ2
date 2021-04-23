@@ -7,7 +7,6 @@
 #include <nfiq2_qualityfeatures.hpp>
 #include <nfiq2_results.hpp>
 
-#include <list>
 #include <memory>
 #include <string>
 #include <unordered_map>

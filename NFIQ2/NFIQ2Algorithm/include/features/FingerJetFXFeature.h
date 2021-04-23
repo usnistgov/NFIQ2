@@ -4,26 +4,11 @@
 #include <features/BaseFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "FRFXLL.h"
 
-#include <list>
 #include <string>
 #include <vector>
-
-#if defined LINUX || defined __ANDROID__ || defined __APPLE__
-#include <sys/types.h>
-#include <sys/queue.h>
-#include <sys/stat.h>
-
-#include <unistd.h>
-#endif
-
-#include <errno.h>
-#include <fcntl.h>
-#include <stdint.h>
 
 namespace NFIQ { namespace QualityFeatures {
 

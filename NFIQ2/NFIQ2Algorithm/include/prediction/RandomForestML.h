@@ -3,10 +3,7 @@
 
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/ml.hpp>
-#include <stdio.h>
-#include <stdlib.h>
 
-#include <list>
 #include <string>
 #include <unordered_map>
 #include <vector>

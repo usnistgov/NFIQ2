@@ -1,7 +1,5 @@
 #include <nfiq2_nfiqexception.hpp>
 
-using namespace NFIQ;
-
 /**
  * Predefined error messages for the corresponding error codes
  */
@@ -67,7 +65,7 @@ const std::string c_ErrorMessages[] = {
 	/* 55 */ "Invalid Image Size"
 };
 
-NFIQException::NFIQException(uint32_t returnCode)
+NFIQ::NFIQException::NFIQException(uint32_t returnCode)
     : m_ReturnCode(returnCode)
 {
 	m_ErrorMessage = c_ErrorMessages[returnCode];
@@ -76,18 +74,19 @@ NFIQException::NFIQException(uint32_t returnCode)
 	}
 }
 
-NFIQException::NFIQException(uint32_t returnCode, std::string errorMessage)
+NFIQ::NFIQException::NFIQException(
+    uint32_t returnCode, std::string errorMessage)
     : m_ReturnCode(returnCode)
     , m_ErrorMessage(errorMessage)
 {
 }
 
-NFIQException::~NFIQException() noexcept
+NFIQ::NFIQException::~NFIQException() noexcept
 {
 }
 
 const char *
-NFIQException::what() const noexcept
+NFIQ::NFIQException::what() const noexcept
 {
 	return m_ErrorMessage.c_str();
 }

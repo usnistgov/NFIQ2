@@ -8,12 +8,10 @@
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
-#include <float.h>
 #include <windows.h>
-#endif
 
-using namespace NFIQ;
-using namespace std;
+#include <cfloat>
+#endif
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
@@ -239,10 +237,12 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		std::cerr << "block rows = " << block.rows << std::endl;
-		std::cerr << "warning: Wrong block size! Consider block with "
-			     "size of even number"
-			  << std::endl;
+		throw NFIQ::NFIQException {
+			NFIQ::e_Error_FeatureCalculationError,
+			"Wrong block size! Consider block with size of even number "
+			"(block rows = " +
+			    std::to_string(block.rows) + ')'
+		};
 	}
 
 	cv::Mat blockRotated;

@@ -5,12 +5,9 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "ImgProcROIFeature.h"
 
-#include <list>
 #include <string>
 #include <vector>
 

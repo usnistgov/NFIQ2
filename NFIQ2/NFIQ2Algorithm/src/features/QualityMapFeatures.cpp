@@ -7,16 +7,10 @@
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
-#include <float.h>
 #include <windows.h>
-#endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
+#include <cfloat>
 #endif
-
-using namespace NFIQ;
-using namespace std;
 
 NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ::FingerprintImageData &fingerprintImage,

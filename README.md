@@ -95,8 +95,8 @@ cmake --build .
  * Standard CMake arguments are interpreted.
    * On Windows, change architectures with `-A x64` or `-A Win32`
    * Change generators with `-G`
-   * Change build types with `CMAKE_CONFIGURATION_TYPES` and/or
-     `CMAKE_BUILD_TYPE`
+   * Change build types with `-DCMAKE_CONFIGURATION_TYPES` or
+     `-DCMAKE_BUILD_TYPE`
 
  * Dependencies for `libbiomeval` must be satisfied.
     * On Windows with Visual Studio, this is done with
@@ -104,11 +104,12 @@ cmake --build .
       the vcpkg `CMAKE_TOOLCHAIN_FILE` and `VCPKG_TARGET_TRIPLET` options
       to CMake.
 
-For example, a 64-bit release build with the default Visual Studio generator
-might look like:
+For example, a 64-bit Release-only build with the default Visual Studio
+generator might look like:
 
 ```
-cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release -A x64
+cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -A x64
+cmake --build . --config Release
 ```
 
 Builds for other OS can typically find dependencies on the system without

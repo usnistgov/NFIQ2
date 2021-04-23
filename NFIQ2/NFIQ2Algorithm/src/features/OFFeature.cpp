@@ -13,7 +13,6 @@
 #include <windows.h>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 
 NFIQ::QualityFeatures::OFFeature::OFFeature(

@@ -13,7 +13,6 @@
 #include <windows.h>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 
 double fda(const Mat &block, const double orientation, const int v1sz_x,

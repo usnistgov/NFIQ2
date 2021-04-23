@@ -12,9 +12,7 @@
 #include <windows.h>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
-using namespace std;
 
 void rvuhist(Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,

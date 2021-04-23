@@ -11,9 +11,7 @@
 #include <windows.h>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
-using namespace std;
 
 NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ::FingerprintImageData &fingerprintImage,

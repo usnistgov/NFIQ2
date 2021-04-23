@@ -5,7 +5,6 @@
 
 #include <sstream>
 
-using namespace NFIQ;
 using namespace cv;
 
 NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(

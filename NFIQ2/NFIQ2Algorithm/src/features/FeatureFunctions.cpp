@@ -10,7 +10,6 @@
 
 static const int maxSampleCount = 50;
 
-using namespace NFIQ;
 using namespace cv;
 /***
 From the matlab code:

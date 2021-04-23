@@ -3,7 +3,9 @@
 #include <nfiq2_timer.hpp>
 #include <string.h>
 
+#include <memory>
 #include <sstream>
+#include <tuple>
 
 using namespace NFIQ;
 

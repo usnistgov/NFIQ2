@@ -167,9 +167,9 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 	} else // Sobel operator
 	{
 		try {
-			Sobel(doubleIm, dfx, CV_64F, 1, 0, 3, 1, 0,
+			cv::Sobel(doubleIm, dfx, CV_64F, 1, 0, 3, 1, 0,
 			    cv::BORDER_REFLECT_101);
-			Sobel(doubleIm, dfy, CV_64F, 0, 1, 3, 1, 0,
+			cv::Sobel(doubleIm, dfy, CV_64F, 0, 1, 3, 1, 0,
 			    cv::BORDER_REFLECT_101);
 		} catch (cv::Exception &e) {
 			std::stringstream ssErr;
@@ -187,16 +187,16 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 	*/
 	cv::Scalar fxMean, fyMean, ProdMean;
 	cv::Mat dfx2 = dfx.mul(dfx);
-	fxMean = mean(dfx2);
+	fxMean = cv::mean(dfx2);
 	cv::Mat dfy2 = dfy.mul(dfy);
-	fyMean = mean(dfy2);
+	fyMean = cv::mean(dfy2);
 
 	a = fxMean.val[0];
 	b = fyMean.val[0];
 
 	/*Matlab: c = fx.*fy; c = mean(c(:)); (Per-element multiplication) */
 	cv::Mat gradProd = dfx.mul(dfy);
-	ProdMean = mean(gradProd);
+	ProdMean = cv::mean(gradProd);
 	c = ProdMean.val[0];
 
 	return;
@@ -312,7 +312,7 @@ NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 	}
 
 	if (padFlag) {
-		copyMakeBorder(
+		cv::copyMakeBorder(
 		    block, Inblock, 2, 2, 2, 2, cv::BORDER_CONSTANT, 0);
 	} else {
 		Inblock = block;
@@ -354,7 +354,7 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 	for (int i = 0; i < blockCropped.cols; i++) {
 		// extract a column from blockCropped
 		blockCol = blockCropped.col(i);
-		colMean = mean(blockCol, cv::noArray());
+		colMean = cv::mean(blockCol, cv::noArray());
 		v3.at<double>(i, 0) = colMean.val[0];
 	}
 
@@ -378,7 +378,7 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during ridge/valley processing: "
-			 "solve(cv::DECOMP_QR) "
+			 "cv::solve(cv::DECOMP_QR) "
 		      << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
@@ -470,7 +470,7 @@ NFIQ::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
 	filter.copyTo(kernROI);
 	cv::dft(kernTmp, kernTmp, cv::DFT_COMPLEX_OUTPUT);
 
-	// Multiply the two cv::DFTs
+	// Multiply the two DFTs
 	bool conjugateFlag = false;
 	cv::Mat MulOut;
 	mulSpectrums(imDFT, kernTmp, MulOut, 0, conjugateFlag);

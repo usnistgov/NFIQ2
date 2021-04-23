@@ -150,7 +150,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		// border of zeros around the blkorient array, since the matlab
 		// blockproc function pads with zeros at the edges.
 		cv::Mat paddedBlkorient;
-		copyMakeBorder(blkorient, paddedBlkorient, 1, 1, 1, 1,
+		cv::copyMakeBorder(blkorient, paddedBlkorient, 1, 1, 1, 1,
 		    cv::BORDER_CONSTANT, 0);
 
 		// for each point in the original blkorient array, compute the
@@ -192,7 +192,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		// whole window from comp. maskBloqseg =
 		// logical(blkproc(maskBseg, [1 1], [border border], allfun));
 		cv::Mat paddedMaskBseg;
-		copyMakeBorder(maskBseg, paddedMaskBseg, 1, 1, 1, 1,
+		cv::copyMakeBorder(maskBseg, paddedMaskBseg, 1, 1, 1, 1,
 		    cv::BORDER_CONSTANT, 0);
 		cv::Mat maskBloqseg(maskBseg.rows, maskBseg.cols, CV_8UC1);
 		for (int i = 1; i <= maskBseg.rows; i++) {

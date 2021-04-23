@@ -249,10 +249,10 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 
 	// extract slanted block by cropping the rotated image: To ensure that
 	// rotated image does not contain any invalid regions.
-	//     cv::Matlab:  blockCropped =
+	//     Matlab:  blockCropped =
 	//     blockRotated(cBlock-(xoff-1):cBlock+xoff,cBlock-(yoff-1):cBlock+yoff);
 	//     % v2
-	// Note: cv::Matlab uses matrix indices starting at 1, OpenCV starts at
+	// Note: Matlab uses matrix indices starting at 1, OpenCV starts at
 	// 0. Also, OpenCV ranges are open-ended on the upper end.
 
 	cv::Mat blockCropped = blockRotated(
@@ -276,26 +276,26 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	int m = cv::getOptimalDFTSize(t.cols); // t' rows (t cols)
 	int n = cv::getOptimalDFTSize(t.rows); // t' cols (t rows)
 	// create output
-	copyMakeBorder(t.t(), tmpM, 0, m - t.cols, 0, n - t.rows,
+	cv::copyMakeBorder(t.t(), tmpM, 0, m - t.cols, 0, n - t.rows,
 	    cv::BORDER_CONSTANT, cv::Scalar::all(0));
 	// copy the source, on the border adding zero values
 	cv::Mat planes[] = { tmpM, cv::Mat::zeros(tmpM.size(), CV_64F) };
 	cv::Mat complex;
-	merge(planes, 2, complex);
+	cv::merge(planes, 2, complex);
 	cv::dft(complex, complex,
 	    cv::DFT_COMPLEX_OUTPUT | cv::DFT_ROWS); // fourier transform
 
 	// Get Amplitude (Magnitude), cutting out DC (index 0,0)
 	// dftAmp = abs(cv::dft(1, 2:end));
-	split(complex, planes);
-	magnitude(planes[0], planes[1],
+	cv::split(complex, planes);
+	cv::magnitude(planes[0], planes[1],
 	    planes[0]); // sqrt(Re(DFT(I))^2 + Im(DFT(I))^2)
 	cv::Mat absMag = abs(planes[0]);
 	cv::Mat amp(absMag,
 	    cv::Rect(1, 0, absMag.cols - 1, 1)); // set ROI, cutting out DC
 	double mVal;
 	cv::Point mLoc;
-	minMaxLoc(amp, 0, &mVal, 0, &mLoc);
+	cv::minMaxLoc(amp, 0, &mVal, 0, &mLoc);
 	cv::Mat ampDenom(
 	    amp, cv::Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
 	cv::Scalar iqmDenom = sum(ampDenom);

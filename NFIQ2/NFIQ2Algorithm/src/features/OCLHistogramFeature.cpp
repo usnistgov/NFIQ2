@@ -11,7 +11,6 @@
 #include <cfloat>
 #endif
 
-using namespace NFIQ;
 using namespace cv;
 
 NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(

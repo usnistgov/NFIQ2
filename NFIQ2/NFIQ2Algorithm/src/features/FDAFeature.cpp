@@ -5,6 +5,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+#include <cmath>
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
@@ -13,11 +14,6 @@
 #include <cfloat>
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
-using namespace NFIQ;
 using namespace cv;
 
 double fda(const Mat &block, const double orientation, const int v1sz_x,

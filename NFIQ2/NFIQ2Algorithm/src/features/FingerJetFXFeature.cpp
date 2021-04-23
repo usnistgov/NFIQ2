@@ -4,8 +4,6 @@
 
 #include <sstream>
 
-using namespace NFIQ;
-
 NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
 {

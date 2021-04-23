@@ -31,7 +31,6 @@
 #include "digestpp.hpp"
 #include <numeric> // std::accumulate
 
-using namespace NFIQ;
 using namespace cv;
 
 std::string

@@ -46,7 +46,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
@@ -83,14 +83,14 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "
 		      << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (NFIQ::NFIQException &e) {
-		throw e;
+	} catch (const NFIQ::NFIQException &) {
+		throw;
 	} catch (...) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");

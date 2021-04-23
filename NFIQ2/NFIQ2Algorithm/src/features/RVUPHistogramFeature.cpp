@@ -47,7 +47,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
@@ -167,13 +167,13 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		speed.featureSpeed = timeRVU;
 		this->setSpeed(speed);
 
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute RVU: " << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (NFIQ::NFIQException &e) {
-		throw e;
+	} catch (const NFIQ::NFIQException &) {
+		throw;
 	} catch (...) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");

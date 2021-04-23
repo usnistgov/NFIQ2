@@ -191,7 +191,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
 	} catch (NFIQ::NFIQException &e) {
-		throw e;
+		throw;
 	} catch (...) {
 		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");

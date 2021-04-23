@@ -9,8 +9,9 @@
 #include <sstream>
 
 #if defined WINDOWS || defined WIN32
-#include <float.h>
 #include <windows.h>
+
+#include <cfloat>
 #endif
 
 using namespace cv;
@@ -225,10 +226,12 @@ fda(const Mat &block, const double orientation, const int v1sz_x,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		std::cerr << "block rows = " << block.rows << std::endl;
-		std::cerr << "warning: Wrong block size! Consider block with "
-			     "size of even number"
-			  << std::endl;
+		throw NFIQ::NFIQException {
+			NFIQ::e_Error_FeatureCalculationError,
+			"Wrong block size! Consider block with size of even number "
+			"(block rows = " +
+			    std::to_string(block.rows) + ')'
+		};
 	}
 
 	// rotate image to get the ridges horizontal using nearest-neighbor

@@ -16,7 +16,6 @@
 
 #include "nfiq2_nfiq2algorithm_impl.hpp"
 #include <iomanip>
-#include <iostream>
 #include <list>
 #include <string>
 #include <vector>

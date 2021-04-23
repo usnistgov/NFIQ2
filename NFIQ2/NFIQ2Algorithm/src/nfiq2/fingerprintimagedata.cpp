@@ -5,7 +5,6 @@ int debug = 0;
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <stdlib.h>
 #include <string.h>
 
 static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);

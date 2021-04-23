@@ -6,6 +6,7 @@
 #include "nfiq2api.h"
 
 #include <cstdlib>
+#include <iostream>
 #include <memory>
 #include <string>
 

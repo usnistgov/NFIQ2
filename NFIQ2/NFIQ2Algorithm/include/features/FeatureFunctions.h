@@ -2,8 +2,7 @@
 #define FEATUREFUNCTIONS_H
 
 #include <nfiq2_interfacedefinitions.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core.hpp>
 
 namespace NFIQ {
 

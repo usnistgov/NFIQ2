@@ -2,8 +2,7 @@
 #include <features/FeatureFunctions.h>
 #include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_timer.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core.hpp>
 
 #include <cmath>
 #include <sstream>
@@ -14,9 +13,7 @@
 #include <cfloat>
 #endif
 
-using namespace cv;
-
-double fda(const Mat &block, const double orientation, const int v1sz_x,
+double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
 NFIQ::QualityFeatures::FDAFeature::FDAFeature(
@@ -59,7 +56,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 	}
 
 	// get matrix from fingerprint image
-	Mat img = Mat(fingerprintImage.m_ImageHeight,
+	cv::Mat img = cv::Mat(fingerprintImage.m_ImageHeight,
 	    fingerprintImage.m_ImageWidth, CV_8UC1,
 	    (void *)fingerprintImage.data());
 
@@ -72,15 +69,15 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 	try {
 		timer.start();
 
-		Mat maskim;
+		cv::Mat maskim;
 		const int blksize = this->blocksize;
 		const int v1sz_x = this->slantedBlockSizeX;
 		const int v1sz_y = this->slantedBlockSizeY;
 
 		assert((blksize > 0) && (this->threshold > 0));
 
-		ridgesegment(img, blksize, this->threshold, noArray(), maskim,
-		    noArray());
+		ridgesegment(img, blksize, this->threshold, cv::noArray(),
+		    maskim, cv::noArray());
 
 		int rows = img.rows;
 		int cols = img.cols;
@@ -99,10 +96,10 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		int mapCols = static_cast<int>(
 		    (static_cast<double>(cols) - diff) / blk);
 
-		Mat fdas = Mat::zeros(mapRows, mapCols, CV_64F);
-		Mat blkorient = Mat::zeros(mapRows, mapCols, CV_64F);
-		Mat im_roi, blkwim;
-		Mat maskB1;
+		cv::Mat fdas = cv::Mat::zeros(mapRows, mapCols, CV_64F);
+		cv::Mat blkorient = cv::Mat::zeros(mapRows, mapCols, CV_64F);
+		cv::Mat im_roi, blkwim;
+		cv::Mat maskB1;
 		double cova, covb, covc;
 
 		std::vector<double> dataVector;
@@ -118,11 +115,15 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 			     c < cols - (blksize + blkoffset - 1);
 			     c += blksize) {
 				im_roi = img(
-				    Range(r, min(r + blksize, img.rows)),
-				    Range(c, min(c + blksize, img.cols)));
+				    cv::Range(
+					r, cv::min(r + blksize, img.rows)),
+				    cv::Range(
+					c, cv::min(c + blksize, img.cols)));
 				maskB1 = maskim(
-				    Range(r, min(r + blksize, maskim.rows)),
-				    Range(c, min(c + blksize, maskim.cols)));
+				    cv::Range(
+					r, cv::min(r + blksize, maskim.rows)),
+				    cv::Range(
+					c, cv::min(c + blksize, maskim.cols)));
 				uint8_t mask = allfun(maskB1);
 				if (mask == 1) {
 					covcoef(im_roi, cova, covb, covc,
@@ -134,11 +135,11 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 					// overlapping windows (border =
 					// blkoffset)
 					blkwim = img(
-					    Range(r - blkoffset,
-						min(r + blksize + blkoffset,
+					    cv::Range(r - blkoffset,
+						cv::min(r + blksize + blkoffset,
 						    img.rows)),
-					    Range(c - blkoffset,
-						min(c + blksize + blkoffset,
+					    cv::Range(c - blkoffset,
+						cv::min(c + blksize + blkoffset,
 						    img.cols)));
 					fdas.at<double>(br, bc) = fda(blkwim,
 					    blkorient.at<double>(br, bc),
@@ -219,7 +220,7 @@ perpendicular to the ridge direction %                     within the block
 % The Technical University of Denmark, DTU
 */
 double
-fda(const Mat &block, const double orientation, const int v1sz_x,
+fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag)
 {
 	// sanity check: check block size
@@ -236,7 +237,7 @@ fda(const Mat &block, const double orientation, const int v1sz_x,
 
 	// rotate image to get the ridges horizontal using nearest-neighbor
 	// interpolation
-	Mat blockRotated;
+	cv::Mat blockRotated;
 	NFIQ::QualityFeatures::getRotatedBlock(
 	    block, orientation + (M_PI / 2), padFlag, blockRotated);
 
@@ -249,52 +250,53 @@ fda(const Mat &block, const double orientation, const int v1sz_x,
 	//     Matlab:  blockCropped =
 	//     blockRotated(cBlock-(xoff-1):cBlock+xoff,cBlock-(yoff-1):cBlock+yoff);
 	//     % v2
-	// Note: Matlab uses matrix indices starting at 1, OpenCV starts at 0.
-	// Also, OpenCV ranges are open-ended on the upper end.
+	// Note: Matlab uses matrix indices starting at 1, OpenCV starts at
+	// 0. Also, OpenCV ranges are open-ended on the upper end.
 
-	Mat blockCropped = blockRotated(
-	    Range((icBlock - (xoff - 1) - 1), (icBlock + xoff)),
-	    Range((icBlock - (yoff - 1) - 1), (icBlock + yoff))); // v2
+	cv::Mat blockCropped = blockRotated(
+	    cv::Range((icBlock - (xoff - 1) - 1), (icBlock + xoff)),
+	    cv::Range((icBlock - (yoff - 1) - 1), (icBlock + yoff))); // v2
 
-	Mat t = Mat::zeros(blockCropped.rows, 1, CV_64F);
+	cv::Mat t = cv::Mat::zeros(blockCropped.rows, 1, CV_64F);
 	for (int r = 0; r < blockCropped.rows; r++) {
 		// get ROI for current row
-		Mat roi = Mat(blockCropped,
-		    Rect(0, r, blockCropped.cols,
+		cv::Mat roi = cv::Mat(blockCropped,
+		    cv::Rect(0, r, blockCropped.cols,
 			1)); // x,y, width, height
-		Scalar s = mean(roi);
+		cv::Scalar s = mean(roi);
 		t.at<double>(r, 0) = s.val[0];
 		roi.release(); // is this required or does it auto clean when
 			       // done?
 	}
 
 	// compute dft on transposed t (so using transposed dimensions)
-	Mat tmpM;
-	int m = getOptimalDFTSize(t.cols); // t' rows (t cols)
-	int n = getOptimalDFTSize(t.rows); // t' cols (t rows)
+	cv::Mat tmpM;
+	int m = cv::getOptimalDFTSize(t.cols); // t' rows (t cols)
+	int n = cv::getOptimalDFTSize(t.rows); // t' cols (t rows)
 	// create output
-	copyMakeBorder(t.t(), tmpM, 0, m - t.cols, 0, n - t.rows,
-	    BORDER_CONSTANT, Scalar::all(0));
+	cv::copyMakeBorder(t.t(), tmpM, 0, m - t.cols, 0, n - t.rows,
+	    cv::BORDER_CONSTANT, cv::Scalar::all(0));
 	// copy the source, on the border adding zero values
-	Mat planes[] = { tmpM, Mat::zeros(tmpM.size(), CV_64F) };
-	Mat complex;
-	merge(planes, 2, complex);
-	dft(complex, complex,
-	    DFT_COMPLEX_OUTPUT | DFT_ROWS); // fourier transform
+	cv::Mat planes[] = { tmpM, cv::Mat::zeros(tmpM.size(), CV_64F) };
+	cv::Mat complex;
+	cv::merge(planes, 2, complex);
+	cv::dft(complex, complex,
+	    cv::DFT_COMPLEX_OUTPUT | cv::DFT_ROWS); // fourier transform
 
 	// Get Amplitude (Magnitude), cutting out DC (index 0,0)
-	// dftAmp = abs(dft(1, 2:end));
-	split(complex, planes);
-	magnitude(planes[0], planes[1],
+	// dftAmp = abs(cv::dft(1, 2:end));
+	cv::split(complex, planes);
+	cv::magnitude(planes[0], planes[1],
 	    planes[0]); // sqrt(Re(DFT(I))^2 + Im(DFT(I))^2)
-	Mat absMag = abs(planes[0]);
-	Mat amp(
-	    absMag, Rect(1, 0, absMag.cols - 1, 1)); // set ROI, cutting out DC
+	cv::Mat absMag = abs(planes[0]);
+	cv::Mat amp(absMag,
+	    cv::Rect(1, 0, absMag.cols - 1, 1)); // set ROI, cutting out DC
 	double mVal;
-	Point mLoc;
-	minMaxLoc(amp, 0, &mVal, 0, &mLoc);
-	Mat ampDenom(amp, Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
-	Scalar iqmDenom = sum(ampDenom);
+	cv::Point mLoc;
+	cv::minMaxLoc(amp, 0, &mVal, 0, &mLoc);
+	cv::Mat ampDenom(
+	    amp, cv::Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
+	cv::Scalar iqmDenom = sum(ampDenom);
 	if (mLoc.x == 0 || mLoc.x + 1 >= amp.cols) {
 		// ?????? FIXME
 		return 1.0;

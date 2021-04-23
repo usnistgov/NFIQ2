@@ -3,7 +3,7 @@
 #include <math.h>
 #include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_timer.hpp>
-#include <opencv2/core/core.hpp>
+#include <opencv2/core.hpp>
 
 #include <cmath>
 #include <sstream>
@@ -13,8 +13,6 @@
 
 #include <cfloat>
 #endif
-
-using namespace cv;
 
 NFIQ::QualityFeatures::OFFeature::OFFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)
@@ -55,10 +53,10 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
-	Mat img;
+	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = Mat(fingerprintImage.m_ImageHeight,
+		img = cv::Mat(fingerprintImage.m_ImageHeight,
 		    fingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (const cv::Exception &e) {
@@ -80,9 +78,9 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		const int v1sz_x = slantedBlockSizeX;
 		const int v1sz_y = slantedBlockSizeY;
 
-		Mat maskim;
-		ridgesegment(
-		    img, blocksize, threshold, noArray(), maskim, noArray());
+		cv::Mat maskim;
+		ridgesegment(img, blocksize, threshold, cv::noArray(), maskim,
+		    cv::noArray());
 
 		// ----------
 		// compute Of
@@ -103,11 +101,11 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		int mapCols = static_cast<int>(
 		    (static_cast<double>(cols) - diff) / blk);
 
-		Mat maskBseg = Mat::zeros(mapRows, mapCols, CV_8UC1);
-		Mat blkorient = Mat::zeros(mapRows, mapCols, CV_64F);
+		cv::Mat maskBseg = cv::Mat::zeros(mapRows, mapCols, CV_8UC1);
+		cv::Mat blkorient = cv::Mat::zeros(mapRows, mapCols, CV_64F);
 
-		Mat im_roi, blkwim;
-		Mat maskB1;
+		cv::Mat im_roi, blkwim;
+		cv::Mat maskB1;
 		double cova, covb, covc;
 		// Image processed NOT from beg to end but with a border around
 		// - can't be vectorized:(
@@ -120,11 +118,15 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 			     c < cols - (blocksize + blkoffset - 1);
 			     c += blocksize) {
 				im_roi = img(
-				    Range(r, min(r + blocksize, img.rows)),
-				    Range(c, min(c + blocksize, img.cols)));
+				    cv::Range(
+					r, cv::min(r + blocksize, img.rows)),
+				    cv::Range(
+					c, cv::min(c + blocksize, img.cols)));
 				maskB1 = maskim(
-				    Range(r, min(r + blocksize, maskim.rows)),
-				    Range(c, min(c + blocksize, maskim.cols)));
+				    cv::Range(
+					r, cv::min(r + blocksize, maskim.rows)),
+				    cv::Range(c,
+					cv::min(c + blocksize, maskim.cols)));
 				maskBseg.at<uint8_t>(br, bc) = allfun(maskB1);
 				covcoef(im_roi, cova, covb, covc,
 				    CENTERED_DIFFERENCES);
@@ -143,15 +145,15 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		// 'BorderSize', [border border], 'TrimBorder', false); add a
 		// border of zeros around the blkorient array, since the matlab
 		// blockproc function pads with zeros at the edges.
-		Mat paddedBlkorient;
-		copyMakeBorder(
-		    blkorient, paddedBlkorient, 1, 1, 1, 1, BORDER_CONSTANT, 0);
+		cv::Mat paddedBlkorient;
+		cv::copyMakeBorder(blkorient, paddedBlkorient, 1, 1, 1, 1,
+		    cv::BORDER_CONSTANT, 0);
 
 		// for each point in the original blkorient array, compute the
 		// orientation angle difference with its immediate neighbors all
 		// around.
 
-		Mat loqall(blkorient.rows, blkorient.cols, CV_64F);
+		cv::Mat loqall(blkorient.rows, blkorient.cols, CV_64F);
 		const double bsize = 9; // The center point plus its immediate
 					// neighbors forms a 3x3 block
 
@@ -159,14 +161,16 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 			for (int j = 1; j <= blkorient.cols; j++) {
 				// remember: OpenCV ranges are open-ended on the
 				// upper end
-				Mat blkROI = paddedBlkorient(
-				    Range(i - 1, i + 2), Range(j - 1, j + 2));
+				cv::Mat blkROI = paddedBlkorient(
+				    cv::Range(i - 1, i + 2),
+				    cv::Range(j - 1, j + 2));
 				// Subtract the input block from the center
 				// value and get its absolute value.
-				Mat blockAbsDiff;
-				Scalar centerVal = blkROI.at<double>(1, 1);
+				cv::Mat blockAbsDiff;
+				cv::Scalar centerVal = blkROI.at<double>(1, 1);
 				absdiff(centerVal, blkROI, blockAbsDiff);
-				Scalar loq = sum(blockAbsDiff) / (bsize - 1);
+				cv::Scalar loq = sum(blockAbsDiff) /
+				    (bsize - 1);
 				loqall.at<double>(i - 1, j - 1) = loq.val[0];
 			}
 		}
@@ -183,14 +187,15 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		// which the anglediff was computed % is in background, exclude
 		// whole window from comp. maskBloqseg =
 		// logical(blkproc(maskBseg, [1 1], [border border], allfun));
-		Mat paddedMaskBseg;
-		copyMakeBorder(
-		    maskBseg, paddedMaskBseg, 1, 1, 1, 1, BORDER_CONSTANT, 0);
-		Mat maskBloqseg(maskBseg.rows, maskBseg.cols, CV_8UC1);
+		cv::Mat paddedMaskBseg;
+		cv::copyMakeBorder(maskBseg, paddedMaskBseg, 1, 1, 1, 1,
+		    cv::BORDER_CONSTANT, 0);
+		cv::Mat maskBloqseg(maskBseg.rows, maskBseg.cols, CV_8UC1);
 		for (int i = 1; i <= maskBseg.rows; i++) {
 			for (int j = 1; j <= maskBseg.cols; j++) {
-				Mat blkROI = paddedMaskBseg(
-				    Range(i - 1, i + 2), Range(j - 1, j + 2));
+				cv::Mat blkROI = paddedMaskBseg(
+				    cv::Range(i - 1, i + 2),
+				    cv::Range(j - 1, j + 2));
 				maskBloqseg.at<uint8_t>(i - 1, j - 1) = allfun(
 				    blkROI);
 			}
@@ -201,13 +206,13 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 
 		// % (angle) mask - only blocks with angle change > angmin
 		// maskBang = loqall > angmin;
-		Mat maskBang = loqall > angmin;
+		cv::Mat maskBang = loqall > angmin;
 		// % (local orientation quality) mask of FOREGROUND blocks >
 		// angmin deg maskBloq = maskBang & maskBloqseg;
-		Mat maskBloq = maskBang & maskBloqseg;
+		cv::Mat maskBloq = maskBang & maskBloqseg;
 		// % map of local orientation quality scores
 		// loqs(maskBloq) = (loqall(maskBloq) - angmin) ./ angdiff;
-		Mat loqs = Mat::zeros(loqall.rows, loqall.cols, CV_64F);
+		cv::Mat loqs = cv::Mat::zeros(loqall.rows, loqall.cols, CV_64F);
 		for (int i = 0; i < loqall.rows; i++) {
 			for (int j = 0; j < loqall.cols; j++) {
 				if (maskBloq.at<uint8_t>(i, j) == 1) {
@@ -226,7 +231,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		// = mean(loqs(maskBloqseg)); orientationFlow = 1 - goqs; %NOTE
 		// verify: maskBloqseg == true
 		//  int totalNonZero = countNonZero(loqs);
-		Scalar goqs = mean(loqs, maskBloqseg);
+		cv::Scalar goqs = mean(loqs, maskBloqseg);
 		double OfScore = 0.0;
 		if (goqs.val[0] > 0) {
 			OfScore = 1.0 - goqs.val[0];

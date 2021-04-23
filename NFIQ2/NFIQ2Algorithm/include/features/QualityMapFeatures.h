@@ -4,11 +4,7 @@
 #include <features/BaseFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/features2d/features2d.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/core.hpp>
 
 #include "ImgProcROIFeature.h"
 

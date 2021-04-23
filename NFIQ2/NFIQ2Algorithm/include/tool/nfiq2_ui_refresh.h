@@ -15,8 +15,7 @@
 #include <be_io_utility.h>
 #include <nfiq2_modelinfo.hpp>
 #include <nfiq2_nfiq2algorithm.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/opencv.hpp>
+#include <opencv2/core.hpp>
 
 #include "nfiq2_ui_log.h"
 #include "nfiq2_ui_types.h"

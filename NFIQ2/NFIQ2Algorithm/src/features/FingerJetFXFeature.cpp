@@ -2,7 +2,10 @@
 #include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_timer.hpp>
 
+#include <cstring>
+#include <memory>
 #include <sstream>
+#include <tuple>
 
 NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
     const NFIQ::FingerprintImageData &fingerprintImage)

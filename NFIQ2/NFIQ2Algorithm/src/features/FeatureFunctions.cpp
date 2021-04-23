@@ -1,7 +1,6 @@
 #include <features/FeatureFunctions.h>
 #include <nfiq2_nfiqexception.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 #include <cmath>
 #include <cstring>
@@ -9,7 +8,6 @@
 
 static const int maxSampleCount = 50;
 
-using namespace cv;
 /***
 From the matlab code:
 % RIDGESEGMENT - Normalises fingerprint image and segments ridge region
@@ -28,21 +26,22 @@ From the matlab code:
 ***/
 
 void
-NFIQ::QualityFeatures::ridgesegment(const Mat &img, int blksze, double thresh,
-    OutputArray _normImage, Mat &maskImage, OutputArray _maskIndex)
+NFIQ::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
+    double thresh, cv::OutputArray _normImage, cv::Mat &maskImage,
+    cv::OutputArray _maskIndex)
 
 {
 	/***Convert the input image to double.
 	Matlab: im = double(im);
 	***/
-	Mat double_im;
+	cv::Mat double_im;
 	img.convertTo(double_im, CV_64F);
 
 	/***Normalize the image to have zero mean, unit standard deviation
 	Matlab: im = (im-mean(im(:))) ./ std(im(:));
 	***/
-	Scalar imMean = 0, imStd = 0;
-	meanStdDev(double_im, imMean, imStd, noArray());
+	cv::Scalar imMean = 0, imStd = 0;
+	cv::meanStdDev(double_im, imMean, imStd, cv::noArray());
 	double_im = (double_im - imMean.val[0]) / imStd.val[0];
 	/***For each block in the image, compute the standard deviation. Replace
 	each element of the block with its standard deviation value. Matlab: fun
@@ -50,17 +49,17 @@ NFIQ::QualityFeatures::ridgesegment(const Mat &img, int blksze, double thresh,
 	blksze], fun);
 	***/
 
-	Mat stddevim = double_im.clone();
-	Mat im_roi;
+	cv::Mat stddevim = double_im.clone();
+	cv::Mat im_roi;
 
 	for (int r = 0; r < stddevim.rows; r += blksze) {
 		for (int c = 0; c < stddevim.cols; c += blksze) {
-			// Range is open-ended on the upper end: r <= i < r +
-			// blksze
+			// cv::Range is open-ended on the upper end: r <= i < r
+			// + blksze
 			im_roi = stddevim(
-			    Range(r, min(r + blksze, stddevim.rows)),
-			    Range(c, min(c + blksze, stddevim.cols)));
-			meanStdDev(im_roi, imMean, imStd, noArray());
+			    cv::Range(r, cv::min(r + blksze, stddevim.rows)),
+			    cv::Range(c, cv::min(c + blksze, stddevim.cols)));
+			cv::meanStdDev(im_roi, imMean, imStd, cv::noArray());
 			im_roi = imStd.val[0];
 		}
 	}
@@ -89,18 +88,18 @@ NFIQ::QualityFeatures::ridgesegment(const Mat &img, int blksze, double thresh,
 			}
 		}
 		_maskIndex.create(1, maskIndex.size(), CV_32SC1);
-		_maskIndex.getMat() = Mat(maskIndex);
+		_maskIndex.getMat() = cv::Mat(maskIndex);
 	}
 
 	if (_normImage.needed()) {
 		_normImage.create(double_im.size(), double_im.type());
-		Mat normImage = _normImage.getMat();
+		cv::Mat normImage = _normImage.getMat();
 
 		/***Renormalise image so that the *ridge regions* have zero
 		mean, unit standard deviation. Matlab: im = im -
 		mean(im(maskind)); normim = im/std(im(maskind));
 		***/
-		meanStdDev(double_im, imMean, imStd, maskImage);
+		cv::meanStdDev(double_im, imMean, imStd, maskImage);
 		normImage = (double_im - imMean.val[0]) / imStd.val[0];
 	}
 
@@ -145,8 +144,8 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 	comMethod parameter controls which gradient estimation method is used.
 	***/
 
-	Mat dfx, dfy, dfxT;
-	Mat doubleIm;
+	cv::Mat dfx, dfy, dfxT;
+	cv::Mat doubleIm;
 
 	imblock.convertTo(doubleIm, CV_64F);
 
@@ -160,10 +159,10 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 	} else // Sobel operator
 	{
 		try {
-			Sobel(doubleIm, dfx, CV_64F, 1, 0, 3, 1, 0,
-			    BORDER_REFLECT_101);
-			Sobel(doubleIm, dfy, CV_64F, 0, 1, 3, 1, 0,
-			    BORDER_REFLECT_101);
+			cv::Sobel(doubleIm, dfx, CV_64F, 1, 0, 3, 1, 0,
+			    cv::BORDER_REFLECT_101);
+			cv::Sobel(doubleIm, dfy, CV_64F, 0, 1, 3, 1, 0,
+			    cv::BORDER_REFLECT_101);
 		} catch (const cv::Exception &e) {
 			std::stringstream ssErr;
 			ssErr << "Call to OpenCV Sobel operator function "
@@ -178,18 +177,18 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 	a = mean(fx(:).^2);
 	b = mean(fy(:).^2);
 	*/
-	Scalar fxMean, fyMean, ProdMean;
-	Mat dfx2 = dfx.mul(dfx);
-	fxMean = mean(dfx2);
-	Mat dfy2 = dfy.mul(dfy);
-	fyMean = mean(dfy2);
+	cv::Scalar fxMean, fyMean, ProdMean;
+	cv::Mat dfx2 = dfx.mul(dfx);
+	fxMean = cv::mean(dfx2);
+	cv::Mat dfy2 = dfy.mul(dfy);
+	fyMean = cv::mean(dfy2);
 
 	a = fxMean.val[0];
 	b = fyMean.val[0];
 
 	/*Matlab: c = fx.*fy; c = mean(c(:)); (Per-element multiplication) */
-	Mat gradProd = dfx.mul(dfy);
-	ProdMean = mean(gradProd);
+	cv::Mat gradProd = dfx.mul(dfy);
+	ProdMean = cv::mean(gradProd);
 	c = ProdMean.val[0];
 
 	return;
@@ -234,7 +233,7 @@ NFIQ::QualityFeatures::ridgeorient(double a, double b, double c)
 /////////////////////////////////////////////////////////////////////////
 
 uint8_t
-NFIQ::QualityFeatures::allfun(const Mat &Image)
+NFIQ::QualityFeatures::allfun(const cv::Mat &Image)
 /*** Returns 1 if all elements are nonzero, 0 otherwise.
 % Equivalent to matlab:
 % all elements of x should be nonzero, otherwise flag a
@@ -264,7 +263,7 @@ forward differences at the edges and central differences elsewhere.
 Spacing is 1.  The input matrix is assumed to be 64-bit floating point
 */
 void
-NFIQ::QualityFeatures::diffGrad(const Mat &inBlock, Mat &outBlock)
+NFIQ::QualityFeatures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
 {
 	outBlock.create(inBlock.size(), CV_64F);
 
@@ -287,12 +286,12 @@ NFIQ::QualityFeatures::diffGrad(const Mat &inBlock, Mat &outBlock)
 
 //////////////////////////////////////////////////////////////
 void
-NFIQ::QualityFeatures::getRotatedBlock(
-    const Mat &block, const double orientation, bool padFlag, Mat &rotatedBlock)
+NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
+    const double orientation, bool padFlag, cv::Mat &rotatedBlock)
 {
 	const double Rad2Deg = 180.0 / M_PI;
-	Mat rot_mat(2, 3, CV_64F);
-	Mat Inblock;
+	cv::Mat rot_mat(2, 3, CV_64F);
+	cv::Mat Inblock;
 
 	// sanity check: check block size
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
@@ -307,7 +306,8 @@ NFIQ::QualityFeatures::getRotatedBlock(
 	}
 
 	if (padFlag) {
-		copyMakeBorder(block, Inblock, 2, 2, 2, 2, BORDER_CONSTANT, 0);
+		cv::copyMakeBorder(
+		    block, Inblock, 2, 2, 2, 2, cv::BORDER_CONSTANT, 0);
 	} else {
 		Inblock = block;
 	}
@@ -317,11 +317,11 @@ NFIQ::QualityFeatures::getRotatedBlock(
 		//   rad2deg(orientation), 'nearest', 'crop');
 		rotatedBlock.create(block.rows, block.cols, block.type());
 		double orientDegrees = orientation * Rad2Deg;
-		Point2f center(
+		cv::Point2f center(
 		    ((float)Inblock.cols / 2.0f), ((float)Inblock.rows / 2.0f));
 		rot_mat = getRotationMatrix2D(center, orientDegrees, 1);
-		warpAffine(Inblock, rotatedBlock, rot_mat, rotatedBlock.size(),
-		    INTER_NEAREST);
+		cv::warpAffine(Inblock, rotatedBlock, rot_mat,
+		    rotatedBlock.size(), cv::INTER_NEAREST);
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during block rotation: " << e.what();
@@ -333,7 +333,7 @@ NFIQ::QualityFeatures::getRotatedBlock(
 }
 //////////////////////////////////////////////////////////////////////////////
 void
-NFIQ::QualityFeatures::getRidgeValleyStructure(const Mat &blockCropped,
+NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
     std::vector<uint8_t> &ridval, std::vector<double> &dt)
 {
 	// average profile of blockCropped: Compute average of each column to
@@ -342,13 +342,13 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const Mat &blockCropped,
 	//    Note: If A is a matrix, mean(A) treats the columns of A as
 	//    vectors, returning
 	//          a row vector of mean values.
-	Mat v3 = Mat::zeros(blockCropped.cols, 1, CV_64F);
-	Mat blockCol;
-	Scalar colMean;
+	cv::Mat v3 = cv::Mat::zeros(blockCropped.cols, 1, CV_64F);
+	cv::Mat blockCol;
+	cv::Scalar colMean;
 	for (int i = 0; i < blockCropped.cols; i++) {
 		// extract a column from blockCropped
 		blockCol = blockCropped.col(i);
-		colMean = mean(blockCol, noArray());
+		colMean = cv::mean(blockCol, cv::noArray());
 		v3.at<double>(i, 0) = colMean.val[0];
 	}
 
@@ -360,19 +360,19 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const Mat &blockCropped,
 	// % Append a column of ones before dividing to include an intercept,
 	// dt1 = [intercept coefficient]
 	//  dt1 = [ones(length(x),1) x'] \ v3';
-	Mat dttemp(v3.rows, 2, CV_64F);
+	cv::Mat dttemp(v3.rows, 2, CV_64F);
 	for (int i = 0; i < v3.rows; i++) {
 		dttemp.at<double>(i, 0) = 1;
 		dttemp.at<double>(i, 1) = i + 1;
 	}
 
-	Mat dt1;
+	cv::Mat dt1;
 	try {
-		solve(dttemp, v3, dt1, DECOMP_QR);
+		cv::solve(dttemp, v3, dt1, cv::DECOMP_QR);
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during ridge/valley processing: "
-			 "solve(DECOMP_QR) "
+			 "cv::solve(cv::DECOMP_QR) "
 		      << e.what();
 		throw NFIQ::NFIQException(
 		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
@@ -380,19 +380,10 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const Mat &blockCropped,
 
 	// Round to 10 decimal points to preserve score consistency across
 	// platforms (10^10)
-#if CV_MAJOR_VERSION <= 2
-	for (int i = 0; i < dt1.rows; i++) {
-		for (int j = 0; j < dt1.cols; j++) {
-			dt1.at<double>(
-			    i, j) = round(dt1.at<double>(i, j) * 10000000000) /
-			    10000000000;
-		}
-	}
-#else
+
 	dt1.forEach<double>([&](double &val, const int *position) {
 		val = round(val * 10000000000) / 10000000000;
 	});
-#endif /* CV_MAJOR_VERSION */
 
 	//%% Block segmentation into ridge and valley regions
 	//  dt = x*dt1(2) + dt1(1);
@@ -427,7 +418,7 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const Mat &blockCropped,
  */
 void
 NFIQ::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
-    const double freq, const int sigma, Mat &FilterOut)
+    const double freq, const int sigma, cv::Mat &FilterOut)
 {
 	int ks2 = (ksize - 1) / 2;
 	double x1, y1;
@@ -455,8 +446,9 @@ NFIQ::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-NFIQ::QualityFeatures::Conv2D(const Mat &imDFT, const Mat &filter, Mat &ConvOut,
-    const Size &imageSize, const Size &dftSize, bool imDFTFlag)
+NFIQ::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
+    cv::Mat &ConvOut, const cv::Size &imageSize, const cv::Size &dftSize,
+    bool imDFTFlag)
 {
 	int OutType = filter.type();
 	ConvOut.create(imageSize, OutType);
@@ -465,21 +457,22 @@ NFIQ::QualityFeatures::Conv2D(const Mat &imDFT, const Mat &filter, Mat &ConvOut,
 	// compute the DFT of the filter, multiply the two DFTs, then compute
 	// the inverse transform.
 
-	Mat kernTmp(dftSize, filter.type(), Scalar::all(0));
+	cv::Mat kernTmp(dftSize, filter.type(), cv::Scalar::all(0));
 	// Copy the filter to the upper left corner of the tmp array
-	Mat kernROI(kernTmp, Range(0, filter.rows), Range(0, filter.cols));
+	cv::Mat kernROI(
+	    kernTmp, cv::Range(0, filter.rows), cv::Range(0, filter.cols));
 	filter.copyTo(kernROI);
-	dft(kernTmp, kernTmp, DFT_COMPLEX_OUTPUT);
+	cv::dft(kernTmp, kernTmp, cv::DFT_COMPLEX_OUTPUT);
 
 	// Multiply the two DFTs
 	bool conjugateFlag = false;
-	Mat MulOut;
+	cv::Mat MulOut;
 	mulSpectrums(imDFT, kernTmp, MulOut, 0, conjugateFlag);
 
-	Mat invDFT;
-	// Get the inverse DFT
-	dft(MulOut, invDFT, DFT_INVERSE + DFT_SCALE, 0);
-	invDFT(Rect(0, 0, ConvOut.cols, ConvOut.rows)).copyTo(ConvOut);
+	cv::Mat invDFT;
+	// Get the inverse cv::DFT
+	cv::dft(MulOut, invDFT, cv::DFT_INVERSE + cv::DFT_SCALE, 0);
+	invDFT(cv::Rect(0, 0, ConvOut.cols, ConvOut.rows)).copyTo(ConvOut);
 
 	return;
 }
@@ -625,9 +618,9 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 		featureDataList.push_back(result);
 	}
 
-	Mat dataMat(dataVector);
-	Scalar mean, stdDev;
-	meanStdDev(dataMat, mean, stdDev);
+	cv::Mat dataMat(dataVector);
+	cv::Scalar mean, stdDev;
+	cv::meanStdDev(dataMat, mean, stdDev);
 
 	NFIQ::QualityFeatureData meanFD, stdDevFD;
 	NFIQ::QualityFeatureResult meanFR, stdDevFR;

@@ -22,7 +22,6 @@
 #include <nfiq2_nfiq2algorithm.hpp>
 #include <nfiq2_timer.hpp>
 #include <nfir_lib.h>
-#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <tool/nfiq2_ui_exception.h>
 #include <tool/nfiq2_ui_image.h>

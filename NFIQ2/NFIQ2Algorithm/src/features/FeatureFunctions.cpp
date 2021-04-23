@@ -326,7 +326,7 @@ NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 		cv::Point2f center(
 		    ((float)Inblock.cols / 2.0f), ((float)Inblock.rows / 2.0f));
 		rot_mat = getRotationMatrix2D(center, orientDegrees, 1);
-		warpAffine(Inblock, rotatedBlock, rot_mat, rotatedBlock.size(),
+		cv::warpAffine(Inblock, rotatedBlock, rot_mat, rotatedBlock.size(),
 		    cv::INTER_NEAREST);
 	} catch (cv::Exception &e) {
 		std::stringstream ssErr;

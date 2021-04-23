@@ -2,6 +2,7 @@
 #include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_timer.hpp>
 
+#include <cstring>
 #include <memory>
 #include <sstream>
 #include <tuple>

@@ -3,7 +3,8 @@
 int debug = 0;
 
 #include <opencv2/imgproc.hpp>
-#include <string.h>
+
+#include <cstring>
 
 static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);
 static double computeMuFromColumn(unsigned int columnIndex, cv::Mat &img);

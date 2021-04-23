@@ -110,12 +110,15 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 			     c < cols - (blksize + blkoffset - 1);
 			     c += blksize) {
 				im_roi = img(
-				    cv::Range(r, min(r + blksize, img.rows)),
-				    cv::Range(c, min(c + blksize, img.cols)));
-				maskB1 = maskim(
-				    cv::Range(r, min(r + blksize, maskim.rows)),
 				    cv::Range(
-					c, min(c + blksize, maskim.cols)));
+					r, cv::min(r + blksize, img.rows)),
+				    cv::Range(
+					c, cv::min(c + blksize, img.cols)));
+				maskB1 = maskim(
+				    cv::Range(
+					r, cv::min(r + blksize, maskim.rows)),
+				    cv::Range(
+					c, cv::min(c + blksize, maskim.cols)));
 				maskBseg.at<uint8_t>(br, bc) = allfun(maskB1);
 				covcoef(im_roi, cova, covb, covc,
 				    CENTERED_DIFFERENCES);
@@ -126,9 +129,10 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 				// overlapping windows (border = blkoffset)
 				blkwim = img(
 				    cv::Range(r - blkoffset,
-					min(r + blksize + blkoffset, img.rows)),
+					cv::min(
+					    r + blksize + blkoffset, img.rows)),
 				    cv::Range(c - blkoffset,
-					min(c + blksize + blkoffset,
+					cv::min(c + blksize + blkoffset,
 					    img.cols)));
 				if (maskBseg.at<uint8_t>(br, bc) == 1) {
 					rvuhist(blkwim,

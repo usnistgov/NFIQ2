@@ -998,7 +998,7 @@ main(int argc, char **argv)
 	std::shared_ptr<NFIQ::NFIQ2Algorithm> model {};
 	try {
 		model = std::make_shared<NFIQ::NFIQ2Algorithm>(modelInfoObj);
-	} catch (NFIQ::NFIQException &e) {
+	} catch (const NFIQ::NFIQException &e) {
 		std::cerr << "Model could not be constructed. " << e.what()
 			  << "\n";
 		return EXIT_FAILURE;

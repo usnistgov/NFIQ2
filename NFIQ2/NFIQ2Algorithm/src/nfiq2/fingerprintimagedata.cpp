@@ -71,7 +71,7 @@ NFIQ::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 		img = cv::Mat(localFingerprintImage.m_ImageHeight,
 		    localFingerprintImage.m_ImageWidth, CV_8UC1,
 		    (void *)localFingerprintImage.data());
-	} catch (cv::Exception &e) {
+	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();

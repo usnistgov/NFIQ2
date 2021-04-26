@@ -6,33 +6,34 @@
 #include <cmath>
 #include <sstream>
 
-NFIQ::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
-    const NFIQ::FingerprintImageData &fingerprintImage,
+NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
+    const NFIQ2::FingerprintImageData &fingerprintImage,
     const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
     : imgProcResults_ { imgProcResults }
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
+NFIQ2::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
 
 const std::string
-    NFIQ::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
+    NFIQ2::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
 	"Quality map";
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
-	NFIQ::Timer timer;
+	NFIQ2::Timer timer;
 	timer.start();
 
 	cv::Mat img;
@@ -45,8 +46,8 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
 	try {
@@ -63,27 +64,27 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		    this->imgProcResults_);
 
 		// return features based on coherence values of orientation map
-		NFIQ::QualityFeatureData fd_om_2;
+		NFIQ2::QualityFeatureData fd_om_2;
 		fd_om_2.featureID = "OrientationMap_ROIFilter_CoherenceRel";
-		fd_om_2.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+		fd_om_2.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_om_2.featureDataDouble = coherenceRelFilter;
-		NFIQ::QualityFeatureResult res_om_2;
+		NFIQ2::QualityFeatureResult res_om_2;
 		res_om_2.featureData = fd_om_2;
 		res_om_2.returnCode = 0;
 
 		featureDataList.push_back(res_om_2);
 
-		NFIQ::QualityFeatureData fd_om_1;
+		NFIQ2::QualityFeatureData fd_om_1;
 		fd_om_1.featureID = "OrientationMap_ROIFilter_CoherenceSum";
-		fd_om_1.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+		fd_om_1.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_om_1.featureDataDouble = coherenceSumFilter;
-		NFIQ::QualityFeatureResult res_om_1;
+		NFIQ2::QualityFeatureResult res_om_1;
 		res_om_1.featureData = fd_om_1;
 		res_om_1.returnCode = 0;
 
 		featureDataList.push_back(res_om_1);
 
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = QualityMapFeatures::speedFeatureIDGroup;
 		speed.featureIDs.push_back(
 		    "OrientationMap_ROIFilter_CoherenceSum");
@@ -95,9 +96,9 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute orientation map: " << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	}
 
@@ -105,7 +106,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeFeatureData(
 }
 
 cv::Mat
-NFIQ::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
+NFIQ2::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
     bool bFilterByROI, double &coherenceSum, double &coherenceRel,
     unsigned int bs, ImgProcROIFeature::ImgProcROIResults roiResults)
 {
@@ -219,7 +220,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 }
 
 bool
-NFIQ::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
+NFIQ2::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
     const cv::Mat &block, double &angle, double &coherence)
 {
 	// compute the numerical gradients of the block
@@ -280,7 +281,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
 }
 
 cv::Mat
-NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
+NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
     const cv::Mat &mat)
 {
 	cv::Mat out(mat.rows, mat.cols, CV_64F, cv::Scalar(0));
@@ -302,7 +303,7 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
 }
 
 void
-NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
+NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
@@ -312,17 +313,17 @@ NFIQ::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
 	grad_y = computeNumericalGradientX(mat.t()).t();
 }
 
-const std::string NFIQ::QualityFeatures::QualityMapFeatures::moduleName {
+const std::string NFIQ2::QualityFeatures::QualityMapFeatures::moduleName {
 	"NFIQ2_QualityMap"
 };
 std::string
-NFIQ::QualityFeatures::QualityMapFeatures::getModuleName() const
+NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
+NFIQ2::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back("OrientationMap_ROIFilter_CoherenceRel");

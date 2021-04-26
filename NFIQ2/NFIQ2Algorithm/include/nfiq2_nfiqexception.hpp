@@ -4,7 +4,7 @@
 #include <exception>
 #include <string>
 
-namespace NFIQ {
+namespace NFIQ2 {
 /**
  * This type represents error codes defined within this framework.
  */

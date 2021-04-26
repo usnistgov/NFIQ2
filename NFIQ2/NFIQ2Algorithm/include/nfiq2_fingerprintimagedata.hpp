@@ -5,7 +5,7 @@
 
 #define MU_THRESHOLD 250
 
-namespace NFIQ {
+namespace NFIQ2 {
 
 /**
  * This type represents the resolution of an image (in dpi)
@@ -76,7 +76,7 @@ class FingerprintImageData : public Data {
 	 * @return The cropped/segmented fingerprint image in raw format.
 	 * @throws NFIQException
 	 */
-	NFIQ::FingerprintImageData removeWhiteFrameAroundFingerprint() const;
+	NFIQ2::FingerprintImageData removeWhiteFrameAroundFingerprint() const;
 };
 } // namespace NFIQ
 

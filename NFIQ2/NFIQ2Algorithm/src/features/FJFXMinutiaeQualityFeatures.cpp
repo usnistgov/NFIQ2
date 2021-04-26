@@ -5,8 +5,8 @@
 
 #include <sstream>
 
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage,
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
     const bool templateCouldBeExtracted)
     : minutiaData_ { minutiaData }
@@ -15,19 +15,19 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
 	this->setFeatures(computeFeatureData(fingerprintImage));
 };
 
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::
     ~FJFXMinutiaeQualityFeature() = default;
 
 const std::string
-    NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
+    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
 	"Minutiae quality";
 
-std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
+std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
 {
 	if (!this->templateCouldBeExtracted_) {
 		// This should never be reached but is here for consistency
-		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
 			"Template could not be extracted." };
 	}
 
@@ -35,31 +35,31 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
 }
 
 bool
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getTemplateStatus() const
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getTemplateStatus() const
 {
 	return (this->templateCouldBeExtracted_);
 }
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
-	std::vector<NFIQ::QualityFeatureResult> vecResultMuMinQuality;
-	NFIQ::QualityFeatureData fd_mu;
+	std::vector<NFIQ2::QualityFeatureResult> vecResultMuMinQuality;
+	NFIQ2::QualityFeatureData fd_mu;
 	fd_mu.featureID = "FJFXPos_Mu_MinutiaeQuality_2";
-	fd_mu.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+	fd_mu.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_mu.featureDataDouble = -1;
-	NFIQ::QualityFeatureResult res_mu;
+	NFIQ2::QualityFeatureResult res_mu;
 	res_mu.featureData = fd_mu;
 	res_mu.returnCode = 0;
 
-	NFIQ::QualityFeatureData fd_ocl;
+	NFIQ2::QualityFeatureData fd_ocl;
 	fd_ocl.featureID = "FJFXPos_OCL_MinutiaeQuality_80";
-	fd_ocl.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+	fd_ocl.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_ocl.featureDataDouble = -1;
-	NFIQ::QualityFeatureResult res_ocl;
+	NFIQ2::QualityFeatureResult res_ocl;
 	res_ocl.featureData = fd_ocl;
 	res_ocl.returnCode = 0;
 
@@ -73,7 +73,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		featureDataList.push_back(res_ocl);
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup =
 		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
@@ -85,7 +85,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	}
 
 	try {
-		NFIQ::Timer timer;
+		NFIQ2::Timer timer;
 		timer.start();
 
 		// compute minutiae quality based on Mu feature computated at
@@ -156,7 +156,7 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		featureDataList.push_back(res_ocl);
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup =
 		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
@@ -168,12 +168,13 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute FJFX based minutiae quality features: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -181,17 +182,17 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 }
 
 const std::string
-    NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::moduleName {
+    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::moduleName {
 	    "NFIQ2_FJFXPos_MinutiaeQuality"
     };
 std::string
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
@@ -199,9 +200,9 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-std::vector<NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
-    int bs, const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
+    int bs, const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
 
@@ -254,9 +255,9 @@ NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	return vecMinData;
 }
 
-std::vector<NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
-    int bs, const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
+    int bs, const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
 

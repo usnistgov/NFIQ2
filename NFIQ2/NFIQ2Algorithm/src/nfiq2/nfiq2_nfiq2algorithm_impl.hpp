@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ {
+namespace NFIQ2 {
 /**
 ******************************************************************************
 * @class Impl
@@ -50,7 +50,7 @@ class NFIQ2Algorithm::Impl {
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(
-	    const NFIQ::FingerprintImageData &rawImage) const;
+	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @fn computeQualityScore
@@ -61,7 +61,7 @@ class NFIQ2Algorithm::Impl {
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>> &features)
+	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
 	    const;
 
 	/**
@@ -72,7 +72,7 @@ class NFIQ2Algorithm::Impl {
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(
-	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 		&features) const;
 
 	/**
@@ -90,13 +90,13 @@ class NFIQ2Algorithm::Impl {
 	 * Failure to compute (OpenCV reason contained within message string).
 	 */
 	double getQualityPrediction(
-	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 		&features) const;
 
-	NFIQ::Prediction::RandomForestML m_RandomForestML;
+	NFIQ2::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};
 };
-} // namespace NFIQ
+} // namespace NFIQ2
 
 #endif
 

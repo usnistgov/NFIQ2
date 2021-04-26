@@ -72,12 +72,12 @@ class Log {
 	void printScore(const std::string &name, uint8_t fingerCode,
 	    unsigned int score, const std::string &errmsg, const bool quantized,
 	    const bool resampled,
-	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 		&features,
-	    const std::unordered_map<std::string, NFIQ::QualityFeatureSpeed>
+	    const std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
 		&speed,
 	    const std::unordered_map<std::string,
-		NFIQ::ActionableQualityFeedback> &actionable) const;
+		NFIQ2::ActionableQualityFeedback> &actionable) const;
 
 	/**
 	 *  @brief
@@ -201,6 +201,22 @@ class Log {
 	/** Used if a specified file will be the output stream */
 	std::ofstream logFile {};
 };
+
+/**
+ *  @brief
+ *  Sanitizes input before being sent to the output buffer.
+ *
+ *  @details
+ *  Since this tool produces a CSV output, sanitizing new lines and quotes
+ *	is critical
+ *
+ *  @param[in] errorMsg
+ *    The string to be sanitized
+ *
+ *  @return
+ *    The sanitized error message string
+ */
+std::string sanitizeErrorMsg(const std::string &errorMsg);
 
 } // namespace NFIQ2UI
 

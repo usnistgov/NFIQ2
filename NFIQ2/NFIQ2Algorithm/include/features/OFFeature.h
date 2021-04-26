@@ -14,14 +14,14 @@
 * @brief NFIQ2 Orientation Flow Quality Feature
 ******************************************************************************/
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 static double OFHISTLIMITS[9] = { 1.715e-2, 3.5e-2, 5.57e-2, 8.1e-2, 1.15e-1,
 	1.718e-1, 2.569e-1, 4.758e-1, 7.48e-1 };
 
 class OFFeature : public BaseFeature {
     public:
-	OFFeature(const NFIQ::FingerprintImageData &fingerprintImage);
+	OFFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~OFFeature();
 
 	std::string getModuleName() const override;
@@ -31,8 +31,8 @@ class OFFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	/** Processing is done in subblocks of this size. */
 	const int blocksize { 16 };

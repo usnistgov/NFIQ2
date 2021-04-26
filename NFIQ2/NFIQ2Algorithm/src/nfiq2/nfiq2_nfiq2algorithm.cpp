@@ -4,51 +4,51 @@
 #include "nfiq2_nfiq2algorithm_impl.hpp"
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ::NFIQ2Algorithm::NFIQ2Algorithm()
-    : pimpl { new NFIQ::NFIQ2Algorithm::Impl() }
+NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm()
+    : pimpl { new NFIQ2::NFIQ2Algorithm::Impl() }
 {
 }
 #endif
 
-NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(
+NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm(
     const std::string &fileName, const std::string &fileHash)
-    : pimpl { new NFIQ::NFIQ2Algorithm::Impl(fileName, fileHash) }
+    : pimpl { new NFIQ2::NFIQ2Algorithm::Impl(fileName, fileHash) }
 {
 }
 
-NFIQ::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj)
-    : NFIQ::NFIQ2Algorithm { modelInfoObj.getModelPath(),
+NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm(const NFIQ2::ModelInfo &modelInfoObj)
+    : NFIQ2::NFIQ2Algorithm { modelInfoObj.getModelPath(),
 	    modelInfoObj.getModelHash() }
 {
 }
 
 unsigned int
-NFIQ::NFIQ2Algorithm::computeQualityScore(
-    const NFIQ::FingerprintImageData &rawImage) const
+NFIQ2::NFIQ2Algorithm::computeQualityScore(
+    const NFIQ2::FingerprintImageData &rawImage) const
 {
 	return (this->pimpl->computeQualityScore(rawImage));
 }
 
 unsigned int
-NFIQ::NFIQ2Algorithm::computeQualityScore(
-    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+NFIQ2::NFIQ2Algorithm::computeQualityScore(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features) const
 {
 	return (this->pimpl->computeQualityScore(features));
 }
 
 unsigned int
-NFIQ::NFIQ2Algorithm::computeQualityScore(
-    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features)
+NFIQ2::NFIQ2Algorithm::computeQualityScore(
+    const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features)
     const
 {
 	return (this->pimpl->computeQualityScore(features));
 }
 
 std::string
-NFIQ::NFIQ2Algorithm::getParameterHash() const
+NFIQ2::NFIQ2Algorithm::getParameterHash() const
 {
 	return (this->pimpl->getParameterHash());
 }
 
-NFIQ::NFIQ2Algorithm::~NFIQ2Algorithm() = default;
+NFIQ2::NFIQ2Algorithm::~NFIQ2Algorithm() = default;

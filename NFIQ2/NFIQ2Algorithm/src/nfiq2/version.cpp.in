@@ -5,20 +5,20 @@
 #include "opencv2/core/version.hpp"
 #include <string>
 
-const unsigned int NFIQ::Version::Major = @NFIQ2_VERSION_MAJOR@;
-const unsigned int NFIQ::Version::Minor = @NFIQ2_VERSION_MINOR@;
-const unsigned int NFIQ::Version::Patch = @NFIQ2_VERSION_PATCH@;
+const unsigned int NFIQ2::Version::Major = @NFIQ2_VERSION_MAJOR@;
+const unsigned int NFIQ2::Version::Minor = @NFIQ2_VERSION_MINOR@;
+const unsigned int NFIQ2::Version::Patch = @NFIQ2_VERSION_PATCH@;
 
-const std::string NFIQ::Version::Full = "@NFIQ2_VERSION_FULL@";
-const std::string NFIQ::Version::Pretty = "@NFIQ2_VERSION@";
-const std::string NFIQ::Version::Status = "@NFIQ2_VERSION_STATUS@";
-const std::string NFIQ::Version::BuildDate = "@NFIQ2_BUILD_DATE@";
-const std::string NFIQ::Version::Commit = "@NFIQ2_VERSION_COMMIT@";
+const std::string NFIQ2::Version::Full = "@NFIQ2_VERSION_FULL@";
+const std::string NFIQ2::Version::Pretty = "@NFIQ2_VERSION@";
+const std::string NFIQ2::Version::Status = "@NFIQ2_VERSION_STATUS@";
+const std::string NFIQ2::Version::BuildDate = "@NFIQ2_BUILD_DATE@";
+const std::string NFIQ2::Version::Commit = "@NFIQ2_VERSION_COMMIT@";
 
-const std::string NFIQ::Version::OpenCV = CV_VERSION;
+const std::string NFIQ2::Version::OpenCV = CV_VERSION;
 
 std::string
-NFIQ::Version::FingerJet()
+NFIQ2::Version::FingerJet()
 {
 	FRFXLL_VERSION v {};
 	FRFXLLGetLibraryVersion(&v);

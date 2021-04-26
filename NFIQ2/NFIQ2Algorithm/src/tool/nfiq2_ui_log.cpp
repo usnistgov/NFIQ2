@@ -44,14 +44,15 @@ void
 NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     unsigned int score, const std::string &errmsg, const bool quantized,
     const bool resampled,
-    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features,
-    const std::unordered_map<std::string, NFIQ::QualityFeatureSpeed> &speed,
-    const std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
+    const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features,
+    const std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed> &speed,
+    const std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
 	&actionable) const
 {
 	*(this->out) << "\"" << name << "\""
 		     << "," << std::to_string(fingerCode) << "," << score << ","
-		     << errmsg << "," << quantized << "," << resampled;
+		     << NFIQ2UI::sanitizeErrorMsg(errmsg) << "," << quantized
+		     << "," << resampled;
 	if (this->actionable || this->verbose || this->speed) {
 		*(this->out) << ",";
 	}
@@ -59,7 +60,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 	// Print out actionable first
 	if (this->actionable) {
 		const auto actionableIDs =
-		    NFIQ::QualityFeatures::getAllActionableIdentifiers();
+		    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
 		for (const auto &i : actionableIDs) {
 			if (i != actionableIDs.front()) {
 				*(this->out) << ",";
@@ -75,7 +76,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	if (this->verbose) {
 		const auto featureIDs =
-		    NFIQ::QualityFeatures::getAllQualityFeatureIDs();
+		    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
 		for (const auto &i : featureIDs) {
 			if (i != featureIDs.front()) {
 				*(this->out) << ",";
@@ -91,7 +92,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	if (this->speed) {
 		const auto speedIDs =
-		    NFIQ::QualityFeatures::getAllSpeedFeatureGroups();
+		    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
 		for (const auto &i : speedIDs) {
 			if (i != speedIDs.front()) {
 				*(this->out) << ",";
@@ -145,7 +146,7 @@ NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
 	*(this->out) << "\"" << name << "\""
 		     << "," << std::to_string(fingerCode) << "," << errscore
 		     << ","
-		     << "\"" << errmsg << "\""
+		     << "\"" << NFIQ2UI::sanitizeErrorMsg(errmsg) << "\""
 		     << "," << quantized << "," << resampled << padNA() << "\n";
 }
 
@@ -169,7 +170,7 @@ NFIQ2UI::Log::printSingle(unsigned int qualityScore) const
 void
 NFIQ2UI::Log::printSingleError(const std::string &errmsg) const
 {
-	*(this->out) << errmsg << "\n";
+	*(this->out) << NFIQ2UI::sanitizeErrorMsg(errmsg) << "\n";
 }
 
 // Prints output from Multi-threaded operations
@@ -209,7 +210,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->actionable) {
 		std::vector<std::string> vHeaders =
-		    NFIQ::QualityFeatures::getAllActionableIdentifiers();
+		    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -225,7 +226,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->verbose) {
 		std::vector<std::string> vHeaders =
-		    NFIQ::QualityFeatures::getAllQualityFeatureIDs();
+		    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -241,7 +242,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->speed) {
 		std::vector<std::string> sHeaders =
-		    NFIQ::QualityFeatures::getAllSpeedFeatureGroups();
+		    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
 
 		for (auto it = sHeaders.begin(); it != sHeaders.end(); ++it) {
 			if (it != sHeaders.begin()) {
@@ -257,4 +258,29 @@ NFIQ2UI::Log::printCSVHeader() const
 NFIQ2UI::Log::~Log()
 {
 	this->out = nullptr;
+}
+
+// Sanitize invalid characters from error messages
+std::string
+NFIQ2UI::sanitizeErrorMsg(const std::string &errorMsg)
+{
+	std::string sanitized { errorMsg };
+
+	auto it = sanitized.begin();
+	while ((it = std::find_if_not(sanitized.begin(), sanitized.end(),
+		    [](const char &c) -> bool {
+			    return (std::isgraph(c) || c == ' ');
+		    })) != sanitized.end()) {
+		sanitized.replace(it, std::next(it), " ");
+	}
+
+	static const std::string from { "\"" };
+	static const std::string to { "'" };
+	std::string::size_type position { 0 };
+	while (
+	    (position = sanitized.find(from, position)) != std::string::npos) {
+		sanitized.replace(position, from.length(), to);
+		position += to.length();
+	}
+	return sanitized;
 }

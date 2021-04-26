@@ -11,27 +11,28 @@ void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
-NFIQ::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
+NFIQ2::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
 
 const std::string
-    NFIQ::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =
+    NFIQ2::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =
 	"Ridge valley uniformity";
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -45,15 +46,15 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
 	// ----------
 	// compute RVU
 	// ----------
 
-	NFIQ::Timer timerRVU;
+	NFIQ2::Timer timerRVU;
 	double timeRVU = 0.0;
 	try {
 		timerRVU.start();
@@ -156,7 +157,7 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 
 		timeRVU = timerRVU.stop();
 
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup =
 		    RVUPHistogramFeature::speedFeatureIDGroup;
 
@@ -168,29 +169,30 @@ NFIQ::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute RVU: " << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 	return featureDataList;
 }
 
-const std::string NFIQ::QualityFeatures::RVUPHistogramFeature::moduleName {
+const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::moduleName {
 	"NFIQ2_RVUPHistogram"
 };
 
 std::string
-NFIQ::QualityFeatures::RVUPHistogramFeature::getModuleName() const
+NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 {
 	return "NFIQ2_RVUPHistogram";
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "RVUP_Bin10_", 10);
@@ -235,8 +237,8 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		throw NFIQ::NFIQException {
-			NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException {
+			NFIQ2::e_Error_FeatureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'
@@ -244,7 +246,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 	}
 
 	cv::Mat blockRotated;
-	NFIQ::QualityFeatures::getRotatedBlock(
+	NFIQ2::QualityFeatures::getRotatedBlock(
 	    block, orientation, padFlag, blockRotated);
 
 	//% set x and y
@@ -265,7 +267,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	NFIQ::QualityFeatures::getRidgeValleyStructure(
+	NFIQ2::QualityFeatures::getRidgeValleyStructure(
 	    blockCropped, ridval, dt);
 
 	// Ridge-valley thickness

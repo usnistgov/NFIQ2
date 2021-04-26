@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 class ImgProcROIFeature : public BaseFeature {
     public:
@@ -35,7 +35,7 @@ class ImgProcROIFeature : public BaseFeature {
 		double stdDevOfROIPixels {};
 	};
 
-	ImgProcROIFeature(const NFIQ::FingerprintImageData &fingerprintImage);
+	ImgProcROIFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~ImgProcROIFeature();
 
 	std::string getModuleName() const override;
@@ -46,14 +46,14 @@ class ImgProcROIFeature : public BaseFeature {
 
 	static ImgProcROIResults computeROI(cv::Mat &img, unsigned int bs);
 
-	/** @throw NFIQ::NFIQException
+	/** @throw NFIQ2::NFIQException
 	 * Img Proc Results could not be computed.
 	 */
 	ImgProcROIResults getImgProcResults();
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	ImgProcROIResults imgProcResults_ {};
 	bool imgProcComputed_ { false };

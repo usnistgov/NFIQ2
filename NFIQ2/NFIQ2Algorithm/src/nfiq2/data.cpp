@@ -3,31 +3,31 @@
 #include <iomanip>
 #include <sstream>
 
-NFIQ::Data::Data()
+NFIQ2::Data::Data()
 {
 }
 
-NFIQ::Data::Data(const uint8_t *pData, uint32_t dataSize)
+NFIQ2::Data::Data(const uint8_t *pData, uint32_t dataSize)
     : std::basic_string<uint8_t>(pData, dataSize)
 {
 }
 
-NFIQ::Data::Data(const Data &otherData)
+NFIQ2::Data::Data(const Data &otherData)
     : std::basic_string<uint8_t>(otherData)
 {
 }
 
-NFIQ::Data::Data(const std::basic_string<uint8_t> &otherData)
+NFIQ2::Data::Data(const std::basic_string<uint8_t> &otherData)
     : std::basic_string<uint8_t>(otherData)
 {
 }
 
-NFIQ::Data::~Data()
+NFIQ2::Data::~Data()
 {
 }
 
 void
-NFIQ::Data::writeToFile(const std::string &filename) const
+NFIQ2::Data::writeToFile(const std::string &filename) const
 {
 	bool success = false;
 	if (!filename.empty()) {
@@ -40,17 +40,17 @@ NFIQ::Data::writeToFile(const std::string &filename) const
 					    // incomplete or failed
 			f.close();
 		} else {
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_CannotWriteToFile);
+			throw NFIQ2::NFIQException(
+			    NFIQ2::e_Error_CannotWriteToFile);
 		}
 	}
 	if (!success) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_CannotWriteToFile);
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_CannotWriteToFile);
 	}
 }
 
 void
-NFIQ::Data::readFromFile(const std::string &filename)
+NFIQ2::Data::readFromFile(const std::string &filename)
 {
 	bool success = false;
 	if (!filename.empty()) {
@@ -78,20 +78,20 @@ NFIQ::Data::readFromFile(const std::string &filename)
 				success = true;
 			}
 		} else {
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_CannotReadFromFile);
+			throw NFIQ2::NFIQException(
+			    NFIQ2::e_Error_CannotReadFromFile);
 		}
 	}
 	if (!success) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_CannotReadFromFile);
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_CannotReadFromFile);
 	}
 }
 
 std::string
-NFIQ::Data::toHexString() const
+NFIQ2::Data::toHexString() const
 {
 	if (this->size() <= 0) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_NoDataAvailable);
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_NoDataAvailable);
 	}
 
 	std::stringstream ss;
@@ -109,7 +109,7 @@ NFIQ::Data::toHexString() const
 }
 
 void
-NFIQ::Data::fromBase64String(const std::string &base64String)
+NFIQ2::Data::fromBase64String(const std::string &base64String)
 {
 	const char *ptr = base64String.data();
 	size_t len = base64String.size();
@@ -160,12 +160,12 @@ NFIQ::Data::fromBase64String(const std::string &base64String)
 	}
 
 	if (!ok) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_CannotDecodeBase64);
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_CannotDecodeBase64);
 	}
 }
 
 std::string
-NFIQ::Data::toBase64String() const
+NFIQ2::Data::toBase64String() const
 {
 	const char base64Lookup[65] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 		'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',

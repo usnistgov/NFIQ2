@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-namespace NFIQ {
+namespace NFIQ2 {
 /** Used to calculate speed of internal operations. */
 class Timer {
     public:

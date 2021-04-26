@@ -23,7 +23,7 @@
 #include <numeric> // std::accumulate
 
 std::string
-NFIQ::Prediction::RandomForestML::calculateHashString(const std::string &s)
+NFIQ2::Prediction::RandomForestML::calculateHashString(const std::string &s)
 {
 	// calculate and compare the hash
 	digestpp::md5 hasher;
@@ -34,7 +34,7 @@ NFIQ::Prediction::RandomForestML::calculateHashString(const std::string &s)
 }
 
 void
-NFIQ::Prediction::RandomForestML::initModule(const std::string &params)
+NFIQ2::Prediction::RandomForestML::initModule(const std::string &params)
 {
 	// create file storage with parameters in memory
 	cv::FileStorage fs(params.c_str(),
@@ -47,7 +47,7 @@ NFIQ::Prediction::RandomForestML::initModule(const std::string &params)
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 std::string
-NFIQ::Prediction::RandomForestML::joinRFTrainedParamsString()
+NFIQ2::Prediction::RandomForestML::joinRFTrainedParamsString()
 {
 	unsigned int size = sizeof(g_strRandomForestTrainedParams) /
 	    sizeof(g_strRandomForestTrainedParams[0]);
@@ -59,11 +59,11 @@ NFIQ::Prediction::RandomForestML::joinRFTrainedParamsString()
 }
 #endif
 
-NFIQ::Prediction::RandomForestML::RandomForestML()
+NFIQ2::Prediction::RandomForestML::RandomForestML()
 {
 }
 
-NFIQ::Prediction::RandomForestML::~RandomForestML()
+NFIQ2::Prediction::RandomForestML::~RandomForestML()
 {
 	if (!m_pTrainedRF.empty()) {
 		m_pTrainedRF->clear();
@@ -72,13 +72,13 @@ NFIQ::Prediction::RandomForestML::~RandomForestML()
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 std::string
-NFIQ::Prediction::RandomForestML::initModule()
+NFIQ2::Prediction::RandomForestML::initModule()
 {
 	try {
 		// get parameters from string
 		// accumulate it to a single string
 		// and decode base64
-		NFIQ::Data data;
+		NFIQ2::Data data;
 		std::string params = joinRFTrainedParamsString();
 		unsigned int size = params.size();
 		data.fromBase64String(params);
@@ -95,7 +95,7 @@ NFIQ::Prediction::RandomForestML::initModule()
 #endif
 
 std::string
-NFIQ::Prediction::RandomForestML::initModule(
+NFIQ2::Prediction::RandomForestML::initModule(
     const std::string &fileName, const std::string &fileHash)
 {
 	std::ifstream input(fileName);
@@ -106,7 +106,7 @@ NFIQ::Prediction::RandomForestML::initModule(
 	std::string hash = calculateHashString(params);
 	if (fileHash.compare(hash) != 0) {
 		m_pTrainedRF->clear();
-		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidConfiguration,
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_InvalidConfiguration,
 		    "The trained network could not be initialized! "
 		    "Error: " +
 			hash);
@@ -115,8 +115,8 @@ NFIQ::Prediction::RandomForestML::initModule(
 }
 
 void
-NFIQ::Prediction::RandomForestML::evaluate(
-    const std::unordered_map<std::string, NFIQ::QualityFeatureData> &features,
+NFIQ2::Prediction::RandomForestML::evaluate(
+    const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features,
     const double &utilityValue, double &qualityValue, double &deviation) const
 {
 	/**
@@ -149,7 +149,7 @@ NFIQ::Prediction::RandomForestML::evaluate(
 		"RVUP_Bin10_5", "RVUP_Bin10_6", "RVUP_Bin10_7", "RVUP_Bin10_8",
 		"RVUP_Bin10_9", "RVUP_Bin10_Mean", "RVUP_Bin10_StdDev" };
 
-	std::vector<NFIQ::QualityFeatureData> featureVector {};
+	std::vector<NFIQ2::QualityFeatureData> featureVector {};
 	for (const auto &i : rfFeatureOrder) {
 		featureVector.push_back(features.at(i));
 	}
@@ -157,8 +157,8 @@ NFIQ::Prediction::RandomForestML::evaluate(
 	try {
 		if (m_pTrainedRF.empty() || !m_pTrainedRF->isTrained() ||
 		    !m_pTrainedRF->isClassifier()) {
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_InvalidConfiguration,
+			throw NFIQ2::NFIQException(
+			    NFIQ2::e_Error_InvalidConfiguration,
 			    "The trained network could not be loaded for "
 			    "prediction!");
 		}
@@ -168,7 +168,7 @@ NFIQ::Prediction::RandomForestML::evaluate(
 		// copy data to structure
 		cv::Mat sample_data = cv::Mat(
 		    1, featureVector.size(), CV_32FC1);
-		std::vector<NFIQ::QualityFeatureData>::const_iterator it_feat;
+		std::vector<NFIQ2::QualityFeatureData>::const_iterator it_feat;
 		unsigned int counterFeatures = 0;
 		for (it_feat = featureVector.begin();
 		     it_feat != featureVector.end(); it_feat++) {
@@ -195,12 +195,12 @@ NFIQ::Prediction::RandomForestML::evaluate(
 	}
 }
 
-const std::string NFIQ::Prediction::RandomForestML::moduleName {
+const std::string NFIQ2::Prediction::RandomForestML::moduleName {
 	"NFIQ2_RandomForest"
 };
 
 std::string
-NFIQ::Prediction::RandomForestML::getModuleName() const
+NFIQ2::Prediction::RandomForestML::getModuleName() const
 {
 	return moduleName;
 }

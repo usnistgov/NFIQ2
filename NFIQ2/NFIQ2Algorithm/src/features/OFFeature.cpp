@@ -8,12 +8,6 @@
 #include <cmath>
 #include <sstream>
 
-#if defined WINDOWS || defined WIN32
-#include <windows.h>
-
-#include <cfloat>
-#endif
-
 NFIQ2::QualityFeatures::OFFeature::OFFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {

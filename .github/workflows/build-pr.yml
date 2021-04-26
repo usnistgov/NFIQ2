@@ -1,12 +1,10 @@
-name: Build Libraries and CLI + Run CTS
+name: PR Build and Run
 
 on:
-  push:
-    branches:
-      - master
+  pull_request_target:
     paths-ignore:
       - '.github/workflows/clang-format.yml'
-      - '.github/workflows/build-pr.yml'
+      - '.github/workflows/build-member.yml'
       - '.gitignore'
       - '.travis.yml'
       - '**.md'
@@ -53,8 +51,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: fresh-vcpkg\installed
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
         restore-keys: |
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
 
     - name: Install Packages (Linux)
@@ -113,7 +112,10 @@ jobs:
         path: |
           ${{ github.workspace }}/build
           !${{ github.workspace }}/build/nfir*
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+        restore-keys: |
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
 
     - name: Get CMake Version
       shell: bash

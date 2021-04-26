@@ -1,4 +1,4 @@
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 
 /**
  * Predefined error messages for the corresponding error codes

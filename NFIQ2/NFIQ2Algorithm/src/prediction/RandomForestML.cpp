@@ -1,4 +1,4 @@
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 #include <prediction/RandomForestML.h>
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS

@@ -1,4 +1,4 @@
-name: Build Libraries and CLI + Run CTS
+name: PR Build Libraries and CLI
 
 on:
   pull_request:

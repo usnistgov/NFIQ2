@@ -275,7 +275,7 @@ NFIQ2UI::sanitizeErrorMsg(const std::string &errorMsg)
 	}
 
 	static const std::string from { "\"" };
-	static const std::string to { "\'" };
+	static const std::string to { "'" };
 	std::string::size_type position { 0 };
 	while (
 	    (position = sanitized.find(from, position)) != std::string::npos) {

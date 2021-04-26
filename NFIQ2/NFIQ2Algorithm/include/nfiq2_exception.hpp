@@ -1,5 +1,5 @@
-#ifndef NFIQ2_NFIQEXCEPTION_HPP_
-#define NFIQ2_NFIQEXCEPTION_HPP_
+#ifndef NFIQ2_EXCEPTION_HPP_
+#define NFIQ2_EXCEPTION_HPP_
 
 #include <exception>
 #include <string>

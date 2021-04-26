@@ -1,10 +1,10 @@
 #ifndef NFIQ2_NFIQ2ALGORITHM_IMPL_HPP_
 #define NFIQ2_NFIQ2ALGORITHM_IMPL_HPP_
 
+#include <nfiq2_algorithm.hpp>
+#include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
-#include <nfiq2_nfiq2algorithm.hpp>
-#include <nfiq2_nfiqexception.hpp>
 #include <prediction/RandomForestML.h>
 
 #include <fstream>

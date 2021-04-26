@@ -11,7 +11,7 @@
 #ifndef NFIQ2_UI_LOG_H_
 #define NFIQ2_UI_LOG_H_
 
-#include <nfiq2_nfiq2algorithm.hpp>
+#include <nfiq2_algorithm.hpp>
 
 #include "nfiq2_ui_types.h"
 

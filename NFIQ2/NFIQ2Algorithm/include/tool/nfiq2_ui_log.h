@@ -202,6 +202,22 @@ class Log {
 	std::ofstream logFile {};
 };
 
+/**
+ *  @brief
+ *  Sanitizes input before being sent to the output buffer.
+ *
+ *  @details
+ *  Since this tool produces a CSV output, sanitizing new lines and quotes
+ *	is critical
+ *
+ *  @param[in] errorMsg
+ *    The string to be sanitized
+ *
+ *  @return
+ *    The sanitized error message string
+ */
+std::string sanitizeErrorMsg(const std::string &errorMsg);
+
 } // namespace NFIQ2UI
 
 #endif /* NFIQ2_UI_LOG_H_ */

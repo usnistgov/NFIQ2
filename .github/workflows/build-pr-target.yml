@@ -1,10 +1,10 @@
-name: Build Libraries and CLI + Run CTS
+name: PR Build and Run
 
 on:
-  pull_request:
+  pull_request_target:
     paths-ignore:
+      - '.github/workflows/build-member.yml'
       - '.github/workflows/build-pr.yml'
-      - '.github/workflows/build-pr-target.yml'
       - '.github/workflows/clang-format.yml'
       - '.gitignore'
       - '.travis.yml'
@@ -52,8 +52,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: fresh-vcpkg\installed
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
         restore-keys: |
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
 
     - name: Install Packages (Linux)
@@ -112,7 +113,10 @@ jobs:
         path: |
           ${{ github.workspace }}/build
           !${{ github.workspace }}/build/nfir*
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+        restore-keys: |
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
 
     - name: Get CMake Version
       shell: bash
@@ -159,3 +163,36 @@ jobs:
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: cmake --build . --config ${CONFIGURATION}
+
+    - name: Download Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Run Compliance Test (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Run Compliance Test (Linux)
+      if: ${{ runner.os != 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Diff Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        python -m pip install pandas
+        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv

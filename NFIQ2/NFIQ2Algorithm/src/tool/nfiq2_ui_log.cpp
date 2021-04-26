@@ -14,6 +14,7 @@
 #include <tool/nfiq2_ui_types.h>
 #include <tool/nfiq2_ui_utils.h>
 
+#include <cctype>
 #include <iomanip>
 #include <iostream>
 #include <string>

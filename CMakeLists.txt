@@ -175,12 +175,6 @@ ExternalProject_Add(nfir
 		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
 		-DFORCE_WIN_STATIC_RUNTIME=ON
 		${MULTI_CONFIG_ARGS}
-	PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${PROJECT_SOURCE_DIR}/cmake/nfir_CMakeLists.txt
-                       ${PROJECT_SOURCE_DIR}/NFIR/CMakeLists.txt &&
-                       ${CMAKE_COMMAND} -E copy_if_different
-                       ${PROJECT_SOURCE_DIR}/cmake/nfir_lib.h
-                       ${PROJECT_SOURCE_DIR}/NFIR/include/nfir_lib.h
 )
 
 ExternalProject_Add_StepDependencies(nfir build OpenCV)

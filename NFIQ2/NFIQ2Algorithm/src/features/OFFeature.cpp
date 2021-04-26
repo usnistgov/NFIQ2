@@ -14,23 +14,23 @@
 #include <cfloat>
 #endif
 
-NFIQ::QualityFeatures::OFFeature::OFFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::OFFeature::OFFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::OFFeature::~OFFeature() = default;
+NFIQ2::QualityFeatures::OFFeature::~OFFeature() = default;
 
-const std::string NFIQ::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };
+const std::string NFIQ2::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };
 std::string
-NFIQ::QualityFeatures::OFFeature::getModuleName() const
+NFIQ2::QualityFeatures::OFFeature::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::OFFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::OFFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "OF_Bin10_", 10);
@@ -38,18 +38,19 @@ NFIQ::QualityFeatures::OFFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-const std::string NFIQ::QualityFeatures::OFFeature::speedFeatureIDGroup =
+const std::string NFIQ2::QualityFeatures::OFFeature::speedFeatureIDGroup =
     "Orientation flow";
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::OFFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -63,11 +64,11 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
-	NFIQ::Timer timerOF;
+	NFIQ2::Timer timerOF;
 	double timeOF = 0.0;
 	try {
 		timerOF.start();
@@ -253,7 +254,7 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 		timeOF = timerOF.stop();
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
 		addHistogramFeatureNames(speed.featureIDs, "OF_Bin10_", 10);
@@ -264,12 +265,13 @@ NFIQ::QualityFeatures::OFFeature::computeFeatureData(
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Orientation Flow (OF): " << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 	return featureDataList;

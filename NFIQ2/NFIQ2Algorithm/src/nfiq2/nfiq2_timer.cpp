@@ -3,14 +3,14 @@
 #include <chrono>
 
 void
-NFIQ::Timer::start()
+NFIQ2::Timer::start()
 {
 	this->endTime = std::chrono::steady_clock::time_point {};
 	this->startTime = std::chrono::steady_clock::now();
 }
 
 double
-NFIQ::Timer::getElapsedTime()
+NFIQ2::Timer::getElapsedTime()
 {
 	if (this->endTime < this->startTime)
 		return std::numeric_limits<double>::signaling_NaN();
@@ -21,7 +21,7 @@ NFIQ::Timer::getElapsedTime()
 }
 
 double
-NFIQ::Timer::stop()
+NFIQ2::Timer::stop()
 {
 	this->endTime = std::chrono::steady_clock::now();
 	return this->getElapsedTime();

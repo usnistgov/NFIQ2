@@ -5,26 +5,27 @@
 
 #include <sstream>
 
-NFIQ::QualityFeatures::MuFeature::MuFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::MuFeature::MuFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::MuFeature::~MuFeature() = default;
+NFIQ2::QualityFeatures::MuFeature::~MuFeature() = default;
 
-const std::string NFIQ::QualityFeatures::MuFeature::speedFeatureIDGroup =
+const std::string NFIQ2::QualityFeatures::MuFeature::speedFeatureIDGroup =
     "Contrast";
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::MuFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -38,11 +39,11 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
-	NFIQ::Timer timer;
+	NFIQ2::Timer timer;
 	timer.start();
 
 	// -------------------------
@@ -84,11 +85,11 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		}
 
 		// return MMB value
-		NFIQ::QualityFeatureData fd_mmb;
+		NFIQ2::QualityFeatureData fd_mmb;
 		fd_mmb.featureID = "MMB";
-		fd_mmb.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+		fd_mmb.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_mmb.featureDataDouble = avg;
-		NFIQ::QualityFeatureResult res_mmb;
+		NFIQ2::QualityFeatureResult res_mmb;
 		res_mmb.featureData = fd_mmb;
 		res_mmb.returnCode = 0;
 
@@ -97,12 +98,13 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature Mu Mu Block (MMB): "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -120,11 +122,11 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		this->sigmaComputed = true;
 
 		// return mu value
-		NFIQ::QualityFeatureData fd_mu;
+		NFIQ2::QualityFeatureData fd_mu;
 		fd_mu.featureID = "Mu";
-		fd_mu.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+		fd_mu.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_mu.featureDataDouble = mu.val[0];
-		NFIQ::QualityFeatureResult res_mu;
+		NFIQ2::QualityFeatureResult res_mu;
 		res_mu.featureData = fd_mu;
 		res_mu.returnCode = 0;
 
@@ -133,17 +135,18 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature Sigma (stddev) and Mu (mean): "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
 	// Speed
-	NFIQ::QualityFeatureSpeed speed;
+	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = MuFeature::speedFeatureIDGroup;
 	speed.featureIDs.push_back("MMB");
 	speed.featureIDs.push_back("Mu");
@@ -154,25 +157,25 @@ NFIQ::QualityFeatures::MuFeature::computeFeatureData(
 }
 
 double
-NFIQ::QualityFeatures::MuFeature::getSigma() const
+NFIQ2::QualityFeatures::MuFeature::getSigma() const
 {
 	if (!this->sigmaComputed)
-		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
 			"Sigma has not been computed." };
 
 	return (this->sigma);
 }
 
-const std::string NFIQ::QualityFeatures::MuFeature::moduleName { "NFIQ2_Mu" };
+const std::string NFIQ2::QualityFeatures::MuFeature::moduleName { "NFIQ2_Mu" };
 
 std::string
-NFIQ::QualityFeatures::MuFeature::getModuleName() const
+NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::MuFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back("MMB");

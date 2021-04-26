@@ -22,7 +22,7 @@ extern int version_minor;
 extern int version_patch;
 
 // static object to load the algorithm only once (random forest init!)
-std::unique_ptr<NFIQ::NFIQ2Algorithm> g_nfiq2;
+std::unique_ptr<NFIQ2::NFIQ2Algorithm> g_nfiq2;
 
 std::string
 GetYamlFilePath()
@@ -86,11 +86,11 @@ InitNfiq2(char **hash)
 	try {
 		if (g_nfiq2.get() == nullptr) {
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-			g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>(
-			    new NFIQ::NFIQ2Algorithm());
+			g_nfiq2 = std::unique_ptr<NFIQ2::NFIQ2Algorithm>(
+			    new NFIQ2::NFIQ2Algorithm());
 #else
-			g_nfiq2 = std::unique_ptr<NFIQ::NFIQ2Algorithm>(
-			    new NFIQ::NFIQ2Algorithm(GetYamlFilePath(),
+			g_nfiq2 = std::unique_ptr<NFIQ2::NFIQ2Algorithm>(
+			    new NFIQ2::NFIQ2Algorithm(GetYamlFilePath(),
 				"ccd75820b48c19f1645ef5e9c481c592"));
 #endif
 			*hash = (char *)malloc(
@@ -110,17 +110,17 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 {
 	try {
 		if (g_nfiq2.get() != nullptr) {
-			NFIQ::FingerprintImageData rawImage(
+			NFIQ2::FingerprintImageData rawImage(
 			    pixels, size, width, height, fpos, ppi);
-			std::vector<NFIQ::ActionableQualityFeedback>
+			std::vector<NFIQ2::ActionableQualityFeedback>
 			    actionableQuality;
-			std::vector<NFIQ::QualityFeatureData> featureVector;
-			std::vector<NFIQ::QualityFeatureSpeed> featureTimings;
+			std::vector<NFIQ2::QualityFeatureData> featureVector;
+			std::vector<NFIQ2::QualityFeatureSpeed> featureTimings;
 			int qualityScore = (int)g_nfiq2->computeQualityScore(
 			    rawImage);
 			return qualityScore;
 		}
-	} catch (const NFIQ::NFIQException &exc) {
+	} catch (const NFIQ2::NFIQException &exc) {
 		std::cerr << "NFIQ2 ERROR => Return code ["
 			  << exc.getReturnCode()
 			  << "]: " << exc.getErrorMessage() << std::endl;

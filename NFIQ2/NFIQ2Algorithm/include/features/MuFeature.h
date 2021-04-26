@@ -8,16 +8,16 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 class MuFeature : public BaseFeature {
     public:
-	MuFeature(const NFIQ::FingerprintImageData &fingerprintImage);
+	MuFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~MuFeature();
 
 	std::string getModuleName() const override;
 
-	/** @throw NFIQ::NFIQException
+	/** @throw NFIQ2::NFIQException
 	 * Sigma has not yet been calculated.
 	 */
 	double getSigma() const;
@@ -27,8 +27,8 @@ class MuFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	bool sigmaComputed { false };
 	double sigma {};

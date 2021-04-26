@@ -11,29 +11,30 @@
 #include <cfloat>
 #endif
 
-NFIQ::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
+NFIQ2::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
 
 const std::string
-    NFIQ::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
+    NFIQ2::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
 	"Orientation certainty";
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	cv::Mat img;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -46,12 +47,12 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
 	// compute OCL
-	NFIQ::Timer timerOCL;
+	NFIQ2::Timer timerOCL;
 	double timeOCL = 0.0;
 	std::vector<double> oclres;
 	try {
@@ -106,7 +107,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		timeOCL = timerOCL.stop();
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = OCLHistogramFeature::speedFeatureIDGroup;
 
 		addHistogramFeatureNames(speed.featureIDs, "OCL_Bin10_", 10);
@@ -117,12 +118,13 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature OCL histogram: " << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -130,7 +132,7 @@ NFIQ::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 }
 
 bool
-NFIQ::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
+NFIQ2::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
     const cv::Mat &block, double &ocl)
 {
 	double eigv_max = 0.0, eigv_min = 0.0;
@@ -172,18 +174,18 @@ NFIQ::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
 	return true;
 }
 
-const std::string NFIQ::QualityFeatures::OCLHistogramFeature::moduleName {
+const std::string NFIQ2::QualityFeatures::OCLHistogramFeature::moduleName {
 	"NFIQ2_OCLHistogram"
 };
 
 std::string
-NFIQ::QualityFeatures::OCLHistogramFeature::getModuleName() const
+NFIQ2::QualityFeatures::OCLHistogramFeature::getModuleName() const
 {
 	return "NFIQ2_OCLHistogram";
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::OCLHistogramFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::OCLHistogramFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "OCL_Bin10_", 10);

@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 class BaseFeature {
     public:
@@ -19,21 +19,21 @@ class BaseFeature {
 	virtual std::string getModuleName() const = 0;
 
 	/** @return computed quality feature speed */
-	virtual NFIQ::QualityFeatureSpeed getSpeed() const;
+	virtual NFIQ2::QualityFeatureSpeed getSpeed() const;
 
 	/** @return computed quality features */
-	virtual std::vector<NFIQ::QualityFeatureResult> getFeatures() const;
+	virtual std::vector<NFIQ2::QualityFeatureResult> getFeatures() const;
 
     protected:
-	void setSpeed(const NFIQ::QualityFeatureSpeed &featureSpeed);
+	void setSpeed(const NFIQ2::QualityFeatureSpeed &featureSpeed);
 
 	void setFeatures(
-	    const std::vector<NFIQ::QualityFeatureResult> &featureResult);
+	    const std::vector<NFIQ2::QualityFeatureResult> &featureResult);
 
     private:
-	NFIQ::QualityFeatureSpeed speed {};
+	NFIQ2::QualityFeatureSpeed speed {};
 
-	std::vector<NFIQ::QualityFeatureResult> features {};
+	std::vector<NFIQ2::QualityFeatureResult> features {};
 };
 
 }}

@@ -7,19 +7,20 @@
 #include <sstream>
 #include <tuple>
 
-NFIQ::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
+NFIQ2::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 
 const std::string
-    NFIQ::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup = "Minutiae";
+    NFIQ2::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup =
+	"Minutiae";
 
 std::pair<unsigned int, unsigned int>
-NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
+NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
 {
 	unsigned int lx { 0 }, ly { 0 };
@@ -32,7 +33,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
 }
 
 std::string
-NFIQ::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
+NFIQ2::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
     const FRFXLL_RESULT fxRes)
 {
 	switch (fxRes) {
@@ -70,33 +71,33 @@ NFIQ::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 }
 
 bool
-NFIQ::QualityFeatures::FingerJetFXFeature::getTemplateStatus() const
+NFIQ2::QualityFeatures::FingerJetFXFeature::getTemplateStatus() const
 {
 	return (this->templateCouldBeExtracted_);
 }
 
-std::vector<NFIQ::QualityFeatures::FingerJetFXFeature::Minutia>
-NFIQ::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
+std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
+NFIQ2::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 {
 	if (!this->templateCouldBeExtracted_) {
-		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
 			"Template could not be extracted." };
 	}
 
 	return (this->minutiaData_);
 }
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->templateCouldBeExtracted_ = false;
 
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// make local copy of fingerprint image
 	// since FJFX somehow transforms the input image
-	NFIQ::FingerprintImageData localFingerprintImage(
+	NFIQ2::FingerprintImageData localFingerprintImage(
 	    fingerprintImage.m_ImageWidth, fingerprintImage.m_ImageHeight,
 	    fingerprintImage.m_FingerCode, fingerprintImage.m_ImageDPI);
 	// copy data now
@@ -104,40 +105,40 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	memcpy((void *)localFingerprintImage.data(), fingerprintImage.data(),
 	    fingerprintImage.size());
 
-	NFIQ::QualityFeatureData fd_min_cnt;
+	NFIQ2::QualityFeatureData fd_min_cnt;
 	fd_min_cnt.featureID = "FingerJetFX_MinutiaeCount";
-	fd_min_cnt.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+	fd_min_cnt.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_min_cnt.featureDataDouble = 0;
-	NFIQ::QualityFeatureResult res_min_cnt;
+	NFIQ2::QualityFeatureResult res_min_cnt;
 	res_min_cnt.featureData = fd_min_cnt;
 	res_min_cnt.returnCode = 0;
 
-	NFIQ::QualityFeatureData fd_min_cnt_comrect200x200;
+	NFIQ2::QualityFeatureData fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200.featureID =
 	    "FingerJetFX_MinCount_COMMinRect200x200";
 	fd_min_cnt_comrect200x200.featureDataType =
-	    NFIQ::e_QualityFeatureDataTypeDouble;
+	    NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_min_cnt_comrect200x200.featureDataDouble = 0;
-	NFIQ::QualityFeatureResult res_min_cnt_comrect200x200;
+	NFIQ2::QualityFeatureResult res_min_cnt_comrect200x200;
 	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
 	res_min_cnt_comrect200x200.returnCode = 0;
 
-	NFIQ::Timer timer;
+	NFIQ2::Timer timer;
 	timer.start();
 
 	// create context for feature extraction
 	// the created context function is modified to override default settings
 	FRFXLL_HANDLE hCtx = NULL, hFeatureSet = NULL;
 	if (!FRFXLL_SUCCESS(createContext(&hCtx))) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
+		throw NFIQ2::NFIQException(
+		    NFIQ2::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateContext,
 		    "Cannot create context of feature extraction (create "
 		    "context failed).");
 	}
 	if (hCtx == NULL) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
+		throw NFIQ2::NFIQException(
+		    NFIQ2::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateContext,
 		    "Cannot create context of feature extraction (hCtx is "
 		    "NULL).");
@@ -152,8 +153,8 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    &hFeatureSet);
 	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);
-		throw NFIQ::NFIQException(
-		    NFIQ::
+		throw NFIQ2::NFIQException(
+		    NFIQ2::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
 		    "Could not create feature set from raw data: " +
 			FingerJetFXFeature::parseFRFXLLError(fxRes));
@@ -162,8 +163,8 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// close handle
 	FRFXLLCloseHandle(&hCtx);
 	if (hFeatureSet == NULL) {
-		throw NFIQ::NFIQException(
-		    NFIQ::
+		throw NFIQ2::NFIQException(
+		    NFIQ2::
 			e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet,
 		    "Feature set creation failed. Feature set is null.");
 	}
@@ -173,8 +174,8 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    hFeatureSet, &minCnt, nullptr);
 	if (!FRFXLL_SUCCESS(fxResMin)) {
 		FRFXLLCloseHandle(&hFeatureSet);
-		throw NFIQ::NFIQException(
-		    NFIQ::
+		throw NFIQ2::NFIQException(
+		    NFIQ2::
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
 		    "Failed to obtain Minutia Info from feature set: " +
 			FingerJetFXFeature::parseFRFXLLError(fxResMin));
@@ -185,7 +186,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
 	} catch (const std::bad_alloc &) {
 		FRFXLLCloseHandle(&hFeatureSet);
-		throw NFIQ::NFIQException(NFIQ::e_Error_NotEnoughMemory,
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_NotEnoughMemory,
 		    "Could not allocate space for extracted minutiae records.");
 	}
 
@@ -193,8 +194,8 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT, &minCnt, mdata.get());
 	if (!FRFXLL_SUCCESS(fxResData)) {
 		FRFXLLCloseHandle(&hFeatureSet);
-		throw NFIQ::NFIQException(
-		    NFIQ::
+		throw NFIQ2::NFIQException(
+		    NFIQ2::
 			e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated,
 		    "Failed to parse Minutia Data into 19794 Minutia Struct: " +
 			FingerJetFXFeature::parseFRFXLLError(fxResData));
@@ -233,7 +234,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		featureDataList.push_back(res_min_cnt);
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 		speed.featureIDs.push_back(
@@ -282,7 +283,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	res_min_cnt.featureData = fd_min_cnt;
 	featureDataList.push_back(res_min_cnt);
 
-	NFIQ::QualityFeatureSpeed speed;
+	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
 	speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
 	speed.featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
@@ -292,17 +293,17 @@ NFIQ::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string NFIQ::QualityFeatures::FingerJetFXFeature::moduleName {
+const std::string NFIQ2::QualityFeatures::FingerJetFXFeature::moduleName {
 	"NFIQ2_FingerJetFX"
 };
 std::string
-NFIQ::QualityFeatures::FingerJetFXFeature::getModuleName() const
+NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
@@ -311,7 +312,7 @@ NFIQ::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
 }
 
 FRFXLL_RESULT
-NFIQ::QualityFeatures::FingerJetFXFeature::createContext(
+NFIQ2::QualityFeatures::FingerJetFXFeature::createContext(
     FRFXLL_HANDLE_PT phContext)
 {
 	FRFXLL_RESULT rc = FRFXLL_OK;
@@ -326,9 +327,9 @@ NFIQ::QualityFeatures::FingerJetFXFeature::createContext(
 	return rc;
 }
 
-NFIQ::QualityFeatures::FingerJetFXFeature::FJFXROIResults
-NFIQ::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
-    const NFIQ::FingerprintImageData &fingerprintImage,
+NFIQ2::QualityFeatures::FingerJetFXFeature::FJFXROIResults
+NFIQ2::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
+    const NFIQ2::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)
 {
 	unsigned int fpHeight = fingerprintImage.m_ImageHeight;

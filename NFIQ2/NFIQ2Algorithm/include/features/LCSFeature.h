@@ -8,14 +8,14 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
 	0.87 };
 
 class LCSFeature : public BaseFeature {
     public:
-	LCSFeature(const NFIQ::FingerprintImageData &fingerprintImage);
+	LCSFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~LCSFeature();
 
 	std::string getModuleName() const override;
@@ -25,8 +25,8 @@ class LCSFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	const int blocksize { 32 };
 	const double threshold { .1 };

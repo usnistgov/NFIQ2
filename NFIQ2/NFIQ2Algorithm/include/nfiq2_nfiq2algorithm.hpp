@@ -11,7 +11,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace NFIQ {
+namespace NFIQ2 {
 /** Wrapper to return quality scores for a fingerprint image */
 class NFIQ2Algorithm {
     public:
@@ -20,7 +20,7 @@ class NFIQ2Algorithm {
 #endif
 	NFIQ2Algorithm(
 	    const std::string &fileName, const std::string &fileHash);
-	NFIQ2Algorithm(const NFIQ::ModelInfo &modelInfoObj);
+	NFIQ2Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
 	~NFIQ2Algorithm();
 
 	/**
@@ -31,7 +31,7 @@ class NFIQ2Algorithm {
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(
-	    const NFIQ::FingerprintImageData &rawImage) const;
+	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @fn computeQualityScore
@@ -42,7 +42,7 @@ class NFIQ2Algorithm {
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>> &features)
+	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
 	    const;
 
 	/**
@@ -53,7 +53,7 @@ class NFIQ2Algorithm {
 	 * @return achieved quality score
 	 */
 	unsigned int computeQualityScore(
-	    const std::unordered_map<std::string, NFIQ::QualityFeatureData>
+	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 		&features) const;
 
 	/**

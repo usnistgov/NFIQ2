@@ -317,15 +317,15 @@ NFIQ2UI::printUsage()
 	std::cout << "\nVersion Info\n------------\n"
 		  << "Biometric Evaluation: " << NFIQ2UI::getBiomevalVersion()
 		  << "\n"
-		  << "FingerJet: " << NFIQ::Version::FingerJet()
+		  << "FingerJet: " << NFIQ2::Version::FingerJet()
 		  << "\n"
 		     "OpenCV: "
-		  << NFIQ::Version::OpenCV
+		  << NFIQ2::Version::OpenCV
 		  << "\n"
 		     "NFIQ 2: "
-		  << NFIQ::Version::Pretty
-		  << " (Date: " << NFIQ::Version::BuildDate
-		  << ", Commit: " << NFIQ::Version::Commit << ")\n";
+		  << NFIQ2::Version::Pretty
+		  << " (Date: " << NFIQ2::Version::BuildDate
+		  << ", Commit: " << NFIQ2::Version::Commit << ")\n";
 }
 
 // Print to stdout if undefined flag is used

@@ -51,7 +51,8 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 {
 	*(this->out) << "\"" << name << "\""
 		     << "," << std::to_string(fingerCode) << "," << score << ","
-		     << errmsg << "," << quantized << "," << resampled;
+		     << NFIQ2UI::sanitizeErrorMsg(errmsg) << "," << quantized
+		     << "," << resampled;
 	if (this->actionable || this->verbose || this->speed) {
 		*(this->out) << ",";
 	}
@@ -145,7 +146,7 @@ NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
 	*(this->out) << "\"" << name << "\""
 		     << "," << std::to_string(fingerCode) << "," << errscore
 		     << ","
-		     << "\"" << errmsg << "\""
+		     << "\"" << NFIQ2UI::sanitizeErrorMsg(errmsg) << "\""
 		     << "," << quantized << "," << resampled << padNA() << "\n";
 }
 
@@ -169,7 +170,7 @@ NFIQ2UI::Log::printSingle(unsigned int qualityScore) const
 void
 NFIQ2UI::Log::printSingleError(const std::string &errmsg) const
 {
-	*(this->out) << errmsg << "\n";
+	*(this->out) << NFIQ2UI::sanitizeErrorMsg(errmsg) << "\n";
 }
 
 // Prints output from Multi-threaded operations
@@ -257,4 +258,29 @@ NFIQ2UI::Log::printCSVHeader() const
 NFIQ2UI::Log::~Log()
 {
 	this->out = nullptr;
+}
+
+// Sanitize invalid characters from error messages
+std::string
+NFIQ2UI::sanitizeErrorMsg(const std::string &errorMsg)
+{
+	std::string sanitized { errorMsg };
+
+	auto it = sanitized.begin();
+	while ((it = std::find_if_not(sanitized.begin(), sanitized.end(),
+		    [](const char &c) -> bool {
+			    return (std::isgraph(c) || c == ' ');
+		    })) != sanitized.end()) {
+		sanitized.replace(it, std::next(it), " ");
+	}
+
+	static const std::string from { "\"" };
+	static const std::string to { "'" };
+	std::string::size_type position { 0 };
+	while (
+	    (position = sanitized.find(from, position)) != std::string::npos) {
+		sanitized.replace(position, from.length(), to);
+		position += to.length();
+	}
+	return sanitized;
 }

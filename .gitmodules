@@ -12,5 +12,4 @@
 	url = https://github.com/opencv/opencv.git
 [submodule "NFIR"]
 	path = NFIR
-	url = https://github.com/usnistgov/NFIR.git
-	ignore = all
+	url = https://github.com/gfiumara/NFIR.git

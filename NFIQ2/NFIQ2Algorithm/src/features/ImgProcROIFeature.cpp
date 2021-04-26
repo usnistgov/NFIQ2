@@ -5,38 +5,39 @@
 
 #include <sstream>
 
-NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
+NFIQ2::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
 
 const std::string
-    NFIQ::QualityFeatures::ImgProcROIFeature::speedFeatureIDGroup =
+    NFIQ2::QualityFeatures::ImgProcROIFeature::speedFeatureIDGroup =
 	"Region of interest";
 
-NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
-NFIQ::QualityFeatures::ImgProcROIFeature::getImgProcResults()
+NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
+NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
 {
 	if (!this->imgProcComputed_) {
-		throw NFIQ::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
 			"Img Proc Results could not be computed." };
 	}
 
 	return (this->imgProcResults_);
 }
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -50,11 +51,11 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
-	NFIQ::Timer timer;
+	NFIQ2::Timer timer;
 	timer.start();
 
 	// ---------------------------------------------
@@ -64,20 +65,20 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		this->imgProcResults_ = computeROI(
 		    img, 16); // block size = 16x16 pixels
 
-		NFIQ::QualityFeatureData fd_roi_pixel_area_mean;
+		NFIQ2::QualityFeatureData fd_roi_pixel_area_mean;
 		fd_roi_pixel_area_mean.featureID = "ImgProcROIArea_Mean";
 		fd_roi_pixel_area_mean.featureDataType =
-		    NFIQ::e_QualityFeatureDataTypeDouble;
+		    NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_roi_pixel_area_mean.featureDataDouble =
 		    this->imgProcResults_.meanOfROIPixels;
-		NFIQ::QualityFeatureResult res_roi_pixel_area_mean;
+		NFIQ2::QualityFeatureResult res_roi_pixel_area_mean;
 		res_roi_pixel_area_mean.featureData = fd_roi_pixel_area_mean;
 		res_roi_pixel_area_mean.returnCode = 0;
 
 		featureDataList.push_back(res_roi_pixel_area_mean);
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
 		speed.featureIDs.push_back("ImgProcROIArea_Mean");
 		speed.featureSpeed = timer.stop();
@@ -87,12 +88,13 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -101,26 +103,26 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string NFIQ::QualityFeatures::ImgProcROIFeature::moduleName {
+const std::string NFIQ2::QualityFeatures::ImgProcROIFeature::moduleName {
 	"NFIQ2_ImgProcROI"
 };
 
 std::string
-NFIQ::QualityFeatures::ImgProcROIFeature::getModuleName() const
+NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back("ImgProcROIArea_Mean");
 	return featureIDs;
 }
 
-NFIQ::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
-NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
+NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
+NFIQ2::QualityFeatures::ImgProcROIFeature::computeROI(
     cv::Mat &img, unsigned int bs)
 {
 	ImgProcROIResults roiResults;
@@ -298,7 +300,7 @@ NFIQ::QualityFeatures::ImgProcROIFeature::computeROI(
 }
 
 bool
-NFIQ::QualityFeatures::ImgProcROIFeature::isBlackPixelAvailable(
+NFIQ2::QualityFeatures::ImgProcROIFeature::isBlackPixelAvailable(
     cv::Mat &img, cv::Point &point)
 {
 	bool found = false;

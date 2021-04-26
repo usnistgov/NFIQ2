@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 /* Ideal Standard Deviation of pixel values in a neighborhood. */
 #define IDEALSTDEV 64
@@ -29,7 +29,7 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	};
 
 	FJFXMinutiaeQualityFeature(
-	    const NFIQ::FingerprintImageData &fingerprintImage,
+	    const NFIQ2::FingerprintImageData &fingerprintImage,
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
 	    const bool templateCouldBeExtracted);
 
@@ -41,7 +41,7 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
 
-	/** @throw NFIQ::NFIQException
+	/** @throw NFIQ2::NFIQException
 	 * Template could not be extracted.
 	 */
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
@@ -49,19 +49,19 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	bool getTemplateStatus() const;
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
 	bool templateCouldBeExtracted_ { false };
 	std::vector<MinutiaData> computeMuMinQuality(
-	    int bs, const NFIQ::FingerprintImageData &fingerprintImage);
+	    int bs, const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	std::vector<MinutiaData> computeOCLMinQuality(
-	    int bs, const NFIQ::FingerprintImageData &fingerprintImage);
+	    int bs, const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	double computeMMBBasedOnCOM(int bs,
-	    const NFIQ::FingerprintImageData &fingerprintImage,
+	    const NFIQ2::FingerprintImageData &fingerprintImage,
 	    unsigned int regionSize);
 };
 

@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ {
+namespace NFIQ2 {
 /**
 ******************************************************************************
 * @class Data

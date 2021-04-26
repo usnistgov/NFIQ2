@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace NFIQ {
+namespace NFIQ2 {
 /** Model Class containing Model Information */
 class ModelInfo {
     public:

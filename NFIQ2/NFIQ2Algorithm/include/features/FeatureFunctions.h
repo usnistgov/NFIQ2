@@ -4,7 +4,7 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
 
-namespace NFIQ {
+namespace NFIQ2 {
 
 namespace QualityFeatures {
 
@@ -46,10 +46,10 @@ void computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
 void addSamplingFeatures(
-    std::vector<NFIQ::QualityFeatureResult> &featureDataList,
+    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &dataVector);
 void addHistogramFeatures(
-    std::vector<NFIQ::QualityFeatureResult> &featureDataList,
+    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount);
 void addSamplingFeatureNames(

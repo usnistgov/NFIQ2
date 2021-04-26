@@ -16,16 +16,16 @@
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-NFIQ::QualityFeatures::FDAFeature::FDAFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::FDAFeature::FDAFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::FDAFeature::~FDAFeature() = default;
+NFIQ2::QualityFeatures::FDAFeature::~FDAFeature() = default;
 
 std::vector<std::string>
-NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FDAFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "FDA_Bin10_", 10);
@@ -33,25 +33,28 @@ NFIQ::QualityFeatures::FDAFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-const std::string NFIQ::QualityFeatures::FDAFeature::speedFeatureIDGroup =
+const std::string NFIQ2::QualityFeatures::FDAFeature::speedFeatureIDGroup =
     "Frequency domain";
 
-const std::string NFIQ::QualityFeatures::FDAFeature::moduleName { "NFIQ2_FDA" };
+const std::string NFIQ2::QualityFeatures::FDAFeature::moduleName {
+	"NFIQ2_FDA"
+};
 std::string
-NFIQ::QualityFeatures::FDAFeature::getModuleName() const
+NFIQ2::QualityFeatures::FDAFeature::getModuleName() const
 {
 	return moduleName;
 }
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -64,7 +67,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 	// compute Fda (taken from Rvu)
 	// ----------------------------
 
-	NFIQ::Timer timer;
+	NFIQ2::Timer timer;
 	double time = 0.0;
 	try {
 		timer.start();
@@ -169,7 +172,7 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		time = timer.stop();
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
 
 		addHistogramFeatureNames(speed.featureIDs, "FDA_Bin10_", 10);
@@ -181,12 +184,13 @@ NFIQ::QualityFeatures::FDAFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -227,8 +231,8 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		throw NFIQ::NFIQException {
-			NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException {
+			NFIQ2::e_Error_FeatureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'
@@ -238,7 +242,7 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	// rotate image to get the ridges horizontal using nearest-neighbor
 	// interpolation
 	cv::Mat blockRotated;
-	NFIQ::QualityFeatures::getRotatedBlock(
+	NFIQ2::QualityFeatures::getRotatedBlock(
 	    block, orientation + (M_PI / 2), padFlag, blockRotated);
 
 	//% set x and y

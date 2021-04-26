@@ -5,65 +5,65 @@
 #include <vector>
 
 std::vector<std::string>
-NFIQ::QualityFeatures::getAllActionableIdentifiers()
+NFIQ2::QualityFeatures::getAllActionableIdentifiers()
 {
-	return NFIQ::QualityFeatures::Impl::getAllActionableIdentifiers();
+	return NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers();
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::getAllQualityFeatureIDs()
 {
-	return NFIQ::QualityFeatures::Impl::getAllQualityFeatureIDs();
+	return NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs();
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::getAllSpeedFeatureGroups()
+NFIQ2::QualityFeatures::getAllSpeedFeatureGroups()
 {
-	return NFIQ::QualityFeatures::Impl::getAllSpeedFeatureGroups();
+	return NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups();
 }
 
-std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
-NFIQ::QualityFeatures::computeQualityFeatures(
-    const NFIQ::FingerprintImageData &rawImage)
+std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+NFIQ2::QualityFeatures::computeQualityFeatures(
+    const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ::QualityFeatures::Impl::computeQualityFeatures(rawImage);
+	return NFIQ2::QualityFeatures::Impl::computeQualityFeatures(rawImage);
 }
 
-std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
-NFIQ::QualityFeatures::getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
+NFIQ2::QualityFeatures::getActionableQualityFeedback(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
-	return NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
+	return NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	    features);
 }
-std::unordered_map<std::string, NFIQ::ActionableQualityFeedback>
-NFIQ::QualityFeatures::getActionableQualityFeedback(
-    const NFIQ::FingerprintImageData &rawImage)
+std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
+NFIQ2::QualityFeatures::getActionableQualityFeedback(
+    const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ::QualityFeatures::Impl::getActionableQualityFeedback(
+	return NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	    rawImage);
 }
 
-std::unordered_map<std::string, NFIQ::QualityFeatureData>
-NFIQ::QualityFeatures::getQualityFeatureData(
-    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+NFIQ2::QualityFeatures::getQualityFeatureData(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
-	return NFIQ::QualityFeatures::Impl::getQualityFeatureData(features);
+	return NFIQ2::QualityFeatures::Impl::getQualityFeatureData(features);
 }
 
-std::unordered_map<std::string, NFIQ::QualityFeatureData>
-NFIQ::QualityFeatures::getQualityFeatureData(
-    const NFIQ::FingerprintImageData &rawImage)
+std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+NFIQ2::QualityFeatures::getQualityFeatureData(
+    const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ::QualityFeatures::Impl::getQualityFeatureData(rawImage);
+	return NFIQ2::QualityFeatures::Impl::getQualityFeatureData(rawImage);
 }
 
-std::unordered_map<std::string, NFIQ::QualityFeatureSpeed>
-NFIQ::QualityFeatures::getQualityFeatureSpeeds(
-    const std::vector<std::shared_ptr<NFIQ::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
+NFIQ2::QualityFeatures::getQualityFeatureSpeeds(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
-	return NFIQ::QualityFeatures::Impl::getQualityFeatureSpeeds(features);
+	return NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(features);
 }

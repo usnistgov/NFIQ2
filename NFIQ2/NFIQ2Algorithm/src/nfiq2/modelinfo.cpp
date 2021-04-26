@@ -8,24 +8,24 @@
 
 static std::string trimWhitespace(const std::string &s);
 
-const std::string NFIQ::ModelInfo::ModelInfoKeyName = "Name";
-const std::string NFIQ::ModelInfo::ModelInfoKeyTrainer = "Trainer";
-const std::string NFIQ::ModelInfo::ModelInfoKeyDescription = "Description";
-const std::string NFIQ::ModelInfo::ModelInfoKeyVersion = "Version";
-const std::string NFIQ::ModelInfo::ModelInfoKeyPath = "Path";
-const std::string NFIQ::ModelInfo::ModelInfoKeyHash = "Hash";
+const std::string NFIQ2::ModelInfo::ModelInfoKeyName = "Name";
+const std::string NFIQ2::ModelInfo::ModelInfoKeyTrainer = "Trainer";
+const std::string NFIQ2::ModelInfo::ModelInfoKeyDescription = "Description";
+const std::string NFIQ2::ModelInfo::ModelInfoKeyVersion = "Version";
+const std::string NFIQ2::ModelInfo::ModelInfoKeyPath = "Path";
+const std::string NFIQ2::ModelInfo::ModelInfoKeyHash = "Hash";
 
-NFIQ::ModelInfo::ModelInfo()
+NFIQ2::ModelInfo::ModelInfo()
 {
 }
 
-NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
+NFIQ2::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 {
 	std::ifstream fp(modelInfoFilePath);
 	std::string line;
 
 	if (!fp) {
-		throw NFIQ::NFIQException(e_Error_CannotReadFromFile,
+		throw NFIQ2::NFIQException(e_Error_CannotReadFromFile,
 		    "Failed to Read File: " + modelInfoFilePath);
 	}
 
@@ -101,49 +101,49 @@ NFIQ::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 	fp.close();
 
 	if (this->modelPath.empty()) {
-		throw NFIQ::NFIQException(e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException(e_Error_NoDataAvailable,
 		    "The required model information: " +
 			ModelInfo::ModelInfoKeyPath + " was not found.");
 	}
 	if (this->modelHash.empty()) {
-		throw NFIQ::NFIQException(e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException(e_Error_NoDataAvailable,
 		    "The required model information: " +
 			ModelInfo::ModelInfoKeyHash + " was not found.");
 	}
 }
 
 std::string
-NFIQ::ModelInfo::getModelName() const
+NFIQ2::ModelInfo::getModelName() const
 {
 	return this->modelName;
 }
 
 std::string
-NFIQ::ModelInfo::getModelTrainer() const
+NFIQ2::ModelInfo::getModelTrainer() const
 {
 	return this->modelTrainer;
 }
 
 std::string
-NFIQ::ModelInfo::getModelDescription() const
+NFIQ2::ModelInfo::getModelDescription() const
 {
 	return this->modelDescription;
 }
 
 std::string
-NFIQ::ModelInfo::getModelVersion() const
+NFIQ2::ModelInfo::getModelVersion() const
 {
 	return this->modelVersion;
 }
 
 std::string
-NFIQ::ModelInfo::getModelPath() const
+NFIQ2::ModelInfo::getModelPath() const
 {
 	return this->modelPath;
 }
 
 std::string
-NFIQ::ModelInfo::getModelHash() const
+NFIQ2::ModelInfo::getModelHash() const
 {
 	return this->modelHash;
 }

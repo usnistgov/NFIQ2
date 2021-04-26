@@ -8,14 +8,14 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
 class RVUPHistogramFeature : public BaseFeature {
     public:
 	RVUPHistogramFeature(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~RVUPHistogramFeature();
 
 	std::string getModuleName() const override;
@@ -25,8 +25,8 @@ class RVUPHistogramFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	const int blocksize { 32 };
 	const double threshold { .1 };

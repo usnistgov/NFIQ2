@@ -26,7 +26,7 @@ From the matlab code:
 ***/
 
 void
-NFIQ::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
+NFIQ2::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
     double thresh, cv::OutputArray _normImage, cv::Mat &maskImage,
     cv::OutputArray _maskIndex)
 
@@ -125,7 +125,7 @@ gradients inside %   a block specified as a parameter
 %
 ***/
 void
-NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
+NFIQ2::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
     double &c, ocl_type compMethod)
 {
 	/*** Compute the gradient of the input block.  In Matlab, this is done
@@ -168,8 +168,9 @@ NFIQ::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 			ssErr << "Call to OpenCV Sobel operator function "
 				 "failed: "
 			      << e.what();
-			throw NFIQ::NFIQException(
-			    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+			throw NFIQ2::NFIQException(
+			    NFIQ2::e_Error_FeatureCalculationError,
+			    ssErr.str());
 		}
 	}
 
@@ -216,7 +217,7 @@ function orientang = ridgeorient(a, b, c)
 ***/
 
 double
-NFIQ::QualityFeatures::ridgeorient(double a, double b, double c)
+NFIQ2::QualityFeatures::ridgeorient(double a, double b, double c)
 {
 	double denom, sin2theta, cos2theta, orientang;
 	double temp;
@@ -233,7 +234,7 @@ NFIQ::QualityFeatures::ridgeorient(double a, double b, double c)
 /////////////////////////////////////////////////////////////////////////
 
 uint8_t
-NFIQ::QualityFeatures::allfun(const cv::Mat &Image)
+NFIQ2::QualityFeatures::allfun(const cv::Mat &Image)
 /*** Returns 1 if all elements are nonzero, 0 otherwise.
 % Equivalent to matlab:
 % all elements of x should be nonzero, otherwise flag a
@@ -263,7 +264,7 @@ forward differences at the edges and central differences elsewhere.
 Spacing is 1.  The input matrix is assumed to be 64-bit floating point
 */
 void
-NFIQ::QualityFeatures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
+NFIQ2::QualityFeatures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
 {
 	outBlock.create(inBlock.size(), CV_64F);
 
@@ -286,7 +287,7 @@ NFIQ::QualityFeatures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
 
 //////////////////////////////////////////////////////////////
 void
-NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
+NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
     const double orientation, bool padFlag, cv::Mat &rotatedBlock)
 {
 	const double Rad2Deg = 180.0 / M_PI;
@@ -297,8 +298,8 @@ NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		throw NFIQ::NFIQException {
-			NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException {
+			NFIQ2::e_Error_FeatureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'
@@ -325,15 +326,15 @@ NFIQ::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Exception during block rotation: " << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
 	return;
 }
 //////////////////////////////////////////////////////////////////////////////
 void
-NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
+NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
     std::vector<uint8_t> &ridval, std::vector<double> &dt)
 {
 	// average profile of blockCropped: Compute average of each column to
@@ -374,8 +375,8 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 		ssErr << "Exception during ridge/valley processing: "
 			 "cv::solve(cv::DECOMP_QR) "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
 	// Round to 10 decimal points to preserve score consistency across
@@ -417,7 +418,7 @@ NFIQ::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
  * @return
  */
 void
-NFIQ::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
+NFIQ2::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
     const double freq, const int sigma, cv::Mat &FilterOut)
 {
 	int ks2 = (ksize - 1) / 2;
@@ -446,7 +447,7 @@ NFIQ::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-NFIQ::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
+NFIQ2::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
     cv::Mat &ConvOut, const cv::Size &imageSize, const cv::Size &dftSize,
     bool imDFTFlag)
 {
@@ -480,13 +481,13 @@ NFIQ::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
 ////////////////////////////////////////
 // compute coherence for COH/CS
 double
-NFIQ::QualityFeatures::calccoh(double gxx, double gyy, double gxy)
+NFIQ2::QualityFeatures::calccoh(double gxx, double gyy, double gxy)
 {
 	return sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy) / (gxx + gyy);
 }
 
 double
-NFIQ::QualityFeatures::calcof(double gsxavg, double gsyavg)
+NFIQ2::QualityFeatures::calcof(double gsxavg, double gsyavg)
 {
 	double theta = 0;
 	double phi = atan2(gsyavg, gsxavg);
@@ -499,7 +500,7 @@ NFIQ::QualityFeatures::calcof(double gsxavg, double gsyavg)
 }
 
 cv::Mat
-NFIQ::QualityFeatures::computeNumericalGradientX(const cv::Mat &mat)
+NFIQ2::QualityFeatures::computeNumericalGradientX(const cv::Mat &mat)
 {
 	cv::Mat out(mat.rows, mat.cols, CV_64F);
 
@@ -517,7 +518,7 @@ NFIQ::QualityFeatures::computeNumericalGradientX(const cv::Mat &mat)
 }
 
 void
-NFIQ::QualityFeatures::computeNumericalGradients(
+NFIQ2::QualityFeatures::computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
@@ -528,8 +529,8 @@ NFIQ::QualityFeatures::computeNumericalGradients(
 }
 
 void
-NFIQ::QualityFeatures::addSamplingFeatures(
-    std::vector<NFIQ::QualityFeatureResult> &featureDataList,
+NFIQ2::QualityFeatures::addSamplingFeatures(
+    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &dataVector)
 {
 	const int sampleSize = dataVector.size();
@@ -538,13 +539,13 @@ NFIQ::QualityFeatures::addSamplingFeatures(
 	std::random_shuffle(dataVector.begin(), dataVector.end());
 
 	for (int i = 0; i < maxSampleCount; i++) {
-		NFIQ::QualityFeatureData fd;
+		NFIQ2::QualityFeatureData fd;
 
 		std::stringstream s;
 		s << featurePrefix << i;
 
 		fd.featureID = s.str();
-		fd.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+		fd.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		bool canComputeValue = true;
 		if (i < sampleSize) {
 			fd.featureDataDouble = dataVector.at(i);
@@ -552,13 +553,13 @@ NFIQ::QualityFeatures::addSamplingFeatures(
 			canComputeValue = false;
 		}
 
-		NFIQ::QualityFeatureResult result;
+		NFIQ2::QualityFeatureResult result;
 		result.featureData = fd;
 		if (canComputeValue) {
 			result.returnCode = 0;
 		} else {
 			result.returnCode =
-			    NFIQ::e_Error_FeatureCalculationError;
+			    NFIQ2::e_Error_FeatureCalculationError;
 		}
 
 		featureDataList.push_back(result);
@@ -566,8 +567,8 @@ NFIQ::QualityFeatures::addSamplingFeatures(
 }
 
 void
-NFIQ::QualityFeatures::addHistogramFeatures(
-    std::vector<NFIQ::QualityFeatureResult> &featureDataList,
+NFIQ2::QualityFeatures::addHistogramFeatures(
+    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount)
 {
@@ -579,8 +580,8 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 		std::stringstream s;
 		s << "Wrong histogram bin count for " << featurePrefix
 		  << ". Should be " << binCount << " but is " << myBinCount;
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, s.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, s.str());
 	}
 
 	std::sort(dataVector.begin(), dataVector.end());
@@ -602,16 +603,16 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 	}
 
 	for (int i = 0; i < binCount; i++) {
-		NFIQ::QualityFeatureData fd;
+		NFIQ2::QualityFeatureData fd;
 
 		std::stringstream s;
 		s << featurePrefix << i;
 
 		fd.featureID = s.str();
-		fd.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+		fd.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd.featureDataDouble = bins[i];
 
-		NFIQ::QualityFeatureResult result;
+		NFIQ2::QualityFeatureResult result;
 		result.featureData = fd;
 		result.returnCode = 0;
 
@@ -622,21 +623,21 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 	cv::Scalar mean, stdDev;
 	cv::meanStdDev(dataMat, mean, stdDev);
 
-	NFIQ::QualityFeatureData meanFD, stdDevFD;
-	NFIQ::QualityFeatureResult meanFR, stdDevFR;
+	NFIQ2::QualityFeatureData meanFD, stdDevFD;
+	NFIQ2::QualityFeatureResult meanFR, stdDevFR;
 	std::stringstream meanSs, stdDevSs;
 
 	meanSs << featurePrefix << "Mean";
 	stdDevSs << featurePrefix << "StdDev";
 
 	meanFD.featureID = meanSs.str();
-	meanFD.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+	meanFD.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	meanFD.featureDataDouble = mean.val[0];
 	meanFR.featureData = meanFD;
 	meanFR.returnCode = 0;
 
 	stdDevFD.featureID = stdDevSs.str();
-	stdDevFD.featureDataType = NFIQ::e_QualityFeatureDataTypeDouble;
+	stdDevFD.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	stdDevFD.featureDataDouble = stdDev.val[0];
 	stdDevFR.featureData = stdDevFD;
 	stdDevFR.returnCode = 0;
@@ -650,7 +651,7 @@ NFIQ::QualityFeatures::addHistogramFeatures(
 }
 
 void
-NFIQ::QualityFeatures::addSamplingFeatureNames(
+NFIQ2::QualityFeatures::addSamplingFeatureNames(
     std::vector<std::string> &featureNames, const char *prefix)
 {
 	for (int i = 0; i < maxSampleCount; i++) {
@@ -661,7 +662,7 @@ NFIQ::QualityFeatures::addSamplingFeatureNames(
 }
 
 void
-NFIQ::QualityFeatures::addHistogramFeatureNames(
+NFIQ2::QualityFeatures::addHistogramFeatureNames(
     std::vector<std::string> &featureNames, const char *prefix, int binCount)
 {
 	for (int i = 0; i < binCount; i++) {

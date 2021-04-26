@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace NFIQ { namespace Version {
+namespace NFIQ2 { namespace Version {
 extern const unsigned int Major;
 extern const unsigned int Minor;
 extern const unsigned int Patch;

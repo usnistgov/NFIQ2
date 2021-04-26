@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 class FingerJetFXFeature : public BaseFeature {
     public:
@@ -99,7 +99,7 @@ class FingerJetFXFeature : public BaseFeature {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature(const NFIQ::FingerprintImageData &fingerprintImage);
+	FingerJetFXFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~FingerJetFXFeature();
 
 	std::string getModuleName() const override;
@@ -113,7 +113,7 @@ class FingerJetFXFeature : public BaseFeature {
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
 
-	/** @throw NFIQ::NFIQException
+	/** @throw NFIQ2::NFIQException
 	 * Template could not be extracted.
 	 */
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
@@ -121,8 +121,8 @@ class FingerJetFXFeature : public BaseFeature {
 	bool getTemplateStatus() const;
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
@@ -131,7 +131,7 @@ class FingerJetFXFeature : public BaseFeature {
 	bool templateCouldBeExtracted_ { false };
 
 	FJFXROIResults computeROI(int bs,
-	    const NFIQ::FingerprintImageData &fingerprintImage,
+	    const NFIQ2::FingerprintImageData &fingerprintImage,
 	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
 };
 }}

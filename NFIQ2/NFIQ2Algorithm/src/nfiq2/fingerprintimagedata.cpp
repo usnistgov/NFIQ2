@@ -9,16 +9,16 @@ int debug = 0;
 static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);
 static double computeMuFromColumn(unsigned int columnIndex, cv::Mat &img);
 
-NFIQ::FingerprintImageData::FingerprintImageData()
+NFIQ2::FingerprintImageData::FingerprintImageData()
     : Data()
     , m_ImageWidth(0)
     , m_ImageHeight(0)
     , m_FingerCode(0)
-    , m_ImageDPI(NFIQ::e_ImageResolution_500dpi)
+    , m_ImageDPI(NFIQ2::e_ImageResolution_500dpi)
 {
 }
 
-NFIQ::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
+NFIQ2::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
     uint32_t imageHeight, uint8_t fingerCode, uint16_t imageDPI)
     : Data()
     , m_ImageWidth(imageWidth)
@@ -28,7 +28,7 @@ NFIQ::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
 {
 }
 
-NFIQ::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
+NFIQ2::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
     uint32_t dataSize, uint32_t imageWidth, uint32_t imageHeight,
     uint8_t fingerCode, uint16_t imageDPI)
     : Data(pData, dataSize)
@@ -39,7 +39,7 @@ NFIQ::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
 {
 }
 
-NFIQ::FingerprintImageData::FingerprintImageData(
+NFIQ2::FingerprintImageData::FingerprintImageData(
     const FingerprintImageData &otherData)
     : Data(otherData)
 {
@@ -49,15 +49,15 @@ NFIQ::FingerprintImageData::FingerprintImageData(
 	m_ImageDPI = otherData.m_ImageDPI;
 }
 
-NFIQ::FingerprintImageData::~FingerprintImageData()
+NFIQ2::FingerprintImageData::~FingerprintImageData()
 {
 }
 
-NFIQ::FingerprintImageData
-NFIQ::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
+NFIQ2::FingerprintImageData
+NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 {
 	// make local copy of internal fingerprint image
-	NFIQ::FingerprintImageData localFingerprintImage(this->m_ImageWidth,
+	NFIQ2::FingerprintImageData localFingerprintImage(this->m_ImageWidth,
 	    this->m_ImageHeight, this->m_FingerCode, this->m_ImageDPI);
 	// copy data now
 	localFingerprintImage.resize(this->size());
@@ -74,8 +74,8 @@ NFIQ::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
 	// start from top of image and find top row index that is already part
@@ -164,28 +164,28 @@ NFIQ::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 
 	// Values are from FJFX image size thresholds
 	if (roiImg.cols <= fingerJetMinWidth) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_InvalidImageSize,
 		    "Width is too small after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
 			", but minimum width is " +
 			std::to_string(fingerJetMinWidth + 1));
 	} else if (roiImg.cols >= fingerJetMaxWidth) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_InvalidImageSize,
 		    "Width is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
 			", but maximum width is " +
 			std::to_string(fingerJetMaxWidth - 1));
 	} else if (roiImg.rows <= fingerJetMinHeight) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_InvalidImageSize,
 		    "Height is too small after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
 			", but minimum height is " +
 			std::to_string(fingerJetMinHeight + 1));
 	} else if (roiImg.rows >= fingerJetMaxHeight) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_InvalidImageSize,
+		throw NFIQ2::NFIQException(NFIQ2::e_Error_InvalidImageSize,
 		    "Height is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
@@ -193,7 +193,7 @@ NFIQ::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 			std::to_string(fingerJetMaxHeight - 1));
 	}
 
-	NFIQ::FingerprintImageData croppedImage;
+	NFIQ2::FingerprintImageData croppedImage;
 	croppedImage.m_ImageHeight = roiImg.rows;
 	croppedImage.m_ImageWidth = roiImg.cols;
 	croppedImage.m_FingerCode = this->m_FingerCode;

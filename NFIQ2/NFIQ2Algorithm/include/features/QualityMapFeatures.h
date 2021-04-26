@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 #define LOW_FLOW_MAP_NO_DIRECTION 0
 #define LOW_FLOW_MAP_LOW_FLOW 127
@@ -19,7 +19,7 @@ namespace NFIQ { namespace QualityFeatures {
 
 class QualityMapFeatures : public BaseFeature {
     public:
-	QualityMapFeatures(const NFIQ::FingerprintImageData &fingerprintImage,
+	QualityMapFeatures(const NFIQ2::FingerprintImageData &fingerprintImage,
 	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);
 	virtual ~QualityMapFeatures();
 
@@ -54,8 +54,8 @@ class QualityMapFeatures : public BaseFeature {
 	    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	ImgProcROIFeature::ImgProcROIResults imgProcResults_ {};
 };

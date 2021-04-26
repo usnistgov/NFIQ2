@@ -15,24 +15,26 @@
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
-NFIQ::QualityFeatures::LCSFeature::LCSFeature(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::LCSFeature::LCSFeature(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ::QualityFeatures::LCSFeature::~LCSFeature() = default;
+NFIQ2::QualityFeatures::LCSFeature::~LCSFeature() = default;
 
-const std::string NFIQ::QualityFeatures::LCSFeature::moduleName { "NFIQ2_LCS" };
+const std::string NFIQ2::QualityFeatures::LCSFeature::moduleName {
+	"NFIQ2_LCS"
+};
 
 std::string
-NFIQ::QualityFeatures::LCSFeature::getModuleName() const
+NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 {
 	return moduleName;
 }
 
 std::vector<std::string>
-NFIQ::QualityFeatures::LCSFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	addHistogramFeatureNames(featureIDs, "LCS_Bin10_", 10);
@@ -40,18 +42,19 @@ NFIQ::QualityFeatures::LCSFeature::getAllFeatureIDs()
 	return featureIDs;
 }
 
-const std::string NFIQ::QualityFeatures::LCSFeature::speedFeatureIDGroup =
+const std::string NFIQ2::QualityFeatures::LCSFeature::speedFeatureIDGroup =
     "Local clarity";
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
-    const NFIQ::FingerprintImageData &fingerprintImage)
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ::e_ImageResolution_500dpi) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -65,11 +68,11 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
-	NFIQ::Timer timerLCS;
+	NFIQ2::Timer timerLCS;
 	double timeLCS = 0.0;
 	try {
 		timerLCS.start();
@@ -180,7 +183,7 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 		    histogramBins10, dataVector, 10);
 
 		// Speed
-		NFIQ::QualityFeatureSpeed speed;
+		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
 
 		addHistogramFeatureNames(speed.featureIDs, "LCS_Bin10_", 10);
@@ -191,12 +194,13 @@ NFIQ::QualityFeatures::LCSFeature::computeFeatureData(
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute LCS: " << e.what();
-		throw NFIQ::NFIQException(
-		    NFIQ::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ::NFIQException &) {
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
-		throw NFIQ::NFIQException(NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 	return featureDataList;
@@ -236,8 +240,8 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		throw NFIQ::NFIQException {
-			NFIQ::e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException {
+			NFIQ2::e_Error_FeatureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'
@@ -245,7 +249,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 	}
 
 	cv::Mat blockRotated;
-	NFIQ::QualityFeatures::getRotatedBlock(
+	NFIQ2::QualityFeatures::getRotatedBlock(
 	    block, orientation, padFlag, blockRotated);
 
 	//% set x and y
@@ -269,7 +273,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	NFIQ::QualityFeatures::getRidgeValleyStructure(v2, ridval, dt);
+	NFIQ2::QualityFeatures::getRidgeValleyStructure(v2, ridval, dt);
 
 	// Ridge-valley thickness
 	//  begrid = ridval(1); % begining with ridge?

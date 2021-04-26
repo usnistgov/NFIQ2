@@ -3,32 +3,32 @@
 
 #include <vector>
 
-NFIQ::QualityFeatures::BaseFeature::BaseFeature() = default;
+NFIQ2::QualityFeatures::BaseFeature::BaseFeature() = default;
 
-NFIQ::QualityFeatures::BaseFeature::~BaseFeature() = default;
+NFIQ2::QualityFeatures::BaseFeature::~BaseFeature() = default;
 
-NFIQ::QualityFeatureSpeed
-NFIQ::QualityFeatures::BaseFeature::getSpeed() const
+NFIQ2::QualityFeatureSpeed
+NFIQ2::QualityFeatures::BaseFeature::getSpeed() const
 {
 	return this->speed;
 }
 
-std::vector<NFIQ::QualityFeatureResult>
-NFIQ::QualityFeatures::BaseFeature::getFeatures() const
+std::vector<NFIQ2::QualityFeatureResult>
+NFIQ2::QualityFeatures::BaseFeature::getFeatures() const
 {
 	return this->features;
 }
 
 void
-NFIQ::QualityFeatures::BaseFeature::setSpeed(
-    const NFIQ::QualityFeatureSpeed &featureSpeed)
+NFIQ2::QualityFeatures::BaseFeature::setSpeed(
+    const NFIQ2::QualityFeatureSpeed &featureSpeed)
 {
 	this->speed = featureSpeed;
 }
 
 void
-NFIQ::QualityFeatures::BaseFeature::setFeatures(
-    const std::vector<NFIQ::QualityFeatureResult> &featureResult)
+NFIQ2::QualityFeatures::BaseFeature::setFeatures(
+    const std::vector<NFIQ2::QualityFeatureResult> &featureResult)
 {
 	this->features = featureResult;
 }

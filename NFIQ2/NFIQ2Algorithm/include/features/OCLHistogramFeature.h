@@ -11,14 +11,15 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityFeatures {
 
 static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 	0.81, 0.852, 0.898 };
 
 class OCLHistogramFeature : public BaseFeature {
     public:
-	OCLHistogramFeature(const NFIQ::FingerprintImageData &fingerprintImage);
+	OCLHistogramFeature(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~OCLHistogramFeature();
 
 	std::string getModuleName() const override;
@@ -31,8 +32,8 @@ class OCLHistogramFeature : public BaseFeature {
 	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);
 
     private:
-	std::vector<NFIQ::QualityFeatureResult> computeFeatureData(
-	    const NFIQ::FingerprintImageData &fingerprintImage);
+	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 };
 
 }}

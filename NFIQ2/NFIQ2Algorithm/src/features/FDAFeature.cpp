@@ -7,12 +7,6 @@
 #include <cmath>
 #include <sstream>
 
-#if defined WINDOWS || defined WIN32
-#include <windows.h>
-
-#include <cfloat>
-#endif
-
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 

@@ -5,13 +5,6 @@
 #include <prediction/RandomForestTrainedParams.h>
 #endif
 
-#if defined WINDOWS || defined WIN32
-#define NOMINMAX
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-#include <cfloat>
 #include <cmath>
 #include <ctime>
 

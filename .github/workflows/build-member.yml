@@ -1,0 +1,196 @@
+name: Build Libraries and CLI + Run CTS
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/workflows/build-pr.yml'
+      - '.github/workflows/build-pr-target.yml'
+      - '.github/workflows/clang-format.yml'
+      - '.gitignore'
+      - '.travis.yml'
+      - '**.md'
+      - 'appveyor.yml'
+      - 'complianceTestSet/**'
+
+env:
+  CONFIGURATION: Release
+  BUILD_NFIQ2_CLI: ON
+
+jobs:
+  build:
+    name: Build Matrix + CTS
+
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          # https://github.com/actions/virtual-environments
+          - { os: macOS-10.15, arch: x64 }
+          - { os: ubuntu-16.04, arch: x64 }
+          - { os: ubuntu-18.04, arch: x64 }
+          - { os: ubuntu-20.04, arch: x64 }
+          - { os: windows-2019, arch: x64 }
+          - { os: windows-2019, arch: x86 }
+          - { os: windows-2016, arch: x64 }
+          - { os: windows-2016, arch: x86 }
+
+    steps:
+    - name: Checkout Code and Submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Install vcpkg
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git fresh-vcpkg
+        .\\fresh-vcpkg\\bootstrap-vcpkg.bat -disableMetrics
+
+    - name: Package Cache (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      id: vcpkg-cache
+      uses: actions/cache@v2
+      with:
+        path: fresh-vcpkg\installed
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+        restore-keys: |
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+
+    - name: Install Packages (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        sudo apt -y install \
+            libdb++-dev \
+            libhwloc-dev \
+            libjpeg-dev \
+            libopenjp2-7-dev \
+            libpng-dev \
+            libsqlite3-dev \
+            libssl-dev \
+            libtiff-dev \
+            zlib1g-dev
+
+    - name: Install Packages (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: |
+        brew install \
+            berkeley-db \
+            hwloc \
+            jpeg-turbo \
+            libpng \
+            libtiff \
+            openjpeg \
+            openssl \
+            sqlite \
+            zlib
+
+    - name: Install Packages (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      run: |
+        fresh-vcpkg/vcpkg install \
+          --triplet=${{ matrix.config.arch }}-windows-static \
+          berkeleydb \
+          hwloc \
+          libjpeg-turbo \
+          liblzma \
+          libpng \
+          openjpeg \
+          openssl \
+          sqlite3 \
+          tiff \
+          zlib
+        # getopt is not static
+        fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+
+    - name: Build Directory Cache
+      id: builddir-cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ${{ github.workspace }}/build
+          !${{ github.workspace }}/build/nfir*
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-5
+
+    - name: Get CMake Version
+      shell: bash
+      run: cmake --version
+
+    - name: Create Build Directory
+      if:  steps.builddir-cache.outputs.cache-hit != 'true'
+      run: cmake -E make_directory ${{ github.workspace }}/build
+
+    - name: Configure CMake (Single-config Generator)
+      if: ${{ runner.os != 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: |
+        cmake \
+            -DCMAKE_BUILD_TYPE="${CONFIGURATION}" \
+            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            ${GITHUB_WORKSPACE}
+
+    - name: Configure CMake (Multi-config Generator)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      env:
+        cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
+      working-directory: ${{ github.workspace }}\build
+      run: |
+        cmake \
+            -A ${cmake_arch_flag} \
+            -DCMAKE_TOOLCHAIN_FILE=../fresh-vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
+            -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
+            -DVCPKG_VERBOSE=ON \
+            -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            ${GITHUB_WORKSPACE}
+
+    - name: Build (Single-config Generator)
+      if: ${{ runner.os != 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: cmake --build .
+
+    - name: Build (Multi-config Generator)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: cmake --build . --config ${CONFIGURATION}
+
+    - name: Download Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Run Compliance Test (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Run Compliance Test (Linux)
+      if: ${{ runner.os != 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Diff Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        python -m pip install pandas
+        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv

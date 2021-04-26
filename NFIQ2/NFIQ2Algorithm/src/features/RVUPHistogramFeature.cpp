@@ -7,12 +7,6 @@
 #include <cmath>
 #include <sstream>
 
-#if defined WINDOWS || defined WIN32
-#include <windows.h>
-
-#include <cfloat>
-#endif
-
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);

@@ -5,7 +5,6 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <nfiq2_modelinfo.hpp>
 #include <nfiq2_qualityfeatures.hpp>
-#include <nfiq2_results.hpp>
 
 #include <memory>
 #include <string>

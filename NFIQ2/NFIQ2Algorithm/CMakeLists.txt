@@ -42,8 +42,6 @@ set(SOURCE_FILES
     "src/nfiq2/nfiq2_nfiq2algorithm_impl.cpp"
     "src/nfiq2/nfiq2_qualityfeatures.cpp"
     "src/nfiq2/nfiq2_qualityfeatures_impl.cpp"
-    "src/nfiq2/nfiq2_results.cpp"
-    "src/nfiq2/nfiq2_results_impl.cpp"
     "src/nfiq2/nfiq2_timer.cpp"
     "src/nfiq2/nfiqexception.cpp"
     "src/nfiq2/version.cpp")
@@ -74,7 +72,6 @@ set(PUBLIC_HEADERS
     "include/nfiq2_nfiq2algorithm.hpp"
     "include/nfiq2_nfiqexception.hpp"
     "include/nfiq2_qualityfeatures.hpp"
-    "include/nfiq2_results.hpp"
     "include/nfiq2_timer.hpp"
     "include/nfiq2_version.hpp")
 

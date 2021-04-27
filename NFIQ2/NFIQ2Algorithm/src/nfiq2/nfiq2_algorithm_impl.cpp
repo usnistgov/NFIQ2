@@ -30,6 +30,7 @@ set_fpu(unsigned int mode)
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2::NFIQ2Algorithm::Impl::Impl()
+    : initialized { true }
 {
 #if defined(__linux) && defined(__i386__)
 	set_fpu(0x27F); /* use double-precision rounding */
@@ -39,13 +40,14 @@ NFIQ2::NFIQ2Algorithm::Impl::Impl()
 }
 #else
 NFIQ2::NFIQ2Algorithm::Impl::Impl()
+    : initialized { false }
 {
-	// default constructor
 }
 #endif
 
 NFIQ2::NFIQ2Algorithm::Impl::Impl(
     const std::string &fileName, const std::string &fileHash)
+    : initialized { true }
 {
 #if defined(__linux) && defined(__i386__)
 	set_fpu(0x27F); /* use double-precision rounding */

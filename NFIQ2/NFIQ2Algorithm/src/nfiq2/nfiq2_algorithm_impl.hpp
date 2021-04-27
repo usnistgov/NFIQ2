@@ -87,6 +87,7 @@ class NFIQ2Algorithm::Impl {
 	std::string getParameterHash() const;
 
     private:
+	bool initialized {};
 	/**
 	 * @throws NFIQException
 	 * Failure to compute (OpenCV reason contained within message string).

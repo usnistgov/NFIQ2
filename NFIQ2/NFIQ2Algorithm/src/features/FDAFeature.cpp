@@ -47,7 +47,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
@@ -178,12 +178,12 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "
 		      << e.what();
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
@@ -225,7 +225,7 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
-		throw NFIQ2::NFIQException {
+		throw NFIQ2::Exception {
 			NFIQ2::ErrorCode::FeatureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +

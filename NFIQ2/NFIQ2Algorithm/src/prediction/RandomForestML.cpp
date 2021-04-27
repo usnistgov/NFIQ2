@@ -1,9 +1,29 @@
 #include <nfiq2_exception.hpp>
 #include <prediction/RandomForestML.h>
 
+/*
+ * If we're embedding parameters, figure out which to embed based on the
+ * provided FRCT.
+ */
 #ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+#ifdef NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT
+/* FRCT == Unknown */
+#if NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT == 0
 #include <prediction/RandomForestTrainedParams.h>
-#endif
+/* FRCT == scanned ink on paper */
+#elif NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT == 2
+#include <prediction/RandomForestTrainedParams.h>
+/* FRCT == Optical: total internal reflection (bright field) */
+#elif NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT == 3
+#include <prediction/RandomForestTrainedParams.h>
+/* Unsupported */
+#else
+#error Value of NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT is not supported.
+#endif /* NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT */
+#else
+#include <prediction/RandomForestTrainedParams.h>
+#endif /* NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT */
+#endif /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 
 #include <cmath>
 #include <ctime>

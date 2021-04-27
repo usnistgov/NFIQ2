@@ -107,8 +107,8 @@ class NFIQException : public std::exception {
 	std::string getErrorMessage() const;
 
     private:
-	NFIQ2::ErrorCode returnCode; ///< The return code of the exception
-	std::string errorMessage;    ///< The error message of the exception
+	NFIQ2::ErrorCode errorCode; ///< The return code of the exception
+	std::string errorMessage;   ///< The error message of the exception
 };
 } // namespace NFIQ
 

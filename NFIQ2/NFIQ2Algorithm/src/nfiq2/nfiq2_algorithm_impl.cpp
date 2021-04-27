@@ -73,9 +73,7 @@ NFIQ2::Algorithm::Impl::Impl(
 	}
 }
 
-NFIQ2::Algorithm::Impl::~Impl()
-{
-}
+NFIQ2::Algorithm::Impl::~Impl() = default;
 
 double
 NFIQ2::Algorithm::Impl::getQualityPrediction(

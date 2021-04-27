@@ -93,21 +93,18 @@ class NFIQException : public std::exception {
 	virtual const char *what() const noexcept;
 
 	/**
-	 * @fn getReturnCode
+	 * @fn getErrorCode
 	 * @brief Returns the return code of the exception
 	 * @return The return code
 	 */
-	uint32_t getReturnCode() const
-	{
-		return static_cast<uint32_t>(returnCode);
-	}
+	NFIQ2::ErrorCode getErrorCode() const;
 
 	/**
 	 * @fn getErrorMessage
 	 * @brief Returns the error message of the exception
 	 * @return The error message
 	 */
-	std::string getErrorMessage() const { return errorMessage; }
+	std::string getErrorMessage() const;
 
     private:
 	NFIQ2::ErrorCode returnCode; ///< The return code of the exception

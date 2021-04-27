@@ -91,6 +91,9 @@ class Algorithm::Impl {
 	 */
 	std::string getParameterHash() const;
 
+	/** @return Whether or not random forest parameters have been loaded. */
+	bool isInitialized() const;
+
     private:
 	/** Whether or not random forest parameters have been loaded. */
 	bool initialized { false };

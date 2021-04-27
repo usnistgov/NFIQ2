@@ -69,6 +69,16 @@ class Algorithm {
 	 */
 	std::string getParameterHash() const;
 
+	/**
+	 * @brief
+	 * Determine if random forest parameters have been loaded.
+	 *
+	 * @return
+	 * true if some set of random forest parameters have been loaded, false
+	 * otherwise.
+	 */
+	bool isInitialized() const;
+
     private:
 	class Impl;
 	const std::unique_ptr<const Algorithm::Impl> pimpl;

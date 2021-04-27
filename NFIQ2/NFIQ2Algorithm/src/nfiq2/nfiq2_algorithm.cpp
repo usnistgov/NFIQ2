@@ -56,4 +56,10 @@ NFIQ2::Algorithm::getParameterHash() const
 	return (this->pimpl->getParameterHash());
 }
 
+bool
+NFIQ2::Algorithm::isInitialized() const
+{
+	return (this->pimpl->isInitialized());
+}
+
 NFIQ2::Algorithm::~Algorithm() = default;

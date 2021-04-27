@@ -192,7 +192,13 @@ NFIQ2::Algorithm::Impl::getParameterHash() const
 void
 NFIQ2::Algorithm::Impl::throwIfUninitialized() const
 {
-	if (!this->initialized)
+	if (!this->isInitialized())
 		throw NFIQ2::Exception { NFIQ2::ErrorCode::MachineLearningError,
 			"Random forest parameters were not loaded" };
+}
+
+bool
+NFIQ2::Algorithm::Impl::isInitialized() const
+{
+	return (this->initialized);
 }

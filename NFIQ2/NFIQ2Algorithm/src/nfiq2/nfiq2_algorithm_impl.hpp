@@ -46,6 +46,8 @@ class Algorithm::Impl {
 	 * data
 	 * @param rawImage fingerprint image in raw format
 	 * @return achieved quality score
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	unsigned int computeQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
@@ -57,6 +59,8 @@ class Algorithm::Impl {
 	 * @param features list of computed feature metrics that contain quality
 	 * information for a fingerprint image
 	 * @return achieved quality score
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	unsigned int computeQualityScore(const std::vector<
 	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
@@ -68,6 +72,8 @@ class Algorithm::Impl {
 	 * quality feature data
 	 * @param features map of string, quality feature data pairs
 	 * @return achieved quality score
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	unsigned int computeQualityScore(
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
@@ -79,6 +85,9 @@ class Algorithm::Impl {
 	 *
 	 * @return
 	 * MD5 checksum of the Random Forest parameter file loaded.
+	 *
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	std::string getParameterHash() const;
 
@@ -87,7 +96,8 @@ class Algorithm::Impl {
 	bool initialized { false };
 	/**
 	 * @throws Exception
-	 * Failure to compute (OpenCV reason contained within message string).
+	 * Failure to compute (OpenCV reason contained within message string) or
+	 * called before random forest parameters loaded.
 	 */
 	double getQualityPrediction(
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
@@ -97,8 +107,8 @@ class Algorithm::Impl {
 	 * @brief
 	 * Throw an exception if random forest parameters have not been loaded.
 	 *
-	 * @throw
-	 * NFIQ2::Exception if random forest parameters have not been loaded.
+	 * @throw NFIQ2::Exception
+	 * Random forest parameters have not been loaded.
 	 */
 	void throwIfUninitialized() const;
 

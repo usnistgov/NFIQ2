@@ -2,60 +2,56 @@
 #define NFIQ2_EXCEPTION_HPP_
 
 #include <exception>
+#include <map>
 #include <string>
 
 namespace NFIQ2 {
 /**
- * This type represents error codes defined within this framework.
+ * This class represents error codes defined within this framework.
  */
-typedef enum error_code_e {
-	e_Error_UnknownError = 1,
-	e_Error_RefusalToProduceTemplate = 2,
-	e_Error_RefusalToProcessInputImage = 4,
-	e_Error_FailureToExtract = 6,
-	e_Error_NotEnoughMemory = 8,
-	e_Error_OutputTypeNotSupported = 10,
-	e_Error_NullPointer = 12,
-	e_Error_BadArguments = 14,
-	e_Error_UtilityCalculationError = 20,
-	e_Error_ComparisonError = 21,
-	e_Error_FeatureCalculationError = 22,
-	e_Error_ImageNotAvailable = 23,
-	e_Error_FunctionNotImplemented = 24,
-	e_Error_CannotWriteToFile = 25,
-	e_Error_CannotReadFromFile = 26,
-	e_Error_NoDataAvailable = 27,
-	e_Error_ModuleNotFound = 28,
-	e_Error_InputOutputModuleNotSelected = 29,
-	e_Error_UtilityEstimationModuleNotSelected = 30,
-	e_Error_MachineLearningModuleNotSelected = 31,
-	e_Error_CannotParseXML = 32,
-	e_Error_CannotDecodeBase64 = 33,
-	e_Error_CannotComposeXML = 34,
-	e_Error_NoDatabaseConnection = 35,
-	e_Error_WrongFileType = 36,
-	e_Error_WrongFileContent = 37,
-	e_Error_ImageConversionError = 38,
-	e_Error_TooFewGenuineScores = 39,
-	e_Error_CannotFuseUtility = 40,
-	e_Error_InvalidConfiguration = 41,
-	e_Error_MachineLearningError = 42,
+enum class ErrorCode {
+	UnknownError,
+	NotEnoughMemory,
+	BadArguments,
+	FeatureCalculationError,
+	CannotWriteToFile,
+	CannotReadFromFile,
+	NoDataAvailable,
+	CannotDecodeBase64,
+	InvalidConfiguration,
+	MachineLearningError,
 	// dedicated FJFX feature computation errors
-	e_Error_FeatureCalculationError_FJFX_CannotCreateContext = 43,
-	e_Error_FeatureCalculationError_FJFX_CannotCreateFeatureSet = 44,
-	e_Error_FeatureCalculationError_FJFX_NoFeatureSetCreated = 45,
-	e_Error_FeatureCalculationError_FJFX_CannotExportISO = 46,
-	e_Error_FeatureCalculationError_FJFX_ISOTemplateTooSmall = 47,
-	e_Error_FeatureCalculationError_FJFX_CannotAllocateFMR = 48,
-	e_Error_FeatureCalculationError_FJFX_CannotInitBDB = 49,
-	e_Error_FeatureCalculationError_FJFX_NoMinutiaeRecords = 50,
-	e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeRecords = 51,
-	e_Error_FeatureCalculationError_FJFX_NoMinutiaeFound = 52,
-	e_Error_FeatureCalculationError_FJFX_CannotGetMinutiaeData = 53,
+	FJFX_CannotCreateContext,
+	FJFX_CannotCreateFeatureSet,
+	FJFX_NoFeatureSetCreated,
 	// Scores must be between 0 and 100
-	e_Error_InvalidNFIQ2Score = 54,
-	e_Error_InvalidImageSize = 55
-} ErrorCode;
+	InvalidNFIQ2Score,
+	InvalidImageSize
+};
+
+static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
+	{ NFIQ2::ErrorCode::UnknownError, "Unknown error" },
+	{ NFIQ2::ErrorCode::NotEnoughMemory, "Not enough memory" },
+	{ NFIQ2::ErrorCode::BadArguments, "Bad arguments" },
+	{ NFIQ2::ErrorCode::FeatureCalculationError,
+	    "Feature calculation error" },
+	{ NFIQ2::ErrorCode::CannotWriteToFile, "Cannot write to file" },
+	{ NFIQ2::ErrorCode::CannotReadFromFile, "Cannot read from file" },
+	{ NFIQ2::ErrorCode::NoDataAvailable, "No data available" },
+	{ NFIQ2::ErrorCode::CannotDecodeBase64, "Cannot decode base64 string" },
+	{ NFIQ2::ErrorCode::InvalidConfiguration,
+	    "An invalid configuration entry was found" },
+	{ NFIQ2::ErrorCode::MachineLearningError,
+	    "An machine learning error occured" },
+	{ NFIQ2::ErrorCode::FJFX_CannotCreateContext,
+	    "Cannot create context for FJFX feature extractor" },
+	{ NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
+	    "Cannot create feature set from fingerprint data" },
+	{ NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
+	    "No feature set could be created" },
+	{ NFIQ2::ErrorCode::InvalidNFIQ2Score, "Invalid NFIQ2 Score" },
+	{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
+};
 
 /**
 ******************************************************************************
@@ -71,13 +67,14 @@ class NFIQException : public std::exception {
 	/**
 	 * @brief Constructor which uses supplied error code and default message
 	 */
-	explicit NFIQException(uint32_t returnCode);
+	NFIQException(const NFIQ2::ErrorCode &errorCode);
 
 	/**
 	 * @brief Constructor which uses supplied error code and user-defined
 	 * message
 	 */
-	NFIQException(uint32_t returnCode, std::string errorMessage);
+	NFIQException(
+	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
 
 	/**
 	 * @brief Destructo
@@ -96,22 +93,22 @@ class NFIQException : public std::exception {
 	virtual const char *what() const noexcept;
 
 	/**
-	 * @fn getReturnCode
+	 * @fn getErrorCode
 	 * @brief Returns the return code of the exception
 	 * @return The return code
 	 */
-	uint32_t getReturnCode() const { return m_ReturnCode; }
+	NFIQ2::ErrorCode getErrorCode() const;
 
 	/**
 	 * @fn getErrorMessage
 	 * @brief Returns the error message of the exception
 	 * @return The error message
 	 */
-	std::string getErrorMessage() const { return m_ErrorMessage; }
+	std::string getErrorMessage() const;
 
     private:
-	uint32_t m_ReturnCode;	    ///< The return code of the exception
-	std::string m_ErrorMessage; ///< The error message of the exception
+	NFIQ2::ErrorCode errorCode; ///< The return code of the exception
+	std::string errorMessage;   ///< The error message of the exception
 };
 } // namespace NFIQ
 

@@ -50,14 +50,14 @@ NFIQ2::NFIQ2Algorithm::Impl::Impl(
 		this->m_parameterHash = m_RandomForestML.initModule(
 		    fileName, fileHash);
 	} catch (const cv::Exception &e) {
-		throw NFIQException(e_Error_BadArguments,
+		throw NFIQException(NFIQ2::ErrorCode::BadArguments,
 		    "Could not initialize random forest parameters with "
 		    "external file. Most likely, the file does not exist. "
 		    "Check the path (" +
 			fileName + ") and hash (" + fileHash +
 			") (initial error: " + e.msg + ").");
 	} catch (const NFIQ2::NFIQException &e) {
-		throw NFIQException(e_Error_BadArguments,
+		throw NFIQException(NFIQ2::ErrorCode::BadArguments,
 		    "Could not initialize random forest parameters with "
 		    "external file. Most likely, the hash is not correct. "
 		    "Check the path (" +
@@ -94,7 +94,8 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 
 	if (quality.size() == 0) {
 		// no features have been computed
-		throw NFIQ2::NFIQException(e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "No features have been computed");
 	}
 
@@ -133,7 +134,8 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 		 * Nothing should get here, but computeQualityFeatures() calls
 		 * a lot of code...
 		 */
-		throw NFIQ2::NFIQException(e_Error_UnknownError, e.what());
+		throw NFIQ2::NFIQException(
+		    NFIQ2::ErrorCode::UnknownError, e.what());
 	}
 
 	const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
@@ -141,7 +143,8 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 
 	if (quality.size() == 0) {
 		// no features have been computed
-		throw NFIQ2::NFIQException(e_Error_FeatureCalculationError,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "No features have been computed");
 	}
 

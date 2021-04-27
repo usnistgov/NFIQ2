@@ -87,7 +87,7 @@ NFIQ2::Prediction::RandomForestML::initModule()
 		initModule(params);
 		return calculateHashString(params);
 	} catch (const cv::Exception &e) {
-		throw NFIQException(e_Error_UnknownError, e.msg);
+		throw NFIQException(NFIQ2::ErrorCode::UnknownError, e.msg);
 	} catch (...) {
 		throw;
 	}
@@ -106,7 +106,8 @@ NFIQ2::Prediction::RandomForestML::initModule(
 	std::string hash = calculateHashString(params);
 	if (fileHash.compare(hash) != 0) {
 		m_pTrainedRF->clear();
-		throw NFIQ2::NFIQException(NFIQ2::e_Error_InvalidConfiguration,
+		throw NFIQ2::NFIQException(
+		    NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized! "
 		    "Error: " +
 			hash);
@@ -158,7 +159,7 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		if (m_pTrainedRF.empty() || !m_pTrainedRF->isTrained() ||
 		    !m_pTrainedRF->isClassifier()) {
 			throw NFIQ2::NFIQException(
-			    NFIQ2::e_Error_InvalidConfiguration,
+			    NFIQ2::ErrorCode::InvalidConfiguration,
 			    "The trained network could not be loaded for "
 			    "prediction!");
 		}
@@ -191,7 +192,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		qualityValue = (int)(prob + 0.5);
 
 	} catch (const cv::Exception &e) {
-		throw NFIQException(e_Error_MachineLearningError, e.msg);
+		throw NFIQException(
+		    NFIQ2::ErrorCode::MachineLearningError, e.msg);
 	}
 }
 

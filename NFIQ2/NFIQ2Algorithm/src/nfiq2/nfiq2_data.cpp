@@ -41,11 +41,11 @@ NFIQ2::Data::writeToFile(const std::string &filename) const
 			f.close();
 		} else {
 			throw NFIQ2::NFIQException(
-			    NFIQ2::e_Error_CannotWriteToFile);
+			    NFIQ2::ErrorCode::CannotWriteToFile);
 		}
 	}
 	if (!success) {
-		throw NFIQ2::NFIQException(NFIQ2::e_Error_CannotWriteToFile);
+		throw NFIQ2::NFIQException(NFIQ2::ErrorCode::CannotWriteToFile);
 	}
 }
 
@@ -79,11 +79,12 @@ NFIQ2::Data::readFromFile(const std::string &filename)
 			}
 		} else {
 			throw NFIQ2::NFIQException(
-			    NFIQ2::e_Error_CannotReadFromFile);
+			    NFIQ2::ErrorCode::CannotReadFromFile);
 		}
 	}
 	if (!success) {
-		throw NFIQ2::NFIQException(NFIQ2::e_Error_CannotReadFromFile);
+		throw NFIQ2::NFIQException(
+		    NFIQ2::ErrorCode::CannotReadFromFile);
 	}
 }
 
@@ -91,7 +92,7 @@ std::string
 NFIQ2::Data::toHexString() const
 {
 	if (this->size() <= 0) {
-		throw NFIQ2::NFIQException(NFIQ2::e_Error_NoDataAvailable);
+		throw NFIQ2::NFIQException(NFIQ2::ErrorCode::NoDataAvailable);
 	}
 
 	std::stringstream ss;
@@ -160,7 +161,8 @@ NFIQ2::Data::fromBase64String(const std::string &base64String)
 	}
 
 	if (!ok) {
-		throw NFIQ2::NFIQException(NFIQ2::e_Error_CannotDecodeBase64);
+		throw NFIQ2::NFIQException(
+		    NFIQ2::ErrorCode::CannotDecodeBase64);
 	}
 }
 

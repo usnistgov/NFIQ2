@@ -28,11 +28,7 @@ class Algorithm::Impl {
 	/**
 	 * @brief Default constructor of Impl
 	 */
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
 	Impl();
-#else
-	Impl();
-#endif
 	Impl(const std::string &fileName, const std::string &fileHash);
 
 	/**

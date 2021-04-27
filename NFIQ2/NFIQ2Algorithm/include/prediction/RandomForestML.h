@@ -18,7 +18,7 @@ class RandomForestML {
 	static const std::string moduleName;
 	std::string getModuleName() const;
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	std::string initModule();
 #endif
 	std::string initModule(
@@ -35,7 +35,7 @@ class RandomForestML {
 
 	std::string calculateHashString(const std::string &s);
 	void initModule(const std::string &params);
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	std::string joinRFTrainedParamsString();
 #endif
 };

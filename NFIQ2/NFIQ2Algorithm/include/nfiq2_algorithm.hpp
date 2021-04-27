@@ -14,7 +14,7 @@ namespace NFIQ2 {
 /** Wrapper to return quality scores for a fingerprint image */
 class Algorithm {
     public:
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	Algorithm();
 #endif
 	Algorithm(const std::string &fileName, const std::string &fileHash);

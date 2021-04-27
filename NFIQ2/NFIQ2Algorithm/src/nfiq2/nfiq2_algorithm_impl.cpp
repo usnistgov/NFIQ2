@@ -28,7 +28,7 @@ set_fpu(unsigned int mode)
 }
 #endif
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 NFIQ2::Algorithm::Impl::Impl()
 {
 #if defined(__linux) && defined(__i386__)

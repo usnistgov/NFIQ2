@@ -3,7 +3,7 @@
 
 #include "nfiq2_algorithm_impl.hpp"
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 NFIQ2::Algorithm::Algorithm()
     : pimpl { new NFIQ2::Algorithm::Impl() }
 {

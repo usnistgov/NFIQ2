@@ -28,7 +28,7 @@ class Algorithm::Impl {
 	/**
 	 * @brief Default constructor of Impl
 	 */
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	Impl();
 #endif
 	Impl(const std::string &fileName, const std::string &fileHash);

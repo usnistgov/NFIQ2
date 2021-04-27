@@ -85,7 +85,7 @@ InitNfiq2(char **hash)
 {
 	try {
 		if (g_nfiq2.get() == nullptr) {
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 			g_nfiq2 = std::unique_ptr<NFIQ2::Algorithm>(
 			    new NFIQ2::Algorithm());
 #else

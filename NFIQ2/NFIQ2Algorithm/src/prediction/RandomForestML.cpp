@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <prediction/RandomForestML.h>
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 #include <prediction/RandomForestTrainedParams.h>
 #endif
 
@@ -45,7 +45,7 @@ NFIQ2::Prediction::RandomForestML::initModule(const std::string &params)
 	m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
 }
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 std::string
 NFIQ2::Prediction::RandomForestML::joinRFTrainedParamsString()
 {
@@ -70,7 +70,7 @@ NFIQ2::Prediction::RandomForestML::~RandomForestML()
 	}
 }
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 std::string
 NFIQ2::Prediction::RandomForestML::initModule()
 {

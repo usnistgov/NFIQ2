@@ -558,8 +558,7 @@ NFIQ2::QualityFeatures::addSamplingFeatures(
 		if (canComputeValue) {
 			result.returnCode = 0;
 		} else {
-			result.returnCode = static_cast<int>(
-			    NFIQ2::ErrorCode::FeatureCalculationError);
+			result.returnCode = 1;
 		}
 
 		featureDataList.push_back(result);

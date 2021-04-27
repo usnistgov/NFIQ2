@@ -1,5 +1,5 @@
-#ifndef NFIQ2_Algorithm_IMPL_HPP_
-#define NFIQ2_Algorithm_IMPL_HPP_
+#ifndef NFIQ2_ALGORITHM_IMPL_HPP_
+#define NFIQ2_ALGORITHM_IMPL_HPP_
 
 #include <nfiq2_algorithm.hpp>
 #include <nfiq2_exception.hpp>

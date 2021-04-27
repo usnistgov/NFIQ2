@@ -12,7 +12,6 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_qualityfeatures.hpp>
 #include <nfiq2_timer.hpp>
-#include <string.h>
 
 #include "nfiq2_algorithm_impl.hpp"
 #include <iomanip>

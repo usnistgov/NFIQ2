@@ -13,7 +13,7 @@ NFIQ2::NFIQException::NFIQException(const NFIQ2::ErrorCode &errorCode)
 NFIQ2::NFIQException::NFIQException(
     const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage)
     : m_ReturnCode(static_cast<int>(errorCode))
-    , m_ErrorMessage(errorCodeMessage.at(errorCode))
+    , m_ErrorMessage(errorMessage)
 {
 }
 

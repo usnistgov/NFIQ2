@@ -28,29 +28,24 @@ set_fpu(unsigned int mode)
 }
 #endif
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ2::Algorithm::Impl::Impl()
-{
-#if defined(__linux) && defined(__i386__)
-	set_fpu(0x27F); /* use double-precision rounding */
-#endif
-	// init RF module that takes some time to load the parameters
-	this->m_parameterHash = m_RandomForestML.initModule();
-	this->initialized = true;
-}
-#else
 NFIQ2::Algorithm::Impl::Impl()
     : initialized { false }
 {
-}
-#endif
-
-NFIQ2::Algorithm::Impl::Impl(
-    const std::string &fileName, const std::string &fileHash)
-{
 #if defined(__linux) && defined(__i386__)
 	set_fpu(0x27F); /* use double-precision rounding */
 #endif
+
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
+	// init RF module that takes some time to load the parameters
+	this->m_parameterHash = m_RandomForestML.initModule();
+	this->initialized = true;
+#endif
+}
+
+NFIQ2::Algorithm::Impl::Impl(
+    const std::string &fileName, const std::string &fileHash)
+    : Impl()
+{
 	// init RF module that takes some time to load the parameters
 	try {
 		this->m_parameterHash = m_RandomForestML.initModule(

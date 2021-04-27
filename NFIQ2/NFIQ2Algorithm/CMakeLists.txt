@@ -27,6 +27,10 @@ include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFR
 
 include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
 
+option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
+set(EMBEDDED_RANDOM_FOREST_PARAMETER_CAPTURE_TECHNOLOGY "0" CACHE STRING
+    "ANSI/NIST-ITL 1-2011: Update 2015 friction ridge capture technology (FRCT) code for parameters to embed")
+
 set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
@@ -86,6 +90,11 @@ set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
     OUTPUT_NAME "nfiq2"
 )
+
+if (EMBED_RANDOM_FOREST_PARAMETERS)
+	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "EMBED_RANDOMFOREST_PARAMETERS")
+	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_RANDOM_FOREST_PARAMETERS_FRCT=${EMBEDDED_RANDOM_FOREST_PARAMETER_CAPTURE_TECHNOLOGY}")
+endif()
 
 # FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once FJFX builds
 # FIXME: are updated.

@@ -6,6 +6,16 @@ message(STATUS "NFIQ 2 Superbuild")
 
 option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
 
+# Options for embedding random forest parameters
+option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
+set(EMBEDDED_RANDOM_FOREST_PARAMETER_CAPTURE_TECHNOLOGY "0" CACHE STRING
+    "ANSI/NIST-ITL 1-2011: Update 2015 friction ridge capture technology (FRCT) code for parameters to embed")
+set(EMBEDDING_CMAKE_ARGS -DEMBEDDED_RANDOM_FOREST_PARAMETER_CAPTURE_TECHNOLOGY=${EMBEDDED_RANDOM_FOREST_PARAMETER_CAPTURE_TECHNOLOGY})
+if(EMBED_RANDOM_FOREST_PARAMETERS)
+	message(STATUS "Embedding random forest parameters")
+	list(APPEND EMBEDDING_CMAKE_ARGS -DEMBED_RANDOM_FOREST_PARAMETERS=${EMBED_RANDOM_FOREST_PARAMETERS})
+endif()
+
 set( NO_SEARCH TRUE )
 
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
@@ -194,6 +204,7 @@ ExternalProject_Add(nfiq2
 		${IOS_CMAKE_ARGS}
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
+		${EMBEDDING_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)

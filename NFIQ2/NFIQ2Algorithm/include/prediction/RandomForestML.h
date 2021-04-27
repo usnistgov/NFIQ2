@@ -8,8 +8,6 @@
 #include <unordered_map>
 #include <vector>
 
-#undef EMBED_RANDOMFOREST_PARAMETERS
-
 namespace NFIQ2 { namespace Prediction {
 
 class RandomForestML {

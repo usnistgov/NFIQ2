@@ -3,17 +3,10 @@
 
 #include "nfiq2_algorithm_impl.hpp"
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2::Algorithm::Algorithm()
     : pimpl { new NFIQ2::Algorithm::Impl() }
 {
 }
-#else
-NFIQ2::Algorithm::Algorithm()
-    : pimpl { new NFIQ2::Algorithm::Impl() }
-{
-}
-#endif
 
 NFIQ2::Algorithm::Algorithm(
     const std::string &fileName, const std::string &fileHash)

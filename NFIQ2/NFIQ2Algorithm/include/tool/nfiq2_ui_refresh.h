@@ -138,10 +138,10 @@ cv::Mat resampleAndLogError(
  *      Optional warning message used in AN2K and ANSI2004 Records.
  */
 void executeSingle(std::shared_ptr<BiometricEvaluation::Image::Image> img,
-    const std::string &name, const Flags &flags,
-    const NFIQ2::Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger,
-    const bool singleImage, const bool interactive,
-    const uint8_t fingerPosition = 0, const std::string &warning = "NA");
+    const std::string &name, const Flags &flags, const NFIQ2::Algorithm &model,
+    std::shared_ptr<NFIQ2UI::Log> logger, const bool singleImage,
+    const bool interactive, const uint8_t fingerPosition = 0,
+    const std::string &warning = "NA");
 
 /**
  *  @brief
@@ -337,8 +337,8 @@ NFIQ2UI::Arguments processArguments(int argc, char **argv);
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void procSingle(NFIQ2UI::Arguments arguments,
-    const NFIQ2::Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger);
+void procSingle(NFIQ2UI::Arguments arguments, const NFIQ2::Algorithm &model,
+    std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief

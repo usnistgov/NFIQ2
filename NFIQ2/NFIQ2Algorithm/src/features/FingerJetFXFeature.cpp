@@ -80,7 +80,7 @@ std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ2::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 {
 	if (!this->templateCouldBeExtracted_) {
-		throw NFIQ2::NFIQException { NFIQ2::ErrorCode::NoDataAvailable,
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
 			"Template could not be extracted." };
 	}
 
@@ -130,13 +130,13 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// the created context function is modified to override default settings
 	FRFXLL_HANDLE hCtx = NULL, hFeatureSet = NULL;
 	if (!FRFXLL_SUCCESS(createContext(&hCtx))) {
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_CannotCreateContext,
 		    "Cannot create context of feature extraction (create "
 		    "context failed).");
 	}
 	if (hCtx == NULL) {
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_CannotCreateContext,
 		    "Cannot create context of feature extraction (hCtx is "
 		    "NULL).");
@@ -151,7 +151,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    &hFeatureSet);
 	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
 		    "Could not create feature set from raw data: " +
 			FingerJetFXFeature::parseFRFXLLError(fxRes));
@@ -160,7 +160,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// close handle
 	FRFXLLCloseHandle(&hCtx);
 	if (hFeatureSet == NULL) {
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
 		    "Feature set creation failed. Feature set is null.");
 	}
@@ -170,7 +170,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    hFeatureSet, &minCnt, nullptr);
 	if (!FRFXLL_SUCCESS(fxResMin)) {
 		FRFXLLCloseHandle(&hFeatureSet);
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
 		    "Failed to obtain Minutia Info from feature set: " +
 			FingerJetFXFeature::parseFRFXLLError(fxResMin));
@@ -181,7 +181,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
 	} catch (const std::bad_alloc &) {
 		FRFXLLCloseHandle(&hFeatureSet);
-		throw NFIQ2::NFIQException(NFIQ2::ErrorCode::NotEnoughMemory,
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::NotEnoughMemory,
 		    "Could not allocate space for extracted minutiae records.");
 	}
 
@@ -189,7 +189,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    hFeatureSet, BASIC_19794_2_MINUTIA_STRUCT, &minCnt, mdata.get());
 	if (!FRFXLL_SUCCESS(fxResData)) {
 		FRFXLLCloseHandle(&hFeatureSet);
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
 		    "Failed to parse Minutia Data into 19794 Minutia Struct: " +
 			FingerJetFXFeature::parseFRFXLLError(fxResData));

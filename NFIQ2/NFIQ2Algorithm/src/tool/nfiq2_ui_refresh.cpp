@@ -145,10 +145,10 @@ NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
 // Performs additional checks for an image before calculating an NFIQ2 score
 void
 NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
-    const std::string &name, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger,
-    const bool singleImage, const bool interactive,
-    const uint8_t fingerPosition, const std::string &warning)
+    const std::string &name, const Flags &flags, const NFIQ2::Algorithm &model,
+    std::shared_ptr<NFIQ2UI::Log> logger, const bool singleImage,
+    const bool interactive, const uint8_t fingerPosition,
+    const std::string &warning)
 {
 	NFIQ2UI::ImageProps imageProps { name, fingerPosition, false, false,
 		singleImage };
@@ -369,7 +369,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		features = NFIQ2::QualityFeatures::computeQualityFeatures(
 		    wrappedImage);
 		score = model.computeQualityScore(features);
-	} catch (const NFIQ2::NFIQException &e) {
+	} catch (const NFIQ2::Exception &e) {
 		std::string errStr {
 			"Error: NFIQ2 computeQualityScore returned an error code: "
 		};
@@ -401,7 +401,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 
 void
 NFIQ2UI::executeSingle(const NFIQ2UI::ImgCouple &couple, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger,
+    const NFIQ2::Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger,
     const bool singleImage, const bool interactive)
 {
 	NFIQ2UI::executeSingle(couple.img, couple.imgName, flags, model, logger,
@@ -411,7 +411,7 @@ NFIQ2UI::executeSingle(const NFIQ2UI::ImgCouple &couple, const Flags &flags,
 // Parsing a directory recursively finding all fingerprint images
 void
 NFIQ2UI::parseDirectory(const std::string &dirname, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
+    const NFIQ2::Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	// Uses dirent to iterate through a directory
 	DIR *dr;
@@ -486,7 +486,7 @@ NFIQ2UI::parseDirectory(const std::string &dirname, const Flags &flags,
 void
 NFIQ2UI::batchConsume(NFIQ2UI::SafeSplitPathsQueue &splitQueue,
     SafeQueue<std::string> &printQueue, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model)
+    const NFIQ2::Algorithm &model)
 {
 	std::shared_ptr<NFIQ2UI::ThreadedLog> threadedlogger =
 	    std::make_shared<NFIQ2UI::ThreadedLog>(flags);
@@ -514,7 +514,7 @@ NFIQ2UI::batchConsume(NFIQ2UI::SafeSplitPathsQueue &splitQueue,
 
 void
 NFIQ2UI::executeBatch(const std::string &filename, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
+    const NFIQ2::Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	std::vector<std::string> content;
 	unsigned int count;
@@ -594,7 +594,7 @@ void
 NFIQ2UI::recordStoreConsume(const std::string &name,
     NFIQ2UI::SafeSplitPathsQueue &splitQueue,
     SafeQueue<std::string> &printQueue, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model)
+    const NFIQ2::Algorithm &model)
 {
 	std::shared_ptr<BE::IO::RecordStore> rs {};
 
@@ -635,7 +635,7 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 
 void
 NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
-    const NFIQ2::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
+    const NFIQ2::Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	std::shared_ptr<BE::IO::RecordStore> rs {};
 
@@ -826,8 +826,8 @@ NFIQ2UI::processArguments(int argc, char **argv)
 }
 
 void
-NFIQ2UI::procSingle(NFIQ2UI::Arguments arguments,
-    const NFIQ2::NFIQ2Algorithm &model, std::shared_ptr<NFIQ2UI::Log> logger)
+NFIQ2UI::procSingle(NFIQ2UI::Arguments arguments, const NFIQ2::Algorithm &model,
+    std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	logger->debugMsg("Processing Singles: ");
 	// If there is only one image being processed
@@ -912,7 +912,7 @@ NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 	NFIQ2::ModelInfo modelInfoObj {};
 	try {
 		modelInfoObj = NFIQ2::ModelInfo(modelInfoFilePath);
-	} catch (const NFIQ2::NFIQException &e) {
+	} catch (const NFIQ2::Exception &e) {
 		throw NFIQ2UI::ModelConstructionError(
 		    "Could not construct ModelInfo Object from: " +
 		    modelInfoFilePath + ". Error: " + e.what());
@@ -994,10 +994,10 @@ main(int argc, char **argv)
 	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
 
-	std::shared_ptr<NFIQ2::NFIQ2Algorithm> model {};
+	std::shared_ptr<NFIQ2::Algorithm> model {};
 	try {
-		model = std::make_shared<NFIQ2::NFIQ2Algorithm>(modelInfoObj);
-	} catch (const NFIQ2::NFIQException &e) {
+		model = std::make_shared<NFIQ2::Algorithm>(modelInfoObj);
+	} catch (const NFIQ2::Exception &e) {
 		std::cerr << "Model could not be constructed. " << e.what()
 			  << "\n";
 		return EXIT_FAILURE;

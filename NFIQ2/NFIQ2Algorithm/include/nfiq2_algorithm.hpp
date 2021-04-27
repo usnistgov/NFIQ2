@@ -12,17 +12,12 @@
 
 namespace NFIQ2 {
 /** Wrapper to return quality scores for a fingerprint image */
-class NFIQ2Algorithm {
+class Algorithm {
     public:
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
-	NFIQ2Algorithm();
-#else
-	NFIQ2Algorithm();
-#endif
-	NFIQ2Algorithm(
-	    const std::string &fileName, const std::string &fileHash);
-	NFIQ2Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
-	~NFIQ2Algorithm();
+	Algorithm();
+	Algorithm(const std::string &fileName, const std::string &fileHash);
+	Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
+	~Algorithm();
 
 	/**
 	 * @fn computeQualityScore
@@ -68,10 +63,10 @@ class NFIQ2Algorithm {
 
     private:
 	class Impl;
-	const std::unique_ptr<const NFIQ2Algorithm::Impl> pimpl;
+	const std::unique_ptr<const Algorithm::Impl> pimpl;
 
-	NFIQ2Algorithm(const NFIQ2Algorithm &) = delete;
-	NFIQ2Algorithm &operator=(const NFIQ2Algorithm &) = delete;
+	Algorithm(const Algorithm &) = delete;
+	Algorithm &operator=(const Algorithm &) = delete;
 };
 } // namespace NFIQ
 

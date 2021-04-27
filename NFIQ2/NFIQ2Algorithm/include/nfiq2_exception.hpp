@@ -55,10 +55,10 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 
 /**
 ******************************************************************************
-* @class NFIQException
+* @class Exception
 * @brief Represents the exception class used within this framework.
 ******************************************************************************/
-class NFIQException : public std::exception {
+class Exception : public std::exception {
     public:
 	/******************************************************************************/
 	// --- Constructor / Destructor --- //
@@ -67,19 +67,19 @@ class NFIQException : public std::exception {
 	/**
 	 * @brief Constructor which uses supplied error code and default message
 	 */
-	NFIQException(const NFIQ2::ErrorCode &errorCode);
+	Exception(const NFIQ2::ErrorCode &errorCode);
 
 	/**
 	 * @brief Constructor which uses supplied error code and user-defined
 	 * message
 	 */
-	NFIQException(
+	Exception(
 	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
 
 	/**
 	 * @brief Destructo
 	 */
-	virtual ~NFIQException() noexcept;
+	virtual ~Exception() noexcept;
 
 	/******************************************************************************/
 	// --- General Framework Functions --- //

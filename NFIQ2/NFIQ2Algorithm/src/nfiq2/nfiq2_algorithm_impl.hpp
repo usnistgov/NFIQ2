@@ -93,6 +93,15 @@ class Algorithm::Impl {
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 		&features) const;
 
+	/**
+	 * @brief
+	 * Throw an exception if random forest parameters have not been loaded.
+	 *
+	 * @throw
+	 * NFIQ2::Exception if random forest parameters have not been loaded.
+	 */
+	void throwIfUninitialized() const;
+
 	NFIQ2::Prediction::RandomForestML m_RandomForestML;
 	std::string m_parameterHash {};
 };

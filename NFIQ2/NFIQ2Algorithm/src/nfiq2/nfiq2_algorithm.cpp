@@ -51,4 +51,10 @@ NFIQ2::Algorithm::getParameterHash() const
 	return (this->pimpl->getParameterHash());
 }
 
+bool
+NFIQ2::Algorithm::isEmbedded() const
+{
+	return (this->pimpl->isEmbedded());
+}
+
 NFIQ2::Algorithm::~Algorithm() = default;

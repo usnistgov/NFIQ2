@@ -63,6 +63,16 @@ class Algorithm {
 	 */
 	std::string getParameterHash() const;
 
+	/**
+	 * @brief
+	 * Obtain if the random forest parameters are embedded in the library
+	 * or located externally.
+	 *
+	 * @return
+	 * true if random forest parameters are embedded, false otherwise.
+	 */
+	bool isEmbedded() const;
+
     private:
 	class Impl;
 	const std::unique_ptr<const Algorithm::Impl> pimpl;

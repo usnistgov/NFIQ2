@@ -175,3 +175,13 @@ NFIQ2::Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
 }
+
+bool
+NFIQ2::Algorithm::Impl::isEmbedded() const
+{
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+	return (true);
+#else
+	return (false);
+#endif
+}

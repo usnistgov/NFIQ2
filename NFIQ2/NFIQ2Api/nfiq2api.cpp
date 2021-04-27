@@ -22,7 +22,7 @@ extern int version_minor;
 extern int version_patch;
 
 // static object to load the algorithm only once (random forest init!)
-std::unique_ptr<NFIQ2::NFIQ2Algorithm> g_nfiq2;
+std::unique_ptr<NFIQ2::Algorithm> g_nfiq2;
 
 std::string
 GetYamlFilePath()
@@ -86,11 +86,11 @@ InitNfiq2(char **hash)
 	try {
 		if (g_nfiq2.get() == nullptr) {
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-			g_nfiq2 = std::unique_ptr<NFIQ2::NFIQ2Algorithm>(
-			    new NFIQ2::NFIQ2Algorithm());
+			g_nfiq2 = std::unique_ptr<NFIQ2::Algorithm>(
+			    new NFIQ2::Algorithm());
 #else
-			g_nfiq2 = std::unique_ptr<NFIQ2::NFIQ2Algorithm>(
-			    new NFIQ2::NFIQ2Algorithm(GetYamlFilePath(),
+			g_nfiq2 = std::unique_ptr<NFIQ2::Algorithm>(
+			    new NFIQ2::Algorithm(GetYamlFilePath(),
 				"ccd75820b48c19f1645ef5e9c481c592"));
 #endif
 			*hash = (char *)malloc(
@@ -120,7 +120,7 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 			    rawImage);
 			return qualityScore;
 		}
-	} catch (const NFIQ2::NFIQException &exc) {
+	} catch (const NFIQ2::Exception &exc) {
 		std::cerr << "NFIQ2 ERROR => Return code ["
 			  << static_cast<
 				 std::underlying_type<NFIQ2::ErrorCode>::type>(

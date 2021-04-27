@@ -16,6 +16,8 @@ class NFIQ2Algorithm {
     public:
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 	NFIQ2Algorithm();
+#else
+	NFIQ2Algorithm();
 #endif
 	NFIQ2Algorithm(
 	    const std::string &fileName, const std::string &fileHash);

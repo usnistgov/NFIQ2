@@ -37,6 +37,11 @@ NFIQ2::NFIQ2Algorithm::Impl::Impl()
 	// init RF module that takes some time to load the parameters
 	this->m_parameterHash = m_RandomForestML.initModule();
 }
+#else
+NFIQ2::NFIQ2Algorithm::Impl::Impl()
+{
+	// default constructor
+}
 #endif
 
 NFIQ2::NFIQ2Algorithm::Impl::Impl(

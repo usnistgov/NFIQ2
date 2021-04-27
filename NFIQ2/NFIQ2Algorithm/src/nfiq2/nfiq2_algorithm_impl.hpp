@@ -30,6 +30,8 @@ class NFIQ2Algorithm::Impl {
 	 */
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 	Impl();
+#else
+	Impl();
 #endif
 	Impl(const std::string &fileName, const std::string &fileHash);
 

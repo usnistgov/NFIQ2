@@ -8,6 +8,11 @@ NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm()
     : pimpl { new NFIQ2::NFIQ2Algorithm::Impl() }
 {
 }
+#else
+NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm()
+    : pimpl { new NFIQ2::NFIQ2Algorithm::Impl() }
+{
+}
 #endif
 
 NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm(

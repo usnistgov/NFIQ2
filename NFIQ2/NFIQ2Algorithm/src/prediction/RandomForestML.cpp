@@ -87,7 +87,7 @@ NFIQ2::Prediction::RandomForestML::initModule()
 		initModule(params);
 		return calculateHashString(params);
 	} catch (const cv::Exception &e) {
-		throw NFIQException(UnknownError, e.msg);
+		throw NFIQException(NFIQ2::ErrorCode::UnknownError, e.msg);
 	} catch (...) {
 		throw;
 	}

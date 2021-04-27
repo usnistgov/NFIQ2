@@ -97,18 +97,21 @@ class NFIQException : public std::exception {
 	 * @brief Returns the return code of the exception
 	 * @return The return code
 	 */
-	uint32_t getReturnCode() const { return m_ReturnCode; }
+	uint32_t getReturnCode() const
+	{
+		return static_cast<uint32_t>(returnCode);
+	}
 
 	/**
 	 * @fn getErrorMessage
 	 * @brief Returns the error message of the exception
 	 * @return The error message
 	 */
-	std::string getErrorMessage() const { return m_ErrorMessage; }
+	std::string getErrorMessage() const { return errorMessage; }
 
     private:
-	uint32_t m_ReturnCode;	    ///< The return code of the exception
-	std::string m_ErrorMessage; ///< The error message of the exception
+	NFIQ2::ErrorCode returnCode; ///< The return code of the exception
+	std::string errorMessage;    ///< The error message of the exception
 };
 } // namespace NFIQ
 

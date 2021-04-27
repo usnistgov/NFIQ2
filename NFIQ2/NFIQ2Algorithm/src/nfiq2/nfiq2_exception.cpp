@@ -65,7 +65,7 @@ const std::string c_ErrorMessages[] = {
 	/* 55 */ "Invalid Image Size"
 };
 
-NFIQ2::NFIQException::NFIQException(uint32_t returnCode)
+NFIQ2::Exception::Exception(uint32_t returnCode)
     : m_ReturnCode(returnCode)
 {
 	m_ErrorMessage = c_ErrorMessages[returnCode];
@@ -74,19 +74,18 @@ NFIQ2::NFIQException::NFIQException(uint32_t returnCode)
 	}
 }
 
-NFIQ2::NFIQException::NFIQException(
-    uint32_t returnCode, std::string errorMessage)
+NFIQ2::Exception::Exception(uint32_t returnCode, std::string errorMessage)
     : m_ReturnCode(returnCode)
     , m_ErrorMessage(errorMessage)
 {
 }
 
-NFIQ2::NFIQException::~NFIQException() noexcept
+NFIQ2::Exception::~Exception() noexcept
 {
 }
 
 const char *
-NFIQ2::NFIQException::what() const noexcept
+NFIQ2::Exception::what() const noexcept
 {
 	return m_ErrorMessage.c_str();
 }

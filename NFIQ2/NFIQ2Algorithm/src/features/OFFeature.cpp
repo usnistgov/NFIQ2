@@ -43,8 +43,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
-		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -58,7 +57,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
@@ -259,13 +258,12 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Orientation Flow (OF): " << e.what();
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
-		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 	return featureDataList;

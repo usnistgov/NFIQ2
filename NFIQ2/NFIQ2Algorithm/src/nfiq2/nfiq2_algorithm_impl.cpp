@@ -29,7 +29,7 @@ set_fpu(unsigned int mode)
 #endif
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
-NFIQ2::NFIQ2Algorithm::Impl::Impl()
+NFIQ2::Algorithm::Impl::Impl()
 {
 #if defined(__linux) && defined(__i386__)
 	set_fpu(0x27F); /* use double-precision rounding */
@@ -39,7 +39,7 @@ NFIQ2::NFIQ2Algorithm::Impl::Impl()
 }
 #endif
 
-NFIQ2::NFIQ2Algorithm::Impl::Impl(
+NFIQ2::Algorithm::Impl::Impl(
     const std::string &fileName, const std::string &fileHash)
 {
 #if defined(__linux) && defined(__i386__)
@@ -50,14 +50,14 @@ NFIQ2::NFIQ2Algorithm::Impl::Impl(
 		this->m_parameterHash = m_RandomForestML.initModule(
 		    fileName, fileHash);
 	} catch (const cv::Exception &e) {
-		throw NFIQException(e_Error_BadArguments,
+		throw Exception(e_Error_BadArguments,
 		    "Could not initialize random forest parameters with "
 		    "external file. Most likely, the file does not exist. "
 		    "Check the path (" +
 			fileName + ") and hash (" + fileHash +
 			") (initial error: " + e.msg + ").");
-	} catch (const NFIQ2::NFIQException &e) {
-		throw NFIQException(e_Error_BadArguments,
+	} catch (const NFIQ2::Exception &e) {
+		throw Exception(e_Error_BadArguments,
 		    "Could not initialize random forest parameters with "
 		    "external file. Most likely, the hash is not correct. "
 		    "Check the path (" +
@@ -66,12 +66,12 @@ NFIQ2::NFIQ2Algorithm::Impl::Impl(
 	}
 }
 
-NFIQ2::NFIQ2Algorithm::Impl::~Impl()
+NFIQ2::Algorithm::Impl::~Impl()
 {
 }
 
 double
-NFIQ2::NFIQ2Algorithm::Impl::getQualityPrediction(
+NFIQ2::Algorithm::Impl::getQualityPrediction(
     const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features)
     const
 {
@@ -84,7 +84,7 @@ NFIQ2::NFIQ2Algorithm::Impl::getQualityPrediction(
 }
 
 unsigned int
-NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeQualityScore(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features) const
 {
@@ -94,7 +94,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 
 	if (quality.size() == 0) {
 		// no features have been computed
-		throw NFIQ2::NFIQException(e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(e_Error_FeatureCalculationError,
 		    "No features have been computed");
 	}
 
@@ -105,7 +105,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 	double qualityScore {};
 	try {
 		qualityScore = getQualityPrediction(quality);
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	}
 
@@ -113,7 +113,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeQualityScore(
     const NFIQ2::FingerprintImageData &rawImage) const
 {
 
@@ -126,14 +126,14 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 	try {
 		features = NFIQ2::QualityFeatures::computeQualityFeatures(
 		    rawImage);
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (const std::exception &e) {
 		/*
 		 * Nothing should get here, but computeQualityFeatures() calls
 		 * a lot of code...
 		 */
-		throw NFIQ2::NFIQException(e_Error_UnknownError, e.what());
+		throw NFIQ2::Exception(e_Error_UnknownError, e.what());
 	}
 
 	const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
@@ -141,7 +141,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 
 	if (quality.size() == 0) {
 		// no features have been computed
-		throw NFIQ2::NFIQException(e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(e_Error_FeatureCalculationError,
 		    "No features have been computed");
 	}
 
@@ -152,7 +152,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 	double qualityScore {};
 	try {
 		qualityScore = getQualityPrediction(quality);
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	}
 
@@ -160,7 +160,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeQualityScore(
     const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features)
     const
 {
@@ -168,7 +168,7 @@ NFIQ2::NFIQ2Algorithm::Impl::computeQualityScore(
 }
 
 std::string
-NFIQ2::NFIQ2Algorithm::Impl::getParameterHash() const
+NFIQ2::Algorithm::Impl::getParameterHash() const
 {
 	return (this->m_parameterHash);
 }

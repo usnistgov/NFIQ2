@@ -1,5 +1,5 @@
-#ifndef NFIQ2_NFIQ2ALGORITHM_IMPL_HPP_
-#define NFIQ2_NFIQ2ALGORITHM_IMPL_HPP_
+#ifndef NFIQ2_Algorithm_IMPL_HPP_
+#define NFIQ2_Algorithm_IMPL_HPP_
 
 #include <nfiq2_algorithm.hpp>
 #include <nfiq2_exception.hpp>
@@ -19,7 +19,7 @@ namespace NFIQ2 {
 * @brief This class serves as a wrapper to return quality scores for a
 * fingerprint image
 ******************************************************************************/
-class NFIQ2Algorithm::Impl {
+class Algorithm::Impl {
     public:
 	/******************************************************************************/
 	// --- Constructor / Destructor --- //
@@ -86,7 +86,7 @@ class NFIQ2Algorithm::Impl {
 
     private:
 	/**
-	 * @throws NFIQException
+	 * @throws Exception
 	 * Failure to compute (OpenCV reason contained within message string).
 	 */
 	double getQualityPrediction(

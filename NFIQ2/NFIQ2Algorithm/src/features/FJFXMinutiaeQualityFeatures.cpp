@@ -27,7 +27,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
 {
 	if (!this->templateCouldBeExtracted_) {
 		// This should never be reached but is here for consistency
-		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::Exception { e_Error_NoDataAvailable,
 			"Template could not be extracted." };
 	}
 
@@ -168,13 +168,12 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute FJFX based minutiae quality features: "
 		      << e.what();
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
-		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 

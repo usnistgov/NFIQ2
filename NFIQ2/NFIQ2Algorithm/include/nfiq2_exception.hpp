@@ -59,10 +59,10 @@ typedef enum error_code_e {
 
 /**
 ******************************************************************************
-* @class NFIQException
+* @class Exception
 * @brief Represents the exception class used within this framework.
 ******************************************************************************/
-class NFIQException : public std::exception {
+class Exception : public std::exception {
     public:
 	/******************************************************************************/
 	// --- Constructor / Destructor --- //
@@ -71,18 +71,18 @@ class NFIQException : public std::exception {
 	/**
 	 * @brief Constructor which uses supplied error code and default message
 	 */
-	explicit NFIQException(uint32_t returnCode);
+	explicit Exception(uint32_t returnCode);
 
 	/**
 	 * @brief Constructor which uses supplied error code and user-defined
 	 * message
 	 */
-	NFIQException(uint32_t returnCode, std::string errorMessage);
+	Exception(uint32_t returnCode, std::string errorMessage);
 
 	/**
 	 * @brief Destructo
 	 */
-	virtual ~NFIQException() noexcept;
+	virtual ~Exception() noexcept;
 
 	/******************************************************************************/
 	// --- General Framework Functions --- //

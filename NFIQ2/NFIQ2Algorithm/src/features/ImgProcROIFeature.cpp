@@ -21,7 +21,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
 NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
 {
 	if (!this->imgProcComputed_) {
-		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::Exception { e_Error_NoDataAvailable,
 			"Img Proc Results could not be computed." };
 	}
 
@@ -36,8 +36,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
-		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(NFIQ2::e_Error_FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -51,7 +50,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
 	}
 
@@ -88,13 +87,12 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "
 		      << e.what();
-		throw NFIQ2::NFIQException(
+		throw NFIQ2::Exception(
 		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
-	} catch (const NFIQ2::NFIQException &) {
+	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
-		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		throw NFIQ2::Exception(NFIQ2::e_Error_FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 

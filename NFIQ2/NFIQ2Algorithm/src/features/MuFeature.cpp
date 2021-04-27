@@ -25,7 +25,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -40,7 +40,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	}
 
 	NFIQ2::Timer timer;
@@ -99,12 +99,12 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		ssErr << "Cannot compute feature Mu Mu Block (MMB): "
 		      << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -136,12 +136,12 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		ssErr << "Cannot compute feature Sigma (stddev) and Mu (mean): "
 		      << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -160,7 +160,7 @@ double
 NFIQ2::QualityFeatures::MuFeature::getSigma() const
 {
 	if (!this->sigmaComputed)
-		throw NFIQ2::NFIQException { e_Error_NoDataAvailable,
+		throw NFIQ2::NFIQException { NFIQ2::ErrorCode::NoDataAvailable,
 			"Sigma has not been computed." };
 
 	return (this->sigma);

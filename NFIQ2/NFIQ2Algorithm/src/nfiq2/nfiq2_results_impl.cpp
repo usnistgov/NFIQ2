@@ -26,7 +26,7 @@ NFIQ2::NFIQ2Results::Impl::checkScore(const unsigned int qualityScore)
 			std::to_string(qualityScore) +
 			". Valid scores are between 0 and 100" };
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_InvalidNFIQ2Score, errStr);
+		    NFIQ2::ErrorCode::InvalidNFIQ2Score, errStr);
 	}
 	return qualityScore;
 }

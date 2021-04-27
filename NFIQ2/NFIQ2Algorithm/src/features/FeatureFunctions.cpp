@@ -169,7 +169,7 @@ NFIQ2::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 				 "failed: "
 			      << e.what();
 			throw NFIQ2::NFIQException(
-			    NFIQ2::e_Error_FeatureCalculationError,
+			    NFIQ2::ErrorCode::FeatureCalculationError,
 			    ssErr.str());
 		}
 	}
@@ -299,7 +299,7 @@ NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
 		throw NFIQ2::NFIQException {
-			NFIQ2::e_Error_FeatureCalculationError,
+			NFIQ2::ErrorCode::FeatureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'
@@ -327,7 +327,7 @@ NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 		std::stringstream ssErr;
 		ssErr << "Exception during block rotation: " << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	}
 
 	return;
@@ -376,7 +376,7 @@ NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 			 "cv::solve(cv::DECOMP_QR) "
 		      << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	}
 
 	// Round to 10 decimal points to preserve score consistency across
@@ -558,8 +558,8 @@ NFIQ2::QualityFeatures::addSamplingFeatures(
 		if (canComputeValue) {
 			result.returnCode = 0;
 		} else {
-			result.returnCode =
-			    NFIQ2::e_Error_FeatureCalculationError;
+			result.returnCode = static_cast<int>(
+			    NFIQ2::ErrorCode::FeatureCalculationError);
 		}
 
 		featureDataList.push_back(result);
@@ -581,7 +581,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 		s << "Wrong histogram bin count for " << featurePrefix
 		  << ". Should be " << binCount << " but is " << myBinCount;
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, s.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, s.str());
 	}
 
 	std::sort(dataVector.begin(), dataVector.end());

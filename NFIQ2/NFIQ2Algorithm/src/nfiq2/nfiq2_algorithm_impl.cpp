@@ -39,7 +39,7 @@ NFIQ2::Algorithm::Impl::Impl()
 	this->m_parameterHash = m_RandomForestML.initModule();
 }
 #else
-NFIQ2::NFIQ2Algorithm::Impl::Impl()
+NFIQ2::Algorithm::Impl::Impl()
     : initialized { false }
 {
 }

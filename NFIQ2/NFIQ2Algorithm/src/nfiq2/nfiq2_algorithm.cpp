@@ -9,8 +9,8 @@ NFIQ2::Algorithm::Algorithm()
 {
 }
 #else
-NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm()
-    : pimpl { new NFIQ2::NFIQ2Algorithm::Impl() }
+NFIQ2::Algorithm::Algorithm()
+    : pimpl { new NFIQ2::Algorithm::Impl() }
 {
 }
 #endif

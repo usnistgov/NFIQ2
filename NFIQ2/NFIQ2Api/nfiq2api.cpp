@@ -122,7 +122,9 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 		}
 	} catch (const NFIQ2::NFIQException &exc) {
 		std::cerr << "NFIQ2 ERROR => Return code ["
-			  << exc.getReturnCode()
+			  << static_cast<
+				 std::underlying_type<NFIQ2::ErrorCode>::type>(
+				 exc.getErrorCode())
 			  << "]: " << exc.getErrorMessage() << std::endl;
 		return 255;
 	} catch (const std::exception &exc) {

@@ -28,7 +28,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -42,7 +42,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	}
 
 	// compute OCL
@@ -113,12 +113,12 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature OCL histogram: " << e.what();
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
 	} catch (const NFIQ2::NFIQException &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::NFIQException(
-		    NFIQ2::e_Error_FeatureCalculationError,
+		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Unknown exception occurred!");
 	}
 

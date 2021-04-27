@@ -1,18 +1,12 @@
 #include <features/FeatureFunctions.h>
 #include <features/OFFeature.h>
 #include <math.h>
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
 
 #include <cmath>
 #include <sstream>
-
-#if defined WINDOWS || defined WIN32
-#include <windows.h>
-
-#include <cfloat>
-#endif
 
 NFIQ2::QualityFeatures::OFFeature::OFFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)

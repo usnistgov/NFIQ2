@@ -1,5 +1,5 @@
 #include <features/FingerJetFXFeature.h>
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 
 #include <cstring>

@@ -1,4 +1,4 @@
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 
 NFIQ2::NFIQException::NFIQException(const NFIQ2::ErrorCode &errorCode)
     : m_ReturnCode(static_cast<int>(errorCode))

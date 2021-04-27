@@ -8,13 +8,13 @@
 #include <features/OFFeature.h>
 #include <features/QualityMapFeatures.h>
 #include <features/RVUPHistogramFeature.h>
+#include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_nfiqexception.hpp>
 #include <nfiq2_qualityfeatures.hpp>
 #include <nfiq2_timer.hpp>
 #include <string.h>
 
-#include "nfiq2_nfiq2algorithm_impl.hpp"
+#include "nfiq2_algorithm_impl.hpp"
 #include <iomanip>
 #include <list>
 #include <string>

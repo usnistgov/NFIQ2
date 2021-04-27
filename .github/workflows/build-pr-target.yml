@@ -4,7 +4,6 @@ on:
   pull_request_target:
     paths-ignore:
       - '.github/workflows/build-member.yml'
-      - '.github/workflows/build-pr.yml'
       - '.github/workflows/clang-format.yml'
       - '.gitignore'
       - '.travis.yml'

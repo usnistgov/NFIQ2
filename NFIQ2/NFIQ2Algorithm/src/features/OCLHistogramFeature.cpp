@@ -1,15 +1,9 @@
 #include <features/FeatureFunctions.h>
 #include <features/OCLHistogramFeature.h>
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 
 #include <sstream>
-
-#if defined WINDOWS || defined WIN32
-#include <windows.h>
-
-#include <cfloat>
-#endif
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)

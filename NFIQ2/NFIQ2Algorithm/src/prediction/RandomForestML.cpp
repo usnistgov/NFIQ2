@@ -1,17 +1,10 @@
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 #include <prediction/RandomForestML.h>
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 #include <prediction/RandomForestTrainedParams.h>
 #endif
 
-#if defined WINDOWS || defined WIN32
-#define NOMINMAX
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-#include <cfloat>
 #include <cmath>
 #include <ctime>
 

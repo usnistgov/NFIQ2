@@ -1,7 +1,7 @@
+#include <nfiq2_algorithm.hpp>
 #include <nfiq2_modelinfo.hpp>
-#include <nfiq2_nfiq2algorithm.hpp>
 
-#include "nfiq2_nfiq2algorithm_impl.hpp"
+#include "nfiq2_algorithm_impl.hpp"
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2::NFIQ2Algorithm::NFIQ2Algorithm()

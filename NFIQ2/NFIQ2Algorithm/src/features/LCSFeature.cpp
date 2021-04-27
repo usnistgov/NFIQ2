@@ -1,16 +1,10 @@
 #include <features/FeatureFunctions.h>
 #include <features/LCSFeature.h>
-#include <nfiq2_nfiqexception.hpp>
+#include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
 
 #include <sstream>
-
-#if defined WINDOWS || defined WIN32
-#include <windows.h>
-
-#include <cfloat>
-#endif
 
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);

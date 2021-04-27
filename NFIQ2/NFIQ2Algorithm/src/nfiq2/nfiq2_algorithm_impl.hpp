@@ -83,7 +83,8 @@ class Algorithm::Impl {
 	std::string getParameterHash() const;
 
     private:
-	bool initialized {};
+	/** Whether or not random forest parameters have been loaded. */
+	bool initialized { false };
 	/**
 	 * @throws Exception
 	 * Failure to compute (OpenCV reason contained within message string).

@@ -1,7 +1,6 @@
 #ifndef NFIQ2_QUALITYFEATURES_HPP_
 #define NFIQ2_QUALITYFEATURES_HPP_
 
-#include <features/BaseFeature.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_interfacedefinitions.hpp>
 
@@ -10,6 +9,10 @@
 #include <unordered_map>
 
 namespace NFIQ2 { namespace QualityFeatures {
+
+/* Forward declaration */
+class BaseFeature;
+
 /**
  * @brief
  * Obtain all actionable quality feedback identifiers.

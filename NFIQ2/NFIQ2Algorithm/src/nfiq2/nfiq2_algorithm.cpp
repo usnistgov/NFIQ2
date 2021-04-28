@@ -20,6 +20,18 @@ NFIQ2::Algorithm::Algorithm(const NFIQ2::ModelInfo &modelInfoObj)
 {
 }
 
+NFIQ2::Algorithm::Algorithm(const Algorithm &rhs)
+    : pimpl(new Impl(*rhs.pimpl))
+{
+}
+
+NFIQ2::Algorithm &
+NFIQ2::Algorithm::operator=(const Algorithm &rhs)
+{
+	*pimpl = *rhs.pimpl;
+	return *this;
+}
+
 unsigned int
 NFIQ2::Algorithm::computeQualityScore(
     const NFIQ2::FingerprintImageData &rawImage) const
@@ -56,3 +68,5 @@ NFIQ2::Algorithm::isInitialized() const
 }
 
 NFIQ2::Algorithm::~Algorithm() = default;
+NFIQ2::Algorithm::Algorithm(NFIQ2::Algorithm &&) noexcept = default;
+NFIQ2::Algorithm &NFIQ2::Algorithm::operator=(Algorithm &&) noexcept = default;

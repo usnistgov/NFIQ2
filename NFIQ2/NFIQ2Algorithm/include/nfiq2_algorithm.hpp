@@ -17,6 +17,12 @@ class Algorithm {
 	Algorithm();
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 	Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
+
+	Algorithm(const Algorithm &);
+	Algorithm &operator=(const Algorithm &);
+
+	Algorithm(Algorithm &&) noexcept;
+	Algorithm &operator=(Algorithm &&) noexcept;
 	~Algorithm();
 
 	/**
@@ -81,10 +87,7 @@ class Algorithm {
 
     private:
 	class Impl;
-	const std::unique_ptr<const Algorithm::Impl> pimpl;
-
-	Algorithm(const Algorithm &) = delete;
-	Algorithm &operator=(const Algorithm &) = delete;
+	std::unique_ptr<Algorithm::Impl> pimpl;
 };
 } // namespace NFIQ
 

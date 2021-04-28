@@ -66,9 +66,9 @@ main(int argc, char **argv)
 
 	// This segment loads the model into memory so that it can be used to
 	// generate a NFIQ 2 score.
-	std::unique_ptr<NFIQ2::Algorithm> model {};
+	NFIQ2::Algorithm model {};
 	try {
-		model.reset(new NFIQ2::Algorithm(modelInfoObj));
+		model = NFIQ2::Algorithm(modelInfoObj);
 	} catch (...) {
 		std::cout
 		    << "Could not initialize model from model info file\n";
@@ -111,7 +111,7 @@ main(int argc, char **argv)
 	// NFIQ 2 quality score
 	unsigned int nfiq2 {};
 	try {
-		nfiq2 = model->computeQualityScore(features);
+		nfiq2 = model.computeQualityScore(features);
 	} catch (...) {
 		std::cout << "Error in calculating NFIQ 2 score\n";
 		return (EXIT_FAILURE);

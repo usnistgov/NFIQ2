@@ -61,7 +61,7 @@ class RandomForestML {
 	    double &deviation) const;
 
     private:
-	/** OpenCV shared smart pointer refering to the RF model itself */
+	/** OpenCV shared smart pointer referring to the RF model itself */
 	cv::Ptr<cv::ml::RTrees> m_pTrainedRF;
 	/** Calculates the hash of the RandomForest parameters */
 	std::string calculateHashString(const std::string &s);

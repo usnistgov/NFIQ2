@@ -22,6 +22,12 @@ NFIQ2::QualityFeatures::getAllSpeedFeatureGroups()
 	return NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups();
 }
 
+void
+NFIQ2::QualityFeatures::setFPU(unsigned int mode)
+{
+	return NFIQ2::QualityFeatures::Impl::setFPU(mode);
+}
+
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 NFIQ2::QualityFeatures::computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage)

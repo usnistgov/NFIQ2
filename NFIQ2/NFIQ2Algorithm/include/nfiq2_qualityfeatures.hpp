@@ -40,6 +40,16 @@ std::vector<std::string> getAllSpeedFeatureGroups();
 
 /**
  * @brief
+ * Updates the floating point precision mode used on 32-bit Linux
+ * versions of NFIQ 2.
+ *
+ * @param mode
+ * Floating point precision mode
+ */
+void setFPU(unsigned int mode);
+
+/**
+ * @brief
  * Obtain computed quality feature data from a fingerprint image.
  *
  * @param rawImage

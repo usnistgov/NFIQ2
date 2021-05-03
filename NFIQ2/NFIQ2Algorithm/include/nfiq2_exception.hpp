@@ -6,9 +6,8 @@
 #include <string>
 
 namespace NFIQ2 {
-/**
- * This class represents error codes defined within this framework.
- */
+
+/** This class represents error codes defined within this framework. */
 enum class ErrorCode {
 	UnknownError,
 	NotEnoughMemory,
@@ -20,15 +19,14 @@ enum class ErrorCode {
 	CannotDecodeBase64,
 	InvalidConfiguration,
 	MachineLearningError,
-	// dedicated FJFX feature computation errors
 	FJFX_CannotCreateContext,
 	FJFX_CannotCreateFeatureSet,
 	FJFX_NoFeatureSetCreated,
-	// Scores must be between 0 and 100
 	InvalidNFIQ2Score,
 	InvalidImageSize
 };
 
+/** Map of Error Codes and their respective error messages. */
 static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::UnknownError, "Unknown error" },
 	{ NFIQ2::ErrorCode::NotEnoughMemory, "Not enough memory" },
@@ -53,65 +51,53 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
 };
 
-/**
-******************************************************************************
-* @class Exception
-* @brief Represents the exception class used within this framework.
-******************************************************************************/
+/** Represents the exception class used within this framework. */
 class Exception : public std::exception {
     public:
-	/******************************************************************************/
-	// --- Constructor / Destructor --- //
-	/******************************************************************************/
-
-	/**
-	 * @brief Constructor which uses supplied error code and default message
-	 */
+	/** Constructor which uses supplied error code and default message. */
 	Exception(const NFIQ2::ErrorCode &errorCode);
 
-	/**
-	 * @brief Constructor which uses supplied error code and user-defined
-	 * message
+	/** Constructor which uses supplied error code and user-defined message.
 	 */
 	Exception(
 	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
 
-	/**
-	 * @brief Destructo
-	 */
+	/** Destructor. */
 	virtual ~Exception() noexcept;
 
-	/******************************************************************************/
-	// --- General Framework Functions --- //
-	/******************************************************************************/
-
 	/**
-	 * @fn what
-	 * @brief Inherited function from std::exception
-	 * @return The exception message
+	 * @brief
+	 * Inherited function from std::exception.
+	 *
+	 * @return
+	 * The exception message.
 	 */
 	virtual const char *what() const noexcept;
 
 	/**
-	 * @fn getErrorCode
-	 * @brief Returns the return code of the exception
-	 * @return The return code
+	 * @brief
+	 * Returns the return code of the exception.
+	 *
+	 * @return
+	 * The return code.
 	 */
 	NFIQ2::ErrorCode getErrorCode() const;
 
 	/**
-	 * @fn getErrorMessage
-	 * @brief Returns the error message of the exception
-	 * @return The error message
+	 * @brief
+	 * Returns the error message of the exception.
+	 *
+	 * @return
+	 * The error message.
 	 */
 	std::string getErrorMessage() const;
 
     private:
-	NFIQ2::ErrorCode errorCode; ///< The return code of the exception
-	std::string errorMessage;   ///< The error message of the exception
+	/** The return code of the exception. */
+	NFIQ2::ErrorCode errorCode;
+	/** The error message of the exception. */
+	std::string errorMessage;
 };
 } // namespace NFIQ
 
-#endif
-
-/******************************************************************************/
+#endif /* NFIQ2_EXCEPTION_HPP_ */

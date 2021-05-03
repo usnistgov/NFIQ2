@@ -3,12 +3,10 @@
 
 #include "nfiq2_algorithm_impl.hpp"
 
-#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 NFIQ2::Algorithm::Algorithm()
     : pimpl { new NFIQ2::Algorithm::Impl() }
 {
 }
-#endif
 
 NFIQ2::Algorithm::Algorithm(
     const std::string &fileName, const std::string &fileHash)
@@ -20,6 +18,18 @@ NFIQ2::Algorithm::Algorithm(const NFIQ2::ModelInfo &modelInfoObj)
     : NFIQ2::Algorithm { modelInfoObj.getModelPath(),
 	    modelInfoObj.getModelHash() }
 {
+}
+
+NFIQ2::Algorithm::Algorithm(const Algorithm &rhs)
+    : pimpl(new Impl(*rhs.pimpl))
+{
+}
+
+NFIQ2::Algorithm &
+NFIQ2::Algorithm::operator=(const Algorithm &rhs)
+{
+	*pimpl = *rhs.pimpl;
+	return *this;
 }
 
 unsigned int
@@ -52,9 +62,17 @@ NFIQ2::Algorithm::getParameterHash() const
 }
 
 bool
+NFIQ2::Algorithm::isInitialized() const
+{
+	return (this->pimpl->isInitialized());
+}
+
+bool
 NFIQ2::Algorithm::isEmbedded() const
 {
 	return (this->pimpl->isEmbedded());
 }
 
 NFIQ2::Algorithm::~Algorithm() = default;
+NFIQ2::Algorithm::Algorithm(NFIQ2::Algorithm &&) noexcept = default;
+NFIQ2::Algorithm &NFIQ2::Algorithm::operator=(Algorithm &&) noexcept = default;

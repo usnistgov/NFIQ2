@@ -14,11 +14,15 @@ namespace NFIQ2 {
 /** Wrapper to return quality scores for a fingerprint image */
 class Algorithm {
     public:
-#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	Algorithm();
-#endif
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 	Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
+
+	Algorithm(const Algorithm &);
+	Algorithm &operator=(const Algorithm &);
+
+	Algorithm(Algorithm &&) noexcept;
+	Algorithm &operator=(Algorithm &&) noexcept;
 	~Algorithm();
 
 	/**
@@ -27,6 +31,8 @@ class Algorithm {
 	 * data
 	 * @param rawImage fingerprint image in raw format
 	 * @return achieved quality score
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	unsigned int computeQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
@@ -38,6 +44,8 @@ class Algorithm {
 	 * @param features list of computed feature metrics that contain quality
 	 * information for a fingerprint image
 	 * @return achieved quality score
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	unsigned int computeQualityScore(const std::vector<
 	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
@@ -49,6 +57,8 @@ class Algorithm {
 	 * quality feature data
 	 * @param features map of string, quality feature data pairs
 	 * @return achieved quality score
+	 * @throw Exception
+	 * Called before random forest parameters were loaded
 	 */
 	unsigned int computeQualityScore(
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
@@ -60,8 +70,20 @@ class Algorithm {
 	 *
 	 * @return
 	 * MD5 checksum of the Random Forest parameter file loaded.
+	 * @throw Exception
+	 * Called before random forest parameters were loaded.
 	 */
 	std::string getParameterHash() const;
+
+	/**
+	 * @brief
+	 * Determine if random forest parameters have been loaded.
+	 *
+	 * @return
+	 * true if some set of random forest parameters have been loaded, false
+	 * otherwise.
+	 */
+	bool isInitialized() const;
 
 	/**
 	 * @brief
@@ -75,10 +97,7 @@ class Algorithm {
 
     private:
 	class Impl;
-	const std::unique_ptr<const Algorithm::Impl> pimpl;
-
-	Algorithm(const Algorithm &) = delete;
-	Algorithm &operator=(const Algorithm &) = delete;
+	std::unique_ptr<Algorithm::Impl> pimpl;
 };
 } // namespace NFIQ
 

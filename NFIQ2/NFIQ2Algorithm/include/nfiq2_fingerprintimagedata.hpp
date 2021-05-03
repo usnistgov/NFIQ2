@@ -7,79 +7,54 @@
 
 namespace NFIQ2 {
 
-/**
- * This type represents the resolution of an image (in dpi)
- */
+/** This typedef represents the resolution of an image (in dpi). */
 typedef enum image_resolution_e {
-	e_ImageResolution_500dpi = 500,	 ///< 500 dpi
-	e_ImageResolution_1000dpi = 1000 ///< 1000 dpi
+	e_ImageResolution_500dpi = 500,
+	e_ImageResolution_1000dpi = 1000
 } ImageResolution;
 
-/**
-******************************************************************************
-* @class FingerprintImageData
-* @brief This class manages fingerprint image data (derived from class Data).
-******************************************************************************/
+/** This class manages fingerprint image data (derived from class Data). */
 class FingerprintImageData : public Data {
     public:
-	/******************************************************************************/
-	// --- Constructor / Destructor --- //
-	/******************************************************************************/
-
-	/**
-	 * @brief Default constructor of FingerprintImageData
-	 */
+	/** Default constructor of FingerprintImageData. */
 	FingerprintImageData();
 
-	/**
-	 * @brief Constructor of FingerprintImageData
-	 */
+	/** Constructor of FingerprintImageData. */
 	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
 	    uint8_t fingerCode, uint16_t imageDPI);
 
-	/**
-	 * @brief Constructor of data with available pointer to data
-	 */
+	/** Constructor of data with available pointer to data. */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
 	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
 	    uint16_t imageDPI);
 
-	/**
-	 * @brief Copy constructor
-	 */
+	/** Copy constructor. */
 	FingerprintImageData(const FingerprintImageData &otherData);
 
-	/**
-	 * @brief Destructor
-	 */
+	/** Destructor. */
 	virtual ~FingerprintImageData();
 
-	/******************************************************************************/
-	// --- Public Members --- //
-	/******************************************************************************/
-
-	uint32_t m_ImageWidth;	///< Width of the fingerprint image (in pixels)
-	uint32_t m_ImageHeight; ///< Height of the fingerprint image (in pixels)
-	uint8_t m_FingerCode;	///< ISO finger code of the fingerprint in the
-				///< image
-	int16_t m_ImageDPI;	///< Dots per inch of the fingerprint image
-				///< (default: 500 dpi)
-
-	/******************************************************************************/
-	// --- Image Format Conversion Functions --- //
-	/******************************************************************************/
+	/** Width of the fingerprint image (in pixels) */
+	uint32_t m_ImageWidth;
+	/** Height of the fingerprint image (in pixels) */
+	uint32_t m_ImageHeight;
+	/** ISO finger code of the fingerprint in the image */
+	uint8_t m_FingerCode;
+	/** Dots per inch of the fingerprint image (default: 500 dpi) */
+	int16_t m_ImageDPI;
 
 	/**
-	 * @fn removeWhiteFrameAroundFingerprint
-	 * @brief Uses a simple algorithm to remove white lines around the
+	 * @brief
+	 * Uses a simple algorithm to remove white lines around the
 	 * fingerprint image (internally represented in raw data format).
-	 * @return The cropped/segmented fingerprint image in raw format.
+	 *
+	 * @return
+	 * The cropped/segmented fingerprint image in raw format.
+	 *
 	 * @throws NFIQException
 	 */
 	NFIQ2::FingerprintImageData removeWhiteFrameAroundFingerprint() const;
 };
 } // namespace NFIQ
 
-#endif
-
-/******************************************************************************/
+#endif /* NFIQ2_FINGERPRINTIMAGEDATA_HPP_ */

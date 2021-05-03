@@ -25,7 +25,7 @@ NFIQ2::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 	std::string line;
 
 	if (!fp) {
-		throw NFIQ2::NFIQException(NFIQ2::ErrorCode::CannotReadFromFile,
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::CannotReadFromFile,
 		    "Failed to Read File: " + modelInfoFilePath);
 	}
 
@@ -101,12 +101,12 @@ NFIQ2::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 	fp.close();
 
 	if (this->modelPath.empty()) {
-		throw NFIQ2::NFIQException(NFIQ2::ErrorCode::NoDataAvailable,
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::NoDataAvailable,
 		    "The required model information: " +
 			ModelInfo::ModelInfoKeyPath + " was not found.");
 	}
 	if (this->modelHash.empty()) {
-		throw NFIQ2::NFIQException(NFIQ2::ErrorCode::NoDataAvailable,
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::NoDataAvailable,
 		    "The required model information: " +
 			ModelInfo::ModelInfoKeyHash + " was not found.");
 	}

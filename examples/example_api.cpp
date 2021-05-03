@@ -10,21 +10,21 @@
 void
 printUsage()
 {
-	std::cout
-	    << "example_api: usage: example_api [-h] modelInfoFile fingerPrintImage\n";
+	std::cout << "example_api: usage: example_api [-h] modelInfoFile "
+		     "fingerPrintImage\n";
 }
 
 void
 printHelp()
 {
-	std::cout
-	    << "NFIQ 2 API Example\n\nThis is a sample program that "
-	       "shows how to use the NFIQ 2 API on an image.\n\nThis command line "
-	       "tool takes two arguments.\nThe first is the path to a NFIQ 2 "
-	       "RandomForest model information file.\nThe second is the path to a "
-	       "single fingerprint image.\n\nPlease provide arguments to the binary "
-	       "in the designated order.\nEx: $ example_api nist_plain_tir.txt "
-	       "fingerImage01.pgm\n";
+	std::cout << "NFIQ 2 API Example\n\nThis is a sample program that "
+		     "shows how to use the NFIQ 2 API on an image.\n\nThis "
+		     "command line tool takes two arguments.\nThe first is the "
+		     "path to a NFIQ 2 RandomForest model information file.\n"
+		     "The second is the path to a single fingerprint image.\n\n"
+		     "Please provide arguments to the binary in the designated "
+		     "order.\nEx: $ example_api nist_plain_tir.txt "
+		     "fingerImage01.pgm\n";
 }
 
 int
@@ -53,9 +53,9 @@ main(int argc, char **argv)
 	// To compute an NFIQ 2 score, you must load the RF model you wish to
 	// use This segment loads the model information file that contains data
 	// about the RF model.
-	NFIQ::ModelInfo modelInfoObj {};
+	NFIQ2::ModelInfo modelInfoObj {};
 	try {
-		modelInfoObj = NFIQ::ModelInfo(argv[1]);
+		modelInfoObj = NFIQ2::ModelInfo(argv[1]);
 	} catch (...) {
 		std::cout
 		    << "Could not parse model info file. "
@@ -66,9 +66,9 @@ main(int argc, char **argv)
 
 	// This segment loads the model into memory so that it can be used to
 	// generate a NFIQ 2 score.
-	std::unique_ptr<NFIQ::NFIQ2Algorithm> model {};
+	std::unique_ptr<NFIQ2::Algorithm> model {};
 	try {
-		model.reset(new NFIQ::NFIQ2Algorithm(modelInfoObj));
+		model.reset(new NFIQ2::Algorithm(modelInfoObj));
 	} catch (...) {
 		std::cout
 		    << "Could not initialize model from model info file\n";
@@ -90,19 +90,30 @@ main(int argc, char **argv)
 
 	// This constructs a FingerprintImageData object that stores the
 	// relevant image information NFIQ 2 needs to compute a score.
-	NFIQ::FingerprintImageData rawImage = NFIQ::FingerprintImageData(
+	NFIQ2::FingerprintImageData rawImage = NFIQ2::FingerprintImageData(
 	    imgMat.data, static_cast<uint32_t>(imgMat.total()),
 	    static_cast<uint32_t>(imgMat.cols),
 	    static_cast<uint32_t>(imgMat.rows), 0, PPI);
 
-	// This segment calls the API and generates a NFIQ2Results object.
-	// This contains all of the scores generated for an image by the
-	// algorithm.
-	NFIQ::NFIQ2Results results {};
+	// Calculate all feature values.
+	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	    features {};
 	try {
-		results = (*model).computeQualityFeaturesAndScore(rawImage);
+		features = NFIQ2::QualityFeatures::computeQualityFeatures(
+		    rawImage);
+	} catch (const NFIQ2::Exception &e) {
+		std::cout << "Error in calculating quality features: "
+			  << e.what() << '\n';
+		return (EXIT_FAILURE);
+	}
+
+	// Pass the feature values through the random forest to obtain  an
+	// NFIQ 2 quality score
+	unsigned int nfiq2 {};
+	try {
+		nfiq2 = model->computeQualityScore(features);
 	} catch (...) {
-		std::cout << "Error in calculating quality score\n";
+		std::cout << "Error in calculating NFIQ 2 score\n";
 		return (EXIT_FAILURE);
 	}
 
@@ -110,40 +121,26 @@ main(int argc, char **argv)
 	// README file. The following code iterates through
 	// the NFIQ2Results object, extracts scores, and prints them to
 	// stdout.
-	std::cout << "QualityScore: " << results.getScore() << "\n";
+	std::cout << "QualityScore: " << nfiq2 << '\n';
 
 	// Actionable Feedback
-	std::vector<std::string> actionableHeaders =
-	    NFIQ::QualityFeatures::getAllActionableIdentifiers();
-	std::vector<NFIQ::ActionableQualityFeedback> actionableResults =
-	    results.getActionableQualityFeedback();
-
-	for (size_t i = 0; i < actionableHeaders.size(); i++) {
-		std::cout << actionableHeaders.at(i) << ": "
-			  << actionableResults.at(i).actionableQualityValue
-			  << "\n";
+	for (const auto &i :
+	    NFIQ2::QualityFeatures::getActionableQualityFeedback(features)) {
+		std::cout << i.first << ": " << i.second.actionableQualityValue
+			  << '\n';
 	}
 
-	// Quality Feature Scores
-	std::vector<std::string> featureHeaders =
-	    NFIQ::QualityFeatures::getAllQualityFeatureIDs();
-	std::vector<NFIQ::QualityFeatureData> featureResults =
-	    results.getQualityFeatures();
-
-	for (size_t i = 0; i < featureHeaders.size(); i++) {
-		std::cout << featureHeaders.at(i) << ": "
-			  << featureResults.at(i).featureDataDouble << "\n";
+	// Quality Feature Values
+	for (const auto &i :
+	    NFIQ2::QualityFeatures::getQualityFeatureData(features)) {
+		std::cout << i.first << ": " << i.second.featureDataDouble
+			  << '\n';
 	}
 
-	// Quality Feature Speeds
-	std::vector<std::string> speedHeaders =
-	    NFIQ::QualityFeatures::getAllSpeedFeatureGroups();
-	std::vector<NFIQ::QualityFeatureSpeed> speedResults =
-	    results.getQualityFeatureSpeed();
-
-	for (size_t i = 0; i < speedHeaders.size(); i++) {
-		std::cout << speedHeaders.at(i) << ": "
-			  << speedResults.at(i).featureSpeed << "\n";
+	// Print time to compute quality features
+	for (const auto &i :
+	    NFIQ2::QualityFeatures::getQualityFeatureSpeeds(features)) {
+		std::cout << i.first << ": " << i.second.featureSpeed << '\n';
 	}
 
 	// Image Processed

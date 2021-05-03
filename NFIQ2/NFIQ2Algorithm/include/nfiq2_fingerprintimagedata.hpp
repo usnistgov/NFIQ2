@@ -3,6 +3,7 @@
 
 #include <nfiq2_data.hpp>
 
+/** Column Mu value Threshold. */
 #define MU_THRESHOLD 250
 
 namespace NFIQ2 {

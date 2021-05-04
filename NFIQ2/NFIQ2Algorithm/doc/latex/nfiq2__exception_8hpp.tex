@@ -1,0 +1,39 @@
+\hypertarget{nfiq2__exception_8hpp}{}\doxysubsection{nfiq2\+\_\+exception.\+hpp File Reference}
+\label{nfiq2__exception_8hpp}\index{nfiq2\_exception.hpp@{nfiq2\_exception.hpp}}
+{\ttfamily \#include $<$exception$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_n_f_i_q2_1_1_exception}{N\+F\+I\+Q2\+::\+Exception}}
+\begin{DoxyCompactList}\small\item\em Represents the exception class used within this framework. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_n_f_i_q2}{N\+F\+I\+Q2}}
+\begin{DoxyCompactList}\small\item\em This namespace contains classes and functions that contribute to the calculation of \mbox{\hyperlink{namespace_n_f_i_q2}{N\+F\+I\+Q2}} scores. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3e}{N\+F\+I\+Q2\+::\+Error\+Code}} \{ \newline
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3eabfaef30f1c8011c5cefa38ae470fb7aa}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Unknown\+Error}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea0b3b296dcb39c4f03e7277194b906791}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Not\+Enough\+Memory}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea7253bff01e020c7cd5ca923cab9f4fa8}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Bad\+Arguments}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3eadf5bee1c276fefe3adc824ecbd3ae6c6}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Feature\+Calculation\+Error}}, 
+\newline
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea255aa038432b345f2b1caa8490376631}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Cannot\+Write\+To\+File}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3eaea1581c95cf68e260e69e1ab7b4bff5e}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Cannot\+Read\+From\+File}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3eac872524e3debf4381272fc7ed0ea60f6}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+No\+Data\+Available}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea294a1b84e1beb03937b9f5643e951cc9}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Cannot\+Decode\+Base64}}, 
+\newline
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3eaf237deac1e85c65673a7bba9093bca7e}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Invalid\+Configuration}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea9f7bb972919d5933cb7a4973111be80f}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Machine\+Learning\+Error}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea32df811a25cc50f8e770d604d9ae3f06}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+F\+J\+F\+X\+\_\+\+Cannot\+Create\+Context}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea1a70354fa2b36b17ca0e79ace21c4e18}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+F\+J\+F\+X\+\_\+\+Cannot\+Create\+Feature\+Set}}, 
+\newline
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3eabef038dc08068a578629146b72abe64f}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+F\+J\+F\+X\+\_\+\+No\+Feature\+Set\+Created}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea7992e0b249dcae1cf4c716e12f344b09}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Invalid\+N\+F\+I\+Q2\+Score}}, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a85f8b1b2faf20c6822cf61e1cdd99a3ea5a606ed9e3b82871cb31eb26d467bebf}{N\+F\+I\+Q2\+::\+Error\+Code\+::\+Invalid\+Image\+Size}}
+ \}
+\begin{DoxyCompactList}\small\item\em This enum class represents error codes defined within this framework. \end{DoxyCompactList}\end{DoxyCompactItemize}

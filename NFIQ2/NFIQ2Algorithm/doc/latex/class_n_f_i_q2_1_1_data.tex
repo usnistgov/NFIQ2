@@ -1,0 +1,208 @@
+\hypertarget{class_n_f_i_q2_1_1_data}{}\doxysubsection{N\+F\+I\+Q2\+::Data Class Reference}
+\label{class_n_f_i_q2_1_1_data}\index{NFIQ2::Data@{NFIQ2::Data}}
+
+
+This class manages binary data and offers functions for easy handling of data.  
+
+
+
+
+{\ttfamily \#include $<$nfiq2\+\_\+data.\+hpp$>$}
+
+
+
+Inherits basic\+\_\+string$<$ uint8\+\_\+t $>$.
+
+
+
+Inherited by \mbox{\hyperlink{class_n_f_i_q2_1_1_fingerprint_image_data}{N\+F\+I\+Q2\+::\+Fingerprint\+Image\+Data}}.
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_data_acbaeab9cd7d7a352c96fa2ac183a8a63}{Data}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{class_n_f_i_q2_1_1_data}{Data}} Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_data_aad2f962f8d80d3ae2ecc73a71f2bd222}{Data}} (const uint8\+\_\+t $\ast$p\+Data, uint32\+\_\+t data\+Size)
+\begin{DoxyCompactList}\small\item\em Constructor with available pointer to data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_data_ad6b4f595b71129594a7d1992231ea610}{Data}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_data}{Data}} \&other\+Data)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_data_a6b5d1c32bfff50b30aa37f0c371c0ee1}{Data}} (const std\+::basic\+\_\+string$<$ uint8\+\_\+t $>$ \&other\+Data)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_n_f_i_q2_1_1_data_a2eb833eb608bc3bba9ad8127043f5a92}{$\sim$\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_n_f_i_q2_1_1_data_a3bbc84e03203519d70b74d6370bb0f94}{read\+From\+File}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Reads the content from the specified {\ttfamily filename} into the data structure. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_n_f_i_q2_1_1_data_adafaca5fae36951f2a244320462ee981}{write\+To\+File}} (const std\+::string \&filename) const
+\begin{DoxyCompactList}\small\item\em Writes the content to a file. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_n_f_i_q2_1_1_data_a164d7e56efaad5bec7fca714e900270b}{to\+Hex\+String}} () const
+\begin{DoxyCompactList}\small\item\em Generates a string in hexadecimal format of the buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_n_f_i_q2_1_1_data_a4cb417e6e3392ed873137c62a44996b5}{from\+Base64\+String}} (const std\+::string \&base64\+String)
+\begin{DoxyCompactList}\small\item\em Imports data from a Base64 encoded string. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_n_f_i_q2_1_1_data_ae63edc3ed6aaba145d40f496ae08c5b4}{to\+Base64\+String}} () const
+\begin{DoxyCompactList}\small\item\em Generates a string in base64 format of the buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+This class manages binary data and offers functions for easy handling of data. 
+
+Examples of binary data are proprietary fingerprint templates or quality feature values in binary format. 
+
+Definition at line 17 of file nfiq2\+\_\+data.\+hpp.
+
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_acbaeab9cd7d7a352c96fa2ac183a8a63}\label{class_n_f_i_q2_1_1_data_acbaeab9cd7d7a352c96fa2ac183a8a63}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!Data@{Data}}
+\index{Data@{Data}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{Data()}{Data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Data\+::\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default \mbox{\hyperlink{class_n_f_i_q2_1_1_data}{Data}} Constructor. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_aad2f962f8d80d3ae2ecc73a71f2bd222}\label{class_n_f_i_q2_1_1_data_aad2f962f8d80d3ae2ecc73a71f2bd222}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!Data@{Data}}
+\index{Data@{Data}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{Data()}{Data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Data\+::\+Data (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{p\+Data,  }\item[{uint32\+\_\+t}]{data\+Size }\end{DoxyParamCaption})}
+
+
+
+Constructor with available pointer to data. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_ad6b4f595b71129594a7d1992231ea610}\label{class_n_f_i_q2_1_1_data_ad6b4f595b71129594a7d1992231ea610}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!Data@{Data}}
+\index{Data@{Data}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{Data()}{Data()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Data\+::\+Data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_n_f_i_q2_1_1_data}{Data}} \&}]{other\+Data }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_a6b5d1c32bfff50b30aa37f0c371c0ee1}\label{class_n_f_i_q2_1_1_data_a6b5d1c32bfff50b30aa37f0c371c0ee1}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!Data@{Data}}
+\index{Data@{Data}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{Data()}{Data()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Data\+::\+Data (\begin{DoxyParamCaption}\item[{const std\+::basic\+\_\+string$<$ uint8\+\_\+t $>$ \&}]{other\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Copy constructor. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_a2eb833eb608bc3bba9ad8127043f5a92}\label{class_n_f_i_q2_1_1_data_a2eb833eb608bc3bba9ad8127043f5a92}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!````~Data@{$\sim$Data}}
+\index{````~Data@{$\sim$Data}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{$\sim$Data()}{~Data()}}
+{\footnotesize\ttfamily virtual N\+F\+I\+Q2\+::\+Data\+::$\sim$\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_a3bbc84e03203519d70b74d6370bb0f94}\label{class_n_f_i_q2_1_1_data_a3bbc84e03203519d70b74d6370bb0f94}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!readFromFile@{readFromFile}}
+\index{readFromFile@{readFromFile}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{readFromFile()}{readFromFile()}}
+{\footnotesize\ttfamily void N\+F\+I\+Q2\+::\+Data\+::read\+From\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+
+
+Reads the content from the specified {\ttfamily filename} into the data structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The path and name of the file that will be read.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em N\+F\+I\+Q\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_adafaca5fae36951f2a244320462ee981}\label{class_n_f_i_q2_1_1_data_adafaca5fae36951f2a244320462ee981}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!writeToFile@{writeToFile}}
+\index{writeToFile@{writeToFile}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{writeToFile()}{writeToFile()}}
+{\footnotesize\ttfamily void N\+F\+I\+Q2\+::\+Data\+::write\+To\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption}) const}
+
+
+
+Writes the content to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The path and name of the file that will be written to.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em N\+F\+I\+Q\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_a164d7e56efaad5bec7fca714e900270b}\label{class_n_f_i_q2_1_1_data_a164d7e56efaad5bec7fca714e900270b}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!toHexString@{toHexString}}
+\index{toHexString@{toHexString}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{toHexString()}{toHexString()}}
+{\footnotesize\ttfamily std\+::string N\+F\+I\+Q2\+::\+Data\+::to\+Hex\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Generates a string in hexadecimal format of the buffer. 
+
+\begin{DoxyReturn}{Returns}
+The content of the buffer as hexadecimal string.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em N\+F\+I\+Q\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_a4cb417e6e3392ed873137c62a44996b5}\label{class_n_f_i_q2_1_1_data_a4cb417e6e3392ed873137c62a44996b5}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!fromBase64String@{fromBase64String}}
+\index{fromBase64String@{fromBase64String}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{fromBase64String()}{fromBase64String()}}
+{\footnotesize\ttfamily void N\+F\+I\+Q2\+::\+Data\+::from\+Base64\+String (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{base64\+String }\end{DoxyParamCaption})}
+
+
+
+Imports data from a Base64 encoded string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em base64\+String} & The Base64 encoded string.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em N\+F\+I\+Q\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_data_ae63edc3ed6aaba145d40f496ae08c5b4}\label{class_n_f_i_q2_1_1_data_ae63edc3ed6aaba145d40f496ae08c5b4}} 
+\index{NFIQ2::Data@{NFIQ2::Data}!toBase64String@{toBase64String}}
+\index{toBase64String@{toBase64String}!NFIQ2::Data@{NFIQ2::Data}}
+\doxyparagraph{\texorpdfstring{toBase64String()}{toBase64String()}}
+{\footnotesize\ttfamily std\+::string N\+F\+I\+Q2\+::\+Data\+::to\+Base64\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Generates a string in base64 format of the buffer. 
+
+\begin{DoxyReturn}{Returns}
+The content of the buffer as base64 encoded string.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em N\+F\+I\+Q\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{nfiq2__data_8hpp}{nfiq2\+\_\+data.\+hpp}}\end{DoxyCompactItemize}

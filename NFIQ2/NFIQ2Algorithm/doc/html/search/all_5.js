@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['feature_5fdata_5ft_30',['feature_data_t',['../struct_n_f_i_q2_1_1feature__data__t.html',1,'NFIQ2']]],
+  ['feature_5fdata_5ftype_5fe_31',['feature_data_type_e',['../namespace_n_f_i_q2.html#a849aed9fb01275303be116f64243ef58',1,'NFIQ2']]],
+  ['feature_5fspeed_5ft_32',['feature_speed_t',['../struct_n_f_i_q2_1_1feature__speed__t.html',1,'NFIQ2']]],
+  ['featurecalculationerror_33',['FeatureCalculationError',['../namespace_n_f_i_q2.html#a85f8b1b2faf20c6822cf61e1cdd99a3eadf5bee1c276fefe3adc824ecbd3ae6c6',1,'NFIQ2']]],
+  ['featuredata_34',['featureData',['../struct_n_f_i_q2_1_1quality__feature__result__t.html#a532f2912dac6e8284eee07d134423e23',1,'NFIQ2::quality_feature_result_t']]],
+  ['featuredatabinary_35',['featureDataBinary',['../struct_n_f_i_q2_1_1feature__data__t.html#afd2c2f439c188af07b63f8f03fa4c44a',1,'NFIQ2::feature_data_t']]],
+  ['featuredatadouble_36',['featureDataDouble',['../struct_n_f_i_q2_1_1feature__data__t.html#a71be1a9d88c4564375426df8bbfdfde1',1,'NFIQ2::feature_data_t']]],
+  ['featuredatatype_37',['featureDataType',['../struct_n_f_i_q2_1_1feature__data__t.html#af6afcdb4bd4821c47f172f111a92fd09',1,'NFIQ2::feature_data_t']]],
+  ['featureid_38',['featureID',['../struct_n_f_i_q2_1_1feature__data__t.html#a0799930277da8c5294363da81b05d29e',1,'NFIQ2::feature_data_t']]],
+  ['featureidgroup_39',['featureIDGroup',['../struct_n_f_i_q2_1_1feature__speed__t.html#aa9193cfc5f9ef9f5645508aff4f71f64',1,'NFIQ2::feature_speed_t']]],
+  ['featureids_40',['featureIDs',['../struct_n_f_i_q2_1_1feature__speed__t.html#a707a71108a36a4f5a1fd10dd3a42312f',1,'NFIQ2::feature_speed_t']]],
+  ['featureresult_41',['featureResult',['../struct_n_f_i_q2_1_1quality__feature__sample__t.html#a28966fbf9f13731bd15b841d1c0f7e1d',1,'NFIQ2::quality_feature_sample_t']]],
+  ['featurespeed_42',['featureSpeed',['../struct_n_f_i_q2_1_1feature__speed__t.html#a42ee32ae5376aca54b295e8f4778f76a',1,'NFIQ2::feature_speed_t']]],
+  ['fingercode_43',['fingerCode',['../struct_n_f_i_q2_1_1image__id__t.html#ad0c1ffc4f8caac24a62e6a5be9d17b99',1,'NFIQ2::image_id_t']]],
+  ['fingerjet_44',['FingerJet',['../namespace_n_f_i_q2_1_1_version.html#a5df94e20bc1e35d5f805fa51d21d6431',1,'NFIQ2::Version']]],
+  ['fingerprintimagedata_45',['FingerprintImageData',['../class_n_f_i_q2_1_1_fingerprint_image_data.html',1,'NFIQ2::FingerprintImageData'],['../class_n_f_i_q2_1_1_fingerprint_image_data.html#a82e956b369973f6b05e6bd00e8489ba0',1,'NFIQ2::FingerprintImageData::FingerprintImageData()'],['../class_n_f_i_q2_1_1_fingerprint_image_data.html#a09cfc7fa15b7484ca45a3a109d2e9292',1,'NFIQ2::FingerprintImageData::FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode, uint16_t imageDPI)'],['../class_n_f_i_q2_1_1_fingerprint_image_data.html#a35f59bb588d759455b6f20069b744ae9',1,'NFIQ2::FingerprintImageData::FingerprintImageData(const uint8_t *pData, uint32_t dataSize, uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode, uint16_t imageDPI)'],['../class_n_f_i_q2_1_1_fingerprint_image_data.html#a05b6bc5a1790439ebe22344b216c2a50',1,'NFIQ2::FingerprintImageData::FingerprintImageData(const FingerprintImageData &amp;otherData)']]],
+  ['fingerprintimageid_46',['fingerprintImageID',['../struct_n_f_i_q2_1_1utility__sample__t.html#a0b94fa87fd610afc95114a82087f81f6',1,'NFIQ2::utility_sample_t::fingerprintImageID()'],['../struct_n_f_i_q2_1_1quality__feature__sample__t.html#a55ea29ca47f09e240223a8b525869a08',1,'NFIQ2::quality_feature_sample_t::fingerprintImageID()']]],
+  ['fjfx_5fcannotcreatecontext_47',['FJFX_CannotCreateContext',['../namespace_n_f_i_q2.html#a85f8b1b2faf20c6822cf61e1cdd99a3ea32df811a25cc50f8e770d604d9ae3f06',1,'NFIQ2']]],
+  ['fjfx_5fcannotcreatefeatureset_48',['FJFX_CannotCreateFeatureSet',['../namespace_n_f_i_q2.html#a85f8b1b2faf20c6822cf61e1cdd99a3ea1a70354fa2b36b17ca0e79ace21c4e18',1,'NFIQ2']]],
+  ['fjfx_5fnofeaturesetcreated_49',['FJFX_NoFeatureSetCreated',['../namespace_n_f_i_q2.html#a85f8b1b2faf20c6822cf61e1cdd99a3eabef038dc08068a578629146b72abe64f',1,'NFIQ2']]],
+  ['frombase64string_50',['fromBase64String',['../class_n_f_i_q2_1_1_data.html#a4cb417e6e3392ed873137c62a44996b5',1,'NFIQ2::Data']]],
+  ['full_51',['Full',['../namespace_n_f_i_q2_1_1_version.html#a19578da3d221015335a91b558082b100',1,'NFIQ2::Version']]]
+];

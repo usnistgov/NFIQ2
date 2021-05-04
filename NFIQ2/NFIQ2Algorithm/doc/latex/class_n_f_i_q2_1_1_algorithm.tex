@@ -1,0 +1,273 @@
+\hypertarget{class_n_f_i_q2_1_1_algorithm}{}\doxysubsection{N\+F\+I\+Q2\+::Algorithm Class Reference}
+\label{class_n_f_i_q2_1_1_algorithm}\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+
+
+This class serves as a wrapper to return quality scores for a fingerprint image.  
+
+
+
+
+{\ttfamily \#include $<$nfiq2\+\_\+algorithm.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a24f8bedcda9a2c00a2a40dcf0ba56e53}{Algorithm}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor of \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a4f134dcb049f0771f33c5308be923e04}{Algorithm}} (const std\+::string \&file\+Name, const std\+::string \&file\+Hash)
+\begin{DoxyCompactList}\small\item\em Constructor using model {\ttfamily filename} and the {\ttfamily file\+Hash}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_aa007e86ecf016dd523c2919b5c685234}{Algorithm}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_model_info}{N\+F\+I\+Q2\+::\+Model\+Info}} \&model\+Info\+Obj)
+\begin{DoxyCompactList}\small\item\em Constructor using {\ttfamily model\+Info\+Obj} object to initialize the random forest model. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a54118dce6932af4a174b2445aa10fb24}{Algorithm}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \& \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_ae790d53662b58291030b2ca84338c627}{operator=}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_abe35116a2591d2d65573c5939d8e4eb7}{Algorithm}} (\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&\&) noexcept
+\begin{DoxyCompactList}\small\item\em Move constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \& \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_ab0666f2b2356ad026f0bd5289b19733e}{operator=}} (\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&\&) noexcept
+\begin{DoxyCompactList}\small\item\em Move assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_aa41856ebe179c222a2bc8b35019ca9ec}{$\sim$\+Algorithm}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_ace5ee2071761ef1c588859205231220d}{compute\+Quality\+Score}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_fingerprint_image_data}{N\+F\+I\+Q2\+::\+Fingerprint\+Image\+Data}} \&raw\+Image) const
+\begin{DoxyCompactList}\small\item\em Computes the quality score from the provided fingerprint image data. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a27c4e404c210909e5028be6c641d5ea3}{compute\+Quality\+Score}} (const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ N\+F\+I\+Q2\+::\+Quality\+Features\+::\+Base\+Feature $>$$>$ \&features) const
+\begin{DoxyCompactList}\small\item\em Computes the quality score from a vector of extracted {\ttfamily features} from a cropped fingerprint image. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a7fb107c67142912043589323abdeda6a}{compute\+Quality\+Score}} (const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_a9798fb2093f9b11deeba9e25b3ac8d77}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Data}} $>$ \&features) const
+\begin{DoxyCompactList}\small\item\em Computes the quality score from a map of extracted image quality feature data. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a6db06604ab42e57ee56ba2434cedb3c8}{get\+Parameter\+Hash}} () const
+\begin{DoxyCompactList}\small\item\em Obtain M\+D5 checksum of Random Forest parameter file loaded. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a7846543ee9d7763496ad4f8eccb7f13d}{is\+Initialized}} () const
+\begin{DoxyCompactList}\small\item\em Determine if random forest parameters have been loaded. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_ac0ad326b39816b823f9b1722b8fb33b1}{is\+Embedded}} () const
+\begin{DoxyCompactList}\small\item\em Obtain if the random forest parameters are embedded in the library or located externally. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm_a3cb11fe5b2a309f437e47cc1a75afa70}{get\+Embedded\+F\+CT}} () const
+\begin{DoxyCompactList}\small\item\em Obtain the friction ridge capture technology (F\+CT) specified for the embedded random forest parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+This class serves as a wrapper to return quality scores for a fingerprint image. 
+
+Definition at line 19 of file nfiq2\+\_\+algorithm.\+hpp.
+
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a24f8bedcda9a2c00a2a40dcf0ba56e53}\label{class_n_f_i_q2_1_1_algorithm_a24f8bedcda9a2c00a2a40dcf0ba56e53}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!Algorithm@{Algorithm}}
+\index{Algorithm@{Algorithm}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{Algorithm()}{Algorithm()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Algorithm\+::\+Algorithm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor of \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}}. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a4f134dcb049f0771f33c5308be923e04}\label{class_n_f_i_q2_1_1_algorithm_a4f134dcb049f0771f33c5308be923e04}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!Algorithm@{Algorithm}}
+\index{Algorithm@{Algorithm}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{Algorithm()}{Algorithm()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Algorithm\+::\+Algorithm (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Name,  }\item[{const std\+::string \&}]{file\+Hash }\end{DoxyParamCaption})}
+
+
+
+Constructor using model {\ttfamily filename} and the {\ttfamily file\+Hash}. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_aa007e86ecf016dd523c2919b5c685234}\label{class_n_f_i_q2_1_1_algorithm_aa007e86ecf016dd523c2919b5c685234}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!Algorithm@{Algorithm}}
+\index{Algorithm@{Algorithm}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{Algorithm()}{Algorithm()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Algorithm\+::\+Algorithm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_n_f_i_q2_1_1_model_info}{N\+F\+I\+Q2\+::\+Model\+Info}} \&}]{model\+Info\+Obj }\end{DoxyParamCaption})}
+
+
+
+Constructor using {\ttfamily model\+Info\+Obj} object to initialize the random forest model. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a54118dce6932af4a174b2445aa10fb24}\label{class_n_f_i_q2_1_1_algorithm_a54118dce6932af4a174b2445aa10fb24}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!Algorithm@{Algorithm}}
+\index{Algorithm@{Algorithm}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{Algorithm()}{Algorithm()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Algorithm\+::\+Algorithm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&}]{ }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_abe35116a2591d2d65573c5939d8e4eb7}\label{class_n_f_i_q2_1_1_algorithm_abe35116a2591d2d65573c5939d8e4eb7}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!Algorithm@{Algorithm}}
+\index{Algorithm@{Algorithm}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{Algorithm()}{Algorithm()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Algorithm\+::\+Algorithm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Move constructor. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_aa41856ebe179c222a2bc8b35019ca9ec}\label{class_n_f_i_q2_1_1_algorithm_aa41856ebe179c222a2bc8b35019ca9ec}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!````~Algorithm@{$\sim$Algorithm}}
+\index{````~Algorithm@{$\sim$Algorithm}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{$\sim$Algorithm()}{~Algorithm()}}
+{\footnotesize\ttfamily N\+F\+I\+Q2\+::\+Algorithm\+::$\sim$\+Algorithm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_ae790d53662b58291030b2ca84338c627}\label{class_n_f_i_q2_1_1_algorithm_ae790d53662b58291030b2ca84338c627}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!operator=@{operator=}}
+\index{operator=@{operator=}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}}\& N\+F\+I\+Q2\+::\+Algorithm\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&}]{ }\end{DoxyParamCaption})}
+
+
+
+Assignment operator. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_ab0666f2b2356ad026f0bd5289b19733e}\label{class_n_f_i_q2_1_1_algorithm_ab0666f2b2356ad026f0bd5289b19733e}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!operator=@{operator=}}
+\index{operator=@{operator=}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}}\& N\+F\+I\+Q2\+::\+Algorithm\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_n_f_i_q2_1_1_algorithm}{Algorithm}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Move assignment operator. 
+
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_ace5ee2071761ef1c588859205231220d}\label{class_n_f_i_q2_1_1_algorithm_ace5ee2071761ef1c588859205231220d}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!computeQualityScore@{computeQualityScore}}
+\index{computeQualityScore@{computeQualityScore}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{computeQualityScore()}{computeQualityScore()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily unsigned int N\+F\+I\+Q2\+::\+Algorithm\+::compute\+Quality\+Score (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_n_f_i_q2_1_1_fingerprint_image_data}{N\+F\+I\+Q2\+::\+Fingerprint\+Image\+Data}} \&}]{raw\+Image }\end{DoxyParamCaption}) const}
+
+
+
+Computes the quality score from the provided fingerprint image data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw\+Image} & Fingerprint image in raw format.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Computed quality score.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_n_f_i_q2_1_1_exception}{Exception}}} & Called before random forest parameters were loaded. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a27c4e404c210909e5028be6c641d5ea3}\label{class_n_f_i_q2_1_1_algorithm_a27c4e404c210909e5028be6c641d5ea3}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!computeQualityScore@{computeQualityScore}}
+\index{computeQualityScore@{computeQualityScore}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{computeQualityScore()}{computeQualityScore()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily unsigned int N\+F\+I\+Q2\+::\+Algorithm\+::compute\+Quality\+Score (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ N\+F\+I\+Q2\+::\+Quality\+Features\+::\+Base\+Feature $>$$>$ \&}]{features }\end{DoxyParamCaption}) const}
+
+
+
+Computes the quality score from a vector of extracted {\ttfamily features} from a cropped fingerprint image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em features} & Vector of computed feature metrics that contain quality information for a fingerprint image.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Computed quality score.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_n_f_i_q2_1_1_exception}{Exception}}} & Called before random forest parameters were loaded. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a7fb107c67142912043589323abdeda6a}\label{class_n_f_i_q2_1_1_algorithm_a7fb107c67142912043589323abdeda6a}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!computeQualityScore@{computeQualityScore}}
+\index{computeQualityScore@{computeQualityScore}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{computeQualityScore()}{computeQualityScore()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily unsigned int N\+F\+I\+Q2\+::\+Algorithm\+::compute\+Quality\+Score (\begin{DoxyParamCaption}\item[{const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_a9798fb2093f9b11deeba9e25b3ac8d77}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Data}} $>$ \&}]{features }\end{DoxyParamCaption}) const}
+
+
+
+Computes the quality score from a map of extracted image quality feature data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em features} & Map of string, quality feature data pairs.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Computed quality score.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_n_f_i_q2_1_1_exception}{Exception}}} & Called before random forest parameters were loaded. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a6db06604ab42e57ee56ba2434cedb3c8}\label{class_n_f_i_q2_1_1_algorithm_a6db06604ab42e57ee56ba2434cedb3c8}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!getParameterHash@{getParameterHash}}
+\index{getParameterHash@{getParameterHash}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{getParameterHash()}{getParameterHash()}}
+{\footnotesize\ttfamily std\+::string N\+F\+I\+Q2\+::\+Algorithm\+::get\+Parameter\+Hash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Obtain M\+D5 checksum of Random Forest parameter file loaded. 
+
+\begin{DoxyReturn}{Returns}
+M\+D5 checksum of the Random Forest parameter file loaded.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_n_f_i_q2_1_1_exception}{Exception}}} & Called before random forest parameters were loaded. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a7846543ee9d7763496ad4f8eccb7f13d}\label{class_n_f_i_q2_1_1_algorithm_a7846543ee9d7763496ad4f8eccb7f13d}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!isInitialized@{isInitialized}}
+\index{isInitialized@{isInitialized}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{isInitialized()}{isInitialized()}}
+{\footnotesize\ttfamily bool N\+F\+I\+Q2\+::\+Algorithm\+::is\+Initialized (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Determine if random forest parameters have been loaded. 
+
+\begin{DoxyReturn}{Returns}
+True if some set of random forest parameters have been loaded, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_ac0ad326b39816b823f9b1722b8fb33b1}\label{class_n_f_i_q2_1_1_algorithm_ac0ad326b39816b823f9b1722b8fb33b1}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!isEmbedded@{isEmbedded}}
+\index{isEmbedded@{isEmbedded}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{isEmbedded()}{isEmbedded()}}
+{\footnotesize\ttfamily bool N\+F\+I\+Q2\+::\+Algorithm\+::is\+Embedded (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Obtain if the random forest parameters are embedded in the library or located externally. 
+
+\begin{DoxyReturn}{Returns}
+true if random forest parameters are embedded, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_n_f_i_q2_1_1_algorithm_a3cb11fe5b2a309f437e47cc1a75afa70}\label{class_n_f_i_q2_1_1_algorithm_a3cb11fe5b2a309f437e47cc1a75afa70}} 
+\index{NFIQ2::Algorithm@{NFIQ2::Algorithm}!getEmbeddedFCT@{getEmbeddedFCT}}
+\index{getEmbeddedFCT@{getEmbeddedFCT}!NFIQ2::Algorithm@{NFIQ2::Algorithm}}
+\doxyparagraph{\texorpdfstring{getEmbeddedFCT()}{getEmbeddedFCT()}}
+{\footnotesize\ttfamily unsigned int N\+F\+I\+Q2\+::\+Algorithm\+::get\+Embedded\+F\+CT (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Obtain the friction ridge capture technology (F\+CT) specified for the embedded random forest parameters. 
+
+\begin{DoxyReturn}{Returns}
+Embedded F\+CT specified.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_n_f_i_q2_1_1_exception}{N\+F\+I\+Q2\+::\+Exception}}} & Parameters were not embedded or F\+CT was not specified. \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{nfiq2__algorithm_8hpp}{nfiq2\+\_\+algorithm.\+hpp}}\end{DoxyCompactItemize}

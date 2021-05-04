@@ -1,0 +1,35 @@
+\hypertarget{nfiq2__qualityfeatures_8hpp}{}\doxysubsection{nfiq2\+\_\+qualityfeatures.\+hpp File Reference}
+\label{nfiq2__qualityfeatures_8hpp}\index{nfiq2\_qualityfeatures.hpp@{nfiq2\_qualityfeatures.hpp}}
+{\ttfamily \#include $<$nfiq2\+\_\+fingerprintimagedata.\+hpp$>$}\newline
+{\ttfamily \#include $<$nfiq2\+\_\+interfacedefinitions.\+hpp$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_n_f_i_q2}{N\+F\+I\+Q2}}
+\begin{DoxyCompactList}\small\item\em This namespace contains classes and functions that contribute to the calculation of \mbox{\hyperlink{namespace_n_f_i_q2}{N\+F\+I\+Q2}} scores. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features}{N\+F\+I\+Q2\+::\+Quality\+Features}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a5f2d5acd646a698603658173707351fe}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+All\+Actionable\+Identifiers}} ()
+\begin{DoxyCompactList}\small\item\em Obtain all actionable quality feedback identifiers. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a30795cb750ceb7bdc243387a4f89ef3e}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+All\+Quality\+Feature\+I\+Ds}} ()
+\begin{DoxyCompactList}\small\item\em Obtain all quality feature I\+Ds from quality modules. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a79d51a261ee5cc1ad6228c131d7b9ff1}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+All\+Speed\+Feature\+Groups}} ()
+\begin{DoxyCompactList}\small\item\em Obtain all speed feature groups from quality modules. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ N\+F\+I\+Q2\+::\+Quality\+Features\+::\+Base\+Feature $>$ $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a65720dff84c99ee758846197238d44ba}{N\+F\+I\+Q2\+::\+Quality\+Features\+::compute\+Quality\+Features}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_fingerprint_image_data}{N\+F\+I\+Q2\+::\+Fingerprint\+Image\+Data}} \&raw\+Image)
+\begin{DoxyCompactList}\small\item\em Obtain computed quality feature data from a fingerprint image. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_a7d22a1561259246855e816e7c0f4f142}{N\+F\+I\+Q2\+::\+Actionable\+Quality\+Feedback}} $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a672089c0936735ca3398ceb496599ee6}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+Actionable\+Quality\+Feedback}} (const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ N\+F\+I\+Q2\+::\+Quality\+Features\+::\+Base\+Feature $>$$>$ \&features)
+\begin{DoxyCompactList}\small\item\em Obtain actionable quality feedback from a vector of features. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_a7d22a1561259246855e816e7c0f4f142}{N\+F\+I\+Q2\+::\+Actionable\+Quality\+Feedback}} $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_abdd114f7a07b7cd437b70c342f54fd00}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+Actionable\+Quality\+Feedback}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_fingerprint_image_data}{N\+F\+I\+Q2\+::\+Fingerprint\+Image\+Data}} \&raw\+Image)
+\begin{DoxyCompactList}\small\item\em Obtain actionable quality feedback from a fingerprint image. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_a9798fb2093f9b11deeba9e25b3ac8d77}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Data}} $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a69a9eb0aa0bc47226c4a2913d5a1f309}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+Quality\+Feature\+Data}} (const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ N\+F\+I\+Q2\+::\+Quality\+Features\+::\+Base\+Feature $>$$>$ \&features)
+\begin{DoxyCompactList}\small\item\em Obtain quality feature data from a vector of features. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_a9798fb2093f9b11deeba9e25b3ac8d77}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Data}} $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_ac51406e7f38f617e9deedad534bf8d9d}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+Quality\+Feature\+Data}} (const \mbox{\hyperlink{class_n_f_i_q2_1_1_fingerprint_image_data}{N\+F\+I\+Q2\+::\+Fingerprint\+Image\+Data}} \&raw\+Image)
+\begin{DoxyCompactList}\small\item\em Obtain quality feature data from a fingerprint image. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_n_f_i_q2_aa085f9c6e8ab44e6c4833dcb76598065}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Speed}} $>$ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_quality_features_a36d587c0cebed7c5712b4f537bb26865}{N\+F\+I\+Q2\+::\+Quality\+Features\+::get\+Quality\+Feature\+Speeds}} (const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ N\+F\+I\+Q2\+::\+Quality\+Features\+::\+Base\+Feature $>$$>$ \&features)
+\begin{DoxyCompactList}\small\item\em Obtain quality feature speeds from a vector of features. \end{DoxyCompactList}\end{DoxyCompactItemize}

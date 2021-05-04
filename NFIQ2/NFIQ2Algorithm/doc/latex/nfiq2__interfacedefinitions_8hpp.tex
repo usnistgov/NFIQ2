@@ -1,0 +1,74 @@
+\hypertarget{nfiq2__interfacedefinitions_8hpp}{}\doxysubsection{nfiq2\+\_\+interfacedefinitions.\+hpp File Reference}
+\label{nfiq2__interfacedefinitions_8hpp}\index{nfiq2\_interfacedefinitions.hpp@{nfiq2\_interfacedefinitions.hpp}}
+{\ttfamily \#include $<$nfiq2\+\_\+data.\+hpp$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1actionable__quality__feedback__t}{N\+F\+I\+Q2\+::actionable\+\_\+quality\+\_\+feedback\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Actionable\+Quality\+Feedback structure. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1image__id__t}{N\+F\+I\+Q2\+::image\+\_\+id\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the ID of an image. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1feature__data__t}{N\+F\+I\+Q2\+::feature\+\_\+data\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents a structure for quality feature data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1feature__speed__t}{N\+F\+I\+Q2\+::feature\+\_\+speed\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents a structure for timing information of features. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1quality__feature__result__t}{N\+F\+I\+Q2\+::quality\+\_\+feature\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the result of a quality feature extraction. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1comparison__result__t}{N\+F\+I\+Q2\+::comparison\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the result of a comparison scores computation. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1utility__result__t}{N\+F\+I\+Q2\+::utility\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the result of a utility value calculation. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1utility__sample__t}{N\+F\+I\+Q2\+::utility\+\_\+sample\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents a sample for utility computation (image ID + utility result). \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1quality__feature__sample__t}{N\+F\+I\+Q2\+::quality\+\_\+feature\+\_\+sample\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the content of a quality feature exchange file. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1comparison__probe__result__t}{N\+F\+I\+Q2\+::comparison\+\_\+probe\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the structure of a probe result for comparison scores computation. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_n_f_i_q2_1_1comparison__scores__sample__t}{N\+F\+I\+Q2\+::comparison\+\_\+scores\+\_\+sample\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em This type represents the structure of a comparison scores sample. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_n_f_i_q2}{N\+F\+I\+Q2}}
+\begin{DoxyCompactList}\small\item\em This namespace contains classes and functions that contribute to the calculation of \mbox{\hyperlink{namespace_n_f_i_q2}{N\+F\+I\+Q2}} scores. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_actionable_quality_feedback_identifier}{N\+F\+I\+Q2\+::\+Actionable\+Quality\+Feedback\+Identifier}}
+\begin{DoxyCompactList}\small\item\em Contains strings corresponding to Actionable Feedback Scores. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespace_n_f_i_q2_1_1_actionable_quality_feedback_threshold}{N\+F\+I\+Q2\+::\+Actionable\+Quality\+Feedback\+Threshold}}
+\begin{DoxyCompactList}\small\item\em Contains doubles corresponding to Actionable Feedback Thresholds. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespace_n_f_i_q2_a7d22a1561259246855e816e7c0f4f142}{N\+F\+I\+Q2\+::\+Actionable\+Quality\+Feedback}} = actionable\+\_\+quality\+\_\+feedback\+\_\+t
+\item 
+typedef enum \mbox{\hyperlink{namespace_n_f_i_q2_a849aed9fb01275303be116f64243ef58}{N\+F\+I\+Q2\+::feature\+\_\+data\+\_\+type\+\_\+e}} \mbox{\hyperlink{namespace_n_f_i_q2_a146738134abbd74a74734be41eca7e7f}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Data\+Type}}
+\begin{DoxyCompactList}\small\item\em This type represents the type of quality feature data. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1image__id__t}{N\+F\+I\+Q2\+::image\+\_\+id\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_a64067aa2b36ec3984a2b9f87fb11f2b4}{N\+F\+I\+Q2\+::\+Image\+ID}}
+\begin{DoxyCompactList}\small\item\em This type represents the ID of an image. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1feature__data__t}{N\+F\+I\+Q2\+::feature\+\_\+data\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_a9798fb2093f9b11deeba9e25b3ac8d77}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Data}}
+\begin{DoxyCompactList}\small\item\em This type represents a structure for quality feature data. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1feature__speed__t}{N\+F\+I\+Q2\+::feature\+\_\+speed\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_aa085f9c6e8ab44e6c4833dcb76598065}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Speed}}
+\begin{DoxyCompactList}\small\item\em This type represents a structure for timing information of features. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1quality__feature__result__t}{N\+F\+I\+Q2\+::quality\+\_\+feature\+\_\+result\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_a86dae7d2c1db92691d23b46ca524e4ea}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Result}}
+\begin{DoxyCompactList}\small\item\em This type represents the result of a quality feature extraction. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1comparison__result__t}{N\+F\+I\+Q2\+::comparison\+\_\+result\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_a481c51bdec2b170af19c48619153a27b}{N\+F\+I\+Q2\+::\+Comparison\+Result}}
+\begin{DoxyCompactList}\small\item\em This type represents the result of a comparison scores computation. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1utility__result__t}{N\+F\+I\+Q2\+::utility\+\_\+result\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_aff53b19b1b52d6275b27965c5df9d3d9}{N\+F\+I\+Q2\+::\+Utility\+Result}}
+\begin{DoxyCompactList}\small\item\em This type represents the result of a utility value calculation. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1utility__sample__t}{N\+F\+I\+Q2\+::utility\+\_\+sample\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_ae0c667b7f6207b45d8f28a761c579a60}{N\+F\+I\+Q2\+::\+Utility\+Sample}}
+\begin{DoxyCompactList}\small\item\em This type represents a sample for utility computation (image ID + utility result). \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1quality__feature__sample__t}{N\+F\+I\+Q2\+::quality\+\_\+feature\+\_\+sample\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_aabfa34e2e1bf5989eb762cf87df45a6c}{N\+F\+I\+Q2\+::\+Quality\+Feature\+Sample}}
+\begin{DoxyCompactList}\small\item\em This type represents the content of a quality feature exchange file. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1comparison__probe__result__t}{N\+F\+I\+Q2\+::comparison\+\_\+probe\+\_\+result\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_ad9810789e924ea081c937133e19db81b}{N\+F\+I\+Q2\+::\+Comparison\+Probe\+Result}}
+\begin{DoxyCompactList}\small\item\em This type represents the structure of a probe result for comparison scores computation. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_n_f_i_q2_1_1comparison__scores__sample__t}{N\+F\+I\+Q2\+::comparison\+\_\+scores\+\_\+sample\+\_\+t}} \mbox{\hyperlink{namespace_n_f_i_q2_af4173ed1815cab7d9902f97ab0778d4e}{N\+F\+I\+Q2\+::\+Comparison\+Scores\+Sample}}
+\begin{DoxyCompactList}\small\item\em This type represents the structure of a comparison scores sample. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_n_f_i_q2_a849aed9fb01275303be116f64243ef58}{N\+F\+I\+Q2\+::feature\+\_\+data\+\_\+type\+\_\+e}} \{ \mbox{\hyperlink{namespace_n_f_i_q2_a849aed9fb01275303be116f64243ef58ab417ba8f28ad7428c848288cd29c91cf}{N\+F\+I\+Q2\+::e\+\_\+\+Quality\+Feature\+Data\+Type\+Unknown}} = 0, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a849aed9fb01275303be116f64243ef58ae2e1b5ff0375580d9185dccf8837d996}{N\+F\+I\+Q2\+::e\+\_\+\+Quality\+Feature\+Data\+Type\+Double}} = 1, 
+\mbox{\hyperlink{namespace_n_f_i_q2_a849aed9fb01275303be116f64243ef58a11d7be9dc89f2db857ca4602fcb74def}{N\+F\+I\+Q2\+::e\+\_\+\+Quality\+Feature\+Data\+Type\+Binary}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em This type represents the type of quality feature data. \end{DoxyCompactList}\end{DoxyCompactItemize}

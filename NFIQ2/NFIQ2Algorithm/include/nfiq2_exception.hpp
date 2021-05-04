@@ -7,7 +7,7 @@
 
 namespace NFIQ2 {
 
-/** This class represents error codes defined within this framework. */
+/** This enum class represents error codes defined within this framework. */
 enum class ErrorCode {
 	UnknownError,
 	NotEnoughMemory,
@@ -40,7 +40,7 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::InvalidConfiguration,
 	    "An invalid configuration entry was found" },
 	{ NFIQ2::ErrorCode::MachineLearningError,
-	    "An machine learning error occured" },
+	    "An machine learning error occurred" },
 	{ NFIQ2::ErrorCode::FJFX_CannotCreateContext,
 	    "Cannot create context for FJFX feature extractor" },
 	{ NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
@@ -57,7 +57,8 @@ class Exception : public std::exception {
 	/** Constructor which uses supplied error code and default message. */
 	Exception(const NFIQ2::ErrorCode &errorCode);
 
-	/** Constructor which uses supplied error code and user-defined message.
+	/**
+	 * Constructor which uses supplied error code and user-defined message.
 	 */
 	Exception(
 	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);

@@ -10,21 +10,23 @@ namespace NFIQ2 {
 
 /** This typedef represents the resolution of an image (in dpi). */
 typedef enum image_resolution_e {
+	/** 500 dpi resolution. */
 	e_ImageResolution_500dpi = 500,
+	/** 1000 dpi resolution. */
 	e_ImageResolution_1000dpi = 1000
 } ImageResolution;
 
 /** This class manages fingerprint image data (derived from class Data). */
 class FingerprintImageData : public Data {
     public:
-	/** Default constructor of FingerprintImageData. */
+	/** Default FingerprintImageData constructor. */
 	FingerprintImageData();
 
-	/** Constructor of FingerprintImageData. */
+	/** Standard FingerprintImageData constructor. */
 	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
 	    uint8_t fingerCode, uint16_t imageDPI);
 
-	/** Constructor of data with available pointer to data. */
+	/** Constructor with available pointer to data. */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
 	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
 	    uint16_t imageDPI);

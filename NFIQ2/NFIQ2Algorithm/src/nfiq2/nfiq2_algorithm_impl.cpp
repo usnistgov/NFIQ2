@@ -18,10 +18,10 @@
 #include <string>
 #include <vector>
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2::Algorithm::Impl::Impl()
     : initialized { false }
 {
+#ifdef EMBED_RANDOMFOREST_PARAMETERS
 	// init RF module that takes some time to load the parameters
 	this->m_parameterHash = m_RandomForestML.initModule();
 	this->initialized = true;

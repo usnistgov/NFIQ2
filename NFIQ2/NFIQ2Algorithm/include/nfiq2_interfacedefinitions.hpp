@@ -37,9 +37,11 @@ static const double FingerprintImageWithMinutiae { 5.0 };
 static const double SufficientFingerprintForeground { 50000.0 };
 }
 
-/** ActionableQualityFeedback Struct. */
+/** ActionableQualityFeedback structure. */
 struct actionable_quality_feedback_t {
+	/** Name of the actionable quality metric. */
 	std::string identifier;
+	/** Numerical value associated with the actionable quality metric. */
 	double actionableQualityValue;
 };
 using ActionableQualityFeedback = actionable_quality_feedback_t;
@@ -87,7 +89,7 @@ typedef struct feature_speed_t {
 	/** The name of the feature group. */
 	std::string featureIDGroup;
 	/**
-	 * The unique IDs of the features that are used for determing the
+	 * The unique IDs of the features that are used for determining the
 	 * speed.
 	 */
 	std::vector<std::string> featureIDs;
@@ -99,7 +101,7 @@ typedef struct feature_speed_t {
 typedef struct database_information_t {
 	/** ID of the database. */
 	std::string databaseID;
-	/** Number of fingerprints which are tored in the original database. */
+	/** Number of fingerprints which are stored in the original database. */
 	uint32_t databaseDimension;
 } DatabaseInformation;
 
@@ -213,7 +215,7 @@ typedef struct comparison_probe_result_t {
 
 /** This type represents the structure of a comparison scores sample. */
 typedef struct comparison_scores_sample_t {
-	/** The ID of the reference/enrolment fingerprint image. */
+	/** The ID of the reference/enrollment fingerprint image. */
 	NFIQ2::ImageID referenceImageID;
 	/**
 	 * 	A list of probe images + results for which comparisons

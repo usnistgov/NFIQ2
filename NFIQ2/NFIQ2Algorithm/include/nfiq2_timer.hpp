@@ -4,24 +4,33 @@
 #include <chrono>
 
 namespace NFIQ2 {
+
 /** Used to calculate speed of internal operations. */
 class Timer {
     public:
 	/**
-	 * @brief Start the timer.
+	 * @brief
+	 * Start the timer.
+	 *
 	 * @note Resets currently running timer.
 	 */
 	void start();
 
 	/**
-	 * @brief Obtain the elapsed time.
-	 * @return Elapsed time (milliseconds).
+	 * @brief
+	 * Obtain the elapsed time.
+	 *
+	 * @return
+	 * Elapsed time (milliseconds).
 	 */
 	double getElapsedTime();
 
 	/**
-	 * @brief Stop the timer.
-	 * @return Elapsed time (milliseconds).
+	 * @brief
+	 * Stop the timer.
+	 *
+	 * @return
+	 * Elapsed time (milliseconds).
 	 */
 	double stop();
 
@@ -33,4 +42,4 @@ class Timer {
 };
 } // namespace NFIQ
 
-#endif
+#endif /* NFIQ2_TIMER_HPP_ */

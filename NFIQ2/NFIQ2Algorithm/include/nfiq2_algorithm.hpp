@@ -21,11 +21,11 @@ class Algorithm {
 	/** Default constructor of Algorithm. */
 	Algorithm();
 
-	/** Constructor using model filename and the file's hash. */
+	/** Constructor using model `filename` and the `fileHash`. */
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 
 	/**
-	 * 	Constructor using modelInfoObj object to
+	 * 	Constructor using `modelInfoObj` object to
 	 * 	initialize the random forest model.
 	 */
 	Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
@@ -47,7 +47,7 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image data.
+	 * Computes the quality score from the provided fingerprint image data.
 	 *
 	 * @param rawImage
 	 * Fingerprint image in raw format.
@@ -63,7 +63,7 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from a vector of extracted feature
+	 * Computes the quality score from a vector of extracted `features`
 	 * from a cropped fingerprint image.
 	 *
 	 * @param features
@@ -82,7 +82,7 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from the extracted image
+	 * Computes the quality score from a map of extracted image
 	 * quality feature data.
 	 *
 	 * @param features
@@ -115,7 +115,7 @@ class Algorithm {
 	 * Determine if random forest parameters have been loaded.
 	 *
 	 * @return
-	 * true if some set of random forest parameters have been loaded, false
+	 * True if some set of random forest parameters have been loaded, false
 	 * otherwise.
 	 */
 	bool isInitialized() const;

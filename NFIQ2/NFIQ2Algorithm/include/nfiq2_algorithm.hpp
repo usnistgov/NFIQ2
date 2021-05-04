@@ -95,6 +95,19 @@ class Algorithm {
 	 */
 	bool isEmbedded() const;
 
+	/**
+	 * @brief
+	 * Obtain the friction ridge capture technology (FCT) specified for the
+	 * embedded random forest parameters.
+	 *
+	 * @return
+	 * Embedded FCT specified.
+	 *
+	 * @throw NFIQ2::Exception
+	 * Parameters were not embedded or FCT was not specified.
+	 */
+	unsigned int getEmbeddedFCT() const;
+
     private:
 	class Impl;
 	std::unique_ptr<Algorithm::Impl> pimpl;

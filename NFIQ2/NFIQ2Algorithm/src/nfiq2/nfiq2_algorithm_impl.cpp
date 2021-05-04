@@ -205,3 +205,19 @@ NFIQ2::Algorithm::Impl::isEmbedded() const
 	return (false);
 #endif
 }
+
+unsigned int
+NFIQ2::Algorithm::Impl::getEmbeddedFCT() const
+{
+	if (!this->isEmbedded())
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
+			"Random forest parameters were not embedded" };
+
+#ifdef NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT
+	return std::stoul(
+	    std::string(NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT));
+#else
+	throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
+		"Random forest parameters did not specify FCT" };
+#endif
+}

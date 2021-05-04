@@ -82,15 +82,6 @@ typedef struct feature_speed_t {
 } QualityFeatureSpeed;
 
 /**
- * This type represents a structure for database information
- */
-typedef struct database_information_t {
-	std::string databaseID;	    ///< ID of the database
-	uint32_t databaseDimension; ///< number of fingerprints which are
-				    ///< stored in the original database
-} DatabaseInformation;
-
-/**
  * This type represents the result of a quality feature extraction
  */
 typedef struct quality_feature_result_t {
@@ -133,30 +124,6 @@ typedef struct utility_sample_t {
 } UtilitySample;
 
 /**
- * This type represents the combination of a provider and a list of utility
- * samples
- */
-typedef struct utility_provider_content_t {
-	std::string providerID; ///< The provider ID for which the utility was
-				///< computed
-	std::vector<NFIQ2::UtilitySample>
-	    utilitySamples; ///< A list of utility values and its
-			    ///< information (imageID, return code)
-} UtilityProviderContent;
-
-/**
- * This type represents the content of an utility exchange file
- */
-typedef struct utility_content_t {
-	std::string databaseID;		      ///< The ID of the database
-	std::string utilityID;		      ///< The utility ID
-	std::vector<std::string> providerIDs; ///< A list of provider IDs
-	std::vector<NFIQ2::UtilitySample>
-	    samples; ///< Results of the utility computation for images of
-		     ///< the database
-} UtilityContent;
-
-/**
  * This type represents the content of a quality feature exchange file
  */
 typedef struct quality_feature_sample_t {
@@ -166,17 +133,6 @@ typedef struct quality_feature_sample_t {
 			   ///< feature computation (value
 			   ///< + return code)
 } QualityFeatureSample;
-
-/**
- * This type represents the result of a quality feature exchange file
- */
-typedef struct quality_feature_content_t {
-	std::string databaseID; ///< The ID of the database
-	std::string featureID;	///< The feature ID
-	std::vector<NFIQ2::QualityFeatureSample>
-	    samples; ///< Results of the quality feature computation for
-		     ///< images of the database
-} QualityFeatureContent;
 
 /**
  * This type represents the structure of a probe result for comparison scores
@@ -205,78 +161,6 @@ typedef struct comparison_scores_sample_t {
 	    probes; ///< A list of probe images + results for which
 		    ///< comparisons where conducted
 } ComparisonScoresSample;
-
-/**
- * This type represents the content of a comparison scores exchange file
- */
-typedef struct comparison_scores_content_t {
-	std::string databaseID; ///< The ID of the database
-	std::string providerID; ///< The ID of the provider used for comparison
-				///< scores computation
-	std::vector<NFIQ2::ComparisonScoresSample>
-	    references; ///< Results of the comparison scores computation
-			///< for this reference fingerprint image
-} ComparisonScoresContent;
-
-/**
- * This type represents the structure of a sample needed for training
- */
-typedef struct training_sample_t {
-	std::vector<NFIQ2::QualityFeatureData>
-	    featureDataVector; ///< The quality feature data vector used
-			       ///< for training
-	double utilityValue;   ///< The assigned utility value
-	double weight;	       ///< The weight of the current value [0..1]
-} TrainingSample;
-
-/**
- * This type represents the result of a Machine Learning evaluation run
- */
-typedef struct evaluation_result_t {
-	std::string databaseID;		   ///< The ID of the database
-	NFIQ2::ImageID fingerprintImageID; ///< The ID of the fingerprint image
-	double utilityValue;		   ///< The utility value
-	double qualityScore; ///< The quality score for the fingerprint image
-	double
-	    deviation; ///< The deviation of the quality score and utility value
-} EvaluationResult;
-
-/**
- * This type represents the weight assigned to a fingerprint image ID
- */
-typedef struct weight_image_id_t {
-	NFIQ2::ImageID fingerprintImageID; ///< The ID of the fingerprint image
-	double weight;			   ///< The set (pattern) weight [0..1].
-} WeightImageID;
-
-/**
- * This type represents a list of weight image IDs for a dedicated database =
- * training ID
- */
-typedef struct training_id_t {
-	std::string databaseID; ///< The ID of the database
-	std::vector<NFIQ2::WeightImageID>
-	    imageIDs; ///< A list of image IDs + their weights
-} TrainingID;
-
-/**
- * This type represents the image ID and an assigned database ID
- */
-typedef struct database_image_id {
-	NFIQ2::ImageID fingerprintImageID; ///< The ID of the fingerprint image
-	std::string
-	    databaseID; ///< The ID of the database where image is stored
-} DatabaseImageID;
-
-/**
- * This type represents a list of image IDs and an assigned database ID for
- * evaluation
- */
-typedef struct evaluation_id {
-	std::string
-	    databaseID; ///< The ID of the database where image is stored
-	std::vector<NFIQ2::ImageID> imageIDs; ///< A list of image IDs
-} EvaluationID;
 } // namespace NFIQ
 
 #endif

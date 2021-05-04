@@ -96,6 +96,16 @@ class Algorithm::Impl {
 
 	/**
 	 * @brief
+	 * Obtain if the random forest parameters are embedded in the library
+	 * or located externally.
+	 *
+	 * @return
+	 * true if random forest parameters are embedded, false otherwise.
+	 */
+	bool isEmbedded() const;
+
+	/**
+	 * @brief
 	 * Determine if random forest parameters have been loaded.
 	 *
 	 * @return
@@ -103,6 +113,9 @@ class Algorithm::Impl {
 	 * otherwise.
 	 */
 	bool isInitialized() const;
+
+	/** @return Embedded friction ridge capture technology specified. */
+	unsigned int getEmbeddedFCT() const;
 
     private:
 	/** Indicates whether or not random forest parameters have been loaded.

@@ -8,8 +8,6 @@
 #include <unordered_map>
 #include <vector>
 
-#undef EMBED_RANDOMFOREST_PARAMETERS
-
 namespace NFIQ2 { namespace Prediction {
 
 /**
@@ -37,10 +35,7 @@ class RandomForestML {
 	 */
 	std::string getModuleName() const;
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
-	/**
-	 * @brief Initialize model (When using embedded parameters)
-	 */
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	std::string initModule();
 #endif
 
@@ -68,7 +63,7 @@ class RandomForestML {
 	/** Initialize model using string parameters */
 	void initModule(const std::string &params);
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	/** Extracts string parameters when model is embedded */
 	std::string joinRFTrainedParamsString();
 #endif

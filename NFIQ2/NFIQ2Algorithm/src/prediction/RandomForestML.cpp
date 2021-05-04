@@ -1,9 +1,29 @@
 #include <nfiq2_exception.hpp>
 #include <prediction/RandomForestML.h>
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+/*
+ * If we're embedding parameters, figure out which to embed based on the
+ * provided FRCT.
+ */
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+#ifdef NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT
+/* FRCT == Unknown */
+#if NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT == 0
 #include <prediction/RandomForestTrainedParams.h>
-#endif
+/* FRCT == scanned ink on paper */
+#elif NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT == 2
+#include <prediction/RandomForestTrainedParams.h>
+/* FRCT == Optical: total internal reflection (bright field) */
+#elif NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT == 3
+#include <prediction/RandomForestTrainedParams.h>
+/* Unsupported */
+#else
+#error Value of NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT is not supported.
+#endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT */
+#else
+#include <prediction/RandomForestTrainedParams.h>
+#endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT */
+#endif /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 
 #include <cmath>
 #include <ctime>
@@ -45,7 +65,7 @@ NFIQ2::Prediction::RandomForestML::initModule(const std::string &params)
 	m_pTrainedRF->read(cv::FileNode(fs["my_random_trees"]));
 }
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 std::string
 NFIQ2::Prediction::RandomForestML::joinRFTrainedParamsString()
 {
@@ -70,7 +90,7 @@ NFIQ2::Prediction::RandomForestML::~RandomForestML()
 	}
 }
 
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 std::string
 NFIQ2::Prediction::RandomForestML::initModule()
 {

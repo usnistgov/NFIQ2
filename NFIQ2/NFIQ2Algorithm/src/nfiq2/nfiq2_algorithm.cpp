@@ -67,6 +67,18 @@ NFIQ2::Algorithm::isInitialized() const
 	return (this->pimpl->isInitialized());
 }
 
+bool
+NFIQ2::Algorithm::isEmbedded() const
+{
+	return (this->pimpl->isEmbedded());
+}
+
+unsigned int
+NFIQ2::Algorithm::getEmbeddedFCT() const
+{
+	return (this->pimpl->getEmbeddedFCT());
+}
+
 NFIQ2::Algorithm::~Algorithm() = default;
 NFIQ2::Algorithm::Algorithm(NFIQ2::Algorithm &&) noexcept = default;
 NFIQ2::Algorithm &NFIQ2::Algorithm::operator=(Algorithm &&) noexcept = default;

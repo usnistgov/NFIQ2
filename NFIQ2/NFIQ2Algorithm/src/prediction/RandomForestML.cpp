@@ -6,23 +6,23 @@
  * provided FRCT.
  */
 #ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
-#ifdef NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT
+#ifdef NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT
 /* FRCT == Unknown */
-#if NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT == 0
+#if NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT == 0
 #include <prediction/RandomForestTrainedParams.h>
 /* FRCT == scanned ink on paper */
-#elif NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT == 2
+#elif NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT == 2
 #include <prediction/RandomForestTrainedParams.h>
 /* FRCT == Optical: total internal reflection (bright field) */
-#elif NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT == 3
+#elif NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT == 3
 #include <prediction/RandomForestTrainedParams.h>
 /* Unsupported */
 #else
-#error Value of NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT is not supported.
-#endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT */
+#error Value of NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT is not supported.
+#endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT */
 #else
 #include <prediction/RandomForestTrainedParams.h>
-#endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FRCT */
+#endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT */
 #endif /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 
 #include <cmath>

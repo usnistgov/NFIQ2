@@ -15,55 +15,55 @@ class ModelInfo {
 
 	/**
 	 * @brief
-	 * Getter for private member #modelName.
+	 * Getter for private member modelName.
 	 *
 	 * @return
-	 * Returns #modelName.
+	 * Returns modelName.
 	 */
 	std::string getModelName() const;
 
 	/**
 	 * @brief
-	 * Getter for private member #modelTrainer.
+	 * Getter for private member modelTrainer.
 	 *
 	 * @return
-	 * Returns #modelTrainer.
+	 * Returns modelTrainer.
 	 */
 	std::string getModelTrainer() const;
 
 	/**
 	 * @brief
-	 * Getter for private member #modelDescription.
+	 * Getter for private member modelDescription.
 	 *
 	 * @return
-	 * Returns #modelDescription.
+	 * Returns modelDescription.
 	 */
 	std::string getModelDescription() const;
 
 	/**
 	 * @brief
-	 * Getter for private member #modelVersion.
+	 * Getter for private member modelVersion.
 	 *
 	 * @return
-	 * Returns #modelVersion.
+	 * Returns modelVersion.
 	 */
 	std::string getModelVersion() const;
 
 	/**
 	 * @brief
-	 * Getter for private member #modelPath.
+	 * Getter for private member modelPath.
 	 *
 	 * @return
-	 * Returns #modelPath.
+	 * Returns modelPath.
 	 */
 	std::string getModelPath() const;
 
 	/**
 	 * @brief
-	 * Getter for private member #modelHash.
+	 * Getter for private member modelHash.
 	 *
 	 * @return
-	 * Returns #modelHash.
+	 * Returns modelHash.
 	 */
 	std::string getModelHash() const;
 

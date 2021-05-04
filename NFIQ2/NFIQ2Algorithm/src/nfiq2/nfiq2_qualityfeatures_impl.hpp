@@ -45,6 +45,14 @@ std::vector<std::string> getAllSpeedFeatureGroups();
  * Updates the floating point precision mode used on 32-bit Linux
  * versions of NFIQ 2.
  *
+ * @details
+ * On 32-bit linux machines the floating point calculations are inconsistent
+ * with other 32 bit or 64 bit operating systems. Executing a specific
+ * assembly instruction fixes the issue and allows for score computation
+ * to behave as expected. To learn more about this specific floating point
+ * issue, please see the following website:
+ * https://www.linuxtopia.org/online_books/an_introduction_to_gcc/gccintro_70.html
+ *
  * @param mode
  * Floating point precision mode
  */

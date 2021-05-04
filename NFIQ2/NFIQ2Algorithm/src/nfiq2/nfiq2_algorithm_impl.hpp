@@ -20,7 +20,7 @@ namespace NFIQ2 {
  */
 class Algorithm::Impl {
     public:
-	/** Default constructor of Impl */
+	/** Default constructor of Impl. */
 	Impl();
 
 	/** Constructor using model filename and the file's hash. */

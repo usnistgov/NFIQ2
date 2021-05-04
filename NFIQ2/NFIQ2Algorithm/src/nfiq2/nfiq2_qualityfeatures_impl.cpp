@@ -211,10 +211,21 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	return actionableMap;
 }
 
+void
+NFIQ2::QualityFeatures::Impl::setFPU(unsigned int mode)
+{
+#if defined(__linux) && defined(__i386__)
+	asm("fldcw %0" : : "m"(*&mode));
+#endif
+}
+
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
+	/* use double-precision rounding for 32-bit linux */
+	setFPU(0x27F);
+
 	const NFIQ2::FingerprintImageData croppedImage =
 	    rawImage.removeWhiteFrameAroundFingerprint();
 

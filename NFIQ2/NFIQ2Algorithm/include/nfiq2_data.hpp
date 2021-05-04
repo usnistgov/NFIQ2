@@ -33,7 +33,7 @@ class Data : public std::basic_string<uint8_t> {
 
 	/**
 	 * @brief
-	 * Reads the content from the specified filename into the data
+	 * Reads the content from the specified #filename into the data
 	 * structure.
 	 *
 	 * @param filename

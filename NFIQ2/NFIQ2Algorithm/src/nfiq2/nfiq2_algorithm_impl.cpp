@@ -30,7 +30,7 @@ NFIQ2::Algorithm::Impl::Impl()
 
 NFIQ2::Algorithm::Impl::Impl(
     const std::string &fileName, const std::string &fileHash)
-    : Impl()
+    : initialized { false }
 {
 	// init RF module that takes some time to load the parameters
 	try {

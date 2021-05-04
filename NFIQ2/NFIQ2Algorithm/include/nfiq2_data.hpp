@@ -16,10 +16,10 @@ namespace NFIQ2 {
  */
 class Data : public std::basic_string<uint8_t> {
     public:
-	/** Default constructor of Data. */
+	/** Default Data Constructor. */
 	Data();
 
-	/** Constructor of data with available pointer to data. */
+	/** Constructor with available pointer to data. */
 	Data(const uint8_t *pData, uint32_t dataSize);
 
 	/** Copy constructor. */
@@ -37,7 +37,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * structure.
 	 *
 	 * @param filename
-	 * The path and name of the file which shall be read.
+	 * The path and name of the file that will be read.
 	 *
 	 * @throws NFIQException
 	 */
@@ -48,7 +48,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * Writes the content to a file.
 	 *
 	 * @param filename
-	 * The path and name of the file which shall be written.
+	 * The path and name of the file that will be written to.
 	 *
 	 * @throws NFIQException
 	 */

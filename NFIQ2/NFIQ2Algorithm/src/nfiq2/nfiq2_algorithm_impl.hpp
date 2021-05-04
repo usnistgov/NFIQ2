@@ -114,12 +114,17 @@ class Algorithm::Impl {
 	 */
 	bool isInitialized() const;
 
-	/** @return Embedded friction ridge capture technology specified. */
+	/**
+	 * @brief
+	 * Retrieves FR capture technology.
+	 *
+	 * @return
+	 * Embedded friction ridge capture technology specified.
+	 */
 	unsigned int getEmbeddedFCT() const;
 
     private:
-	/** Indicates whether or not random forest parameters have been loaded.
-	 */
+	/** Indicates whether random forest parameters have been loaded. */
 	bool initialized { false };
 
 	/**

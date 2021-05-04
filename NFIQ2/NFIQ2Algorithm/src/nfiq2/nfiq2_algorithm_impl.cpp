@@ -12,29 +12,31 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_qualityfeatures.hpp>
 #include <nfiq2_timer.hpp>
-#include <string.h>
 
 #include "nfiq2_algorithm_impl.hpp"
 #include <iomanip>
-#include <list>
 #include <string>
 #include <vector>
 
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 NFIQ2::Algorithm::Impl::Impl()
+    : initialized { false }
 {
 	// init RF module that takes some time to load the parameters
 	this->m_parameterHash = m_RandomForestML.initModule();
-}
+	this->initialized = true;
 #endif
+}
 
 NFIQ2::Algorithm::Impl::Impl(
     const std::string &fileName, const std::string &fileHash)
+    : Impl()
 {
 	// init RF module that takes some time to load the parameters
 	try {
 		this->m_parameterHash = m_RandomForestML.initModule(
 		    fileName, fileHash);
+		this->initialized = true;
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::BadArguments,
 		    "Could not initialize random forest parameters with "
@@ -52,15 +54,15 @@ NFIQ2::Algorithm::Impl::Impl(
 	}
 }
 
-NFIQ2::Algorithm::Impl::~Impl()
-{
-}
+NFIQ2::Algorithm::Impl::~Impl() = default;
 
 double
 NFIQ2::Algorithm::Impl::getQualityPrediction(
     const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features)
     const
 {
+	this->throwIfUninitialized();
+
 	const double utility {};
 	double deviation {};
 	double quality {};
@@ -74,6 +76,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features) const
 {
+	this->throwIfUninitialized();
 
 	const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 	    quality = NFIQ2::QualityFeatures::getQualityFeatureData(features);
@@ -103,6 +106,7 @@ unsigned int
 NFIQ2::Algorithm::Impl::computeQualityScore(
     const NFIQ2::FingerprintImageData &rawImage) const
 {
+	this->throwIfUninitialized();
 
 	// --------------------------------------------------------
 	// compute quality features (including actionable feedback)
@@ -153,11 +157,29 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
     const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features)
     const
 {
+	this->throwIfUninitialized();
+
 	return (unsigned int)getQualityPrediction(features);
 }
 
 std::string
 NFIQ2::Algorithm::Impl::getParameterHash() const
 {
+	this->throwIfUninitialized();
+
 	return (this->m_parameterHash);
+}
+
+void
+NFIQ2::Algorithm::Impl::throwIfUninitialized() const
+{
+	if (!this->isInitialized())
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::MachineLearningError,
+			"Random forest parameters were not loaded" };
+}
+
+bool
+NFIQ2::Algorithm::Impl::isInitialized() const
+{
+	return (this->initialized);
 }

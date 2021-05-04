@@ -11,6 +11,7 @@
 #include <vector>
 
 namespace NFIQ2 { namespace QualityFeatures { namespace Impl {
+
 /**
  * @brief
  * Obtain all actionable quality feedback identifiers.
@@ -44,23 +45,23 @@ std::vector<std::string> getAllSpeedFeatureGroups();
  * Obtain computed quality feature data from a fingerprint image.
  *
  * @param rawImage
- * Fingerprint image in raw format
+ * Fingerprint image in raw format.
  *
  * @return
- * A vector if BaseFeature modules containing computed feature data
+ * A vector if BaseFeature modules containing computed feature data.
  */
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 computeQualityFeatures(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
- * Obtain actionable quality feedback from a vector of features
+ * Obtain actionable quality feedback from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image
+ * A vector of BaseFeatures obtained from a raw fingerprint image.
  *
  * @return
- * A map of string, actionable quality feedback pairs
+ * A map of string, actionable quality feedback pairs.
  */
 std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
 getActionableQualityFeedback(
@@ -69,26 +70,26 @@ getActionableQualityFeedback(
 
 /**
  * @brief
- * Obtain actionable quality feedback from a fingerprint image
+ * Obtain actionable quality feedback from a fingerprint image.
  *
  * @param rawImage
- * Fingerprint image in raw format
+ * Fingerprint image in raw format.
  *
  * @return
- * A map of string, actionable quality feedback pairs
+ * A map of string, actionable quality feedback pairs.
  */
 std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
 getActionableQualityFeedback(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
- * Obtain quality feature data from a vector of features
+ * Obtain quality feature data from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image
+ * A vector of BaseFeatures obtained from a raw fingerprint image.
  *
  * @return
- * A map of string, quality feature data pairs
+ * A map of string, quality feature data pairs.
  */
 std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 getQualityFeatureData(
@@ -97,26 +98,26 @@ getQualityFeatureData(
 
 /**
  * @brief
- * Obtain quality feature data from a fingerprint image
+ * Obtain quality feature data from a fingerprint image.
  *
  * @param rawImage
- * Fingerprint image in raw format
+ * Fingerprint image in raw format.
  *
  * @return
- * A map of string, quality feature data pairs
+ * A map of string, quality feature data pairs.
  */
 std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 getQualityFeatureData(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
- * Obtain quality feature speeds from a vector of features
+ * Obtain quality feature speeds from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image
+ * A vector of BaseFeatures obtained from a raw fingerprint image.
  *
  * @return
- * A map of string, quality feature speed pairs
+ * A map of string, quality feature speed pairs.
  */
 std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
 getQualityFeatureSpeeds(
@@ -125,4 +126,4 @@ getQualityFeatureSpeeds(
 
 }}}
 
-#endif
+#endif /* NFIQ2_QUALITYFEATURES_IMPL_HPP_ */

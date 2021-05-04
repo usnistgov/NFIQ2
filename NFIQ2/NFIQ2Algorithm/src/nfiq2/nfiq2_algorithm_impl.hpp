@@ -23,7 +23,7 @@ class Algorithm::Impl {
 	/** Default constructor of Impl. */
 	Impl();
 
-	/** Constructor using model filename and the file's hash. */
+	/** Constructor using model filename and the `fileHash`. */
 	Impl(const std::string &fileName, const std::string &fileHash);
 
 	/** Destructor. */
@@ -31,7 +31,7 @@ class Algorithm::Impl {
 
 	/**
 	 * @brief
-	 * Computes the quality score from the input fingerprint image data.
+	 * Computes the quality score from the provided fingerprint image data.
 	 *
 	 * @param rawImage
 	 * Fingerprint image in raw format.
@@ -47,7 +47,7 @@ class Algorithm::Impl {
 
 	/**
 	 * @brief
-	 * Computes the quality score from a vector of extracted feature
+	 * Computes the quality score from a vector of extracted `features`
 	 * from a cropped fingerprint image.
 	 *
 	 * @param features
@@ -66,7 +66,7 @@ class Algorithm::Impl {
 
 	/**
 	 * @brief
-	 * Computes the quality score from the extracted image
+	 * Computes the quality score from a map of extracted image
 	 * quality feature data.
 	 *
 	 * @param features

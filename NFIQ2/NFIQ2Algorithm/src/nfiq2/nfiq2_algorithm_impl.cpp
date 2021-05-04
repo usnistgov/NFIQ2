@@ -18,21 +18,9 @@
 #include <string>
 #include <vector>
 
-#if defined(__linux) && defined(__i386__)
-void
-set_fpu(unsigned int mode)
-{
-	asm("fldcw %0" : : "m"(*&mode));
-}
-#endif
-
 NFIQ2::Algorithm::Impl::Impl()
     : initialized { false }
 {
-#if defined(__linux) && defined(__i386__)
-	set_fpu(0x27F); /* use double-precision rounding */
-#endif
-
 #ifdef EMBED_RANDOMFOREST_PARAMETERS
 	// init RF module that takes some time to load the parameters
 	this->m_parameterHash = m_RandomForestML.initModule();

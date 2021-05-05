@@ -13,8 +13,8 @@
 namespace NFIQ2 {
 
 /**
- * 	This class serves as a wrapper to return quality scores
- * 	for a fingerprint image.
+ * 	Wrapper for applying the trained random forest parameters to quality
+ * 	features to compute an NFIQ2 score.
  */
 class Algorithm {
     public:

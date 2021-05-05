@@ -16,7 +16,7 @@ namespace NFIQ2 {
  */
 class Data : public std::basic_string<uint8_t> {
     public:
-	/** Default Data Constructor. */
+	/** Default Data constructor. */
 	Data();
 
 	/** Constructor with available pointer to data. */

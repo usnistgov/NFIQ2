@@ -54,6 +54,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * The path of the file that will be read.
 	 *
 	 * @throws NFIQException
+	 * If file cannot be opened.
 	 */
 	void readFromFile(const std::string &filename);
 
@@ -65,6 +66,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * The path of the file that will be written to.
 	 *
 	 * @throws NFIQException
+	 * If file cannot be opened.
 	 */
 	void writeToFile(const std::string &filename) const;
 
@@ -76,6 +78,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * The content of the buffer as hexadecimal string.
 	 *
 	 * @throws NFIQException
+	 * If no data available in buffer.
 	 */
 	std::string toHexString() const;
 
@@ -87,6 +90,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * The Base64 encoded string.
 	 *
 	 * @throws NFIQException
+	 * If invalid character is detected in string.
 	 */
 	void fromBase64String(const std::string &base64String);
 
@@ -96,8 +100,6 @@ class Data : public std::basic_string<uint8_t> {
 	 *
 	 * @return
 	 * The content of the buffer as base64 encoded string.
-	 *
-	 * @throws NFIQException
 	 */
 	std::string toBase64String() const;
 };

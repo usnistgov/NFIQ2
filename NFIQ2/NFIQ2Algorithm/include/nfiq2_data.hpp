@@ -51,7 +51,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * structure.
 	 *
 	 * @param filename
-	 * The path and name of the file that will be read.
+	 * The path of the file that will be read.
 	 *
 	 * @throws NFIQException
 	 */
@@ -62,7 +62,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * Writes the content to a file.
 	 *
 	 * @param filename
-	 * The path and name of the file that will be written to.
+	 * The path of the file that will be written to.
 	 *
 	 * @throws NFIQException
 	 */

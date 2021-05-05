@@ -18,10 +18,25 @@ namespace NFIQ2 {
  */
 class Algorithm {
     public:
-	/** Default constructor of Algorithm. */
+	/**
+	 * @brief
+	 * Default constructor of Algorithm.
+	 *
+	 * @note
+	 * May load from embedded, in which case this can be slow.
+	 */
 	Algorithm();
 
-	/** Constructor using model `filename` and the `fileHash`. */
+	/**
+	 * @brief
+	 * Constructor that loads random forest parameters from disk.
+	 *
+	 * @params fileName
+	 * The file path containing the random forest model.
+	 *
+	 * @params fileHash
+	 * The md5 checksum of the provided file.
+	 */
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 
 	/**

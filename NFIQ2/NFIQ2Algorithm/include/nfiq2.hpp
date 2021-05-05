@@ -21,10 +21,7 @@
 #include <nfiq2_timer.hpp>
 #include <nfiq2_version.hpp>
 
-/**
- * 	This namespace contains classes and functions that
- * 	contribute to the calculation of NFIQ2 scores.
- */
+/** Classes and functions that contribute to the calculation of NFIQ2 scores. */
 namespace NFIQ2 {
 }
 

@@ -77,7 +77,7 @@ class Exception : public std::exception {
 
 	/**
 	 * @brief
-	 * Returns the return code of the exception.
+	 * Obtain the return code of the exception.
 	 *
 	 * @return
 	 * The return code.

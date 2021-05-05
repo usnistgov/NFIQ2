@@ -69,7 +69,7 @@ class Algorithm {
 	 * Computes the quality score from the provided fingerprint image data.
 	 *
 	 * @param rawImage
-	 * Fingerprint image in raw format.
+	 * Encoded Fingerprint image.
 	 *
 	 * @return
 	 * Computed quality score.

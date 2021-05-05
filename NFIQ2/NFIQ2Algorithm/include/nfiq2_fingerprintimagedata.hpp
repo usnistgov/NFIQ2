@@ -19,14 +19,32 @@ typedef enum image_resolution_e {
 /** This class manages fingerprint image data (derived from class Data). */
 class FingerprintImageData : public Data {
     public:
-	/** Default FingerprintImageData constructor. */
+	/**
+	 * @brief
+	 * Default FingerprintImageData constructor.
+	 *
+	 * @note
+	 * Canonically encoded as per ISO/IEC 19794-4:2005.
+	 */
 	FingerprintImageData();
 
-	/** Standard FingerprintImageData constructor. */
+	/**
+	 * @brief
+	 * Standard FingerprintImageData constructor.
+	 *
+	 * @note
+	 * Canonically encoded as per ISO/IEC 19794-4:2005.
+	 */
 	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
 	    uint8_t fingerCode, uint16_t imageDPI);
 
-	/** Constructor with available pointer to data. */
+	/**
+	 * @brief
+	 * Constructor with available pointer to data.
+	 *
+	 * @note
+	 * Canonically encoded as per ISO/IEC 19794-4:2005.
+	 */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
 	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
 	    uint16_t imageDPI);

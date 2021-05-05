@@ -54,11 +54,24 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 /** Represents the exception class used within this framework. */
 class Exception : public std::exception {
     public:
-	/** Constructor which uses supplied error code and default message. */
+	/**
+	 * @brief
+	 * Constructor which uses supplied error code and default message.
+	 *
+	 * @param errorCode
+	 * Error code for thrown exception.
+	 */
 	Exception(const NFIQ2::ErrorCode &errorCode);
 
 	/**
+	 * @brief
 	 * Constructor which uses supplied error code and user-defined message.
+	 *
+	 * @param errorCode
+	 * Error code for thrown exception.
+	 *
+	 * @param errorMessage
+	 * User defined error message for thrown exception.
 	 */
 	Exception(const NFIQ2::ErrorCode &errorCode,
 	    const std::string &errorMessage);
@@ -68,7 +81,7 @@ class Exception : public std::exception {
 
 	/**
 	 * @brief
-	 * Inherited function from std::exception.
+	 * Extracts thrown exception error message string.
 	 *
 	 * @return
 	 * The exception message.
@@ -94,9 +107,9 @@ class Exception : public std::exception {
 	std::string getErrorMessage() const;
 
     private:
-	/** The return code of the exception. */
+	/** Exception error type. */
 	NFIQ2::ErrorCode errorCode;
-	/** The error message of the exception. */
+	/** Error message string. */
 	std::string errorMessage;
 };
 } // namespace NFIQ

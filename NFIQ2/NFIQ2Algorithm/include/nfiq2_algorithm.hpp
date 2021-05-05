@@ -31,10 +31,10 @@ class Algorithm {
 	 * @brief
 	 * Constructor that loads random forest parameters from disk.
 	 *
-	 * @params fileName
+	 * @param fileName
 	 * The file path containing the random forest model.
 	 *
-	 * @params fileHash
+	 * @param fileHash
 	 * The md5 checksum of the provided file.
 	 */
 	Algorithm(const std::string &fileName, const std::string &fileHash);

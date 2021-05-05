@@ -10,9 +10,8 @@
 namespace NFIQ2 {
 
 /**
- * 	This class manages binary data and offers functions for easy handling
- * 	of data. Examples of binary data are proprietary fingerprint templates
- * 	or quality feature values in binary format.
+ * Manages binary data and offers functions for easy handling
+ * of fingerprint templates and quality feature values.
  */
 class Data : public std::basic_string<uint8_t> {
     public:

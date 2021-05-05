@@ -23,8 +23,8 @@ extern const std::string BuildDate;
 /** Current build commit. */
 extern const std::string Commit;
 
-/* 
- * Third-Party Components. 
+/*
+ * Third-Party Components.
  */
 /** OpenCV version. */
 extern const std::string OpenCV;

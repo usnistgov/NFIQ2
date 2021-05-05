@@ -60,8 +60,8 @@ class Exception : public std::exception {
 	/**
 	 * Constructor which uses supplied error code and user-defined message.
 	 */
-	Exception(
-	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
+	Exception(const NFIQ2::ErrorCode &errorCode,
+	    const std::string &errorMessage);
 
 	/** Destructor. */
 	virtual ~Exception() noexcept;

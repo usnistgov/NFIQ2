@@ -40,8 +40,12 @@ class Algorithm {
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 
 	/**
-	 * 	Constructor using `modelInfoObj` object to
-	 * 	initialize the random forest model.
+	 * @brief
+	 * Constructor using `modelInfoObj` object to initialize the
+	 * random forest model.
+	 *
+	 * @param modelInfoObj
+	 * Contains the random forest model and information about it.
 	 */
 	Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
 

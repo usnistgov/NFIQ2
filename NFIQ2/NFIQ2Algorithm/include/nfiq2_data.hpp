@@ -18,13 +18,28 @@ class Data : public std::basic_string<uint8_t> {
 	/** Default Data constructor. */
 	Data();
 
-	/** Constructor with available pointer to data. */
+	/**
+	 * @brief
+	 * Constructor with available pointer to data.
+	 *
+	 * @param pData
+	 * Data pointer.
+	 *
+	 * @param dataSize
+	 * Size of data at data pointer.
+	 */
 	Data(const uint8_t *pData, uint32_t dataSize);
 
 	/** Copy constructor. */
 	Data(const Data &otherData);
 
-	/** Copy constructor. */
+	/**
+	 * @brief
+	 * Constructor with string-based data.
+	 *
+	 * @param otherData
+	 * Binary data in string format.
+	 */
 	explicit Data(const std::basic_string<uint8_t> &otherData);
 
 	/** Destructor. */

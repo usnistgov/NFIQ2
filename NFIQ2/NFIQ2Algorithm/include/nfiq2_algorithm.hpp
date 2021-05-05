@@ -63,7 +63,7 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from a vector of extracted `features`
+	 * Computes the quality score from a vector of extracted BaseFeatures
 	 * from a cropped fingerprint image.
 	 *
 	 * @param features

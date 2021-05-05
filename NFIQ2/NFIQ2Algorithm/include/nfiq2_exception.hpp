@@ -86,7 +86,7 @@ class Exception : public std::exception {
 
 	/**
 	 * @brief
-	 * Returns the error message of the exception.
+	 * Obtain the error message of the exception.
 	 *
 	 * @return
 	 * The error message.

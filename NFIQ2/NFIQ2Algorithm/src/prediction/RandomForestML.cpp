@@ -25,10 +25,9 @@
 #endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT */
 #endif /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 
+#include "digestpp.hpp"
 #include <cmath>
 #include <ctime>
-
-#include "digestpp.hpp"
 #include <numeric> // std::accumulate
 
 std::string

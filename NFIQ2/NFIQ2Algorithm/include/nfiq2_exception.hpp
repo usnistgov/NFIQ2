@@ -73,8 +73,8 @@ class Exception : public std::exception {
 	 * @param errorMessage
 	 * User defined error message for thrown exception.
 	 */
-	Exception(const NFIQ2::ErrorCode &errorCode,
-	    const std::string &errorMessage);
+	Exception(
+	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
 
 	/** Destructor. */
 	virtual ~Exception() noexcept;

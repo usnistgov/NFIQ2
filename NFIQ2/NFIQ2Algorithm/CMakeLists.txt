@@ -4,6 +4,10 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
+# FIXME: Prefer static libs. Once we have a shared lib, we should reverse this
+#        during that build
+set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX};${CMAKE_SHARED_LIBRARY_SUFFIX})
+
 include(GNUInstallDirs)
 
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
@@ -198,6 +202,12 @@ if (BUILD_NFIQ2_CLI)
 
 	find_package(TIFF REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
+	# Required by static libtiff
+	find_library(LIBLZMA ${CMAKE_STATIC_LIBRARY_PREFIX}lzma${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
+	target_link_libraries(${NFIQ2_TEST_APP} ${LIBLZMA})
+	# Required by static libtiff
+	find_library(LIBZSTD ${CMAKE_STATIC_LIBRARY_PREFIX}zstd${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
+	target_link_libraries(${NFIQ2_TEST_APP} ${LIBZSTD})
 
 	find_package(PNG REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})

@@ -28,17 +28,6 @@
 #include <cmath>
 #include <ctime>
 
-/*
- * FIXME: Issue on GitHub Actions where it appears NOMINMAX isn't getting set,
- *        which breaks digestpp.hpp
- */
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
-#endif
-
 #include "digestpp.hpp"
 #include <numeric> // std::accumulate
 

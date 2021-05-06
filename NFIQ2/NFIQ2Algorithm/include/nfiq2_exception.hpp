@@ -7,7 +7,7 @@
 
 namespace NFIQ2 {
 
-/** This enum class represents error codes defined within this framework. */
+/** Error codes used within the NFIQ2 namespace. */
 enum class ErrorCode {
 	UnknownError,
 	NotEnoughMemory,
@@ -26,7 +26,7 @@ enum class ErrorCode {
 	InvalidImageSize
 };
 
-/** Map of Error Codes and their respective error messages. */
+/** Map of ErrorCode and their respective explanations. */
 static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::UnknownError, "Unknown error" },
 	{ NFIQ2::ErrorCode::NotEnoughMemory, "Not enough memory" },
@@ -51,7 +51,7 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
 };
 
-/** Represents the exception class used within this framework. */
+/** Exceptions thrown from NFIQ2 functions. */
 class Exception : public std::exception {
     public:
 	/**

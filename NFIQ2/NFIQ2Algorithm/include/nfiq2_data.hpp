@@ -9,10 +9,7 @@
 
 namespace NFIQ2 {
 
-/**
- * Manages binary data and offers functions for easy handling
- * of fingerprint templates and quality feature values.
- */
+/** Binary data */
 class Data : public std::basic_string<uint8_t> {
     public:
 	/** Default Data constructor. */
@@ -47,14 +44,13 @@ class Data : public std::basic_string<uint8_t> {
 
 	/**
 	 * @brief
-	 * Reads the content from the a file into the data
-	 * structure.
+	 * Reads the content from the a file into this object.
 	 *
 	 * @param filename
 	 * The path of the file that will be read.
 	 *
 	 * @throws NFIQException
-	 * If file cannot be opened.
+	 * File cannot be opened.
 	 */
 	void readFromFile(const std::string &filename);
 
@@ -66,7 +62,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * The path of the file that will be written to.
 	 *
 	 * @throws NFIQException
-	 * If file cannot be opened.
+	 * File cannot be opened.
 	 */
 	void writeToFile(const std::string &filename) const;
 
@@ -78,7 +74,7 @@ class Data : public std::basic_string<uint8_t> {
 	 * The content of the buffer as hexadecimal string.
 	 *
 	 * @throws NFIQException
-	 * If no data available in buffer.
+	 * No data available in buffer.
 	 */
 	std::string toHexString() const;
 
@@ -96,10 +92,10 @@ class Data : public std::basic_string<uint8_t> {
 
 	/**
 	 * @brief
-	 * Generates a string in base64 format of the buffer.
+	 * Generates a string in Base64 format of the buffer.
 	 *
 	 * @return
-	 * The content of the buffer as base64 encoded string.
+	 * The content of the buffer as Base64 encoded string.
 	 */
 	std::string toBase64String() const;
 };

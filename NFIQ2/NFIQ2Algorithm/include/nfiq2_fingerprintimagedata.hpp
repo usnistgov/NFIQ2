@@ -11,42 +11,57 @@
 
 namespace NFIQ2 {
 
-/** This typedef represents the resolution of an image (in dpi). */
+/** Resolution of an image in pixels per inch (PPI). */
 typedef enum image_resolution_e {
-	/** 500 dpi resolution. */
+	/** 500 PPI. */
 	e_ImageResolution_500dpi = 500,
-	/** 1000 dpi resolution. */
+	/** 1000 PPI. */
 	e_ImageResolution_1000dpi = 1000
 } ImageResolution;
 
-/** This class manages fingerprint image data (derived from class Data). */
+/**
+ * Binary data representing a decompressed fingerprint image, canonically
+ * encoded as per ISO/IEC 19794-4:2005.
+ */
 class FingerprintImageData : public Data {
     public:
-	/**
-	 * @brief
-	 * Default FingerprintImageData constructor.
-	 *
-	 * @note
-	 * Canonically encoded as per ISO/IEC 19794-4:2005.
-	 */
+	/** Default constructor. */
 	FingerprintImageData();
 
 	/**
 	 * @brief
-	 * Standard FingerprintImageData constructor.
+	 * Constructor that does not store image data.
 	 *
-	 * @note
-	 * Canonically encoded as per ISO/IEC 19794-4:2005.
+	 *
+	 * @param imageWidth
+	 * Width of the image in pixels.
+	 * @param imageHeight
+	 * Height of the image in pixels.
+	 * @param fingerCode
+	 * Finger position of the fingerprint in the image.
+	 * @param imageDPI
+	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
 	    uint8_t fingerCode, uint16_t imageDPI);
 
 	/**
 	 * @brief
-	 * Constructor with available pointer to data.
+	 * Constructor storing image data.
 	 *
-	 * @note
-	 * Canonically encoded as per ISO/IEC 19794-4:2005.
+	 * @param pData
+	 * Pointer to decompressed 8 bit-per-pixel grayscale image data,
+	 * canonically encoded as per ISO/IEC 19794-4:2005.
+	 * @param dataSize
+	 * Size of the buffer pointed to by `pData`.
+	 * @param imageWidth
+	 * Width of the image in pixels.
+	 * @param imageHeight
+	 * Height of the image in pixels.
+	 * @param fingerCode
+	 * Finger position of the fingerprint in the image.
+	 * @param imageDPI
+	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
 	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
@@ -64,18 +79,19 @@ class FingerprintImageData : public Data {
 	uint32_t m_ImageHeight;
 	/** ISO finger code of the fingerprint in the image */
 	uint8_t m_FingerCode;
-	/** Dots per inch of the fingerprint image (default: 500 dpi) */
+	/** Dots per inch of the fingerprint image */
 	int16_t m_ImageDPI;
 
 	/**
 	 * @brief
-	 * Uses a simple algorithm to remove white lines around the
-	 * fingerprint image (internally represented in raw data format).
+	 * Remove near-white lines around the image.
 	 *
 	 * @return
-	 * The cropped/segmented fingerprint image in raw format.
+	 * Cropped fingerprint image.
 	 *
 	 * @throws NFIQException
+	 * Error performing the crop, or the image is too small to be processed
+	 * after cropping.
 	 */
 	NFIQ2::FingerprintImageData removeWhiteFrameAroundFingerprint() const;
 };

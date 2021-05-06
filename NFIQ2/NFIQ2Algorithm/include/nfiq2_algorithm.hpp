@@ -13,8 +13,8 @@
 namespace NFIQ2 {
 
 /**
- * 	Wrapper for applying the trained random forest parameters to quality
- * 	features to compute an NFIQ2 score.
+ * Applies trained random forest parameters to quality features, computing an
+ * overall quality score (i.e., NFIQ2).
  */
 class Algorithm {
     public:
@@ -23,7 +23,8 @@ class Algorithm {
 	 * Default constructor of Algorithm.
 	 *
 	 * @note
-	 * May load from embedded, in which case this can be slow.
+	 * May load from parameters compiled into source code, in which case
+	 * this can be slow.
 	 */
 	Algorithm();
 
@@ -41,8 +42,7 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Constructor using `modelInfoObj` object to initialize the
-	 * random forest model.
+	 * Constructor using NFIQ2::ModelInfo to initialize the random forest.
 	 *
 	 * @param modelInfoObj
 	 * Contains the random forest model and information about it.
@@ -69,7 +69,7 @@ class Algorithm {
 	 * Computes the quality score from the provided fingerprint image data.
 	 *
 	 * @param rawImage
-	 * Encoded Fingerprint image.
+	 * Fingerprint image.
 	 *
 	 * @return
 	 * Computed quality score.
@@ -101,8 +101,8 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from a map of extracted image
-	 * quality feature data.
+	 * Computes the quality score from a map of extracted image quality
+	 * feature data.
 	 *
 	 * @param features
 	 * Map of string, quality feature data pairs.
@@ -119,10 +119,10 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Obtain MD5 checksum of Random Forest parameter file loaded.
+	 * Obtain MD5 checksum of random forest parameter file loaded.
 	 *
 	 * @return
-	 * MD5 checksum of the Random Forest parameter file loaded.
+	 * MD5 checksum of the random forest parameter file loaded.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
@@ -134,7 +134,7 @@ class Algorithm {
 	 * Determine if random forest parameters have been loaded.
 	 *
 	 * @return
-	 * True if some set of random forest parameters have been loaded, false
+	 * true if some set of random forest parameters have been loaded, false
 	 * otherwise.
 	 */
 	bool isInitialized() const;

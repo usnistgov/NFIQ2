@@ -4,13 +4,18 @@
 #include <string>
 
 namespace NFIQ2 {
-/** Model Class containing Model Information. */
+/** Information about a random forest parameter model. */
 class ModelInfo {
     public:
-	/** Default ModelInfo constructor. */
+	/** Default constructor. */
 	ModelInfo();
 
-	/** Constructor utilizing file path pointing to model info. */
+	/**
+	 * Constructor
+	 *
+	 * @param modelInfoFilePath
+	 * Path to model information file.
+	 */
 	ModelInfo(const std::string &modelInfoFilePath);
 
 	/**

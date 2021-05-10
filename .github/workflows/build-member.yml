@@ -65,11 +65,13 @@ jobs:
             libdb++-dev \
             libhwloc-dev \
             libjpeg-dev \
+            liblzma-dev \
             libopenjp2-7-dev \
             libpng-dev \
             libsqlite3-dev \
             libssl-dev \
             libtiff-dev \
+            libzstd-dev \
             zlib1g-dev
 
     - name: Install Packages (macOS)
@@ -85,7 +87,8 @@ jobs:
             openjpeg \
             openssl \
             sqlite \
-            zlib
+            zlib \
+            zstd
 
     - name: Install Packages (Windows)
       if: ${{ runner.os == 'Windows' }}
@@ -102,7 +105,8 @@ jobs:
           openssl \
           sqlite3 \
           tiff \
-          zlib
+          zlib \
+          zstd
         # getopt is not static
         fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
 

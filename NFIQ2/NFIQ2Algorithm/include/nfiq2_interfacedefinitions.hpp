@@ -10,30 +10,24 @@ namespace NFIQ2 {
 /** Contains strings corresponding to Actionable Feedback Scores. */
 namespace ActionableQualityFeedbackIdentifier {
 
-/** EmptyImageOrContrastTooLow. */
 static const std::string EmptyImageOrContrastTooLow {
 	"EmptyImageOrContrastTooLow"
 };
-/** UniformImage. */
 static const std::string UniformImage { "UniformImage" };
-/** FingerprintImageWithMinutiae. */
 static const std::string FingerprintImageWithMinutiae {
 	"FingerprintImageWithMinutiae"
 };
-/** SufficientFingerprintForeground. */
 static const std::string SufficientFingerprintForeground {
 	"SufficientFingerprintForeground"
 };
 }
+
 /** Contains doubles corresponding to Actionable Feedback Thresholds. */
 namespace ActionableQualityFeedbackThreshold {
-/** Default value 250.0. */
+
 static const double EmptyImageOrContrastTooLow { 250.0 };
-/** Default Image of 1.0. */
 static const double UniformImage { 1.0 };
-/** Minimum 5 minutiae shall be found. */
 static const double FingerprintImageWithMinutiae { 5.0 };
-/** Minimum foreground pixels. */
 static const double SufficientFingerprintForeground { 50000.0 };
 }
 

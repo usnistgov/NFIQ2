@@ -72,6 +72,7 @@ list(APPEND ALL_TARGETS print_feature_names)
 
 add_executable(example_api example_api.cpp)
 target_link_libraries(example_api ${REQUIRED_LIBS})
+target_include_directories(example_api PRIVATE ${OpenCV_INCLUDE_DIRS})
 set_target_properties(example_api PROPERTIES
 	MACOSX_RPATH YES
 	CXX_STANDARD 11

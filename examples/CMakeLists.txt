@@ -5,7 +5,7 @@ project(examples)
 option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
 
 # TODO: Add find_package for NFIQ2
-set(NFIQ2_INSTALL_DIR /usr/local/nfiq2)
+set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
 include_directories(${NFIQ2_INSTALL_DIR}/include)
 ################################################################################
 set(REQUIRED_LIBS "")

@@ -25,21 +25,9 @@
 #endif /* NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT */
 #endif /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 
+#include "digestpp.hpp"
 #include <cmath>
 #include <ctime>
-
-/*
- * FIXME: Issue on GitHub Actions where it appears NOMINMAX isn't getting set,
- *        which breaks digestpp.hpp
- */
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
-#endif
-
-#include "digestpp.hpp"
 #include <numeric> // std::accumulate
 
 std::string

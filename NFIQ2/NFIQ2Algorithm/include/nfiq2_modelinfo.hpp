@@ -20,55 +20,55 @@ class ModelInfo {
 
 	/**
 	 * @brief
-	 * Getter for private member modelName.
+	 * Obtain the model name.
 	 *
 	 * @return
-	 * Returns modelName.
+	 * Returns model name.
 	 */
 	std::string getModelName() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelTrainer.
+	 * Obtain the entity that trained the random forest model.
 	 *
 	 * @return
-	 * Returns modelTrainer.
+	 * Returns model trainer.
 	 */
 	std::string getModelTrainer() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelDescription.
+	 * Obtain additional description information for model.
 	 *
 	 * @return
-	 * Returns modelDescription.
+	 * Returns model description.
 	 */
 	std::string getModelDescription() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelVersion.
+	 * Obtain the version number of the model.
 	 *
 	 * @return
-	 * Returns modelVersion.
+	 * Returns model version.
 	 */
 	std::string getModelVersion() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelPath.
+	 * Obtain the file path of the model.
 	 *
 	 * @return
-	 * Returns modelPath.
+	 * Returns model file path.
 	 */
 	std::string getModelPath() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelHash.
+	 * Obtain the md5 checksum of the model
 	 *
 	 * @return
-	 * Returns modelHash.
+	 * Returns model md5 checksum.
 	 */
 	std::string getModelHash() const;
 

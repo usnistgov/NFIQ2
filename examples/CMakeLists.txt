@@ -38,6 +38,20 @@ if (LINK_AGAINST_STATIC_LIBNFIQ2)
 		${LIBNFIQ2_STATIC}
 		${LIBFRFXLL_STATIC}
 		${OpenCV_LIBS})
+
+	# Static Windows runtime
+	if (MSVC)
+		foreach(flag_var
+		    CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+		    CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
+			if(${flag_var} MATCHES "/MD")
+				string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+			endif()
+			if(${flag_var} MATCHES "/MDd")
+				string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
+			endif()
+		endforeach(flag_var)
+	endif()
 else()
 	find_library(LIBNFIQ2_SHARED
 		nfiq2

@@ -31,7 +31,8 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
 
 	std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed> speedMap {};
 
-	for (auto i = 0; i < speedIdentifiers.size(); i++) {
+	for (std::vector<std::string>::size_type i = 0;
+	     i < speedIdentifiers.size(); i++) {
 		speedMap[speedIdentifiers.at(i)] = features.at(i)->getSpeed();
 	}
 
@@ -90,7 +91,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
 	    actionableMap {};
 
-	for (const auto feature : features) {
+	for (const auto &feature : features) {
 		if (feature->getModuleName().compare("NFIQ2_Mu") == 0) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
@@ -211,13 +212,20 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	return actionableMap;
 }
 
+// Defined in 32-bit linux operating systems with floating point
+// mode as a paramenter, otherwise this parameter is unused.
+#if defined(__linux) && defined(__i386__)
 void
 NFIQ2::QualityFeatures::Impl::setFPU(unsigned int mode)
 {
-#if defined(__linux) && defined(__i386__)
 	asm("fldcw %0" : : "m"(*&mode));
-#endif
 }
+#else
+void
+NFIQ2::QualityFeatures::Impl::setFPU(unsigned int)
+{
+}
+#endif
 
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
@@ -238,9 +246,10 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 	    std::make_shared<FingerJetFXFeature>(croppedImage);
 	features.push_back(fjfxFeatureModule);
 
-	features.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(
-	    croppedImage, fjfxFeatureModule->getMinutiaData(),
-	    fjfxFeatureModule->getTemplateStatus()));
+	features.push_back(
+	    std::make_shared<FJFXMinutiaeQualityFeature>(croppedImage,
+		fjfxFeatureModule->getMinutiaData(),
+		fjfxFeatureModule->getTemplateStatus()));
 
 	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
 	    std::make_shared<ImgProcROIFeature>(croppedImage);
@@ -254,8 +263,8 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 
 	features.push_back(std::make_shared<OFFeature>(croppedImage));
 
-	features.push_back(std::make_shared<QualityMapFeatures>(
-	    croppedImage, roiFeatureModule->getImgProcResults()));
+	features.push_back(std::make_shared<QualityMapFeatures>(croppedImage,
+	    roiFeatureModule->getImgProcResults()));
 
 	features.push_back(
 	    std::make_shared<RVUPHistogramFeature>(croppedImage));
@@ -297,8 +306,8 @@ NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
 	std::vector<std::string> qualityFeatureIDs {};
 
 	for (auto &vec : vov) {
-		qualityFeatureIDs.insert(
-		    qualityFeatureIDs.end(), vec.cbegin(), vec.cend());
+		qualityFeatureIDs.insert(qualityFeatureIDs.end(), vec.cbegin(),
+		    vec.cend());
 	}
 
 	return qualityFeatureIDs;

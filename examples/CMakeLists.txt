@@ -5,7 +5,7 @@ project(examples)
 option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
 
 # TODO: Add find_package for NFIQ2
-set(NFIQ2_INSTALL_DIR /usr/local/nfiq2)
+set(NFIQ2_INSTALL_DIR /Users/aef1/5-11-21/NFIQ2/build/install_staging/nfiq2)
 include_directories(${NFIQ2_INSTALL_DIR}/include)
 ################################################################################
 set(REQUIRED_LIBS "")
@@ -20,9 +20,14 @@ if (LINK_AGAINST_STATIC_LIBNFIQ2)
 		PATHS ${NFIQ2_INSTALL_DIR}/lib
 		REQUIRED)
 
-	find_package(OpenCV REQUIRED
-		HINTS ${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4)
+	set( OpenCV_DIR /Users/aef1/5-11-21/NFIQ2/build/OpenCV-prefix/src/OpenCV-build)
+	find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 	set(OpenCV_SHARED ON)
+	include_directories(${OpenCV_INCLUDE_DIRS})
+
+	#find_package(OpenCV REQUIRED
+	#	HINTS ${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4)
+	#set(OpenCV_SHARED ON)
 
 	list(APPEND REQUIRED_LIBS
 		${LIBNFIQ2_STATIC}

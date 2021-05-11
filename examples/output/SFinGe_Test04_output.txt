@@ -1,0 +1,84 @@
+QualityScore: 58
+EmptyImageOrContrastTooLow: 144.807
+UniformImage: 80.6505
+SufficientFingerprintForeground: 202951
+FingerprintImageWithMinutiae: 100
+RVUP_Bin10_StdDev: 0.363378
+RVUP_Bin10_7: 23
+RVUP_Bin10_5: 204
+RVUP_Bin10_4: 455
+RVUP_Bin10_3: 15
+RVUP_Bin10_6: 72
+RVUP_Bin10_1: 97
+RVUP_Bin10_0: 11
+OrientationMap_ROIFilter_CoherenceSum: 685.717
+OrientationMap_ROIFilter_CoherenceRel: 0.836241
+OF_Bin10_StdDev: 0.282194
+RVUP_Bin10_8: 0
+OF_Bin10_Mean: 0.171531
+OF_Bin10_9: 25
+OF_Bin10_7: 13
+OF_Bin10_5: 19
+OF_Bin10_4: 28
+LCS_Bin10_0: 0
+OF_Bin10_3: 52
+OF_Bin10_1: 67
+RVUP_Bin10_Mean: 1.03837
+OCL_Bin10_StdDev: 0.116991
+OCL_Bin10_Mean: 0.896209
+OF_Bin10_0: 81
+OCL_Bin10_9: 161
+RVUP_Bin10_9: 0
+FDA_Bin10_Mean: 0.491054
+FingerJetFX_MinCount_COMMinRect200x200: 21
+OCL_Bin10_8: 13
+OCL_Bin10_4: 1
+LCS_Bin10_3: 4
+OCL_Bin10_2: 3
+OF_Bin10_2: 58
+OCL_Bin10_0: 3
+LCS_Bin10_Mean: 0.572387
+OCL_Bin10_5: 3
+LCS_Bin10_9: 25
+FDA_Bin10_9: 5
+Mu: 144.807
+LCS_Bin10_8: 26
+LCS_Bin10_7: 24
+FDA_Bin10_7: 25
+LCS_Bin10_2: 1
+LCS_Bin10_1: 59
+OCL_Bin10_7: 9
+OCL_Bin10_3: 3
+FingerJetFX_MinutiaeCount: 100
+ImgProcROIArea_Mean: 134.217
+FDA_Bin10_5: 25
+FDA_Bin10_2: 9
+FJFXPos_OCL_MinutiaeQuality_80: 0.91
+FJFXPos_Mu_MinutiaeQuality_2: 0.93
+LCS_Bin10_4: 2
+RVUP_Bin10_2: 202
+FDA_Bin10_StdDev: 0.142406
+MMB: 145.18
+FDA_Bin10_8: 70
+FDA_Bin10_6: 21
+OF_Bin10_6: 32
+LCS_Bin10_StdDev: 0.394656
+FDA_Bin10_1: 2
+LCS_Bin10_6: 25
+LCS_Bin10_5: 15
+FDA_Bin10_4: 14
+OF_Bin10_8: 32
+OCL_Bin10_1: 1
+OCL_Bin10_6: 4
+FDA_Bin10_0: 2
+FDA_Bin10_3: 8
+Orientation certainty: 1.0032
+Region of interest: 25.6295
+Minutiae: 17.5242
+Local clarity: 21.5756
+Ridge valley uniformity: 15.5453
+Contrast: 0.225072
+Minutiae quality: 0.548665
+Quality map: 3.09685
+Orientation flow: 17.9233
+Frequency domain: 13.1902

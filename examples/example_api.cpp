@@ -1,11 +1,59 @@
 // Universal include for all NFIQ2 headers
 #include <nfiq2.hpp>
-// OpenCV Matrix and Image parsing headers
-#include <opencv2/core/mat.hpp>
-#include <opencv2/imgcodecs.hpp>
 
 #include <iostream>
 #include <memory>
+
+// Parses PGM Files. Used to extract data from provided sythetic fingerprint
+// images.
+void
+parsePGM(char *filename, std::shared_ptr<uint8_t> &data, uint32_t &rows,
+    uint32_t &cols)
+{
+	// Open PGM file.
+	std::ifstream input(filename, std::ios::binary);
+	if (!input.is_open()) {
+		std::cerr << "Cannot open image: " << filename << "\n";
+		return;
+	}
+
+	// Read in magic number.
+	std::string magicNumber;
+	input >> magicNumber;
+	if (magicNumber != "P5") {
+		std::cerr << "Error reading magic number from file."
+			  << "\n";
+		return;
+	}
+
+	uint16_t maxValue;
+	// Read in image header values - cols, rows.
+	// Ignoring the result of maxValue as it is not needed.
+	input >> cols >> rows >> maxValue;
+	if (!input.good()) {
+		std::cerr
+		    << "Error, premature end of file while reading header."
+		    << "\n";
+		return;
+	}
+	uint32_t size = cols * rows;
+
+	// Skip line break.
+	input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	// Allocating new array on heap.
+	uint8_t *dataHeap = new uint8_t[size];
+	data.reset(dataHeap, std::default_delete<uint8_t[]>());
+
+	// Read in raw pixel data.
+	input.read((char *)data.get(), size);
+	if (!input.good()) {
+		std::cerr << "Error, only read " << input.gcount() << " bytes."
+			  << "\n";
+		return;
+	}
+	return;
+}
 
 void
 printUsage()
@@ -57,7 +105,7 @@ main(int argc, char **argv)
 	try {
 		modelInfoObj = NFIQ2::ModelInfo(argv[1]);
 	} catch (...) {
-		std::cout
+		std::cerr
 		    << "Could not parse model info file. "
 		       "Ensure it is the first argument on the cmd line\n";
 		printUsage();
@@ -70,30 +118,22 @@ main(int argc, char **argv)
 	try {
 		model = NFIQ2::Algorithm(modelInfoObj);
 	} catch (...) {
-		std::cout
+		std::cerr
 		    << "Could not initialize model from model info file\n";
 		return (EXIT_FAILURE);
 	}
 
-	// Thos segment uses OpenCV to parse the fingerprint image passed
-	// in on the command line.
-	cv::Mat imgMat {};
-	try {
-		imgMat = cv::imread(argv[2], cv::IMREAD_GRAYSCALE);
-	} catch (...) {
-		std::cout
-		    << "Could not parse image file. Ensure it is the second "
-		       "argument on the cmd line\n";
-		printUsage();
-		return (EXIT_FAILURE);
-	}
+	// This calls the PGM parser on the image passed by command line
+	// argument.
+	uint32_t rows = 0;
+	uint32_t cols = 0;
+	std::shared_ptr<uint8_t> data {};
+	parsePGM(argv[2], data, rows, cols);
 
 	// This constructs a FingerprintImageData object that stores the
 	// relevant image information NFIQ 2 needs to compute a score.
 	NFIQ2::FingerprintImageData rawImage = NFIQ2::FingerprintImageData(
-	    imgMat.data, static_cast<uint32_t>(imgMat.total()),
-	    static_cast<uint32_t>(imgMat.cols),
-	    static_cast<uint32_t>(imgMat.rows), 0, PPI);
+	    data.get(), cols * rows, cols, rows, 0, PPI);
 
 	// Calculate all feature values.
 	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
@@ -102,7 +142,7 @@ main(int argc, char **argv)
 		features = NFIQ2::QualityFeatures::computeQualityFeatures(
 		    rawImage);
 	} catch (const NFIQ2::Exception &e) {
-		std::cout << "Error in calculating quality features: "
+		std::cerr << "Error in calculating quality features: "
 			  << e.what() << '\n';
 		return (EXIT_FAILURE);
 	}
@@ -113,7 +153,7 @@ main(int argc, char **argv)
 	try {
 		nfiq2 = model.computeQualityScore(features);
 	} catch (...) {
-		std::cout << "Error in calculating NFIQ 2 score\n";
+		std::cerr << "Error in calculating NFIQ 2 score\n";
 		return (EXIT_FAILURE);
 	}
 

@@ -45,8 +45,7 @@ class RandomForestML {
 	void evaluate(
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
 		&features,
-	    const double &utilityValue, double &qualityValue,
-	    double &deviation) const;
+	    double &qualityValue) const;
 
     private:
 	/** OpenCV shared smart pointer referring to the RF model itself. */

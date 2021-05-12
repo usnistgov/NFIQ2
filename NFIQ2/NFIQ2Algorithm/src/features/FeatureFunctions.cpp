@@ -382,7 +382,7 @@ NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 	// Round to 10 decimal points to preserve score consistency across
 	// platforms (10^10)
 
-	dt1.forEach<double>([&](double &val, const int *position) {
+	dt1.forEach<double>([&](double &val, const int *) {
 		val = round(val * 10000000000) / 10000000000;
 	});
 
@@ -448,8 +448,7 @@ NFIQ2::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
 
 void
 NFIQ2::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
-    cv::Mat &ConvOut, const cv::Size &imageSize, const cv::Size &dftSize,
-    bool imDFTFlag)
+    cv::Mat &ConvOut, const cv::Size &imageSize, const cv::Size &dftSize)
 {
 	int OutType = filter.type();
 	ConvOut.create(imageSize, OutType);

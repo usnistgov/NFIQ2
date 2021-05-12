@@ -197,7 +197,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	this->minutiaData_.clear();
 	this->minutiaData_.reserve(minCnt);
-	for (int i = 0; i < minCnt; i++) {
+	for (unsigned int i = 0; i < minCnt; i++) {
 		this->minutiaData_.emplace_back(
 		    static_cast<unsigned int>(mdata[i].x),
 		    static_cast<unsigned int>(mdata[i].y),
@@ -373,8 +373,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
 
 		unsigned int noOfMinutiaeInRect = 0;
 		for (const auto &m : this->minutiaData_) {
-			if (m.x >= startX && m.x <= endX && m.y >= startY &&
-			    m.y <= endY) {
+			if (m.x >= static_cast<unsigned int>(startX) &&
+			    m.x <= static_cast<unsigned int>(endX) &&
+			    m.y >= static_cast<unsigned int>(startY) &&
+			    m.y <= static_cast<unsigned int>(endY)) {
 				// minutia is inside rectangular
 				noOfMinutiaeInRect++;
 			}

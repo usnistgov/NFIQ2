@@ -63,10 +63,8 @@ NFIQ2::Algorithm::Impl::getQualityPrediction(
 {
 	this->throwIfUninitialized();
 
-	const double utility {};
-	double deviation {};
 	double quality {};
-	m_RandomForestML.evaluate(features, utility, quality, deviation);
+	m_RandomForestML.evaluate(features, quality);
 
 	return quality;
 }

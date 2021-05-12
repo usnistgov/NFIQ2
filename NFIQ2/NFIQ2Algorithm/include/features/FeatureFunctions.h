@@ -33,7 +33,7 @@ void getRotatedBlock(const cv::Mat &block, const double orientation,
 void getRidgeValleyStructure(const cv::Mat &blockCropped,
     std::vector<uint8_t> &ridval, std::vector<double> &dt);
 void Conv2D(const cv::Mat &im, const cv::Mat &filter, cv::Mat &ConvOut,
-    const cv::Size &imageSize, const cv::Size &dftSize, bool imDFTFlag);
+    const cv::Size &imageSize, const cv::Size &dftSize);
 void GaborFilterCx(const int ksize, const double theta, const double freq,
     const int sigma, cv::Mat &FilterOut);
 

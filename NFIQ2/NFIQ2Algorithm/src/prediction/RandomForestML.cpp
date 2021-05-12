@@ -125,7 +125,7 @@ NFIQ2::Prediction::RandomForestML::initModule(
 void
 NFIQ2::Prediction::RandomForestML::evaluate(
     const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features,
-    const double &utilityValue, double &qualityValue, double &deviation) const
+    double &qualityValue) const
 {
 	/**
 	   The following ordering of feature keys is critical to the
@@ -170,8 +170,6 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 			    "The trained network could not be loaded for "
 			    "prediction!");
 		}
-
-		deviation = 0.0; // ignore deviation here
 
 		// copy data to structure
 		cv::Mat sample_data = cv::Mat(

@@ -24,15 +24,10 @@ if (LINK_AGAINST_STATIC_LIBNFIQ2)
 			${NFIQ2_INSTALL_DIR}/nfiq2/lib
 		REQUIRED)
 
-	if (MSVC)
-		set(OpenCV_STATIC YES)
-	endif()
-
 	find_package(OpenCV REQUIRED
 		HINTS
 			${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4
 			${NFIQ2_INSTALL_DIR}/nfiq2)
-	set(OpenCV_SHARED ON)
 
 	list(APPEND REQUIRED_LIBS
 		${LIBNFIQ2_STATIC}

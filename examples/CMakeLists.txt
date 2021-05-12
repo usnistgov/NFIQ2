@@ -5,7 +5,7 @@ project(examples)
 option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
 
 # TODO: Add find_package for NFIQ2
-set(NFIQ2_INSTALL_DIR /usr/local/nfiq2)
+set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
 include_directories(${NFIQ2_INSTALL_DIR}/include)
 ################################################################################
 set(REQUIRED_LIBS "")
@@ -13,25 +13,46 @@ set(REQUIRED_LIBS "")
 if (LINK_AGAINST_STATIC_LIBNFIQ2)
 	find_library(LIBNFIQ2_STATIC
 		${CMAKE_STATIC_LIBRARY_PREFIX}nfiq2${CMAKE_STATIC_LIBRARY_SUFFIX}
-		PATHS ${NFIQ2_INSTALL_DIR}/lib
+		PATHS
+			${NFIQ2_INSTALL_DIR}/lib
+			${NFIQ2_INSTALL_DIR}/nfiq2/lib
 		REQUIRED)
 	find_library(LIBFRFXLL_STATIC
 		${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
-		PATHS ${NFIQ2_INSTALL_DIR}/lib
+		PATHS
+			${NFIQ2_INSTALL_DIR}/lib
+			${NFIQ2_INSTALL_DIR}/nfiq2/lib
 		REQUIRED)
 
 	find_package(OpenCV REQUIRED
-		HINTS ${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4)
-	set(OpenCV_SHARED ON)
+		HINTS
+			${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4
+			${NFIQ2_INSTALL_DIR}/nfiq2)
 
 	list(APPEND REQUIRED_LIBS
 		${LIBNFIQ2_STATIC}
 		${LIBFRFXLL_STATIC}
 		${OpenCV_LIBS})
+
+	# Static Windows runtime
+	if (MSVC)
+		foreach(flag_var
+		    CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+		    CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
+			if(${flag_var} MATCHES "/MD")
+				string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+			endif()
+			if(${flag_var} MATCHES "/MDd")
+				string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
+			endif()
+		endforeach(flag_var)
+	endif()
 else()
 	find_library(LIBNFIQ2_SHARED
 		nfiq2
-		PATHS ${NFIQ2_INSTALL_DIR}/lib
+		PATHS
+			${NFIQ2_INSTALL_DIR}/lib
+			${NFIQ2_INSTALL_DIR}/nfiq2/lib
 		REQUIRED)
 
 	list(APPEND REQUIRED_LIBS
@@ -60,6 +81,7 @@ list(APPEND ALL_TARGETS print_feature_names)
 
 add_executable(example_api example_api.cpp)
 target_link_libraries(example_api ${REQUIRED_LIBS})
+target_include_directories(example_api PRIVATE ${OpenCV_INCLUDE_DIRS})
 set_target_properties(example_api PROPERTIES
 	MACOSX_RPATH YES
 	CXX_STANDARD 11

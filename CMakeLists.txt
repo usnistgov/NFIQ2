@@ -392,7 +392,7 @@ elseif (EXISTS "/etc/lsb-release")
 		set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 	else()
 		message(AUTHOR_WARNING "dpkg-shlibdeps not found. Run `sudo apt install dpkg-dev` to properly calculate dependencies on Debian.")
-		set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_DEPENDS "libc6,libstdc++6,libgcc-s1,libzstd1,liblzma5,libjbig0,libwebp6,libssl1.1,libopenjp2-7,libjpeg-turbo8,libpng16-16,libtiff5,zlib1g,libdb5.3++,libsqlite3-0")
+		set(CPACK_DEBIAN_NFIQ2_CLI_PACKAGE_DEPENDS "libc6,libstdc++6,libgcc-s1,libzstd1,liblzma5,libjbig0,libwebp6,libssl1.1,libopenjp2-7,libjpeg-turbo8,libpng16-16,libtiff5,zlib1g,libdb5.3++,libsqlite3-0,liblzma5,zstd")
 	endif()
 
 	# We're customizing the package name, so we need to define these ourselves
@@ -423,7 +423,7 @@ elseif (EXISTS "/etc/redhat-release")
 	set(CPACK_RPM_PACKAGE_AUTOREQ YES)
 	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_AUTOREQ 1)
 	set(CPACK_RPM_DEVELOPMENT_PACKAGE_AUTOREQ 1)
-	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_REQUIRES "openssl,openjpeg2,libjpeg-turbo,libpng,libtiff,zlib,libdb-cxx,sqlite")
+	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_REQUIRES "openssl,openjpeg2,libjpeg-turbo,libpng,libtiff,zlib,libdb-cxx,sqlite,xz-lzma-compat,zstd")
 
 	# We're customizing the package name, so we need to define these ourselves
 	set(CPACK_RPM_PACKAGE_RELEASE 1)

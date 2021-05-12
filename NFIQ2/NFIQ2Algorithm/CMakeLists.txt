@@ -204,7 +204,7 @@ if (BUILD_NFIQ2_CLI)
 	target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
 	# Required by static libtiff
 	find_package(LibLZMA REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} LibLZMA::LibLZMA)
+	target_link_libraries(${NFIQ2_TEST_APP} ${LIBLZMA_LIBRARIES})
 	# Required by static libtiff
 	find_library(LIBZSTD ${CMAKE_STATIC_LIBRARY_PREFIX}zstd${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}zstd_static${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${LIBZSTD})

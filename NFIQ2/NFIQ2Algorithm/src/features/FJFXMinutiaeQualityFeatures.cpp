@@ -46,7 +46,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 {
 	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
-	std::vector<NFIQ2::QualityFeatureResult> vecResultMuMinQuality;
 	NFIQ2::QualityFeatureData fd_mu;
 	fd_mu.featureID = "FJFXPos_Mu_MinutiaeQuality_2";
 	fd_mu.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;

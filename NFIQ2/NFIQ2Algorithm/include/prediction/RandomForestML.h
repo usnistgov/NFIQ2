@@ -21,11 +21,12 @@ class RandomForestML {
 #ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	std::string initModule();
 #endif
-	std::string initModule(const std::string &fileName,
-	    const std::string &fileHash);
+	std::string initModule(
+	    const std::string &fileName, const std::string &fileHash);
 
-	void evaluate(const std::unordered_map<std::string,
-			  NFIQ2::QualityFeatureData> &features,
+	void evaluate(
+	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+		&features,
 	    double &qualityValue) const;
 
     private:

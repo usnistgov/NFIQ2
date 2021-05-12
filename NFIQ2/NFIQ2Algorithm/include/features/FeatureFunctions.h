@@ -42,20 +42,20 @@ double calccoh(double gxx, double gyy, double gxy);
 double calcof(double gsxavg, double gsyavg);
 
 cv::Mat computeNumericalGradientX(const cv::Mat &mat);
-void computeNumericalGradients(const cv::Mat &mat, cv::Mat &grad_x,
-    cv::Mat &grad_y);
+void computeNumericalGradients(
+    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
-void
-addSamplingFeatures(std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
+void addSamplingFeatures(
+    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &dataVector);
-void
-addHistogramFeatures(std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
+void addHistogramFeatures(
+    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount);
-void addSamplingFeatureNames(std::vector<std::string> &featureNames,
-    const char *prefix);
-void addHistogramFeatureNames(std::vector<std::string> &featureNames,
-    const char *prefix, int binCount);
+void addSamplingFeatureNames(
+    std::vector<std::string> &featureNames, const char *prefix);
+void addHistogramFeatureNames(
+    std::vector<std::string> &featureNames, const char *prefix, int binCount);
 #endif
 }
 }

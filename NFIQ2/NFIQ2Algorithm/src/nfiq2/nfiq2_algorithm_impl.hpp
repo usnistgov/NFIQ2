@@ -20,10 +20,25 @@ namespace NFIQ2 {
  */
 class Algorithm::Impl {
     public:
-	/** Default constructor of Impl. */
+	/**
+	 * @brief
+	 * Default constructor of Algorithm.
+	 *
+	 * @note
+	 * May load from parameters compiled into source code, in which case
+	 * this can be slow.
+	 */
 	Impl();
 
-	/** Constructor using model filename and the `fileHash`. */
+	/**
+	 * @brief
+	 * Constructor that loads random forest parameters from disk.
+	 *
+	 * @param fileName
+	 * The file path containing the random forest model.
+	 * @param fileHash
+	 * The md5 checksum of the provided file.
+	 */
 	Impl(const std::string &fileName, const std::string &fileHash);
 
 	/** Destructor. */

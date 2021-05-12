@@ -532,7 +532,7 @@ NFIQ2::QualityFeatures::addSamplingFeatures(
     std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &dataVector)
 {
-	const int sampleSize = dataVector.size();
+	const auto sampleSize = dataVector.size();
 
 	// randomize data
 	std::random_shuffle(dataVector.begin(), dataVector.end());
@@ -572,7 +572,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 {
 	binBoundaries.push_back(std::numeric_limits<double>::infinity());
 
-	const int myBinCount = binBoundaries.size();
+	const auto myBinCount = binBoundaries.size();
 
 	if (myBinCount != binCount) {
 		std::stringstream s;

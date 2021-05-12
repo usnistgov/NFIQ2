@@ -276,7 +276,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 	//  change = find(change == 1);    % find indices where changes
 	uint8_t begrid = ridval[0]; //% begining with ridge?
 	std::vector<uint8_t> change;
-	int j;
+	size_t j;
 	for (unsigned int i = 0; i < ridval.size(); i++) {
 		// circular shift from back to front
 		if (i == 0) {

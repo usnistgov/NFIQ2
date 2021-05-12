@@ -382,8 +382,7 @@ NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 	// Round to 10 decimal points to preserve score consistency across
 	// platforms (10^10)
 
-	dt1.forEach<double>([&](double &val, const int *position) {
-		(void)position;
+	dt1.forEach<double>([&](double &val, const int *) {
 		val = round(val * 10000000000) / 10000000000;
 	});
 

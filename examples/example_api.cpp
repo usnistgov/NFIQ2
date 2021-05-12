@@ -177,12 +177,6 @@ main(int argc, char **argv)
 			  << '\n';
 	}
 
-	// Print time to compute quality features
-	for (const auto &i :
-	    NFIQ2::QualityFeatures::getQualityFeatureSpeeds(features)) {
-		std::cout << i.first << ": " << i.second.featureSpeed << '\n';
-	}
-
 	// Image Processed
 	return (EXIT_SUCCESS);
 }

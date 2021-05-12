@@ -72,13 +72,3 @@ OCL_Bin10_1: 1
 OCL_Bin10_6: 4
 FDA_Bin10_0: 2
 FDA_Bin10_3: 8
-Orientation certainty: 1.0032
-Region of interest: 25.6295
-Minutiae: 17.5242
-Local clarity: 21.5756
-Ridge valley uniformity: 15.5453
-Contrast: 0.225072
-Minutiae quality: 0.548665
-Quality map: 3.09685
-Orientation flow: 17.9233
-Frequency domain: 13.1902

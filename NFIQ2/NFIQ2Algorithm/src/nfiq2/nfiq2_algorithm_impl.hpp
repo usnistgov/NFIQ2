@@ -15,8 +15,8 @@
 namespace NFIQ2 {
 
 /**
- * 	This class serves as a wrapper to return quality scores
- * 	for a fingerprint image.
+ * Internal implementation of Applies trained random forest parameters to
+ * quality features, computing an overall quality score (i.e., NFIQ2).
  */
 class Algorithm::Impl {
     public:
@@ -170,10 +170,10 @@ class Algorithm::Impl {
 	 */
 	void throwIfUninitialized() const;
 
-	/** Private member storing RandomForest parameters. */
+	/** RandomForest parameters. */
 	NFIQ2::Prediction::RandomForestML m_RandomForestML;
 
-	/** Private member storing RandomForest parameter md5 hash. */
+	/** RandomForest parameter md5 hash. */
 	std::string m_parameterHash {};
 };
 } // namespace NFIQ2

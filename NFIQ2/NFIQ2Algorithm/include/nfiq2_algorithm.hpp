@@ -34,7 +34,6 @@ class Algorithm {
 	 *
 	 * @param fileName
 	 * The file path containing the random forest model.
-	 *
 	 * @param fileHash
 	 * The md5 checksum of the provided file.
 	 */

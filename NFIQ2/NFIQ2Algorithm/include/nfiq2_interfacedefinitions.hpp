@@ -24,7 +24,6 @@ static const std::string SufficientFingerprintForeground {
 
 /** Contains doubles corresponding to Actionable Feedback Thresholds. */
 namespace ActionableQualityFeedbackThreshold {
-
 static const double EmptyImageOrContrastTooLow { 250.0 };
 static const double UniformImage { 1.0 };
 static const double FingerprintImageWithMinutiae { 5.0 };

@@ -423,7 +423,7 @@ elseif (EXISTS "/etc/redhat-release")
 	set(CPACK_RPM_PACKAGE_AUTOREQ YES)
 	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_AUTOREQ 1)
 	set(CPACK_RPM_DEVELOPMENT_PACKAGE_AUTOREQ 1)
-	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_REQUIRES "openssl,openjpeg2,libjpeg-turbo,libpng,libtiff,zlib,libdb-cxx,sqlite,xz-lzma-compat,zstd")
+	set(CPACK_RPM_NFIQ2_CLI_PACKAGE_REQUIRES "openssl,openjpeg2,libjpeg-turbo,libpng,libtiff,zlib,libdb-cxx,sqlite,xz-lzma-compat")
 
 	# We're customizing the package name, so we need to define these ourselves
 	set(CPACK_RPM_PACKAGE_RELEASE 1)

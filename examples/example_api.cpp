@@ -164,17 +164,30 @@ main(int argc, char **argv)
 	std::cout << "QualityScore: " << nfiq2 << '\n';
 
 	// Actionable Feedback
-	for (const auto &i :
-	    NFIQ2::QualityFeatures::getActionableQualityFeedback(features)) {
-		std::cout << i.first << ": " << i.second.actionableQualityValue
+	std::vector<std::string> actionIDs =
+	    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
+
+	std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
+	    actionableQuality =
+		NFIQ2::QualityFeatures::getActionableQualityFeedback(features);
+
+	for (const auto &i : actionIDs) {
+		std::cout << actionableQuality.at(i).identifier << ": "
+			  << actionableQuality.at(i).actionableQualityValue
 			  << '\n';
 	}
 
 	// Quality Feature Values
-	for (const auto &i :
-	    NFIQ2::QualityFeatures::getQualityFeatureData(features)) {
-		std::cout << i.first << ": " << i.second.featureDataDouble
-			  << '\n';
+	std::vector<std::string> featureIDs =
+	    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
+
+	std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+	    qualityFeatures = NFIQ2::QualityFeatures::getQualityFeatureData(
+		features);
+
+	for (const auto &i : featureIDs) {
+		std::cout << qualityFeatures.at(i).featureID << ": "
+			  << qualityFeatures.at(i).featureDataDouble << '\n';
 	}
 
 	// Image Processed

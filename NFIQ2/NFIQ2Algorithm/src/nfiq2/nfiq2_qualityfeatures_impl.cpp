@@ -246,10 +246,9 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 	    std::make_shared<FingerJetFXFeature>(croppedImage);
 	features.push_back(fjfxFeatureModule);
 
-	features.push_back(
-	    std::make_shared<FJFXMinutiaeQualityFeature>(croppedImage,
-		fjfxFeatureModule->getMinutiaData(),
-		fjfxFeatureModule->getTemplateStatus()));
+	features.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(
+	    croppedImage, fjfxFeatureModule->getMinutiaData(),
+	    fjfxFeatureModule->getTemplateStatus()));
 
 	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
 	    std::make_shared<ImgProcROIFeature>(croppedImage);
@@ -263,8 +262,8 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 
 	features.push_back(std::make_shared<OFFeature>(croppedImage));
 
-	features.push_back(std::make_shared<QualityMapFeatures>(croppedImage,
-	    roiFeatureModule->getImgProcResults()));
+	features.push_back(std::make_shared<QualityMapFeatures>(
+	    croppedImage, roiFeatureModule->getImgProcResults()));
 
 	features.push_back(
 	    std::make_shared<RVUPHistogramFeature>(croppedImage));
@@ -306,8 +305,8 @@ NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
 	std::vector<std::string> qualityFeatureIDs {};
 
 	for (auto &vec : vov) {
-		qualityFeatureIDs.insert(qualityFeatureIDs.end(), vec.cbegin(),
-		    vec.cend());
+		qualityFeatureIDs.insert(
+		    qualityFeatureIDs.end(), vec.cbegin(), vec.cend());
 	}
 
 	return qualityFeatureIDs;

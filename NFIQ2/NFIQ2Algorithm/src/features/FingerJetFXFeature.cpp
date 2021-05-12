@@ -29,7 +29,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
 		ly += m.y;
 	}
 	return std::make_pair<unsigned int, unsigned int>(
-	    lx / minutiaData.size(), ly / minutiaData.size());
+	    static_cast<unsigned int>(lx / minutiaData.size()),
+	    static_cast<unsigned int>(ly / minutiaData.size()));
 }
 
 std::string

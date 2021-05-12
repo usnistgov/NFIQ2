@@ -275,7 +275,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 	// change(1) = []; % there can't be change in 1. element (circshift)
 	// changeIndex = find(change == 1);    % find indices where changes
 	std::vector<uint8_t> change;
-	int j;
+	size_t j;
 	for (unsigned int i = 0; i < ridval.size() - 1; i++) {
 		// circular shift from back to front
 		if (i == 0) {
@@ -341,7 +341,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 			// changeIndexComplete(end:-1:2) =
 			// changeIndexComplete(end:-1:2)-changeIndexComplete(end-1:-1:1);
 
-			int changesize = changeIndexComplete.size();
+			auto changesize = changeIndexComplete.size();
 			// If there is only one change index at this point, then
 			// there aren't any ridge/valley structures to compare,
 			// so leave the ratios vector empty. (This is the same
@@ -352,7 +352,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 			if (changesize > 1) {
 				std::vector<uint8_t> changeComplete2;
 				uint8_t tmpc;
-				for (int i = changesize - 1; i > 0; i--) {
+				for (auto i = changesize - 1; i > 0; i--) {
 					tmpc = changeIndexComplete[i] -
 					    changeIndexComplete[i - 1];
 					changeComplete2.push_back(tmpc);

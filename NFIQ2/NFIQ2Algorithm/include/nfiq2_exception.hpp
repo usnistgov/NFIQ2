@@ -6,9 +6,8 @@
 #include <string>
 
 namespace NFIQ2 {
-/**
- * This class represents error codes defined within this framework.
- */
+
+/** Error codes used within the NFIQ2 namespace. */
 enum class ErrorCode {
 	UnknownError,
 	NotEnoughMemory,
@@ -20,15 +19,14 @@ enum class ErrorCode {
 	CannotDecodeBase64,
 	InvalidConfiguration,
 	MachineLearningError,
-	// dedicated FJFX feature computation errors
 	FJFX_CannotCreateContext,
 	FJFX_CannotCreateFeatureSet,
 	FJFX_NoFeatureSetCreated,
-	// Scores must be between 0 and 100
 	InvalidNFIQ2Score,
 	InvalidImageSize
 };
 
+/** Map of ErrorCode and their respective explanations. */
 static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::UnknownError, "Unknown error" },
 	{ NFIQ2::ErrorCode::NotEnoughMemory, "Not enough memory" },
@@ -42,7 +40,7 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::InvalidConfiguration,
 	    "An invalid configuration entry was found" },
 	{ NFIQ2::ErrorCode::MachineLearningError,
-	    "An machine learning error occured" },
+	    "An machine learning error occurred" },
 	{ NFIQ2::ErrorCode::FJFX_CannotCreateContext,
 	    "Cannot create context for FJFX feature extractor" },
 	{ NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
@@ -53,65 +51,67 @@ static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
 	{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
 };
 
-/**
-******************************************************************************
-* @class Exception
-* @brief Represents the exception class used within this framework.
-******************************************************************************/
+/** Exceptions thrown from NFIQ2 functions. */
 class Exception : public std::exception {
     public:
-	/******************************************************************************/
-	// --- Constructor / Destructor --- //
-	/******************************************************************************/
-
 	/**
-	 * @brief Constructor which uses supplied error code and default message
+	 * @brief
+	 * Constructor which uses supplied error code and default message.
+	 *
+	 * @param errorCode
+	 * Error code for thrown exception.
 	 */
 	Exception(const NFIQ2::ErrorCode &errorCode);
 
 	/**
-	 * @brief Constructor which uses supplied error code and user-defined
-	 * message
+	 * @brief
+	 * Constructor which uses supplied error code and user-defined message.
+	 *
+	 * @param errorCode
+	 * Error code for thrown exception.
+	 *
+	 * @param errorMessage
+	 * User defined error message for thrown exception.
 	 */
 	Exception(
 	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
 
-	/**
-	 * @brief Destructo
-	 */
+	/** Destructor. */
 	virtual ~Exception() noexcept;
 
-	/******************************************************************************/
-	// --- General Framework Functions --- //
-	/******************************************************************************/
-
 	/**
-	 * @fn what
-	 * @brief Inherited function from std::exception
-	 * @return The exception message
+	 * @brief
+	 * Extracts thrown exception error message string.
+	 *
+	 * @return
+	 * The exception message.
 	 */
 	virtual const char *what() const noexcept;
 
 	/**
-	 * @fn getErrorCode
-	 * @brief Returns the return code of the exception
-	 * @return The return code
+	 * @brief
+	 * Obtain the return code of the exception.
+	 *
+	 * @return
+	 * The return code.
 	 */
 	NFIQ2::ErrorCode getErrorCode() const;
 
 	/**
-	 * @fn getErrorMessage
-	 * @brief Returns the error message of the exception
-	 * @return The error message
+	 * @brief
+	 * Obtain the error message of the exception.
+	 *
+	 * @return
+	 * The error message.
 	 */
 	std::string getErrorMessage() const;
 
     private:
-	NFIQ2::ErrorCode errorCode; ///< The return code of the exception
-	std::string errorMessage;   ///< The error message of the exception
+	/** Exception error type. */
+	NFIQ2::ErrorCode errorCode;
+	/** Error message string. */
+	std::string errorMessage;
 };
 } // namespace NFIQ
 
-#endif
-
-/******************************************************************************/
+#endif /* NFIQ2_EXCEPTION_HPP_ */

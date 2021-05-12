@@ -11,54 +11,106 @@
 #include <unordered_map>
 
 namespace NFIQ2 {
-/** Wrapper to return quality scores for a fingerprint image */
+
+/**
+ * Applies trained random forest parameters to quality features, computing an
+ * overall quality score (i.e., NFIQ2).
+ */
 class Algorithm {
     public:
+	/**
+	 * @brief
+	 * Default constructor of Algorithm.
+	 *
+	 * @note
+	 * May load from parameters compiled into source code, in which case
+	 * this can be slow.
+	 */
 	Algorithm();
+
+	/**
+	 * @brief
+	 * Constructor that loads random forest parameters from disk.
+	 *
+	 * @param fileName
+	 * The file path containing the random forest model.
+	 * @param fileHash
+	 * The md5 checksum of the provided file.
+	 */
 	Algorithm(const std::string &fileName, const std::string &fileHash);
+
+	/**
+	 * @brief
+	 * Constructor using NFIQ2::ModelInfo to initialize the random forest.
+	 *
+	 * @param modelInfoObj
+	 * Contains the random forest model and information about it.
+	 */
 	Algorithm(const NFIQ2::ModelInfo &modelInfoObj);
 
+	/** Copy constructor. */
 	Algorithm(const Algorithm &);
+
+	/** Assignment operator. */
 	Algorithm &operator=(const Algorithm &);
 
+	/** Move constructor. */
 	Algorithm(Algorithm &&) noexcept;
+
+	/** Move assignment operator. */
 	Algorithm &operator=(Algorithm &&) noexcept;
+
+	/** Destructor. */
 	~Algorithm();
 
 	/**
-	 * @fn computeQualityScore
-	 * @brief Computes the quality score from the input fingerprint image
-	 * data
-	 * @param rawImage fingerprint image in raw format
-	 * @return achieved quality score
+	 * @brief
+	 * Computes the quality score from the provided fingerprint image data.
+	 *
+	 * @param rawImage
+	 * Fingerprint image.
+	 *
+	 * @return
+	 * Computed quality score.
+	 *
 	 * @throw Exception
-	 * Called before random forest parameters were loaded
+	 * Called before random forest parameters were loaded.
 	 */
 	unsigned int computeQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
-	 * @fn computeQualityScore
-	 * @brief Computes the quality score from a vector of extracted feature
-	 * from a cropped fingerprint image
-	 * @param features list of computed feature metrics that contain quality
-	 * information for a fingerprint image
-	 * @return achieved quality score
+	 * @brief
+	 * Computes the quality score from a vector of extracted BaseFeatures
+	 * from a cropped fingerprint image.
+	 *
+	 * @param features
+	 * Vector of computed feature metrics that contain quality
+	 * information for a fingerprint image.
+	 *
+	 * @return
+	 * Computed quality score.
+	 *
 	 * @throw Exception
-	 * Called before random forest parameters were loaded
+	 * Called before random forest parameters were loaded.
 	 */
 	unsigned int computeQualityScore(const std::vector<
 	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
 	    const;
 
 	/**
-	 * @fn computeQualityScore
-	 * @brief Computes the quality score from the extracted image
-	 * quality feature data
-	 * @param features map of string, quality feature data pairs
-	 * @return achieved quality score
+	 * @brief
+	 * Computes the quality score from a map of extracted image quality
+	 * feature data.
+	 *
+	 * @param features
+	 * Map of string, quality feature data pairs.
+	 *
+	 * @return
+	 * Computed quality score.
+	 *
 	 * @throw Exception
-	 * Called before random forest parameters were loaded
+	 * Called before random forest parameters were loaded.
 	 */
 	unsigned int computeQualityScore(
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
@@ -66,10 +118,11 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Obtain MD5 checksum of Random Forest parameter file loaded.
+	 * Obtain MD5 checksum of random forest parameter file loaded.
 	 *
 	 * @return
-	 * MD5 checksum of the Random Forest parameter file loaded.
+	 * MD5 checksum of the random forest parameter file loaded.
+	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 */
@@ -109,9 +162,12 @@ class Algorithm {
 	unsigned int getEmbeddedFCT() const;
 
     private:
+	/** Pointer to Implementation class. */
 	class Impl;
+
+	/** Pointer to Implementation smart pointer. */
 	std::unique_ptr<Algorithm::Impl> pimpl;
 };
 } // namespace NFIQ
 
-#endif
+#endif /* NFIQ2_ALGORITHM_HPP_ */

@@ -21,4 +21,8 @@
 #include <nfiq2_timer.hpp>
 #include <nfiq2_version.hpp>
 
+/** Classes and functions that contribute to the calculation of NFIQ2 scores. */
+namespace NFIQ2 {
+}
+
 #endif /* NFIQ2_HPP_ */

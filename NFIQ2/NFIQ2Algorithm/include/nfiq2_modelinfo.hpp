@@ -4,82 +4,102 @@
 #include <string>
 
 namespace NFIQ2 {
-/** Model Class containing Model Information */
+/** Information about a random forest parameter model. */
 class ModelInfo {
     public:
+	/** Default constructor. */
 	ModelInfo();
+
+	/**
+	 * Constructor
+	 *
+	 * @param modelInfoFilePath
+	 * Path to model information file.
+	 */
 	ModelInfo(const std::string &modelInfoFilePath);
 
 	/**
 	 * @brief
-	 * Getter for private member modelName
+	 * Obtain the model name.
 	 *
 	 * @return
-	 * Returns model name
+	 * Returns model name.
 	 */
 	std::string getModelName() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelTrainer
+	 * Obtain the entity that trained the random forest model.
 	 *
 	 * @return
-	 * Returns model trainer
+	 * Returns model trainer.
 	 */
 	std::string getModelTrainer() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelDescription
+	 * Obtain additional description information for model.
 	 *
 	 * @return
-	 * Returns model description
+	 * Returns model description.
 	 */
 	std::string getModelDescription() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelVersion
+	 * Obtain the version number of the model.
 	 *
 	 * @return
-	 * Returns model version
+	 * Returns model version.
 	 */
 	std::string getModelVersion() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelPath
+	 * Obtain the file path of the model.
 	 *
 	 * @return
-	 * Returns model path
+	 * Returns model file path.
 	 */
 	std::string getModelPath() const;
 
 	/**
 	 * @brief
-	 * Getter for private member modelHash
+	 * Obtain the md5 checksum of the model
 	 *
 	 * @return
-	 * Returns model hash
+	 * Returns model md5 checksum.
 	 */
 	std::string getModelHash() const;
 
+	/** Name Key. */
 	static const std::string ModelInfoKeyName;
+	/** Trainer Key. */
 	static const std::string ModelInfoKeyTrainer;
+	/** Description Key. */
 	static const std::string ModelInfoKeyDescription;
+	/** Version Key. */
 	static const std::string ModelInfoKeyVersion;
+	/** Path Key. */
 	static const std::string ModelInfoKeyPath;
+	/** Hash Key. */
 	static const std::string ModelInfoKeyHash;
 
     private:
+	/** Name member. */
 	std::string modelName;
+	/** Trainer member. */
 	std::string modelTrainer;
+	/** Description member. */
 	std::string modelDescription;
+	/** Version member. */
 	std::string modelVersion;
+	/** Path member. */
 	std::string modelPath;
+	/** Hash member. */
 	std::string modelHash;
 };
 
 } // namespace NFIQ
 
-#endif
+#endif /* NFIQ2_MODELINFO_HPP_ */

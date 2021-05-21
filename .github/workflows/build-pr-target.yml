@@ -71,6 +71,7 @@ jobs:
             libsqlite3-dev \
             libssl-dev \
             libtiff-dev \
+            libwebp-dev \
             libzstd-dev \
             zlib1g-dev
 

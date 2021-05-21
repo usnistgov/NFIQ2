@@ -73,6 +73,7 @@ jobs:
             libssl-dev \
             libtiff-dev \
             libzstd-dev \
+            libwebp-dev \
             zlib1g-dev
 
     - name: Install Packages (macOS)

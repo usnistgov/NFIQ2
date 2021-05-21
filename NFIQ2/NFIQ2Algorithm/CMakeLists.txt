@@ -177,26 +177,6 @@ if (BUILD_NFIQ2_CLI)
 	# TODO: libbiomeval should implement find_package
 	list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
 
-	find_package(FFMPEG)
-	if(FFMPEG_FOUND)
-	  target_link_libraries( ${NFIQ2_TEST_APP} ${FFMPEG_LIBRARIES})
-	endif()
-
-	find_package(PCSC)
-	if(PCSC_FOUND)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${PCSC_LIBRARIES})
-	endif()
-
-	find_package(MPI)
-	if(MPI_FOUND)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${MPI_LIBRARIES})
-	endif()
-
-	find_package(HWLOC)
-	if(HWLOC_FOUND)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${HWLOC_LIBRARIES})
-	endif()
-
 	find_package(SQLITE3 REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${SQLITE3_LIBRARIES})
 

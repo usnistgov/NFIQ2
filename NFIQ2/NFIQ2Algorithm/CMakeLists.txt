@@ -4,9 +4,12 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
-# FIXME: Prefer static libs. Once we have a shared lib, we should reverse this
-#        during that build
-set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX};${CMAKE_SHARED_LIBRARY_SUFFIX})
+# FIXME: Prefer static libs on macOS and Windows, since it's "easy" on Linux to
+#        install the dependencies. Once we have a shared lib, we should reverse
+#        this during that build
+if (APPLE OR WIN32)
+	set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX};${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
 
 include(GNUInstallDirs)
 

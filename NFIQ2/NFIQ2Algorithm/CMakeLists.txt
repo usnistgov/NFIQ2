@@ -4,9 +4,12 @@ project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
-# FIXME: Prefer static libs. Once we have a shared lib, we should reverse this
-#        during that build
-set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX};${CMAKE_SHARED_LIBRARY_SUFFIX})
+# FIXME: Prefer static libs on macOS and Windows, since it's "easy" on Linux to
+#        install the dependencies. Once we have a shared lib, we should reverse
+#        this during that build
+if (APPLE OR WIN32)
+	set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX};${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
 
 include(GNUInstallDirs)
 
@@ -177,36 +180,23 @@ if (BUILD_NFIQ2_CLI)
 	# TODO: libbiomeval should implement find_package
 	list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
 
-	find_package(FFMPEG)
-	if(FFMPEG_FOUND)
-	  target_link_libraries( ${NFIQ2_TEST_APP} ${FFMPEG_LIBRARIES})
-	endif()
-
-	find_package(PCSC)
-	if(PCSC_FOUND)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${PCSC_LIBRARIES})
-	endif()
-
-	find_package(MPI)
-	if(MPI_FOUND)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${MPI_LIBRARIES})
-	endif()
-
-	find_package(HWLOC)
-	if(HWLOC_FOUND)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${HWLOC_LIBRARIES})
-	endif()
-
 	find_package(SQLITE3 REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${SQLITE3_LIBRARIES})
 
 	find_package(TIFF REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
 	# Required by static libtiff
-	find_library(LIBLZMA ${CMAKE_STATIC_LIBRARY_PREFIX}lzma${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${LIBLZMA})
-	# Required by static libtiff
-	find_library(LIBZSTD ${CMAKE_STATIC_LIBRARY_PREFIX}zstd${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}zstd_static${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
+	find_package(LibLZMA REQUIRED)
+	target_link_libraries(${NFIQ2_TEST_APP} ${LIBLZMA_LIBRARIES})
+	if (NOT APPLE)
+		find_library(LIBJBIG jbig REQUIRED)
+		target_link_libraries(${NFIQ2_TEST_APP} ${LIBJBIG})
+	endif()
+	find_library(LIBWEBP webp REQUIRED)
+	target_link_libraries(${NFIQ2_TEST_APP} ${LIBWEBP})
+	if (APPLE OR WIN32)
+		find_library(LIBZSTD ${CMAKE_STATIC_LIBRARY_PREFIX}zstd${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}zstd_static${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
+	endif()
 	target_link_libraries(${NFIQ2_TEST_APP} ${LIBZSTD})
 
 	find_package(PNG REQUIRED)

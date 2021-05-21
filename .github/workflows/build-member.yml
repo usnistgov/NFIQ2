@@ -72,8 +72,8 @@ jobs:
             libsqlite3-dev \
             libssl-dev \
             libtiff-dev \
-            libzstd-dev \
             libwebp-dev \
+            libzstd-dev \
             zlib1g-dev
 
     - name: Install Packages (macOS)
@@ -166,6 +166,18 @@ jobs:
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: cmake --build . --config ${CONFIGURATION}
+
+    - name: Show Dependencies (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      working-directory: ${{ github.workspace }}/build
+      shell: bash
+      run: ldd install_staging/nfiq2/bin/nfiq2
+
+    - name: Show Dependencies (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      working-directory: ${{ github.workspace }}/build
+      shell: bash
+      run: otool -L install_staging/nfiq2/bin/nfiq2
 
     - name: Download Compliance Test
       working-directory: ${{ github.workspace }}/complianceTestSet

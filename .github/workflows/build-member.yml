@@ -179,6 +179,12 @@ jobs:
       shell: bash
       run: otool -L install_staging/nfiq2/bin/nfiq2
 
+    - name: Show Dependencies (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: dumpbin /dependents install_staging/nfiq2/bin/nfiq2.exe
+
     - name: Download Compliance Test
       working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash

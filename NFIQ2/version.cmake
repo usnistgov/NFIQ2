@@ -15,7 +15,7 @@ set(NFIQ2_VERSION_STATUS "pre.1")
 set(NFIQ2_PRODUCT_NAME "NFIQ 2")
 set(NFIQ2_PRODUCT_DESCRIPTION_SHORT "NIST Fingerprint Image Quality 2 algorithm")
 set(NFIQ2_PRODUCT_VENDOR "National Institute of Standards and Technology (NIST) and contributors")
-set(NFIQ2_EMAIL "nfiq2.development@nist.gov")
+set(NFIQ2_EMAIL "nfiq2@nist.gov")
 
 #
 # Build metadata

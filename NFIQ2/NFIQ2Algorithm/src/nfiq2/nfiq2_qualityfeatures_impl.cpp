@@ -60,14 +60,8 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	auto counter = 0;
 	for (const auto &feature : features) {
 		for (auto &result : feature->getFeatures()) {
-			if (result.returnCode == 0) {
-				quality[qualityIdentifiers.at(counter)] =
-				    result.featureData;
-			} else {
-				result.featureData.featureDataDouble = 0;
-				quality[qualityIdentifiers.at(counter)] =
-				    result.featureData;
-			}
+			quality[qualityIdentifiers.at(counter)] =
+			    result.featureData;
 			counter++;
 		}
 	}

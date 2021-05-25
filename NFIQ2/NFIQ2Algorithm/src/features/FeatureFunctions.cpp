@@ -575,7 +575,6 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 
 		NFIQ2::QualityFeatureResult result;
 		result.featureData = fd;
-		result.returnCode = 0;
 
 		featureDataList.push_back(result);
 	}
@@ -595,13 +594,11 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	meanFD.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	meanFD.featureDataDouble = mean.val[0];
 	meanFR.featureData = meanFD;
-	meanFR.returnCode = 0;
 
 	stdDevFD.featureID = stdDevSs.str();
 	stdDevFD.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	stdDevFD.featureDataDouble = stdDev.val[0];
 	stdDevFR.featureData = stdDevFD;
-	stdDevFR.returnCode = 0;
 
 	featureDataList.push_back(meanFR);
 	featureDataList.push_back(stdDevFR);

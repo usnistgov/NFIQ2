@@ -112,7 +112,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	fd_min_cnt.featureDataDouble = 0;
 	NFIQ2::QualityFeatureResult res_min_cnt;
 	res_min_cnt.featureData = fd_min_cnt;
-	res_min_cnt.returnCode = 0;
 
 	NFIQ2::QualityFeatureData fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200.featureID =
@@ -122,7 +121,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	fd_min_cnt_comrect200x200.featureDataDouble = 0;
 	NFIQ2::QualityFeatureResult res_min_cnt_comrect200x200;
 	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
-	res_min_cnt_comrect200x200.returnCode = 0;
 
 	NFIQ2::Timer timer;
 	timer.start();
@@ -220,11 +218,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		    0; // no minutiae found
 		res_min_cnt_comrect200x200.featureData =
 		    fd_min_cnt_comrect200x200;
-		res_min_cnt_comrect200x200.returnCode = 0;
 		featureDataList.push_back(res_min_cnt_comrect200x200);
 
 		fd_min_cnt.featureDataDouble = 0; // no minutiae found
-		res_min_cnt.returnCode = 0;
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
 
@@ -270,11 +266,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// return features
 	fd_min_cnt_comrect200x200.featureDataDouble = noOfMinInRect200x200;
 	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
-	res_min_cnt_comrect200x200.returnCode = 0;
 	featureDataList.push_back(res_min_cnt_comrect200x200);
 
 	fd_min_cnt.featureDataDouble = minCnt;
-	res_min_cnt.returnCode = 0;
 	res_min_cnt.featureData = fd_min_cnt;
 	featureDataList.push_back(res_min_cnt);
 

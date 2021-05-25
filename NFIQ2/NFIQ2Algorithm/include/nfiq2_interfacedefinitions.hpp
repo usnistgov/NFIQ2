@@ -96,8 +96,6 @@ typedef struct feature_speed_t {
 typedef struct quality_feature_result_t {
 	/** The quality feature data. */
 	NFIQ2::QualityFeatureData featureData;
-	/** The return code of the quality feature extraction operation. */
-	uint32_t returnCode;
 } QualityFeatureResult;
 
 /** This type represents the result of a comparison scores computation. */

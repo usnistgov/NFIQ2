@@ -40,23 +40,23 @@ OPTIONS
 > Actionable quality output. Provides additonal actionable quality information pertainting to each processed fingerprint image.
 
 | **-v**
-> Verbose output. Provides additional feature quality information pertaining to each measurement of NFIQ2.
+> Verbose output. Provides additional feature quality information pertaining to each measurement.
 
 | **-q**
-> Speed. Provides additional speed information pertaining to the amount of time each measurement of NFIQ2 took to compute.
+> Speed. Provides additional speed information pertaining to the amount of time each measurement took to compute.
 
 | **-d**
 > Debug. Provides additional information pertaining to program execution and details each step of computation.
 
 | **-F**
-> Force. Does not ask for user input when when an image does not meet NFIQ2 image requirements.
-> See NOTES 1
+> Force. Does not ask for user input when when an image does not meet image requirements.
+> See NOTES 2
 
 | **-r**
 > Recursion. Allows for directories to be recursively scanned for images/records. The recursion performed is depth-first and stops once all branches have been scanned.
 
 | **-m** _model_
-> Path to an model information file. Allows for alternative random forest parameters to be used in conjunction with NFIQ2's algorithm. A default file is provided.
+> Path to an model information file. Allows for alternative random forest parameters to be used in conjunction with **nfiq2**. A default file is provided.
 > This file contains "Key = Value" pairs of information, with Keys:
 
 > * **Name**: Name given to this set of random forest parameters.
@@ -70,9 +70,9 @@ OPTIONS
 NOTES
 =====
 
-1. NFIQ2 has restrictions on image dimensions via a restriction in one of its dependencies. Images width must be greater than 196 pixels and less than 800 pixels. Image height must be greater than 196 pixels and less than 1000 pixels. These dimensions are calculated *after* NFIQ2 crops whitespace from the edges of the image.
+1. NFIQ 2 has restrictions on image dimensions via a restriction in one of its dependencies. Images width must be greater than 196 pixels and less than 800 pixels. Image height must be greater than 196 pixels and less than 1000 pixels. These dimensions are calculated *after* NFIQ 2 crops whitespace from the edges of the image.
 
-2. NFIQ2 has restrictions on what kinds of fingerprint images it can process. The color depth and bit depth of an image must be 8 (i.e., maximum of 255 shades of gray). The PPI of an image must be 500. **nfiq2** has mechanisms to quantize and/or resample images that do not meet these qualifications so that a quality score can still be produced. These mechanisms will be automatically applied when utilizing the **-F** flag when the source resolution is known. If the resolution cannot be determined, the **-F** flag will assume the resolution is 500 PPI.
+2. NFIQ 2 has restrictions on what kinds of fingerprint images it can process. The color depth and bit depth of an image must be 8 (i.e., maximum of 255 shades of gray). The PPI of an image must be 500. **nfiq2** has mechanisms to quantize and/or resample images that do not meet these qualifications so that a quality score can still be produced. These mechanisms will be automatically applied when utilizing the **-F** flag when the source resolution is known. If the resolution cannot be determined, the **-F** flag will assume the resolution is 500 PPI.
 
 3. Output is generated in a CSV format. Headers are printed before any scores are printed. The exception to this format is when a single image is provided without the **-v** or **-q** flag. In this case, only the quality score is printed for the image.
 
@@ -109,11 +109,11 @@ EXAMPLES
 
 | nfiq2 -v -q fingerprintDir
 
-> Produces the quality scores of the fingerprint images stored inside of _fingerprintDir_. Additional NFIQ2 component algorithm results and their timings are also printed in CSV format -- appended to the standard CSV format.
+> Produces the quality scores of the fingerprint images stored inside of _fingerprintDir_. Additional NFIQ 2 component algorithm results and their timings are also printed in CSV format -- appended to the standard CSV format.
 
 | nfiq2 -F mixedFingerprintDir
 
-> _mixedFingerprintDir_ contains a variety of fingerprint images. Some adhere to NFIQ2's 8 bit and color depth, and 500 PPI requirements, some do not. The _-F_ option automatically applies any quantizing and resampling applicable to each image scanned.
+> _mixedFingerprintDir_ contains a variety of fingerprint images. Some adhere to NFIQ 2's 8 bit and color depth, and 500 PPI requirements, some do not. The _-F_ option automatically applies any quantizing and resampling applicable to each image scanned.
 
 | nfiq2 -f batchFile1.txt
 
@@ -121,7 +121,7 @@ EXAMPLES
 
 | nfiq2 -v -q -f batchFile1.txt -j 4
 
-> This is a multi-threaded batch operation on _batchFile1.txt_, utilizing _4_ threads, denoted by the **-j** option. The **-v** and **-q** are also enabled, producing additional NFIQ2 sub component scores and their timings.
+> This is a multi-threaded batch operation on _batchFile1.txt_, utilizing _4_ threads, denoted by the **-j** option. The **-v** and **-q** are also enabled, producing additional NFIQ 2 sub component scores and their timings.
 
 | nfiq2 recordStore1
 

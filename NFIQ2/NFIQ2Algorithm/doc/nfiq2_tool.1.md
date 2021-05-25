@@ -72,7 +72,7 @@ NOTES
 
 1. NFIQ2 has restrictions on image dimensions via a restriction in one of its dependencies. Images width must be greater than 196 pixels and less than 800 pixels. Image height must be greater than 196 pixels and less than 1000 pixels. These dimensions are calculated *after* NFIQ2 crops whitespace from the edges of the image.
 
-2. NFIQ2 has restrictions on what kinds of fingerprint images it can process. The color depth and bit depth of an image must be 8 (i.e., maximum of 255 shades of gray). The PPI of an image must be 500. **nfiq2** has mechanisms to quantize and/or resample images that do not meet these qualifications so that a quality score can still be produced. These mechanisms will be automatically applied when utilizing the **-F** flag.
+2. NFIQ2 has restrictions on what kinds of fingerprint images it can process. The color depth and bit depth of an image must be 8 (i.e., maximum of 255 shades of gray). The PPI of an image must be 500. **nfiq2** has mechanisms to quantize and/or resample images that do not meet these qualifications so that a quality score can still be produced. These mechanisms will be automatically applied when utilizing the **-F** flag when the source resolution is known. If the resolution cannot be determined, the **-F** flag will assume the resolution is 500 PPI.
 
 3. Output is generated in a CSV format. Headers are printed before any scores are printed. The exception to this format is when a single image is provided without the **-v** or **-q** flag. In this case, only the quality score is printed for the image.
 

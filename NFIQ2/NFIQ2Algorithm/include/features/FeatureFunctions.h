@@ -45,9 +45,6 @@ cv::Mat computeNumericalGradientX(const cv::Mat &mat);
 void computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
-void addSamplingFeatures(
-    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
-    std::string featurePrefix, std::vector<double> &dataVector);
 void addHistogramFeatures(
     std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,

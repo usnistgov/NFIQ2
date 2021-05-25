@@ -528,43 +528,6 @@ NFIQ2::QualityFeatures::computeNumericalGradients(
 }
 
 void
-NFIQ2::QualityFeatures::addSamplingFeatures(
-    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
-    std::string featurePrefix, std::vector<double> &dataVector)
-{
-	const auto sampleSize = dataVector.size();
-
-	// randomize data
-	std::random_shuffle(dataVector.begin(), dataVector.end());
-
-	for (int i = 0; i < maxSampleCount; i++) {
-		NFIQ2::QualityFeatureData fd;
-
-		std::stringstream s;
-		s << featurePrefix << i;
-
-		fd.featureID = s.str();
-		fd.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
-		bool canComputeValue = true;
-		if (i < sampleSize) {
-			fd.featureDataDouble = dataVector.at(i);
-		} else {
-			canComputeValue = false;
-		}
-
-		NFIQ2::QualityFeatureResult result;
-		result.featureData = fd;
-		if (canComputeValue) {
-			result.returnCode = 0;
-		} else {
-			result.returnCode = 1;
-		}
-
-		featureDataList.push_back(result);
-	}
-}
-
-void
 NFIQ2::QualityFeatures::addHistogramFeatures(
     std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,

@@ -77,10 +77,10 @@ NOTES
 3. Output is generated in a CSV format. Headers are printed before any scores are printed. The exception to this format is when a single image is provided without the **-v** or **-q** flag. In this case, only the quality score is printed for the image.
 
 4. Current supported formats include:
-	1. Fingerprint image formats parseable through Biometric Evaluation Framework (e.g., PNG, JPEG, TIFF, WSQ, etc.)
-	2. Batch files
-	3. Record Stores
-	4. ANSI/NIST-ITL 2007 (and later) binary files
+	1. BMP, JPEG, JPEG 2000, PBM/PGM/PPM, PNG, TIFF, WSQ
+	3. Biometric Evaluation Framework RecordStores
+	4. ANSI/NIST-ITL 1-2007 and later Type 14 (binary only, not XML)
+	5. ISO/IEC 19794-4
 
 EXAMPLES
 ========

@@ -106,10 +106,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	memcpy((void *)localFingerprintImage.data(), fingerprintImage.data(),
 	    fingerprintImage.size());
 
-	NFIQ2::QualityFeatureData fd_min_cnt;
+	std::pair<std::string, double> fd_min_cnt;
 	fd_min_cnt = std::make_pair("FingerJetFX_MinutiaeCount", 0);
 
-	NFIQ2::QualityFeatureData fd_min_cnt_comrect200x200;
+	std::pair<std::string, double> fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200 = std::make_pair(
 	    "FingerJetFX_MinCount_COMMinRect200x200", 0);
 

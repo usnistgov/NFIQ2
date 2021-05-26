@@ -46,10 +46,10 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 {
 	std::unordered_map<std::string, double> featureDataList;
 
-	NFIQ2::QualityFeatureData fd_mu;
+	std::pair<std::string, double> fd_mu;
 	fd_mu = std::make_pair("FJFXPos_Mu_MinutiaeQuality_2", -1);
 
-	NFIQ2::QualityFeatureData fd_ocl;
+	std::pair<std::string, double> fd_ocl;
 	fd_ocl = std::make_pair("FJFXPos_OCL_MinutiaeQuality_80", -1);
 
 	if (!this->templateCouldBeExtracted_) {

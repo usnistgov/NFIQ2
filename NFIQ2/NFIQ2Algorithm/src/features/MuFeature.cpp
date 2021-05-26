@@ -85,7 +85,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		}
 
 		// return MMB value
-		NFIQ2::QualityFeatureData fd_mmb;
+		std::pair<std::string, double> fd_mmb;
 		fd_mmb = std::make_pair("MMB", avg);
 
 		featureDataList[fd_mmb.first] = fd_mmb.second;
@@ -117,7 +117,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		this->sigmaComputed = true;
 
 		// return mu value
-		NFIQ2::QualityFeatureData fd_mu;
+		std::pair<std::string, double> fd_mu;
 		fd_mu = std::make_pair("Mu", mu.val[0]);
 
 		featureDataList[fd_mu.first] = fd_mu.second;

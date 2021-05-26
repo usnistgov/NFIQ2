@@ -64,14 +64,14 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		    this->imgProcResults_);
 
 		// return features based on coherence values of orientation map
-		NFIQ2::QualityFeatureData fd_om_2;
+		std::pair<std::string, double> fd_om_2;
 		fd_om_2 = std::make_pair(
 		    "OrientationMap_ROIFilter_CoherenceRel",
 		    coherenceRelFilter);
 
 		featureDataList[fd_om_2.first] = fd_om_2.second;
 
-		NFIQ2::QualityFeatureData fd_om_1;
+		std::pair<std::string, double> fd_om_1;
 		fd_om_1 = std::make_pair(
 		    "OrientationMap_ROIFilter_CoherenceSum",
 		    coherenceSumFilter);

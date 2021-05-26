@@ -51,9 +51,6 @@ typedef struct image_id_t {
 	uint8_t acquisitionNumber;
 } ImageID;
 
-/** Convenience type to store quality feature data. */
-using QualityFeatureData = std::pair<std::string, double>;
-
 /** This type represents a structure for timing information of features. */
 typedef struct feature_speed_t {
 	/** The name of the feature group. */

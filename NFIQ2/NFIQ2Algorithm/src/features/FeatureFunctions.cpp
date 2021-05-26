@@ -564,7 +564,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	}
 
 	for (int i = 0; i < binCount; i++) {
-		NFIQ2::QualityFeatureData fd;
+		std::pair<std::string, double> fd;
 
 		std::stringstream s;
 		s << featurePrefix << i;
@@ -578,7 +578,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	cv::Scalar mean, stdDev;
 	cv::meanStdDev(dataMat, mean, stdDev);
 
-	NFIQ2::QualityFeatureData meanFD, stdDevFD;
+	std::pair<std::string, double> meanFD, stdDevFD;
 	std::stringstream meanSs, stdDevSs;
 
 	meanSs << featurePrefix << "Mean";

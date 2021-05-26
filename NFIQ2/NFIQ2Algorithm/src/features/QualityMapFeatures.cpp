@@ -70,7 +70,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		fd_om_2.featureDataDouble = coherenceRelFilter;
 		NFIQ2::QualityFeatureResult res_om_2;
 		res_om_2.featureData = fd_om_2;
-		res_om_2.returnCode = 0;
 
 		featureDataList.push_back(res_om_2);
 
@@ -80,7 +79,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		fd_om_1.featureDataDouble = coherenceSumFilter;
 		NFIQ2::QualityFeatureResult res_om_1;
 		res_om_1.featureData = fd_om_1;
-		res_om_1.returnCode = 0;
 
 		featureDataList.push_back(res_om_1);
 

@@ -73,7 +73,6 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		    this->imgProcResults_.meanOfROIPixels;
 		NFIQ2::QualityFeatureResult res_roi_pixel_area_mean;
 		res_roi_pixel_area_mean.featureData = fd_roi_pixel_area_mean;
-		res_roi_pixel_area_mean.returnCode = 0;
 
 		featureDataList.push_back(res_roi_pixel_area_mean);
 

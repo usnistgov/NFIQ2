@@ -52,7 +52,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	fd_mu.featureDataDouble = -1;
 	NFIQ2::QualityFeatureResult res_mu;
 	res_mu.featureData = fd_mu;
-	res_mu.returnCode = 0;
 
 	NFIQ2::QualityFeatureData fd_ocl;
 	fd_ocl.featureID = "FJFXPos_OCL_MinutiaeQuality_80";
@@ -60,15 +59,12 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	fd_ocl.featureDataDouble = -1;
 	NFIQ2::QualityFeatureResult res_ocl;
 	res_ocl.featureData = fd_ocl;
-	res_ocl.returnCode = 0;
 
 	if (!this->templateCouldBeExtracted_) {
 		res_mu.featureData.featureDataDouble = -1;
-		res_mu.returnCode = 0;
 		featureDataList.push_back(res_mu);
 
 		res_ocl.featureData.featureDataDouble = -1;
-		res_ocl.returnCode = 0;
 		featureDataList.push_back(res_ocl);
 
 		// Speed
@@ -113,7 +109,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		}
 
 		// return mu_2 quality value
-		res_mu.returnCode = 0;
 		// return relative value in relation to minutiae count
 		res_mu.featureData.featureDataDouble = (double)vecRanges.at(2) /
 		    (double)this->minutiaData_.size();
@@ -147,7 +142,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 			}
 		}
 
-		res_ocl.returnCode = 0;
 		// return relative value in relation to minutiae count
 		res_ocl.featureData.featureDataDouble = (double)vecRangesOCL.at(
 							    4) /

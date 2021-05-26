@@ -91,7 +91,6 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		fd_mmb.featureDataDouble = avg;
 		NFIQ2::QualityFeatureResult res_mmb;
 		res_mmb.featureData = fd_mmb;
-		res_mmb.returnCode = 0;
 
 		featureDataList.push_back(res_mmb);
 	} catch (const cv::Exception &e) {
@@ -128,7 +127,6 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		fd_mu.featureDataDouble = mu.val[0];
 		NFIQ2::QualityFeatureResult res_mu;
 		res_mu.featureData = fd_mu;
-		res_mu.returnCode = 0;
 
 		featureDataList.push_back(res_mu);
 	} catch (const cv::Exception &e) {

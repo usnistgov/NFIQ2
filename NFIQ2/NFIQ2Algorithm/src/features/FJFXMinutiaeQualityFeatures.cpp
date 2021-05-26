@@ -48,14 +48,12 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 	NFIQ2::QualityFeatureData fd_mu;
 	fd_mu.featureID = "FJFXPos_Mu_MinutiaeQuality_2";
-	fd_mu.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_mu.featureDataDouble = -1;
 	NFIQ2::QualityFeatureResult res_mu;
 	res_mu.featureData = fd_mu;
 
 	NFIQ2::QualityFeatureData fd_ocl;
 	fd_ocl.featureID = "FJFXPos_OCL_MinutiaeQuality_80";
-	fd_ocl.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_ocl.featureDataDouble = -1;
 	NFIQ2::QualityFeatureResult res_ocl;
 	res_ocl.featureData = fd_ocl;

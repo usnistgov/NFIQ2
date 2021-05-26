@@ -570,7 +570,6 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 		s << featurePrefix << i;
 
 		fd.featureID = s.str();
-		fd.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd.featureDataDouble = bins[i];
 
 		NFIQ2::QualityFeatureResult result;
@@ -591,12 +590,10 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	stdDevSs << featurePrefix << "StdDev";
 
 	meanFD.featureID = meanSs.str();
-	meanFD.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	meanFD.featureDataDouble = mean.val[0];
 	meanFR.featureData = meanFD;
 
 	stdDevFD.featureID = stdDevSs.str();
-	stdDevFD.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	stdDevFD.featureDataDouble = stdDev.val[0];
 	stdDevFR.featureData = stdDevFD;
 

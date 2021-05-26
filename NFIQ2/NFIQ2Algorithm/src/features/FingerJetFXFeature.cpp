@@ -108,7 +108,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	NFIQ2::QualityFeatureData fd_min_cnt;
 	fd_min_cnt.featureID = "FingerJetFX_MinutiaeCount";
-	fd_min_cnt.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_min_cnt.featureDataDouble = 0;
 	NFIQ2::QualityFeatureResult res_min_cnt;
 	res_min_cnt.featureData = fd_min_cnt;
@@ -116,8 +115,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	NFIQ2::QualityFeatureData fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200.featureID =
 	    "FingerJetFX_MinCount_COMMinRect200x200";
-	fd_min_cnt_comrect200x200.featureDataType =
-	    NFIQ2::e_QualityFeatureDataTypeDouble;
 	fd_min_cnt_comrect200x200.featureDataDouble = 0;
 	NFIQ2::QualityFeatureResult res_min_cnt_comrect200x200;
 	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;

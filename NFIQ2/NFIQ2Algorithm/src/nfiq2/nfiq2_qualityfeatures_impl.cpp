@@ -57,11 +57,9 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 
 	std::unordered_map<std::string, NFIQ2::QualityFeatureData> quality {};
 
-	auto counter = 0;
 	for (const auto &feature : features) {
-		for (auto &result : feature->getFeatures()) {
-			quality[qualityIdentifiers.at(counter)] = result;
-			counter++;
+		for (auto &qfd : feature->getFeatures()) {
+			quality[qfd.first] = qfd;
 		}
 	}
 
@@ -90,10 +88,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
 
-			std::vector<NFIQ2::QualityFeatureData> muFeatures =
+			std::unordered_map<std::string, double> muFeatures =
 			    muFeatureModule->getFeatures();
 
-			std::vector<NFIQ2::QualityFeatureData>::iterator
+			std::unordered_map<std::string, double>::iterator
 			    it_muFeatures;
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
@@ -150,10 +148,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				std::dynamic_pointer_cast<FingerJetFXFeature>(
 				    feature);
 
-			std::vector<NFIQ2::QualityFeatureData> fjfxFeatures =
+			std::unordered_map<std::string, double> fjfxFeatures =
 			    fjfxFeatureModule->getFeatures();
 
-			std::vector<NFIQ2::QualityFeatureData>::iterator
+			std::unordered_map<std::string, double>::iterator
 			    it_fjfxFeatures;
 
 			for (it_fjfxFeatures = fjfxFeatures.begin();

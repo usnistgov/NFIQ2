@@ -13,7 +13,7 @@ NFIQ2::QualityFeatures::BaseFeature::getSpeed() const
 	return this->speed;
 }
 
-std::vector<NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::BaseFeature::getFeatures() const
 {
 	return this->features;
@@ -28,7 +28,7 @@ NFIQ2::QualityFeatures::BaseFeature::setSpeed(
 
 void
 NFIQ2::QualityFeatures::BaseFeature::setFeatures(
-    const std::vector<NFIQ2::QualityFeatureData> &featureResult)
+    const std::unordered_map<std::string, double> &featureResult)
 {
 	this->features = featureResult;
 }

@@ -16,11 +16,11 @@ NFIQ2::QualityFeatures::MuFeature::~MuFeature() = default;
 const std::string NFIQ2::QualityFeatures::MuFeature::speedFeatureIDGroup =
     "Contrast";
 
-std::vector<NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureData> featureDataList;
+	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
@@ -88,7 +88,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		NFIQ2::QualityFeatureData fd_mmb;
 		fd_mmb = std::make_pair("MMB", avg);
 
-		featureDataList.push_back(fd_mmb);
+		featureDataList[fd_mmb.first] = fd_mmb.second;
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature Mu Mu Block (MMB): "
@@ -120,7 +120,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		NFIQ2::QualityFeatureData fd_mu;
 		fd_mu = std::make_pair("Mu", mu.val[0]);
 
-		featureDataList.push_back(fd_mu);
+		featureDataList[fd_mu.first] = fd_mu.second;
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature Sigma (stddev) and Mu (mean): "

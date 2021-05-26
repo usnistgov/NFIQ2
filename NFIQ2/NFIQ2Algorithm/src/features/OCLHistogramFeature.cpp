@@ -17,11 +17,11 @@ const std::string
     NFIQ2::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
 	"Orientation certainty";
 
-std::vector<NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureData> featureDataList;
+	std::unordered_map<std::string, double> featureDataList;
 
 	cv::Mat img;
 

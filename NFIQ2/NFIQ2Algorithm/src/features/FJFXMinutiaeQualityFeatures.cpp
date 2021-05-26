@@ -40,11 +40,11 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getTemplateStatus() const
 	return (this->templateCouldBeExtracted_);
 }
 
-std::vector<NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureData> featureDataList;
+	std::unordered_map<std::string, double> featureDataList;
 
 	NFIQ2::QualityFeatureData fd_mu;
 	fd_mu = std::make_pair("FJFXPos_Mu_MinutiaeQuality_2", -1);
@@ -54,10 +54,10 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 	if (!this->templateCouldBeExtracted_) {
 		fd_mu.second = -1;
-		featureDataList.push_back(fd_mu);
+		featureDataList[fd_mu.first] = fd_mu.second;
 
 		fd_ocl.second = -1;
-		featureDataList.push_back(fd_ocl);
+		featureDataList[fd_ocl.first] = fd_ocl.second;
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
@@ -104,7 +104,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		// return relative value in relation to minutiae count
 		fd_mu.second = (double)vecRanges.at(2) /
 		    (double)this->minutiaData_.size();
-		featureDataList.push_back(fd_mu);
+		featureDataList[fd_mu.first] = fd_mu.second;
 
 		// compute minutiae quality based on OCL feature computed at
 		// minutiae positions
@@ -137,7 +137,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		// return relative value in relation to minutiae count
 		fd_ocl.second = (double)vecRangesOCL.at(4) /
 		    (double)this->minutiaData_.size();
-		featureDataList.push_back(fd_ocl);
+		featureDataList[fd_ocl.first] = fd_ocl.second;
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;

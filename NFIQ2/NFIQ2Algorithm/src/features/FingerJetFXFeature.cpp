@@ -88,13 +88,13 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 	return (this->minutiaData_);
 }
 
-std::vector<NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->templateCouldBeExtracted_ = false;
 
-	std::vector<NFIQ2::QualityFeatureData> featureDataList;
+	std::unordered_map<std::string, double> featureDataList;
 
 	// make local copy of fingerprint image
 	// since FJFX somehow transforms the input image
@@ -206,10 +206,11 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	if (minCnt == 0) {
 		// return features
 		fd_min_cnt_comrect200x200.second = 0; // no minutiae found
-		featureDataList.push_back(fd_min_cnt_comrect200x200);
+		featureDataList[fd_min_cnt_comrect200x200.first] =
+		    fd_min_cnt_comrect200x200.second;
 
 		fd_min_cnt.second = 0; // no minutiae found
-		featureDataList.push_back(fd_min_cnt);
+		featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
@@ -252,10 +253,11 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	// return features
 	fd_min_cnt_comrect200x200.second = noOfMinInRect200x200;
-	featureDataList.push_back(fd_min_cnt_comrect200x200);
+	featureDataList[fd_min_cnt_comrect200x200.first] =
+	    fd_min_cnt_comrect200x200.second;
 
 	fd_min_cnt.second = minCnt;
-	featureDataList.push_back(fd_min_cnt);
+	featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;

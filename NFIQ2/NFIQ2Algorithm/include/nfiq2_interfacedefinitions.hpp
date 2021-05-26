@@ -108,19 +108,6 @@ typedef struct utility_sample_t {
 } UtilitySample;
 
 /**
- * This type represents the content of a quality feature exchange file
- */
-typedef struct quality_feature_sample_t {
-	/** The ID of the fingerprint image. */
-	NFIQ2::ImageID fingerprintImageID;
-	/**
-	 * The result of the quality feature computation
-	 * (value + return code).
-	 */
-	NFIQ2::QualityFeatureResult featureResult;
-} QualityFeatureSample;
-
-/**
  * This type represents the structure of a probe result for comparison scores
  * computation.
  */

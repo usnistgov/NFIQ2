@@ -41,12 +41,8 @@ using ActionableQualityFeedback = actionable_quality_feedback_t;
 
 /** This type represents the type of quality feature data. */
 typedef enum feature_data_type_e {
-	/** Type is not known. */
-	e_QualityFeatureDataTypeUnknown = 0,
 	/** Feature has floating point format. */
 	e_QualityFeatureDataTypeDouble = 1,
-	/** Feature has binary data format. */
-	e_QualityFeatureDataTypeBinary = 2
 } QualityFeatureDataType;
 
 /** This type represents the ID of an image */

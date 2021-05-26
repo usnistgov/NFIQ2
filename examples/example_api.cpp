@@ -181,13 +181,12 @@ main(int argc, char **argv)
 	std::vector<std::string> featureIDs =
 	    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
 
-	std::unordered_map<std::string, NFIQ2::QualityFeatureData>
-	    qualityFeatures = NFIQ2::QualityFeatures::getQualityFeatureData(
-		features);
+	std::unordered_map<std::string, double> qualityFeatures =
+	    NFIQ2::QualityFeatures::getQualityFeatureData(features);
 
-	for (const auto &i : featureIDs) {
-		std::cout << qualityFeatures.at(i).first << ": "
-			  << qualityFeatures.at(i).second << '\n';
+	for (const auto &featureID : featureIDs) {
+		std::cout << featureID << ": " << qualityFeatures.at(featureID)
+			  << '\n';
 	}
 
 	// Image Processed

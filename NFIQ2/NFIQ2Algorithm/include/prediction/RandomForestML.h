@@ -42,9 +42,7 @@ class RandomForestML {
 	 * Compute NFIQ2 quality score based on model and provided
 	 * QualityFeatureData.
 	 */
-	void evaluate(
-	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
-		&features,
+	void evaluate(const std::unordered_map<std::string, double> &features,
 	    double &qualityValue) const;
 
     private:

@@ -72,8 +72,7 @@ class Log {
 	void printScore(const std::string &name, uint8_t fingerCode,
 	    unsigned int score, const std::string &errmsg, const bool quantized,
 	    const bool resampled,
-	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
-		&features,
+	    const std::unordered_map<std::string, double> &features,
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
 		&speed,
 	    const std::unordered_map<std::string,

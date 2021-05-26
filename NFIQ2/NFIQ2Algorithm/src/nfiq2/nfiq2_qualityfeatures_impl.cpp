@@ -39,7 +39,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
 	return speedMap;
 }
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
     const NFIQ2::FingerprintImageData &rawImage)
 {
@@ -47,7 +47,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	    NFIQ2::QualityFeatures::computeQualityFeatures(rawImage));
 }
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
@@ -55,12 +55,11 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	std::vector<std::string> qualityIdentifiers =
 	    NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs();
 
-	std::unordered_map<std::string, NFIQ2::QualityFeatureData> quality {};
+	std::unordered_map<std::string, double> quality {};
 
 	for (const auto &feature : features) {
-		for (auto &qfd : feature->getFeatures()) {
-			quality[qfd.first] = qfd;
-		}
+		const auto moduleFeatures = feature->getFeatures();
+		quality.insert(moduleFeatures.cbegin(), moduleFeatures.cend());
 	}
 
 	return quality;

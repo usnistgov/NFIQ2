@@ -30,6 +30,274 @@ static const double FingerprintImageWithMinutiae { 5.0 };
 static const double SufficientFingerprintForeground { 50000.0 };
 }
 
+/** Identifiers of individual quality features. */
+namespace QualityFeatureIDs {
+/** Frequency of the sinusoid following the ridge-valley structure. */
+namespace FrequencyDomainAnalysis {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+static const std::string Bin0 { "FDA_Bin10_0" };
+/** Second of ten histogram bin boundaries. */
+static const std::string Bin1 { "FDA_Bin10_1" };
+/** Third of ten histogram bin boundaries. */
+static const std::string Bin2 { "FDA_Bin10_2" };
+/** Fourth of ten histogram bin boundaries. */
+static const std::string Bin3 { "FDA_Bin10_3" };
+/** Fifth of ten histogram bin boundaries. */
+static const std::string Bin4 { "FDA_Bin10_4" };
+/** Sixth of ten histogram bin boundaries. */
+static const std::string Bin5 { "FDA_Bin10_5" };
+/** Seventh of ten histogram bin boundaries. */
+static const std::string Bin6 { "FDA_Bin10_6" };
+/** Eighth of ten histogram bin boundaries. */
+static const std::string Bin7 { "FDA_Bin10_7" };
+/** Ninth of ten histogram bin boundaries. */
+static const std::string Bin8 { "FDA_Bin10_8" };
+/** Tenth of ten histogram bin boundaries. */
+static const std::string Bin9 { "FDA_Bin10_9" };
+}
+
+/** Mean of local quality value. */
+static const std::string Mean { "FDA_Bin10_Mean" };
+/** Standard deviation of local quality values. */
+static const std::string StdDev { "FDA_Bin10_StdDev" };
+}
+
+/**
+ * Measures relative to minutiae detected within the image using
+ * the integrated feature extractor, FingerJet FX OSE.
+ */
+namespace Minutiae {
+/** Number of minutiae in the image. */
+static const std::string Count { "FingerJetFX_MinutiaeCount" };
+
+/**
+ * Number of minutiae lying in a 200x200 pixel rectangle
+ * centered at the center of mass of the locations of all
+ * detected minutia.
+ */
+static const std::string CountCOM { "FingerJetFX_MinCount_COMMinRect200x200" };
+
+/**
+ * Percentage of minutiae whose quality value, as determined by
+ * Grayscale::Mean of a 32x32 pixel region centered on the
+ * minutiae, is between 0-0.5.
+ *
+ * @see Grayscale::Mean
+ */
+static const std::string QualityMu2 { "FJFXPos_Mu_MinutiaeQuality_2" };
+
+/**
+ * Percentage of minutiae whose quality value, as determined by
+ * the Orientation Certainty Level of a 32x32 pixel region
+ * centered on the minutiae, is above 80.
+ *
+ * @see OrientationCertainty
+ */
+static const std::string QualityOCL80 { "FJFXPos_OCL_MinutiaeQuality_80" };
+}
+
+/** Measures based on the foreground area of the image. */
+namespace RegionOfInterest {
+/**
+ * Mean grayscale value of the number of 32x32 pixel regions
+ * having at least 1 pixel in the ROI.
+ */
+static const std::string Mean { "ImgProcROIArea_Mean" };
+
+/**
+ * Sum of coherence values over all 16x16 pixel regions within
+ * the ROI.
+ */
+static const std::string CoherenceSum {
+	"OrientationMap_ROIFilter_CoherenceSum"
+};
+
+/**
+ * Average of coherence values over all 16x16 pixel regions
+ * within the ROI.
+ *
+ * @details
+ * This is computed as RegionOfInterest::CoherenceSum / (number
+ * of 16x16 pixel regions that contain at least 1 pixel within
+ * the ROI).
+ *
+ * @see CoherenceSum
+ */
+static const std::string CoherenceMean {
+	"OrientationMap_ROIFilter_CoherenceRel"
+};
+}
+
+/** Measure of the clarity of ridge and valleys. */
+namespace LocalClarity {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+static const std::string Bin0 { "LCS_Bin10_0" };
+/** Second of ten histogram bin boundaries. */
+static const std::string Bin1 { "LCS_Bin10_1" };
+/** Third of ten histogram bin boundaries. */
+static const std::string Bin2 { "LCS_Bin10_2" };
+/** Fourth of ten histogram bin boundaries. */
+static const std::string Bin3 { "LCS_Bin10_3" };
+/** Fifth of ten histogram bin boundaries. */
+static const std::string Bin4 { "LCS_Bin10_4" };
+/** Sixth of ten histogram bin boundaries. */
+static const std::string Bin5 { "LCS_Bin10_5" };
+/** Seventh of ten histogram bin boundaries. */
+static const std::string Bin6 { "LCS_Bin10_6" };
+/** Eighth of ten histogram bin boundaries. */
+static const std::string Bin7 { "LCS_Bin10_7" };
+/** Ninth of ten histogram bin boundaries. */
+static const std::string Bin8 { "LCS_Bin10_8" };
+/** Tenth of ten histogram bin boundaries. */
+static const std::string Bin9 { "LCS_Bin10_9" };
+}
+
+/** Mean of local quality value. */
+static const std::string Mean { "LCS_Bin10_Mean" };
+/** Standard deviation of local quality values. */
+static const std::string StdDev { "LCS_Bin10_StdDev" };
+}
+
+/** Measure of the gray levels of the image. */
+namespace Grayscale {
+/** Arithmetic mean of the image. */
+static const std::string Mean { "Mu" };
+/** Arithmetic mean of per-block means of the image. */
+static const std::string MeanBlock { "MMB" };
+}
+
+/**
+ * Measure of the strength of the energy concentration along the
+ * dominant ridge flow orientation.
+ */
+namespace OrientationCertainty {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+static const std::string Bin0 { "OCL_Bin10_0" };
+/** Second of ten histogram bin boundaries. */
+static const std::string Bin1 { "OCL_Bin10_1" };
+/** Third of ten histogram bin boundaries. */
+static const std::string Bin2 { "OCL_Bin10_2" };
+/** Fourth of ten histogram bin boundaries. */
+static const std::string Bin3 { "OCL_Bin10_3" };
+/** Fifth of ten histogram bin boundaries. */
+static const std::string Bin4 { "OCL_Bin10_4" };
+/** Sixth of ten histogram bin boundaries. */
+static const std::string Bin5 { "OCL_Bin10_5" };
+/** Seventh of ten histogram bin boundaries. */
+static const std::string Bin6 { "OCL_Bin10_6" };
+/** Eighth of ten histogram bin boundaries. */
+static const std::string Bin7 { "OCL_Bin10_7" };
+/** Ninth of ten histogram bin boundaries. */
+static const std::string Bin8 { "OCL_Bin10_8" };
+/** Tenth of ten histogram bin boundaries. */
+static const std::string Bin9 { "OCL_Bin10_9" };
+}
+
+/** Mean of local quality value. */
+static const std::string Mean { "OCL_Bin10_Mean" };
+/** Standard deviation of local quality values. */
+static const std::string StdDev { "OCL_Bin10_StdDev" };
+}
+
+/**
+ * Measure of the ridge flow continuity, based on the absolute
+ * orientation difference between a block in its 8-neighborhood.
+ */
+namespace OrientationFlow {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+static const std::string Bin0 { "OF_Bin10_0" };
+/** Second of ten histogram bin boundaries. */
+static const std::string Bin1 { "OF_Bin10_1" };
+/** Third of ten histogram bin boundaries. */
+static const std::string Bin2 { "OF_Bin10_2" };
+/** Fourth of ten histogram bin boundaries. */
+static const std::string Bin3 { "OF_Bin10_3" };
+/** Fifth of ten histogram bin boundaries. */
+static const std::string Bin4 { "OF_Bin10_4" };
+/** Sixth of ten histogram bin boundaries. */
+static const std::string Bin5 { "OF_Bin10_5" };
+/** Seventh of ten histogram bin boundaries. */
+static const std::string Bin6 { "OF_Bin10_6" };
+/** Eighth of ten histogram bin boundaries. */
+static const std::string Bin7 { "OF_Bin10_7" };
+/** Ninth of ten histogram bin boundaries. */
+static const std::string Bin8 { "OF_Bin10_8" };
+/** Tenth of ten histogram bin boundaries. */
+static const std::string Bin9 { "OF_Bin10_9" };
+}
+
+/** Mean of local quality value. */
+static const std::string Mean { "OF_Bin10_Mean" };
+/** Standard deviation of local quality values. */
+static const std::string StdDev { "OF_Bin10_StdDev" };
+}
+
+/** Measure of the consistency of ridge and valley widths. */
+namespace RidgeValleyUniformity {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+static const std::string Bin0 { "RVUP_Bin10_0" };
+/** Second of ten histogram bin boundaries. */
+static const std::string Bin1 { "RVUP_Bin10_1" };
+/** Third of ten histogram bin boundaries. */
+static const std::string Bin2 { "RVUP_Bin10_2" };
+/** Fourth of ten histogram bin boundaries. */
+static const std::string Bin3 { "RVUP_Bin10_3" };
+/** Fifth of ten histogram bin boundaries. */
+static const std::string Bin4 { "RVUP_Bin10_4" };
+/** Sixth of ten histogram bin boundaries. */
+static const std::string Bin5 { "RVUP_Bin10_5" };
+/** Seventh of ten histogram bin boundaries. */
+static const std::string Bin6 { "RVUP_Bin10_6" };
+/** Eighth of ten histogram bin boundaries. */
+static const std::string Bin7 { "RVUP_Bin10_7" };
+/** Ninth of ten histogram bin boundaries. */
+static const std::string Bin8 { "RVUP_Bin10_8" };
+/** Tenth of ten histogram bin boundaries. */
+static const std::string Bin9 { "RVUP_Bin10_9" };
+}
+
+/** Mean of local quality value. */
+static const std::string Mean { "RVUP_Bin10_Mean" };
+/** Standard deviation of local quality values. */
+static const std::string StdDev { "RVUP_Bin10_StdDev" };
+}
+}
+
 /** ActionableQualityFeedback structure. */
 struct actionable_quality_feedback_t {
 	/** Name of the actionable quality metric. */

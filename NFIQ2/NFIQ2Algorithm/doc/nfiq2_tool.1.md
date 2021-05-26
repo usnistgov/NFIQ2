@@ -123,9 +123,11 @@ nfiq2 -j 8 recordStore1
 VERSION
 =======
 
-This man page is current for version 2.1 of **nfiq2**
+This man page is current for version 2.1 of **nfiq2**.
 
 HISTORY
 =======
 
-| First released August 2020 by NIST.
+The NFIQ 2 algorithm was first released in April 2016 by NIST, in collaboration with Germany's Federal Office for Information Security and Federal Criminal Police Office, as well as research and development entities MITRE, Fraunhofer IGD, Hochschule Darmstadt, and Secunet.
+
+This revision of the NFIQ 2 command line interface was first released by NIST in August 2020.

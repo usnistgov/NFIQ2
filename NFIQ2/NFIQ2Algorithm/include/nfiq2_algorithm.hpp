@@ -113,8 +113,7 @@ class Algorithm {
 	 * Called before random forest parameters were loaded.
 	 */
 	unsigned int computeQualityScore(
-	    const std::unordered_map<std::string, NFIQ2::QualityFeatureData>
-		&features) const;
+	    const std::unordered_map<std::string, double> &features) const;
 
 	/**
 	 * @brief

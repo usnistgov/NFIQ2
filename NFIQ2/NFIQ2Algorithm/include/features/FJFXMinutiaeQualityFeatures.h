@@ -46,7 +46,7 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
 
     private:
-	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};

@@ -45,7 +45,7 @@ void
 NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     unsigned int score, const std::string &errmsg, const bool quantized,
     const bool resampled,
-    const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features,
+    const std::unordered_map<std::string, double> &features,
     const std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed> &speed,
     const std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
 	&actionable) const
@@ -83,8 +83,8 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 				*(this->out) << ",";
 			}
 
-			*(this->out) << NFIQ2UI::formatDouble(
-			    features.at(i).featureDataDouble, 5);
+			*(this->out)
+			    << NFIQ2UI::formatDouble(features.at(i), 5);
 		}
 		if (this->speed) {
 			*(this->out) << ",";

@@ -54,7 +54,7 @@ class QualityMapFeatures : public BaseFeature {
 	    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
     private:
-	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	ImgProcROIFeature::ImgProcROIResults imgProcResults_ {};

@@ -39,11 +39,11 @@ NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 const std::string NFIQ2::QualityFeatures::LCSFeature::speedFeatureIDGroup =
     "Local clarity";
 
-std::vector<NFIQ2::QualityFeatureResult>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
+	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {

@@ -529,7 +529,7 @@ NFIQ2::QualityFeatures::computeNumericalGradients(
 
 void
 NFIQ2::QualityFeatures::addHistogramFeatures(
-    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
+    std::unordered_map<std::string, double> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount)
 {
@@ -564,41 +564,32 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	}
 
 	for (int i = 0; i < binCount; i++) {
-		NFIQ2::QualityFeatureData fd;
+		std::pair<std::string, double> fd;
 
 		std::stringstream s;
 		s << featurePrefix << i;
 
-		fd.featureID = s.str();
-		fd.featureDataDouble = bins[i];
+		fd = std::make_pair(s.str(), bins[i]);
 
-		NFIQ2::QualityFeatureResult result;
-		result.featureData = fd;
-
-		featureDataList.push_back(result);
+		featureDataList[fd.first] = fd.second;
 	}
 
 	cv::Mat dataMat(dataVector);
 	cv::Scalar mean, stdDev;
 	cv::meanStdDev(dataMat, mean, stdDev);
 
-	NFIQ2::QualityFeatureData meanFD, stdDevFD;
-	NFIQ2::QualityFeatureResult meanFR, stdDevFR;
+	std::pair<std::string, double> meanFD, stdDevFD;
 	std::stringstream meanSs, stdDevSs;
 
 	meanSs << featurePrefix << "Mean";
 	stdDevSs << featurePrefix << "StdDev";
 
-	meanFD.featureID = meanSs.str();
-	meanFD.featureDataDouble = mean.val[0];
-	meanFR.featureData = meanFD;
+	meanFD = std::make_pair(meanSs.str(), mean.val[0]);
 
-	stdDevFD.featureID = stdDevSs.str();
-	stdDevFD.featureDataDouble = stdDev.val[0];
-	stdDevFR.featureData = stdDevFD;
+	stdDevFD = std::make_pair(stdDevSs.str(), stdDev.val[0]);
 
-	featureDataList.push_back(meanFR);
-	featureDataList.push_back(stdDevFR);
+	featureDataList[meanFD.first] = meanFD.second;
+	featureDataList[stdDevFD.first] = stdDevFD.second;
 
 	if (bins) {
 		delete[] bins;

@@ -39,7 +39,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
 	return speedMap;
 }
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
     const NFIQ2::FingerprintImageData &rawImage)
 {
@@ -47,7 +47,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	    NFIQ2::QualityFeatures::computeQualityFeatures(rawImage));
 }
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureData>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
@@ -55,15 +55,11 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	std::vector<std::string> qualityIdentifiers =
 	    NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs();
 
-	std::unordered_map<std::string, NFIQ2::QualityFeatureData> quality {};
+	std::unordered_map<std::string, double> quality {};
 
-	auto counter = 0;
 	for (const auto &feature : features) {
-		for (auto &result : feature->getFeatures()) {
-			quality[qualityIdentifiers.at(counter)] =
-			    result.featureData;
-			counter++;
-		}
+		const auto moduleFeatures = feature->getFeatures();
+		quality.insert(moduleFeatures.cbegin(), moduleFeatures.cend());
 	}
 
 	return quality;
@@ -91,10 +87,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
 
-			std::vector<NFIQ2::QualityFeatureResult> muFeatures =
+			std::unordered_map<std::string, double> muFeatures =
 			    muFeatureModule->getFeatures();
 
-			std::vector<NFIQ2::QualityFeatureResult>::iterator
+			std::unordered_map<std::string, double>::iterator
 			    it_muFeatures;
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
@@ -117,12 +113,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (it_muFeatures = muFeatures.begin();
 			     it_muFeatures != muFeatures.end();
 			     ++it_muFeatures) {
-				if (it_muFeatures->featureData.featureID
-					.compare("Mu") == 0) {
+				if (it_muFeatures->first.compare("Mu") == 0) {
 					NFIQ2::ActionableQualityFeedback fb;
 					fb.actionableQualityValue =
-					    it_muFeatures->featureData
-						.featureDataDouble;
+					    it_muFeatures->second;
 					fb.identifier = NFIQ2::
 					    ActionableQualityFeedbackIdentifier::
 						EmptyImageOrContrastTooLow;
@@ -153,24 +147,22 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				std::dynamic_pointer_cast<FingerJetFXFeature>(
 				    feature);
 
-			std::vector<NFIQ2::QualityFeatureResult> fjfxFeatures =
+			std::unordered_map<std::string, double> fjfxFeatures =
 			    fjfxFeatureModule->getFeatures();
 
-			std::vector<NFIQ2::QualityFeatureResult>::iterator
+			std::unordered_map<std::string, double>::iterator
 			    it_fjfxFeatures;
 
 			for (it_fjfxFeatures = fjfxFeatures.begin();
 			     it_fjfxFeatures != fjfxFeatures.end();
 			     ++it_fjfxFeatures) {
-				if (it_fjfxFeatures->featureData.featureID
-					.compare("FingerJetFX_MinutiaeCount") ==
-				    0) {
+				if (it_fjfxFeatures->first.compare(
+					"FingerJetFX_MinutiaeCount") == 0) {
 					// return informative feature about
 					// number of minutiae
 					NFIQ2::ActionableQualityFeedback fb;
 					fb.actionableQualityValue =
-					    it_fjfxFeatures->featureData
-						.featureDataDouble;
+					    it_fjfxFeatures->second;
 					fb.identifier = NFIQ2::
 					    ActionableQualityFeedbackIdentifier::
 						FingerprintImageWithMinutiae;

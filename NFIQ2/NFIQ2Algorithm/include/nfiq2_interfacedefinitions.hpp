@@ -49,16 +49,6 @@ typedef struct image_id_t {
 	uint8_t acquisitionNumber;
 } ImageID;
 
-/** This type represents a structure for quality feature data. */
-typedef struct feature_data_t {
-	/** The unique ID of the feature data. */
-	std::string featureID;
-	/**
-	 * The feature value in floating point format
-	 */
-	double featureDataDouble;
-} QualityFeatureData;
-
 /** This type represents a structure for timing information of features. */
 typedef struct feature_speed_t {
 	/** The name of the feature group. */
@@ -71,14 +61,6 @@ typedef struct feature_speed_t {
 	/** The speed of feature data computation in milliseconds. */
 	double featureSpeed;
 } QualityFeatureSpeed;
-
-/**
- * This type represents the result of a quality feature extraction
- */
-typedef struct quality_feature_result_t {
-	/** The quality feature data. */
-	NFIQ2::QualityFeatureData featureData;
-} QualityFeatureResult;
 
 /** This type represents the result of a comparison scores computation. */
 typedef struct comparison_result_t {
@@ -112,19 +94,6 @@ typedef struct utility_sample_t {
 	/** The result of the utility computation (value + return code). */
 	NFIQ2::UtilityResult utilityResult;
 } UtilitySample;
-
-/**
- * This type represents the content of a quality feature exchange file
- */
-typedef struct quality_feature_sample_t {
-	/** The ID of the fingerprint image. */
-	NFIQ2::ImageID fingerprintImageID;
-	/**
-	 * The result of the quality feature computation
-	 * (value + return code).
-	 */
-	NFIQ2::QualityFeatureResult featureResult;
-} QualityFeatureSample;
 
 /**
  * This type represents the structure of a probe result for comparison scores

@@ -30,8 +30,7 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 
 	FJFXMinutiaeQualityFeature(
 	    const NFIQ2::FingerprintImageData &fingerprintImage,
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-	    const bool templateCouldBeExtracted);
+	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
 
 	virtual ~FJFXMinutiaeQualityFeature();
 
@@ -46,14 +45,11 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 	 */
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
 
-	bool getTemplateStatus() const;
-
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
-	bool templateCouldBeExtracted_ { false };
 	std::vector<MinutiaData> computeMuMinQuality(
 	    int bs, const NFIQ2::FingerprintImageData &fingerprintImage);
 

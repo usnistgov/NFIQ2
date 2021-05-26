@@ -66,7 +66,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		// return features based on coherence values of orientation map
 		NFIQ2::QualityFeatureData fd_om_2;
 		fd_om_2.featureID = "OrientationMap_ROIFilter_CoherenceRel";
-		fd_om_2.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_om_2.featureDataDouble = coherenceRelFilter;
 		NFIQ2::QualityFeatureResult res_om_2;
 		res_om_2.featureData = fd_om_2;
@@ -75,7 +74,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 
 		NFIQ2::QualityFeatureData fd_om_1;
 		fd_om_1.featureID = "OrientationMap_ROIFilter_CoherenceSum";
-		fd_om_1.featureDataType = NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_om_1.featureDataDouble = coherenceSumFilter;
 		NFIQ2::QualityFeatureResult res_om_1;
 		res_om_1.featureData = fd_om_1;

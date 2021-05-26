@@ -39,12 +39,6 @@ struct actionable_quality_feedback_t {
 };
 using ActionableQualityFeedback = actionable_quality_feedback_t;
 
-/** This type represents the type of quality feature data. */
-typedef enum feature_data_type_e {
-	/** Feature has floating point format. */
-	e_QualityFeatureDataTypeDouble = 1,
-} QualityFeatureDataType;
-
 /** This type represents the ID of an image */
 typedef struct image_id_t {
 	/** User/subject ID of image. */
@@ -59,18 +53,10 @@ typedef struct image_id_t {
 typedef struct feature_data_t {
 	/** The unique ID of the feature data. */
 	std::string featureID;
-	/** The type of feature data. */
-	NFIQ2::QualityFeatureDataType featureDataType;
 	/**
 	 * The feature value in floating point format
-	 * (if type is e_QualityFeatureDataTypeDouble).
 	 */
 	double featureDataDouble;
-	/**
-	 * The feature value in binary data format
-	 * (if type is e_QualityFeatureDataTypeBinary).
-	 */
-	NFIQ2::Data featureDataBinary;
 } QualityFeatureData;
 
 /** This type represents a structure for timing information of features. */

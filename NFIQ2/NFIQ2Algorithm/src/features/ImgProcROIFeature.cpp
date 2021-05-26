@@ -67,8 +67,6 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 		NFIQ2::QualityFeatureData fd_roi_pixel_area_mean;
 		fd_roi_pixel_area_mean.featureID = "ImgProcROIArea_Mean";
-		fd_roi_pixel_area_mean.featureDataType =
-		    NFIQ2::e_QualityFeatureDataTypeDouble;
 		fd_roi_pixel_area_mean.featureDataDouble =
 		    this->imgProcResults_.meanOfROIPixels;
 		NFIQ2::QualityFeatureResult res_roi_pixel_area_mean;

@@ -47,22 +47,20 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	NFIQ2::QualityFeatureData fd_mu;
-	fd_mu.featureID = "FJFXPos_Mu_MinutiaeQuality_2";
-	fd_mu.featureDataDouble = -1;
+	fd_mu = std::make_pair("FJFXPos_Mu_MinutiaeQuality_2", -1);
 	NFIQ2::QualityFeatureResult res_mu;
 	res_mu.featureData = fd_mu;
 
 	NFIQ2::QualityFeatureData fd_ocl;
-	fd_ocl.featureID = "FJFXPos_OCL_MinutiaeQuality_80";
-	fd_ocl.featureDataDouble = -1;
+	fd_ocl = std::make_pair("FJFXPos_OCL_MinutiaeQuality_80", -1);
 	NFIQ2::QualityFeatureResult res_ocl;
 	res_ocl.featureData = fd_ocl;
 
 	if (!this->templateCouldBeExtracted_) {
-		res_mu.featureData.featureDataDouble = -1;
+		res_mu.featureData.second = -1;
 		featureDataList.push_back(res_mu);
 
-		res_ocl.featureData.featureDataDouble = -1;
+		res_ocl.featureData.second = -1;
 		featureDataList.push_back(res_ocl);
 
 		// Speed
@@ -108,7 +106,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 		// return mu_2 quality value
 		// return relative value in relation to minutiae count
-		res_mu.featureData.featureDataDouble = (double)vecRanges.at(2) /
+		res_mu.featureData.second = (double)vecRanges.at(2) /
 		    (double)this->minutiaData_.size();
 		featureDataList.push_back(res_mu);
 
@@ -141,8 +139,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		}
 
 		// return relative value in relation to minutiae count
-		res_ocl.featureData.featureDataDouble = (double)vecRangesOCL.at(
-							    4) /
+		res_ocl.featureData.second = (double)vecRangesOCL.at(4) /
 		    (double)this->minutiaData_.size();
 		featureDataList.push_back(res_ocl);
 

@@ -569,8 +569,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 		std::stringstream s;
 		s << featurePrefix << i;
 
-		fd.featureID = s.str();
-		fd.featureDataDouble = bins[i];
+		fd = std::make_pair(s.str(), bins[i]);
 
 		NFIQ2::QualityFeatureResult result;
 		result.featureData = fd;
@@ -589,12 +588,10 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	meanSs << featurePrefix << "Mean";
 	stdDevSs << featurePrefix << "StdDev";
 
-	meanFD.featureID = meanSs.str();
-	meanFD.featureDataDouble = mean.val[0];
+	meanFD = std::make_pair(meanSs.str(), mean.val[0]);
 	meanFR.featureData = meanFD;
 
-	stdDevFD.featureID = stdDevSs.str();
-	stdDevFD.featureDataDouble = stdDev.val[0];
+	stdDevFD = std::make_pair(stdDevSs.str(), stdDev.val[0]);
 	stdDevFR.featureData = stdDevFD;
 
 	featureDataList.push_back(meanFR);

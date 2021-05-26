@@ -117,12 +117,11 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (it_muFeatures = muFeatures.begin();
 			     it_muFeatures != muFeatures.end();
 			     ++it_muFeatures) {
-				if (it_muFeatures->featureData.featureID
-					.compare("Mu") == 0) {
+				if (it_muFeatures->featureData.first.compare(
+					"Mu") == 0) {
 					NFIQ2::ActionableQualityFeedback fb;
 					fb.actionableQualityValue =
-					    it_muFeatures->featureData
-						.featureDataDouble;
+					    it_muFeatures->featureData.second;
 					fb.identifier = NFIQ2::
 					    ActionableQualityFeedbackIdentifier::
 						EmptyImageOrContrastTooLow;
@@ -162,15 +161,13 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (it_fjfxFeatures = fjfxFeatures.begin();
 			     it_fjfxFeatures != fjfxFeatures.end();
 			     ++it_fjfxFeatures) {
-				if (it_fjfxFeatures->featureData.featureID
-					.compare("FingerJetFX_MinutiaeCount") ==
-				    0) {
+				if (it_fjfxFeatures->featureData.first.compare(
+					"FingerJetFX_MinutiaeCount") == 0) {
 					// return informative feature about
 					// number of minutiae
 					NFIQ2::ActionableQualityFeedback fb;
 					fb.actionableQualityValue =
-					    it_fjfxFeatures->featureData
-						.featureDataDouble;
+					    it_fjfxFeatures->featureData.second;
 					fb.identifier = NFIQ2::
 					    ActionableQualityFeedbackIdentifier::
 						FingerprintImageWithMinutiae;

@@ -66,9 +66,8 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		    img, 16); // block size = 16x16 pixels
 
 		NFIQ2::QualityFeatureData fd_roi_pixel_area_mean;
-		fd_roi_pixel_area_mean.featureID = "ImgProcROIArea_Mean";
-		fd_roi_pixel_area_mean.featureDataDouble =
-		    this->imgProcResults_.meanOfROIPixels;
+		fd_roi_pixel_area_mean = std::make_pair("ImgProcROIArea_Mean",
+		    this->imgProcResults_.meanOfROIPixels);
 		NFIQ2::QualityFeatureResult res_roi_pixel_area_mean;
 		res_roi_pixel_area_mean.featureData = fd_roi_pixel_area_mean;
 

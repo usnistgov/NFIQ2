@@ -83,8 +83,8 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 				*(this->out) << ",";
 			}
 
-			*(this->out) << NFIQ2UI::formatDouble(
-			    features.at(i).featureDataDouble, 5);
+			*(this->out)
+			    << NFIQ2UI::formatDouble(features.at(i).second, 5);
 		}
 		if (this->speed) {
 			*(this->out) << ",";

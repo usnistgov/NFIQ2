@@ -4,6 +4,7 @@
 #include <nfiq2_data.hpp>
 
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace NFIQ2 {
@@ -49,15 +50,8 @@ typedef struct image_id_t {
 	uint8_t acquisitionNumber;
 } ImageID;
 
-/** This type represents a structure for quality feature data. */
-typedef struct feature_data_t {
-	/** The unique ID of the feature data. */
-	std::string featureID;
-	/**
-	 * The feature value in floating point format
-	 */
-	double featureDataDouble;
-} QualityFeatureData;
+/** Convenience type to store quality feature data. */
+using QualityFeatureData = std::pair<std::string, double>;
 
 /** This type represents a structure for timing information of features. */
 typedef struct feature_speed_t {

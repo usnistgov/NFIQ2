@@ -86,8 +86,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 		// return MMB value
 		NFIQ2::QualityFeatureData fd_mmb;
-		fd_mmb.featureID = "MMB";
-		fd_mmb.featureDataDouble = avg;
+		fd_mmb = std::make_pair("MMB", avg);
 		NFIQ2::QualityFeatureResult res_mmb;
 		res_mmb.featureData = fd_mmb;
 
@@ -121,8 +120,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 		// return mu value
 		NFIQ2::QualityFeatureData fd_mu;
-		fd_mu.featureID = "Mu";
-		fd_mu.featureDataDouble = mu.val[0];
+		fd_mu = std::make_pair("Mu", mu.val[0]);
 		NFIQ2::QualityFeatureResult res_mu;
 		res_mu.featureData = fd_mu;
 

@@ -178,8 +178,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		unsigned int counterFeatures = 0;
 		for (it_feat = featureVector.begin();
 		     it_feat != featureVector.end(); it_feat++) {
-			sample_data.at<float>(0, counterFeatures) =
-			    (float)it_feat->featureDataDouble;
+			sample_data.at<float>(
+			    0, counterFeatures) = (float)it_feat->second;
 			counterFeatures++;
 		}
 

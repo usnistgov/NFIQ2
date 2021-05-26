@@ -107,15 +107,13 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    fingerprintImage.size());
 
 	NFIQ2::QualityFeatureData fd_min_cnt;
-	fd_min_cnt.featureID = "FingerJetFX_MinutiaeCount";
-	fd_min_cnt.featureDataDouble = 0;
+	fd_min_cnt = std::make_pair("FingerJetFX_MinutiaeCount", 0);
 	NFIQ2::QualityFeatureResult res_min_cnt;
 	res_min_cnt.featureData = fd_min_cnt;
 
 	NFIQ2::QualityFeatureData fd_min_cnt_comrect200x200;
-	fd_min_cnt_comrect200x200.featureID =
-	    "FingerJetFX_MinCount_COMMinRect200x200";
-	fd_min_cnt_comrect200x200.featureDataDouble = 0;
+	fd_min_cnt_comrect200x200 = std::make_pair(
+	    "FingerJetFX_MinCount_COMMinRect200x200", 0);
 	NFIQ2::QualityFeatureResult res_min_cnt_comrect200x200;
 	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
 
@@ -211,13 +209,12 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	if (minCnt == 0) {
 		// return features
-		fd_min_cnt_comrect200x200.featureDataDouble =
-		    0; // no minutiae found
+		fd_min_cnt_comrect200x200.second = 0; // no minutiae found
 		res_min_cnt_comrect200x200.featureData =
 		    fd_min_cnt_comrect200x200;
 		featureDataList.push_back(res_min_cnt_comrect200x200);
 
-		fd_min_cnt.featureDataDouble = 0; // no minutiae found
+		fd_min_cnt.second = 0; // no minutiae found
 		res_min_cnt.featureData = fd_min_cnt;
 		featureDataList.push_back(res_min_cnt);
 
@@ -261,11 +258,11 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	}
 
 	// return features
-	fd_min_cnt_comrect200x200.featureDataDouble = noOfMinInRect200x200;
+	fd_min_cnt_comrect200x200.second = noOfMinInRect200x200;
 	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
 	featureDataList.push_back(res_min_cnt_comrect200x200);
 
-	fd_min_cnt.featureDataDouble = minCnt;
+	fd_min_cnt.second = minCnt;
 	res_min_cnt.featureData = fd_min_cnt;
 	featureDataList.push_back(res_min_cnt);
 

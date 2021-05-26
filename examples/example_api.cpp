@@ -186,8 +186,8 @@ main(int argc, char **argv)
 		features);
 
 	for (const auto &i : featureIDs) {
-		std::cout << qualityFeatures.at(i).featureID << ": "
-			  << qualityFeatures.at(i).featureDataDouble << '\n';
+		std::cout << qualityFeatures.at(i).first << ": "
+			  << qualityFeatures.at(i).second << '\n';
 	}
 
 	// Image Processed

@@ -4,6 +4,8 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
 
+#include <unordered_map>
+
 namespace NFIQ2 {
 
 namespace QualityFeatures {
@@ -46,7 +48,7 @@ void computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
 
 void addHistogramFeatures(
-    std::vector<NFIQ2::QualityFeatureResult> &featureDataList,
+    std::unordered_map<std::string, double> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount);
 void addSamplingFeatureNames(

@@ -124,7 +124,7 @@ NFIQ2::Prediction::RandomForestML::initModule(
 
 void
 NFIQ2::Prediction::RandomForestML::evaluate(
-    const std::unordered_map<std::string, NFIQ2::QualityFeatureData> &features,
+    const std::unordered_map<std::string, double> &features,
     double &qualityValue) const
 {
 	/**
@@ -157,11 +157,6 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		"RVUP_Bin10_5", "RVUP_Bin10_6", "RVUP_Bin10_7", "RVUP_Bin10_8",
 		"RVUP_Bin10_9", "RVUP_Bin10_Mean", "RVUP_Bin10_StdDev" };
 
-	std::vector<NFIQ2::QualityFeatureData> featureVector {};
-	for (const auto &i : rfFeatureOrder) {
-		featureVector.push_back(features.at(i));
-	}
-
 	try {
 		if (m_pTrainedRF.empty() || !m_pTrainedRF->isTrained() ||
 		    !m_pTrainedRF->isClassifier()) {
@@ -173,14 +168,11 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 
 		// copy data to structure
 		cv::Mat sample_data = cv::Mat(
-		    1, featureVector.size(), CV_32FC1);
-		std::vector<NFIQ2::QualityFeatureData>::const_iterator it_feat;
-		unsigned int counterFeatures = 0;
-		for (it_feat = featureVector.begin();
-		     it_feat != featureVector.end(); it_feat++) {
-			sample_data.at<float>(0, counterFeatures) =
-			    (float)it_feat->featureDataDouble;
-			counterFeatures++;
+		    1, rfFeatureOrder.size(), CV_32FC1);
+
+		for (unsigned int i { 0 }; i < rfFeatureOrder.size(); ++i) {
+			sample_data.at<float>(0, i) = features.at(
+			    rfFeatureOrder[i]);
 		}
 
 		// returns probability that between 0 and 1 that result belongs
@@ -192,6 +184,9 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::MachineLearningError, e.msg);
+	} catch (const std::out_of_range &e) {
+		throw Exception(
+		    NFIQ2::ErrorCode::FeatureCalculationError, e.what());
 	}
 }
 

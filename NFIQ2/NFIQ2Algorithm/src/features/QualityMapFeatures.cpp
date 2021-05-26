@@ -20,11 +20,11 @@ const std::string
     NFIQ2::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
 	"Quality map";
 
-std::vector<NFIQ2::QualityFeatureResult>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
+	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
@@ -64,21 +64,19 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		    this->imgProcResults_);
 
 		// return features based on coherence values of orientation map
-		NFIQ2::QualityFeatureData fd_om_2;
-		fd_om_2.featureID = "OrientationMap_ROIFilter_CoherenceRel";
-		fd_om_2.featureDataDouble = coherenceRelFilter;
-		NFIQ2::QualityFeatureResult res_om_2;
-		res_om_2.featureData = fd_om_2;
+		std::pair<std::string, double> fd_om_2;
+		fd_om_2 = std::make_pair(
+		    "OrientationMap_ROIFilter_CoherenceRel",
+		    coherenceRelFilter);
 
-		featureDataList.push_back(res_om_2);
+		featureDataList[fd_om_2.first] = fd_om_2.second;
 
-		NFIQ2::QualityFeatureData fd_om_1;
-		fd_om_1.featureID = "OrientationMap_ROIFilter_CoherenceSum";
-		fd_om_1.featureDataDouble = coherenceSumFilter;
-		NFIQ2::QualityFeatureResult res_om_1;
-		res_om_1.featureData = fd_om_1;
+		std::pair<std::string, double> fd_om_1;
+		fd_om_1 = std::make_pair(
+		    "OrientationMap_ROIFilter_CoherenceSum",
+		    coherenceSumFilter);
 
-		featureDataList.push_back(res_om_1);
+		featureDataList[fd_om_1.first] = fd_om_1.second;
 
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = QualityMapFeatures::speedFeatureIDGroup;

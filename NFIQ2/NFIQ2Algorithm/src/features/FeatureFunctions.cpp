@@ -609,7 +609,8 @@ NFIQ2::QualityFeatures::addSamplingFeatureNames(
 
 void
 NFIQ2::QualityFeatures::addHistogramFeatureNames(
-    std::vector<std::string> &featureNames, const char *prefix, int binCount)
+    std::vector<std::string> &featureNames, const std::string &prefix,
+    int binCount)
 {
 	for (int i = 0; i < binCount; i++) {
 		std::stringstream s;

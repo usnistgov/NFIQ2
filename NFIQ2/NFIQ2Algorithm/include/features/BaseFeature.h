@@ -5,6 +5,7 @@
 #include <nfiq2_interfacedefinitions.hpp>
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace NFIQ2 { namespace QualityFeatures {

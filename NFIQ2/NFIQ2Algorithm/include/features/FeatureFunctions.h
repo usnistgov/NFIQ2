@@ -4,6 +4,8 @@
 #include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core.hpp>
 
+#include <unordered_map>
+
 namespace NFIQ2 {
 
 namespace QualityFeatures {

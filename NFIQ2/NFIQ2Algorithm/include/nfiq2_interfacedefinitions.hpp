@@ -4,8 +4,6 @@
 #include <nfiq2_data.hpp>
 
 #include <string>
-#include <unordered_map>
-#include <utility>
 #include <vector>
 
 namespace NFIQ2 {

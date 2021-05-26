@@ -241,8 +241,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 	features.push_back(fjfxFeatureModule);
 
 	features.push_back(std::make_shared<FJFXMinutiaeQualityFeature>(
-	    croppedImage, fjfxFeatureModule->getMinutiaData(),
-	    fjfxFeatureModule->getTemplateStatus()));
+	    croppedImage, fjfxFeatureModule->getMinutiaData()));
 
 	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
 	    std::make_shared<ImgProcROIFeature>(croppedImage);

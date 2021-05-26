@@ -71,20 +71,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 	}
 }
 
-bool
-NFIQ2::QualityFeatures::FingerJetFXFeature::getTemplateStatus() const
-{
-	return (this->templateCouldBeExtracted_);
-}
-
 std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ2::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 {
-	if (!this->templateCouldBeExtracted_) {
-		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
-			"Template could not be extracted." };
-	}
-
 	return (this->minutiaData_);
 }
 
@@ -92,8 +81,6 @@ std::vector<NFIQ2::QualityFeatureResult>
 NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	this->templateCouldBeExtracted_ = false;
-
 	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
 
 	// make local copy of fingerprint image
@@ -206,8 +193,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	// close handle
 	FRFXLLCloseHandle(&hFeatureSet);
-
-	this->templateCouldBeExtracted_ = true;
 
 	if (minCnt == 0) {
 		// return features

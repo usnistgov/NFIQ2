@@ -7,10 +7,8 @@
 
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage,
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData,
-    const bool templateCouldBeExtracted)
+    const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
     : minutiaData_ { minutiaData }
-    , templateCouldBeExtracted_ { templateCouldBeExtracted }
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 };
@@ -25,19 +23,7 @@ const std::string
 std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
 {
-	if (!this->templateCouldBeExtracted_) {
-		// This should never be reached but is here for consistency
-		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
-			"Template could not be extracted." };
-	}
-
 	return (this->minutiaData_);
-}
-
-bool
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getTemplateStatus() const
-{
-	return (this->templateCouldBeExtracted_);
 }
 
 std::vector<NFIQ2::QualityFeatureResult>
@@ -57,25 +43,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	fd_ocl.featureDataDouble = -1;
 	NFIQ2::QualityFeatureResult res_ocl;
 	res_ocl.featureData = fd_ocl;
-
-	if (!this->templateCouldBeExtracted_) {
-		res_mu.featureData.featureDataDouble = -1;
-		featureDataList.push_back(res_mu);
-
-		res_ocl.featureData.featureDataDouble = -1;
-		featureDataList.push_back(res_ocl);
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup =
-		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
-		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
-		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
-		speed.featureSpeed = 0;
-		this->setSpeed(speed);
-
-		return featureDataList;
-	}
 
 	try {
 		NFIQ2::Timer timer;

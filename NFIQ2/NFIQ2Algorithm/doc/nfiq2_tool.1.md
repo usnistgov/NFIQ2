@@ -1,31 +1,33 @@
-% NFIQ2(1) Version 1.0 | National Institute of Standards and Technology
+% NFIQ2(1) Version 2.1 | National Institute of Standards and Technology
 
 NAME
 ====
 
-**nfiq2** — Compute quality of fingerprint images
+**nfiq2** — Compute quality of 500 PPI fingerprint images
 
 SYNOPSIS
 ========
 
-| **nfiq2** **OPTIONS** _file/dir/rs_ [...]
+One (or more) images, records, directories, or RecordStores:
+: **nfiq2** [OPTION...] _path_ [_path_ ...]
 
-| **nfiq2** -f _batch_ [-f ...] **OPTIONS** [_file/dir/rs_ ...]
+Batch files:
+: **nfiq2** [OPTION...] -f _batchfile_ [-f _batchfile_ ...]
 
 
 DESCRIPTION
 ===========
 
-| **nfiq2** is a tool for computing the NIST Fingerprint Image Quality (NFIQ) 2 of fingerprint images. It is used to produce quality scores for fingerprint images encoded in formats supported by Biometric Evaluation framework (BMP, JPEG, JPEGL, JPEG-2000, PBM, PNG, TIFF, and WSQ). Images can be encoded stand alone, within an ANSI/NIST ITL Type 14 record, or any combination of the two within a Biometric Evaluation Record Store. **nfiq2** serves as a reference implementation of ISO/IEC 29794-4:2017.
+| **nfiq2** is a tool for computing the NIST Fingerprint Image Quality (NFIQ) 2 quality score of 500 PPI fingerprint images. It supports most common image formats, including images within ANSI/NIST ITL Type 14 records, ISO/IEC 19794-4 records, and Biometric Evaluation Framework RecordStores. **nfiq2** serves as a reference implementation of ISO/IEC 29794-4:2017.
 
-| **nfiq2** Prints scores in a Comma Separated Value (CSV) format. The default output includes information about the image including: the image's name, finger position (if applicable), quality score, error message (if applicable), whether the image was quantized, and whether the image was resampled.
+| **nfiq2** outputs scores in Comma Separated Values (CSV) format. The default output includes information about the image including: the image's name, finger position (if applicable), quality score, error message (if applicable), whether the image was quantized, and whether the image was resampled.
 
-| This tool features some additional options, including batch operation support, output redirection and multi-threading, listed below:
+| This tool features some additional options, including batch operation support, output redirection, and multi-threading, listed below.
 
 OPTIONS
 =======
-| **-i** _file/dir/rs_
-> Allows for explicit _file/dir/rs_ arguments to be passed. Using this option with a _file/dir/rs_ is equivalent to providing file paths directly to the **nfiq2** executable.
+| **-i** _image/record/directory/rs_
+> Allows for explicit _image/record/directory/rs_ arguments to be passed. Using this option with a _image/record/directory/rs_ is equivalent to providing file paths directly to **nfiq2**.
 
 | **-f** _batch_
 > Batch files. A batch file is a plain text file, where each line is the path to a file to process.
@@ -34,16 +36,16 @@ OPTIONS
 > Write all output to be printed to _file_. _file_ will be overwritten if it exists.
 
 | **-j** _threads_
-> Indicates the number of worker _threads_ that will be spawned when running batch or Record Store operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. One additional thread will be spawed for coordinating output.
+> Indicates the number of worker _threads_ that will be spawned when running batch or RecordStore operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. Note that one additional thread will be spawned for coordinating output.
 
 | **-a**
-> Actionable quality output. Provides additonal actionable quality information pertainting to each processed fingerprint image.
+> Actionable quality output. Provides additonal actionable quality feedback pertainting to each processed fingerprint image.
 
 | **-v**
-> Verbose output. Provides additional feature quality information pertaining to each measurement.
+> Verbose output. Provides individual quality feature values computed during the calculation of the overall quality score.
 
 | **-q**
-> Speed. Provides additional speed information pertaining to the amount of time each measurement took to compute.
+> Speed. Provides elapsed time for each quality feature computation.
 
 | **-d**
 > Debug. Provides additional information pertaining to program execution and details each step of computation.
@@ -77,7 +79,7 @@ NOTES
 3. Output is generated in a CSV format. Headers are printed before any scores are printed. The exception to this format is when a single image is provided without the **-v** or **-q** flag. In this case, only the quality score is printed for the image.
 
 4. Current supported formats include:
-	1. BMP, JPEG, JPEG 2000, PBM/PGM/PPM, PNG, TIFF, WSQ
+	1. BMP, JPEG, JPEGL, JPEG 2000, PBM/PGM/PPM, PNG, TIFF, WSQ
 	3. Biometric Evaluation Framework RecordStores
 	4. ANSI/NIST-ITL 1-2007 and later Type 14 (binary only, not XML)
 	5. ISO/IEC 19794-4
@@ -134,7 +136,7 @@ EXAMPLES
 VERSION
 =======
 
-| This man page is current for version 1.0 of **nfiq2**
+| This man page is current for version 2.1 of **nfiq2**
 
 HISTORY
 =======

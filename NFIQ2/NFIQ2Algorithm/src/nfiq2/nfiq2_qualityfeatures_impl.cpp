@@ -60,8 +60,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	auto counter = 0;
 	for (const auto &feature : features) {
 		for (auto &result : feature->getFeatures()) {
-			quality[qualityIdentifiers.at(counter)] =
-			    result.featureData;
+			quality[qualityIdentifiers.at(counter)] = result;
 			counter++;
 		}
 	}
@@ -91,10 +90,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
 
-			std::vector<NFIQ2::QualityFeatureResult> muFeatures =
+			std::vector<NFIQ2::QualityFeatureData> muFeatures =
 			    muFeatureModule->getFeatures();
 
-			std::vector<NFIQ2::QualityFeatureResult>::iterator
+			std::vector<NFIQ2::QualityFeatureData>::iterator
 			    it_muFeatures;
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
@@ -117,11 +116,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (it_muFeatures = muFeatures.begin();
 			     it_muFeatures != muFeatures.end();
 			     ++it_muFeatures) {
-				if (it_muFeatures->featureData.first.compare(
-					"Mu") == 0) {
+				if (it_muFeatures->first.compare("Mu") == 0) {
 					NFIQ2::ActionableQualityFeedback fb;
 					fb.actionableQualityValue =
-					    it_muFeatures->featureData.second;
+					    it_muFeatures->second;
 					fb.identifier = NFIQ2::
 					    ActionableQualityFeedbackIdentifier::
 						EmptyImageOrContrastTooLow;
@@ -152,22 +150,22 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				std::dynamic_pointer_cast<FingerJetFXFeature>(
 				    feature);
 
-			std::vector<NFIQ2::QualityFeatureResult> fjfxFeatures =
+			std::vector<NFIQ2::QualityFeatureData> fjfxFeatures =
 			    fjfxFeatureModule->getFeatures();
 
-			std::vector<NFIQ2::QualityFeatureResult>::iterator
+			std::vector<NFIQ2::QualityFeatureData>::iterator
 			    it_fjfxFeatures;
 
 			for (it_fjfxFeatures = fjfxFeatures.begin();
 			     it_fjfxFeatures != fjfxFeatures.end();
 			     ++it_fjfxFeatures) {
-				if (it_fjfxFeatures->featureData.first.compare(
+				if (it_fjfxFeatures->first.compare(
 					"FingerJetFX_MinutiaeCount") == 0) {
 					// return informative feature about
 					// number of minutiae
 					NFIQ2::ActionableQualityFeedback fb;
 					fb.actionableQualityValue =
-					    it_fjfxFeatures->featureData.second;
+					    it_fjfxFeatures->second;
 					fb.identifier = NFIQ2::
 					    ActionableQualityFeedbackIdentifier::
 						FingerprintImageWithMinutiae;

@@ -27,7 +27,7 @@ class MuFeature : public BaseFeature {
 	static const std::string moduleName;
 
     private:
-	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ2::QualityFeatureData> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	bool sigmaComputed { false };

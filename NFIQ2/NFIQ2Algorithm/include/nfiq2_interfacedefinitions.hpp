@@ -66,14 +66,6 @@ typedef struct feature_speed_t {
 	double featureSpeed;
 } QualityFeatureSpeed;
 
-/**
- * This type represents the result of a quality feature extraction
- */
-typedef struct quality_feature_result_t {
-	/** The quality feature data. */
-	NFIQ2::QualityFeatureData featureData;
-} QualityFeatureResult;
-
 /** This type represents the result of a comparison scores computation. */
 typedef struct comparison_result_t {
 	/** The image ID of the reference image. */

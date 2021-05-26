@@ -28,11 +28,11 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
 	return (this->imgProcResults_);
 }
 
-std::vector<NFIQ2::QualityFeatureResult>
+std::vector<NFIQ2::QualityFeatureData>
 NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureData> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
@@ -68,10 +68,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		NFIQ2::QualityFeatureData fd_roi_pixel_area_mean;
 		fd_roi_pixel_area_mean = std::make_pair("ImgProcROIArea_Mean",
 		    this->imgProcResults_.meanOfROIPixels);
-		NFIQ2::QualityFeatureResult res_roi_pixel_area_mean;
-		res_roi_pixel_area_mean.featureData = fd_roi_pixel_area_mean;
-
-		featureDataList.push_back(res_roi_pixel_area_mean);
+		featureDataList.push_back(fd_roi_pixel_area_mean);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;

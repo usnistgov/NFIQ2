@@ -88,13 +88,13 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
 	return (this->minutiaData_);
 }
 
-std::vector<NFIQ2::QualityFeatureResult>
+std::vector<NFIQ2::QualityFeatureData>
 NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->templateCouldBeExtracted_ = false;
 
-	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureData> featureDataList;
 
 	// make local copy of fingerprint image
 	// since FJFX somehow transforms the input image
@@ -108,14 +108,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	NFIQ2::QualityFeatureData fd_min_cnt;
 	fd_min_cnt = std::make_pair("FingerJetFX_MinutiaeCount", 0);
-	NFIQ2::QualityFeatureResult res_min_cnt;
-	res_min_cnt.featureData = fd_min_cnt;
 
 	NFIQ2::QualityFeatureData fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200 = std::make_pair(
 	    "FingerJetFX_MinCount_COMMinRect200x200", 0);
-	NFIQ2::QualityFeatureResult res_min_cnt_comrect200x200;
-	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
 
 	NFIQ2::Timer timer;
 	timer.start();
@@ -210,13 +206,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	if (minCnt == 0) {
 		// return features
 		fd_min_cnt_comrect200x200.second = 0; // no minutiae found
-		res_min_cnt_comrect200x200.featureData =
-		    fd_min_cnt_comrect200x200;
-		featureDataList.push_back(res_min_cnt_comrect200x200);
+		featureDataList.push_back(fd_min_cnt_comrect200x200);
 
 		fd_min_cnt.second = 0; // no minutiae found
-		res_min_cnt.featureData = fd_min_cnt;
-		featureDataList.push_back(res_min_cnt);
+		featureDataList.push_back(fd_min_cnt);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
@@ -259,12 +252,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	// return features
 	fd_min_cnt_comrect200x200.second = noOfMinInRect200x200;
-	res_min_cnt_comrect200x200.featureData = fd_min_cnt_comrect200x200;
-	featureDataList.push_back(res_min_cnt_comrect200x200);
+	featureDataList.push_back(fd_min_cnt_comrect200x200);
 
 	fd_min_cnt.second = minCnt;
-	res_min_cnt.featureData = fd_min_cnt;
-	featureDataList.push_back(res_min_cnt);
+	featureDataList.push_back(fd_min_cnt);
 
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;

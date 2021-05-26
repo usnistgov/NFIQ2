@@ -32,7 +32,7 @@ class OCLHistogramFeature : public BaseFeature {
 	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);
 
     private:
-	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ2::QualityFeatureData> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 };
 

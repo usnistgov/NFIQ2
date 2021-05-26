@@ -13,7 +13,7 @@ NFIQ2::QualityFeatures::BaseFeature::getSpeed() const
 	return this->speed;
 }
 
-std::vector<NFIQ2::QualityFeatureResult>
+std::vector<NFIQ2::QualityFeatureData>
 NFIQ2::QualityFeatures::BaseFeature::getFeatures() const
 {
 	return this->features;
@@ -28,7 +28,7 @@ NFIQ2::QualityFeatures::BaseFeature::setSpeed(
 
 void
 NFIQ2::QualityFeatures::BaseFeature::setFeatures(
-    const std::vector<NFIQ2::QualityFeatureResult> &featureResult)
+    const std::vector<NFIQ2::QualityFeatureData> &featureResult)
 {
 	this->features = featureResult;
 }

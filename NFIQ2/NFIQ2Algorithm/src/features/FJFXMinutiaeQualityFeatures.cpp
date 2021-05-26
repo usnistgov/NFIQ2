@@ -40,28 +40,24 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getTemplateStatus() const
 	return (this->templateCouldBeExtracted_);
 }
 
-std::vector<NFIQ2::QualityFeatureResult>
+std::vector<NFIQ2::QualityFeatureData>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
-	std::vector<NFIQ2::QualityFeatureResult> featureDataList;
+	std::vector<NFIQ2::QualityFeatureData> featureDataList;
 
 	NFIQ2::QualityFeatureData fd_mu;
 	fd_mu = std::make_pair("FJFXPos_Mu_MinutiaeQuality_2", -1);
-	NFIQ2::QualityFeatureResult res_mu;
-	res_mu.featureData = fd_mu;
 
 	NFIQ2::QualityFeatureData fd_ocl;
 	fd_ocl = std::make_pair("FJFXPos_OCL_MinutiaeQuality_80", -1);
-	NFIQ2::QualityFeatureResult res_ocl;
-	res_ocl.featureData = fd_ocl;
 
 	if (!this->templateCouldBeExtracted_) {
-		res_mu.featureData.second = -1;
-		featureDataList.push_back(res_mu);
+		fd_mu.second = -1;
+		featureDataList.push_back(fd_mu);
 
-		res_ocl.featureData.second = -1;
-		featureDataList.push_back(res_ocl);
+		fd_ocl.second = -1;
+		featureDataList.push_back(fd_ocl);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
@@ -106,9 +102,9 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 		// return mu_2 quality value
 		// return relative value in relation to minutiae count
-		res_mu.featureData.second = (double)vecRanges.at(2) /
+		fd_mu.second = (double)vecRanges.at(2) /
 		    (double)this->minutiaData_.size();
-		featureDataList.push_back(res_mu);
+		featureDataList.push_back(fd_mu);
 
 		// compute minutiae quality based on OCL feature computed at
 		// minutiae positions
@@ -139,9 +135,9 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		}
 
 		// return relative value in relation to minutiae count
-		res_ocl.featureData.second = (double)vecRangesOCL.at(4) /
+		fd_ocl.second = (double)vecRangesOCL.at(4) /
 		    (double)this->minutiaData_.size();
-		featureDataList.push_back(res_ocl);
+		featureDataList.push_back(fd_ocl);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;

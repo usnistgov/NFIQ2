@@ -121,7 +121,7 @@ class FingerJetFXFeature : public BaseFeature {
 	bool getTemplateStatus() const;
 
     private:
-	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ2::QualityFeatureData> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	FRFXLL_RESULT

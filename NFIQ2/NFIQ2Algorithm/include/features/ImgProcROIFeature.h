@@ -52,7 +52,7 @@ class ImgProcROIFeature : public BaseFeature {
 	ImgProcROIResults getImgProcResults();
 
     private:
-	std::vector<NFIQ2::QualityFeatureResult> computeFeatureData(
+	std::vector<NFIQ2::QualityFeatureData> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	ImgProcROIResults imgProcResults_ {};

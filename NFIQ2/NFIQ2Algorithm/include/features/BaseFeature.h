@@ -22,18 +22,18 @@ class BaseFeature {
 	virtual NFIQ2::QualityFeatureSpeed getSpeed() const;
 
 	/** @return computed quality features */
-	virtual std::vector<NFIQ2::QualityFeatureResult> getFeatures() const;
+	virtual std::vector<NFIQ2::QualityFeatureData> getFeatures() const;
 
     protected:
 	void setSpeed(const NFIQ2::QualityFeatureSpeed &featureSpeed);
 
 	void setFeatures(
-	    const std::vector<NFIQ2::QualityFeatureResult> &featureResult);
+	    const std::vector<NFIQ2::QualityFeatureData> &featureResult);
 
     private:
 	NFIQ2::QualityFeatureSpeed speed {};
 
-	std::vector<NFIQ2::QualityFeatureResult> features {};
+	std::vector<NFIQ2::QualityFeatureData> features {};
 };
 
 }}

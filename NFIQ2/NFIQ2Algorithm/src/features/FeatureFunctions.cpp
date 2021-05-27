@@ -582,8 +582,8 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	std::pair<std::string, double> meanFD, stdDevFD;
 	std::stringstream meanSs, stdDevSs;
 
-	meanSs << featurePrefix << BaseFeature::MeanSuffix;
-	stdDevSs << featurePrefix << BaseFeature::StdDevSuffix;
+	meanSs << featurePrefix << InternalFeatureConstants::MeanSuffix;
+	stdDevSs << featurePrefix << InternalFeatureConstants::StdDevSuffix;
 
 	meanFD = std::make_pair(meanSs.str(), mean.val[0]);
 
@@ -619,8 +619,8 @@ NFIQ2::QualityFeatures::addHistogramFeatureNames(
 		featureNames.push_back(s.str());
 	}
 	std::stringstream meanSs, stdDevSs;
-	meanSs << prefix << BaseFeature::MeanSuffix;
-	stdDevSs << prefix << BaseFeature::StdDevSuffix;
+	meanSs << prefix << InternalFeatureConstants::MeanSuffix;
+	stdDevSs << prefix << InternalFeatureConstants::StdDevSuffix;
 	featureNames.push_back(meanSs.str());
 	featureNames.push_back(stdDevSs.str());
 }

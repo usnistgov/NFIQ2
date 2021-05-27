@@ -13,60 +13,70 @@ const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix {
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin0Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin0Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin1Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin1Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin2Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin2Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin3Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin3Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin4Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin4Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin5Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin5Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin6Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin6Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin7Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin7Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin8Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin8Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9 {
 	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin9Suffix
+	    NFIQ2::QualityFeatures::InternalFeatureConstants::
+		HistogramBin9Suffix
     };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
 	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::RVUPHistogramFeature::MeanSuffix
+	NFIQ2::QualityFeatures::InternalFeatureConstants::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
 	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::RVUPHistogramFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::InternalFeatureConstants::StdDevSuffix
 };
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,

@@ -1,3 +1,4 @@
+#include <features/BaseFeature.h>
 #include <features/FeatureFunctions.h>
 #include <nfiq2_exception.hpp>
 #include <opencv2/imgproc.hpp>
@@ -581,8 +582,8 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	std::pair<std::string, double> meanFD, stdDevFD;
 	std::stringstream meanSs, stdDevSs;
 
-	meanSs << featurePrefix << "Mean";
-	stdDevSs << featurePrefix << "StdDev";
+	meanSs << featurePrefix << BaseFeature::MeanSuffix;
+	stdDevSs << featurePrefix << BaseFeature::StdDevSuffix;
 
 	meanFD = std::make_pair(meanSs.str(), mean.val[0]);
 
@@ -609,7 +610,8 @@ NFIQ2::QualityFeatures::addSamplingFeatureNames(
 
 void
 NFIQ2::QualityFeatures::addHistogramFeatureNames(
-    std::vector<std::string> &featureNames, const char *prefix, int binCount)
+    std::vector<std::string> &featureNames, const std::string &prefix,
+    int binCount)
 {
 	for (int i = 0; i < binCount; i++) {
 		std::stringstream s;
@@ -617,8 +619,8 @@ NFIQ2::QualityFeatures::addHistogramFeatureNames(
 		featureNames.push_back(s.str());
 	}
 	std::stringstream meanSs, stdDevSs;
-	meanSs << prefix << "Mean";
-	stdDevSs << prefix << "StdDev";
+	meanSs << prefix << BaseFeature::MeanSuffix;
+	stdDevSs << prefix << BaseFeature::StdDevSuffix;
 	featureNames.push_back(meanSs.str());
 	featureNames.push_back(stdDevSs.str());
 }

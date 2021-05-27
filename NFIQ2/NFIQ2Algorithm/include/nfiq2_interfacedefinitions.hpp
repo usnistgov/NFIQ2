@@ -30,6 +30,262 @@ static const double FingerprintImageWithMinutiae { 5.0 };
 static const double SufficientFingerprintForeground { 50000.0 };
 }
 
+/** Identifiers of individual quality features. */
+namespace QualityFeatureIDs {
+/** Frequency of the sinusoid following the ridge-valley structure. */
+namespace FrequencyDomainAnalysis {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report.
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+extern const std::string Bin0;
+/** Second of ten histogram bin boundaries. */
+extern const std::string Bin1;
+/** Third of ten histogram bin boundaries. */
+extern const std::string Bin2;
+/** Fourth of ten histogram bin boundaries. */
+extern const std::string Bin3;
+/** Fifth of ten histogram bin boundaries. */
+extern const std::string Bin4;
+/** Sixth of ten histogram bin boundaries. */
+extern const std::string Bin5;
+/** Seventh of ten histogram bin boundaries. */
+extern const std::string Bin6;
+/** Eighth of ten histogram bin boundaries. */
+extern const std::string Bin7;
+/** Ninth of ten histogram bin boundaries. */
+extern const std::string Bin8;
+/** Tenth of ten histogram bin boundaries. */
+extern const std::string Bin9;
+}
+
+/** Mean of local quality value. */
+extern const std::string Mean;
+/** Standard deviation of local quality values. */
+extern const std::string StdDev;
+}
+/**
+ * Measures relative to minutiae detected within the image using the integrated
+ * feature extractor, FingerJet FX OSE.
+ */
+namespace Minutiae {
+/** Number of minutiae in the image. */
+extern const std::string Count;
+
+/**
+ * Number of minutiae lying in a 200x200 pixel rectangle centered at the center
+ * of mass of the locations of all detected minutia.
+ */
+extern const std::string CountCOM;
+
+/**
+ * Percentage of minutiae whose quality value, as determined by Grayscale::Mean
+ * of a 32x32 pixel region centered on the minutiae, is between 0-0.5.
+ *
+ * @see Grayscale::Mean
+ */
+extern const std::string QualityMu2;
+
+/**
+ * Percentage of minutiae whose quality value, as determined by the Orientation
+ * Certainty Level of a 32x32 pixel region centered on the minutiae, is above
+ * 80.
+ *
+ * @see OrientationCertainty
+ */
+extern const std::string QualityOCL80;
+}
+
+/** Measures based on the foreground area of the image. */
+namespace RegionOfInterest {
+/**
+ * Mean grayscale value of the number of 32x32 pixel regions having at least 1
+ * pixel in the ROI.
+ */
+extern const std::string Mean;
+
+/** Sum of coherence values over all 16x16 pixel regions within the ROI. */
+extern const std::string CoherenceSum;
+
+/**
+ * Average of coherence values over all 16x16 pixel regions within the ROI.
+ *
+ * @details
+ * This is computed as RegionOfInterest::CoherenceSum / (number of 16x16 pixel
+ * regions that contain at least 1 pixel within the ROI).
+ *
+ * @see CoherenceSum
+ */
+extern const std::string CoherenceMean;
+}
+
+/** Measure of the clarity of ridge and valleys. */
+namespace LocalClarity {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+extern const std::string Bin0;
+/** Second of ten histogram bin boundaries. */
+extern const std::string Bin1;
+/** Third of ten histogram bin boundaries. */
+extern const std::string Bin2;
+/** Fourth of ten histogram bin boundaries. */
+extern const std::string Bin3;
+/** Fifth of ten histogram bin boundaries. */
+extern const std::string Bin4;
+/** Sixth of ten histogram bin boundaries. */
+extern const std::string Bin5;
+/** Seventh of ten histogram bin boundaries. */
+extern const std::string Bin6;
+/** Eighth of ten histogram bin boundaries. */
+extern const std::string Bin7;
+/** Ninth of ten histogram bin boundaries. */
+extern const std::string Bin8;
+/** Tenth of ten histogram bin boundaries. */
+extern const std::string Bin9;
+}
+
+/** Mean of local quality value. */
+extern const std::string Mean;
+/** Standard deviation of local quality values. */
+extern const std::string StdDev;
+}
+
+/** Measure of the gray levels of the image. */
+namespace Grayscale {
+/** Arithmetic mean of the image. */
+extern const std::string Mean;
+/** Arithmetic mean of per-block means of the image. */
+extern const std::string MeanBlock;
+}
+
+/**
+ * Measure of the strength of the energy concentration along the dominant
+ * ridge flow orientation.
+ */
+namespace OrientationCertainty {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+extern const std::string Bin0;
+/** Second of ten histogram bin boundaries. */
+extern const std::string Bin1;
+/** Third of ten histogram bin boundaries. */
+extern const std::string Bin2;
+/** Fourth of ten histogram bin boundaries. */
+extern const std::string Bin3;
+/** Fifth of ten histogram bin boundaries. */
+extern const std::string Bin4;
+/** Sixth of ten histogram bin boundaries. */
+extern const std::string Bin5;
+/** Seventh of ten histogram bin boundaries. */
+extern const std::string Bin6;
+/** Eighth of ten histogram bin boundaries. */
+extern const std::string Bin7;
+/** Ninth of ten histogram bin boundaries. */
+extern const std::string Bin8;
+/** Tenth of ten histogram bin boundaries. */
+extern const std::string Bin9;
+}
+
+/** Mean of local quality value. */
+extern const std::string Mean;
+/** Standard deviation of local quality values. */
+extern const std::string StdDev;
+}
+
+/**
+ * Measure of the ridge flow continuity, based on the absolute orientation
+ * difference between a block in its 8-neighborhood.
+ */
+namespace OrientationFlow {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+extern const std::string Bin0;
+/** Second of ten histogram bin boundaries. */
+extern const std::string Bin1;
+/** Third of ten histogram bin boundaries. */
+extern const std::string Bin2;
+/** Fourth of ten histogram bin boundaries. */
+extern const std::string Bin3;
+/** Fifth of ten histogram bin boundaries. */
+extern const std::string Bin4;
+/** Sixth of ten histogram bin boundaries. */
+extern const std::string Bin5;
+/** Seventh of ten histogram bin boundaries. */
+extern const std::string Bin6;
+/** Eighth of ten histogram bin boundaries. */
+extern const std::string Bin7;
+/** Ninth of ten histogram bin boundaries. */
+extern const std::string Bin8;
+/** Tenth of ten histogram bin boundaries. */
+extern const std::string Bin9;
+}
+
+/** Mean of local quality value. */
+extern const std::string Mean;
+/** Standard deviation of local quality values. */
+extern const std::string StdDev;
+}
+
+/** Measure of the consistency of ridge and valley widths. */
+namespace RidgeValleyUniformity {
+/**
+ * Local quality values represented as a histogram.
+ *
+ * @details
+ * Bins for the histogram are defined in the NFIQ 2 Report
+ */
+namespace Histogram {
+/** First of ten histogram bin boundaries. */
+extern const std::string Bin0;
+/** Second of ten histogram bin boundaries. */
+extern const std::string Bin1;
+/** Third of ten histogram bin boundaries. */
+extern const std::string Bin2;
+/** Fourth of ten histogram bin boundaries. */
+extern const std::string Bin3;
+/** Fifth of ten histogram bin boundaries. */
+extern const std::string Bin4;
+/** Sixth of ten histogram bin boundaries. */
+extern const std::string Bin5;
+/** Seventh of ten histogram bin boundaries. */
+extern const std::string Bin6;
+/** Eighth of ten histogram bin boundaries. */
+extern const std::string Bin7;
+/** Ninth of ten histogram bin boundaries. */
+extern const std::string Bin8;
+/** Tenth of ten histogram bin boundaries. */
+extern const std::string Bin9;
+}
+
+/** Mean of local quality value. */
+extern const std::string Mean;
+/** Standard deviation of local quality values. */
+extern const std::string StdDev;
+}
+}
+
 /** ActionableQualityFeedback structure. */
 struct actionable_quality_feedback_t {
 	/** Name of the actionable quality metric. */

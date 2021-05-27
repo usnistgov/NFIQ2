@@ -5,6 +5,9 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatureIDs::Grayscale::Mean { "Mu" };
+const std::string NFIQ2::QualityFeatureIDs::Grayscale::MeanBlock { "MMB" };
+
 NFIQ2::QualityFeatures::MuFeature::MuFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
@@ -86,7 +89,8 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 		// return MMB value
 		std::pair<std::string, double> fd_mmb;
-		fd_mmb = std::make_pair("MMB", avg);
+		fd_mmb = std::make_pair(
+		    QualityFeatureIDs::Grayscale::MeanBlock, avg);
 
 		featureDataList[fd_mmb.first] = fd_mmb.second;
 	} catch (const cv::Exception &e) {
@@ -118,7 +122,8 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 		// return mu value
 		std::pair<std::string, double> fd_mu;
-		fd_mu = std::make_pair("Mu", mu.val[0]);
+		fd_mu = std::make_pair(
+		    QualityFeatureIDs::Grayscale::Mean, mu.val[0]);
 
 		featureDataList[fd_mu.first] = fd_mu.second;
 	} catch (const cv::Exception &e) {
@@ -138,8 +143,8 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 	// Speed
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = MuFeature::speedFeatureIDGroup;
-	speed.featureIDs.push_back("MMB");
-	speed.featureIDs.push_back("Mu");
+	speed.featureIDs.push_back(QualityFeatureIDs::Grayscale::MeanBlock);
+	speed.featureIDs.push_back(QualityFeatureIDs::Grayscale::Mean);
 	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
@@ -168,7 +173,7 @@ std::vector<std::string>
 NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
-	featureIDs.push_back("MMB");
-	featureIDs.push_back("Mu");
+	featureIDs.push_back(QualityFeatureIDs::Grayscale::MeanBlock);
+	featureIDs.push_back(QualityFeatureIDs::Grayscale::Mean);
 	return featureIDs;
 }

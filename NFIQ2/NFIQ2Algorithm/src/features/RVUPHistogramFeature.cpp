@@ -7,6 +7,68 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix {
+	"RVUP_Bin10_"
+};
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin0Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin1Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin2Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin3Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin4Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin5Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin6Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin7Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin8Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9 {
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin9Suffix
+    };
+const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
+	QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	QualityFeatures::RVUPHistogramFeature::MeanSuffix
+};
+const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
+	QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::StdDevSuffix
+};
+
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
@@ -152,7 +214,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(RVUPHISTLIMITS[6]);
 		histogramBins10.push_back(RVUPHISTLIMITS[7]);
 		histogramBins10.push_back(RVUPHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, "RVUP_Bin10_",
+		addHistogramFeatures(featureDataList, FeaturePrefix,
 		    histogramBins10, rvures, 10);
 
 		timeRVU = timerRVU.stop();
@@ -161,7 +223,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		speed.featureIDGroup =
 		    RVUPHistogramFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, "RVUP_Bin10_", 10);
+		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
 
 		speed.featureSpeed = timeRVU;
 		this->setSpeed(speed);
@@ -194,10 +256,18 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	addHistogramFeatureNames(featureIDs, "RVUP_Bin10_", 10);
-
-	return featureIDs;
+	return { QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8,
+		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9,
+		QualityFeatureIDs::RidgeValleyUniformity::Mean,
+		QualityFeatureIDs::RidgeValleyUniformity::StdDev };
 }
 ///////////////////////////////////////////////////////////////////////
 /***

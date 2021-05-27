@@ -6,6 +6,18 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::QualityMapFeatures::FeaturePrefix {
+	"OrientationMap_"
+};
+const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceSum {
+	QualityFeatures::QualityMapFeatures::FeaturePrefix +
+	"ROIFilter_CoherenceSum"
+};
+const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceMean {
+	QualityFeatures::QualityMapFeatures::FeaturePrefix +
+	"ROIFilter_CoherenceRel"
+};
+
 NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ2::FingerprintImageData &fingerprintImage,
     const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
@@ -66,14 +78,14 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		// return features based on coherence values of orientation map
 		std::pair<std::string, double> fd_om_2;
 		fd_om_2 = std::make_pair(
-		    "OrientationMap_ROIFilter_CoherenceRel",
+		    QualityFeatureIDs::RegionOfInterest::CoherenceMean,
 		    coherenceRelFilter);
 
 		featureDataList[fd_om_2.first] = fd_om_2.second;
 
 		std::pair<std::string, double> fd_om_1;
 		fd_om_1 = std::make_pair(
-		    "OrientationMap_ROIFilter_CoherenceSum",
+		    QualityFeatureIDs::RegionOfInterest::CoherenceSum,
 		    coherenceSumFilter);
 
 		featureDataList[fd_om_1.first] = fd_om_1.second;
@@ -81,9 +93,9 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = QualityMapFeatures::speedFeatureIDGroup;
 		speed.featureIDs.push_back(
-		    "OrientationMap_ROIFilter_CoherenceSum");
+		    QualityFeatureIDs::RegionOfInterest::CoherenceSum);
 		speed.featureIDs.push_back(
-		    "OrientationMap_ROIFilter_CoherenceRel");
+		    QualityFeatureIDs::RegionOfInterest::CoherenceMean);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -319,8 +331,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	featureIDs.push_back("OrientationMap_ROIFilter_CoherenceRel");
-	featureIDs.push_back("OrientationMap_ROIFilter_CoherenceSum");
-	return featureIDs;
+	return { QualityFeatureIDs::RegionOfInterest::CoherenceMean,
+		QualityFeatureIDs::RegionOfInterest::CoherenceSum };
 }

@@ -7,6 +7,68 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix {
+	"FDA_Bin10_"
+};
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin0Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin1 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin1Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin2 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin2Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin3 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin3Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin4 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin4Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin5 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin5Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin6 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin6Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin7 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin7Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin8 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin8Suffix
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin9 {
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin9Suffix
+    };
+const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Mean {
+	QualityFeatures::FDAFeature::FeaturePrefix +
+	QualityFeatures::FDAFeature::MeanSuffix
+};
+const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::StdDev {
+	QualityFeatures::FDAFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::StdDevSuffix
+};
+
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
@@ -21,10 +83,18 @@ NFIQ2::QualityFeatures::FDAFeature::~FDAFeature() = default;
 std::vector<std::string>
 NFIQ2::QualityFeatures::FDAFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	addHistogramFeatureNames(featureIDs, "FDA_Bin10_", 10);
-
-	return featureIDs;
+	return { QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin1,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin2,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin3,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin4,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin5,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin6,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin7,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin8,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin9,
+		QualityFeatureIDs::FrequencyDomainAnalysis::Mean,
+		QualityFeatureIDs::FrequencyDomainAnalysis::StdDev };
 }
 
 const std::string NFIQ2::QualityFeatures::FDAFeature::speedFeatureIDGroup =
@@ -160,7 +230,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[6]);
 		histogramBins10.push_back(FDAHISTLIMITS[7]);
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, "FDA_Bin10_",
+		addHistogramFeatures(featureDataList, FeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
 		time = timer.stop();
@@ -169,7 +239,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, "FDA_Bin10_", 10);
+		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
 
 		speed.featureSpeed = time;
 		this->setSpeed(speed);

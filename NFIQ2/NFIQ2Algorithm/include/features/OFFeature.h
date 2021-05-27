@@ -29,6 +29,7 @@ class OFFeature : public BaseFeature {
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
 	static const std::string moduleName;
+	static const std::string FeaturePrefix;
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(

@@ -53,8 +53,8 @@ void addHistogramFeatures(
     std::vector<double> &dataVector, int binCount);
 void addSamplingFeatureNames(
     std::vector<std::string> &featureNames, const char *prefix);
-void addHistogramFeatureNames(
-    std::vector<std::string> &featureNames, const char *prefix, int binCount);
+void addHistogramFeatureNames(std::vector<std::string> &featureNames,
+    const std::string &prefix, int binCount);
 #endif
 }
 }

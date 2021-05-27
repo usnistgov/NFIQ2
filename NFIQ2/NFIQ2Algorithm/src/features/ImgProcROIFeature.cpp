@@ -5,6 +5,14 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::ImgProcROIFeature::FeaturePrefix {
+	"ImgProcROIArea_"
+};
+const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::Mean {
+	QualityFeatures::ImgProcROIFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::MeanSuffix
+};
+
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
@@ -66,7 +74,8 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		    img, 16); // block size = 16x16 pixels
 
 		std::pair<std::string, double> fd_roi_pixel_area_mean;
-		fd_roi_pixel_area_mean = std::make_pair("ImgProcROIArea_Mean",
+		fd_roi_pixel_area_mean = std::make_pair(
+		    QualityFeatureIDs::RegionOfInterest::Mean,
 		    this->imgProcResults_.meanOfROIPixels);
 		featureDataList[fd_roi_pixel_area_mean.first] =
 		    fd_roi_pixel_area_mean.second;
@@ -74,7 +83,8 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
-		speed.featureIDs.push_back("ImgProcROIArea_Mean");
+		speed.featureIDs.push_back(
+		    QualityFeatureIDs::RegionOfInterest::Mean);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -110,9 +120,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	featureIDs.push_back("ImgProcROIArea_Mean");
-	return featureIDs;
+	return { QualityFeatureIDs::RegionOfInterest::Mean };
 }
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults

@@ -6,6 +6,58 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix {
+	"LCS_Bin10_"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin0 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin0Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin1 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin1Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin2 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin2Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin3 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin3Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin4 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin4Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin5 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin5Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin6 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin6Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin7 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin7Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin8 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin8Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin9 {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::HistogramBin9Suffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Mean {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::LCSFeature::MeanSuffix
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::StdDev {
+	QualityFeatures::LCSFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::StdDevSuffix
+};
+
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
@@ -30,10 +82,18 @@ NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	addHistogramFeatureNames(featureIDs, "LCS_Bin10_", 10);
-
-	return featureIDs;
+	return { QualityFeatureIDs::LocalClarity::Histogram::Bin0,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin1,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin2,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin3,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin4,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin5,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin6,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin7,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin8,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin9,
+		QualityFeatureIDs::LocalClarity::Mean,
+		QualityFeatureIDs::LocalClarity::StdDev };
 }
 
 const std::string NFIQ2::QualityFeatures::LCSFeature::speedFeatureIDGroup =
@@ -173,14 +233,14 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 		histogramBins10.push_back(LCSHISTLIMITS[6]);
 		histogramBins10.push_back(LCSHISTLIMITS[7]);
 		histogramBins10.push_back(LCSHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, "LCS_Bin10_",
+		addHistogramFeatures(featureDataList, FeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, "LCS_Bin10_", 10);
+		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
 
 		speed.featureSpeed = timeLCS;
 		this->setSpeed(speed);

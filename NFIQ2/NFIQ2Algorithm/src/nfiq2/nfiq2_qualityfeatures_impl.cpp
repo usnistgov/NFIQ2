@@ -21,19 +21,18 @@
 #include <unordered_map>
 #include <vector>
 
-const std::string
-    NFIQ2::ActionableQualityFeedback::IDs::EmptyImageOrContrastTooLow {
-	    "EmptyImageOrContrastTooLow"
-    };
-const std::string NFIQ2::ActionableQualityFeedback::IDs::UniformImage {
+const char NFIQ2::ActionableQualityFeedback::IDs::EmptyImageOrContrastTooLow[] {
+	"EmptyImageOrContrastTooLow"
+};
+const char NFIQ2::ActionableQualityFeedback::IDs::UniformImage[] {
 	"UniformImage"
 };
-const std::string
-    NFIQ2::ActionableQualityFeedback::IDs::FingerprintImageWithMinutiae {
+const char
+    NFIQ2::ActionableQualityFeedback::IDs::FingerprintImageWithMinutiae[] {
 	    "FingerprintImageWithMinutiae"
     };
-const std::string
-    NFIQ2::ActionableQualityFeedback::IDs::SufficientFingerprintForeground {
+const char
+    NFIQ2::ActionableQualityFeedback::IDs::SufficientFingerprintForeground[] {
 	    "SufficientFingerprintForeground"
     };
 const double

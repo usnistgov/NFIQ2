@@ -7,27 +7,50 @@
 #include <vector>
 
 namespace NFIQ2 {
-/** Contains strings corresponding to Actionable Feedback Scores. */
-namespace ActionableQualityFeedbackIdentifier {
-
-static const std::string EmptyImageOrContrastTooLow {
-	"EmptyImageOrContrastTooLow"
-};
-static const std::string UniformImage { "UniformImage" };
-static const std::string FingerprintImageWithMinutiae {
-	"FingerprintImageWithMinutiae"
-};
-static const std::string SufficientFingerprintForeground {
-	"SufficientFingerprintForeground"
-};
+/**
+ * Interpretation of quality features that may indicated corrective measures
+ * for subsequent captures of the same subject.
+ */
+namespace ActionableQualityFeedback {
+/** Identifiers for actionable feedback values. */
+namespace IDs {
+/**
+ * The image is blank or the contrast is too low.
+ *
+ * @details
+ * The mean gray level appears white.
+ */
+extern const std::string EmptyImageOrContrastTooLow;
+/** Standard deviation of gray levels in image indicates uniformity. */
+extern const std::string UniformImage;
+/**
+ * Number of minutia in image.
+ *
+ * @note
+ * Equivalent to QualityFeatures::Minutiae::Count.
+ */
+extern const std::string FingerprintImageWithMinutiae;
+/** Number of pixels in the computed foreground. */
+extern const std::string SufficientFingerprintForeground;
 }
 
-/** Contains doubles corresponding to Actionable Feedback Thresholds. */
-namespace ActionableQualityFeedbackThreshold {
-static const double EmptyImageOrContrastTooLow { 250.0 };
-static const double UniformImage { 1.0 };
-static const double FingerprintImageWithMinutiae { 5.0 };
-static const double SufficientFingerprintForeground { 50000.0 };
+/**
+ * Thresholds corresponding to IDs.
+ *
+ * @details
+ * Comparing the values of IDs with Thresholds may indicate a corrective action
+ * for subsequent captures of the same subject.
+ */
+namespace Thresholds {
+/** Threshold value for IDs::EmptyImageOrContrastTooLow. */
+extern const double EmptyImageOrContrastTooLow;
+/** Threshold value for IDs::UniformImage. */
+extern const double UniformImage;
+/** Threshold value for IDs::FingerprintImageWithMinutiae. */
+extern const double FingerprintImageWithMinutiae;
+/** Threshold value for IDs::SufficientFingerprintForeground. */
+extern const double SufficientFingerprintForeground;
+}
 }
 
 /** Identifiers of individual quality features. */
@@ -285,15 +308,6 @@ extern const char Mean[];
 extern const char StdDev[];
 }
 }
-
-/** ActionableQualityFeedback structure. */
-struct actionable_quality_feedback_t {
-	/** Name of the actionable quality metric. */
-	std::string identifier;
-	/** Numerical value associated with the actionable quality metric. */
-	double actionableQualityValue;
-};
-using ActionableQualityFeedback = actionable_quality_feedback_t;
 
 /** This type represents a structure for timing information of features. */
 typedef struct feature_speed_t {

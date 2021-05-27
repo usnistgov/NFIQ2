@@ -75,8 +75,7 @@ class Log {
 	    const std::unordered_map<std::string, double> &features,
 	    const std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
 		&speed,
-	    const std::unordered_map<std::string,
-		NFIQ2::ActionableQualityFeedback> &actionable) const;
+	    const std::unordered_map<std::string, double> &actionable) const;
 
 	/**
 	 *  @brief

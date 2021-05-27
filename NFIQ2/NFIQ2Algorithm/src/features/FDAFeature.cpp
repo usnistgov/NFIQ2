@@ -7,6 +7,53 @@
 #include <cmath>
 #include <sstream>
 
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0 {
+	    "FDA_Bin10_0"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin1 {
+	    "FDA_Bin10_1"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin2 {
+	    "FDA_Bin10_2"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin3 {
+	    "FDA_Bin10_3"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin4 {
+	    "FDA_Bin10_4"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin5 {
+	    "FDA_Bin10_5"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin6 {
+	    "FDA_Bin10_6"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin7 {
+	    "FDA_Bin10_7"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin8 {
+	    "FDA_Bin10_8"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin9 {
+	    "FDA_Bin10_9"
+    };
+const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Mean {
+	"FDA_Bin10_Mean"
+};
+const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::StdDev {
+	"FDA_Bin10_StdDev"
+};
+
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 

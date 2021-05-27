@@ -5,6 +5,10 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::Mean {
+	"ImgProcROIArea_Mean"
+};
+
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {

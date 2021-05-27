@@ -5,6 +5,9 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatureIDs::Grayscale::Mean { "Mu" };
+const std::string NFIQ2::QualityFeatureIDs::Grayscale::MeanBlock { "MMB" };
+
 NFIQ2::QualityFeatures::MuFeature::MuFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {

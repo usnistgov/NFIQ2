@@ -8,6 +8,43 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin0 {
+	"OF_Bin10_0"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin1 {
+	"OF_Bin10_1"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin2 {
+	"OF_Bin10_2"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin3 {
+	"OF_Bin10_3"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin4 {
+	"OF_Bin10_4"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin5 {
+	"OF_Bin10_5"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin6 {
+	"OF_Bin10_6"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin7 {
+	"OF_Bin10_7"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin8 {
+	"OF_Bin10_8"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin9 {
+	"OF_Bin10_9"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Mean {
+	"OF_Bin10_Mean"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::StdDev {
+	"OF_Bin10_StdDev"
+};
+
 NFIQ2::QualityFeatures::OFFeature::OFFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {

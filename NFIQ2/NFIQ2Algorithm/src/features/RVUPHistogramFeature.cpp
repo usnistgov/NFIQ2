@@ -7,6 +7,53 @@
 #include <cmath>
 #include <sstream>
 
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0 {
+	    "RVUP_Bin10_0"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1 {
+	    "RVUP_Bin10_1"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2 {
+	    "RVUP_Bin10_2"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3 {
+	    "RVUP_Bin10_3"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4 {
+	    "RVUP_Bin10_4"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5 {
+	    "RVUP_Bin10_5"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6 {
+	    "RVUP_Bin10_6"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7 {
+	    "RVUP_Bin10_7"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8 {
+	    "RVUP_Bin10_8"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9 {
+	    "RVUP_Bin10_9"
+    };
+const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
+	"RVUP_Bin10_Mean"
+};
+const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
+	"RVUP_Bin10_StdDev"
+};
+
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);

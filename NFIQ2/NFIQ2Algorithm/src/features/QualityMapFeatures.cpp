@@ -6,6 +6,13 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceSum {
+	"OrientationMap_ROIFilter_CoherenceSum"
+};
+const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceMean {
+	"OrientationMap_ROIFilter_CoherenceRel"
+};
+
 NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ2::FingerprintImageData &fingerprintImage,
     const ImgProcROIFeature::ImgProcROIResults &imgProcResults)

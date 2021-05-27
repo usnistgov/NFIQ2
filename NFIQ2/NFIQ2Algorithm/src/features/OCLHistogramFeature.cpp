@@ -5,6 +5,53 @@
 
 #include <sstream>
 
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin0 {
+	    "OCL_Bin10_0"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin1 {
+	    "OCL_Bin10_1"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin2 {
+	    "OCL_Bin10_2"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin3 {
+	    "OCL_Bin10_3"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin4 {
+	    "OCL_Bin10_4"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin5 {
+	    "OCL_Bin10_5"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin6 {
+	    "OCL_Bin10_6"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin7 {
+	    "OCL_Bin10_7"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin8 {
+	    "OCL_Bin10_8"
+    };
+const std::string
+    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin9 {
+	    "OCL_Bin10_9"
+    };
+const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::Mean {
+	"OCL_Bin10_Mean"
+};
+const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::StdDev {
+	"OCL_Bin10_StdDev"
+};
+
 NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {

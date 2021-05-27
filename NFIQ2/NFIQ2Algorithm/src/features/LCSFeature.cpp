@@ -6,6 +6,43 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin0 {
+	"LCS_Bin10_0"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin1 {
+	"LCS_Bin10_1"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin2 {
+	"LCS_Bin10_2"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin3 {
+	"LCS_Bin10_3"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin4 {
+	"LCS_Bin10_4"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin5 {
+	"LCS_Bin10_5"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin6 {
+	"LCS_Bin10_6"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin7 {
+	"LCS_Bin10_7"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin8 {
+	"LCS_Bin10_8"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin9 {
+	"LCS_Bin10_9"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Mean {
+	"LCS_Bin10_Mean"
+};
+const std::string NFIQ2::QualityFeatureIDs::LocalClarity::StdDev {
+	"LCS_Bin10_StdDev"
+};
+
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 

@@ -7,19 +7,26 @@
 #include <vector>
 
 namespace NFIQ2 {
-/** Contains strings corresponding to Actionable Feedback Scores. */
+/** Identifiers for actionable feedback values. */
 namespace ActionableQualityFeedbackIDs {
-
-static const std::string EmptyImageOrContrastTooLow {
-	"EmptyImageOrContrastTooLow"
-};
-static const std::string UniformImage { "UniformImage" };
-static const std::string FingerprintImageWithMinutiae {
-	"FingerprintImageWithMinutiae"
-};
-static const std::string SufficientFingerprintForeground {
-	"SufficientFingerprintForeground"
-};
+/**
+ * The image is blank or the contrast is too low.
+ *
+ * @details
+ * The mean gray level appears white.
+ */
+extern const std::string EmptyImageOrContrastTooLow;
+/** Standard deviation of gray levels in image indicates uniformity. */
+extern const std::string UniformImage;
+/**
+ * Number of minutia in image.
+ *
+ * @note
+ * Equivalent to QualityFeatures::Minutiae::Count.
+ */
+extern const std::string FingerprintImageWithMinutiae;
+/** Number of pixels in the computed foreground. */
+extern const std::string SufficientFingerprintForeground;
 }
 
 /** Contains doubles corresponding to Actionable Feedback Thresholds. */

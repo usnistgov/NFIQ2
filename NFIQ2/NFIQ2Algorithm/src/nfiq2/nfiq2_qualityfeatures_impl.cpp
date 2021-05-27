@@ -21,6 +21,22 @@
 #include <unordered_map>
 #include <vector>
 
+const std::string
+    NFIQ2::ActionableQualityFeedbackIDs::EmptyImageOrContrastTooLow {
+	    "EmptyImageOrContrastTooLow"
+    };
+const std::string NFIQ2::ActionableQualityFeedbackIDs::UniformImage {
+	"UniformImage"
+};
+const std::string
+    NFIQ2::ActionableQualityFeedbackIDs::FingerprintImageWithMinutiae {
+	    "FingerprintImageWithMinutiae"
+    };
+const std::string
+    NFIQ2::ActionableQualityFeedbackIDs::SufficientFingerprintForeground {
+	    "SufficientFingerprintForeground"
+    };
+
 std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>

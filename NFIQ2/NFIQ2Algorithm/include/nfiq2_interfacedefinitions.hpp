@@ -38,7 +38,7 @@ namespace FrequencyDomainAnalysis {
  * Local quality values represented as a histogram.
  *
  * @details
- * Bins for the histogram are defined in the NFIQ 2 Report
+ * Bins for the histogram are defined in the NFIQ 2 Report.
  */
 namespace Histogram {
 /** First of ten histogram bin boundaries. */
@@ -69,33 +69,31 @@ extern const std::string Mean;
 extern const std::string StdDev;
 }
 /**
- * Measures relative to minutiae detected within the image using
- * the integrated feature extractor, FingerJet FX OSE.
+ * Measures relative to minutiae detected within the image using the integrated
+ * feature extractor, FingerJet FX OSE.
  */
 namespace Minutiae {
 /** Number of minutiae in the image. */
 extern const std::string Count;
 
 /**
- * Number of minutiae lying in a 200x200 pixel rectangle
- * centered at the center of mass of the locations of all
- * detected minutia.
+ * Number of minutiae lying in a 200x200 pixel rectangle centered at the center
+ * of mass of the locations of all detected minutia.
  */
 extern const std::string CountCOM;
 
 /**
- * Percentage of minutiae whose quality value, as determined by
- * Grayscale::Mean of a 32x32 pixel region centered on the
- * minutiae, is between 0-0.5.
+ * Percentage of minutiae whose quality value, as determined by Grayscale::Mean
+ * of a 32x32 pixel region centered on the minutiae, is between 0-0.5.
  *
  * @see Grayscale::Mean
  */
 extern const std::string QualityMu2;
 
 /**
- * Percentage of minutiae whose quality value, as determined by
- * the Orientation Certainty Level of a 32x32 pixel region
- * centered on the minutiae, is above 80.
+ * Percentage of minutiae whose quality value, as determined by the Orientation
+ * Certainty Level of a 32x32 pixel region centered on the minutiae, is above
+ * 80.
  *
  * @see OrientationCertainty
  */
@@ -105,25 +103,20 @@ extern const std::string QualityOCL80;
 /** Measures based on the foreground area of the image. */
 namespace RegionOfInterest {
 /**
- * Mean grayscale value of the number of 32x32 pixel regions
- * having at least 1 pixel in the ROI.
+ * Mean grayscale value of the number of 32x32 pixel regions having at least 1
+ * pixel in the ROI.
  */
 extern const std::string Mean;
 
-/**
- * Sum of coherence values over all 16x16 pixel regions within
- * the ROI.
- */
+/** Sum of coherence values over all 16x16 pixel regions within the ROI. */
 extern const std::string CoherenceSum;
 
 /**
- * Average of coherence values over all 16x16 pixel regions
- * within the ROI.
+ * Average of coherence values over all 16x16 pixel regions within the ROI.
  *
  * @details
- * This is computed as RegionOfInterest::CoherenceSum / (number
- * of 16x16 pixel regions that contain at least 1 pixel within
- * the ROI).
+ * This is computed as RegionOfInterest::CoherenceSum / (number of 16x16 pixel
+ * regions that contain at least 1 pixel within the ROI).
  *
  * @see CoherenceSum
  */
@@ -176,8 +169,8 @@ extern const std::string MeanBlock;
 }
 
 /**
- * Measure of the strength of the energy concentration along the
- * dominant ridge flow orientation.
+ * Measure of the strength of the energy concentration along the dominant
+ * ridge flow orientation.
  */
 namespace OrientationCertainty {
 /**
@@ -216,8 +209,8 @@ extern const std::string StdDev;
 }
 
 /**
- * Measure of the ridge flow continuity, based on the absolute
- * orientation difference between a block in its 8-neighborhood.
+ * Measure of the ridge flow continuity, based on the absolute orientation
+ * difference between a block in its 8-neighborhood.
  */
 namespace OrientationFlow {
 /**

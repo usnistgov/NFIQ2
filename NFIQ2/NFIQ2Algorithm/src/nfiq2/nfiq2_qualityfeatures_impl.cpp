@@ -108,7 +108,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	std::unordered_map<std::string, double> actionableMap {};
 
 	for (const auto &feature : features) {
-		if (feature->getModuleName() == "NFIQ2_Mu") {
+		if (feature->getModuleName() ==
+		    QualityFeatures::Modules::Grayscale) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
@@ -156,7 +157,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				return actionableMap;
 			}
 
-		} else if (feature->getModuleName() == "NFIQ2_FingerJetFX") {
+		} else if (feature->getModuleName() ==
+		    QualityFeatures::Modules::MinutiaeCount) {
 			// Minutiae
 			const std::shared_ptr<FingerJetFXFeature>
 			    fjfxFeatureModule =
@@ -176,8 +178,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				}
 			}
 
-		} else if (feature->getModuleName().compare(
-			       "NFIQ2_ImgProcROI") == 0) {
+		} else if (feature->getModuleName().compare(QualityFeatures::
+				   Modules::RegionOfInterestMean) == 0) {
 			// FP Foreground
 			const std::shared_ptr<ImgProcROIFeature>
 			    roiFeatureModule =

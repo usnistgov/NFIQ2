@@ -106,14 +106,10 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string NFIQ2::QualityFeatures::ImgProcROIFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::RegionOfInterestMean
-};
-
 std::string
 NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::RegionOfInterestMean;
 }
 
 std::vector<std::string>

@@ -264,13 +264,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string NFIQ2::QualityFeatures::FingerJetFXFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::MinutiaeCount
-};
 std::string
 NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::MinutiaeCount;
 }
 
 std::vector<std::string>

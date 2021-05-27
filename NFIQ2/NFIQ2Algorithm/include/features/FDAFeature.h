@@ -27,7 +27,7 @@ class FDAFeature : public BaseFeature {
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
-	static const std::string moduleName;
+	static const char moduleName[];
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(

@@ -210,14 +210,10 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
 	return true;
 }
 
-const std::string NFIQ2::QualityFeatures::OCLHistogramFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::OrientationCertainty
-};
-
 std::string
 NFIQ2::QualityFeatures::OCLHistogramFeature::getModuleName() const
 {
-	return "NFIQ2_OCLHistogram";
+	return NFIQ2::QualityFeatures::Modules::OrientationCertainty;
 }
 
 std::vector<std::string>

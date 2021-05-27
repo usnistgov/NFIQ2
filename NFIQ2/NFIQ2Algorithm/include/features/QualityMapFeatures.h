@@ -27,7 +27,6 @@ class QualityMapFeatures : public BaseFeature {
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
-	static const std::string moduleName;
 
 	// compute orientation angle of a block
 	static bool getAngleOfBlock(

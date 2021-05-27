@@ -223,14 +223,10 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::RidgeValleyUniformity
-};
-
 std::string
 NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 {
-	return "NFIQ2_RVUPHistogram";
+	return NFIQ2::QualityFeatures::Modules::RidgeValleyUniformity;
 }
 
 std::vector<std::string>

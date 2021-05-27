@@ -144,14 +144,10 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string
-    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::moduleName {
-	    NFIQ2::QualityFeatures::Modules::MinutiaeQuality
-    };
 std::string
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::MinutiaeQuality;
 }
 
 std::vector<std::string>

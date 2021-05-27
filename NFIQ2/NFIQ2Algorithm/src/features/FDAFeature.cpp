@@ -89,13 +89,10 @@ NFIQ2::QualityFeatures::FDAFeature::getAllFeatureIDs()
 const std::string NFIQ2::QualityFeatures::FDAFeature::speedFeatureIDGroup =
     "Frequency domain";
 
-const std::string NFIQ2::QualityFeatures::FDAFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::FrequencyDomainAnalysis
-};
 std::string
 NFIQ2::QualityFeatures::FDAFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::FrequencyDomainAnalysis;
 }
 
 std::unordered_map<std::string, double>

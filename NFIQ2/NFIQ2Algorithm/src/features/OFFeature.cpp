@@ -55,13 +55,10 @@ NFIQ2::QualityFeatures::OFFeature::OFFeature(
 
 NFIQ2::QualityFeatures::OFFeature::~OFFeature() = default;
 
-const std::string NFIQ2::QualityFeatures::OFFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::OrientationFlow
-};
 std::string
 NFIQ2::QualityFeatures::OFFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::OrientationFlow;
 }
 
 std::vector<std::string>

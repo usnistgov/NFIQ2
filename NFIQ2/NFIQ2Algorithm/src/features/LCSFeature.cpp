@@ -54,14 +54,10 @@ NFIQ2::QualityFeatures::LCSFeature::LCSFeature(
 
 NFIQ2::QualityFeatures::LCSFeature::~LCSFeature() = default;
 
-const std::string NFIQ2::QualityFeatures::LCSFeature::moduleName {
-	NFIQ2::QualityFeatures::Modules::LocalClarity
-};
-
 std::string
 NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::LocalClarity;
 }
 
 std::vector<std::string>

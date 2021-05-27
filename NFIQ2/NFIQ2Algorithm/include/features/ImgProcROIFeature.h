@@ -42,7 +42,6 @@ class ImgProcROIFeature : public BaseFeature {
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
-	static const std::string moduleName;
 
 	static ImgProcROIResults computeROI(cv::Mat &img, unsigned int bs);
 

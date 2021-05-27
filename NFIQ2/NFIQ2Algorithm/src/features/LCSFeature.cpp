@@ -55,7 +55,7 @@ const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Mean {
 };
 const std::string NFIQ2::QualityFeatureIDs::LocalClarity::StdDev {
 	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::LCSFeature::StdDevSuffix
 };
 
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,

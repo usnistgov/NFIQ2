@@ -57,7 +57,7 @@ const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Mean {
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::StdDev {
 	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::OFFeature::StdDevSuffix
 };
 
 NFIQ2::QualityFeatures::OFFeature::OFFeature(

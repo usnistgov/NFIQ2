@@ -64,7 +64,7 @@ const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::Mean {
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::StdDev {
 	NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::OCLHistogramFeature::StdDevSuffix
 };
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(

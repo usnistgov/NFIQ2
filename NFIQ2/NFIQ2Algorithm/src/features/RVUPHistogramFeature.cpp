@@ -66,7 +66,7 @@ const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
 };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
 	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::RVUPHistogramFeature::StdDevSuffix
 };
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,

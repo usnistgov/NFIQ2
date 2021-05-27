@@ -66,7 +66,7 @@ const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Mean {
 };
 const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::StdDev {
 	NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::FDAFeature::StdDevSuffix
 };
 
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,

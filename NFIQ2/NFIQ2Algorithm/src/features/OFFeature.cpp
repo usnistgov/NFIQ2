@@ -26,10 +26,18 @@ NFIQ2::QualityFeatures::OFFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::OFFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	addHistogramFeatureNames(featureIDs, "OF_Bin10_", 10);
-
-	return featureIDs;
+	return { QualityFeatureIDs::OrientationFlow::Histogram::Bin0,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin1,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin2,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin3,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin4,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin5,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin6,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin7,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin8,
+		QualityFeatureIDs::OrientationFlow::Histogram::Bin9,
+		QualityFeatureIDs::OrientationFlow::Mean,
+		QualityFeatureIDs::OrientationFlow::StdDev };
 }
 
 const std::string NFIQ2::QualityFeatures::OFFeature::speedFeatureIDGroup =
@@ -232,6 +240,10 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 			OfScore = 1.0 - goqs.val[0];
 		}
 
+		static const std::string featurePrefix = std::string(
+		    QualityFeatureIDs::OrientationFlow::Histogram::Bin0, 0,
+		    QualityFeatureIDs::OrientationFlow::Histogram::Bin0.size() -
+			1);
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(OFHISTLIMITS[0]);
 		histogramBins10.push_back(OFHISTLIMITS[1]);
@@ -242,7 +254,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		histogramBins10.push_back(OFHISTLIMITS[6]);
 		histogramBins10.push_back(OFHISTLIMITS[7]);
 		histogramBins10.push_back(OFHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, "OF_Bin10_",
+		addHistogramFeatures(featureDataList, featurePrefix,
 		    histogramBins10, dataVector, 10);
 
 		timeOF = timerOF.stop();
@@ -251,7 +263,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, "OF_Bin10_", 10);
+		addHistogramFeatureNames(speed.featureIDs, featurePrefix, 10);
 
 		speed.featureSpeed = timeOF;
 		this->setSpeed(speed);

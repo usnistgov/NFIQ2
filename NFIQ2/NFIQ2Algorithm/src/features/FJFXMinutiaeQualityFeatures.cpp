@@ -33,10 +33,10 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	std::unordered_map<std::string, double> featureDataList;
 
 	std::pair<std::string, double> fd_mu;
-	fd_mu = std::make_pair("FJFXPos_Mu_MinutiaeQuality_2", -1);
+	fd_mu = std::make_pair(QualityFeatureIDs::Minutiae::QualityMu2, -1);
 
 	std::pair<std::string, double> fd_ocl;
-	fd_ocl = std::make_pair("FJFXPos_OCL_MinutiaeQuality_80", -1);
+	fd_ocl = std::make_pair(QualityFeatureIDs::Minutiae::QualityOCL80, -1);
 
 	try {
 		NFIQ2::Timer timer;
@@ -110,8 +110,10 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup =
 		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
-		speed.featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
-		speed.featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
+		speed.featureIDs.push_back(
+		    QualityFeatureIDs::Minutiae::QualityMu2);
+		speed.featureIDs.push_back(
+		    QualityFeatureIDs::Minutiae::QualityOCL80);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -145,10 +147,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	featureIDs.push_back("FJFXPos_Mu_MinutiaeQuality_2");
-	featureIDs.push_back("FJFXPos_OCL_MinutiaeQuality_80");
-	return featureIDs;
+	return { QualityFeatureIDs::Minutiae::QualityMu2,
+		QualityFeatureIDs::Minutiae::QualityOCL80 };
 }
 
 std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>

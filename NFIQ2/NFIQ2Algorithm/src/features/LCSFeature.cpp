@@ -30,10 +30,18 @@ NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	addHistogramFeatureNames(featureIDs, "LCS_Bin10_", 10);
-
-	return featureIDs;
+	return { QualityFeatureIDs::LocalClarity::Histogram::Bin0,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin1,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin2,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin3,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin4,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin5,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin6,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin7,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin8,
+		QualityFeatureIDs::LocalClarity::Histogram::Bin9,
+		QualityFeatureIDs::LocalClarity::Mean,
+		QualityFeatureIDs::LocalClarity::StdDev };
 }
 
 const std::string NFIQ2::QualityFeatures::LCSFeature::speedFeatureIDGroup =
@@ -163,6 +171,11 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 
 		timeLCS = timerLCS.stop();
 
+		static const std::string featurePrefix = std::string(
+		    QualityFeatureIDs::LocalClarity::Histogram::Bin0, 0,
+		    QualityFeatureIDs::LocalClarity::Histogram::Bin0.size() -
+			1);
+
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(LCSHISTLIMITS[0]);
 		histogramBins10.push_back(LCSHISTLIMITS[1]);
@@ -173,14 +186,14 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 		histogramBins10.push_back(LCSHISTLIMITS[6]);
 		histogramBins10.push_back(LCSHISTLIMITS[7]);
 		histogramBins10.push_back(LCSHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, "LCS_Bin10_",
+		addHistogramFeatures(featureDataList, featurePrefix,
 		    histogramBins10, dataVector, 10);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, "LCS_Bin10_", 10);
+		addHistogramFeatureNames(speed.featureIDs, featurePrefix, 10);
 
 		speed.featureSpeed = timeLCS;
 		this->setSpeed(speed);

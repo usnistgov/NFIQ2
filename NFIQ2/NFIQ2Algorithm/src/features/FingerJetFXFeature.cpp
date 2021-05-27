@@ -94,11 +94,11 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    fingerprintImage.size());
 
 	std::pair<std::string, double> fd_min_cnt;
-	fd_min_cnt = std::make_pair("FingerJetFX_MinutiaeCount", 0);
+	fd_min_cnt = std::make_pair(QualityFeatureIDs::Minutiae::Count, 0);
 
 	std::pair<std::string, double> fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200 = std::make_pair(
-	    "FingerJetFX_MinCount_COMMinRect200x200", 0);
+	    QualityFeatureIDs::Minutiae::CountCOM, 0);
 
 	NFIQ2::Timer timer;
 	timer.start();
@@ -200,9 +200,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
-		speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
+		speed.featureIDs.push_back(QualityFeatureIDs::Minutiae::Count);
 		speed.featureIDs.push_back(
-		    "FingerJetFX_MinCount_COMMinRect200x200");
+		    QualityFeatureIDs::Minutiae::CountCOM);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -246,8 +246,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
-	speed.featureIDs.push_back("FingerJetFX_MinutiaeCount");
-	speed.featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
+	speed.featureIDs.push_back(QualityFeatureIDs::Minutiae::Count);
+	speed.featureIDs.push_back(QualityFeatureIDs::Minutiae::CountCOM);
 	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
@@ -266,10 +266,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 std::vector<std::string>
 NFIQ2::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
 {
-	std::vector<std::string> featureIDs;
-	featureIDs.push_back("FingerJetFX_MinCount_COMMinRect200x200");
-	featureIDs.push_back("FingerJetFX_MinutiaeCount");
-	return featureIDs;
+	return { QualityFeatureIDs::Minutiae::CountCOM,
+		QualityFeatureIDs::Minutiae::Count };
 }
 
 FRFXLL_RESULT

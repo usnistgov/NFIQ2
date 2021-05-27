@@ -286,15 +286,6 @@ extern const char StdDev[];
 }
 }
 
-/** ActionableQualityFeedback structure. */
-struct actionable_quality_feedback_t {
-	/** Name of the actionable quality metric. */
-	std::string identifier;
-	/** Numerical value associated with the actionable quality metric. */
-	double actionableQualityValue;
-};
-using ActionableQualityFeedback = actionable_quality_feedback_t;
-
 /** This type represents the ID of an image */
 typedef struct image_id_t {
 	/** User/subject ID of image. */

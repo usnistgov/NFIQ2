@@ -164,17 +164,15 @@ main(int argc, char **argv)
 	std::cout << "QualityScore: " << nfiq2 << '\n';
 
 	// Actionable Feedback
-	std::vector<std::string> actionIDs =
+	std::vector<std::string> actionableIDs =
 	    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
 
-	std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
-	    actionableQuality =
-		NFIQ2::QualityFeatures::getActionableQualityFeedback(features);
+	std::unordered_map<std::string, double> actionableQuality =
+	    NFIQ2::QualityFeatures::getActionableQualityFeedback(features);
 
-	for (const auto &i : actionIDs) {
-		std::cout << actionableQuality.at(i).identifier << ": "
-			  << actionableQuality.at(i).actionableQualityValue
-			  << '\n';
+	for (const auto &actionableID : actionableIDs) {
+		std::cout << actionableID << ": "
+			  << actionableQuality.at(actionableID) << '\n';
 	}
 
 	// Quality Feature Values

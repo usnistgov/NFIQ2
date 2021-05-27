@@ -65,7 +65,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
 	return quality;
 }
 
-std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage)
 {
@@ -73,13 +73,12 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	    NFIQ2::QualityFeatures::computeQualityFeatures(rawImage));
 }
 
-std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
-	std::unordered_map<std::string, NFIQ2::ActionableQualityFeedback>
-	    actionableMap {};
+	std::unordered_map<std::string, double> actionableMap {};
 
 	for (const auto &feature : features) {
 		if (feature->getModuleName().compare("NFIQ2_Mu") == 0) {
@@ -94,18 +93,15 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			    it_muFeatures;
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
-			NFIQ2::ActionableQualityFeedback fbUniform;
-			fbUniform.actionableQualityValue =
-			    muFeatureModule->getSigma();
-			fbUniform.identifier = NFIQ2::
-			    ActionableQualityFeedbackIdentifier::UniformImage;
-			isUniformImage = (fbUniform.actionableQualityValue <
-				    ActionableQualityFeedbackThreshold::
-					UniformImage ?
-				      true :
-				      false);
 			actionableMap[ActionableQualityFeedbackIdentifier::
-				UniformImage] = fbUniform;
+				UniformImage] = muFeatureModule->getSigma();
+			isUniformImage =
+			    (actionableMap[ActionableQualityFeedbackIdentifier::
+				     UniformImage] <
+					ActionableQualityFeedbackThreshold::
+					    UniformImage ?
+					  true :
+					  false);
 
 			// Mu is computed always since it is used as feature
 			// anyway
@@ -114,21 +110,17 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			     it_muFeatures != muFeatures.end();
 			     ++it_muFeatures) {
 				if (it_muFeatures->first.compare("Mu") == 0) {
-					NFIQ2::ActionableQualityFeedback fb;
-					fb.actionableQualityValue =
-					    it_muFeatures->second;
-					fb.identifier = NFIQ2::
-					    ActionableQualityFeedbackIdentifier::
-						EmptyImageOrContrastTooLow;
-					isEmptyImage = (fb.actionableQualityValue >
-						    ActionableQualityFeedbackThreshold::
-							EmptyImageOrContrastTooLow ?
-						      true :
-						      false);
 					actionableMap
 					    [ActionableQualityFeedbackIdentifier::
 						    EmptyImageOrContrastTooLow] =
-						fb;
+						it_muFeatures->second;
+					isEmptyImage =
+					    (actionableMap[ActionableQualityFeedbackIdentifier::
+						     EmptyImageOrContrastTooLow] >
+							ActionableQualityFeedbackThreshold::
+							    EmptyImageOrContrastTooLow ?
+							  true :
+							  false);
 				}
 			}
 
@@ -160,16 +152,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 					"FingerJetFX_MinutiaeCount") == 0) {
 					// return informative feature about
 					// number of minutiae
-					NFIQ2::ActionableQualityFeedback fb;
-					fb.actionableQualityValue =
-					    it_fjfxFeatures->second;
-					fb.identifier = NFIQ2::
-					    ActionableQualityFeedbackIdentifier::
-						FingerprintImageWithMinutiae;
 					actionableMap
 					    [ActionableQualityFeedbackIdentifier::
 						    FingerprintImageWithMinutiae] =
-						fb;
+						it_fjfxFeatures->second;
 				}
 			}
 
@@ -182,16 +168,10 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				    feature);
 
 			// add ROI information to actionable quality feedback
-			NFIQ2::ActionableQualityFeedback fb_roi;
-			fb_roi.actionableQualityValue =
-			    roiFeatureModule->getImgProcResults()
-				.noOfROIPixels; // absolute number of ROI pixels
-						// (foreground)
-			fb_roi.identifier =
-			    NFIQ2::ActionableQualityFeedbackIdentifier::
-				SufficientFingerprintForeground;
+			// absolute number of ROI pixels (foreground)
 			actionableMap[ActionableQualityFeedbackIdentifier::
-				SufficientFingerprintForeground] = fb_roi;
+				SufficientFingerprintForeground] =
+			    roiFeatureModule->getImgProcResults().noOfROIPixels;
 		}
 	}
 

@@ -5,76 +5,42 @@
 
 #include <sstream>
 
-const std::string NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix {
-	"OCL_Bin10_"
+static const char NFIQ2OCLFeaturePrefix[] { "OCL_Bin10_" };
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin0[] {
+	"OCL_Bin10_0"
 };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin0 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin0Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin1 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin1Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin2 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin2Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin3 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin3Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin4 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin4Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin5 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin5Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin6 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin6Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin7 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin7Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin8 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin8Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin9 {
-	    NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin9Suffix
-    };
-const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::Mean {
-	NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::MeanSuffix
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin1[] {
+	"OCL_Bin10_1"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::StdDev {
-	NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::StdDevSuffix
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin2[] {
+	"OCL_Bin10_2"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin3[] {
+	"OCL_Bin10_3"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin4[] {
+	"OCL_Bin10_4"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin5[] {
+	"OCL_Bin10_5"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin6[] {
+	"OCL_Bin10_6"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin7[] {
+	"OCL_Bin10_7"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin8[] {
+	"OCL_Bin10_8"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin9[] {
+	"OCL_Bin10_9"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Mean[] {
+	"OCL_Bin10_Mean"
+};
+const char NFIQ2::QualityFeatureIDs::OrientationCertainty::StdDev[] {
+	"OCL_Bin10_StdDev"
 };
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
@@ -167,7 +133,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(OCLPHISTLIMITS[6]);
 		histogramBins10.push_back(OCLPHISTLIMITS[7]);
 		histogramBins10.push_back(OCLPHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, FeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2OCLFeaturePrefix,
 		    histogramBins10, oclres, 10);
 
 		timeOCL = timerOCL.stop();
@@ -176,7 +142,8 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = OCLHistogramFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
+		addHistogramFeatureNames(
+		    speed.featureIDs, NFIQ2OCLFeaturePrefix, 10);
 
 		speed.featureSpeed = timeOCL;
 		this->setSpeed(speed);

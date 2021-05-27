@@ -6,56 +6,40 @@
 
 #include <sstream>
 
-const std::string NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix {
-	"LCS_Bin10_"
+static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin0[] {
+	"LCS_Bin10_0"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin0 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin0Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin1[] {
+	"LCS_Bin10_1"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin1 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin1Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin2[] {
+	"LCS_Bin10_2"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin2 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin2Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin3[] {
+	"LCS_Bin10_3"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin3 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin3Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin4[] {
+	"LCS_Bin10_4"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin4 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin4Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin5[] {
+	"LCS_Bin10_5"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin5 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin5Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin6[] {
+	"LCS_Bin10_6"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin6 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin6Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin7[] {
+	"LCS_Bin10_7"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin7 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin7Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin8[] {
+	"LCS_Bin10_8"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin8 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin8Suffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin9[] {
+	"LCS_Bin10_9"
 };
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin9 {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin9Suffix
-};
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::Mean {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::MeanSuffix
-};
-const std::string NFIQ2::QualityFeatureIDs::LocalClarity::StdDev {
-	NFIQ2::QualityFeatures::LCSFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::StdDevSuffix
+const char NFIQ2::QualityFeatureIDs::LocalClarity::Mean[] { "LCS_Bin10_Mean" };
+const char NFIQ2::QualityFeatureIDs::LocalClarity::StdDev[] {
+	"LCS_Bin10_StdDev"
 };
 
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
@@ -233,14 +217,15 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 		histogramBins10.push_back(LCSHISTLIMITS[6]);
 		histogramBins10.push_back(LCSHISTLIMITS[7]);
 		histogramBins10.push_back(LCSHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, FeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2LCSFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
+		addHistogramFeatureNames(
+		    speed.featureIDs, NFIQ2LCSFeaturePrefix, 10);
 
 		speed.featureSpeed = timeLCS;
 		this->setSpeed(speed);

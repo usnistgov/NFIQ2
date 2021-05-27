@@ -7,16 +7,11 @@
 #include <sstream>
 #include <tuple>
 
-const std::string NFIQ2::QualityFeatures::FingerJetFXFeature::FeaturePrefix {
-	"FingerJetFX_"
+const char NFIQ2::QualityFeatureIDs::Minutiae::Count[] {
+	"FingerJetFX_MinutiaeCount"
 };
-const std::string NFIQ2::QualityFeatureIDs::Minutiae::Count {
-	NFIQ2::QualityFeatures::FingerJetFXFeature::FeaturePrefix +
-	"MinutiaeCount"
-};
-const std::string NFIQ2::QualityFeatureIDs::Minutiae::CountCOM {
-	NFIQ2::QualityFeatures::FingerJetFXFeature::FeaturePrefix +
-	"MinCount_COMMinRect200x200"
+const char NFIQ2::QualityFeatureIDs::Minutiae::CountCOM[] {
+	"FingerJetFX_MinCount_COMMinRect200x200"
 };
 
 NFIQ2::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(

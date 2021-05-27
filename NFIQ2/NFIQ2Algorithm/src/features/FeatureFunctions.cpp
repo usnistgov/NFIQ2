@@ -1,4 +1,4 @@
-#include <features/BaseFeature.h>
+
 #include <features/FeatureFunctions.h>
 #include <nfiq2_exception.hpp>
 #include <opencv2/imgproc.hpp>
@@ -8,6 +8,9 @@
 #include <limits>
 
 static const int maxSampleCount = 50;
+
+static const char FeaturFunctionsStdDevSuffix[] = "StdDev";
+static const char FeaturFunctionsMeanSuffix[] = "Mean";
 
 /***
 From the matlab code:
@@ -582,8 +585,8 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	std::pair<std::string, double> meanFD, stdDevFD;
 	std::stringstream meanSs, stdDevSs;
 
-	meanSs << featurePrefix << InternalFeatureConstants::MeanSuffix;
-	stdDevSs << featurePrefix << InternalFeatureConstants::StdDevSuffix;
+	meanSs << featurePrefix << FeaturFunctionsMeanSuffix;
+	stdDevSs << featurePrefix << FeaturFunctionsStdDevSuffix;
 
 	meanFD = std::make_pair(meanSs.str(), mean.val[0]);
 
@@ -619,8 +622,8 @@ NFIQ2::QualityFeatures::addHistogramFeatureNames(
 		featureNames.push_back(s.str());
 	}
 	std::stringstream meanSs, stdDevSs;
-	meanSs << prefix << InternalFeatureConstants::MeanSuffix;
-	stdDevSs << prefix << InternalFeatureConstants::StdDevSuffix;
+	meanSs << prefix << FeaturFunctionsMeanSuffix;
+	stdDevSs << prefix << FeaturFunctionsStdDevSuffix;
 	featureNames.push_back(meanSs.str());
 	featureNames.push_back(stdDevSs.str());
 }

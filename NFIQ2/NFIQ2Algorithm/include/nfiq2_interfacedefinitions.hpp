@@ -42,31 +42,31 @@ namespace FrequencyDomainAnalysis {
  */
 namespace Histogram {
 /** First of ten histogram bin boundaries. */
-extern const std::string Bin0;
+extern const char Bin0[];
 /** Second of ten histogram bin boundaries. */
-extern const std::string Bin1;
+extern const char Bin1[];
 /** Third of ten histogram bin boundaries. */
-extern const std::string Bin2;
+extern const char Bin2[];
 /** Fourth of ten histogram bin boundaries. */
-extern const std::string Bin3;
+extern const char Bin3[];
 /** Fifth of ten histogram bin boundaries. */
-extern const std::string Bin4;
+extern const char Bin4[];
 /** Sixth of ten histogram bin boundaries. */
-extern const std::string Bin5;
+extern const char Bin5[];
 /** Seventh of ten histogram bin boundaries. */
-extern const std::string Bin6;
+extern const char Bin6[];
 /** Eighth of ten histogram bin boundaries. */
-extern const std::string Bin7;
+extern const char Bin7[];
 /** Ninth of ten histogram bin boundaries. */
-extern const std::string Bin8;
+extern const char Bin8[];
 /** Tenth of ten histogram bin boundaries. */
-extern const std::string Bin9;
+extern const char Bin9[];
 }
 
 /** Mean of local quality value. */
-extern const std::string Mean;
+extern const char Mean[];
 /** Standard deviation of local quality values. */
-extern const std::string StdDev;
+extern const char StdDev[];
 }
 /**
  * Measures relative to minutiae detected within the image using the integrated
@@ -74,13 +74,13 @@ extern const std::string StdDev;
  */
 namespace Minutiae {
 /** Number of minutiae in the image. */
-extern const std::string Count;
+extern const char Count[];
 
 /**
  * Number of minutiae lying in a 200x200 pixel rectangle centered at the center
  * of mass of the locations of all detected minutia.
  */
-extern const std::string CountCOM;
+extern const char CountCOM[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by Grayscale::Mean
@@ -88,7 +88,7 @@ extern const std::string CountCOM;
  *
  * @see Grayscale::Mean
  */
-extern const std::string QualityMu2;
+extern const char QualityMu2[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by the Orientation
@@ -97,7 +97,7 @@ extern const std::string QualityMu2;
  *
  * @see OrientationCertainty
  */
-extern const std::string QualityOCL80;
+extern const char QualityOCL80[];
 }
 
 /** Measures based on the foreground area of the image. */
@@ -106,10 +106,10 @@ namespace RegionOfInterest {
  * Mean grayscale value of the number of 32x32 pixel regions having at least 1
  * pixel in the ROI.
  */
-extern const std::string Mean;
+extern const char Mean[];
 
 /** Sum of coherence values over all 16x16 pixel regions within the ROI. */
-extern const std::string CoherenceSum;
+extern const char CoherenceSum[];
 
 /**
  * Average of coherence values over all 16x16 pixel regions within the ROI.
@@ -120,7 +120,7 @@ extern const std::string CoherenceSum;
  *
  * @see CoherenceSum
  */
-extern const std::string CoherenceMean;
+extern const char CoherenceMean[];
 }
 
 /** Measure of the clarity of ridge and valleys. */
@@ -133,39 +133,39 @@ namespace LocalClarity {
  */
 namespace Histogram {
 /** First of ten histogram bin boundaries. */
-extern const std::string Bin0;
+extern const char Bin0[];
 /** Second of ten histogram bin boundaries. */
-extern const std::string Bin1;
+extern const char Bin1[];
 /** Third of ten histogram bin boundaries. */
-extern const std::string Bin2;
+extern const char Bin2[];
 /** Fourth of ten histogram bin boundaries. */
-extern const std::string Bin3;
+extern const char Bin3[];
 /** Fifth of ten histogram bin boundaries. */
-extern const std::string Bin4;
+extern const char Bin4[];
 /** Sixth of ten histogram bin boundaries. */
-extern const std::string Bin5;
+extern const char Bin5[];
 /** Seventh of ten histogram bin boundaries. */
-extern const std::string Bin6;
+extern const char Bin6[];
 /** Eighth of ten histogram bin boundaries. */
-extern const std::string Bin7;
+extern const char Bin7[];
 /** Ninth of ten histogram bin boundaries. */
-extern const std::string Bin8;
+extern const char Bin8[];
 /** Tenth of ten histogram bin boundaries. */
-extern const std::string Bin9;
+extern const char Bin9[];
 }
 
 /** Mean of local quality value. */
-extern const std::string Mean;
+extern const char Mean[];
 /** Standard deviation of local quality values. */
-extern const std::string StdDev;
+extern const char StdDev[];
 }
 
 /** Measure of the gray levels of the image. */
 namespace Grayscale {
 /** Arithmetic mean of the image. */
-extern const std::string Mean;
+extern const char Mean[];
 /** Arithmetic mean of per-block means of the image. */
-extern const std::string MeanBlock;
+extern const char MeanBlock[];
 }
 
 /**
@@ -181,31 +181,31 @@ namespace OrientationCertainty {
  */
 namespace Histogram {
 /** First of ten histogram bin boundaries. */
-extern const std::string Bin0;
+extern const char Bin0[];
 /** Second of ten histogram bin boundaries. */
-extern const std::string Bin1;
+extern const char Bin1[];
 /** Third of ten histogram bin boundaries. */
-extern const std::string Bin2;
+extern const char Bin2[];
 /** Fourth of ten histogram bin boundaries. */
-extern const std::string Bin3;
+extern const char Bin3[];
 /** Fifth of ten histogram bin boundaries. */
-extern const std::string Bin4;
+extern const char Bin4[];
 /** Sixth of ten histogram bin boundaries. */
-extern const std::string Bin5;
+extern const char Bin5[];
 /** Seventh of ten histogram bin boundaries. */
-extern const std::string Bin6;
+extern const char Bin6[];
 /** Eighth of ten histogram bin boundaries. */
-extern const std::string Bin7;
+extern const char Bin7[];
 /** Ninth of ten histogram bin boundaries. */
-extern const std::string Bin8;
+extern const char Bin8[];
 /** Tenth of ten histogram bin boundaries. */
-extern const std::string Bin9;
+extern const char Bin9[];
 }
 
 /** Mean of local quality value. */
-extern const std::string Mean;
+extern const char Mean[];
 /** Standard deviation of local quality values. */
-extern const std::string StdDev;
+extern const char StdDev[];
 }
 
 /**
@@ -221,31 +221,31 @@ namespace OrientationFlow {
  */
 namespace Histogram {
 /** First of ten histogram bin boundaries. */
-extern const std::string Bin0;
+extern const char Bin0[];
 /** Second of ten histogram bin boundaries. */
-extern const std::string Bin1;
+extern const char Bin1[];
 /** Third of ten histogram bin boundaries. */
-extern const std::string Bin2;
+extern const char Bin2[];
 /** Fourth of ten histogram bin boundaries. */
-extern const std::string Bin3;
+extern const char Bin3[];
 /** Fifth of ten histogram bin boundaries. */
-extern const std::string Bin4;
+extern const char Bin4[];
 /** Sixth of ten histogram bin boundaries. */
-extern const std::string Bin5;
+extern const char Bin5[];
 /** Seventh of ten histogram bin boundaries. */
-extern const std::string Bin6;
+extern const char Bin6[];
 /** Eighth of ten histogram bin boundaries. */
-extern const std::string Bin7;
+extern const char Bin7[];
 /** Ninth of ten histogram bin boundaries. */
-extern const std::string Bin8;
+extern const char Bin8[];
 /** Tenth of ten histogram bin boundaries. */
-extern const std::string Bin9;
+extern const char Bin9[];
 }
 
 /** Mean of local quality value. */
-extern const std::string Mean;
+extern const char Mean[];
 /** Standard deviation of local quality values. */
-extern const std::string StdDev;
+extern const char StdDev[];
 }
 
 /** Measure of the consistency of ridge and valley widths. */
@@ -258,31 +258,31 @@ namespace RidgeValleyUniformity {
  */
 namespace Histogram {
 /** First of ten histogram bin boundaries. */
-extern const std::string Bin0;
+extern const char Bin0[];
 /** Second of ten histogram bin boundaries. */
-extern const std::string Bin1;
+extern const char Bin1[];
 /** Third of ten histogram bin boundaries. */
-extern const std::string Bin2;
+extern const char Bin2[];
 /** Fourth of ten histogram bin boundaries. */
-extern const std::string Bin3;
+extern const char Bin3[];
 /** Fifth of ten histogram bin boundaries. */
-extern const std::string Bin4;
+extern const char Bin4[];
 /** Sixth of ten histogram bin boundaries. */
-extern const std::string Bin5;
+extern const char Bin5[];
 /** Seventh of ten histogram bin boundaries. */
-extern const std::string Bin6;
+extern const char Bin6[];
 /** Eighth of ten histogram bin boundaries. */
-extern const std::string Bin7;
+extern const char Bin7[];
 /** Ninth of ten histogram bin boundaries. */
-extern const std::string Bin8;
+extern const char Bin8[];
 /** Tenth of ten histogram bin boundaries. */
-extern const std::string Bin9;
+extern const char Bin9[];
 }
 
 /** Mean of local quality value. */
-extern const std::string Mean;
+extern const char Mean[];
 /** Standard deviation of local quality values. */
-extern const std::string StdDev;
+extern const char StdDev[];
 }
 }
 

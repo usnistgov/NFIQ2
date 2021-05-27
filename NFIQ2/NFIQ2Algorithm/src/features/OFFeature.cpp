@@ -8,56 +8,42 @@
 #include <cmath>
 #include <sstream>
 
-const std::string NFIQ2::QualityFeatures::OFFeature::FeaturePrefix {
-	"OF_Bin10_"
+static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin0[] {
+	"OF_Bin10_0"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin0 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin0Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin1[] {
+	"OF_Bin10_1"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin1 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin1Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin2[] {
+	"OF_Bin10_2"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin2 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin2Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin3[] {
+	"OF_Bin10_3"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin3 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin3Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin4[] {
+	"OF_Bin10_4"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin4 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin4Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin5[] {
+	"OF_Bin10_5"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin5 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin5Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin6[] {
+	"OF_Bin10_6"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin6 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin6Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin7[] {
+	"OF_Bin10_7"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin7 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin7Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin8[] {
+	"OF_Bin10_8"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin8 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin8Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin9[] {
+	"OF_Bin10_9"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin9 {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::HistogramBin9Suffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::Mean[] {
+	"OF_Bin10_Mean"
 };
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Mean {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::MeanSuffix
-};
-const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::StdDev {
-	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::StdDevSuffix
+const char NFIQ2::QualityFeatureIDs::OrientationFlow::StdDev[] {
+	"OF_Bin10_StdDev"
 };
 
 NFIQ2::QualityFeatures::OFFeature::OFFeature(
@@ -302,7 +288,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		histogramBins10.push_back(OFHISTLIMITS[6]);
 		histogramBins10.push_back(OFHISTLIMITS[7]);
 		histogramBins10.push_back(OFHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, FeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2OFFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
 		timeOF = timerOF.stop();
@@ -311,7 +297,8 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
+		addHistogramFeatureNames(
+		    speed.featureIDs, NFIQ2OFFeaturePrefix, 10);
 
 		speed.featureSpeed = timeOF;
 		this->setSpeed(speed);

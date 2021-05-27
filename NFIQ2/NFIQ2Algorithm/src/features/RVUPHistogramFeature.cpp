@@ -7,76 +7,42 @@
 #include <cmath>
 #include <sstream>
 
-const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix {
-	"RVUP_Bin10_"
+const char NFIQ2RVUPFeaturePrefix[] { "RVUP_Bin10_" };
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0[] {
+	"RVUP_Bin10_0"
 };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin0Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin1Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin2Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin3Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin4Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin5Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin6Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin7Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin8Suffix
-    };
-const std::string
-    NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9 {
-	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    NFIQ2::QualityFeatures::InternalFeatureConstants::
-		HistogramBin9Suffix
-    };
-const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
-	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::MeanSuffix
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1[] {
+	"RVUP_Bin10_1"
 };
-const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
-	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	NFIQ2::QualityFeatures::InternalFeatureConstants::StdDevSuffix
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2[] {
+	"RVUP_Bin10_2"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3[] {
+	"RVUP_Bin10_3"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4[] {
+	"RVUP_Bin10_4"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5[] {
+	"RVUP_Bin10_5"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6[] {
+	"RVUP_Bin10_6"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7[] {
+	"RVUP_Bin10_7"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8[] {
+	"RVUP_Bin10_8"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9[] {
+	"RVUP_Bin10_9"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean[] {
+	"RVUP_Bin10_Mean"
+};
+const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev[] {
+	"RVUP_Bin10_StdDev"
 };
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
@@ -224,7 +190,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(RVUPHISTLIMITS[6]);
 		histogramBins10.push_back(RVUPHISTLIMITS[7]);
 		histogramBins10.push_back(RVUPHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, FeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2RVUPFeaturePrefix,
 		    histogramBins10, rvures, 10);
 
 		timeRVU = timerRVU.stop();
@@ -233,7 +199,8 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		speed.featureIDGroup =
 		    RVUPHistogramFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
+		addHistogramFeatureNames(
+		    speed.featureIDs, NFIQ2RVUPFeaturePrefix, 10);
 
 		speed.featureSpeed = timeRVU;
 		this->setSpeed(speed);

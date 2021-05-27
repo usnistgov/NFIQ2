@@ -7,51 +7,66 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix {
+	"RVUP_Bin10_"
+};
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0 {
-	    "RVUP_Bin10_0"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin0Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1 {
-	    "RVUP_Bin10_1"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin1Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2 {
-	    "RVUP_Bin10_2"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin2Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3 {
-	    "RVUP_Bin10_3"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin3Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4 {
-	    "RVUP_Bin10_4"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin4Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5 {
-	    "RVUP_Bin10_5"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin5Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6 {
-	    "RVUP_Bin10_6"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin6Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7 {
-	    "RVUP_Bin10_7"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin7Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8 {
-	    "RVUP_Bin10_8"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin8Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9 {
-	    "RVUP_Bin10_9"
+	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin9Suffix
     };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
-	"RVUP_Bin10_Mean"
+	QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	QualityFeatures::RVUPHistogramFeature::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
-	"RVUP_Bin10_StdDev"
+	QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::StdDevSuffix
 };
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
@@ -188,12 +203,6 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		static const std::string featurePrefix = std::string(
-		    QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0,
-		    0,
-		    QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0
-			    .size() -
-			1);
 		// RIDGE-VALLEY UNIFORMITY
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(RVUPHISTLIMITS[0]);
@@ -205,7 +214,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(RVUPHISTLIMITS[6]);
 		histogramBins10.push_back(RVUPHISTLIMITS[7]);
 		histogramBins10.push_back(RVUPHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, featurePrefix,
+		addHistogramFeatures(featureDataList, FeaturePrefix,
 		    histogramBins10, rvures, 10);
 
 		timeRVU = timerRVU.stop();
@@ -214,7 +223,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		speed.featureIDGroup =
 		    RVUPHistogramFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, featurePrefix, 10);
+		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
 
 		speed.featureSpeed = timeRVU;
 		this->setSpeed(speed);

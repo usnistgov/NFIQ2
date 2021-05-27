@@ -5,51 +5,66 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::OCLHistogramFeature::FeaturePrefix {
+	"OCL_Bin10_"
+};
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin0 {
-	    "OCL_Bin10_0"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin0Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin1 {
-	    "OCL_Bin10_1"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin1Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin2 {
-	    "OCL_Bin10_2"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin2Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin3 {
-	    "OCL_Bin10_3"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin3Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin4 {
-	    "OCL_Bin10_4"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin4Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin5 {
-	    "OCL_Bin10_5"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin5Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin6 {
-	    "OCL_Bin10_6"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin6Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin7 {
-	    "OCL_Bin10_7"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin7Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin8 {
-	    "OCL_Bin10_8"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin8Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin9 {
-	    "OCL_Bin10_9"
+	    QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin9Suffix
     };
 const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::Mean {
-	"OCL_Bin10_Mean"
+	QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	QualityFeatures::OCLHistogramFeature::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationCertainty::StdDev {
-	"OCL_Bin10_StdDev"
+	QualityFeatures::OCLHistogramFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::StdDevSuffix
 };
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
@@ -132,11 +147,6 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 			}
 		}
 
-		static const std::string featurePrefix = std::string(
-		    QualityFeatureIDs::OrientationCertainty::Histogram::Bin0, 0,
-		    QualityFeatureIDs::OrientationCertainty::Histogram::Bin0
-			    .size() -
-			1);
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(OCLPHISTLIMITS[0]);
 		histogramBins10.push_back(OCLPHISTLIMITS[1]);
@@ -147,7 +157,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		histogramBins10.push_back(OCLPHISTLIMITS[6]);
 		histogramBins10.push_back(OCLPHISTLIMITS[7]);
 		histogramBins10.push_back(OCLPHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, featurePrefix,
+		addHistogramFeatures(featureDataList, FeaturePrefix,
 		    histogramBins10, oclres, 10);
 
 		timeOCL = timerOCL.stop();
@@ -156,7 +166,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = OCLHistogramFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, featurePrefix, 10);
+		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
 
 		speed.featureSpeed = timeOCL;
 		this->setSpeed(speed);

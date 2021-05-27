@@ -5,8 +5,12 @@
 
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::ImgProcROIFeature::FeaturePrefix {
+	"ImgProcROIArea_"
+};
 const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::Mean {
-	"ImgProcROIArea_Mean"
+	QualityFeatures::ImgProcROIFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::MeanSuffix
 };
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(

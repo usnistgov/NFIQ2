@@ -7,51 +7,66 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix {
+	"FDA_Bin10_"
+};
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0 {
-	    "FDA_Bin10_0"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin0Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin1 {
-	    "FDA_Bin10_1"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin1Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin2 {
-	    "FDA_Bin10_2"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin2Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin3 {
-	    "FDA_Bin10_3"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin3Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin4 {
-	    "FDA_Bin10_4"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin4Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin5 {
-	    "FDA_Bin10_5"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin5Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin6 {
-	    "FDA_Bin10_6"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin6Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin7 {
-	    "FDA_Bin10_7"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin7Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin8 {
-	    "FDA_Bin10_8"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin8Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin9 {
-	    "FDA_Bin10_9"
+	    QualityFeatures::FDAFeature::FeaturePrefix +
+	    QualityFeatures::BaseFeature::HistogramBin9Suffix
     };
 const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Mean {
-	"FDA_Bin10_Mean"
+	QualityFeatures::FDAFeature::FeaturePrefix +
+	QualityFeatures::FDAFeature::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::StdDev {
-	"FDA_Bin10_StdDev"
+	QualityFeatures::FDAFeature::FeaturePrefix +
+	QualityFeatures::BaseFeature::StdDevSuffix
 };
 
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
@@ -205,12 +220,6 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		static const std::string featurePrefix = std::string(
-		    QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0,
-		    0,
-		    QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0
-			    .size() -
-			1);
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(FDAHISTLIMITS[0]);
 		histogramBins10.push_back(FDAHISTLIMITS[1]);
@@ -221,7 +230,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[6]);
 		histogramBins10.push_back(FDAHISTLIMITS[7]);
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, featurePrefix,
+		addHistogramFeatures(featureDataList, FeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
 		time = timer.stop();
@@ -230,7 +239,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
 
-		addHistogramFeatureNames(speed.featureIDs, featurePrefix, 10);
+		addHistogramFeatureNames(speed.featureIDs, FeaturePrefix, 10);
 
 		speed.featureSpeed = time;
 		this->setSpeed(speed);

@@ -5,11 +5,17 @@
 
 #include <sstream>
 
+const std::string
+    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix {
+	    "FJFXPos_"
+    };
 const std::string NFIQ2::QualityFeatureIDs::Minutiae::QualityMu2 {
-	"FJFXPos_Mu_MinutiaeQuality_2"
+	QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix +
+	"Mu_MinutiaeQuality_2"
 };
 const std::string NFIQ2::QualityFeatureIDs::Minutiae::QualityOCL80 {
-	"FJFXPos_OCL_MinutiaeQuality_80"
+	QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix +
+	"OCL_MinutiaeQuality_80"
 };
 
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(

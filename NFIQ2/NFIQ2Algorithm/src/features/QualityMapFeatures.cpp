@@ -6,11 +6,16 @@
 #include <cmath>
 #include <sstream>
 
+const std::string NFIQ2::QualityFeatures::QualityMapFeatures::FeaturePrefix {
+	"OrientationMap_"
+};
 const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceSum {
-	"OrientationMap_ROIFilter_CoherenceSum"
+	QualityFeatures::QualityMapFeatures::FeaturePrefix +
+	"ROIFilter_CoherenceSum"
 };
 const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceMean {
-	"OrientationMap_ROIFilter_CoherenceRel"
+	QualityFeatures::QualityMapFeatures::FeaturePrefix +
+	"ROIFilter_CoherenceRel"
 };
 
 NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(

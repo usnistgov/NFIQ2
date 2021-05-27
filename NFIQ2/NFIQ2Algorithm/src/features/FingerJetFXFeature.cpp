@@ -11,10 +11,11 @@ const std::string NFIQ2::QualityFeatures::FingerJetFXFeature::FeaturePrefix {
 	"FingerJetFX_"
 };
 const std::string NFIQ2::QualityFeatureIDs::Minutiae::Count {
-	QualityFeatures::FingerJetFXFeature::FeaturePrefix + "MinutiaeCount"
+	NFIQ2::QualityFeatures::FingerJetFXFeature::FeaturePrefix +
+	"MinutiaeCount"
 };
 const std::string NFIQ2::QualityFeatureIDs::Minutiae::CountCOM {
-	QualityFeatures::FingerJetFXFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::FingerJetFXFeature::FeaturePrefix +
 	"MinCount_COMMinRect200x200"
 };
 

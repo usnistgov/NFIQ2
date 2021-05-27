@@ -12,52 +12,52 @@ const std::string NFIQ2::QualityFeatures::OFFeature::FeaturePrefix {
 	"OF_Bin10_"
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin0 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin0Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin0Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin1 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin1Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin1Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin2 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin2Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin2Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin3 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin3Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin3Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin4 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin4Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin4Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin5 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin5Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin5Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin6 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin6Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin6Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin7 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin7Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin7Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin8 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin8Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin8Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin9 {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::HistogramBin9Suffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::HistogramBin9Suffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::Mean {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::OFFeature::MeanSuffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::OFFeature::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::OrientationFlow::StdDev {
-	QualityFeatures::OFFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::OFFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
 };
 
 NFIQ2::QualityFeatures::OFFeature::OFFeature(

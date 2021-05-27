@@ -12,61 +12,61 @@ const std::string NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix {
 };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin0Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin0Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin1 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin1Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin1Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin2 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin2Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin2Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin3 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin3Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin3Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin4 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin4Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin4Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin5 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin5Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin5Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin6 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin6Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin6Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin7 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin7Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin7Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin8 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin8Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin8Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin9 {
-	    QualityFeatures::FDAFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin9Suffix
+	    NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin9Suffix
     };
 const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Mean {
-	QualityFeatures::FDAFeature::FeaturePrefix +
-	QualityFeatures::FDAFeature::MeanSuffix
+	NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::FDAFeature::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::StdDev {
-	QualityFeatures::FDAFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::FDAFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
 };
 
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,

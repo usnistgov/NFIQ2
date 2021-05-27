@@ -10,11 +10,11 @@ const std::string NFIQ2::QualityFeatures::QualityMapFeatures::FeaturePrefix {
 	"OrientationMap_"
 };
 const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceSum {
-	QualityFeatures::QualityMapFeatures::FeaturePrefix +
+	NFIQ2::QualityFeatures::QualityMapFeatures::FeaturePrefix +
 	"ROIFilter_CoherenceSum"
 };
 const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceMean {
-	QualityFeatures::QualityMapFeatures::FeaturePrefix +
+	NFIQ2::QualityFeatures::QualityMapFeatures::FeaturePrefix +
 	"ROIFilter_CoherenceRel"
 };
 

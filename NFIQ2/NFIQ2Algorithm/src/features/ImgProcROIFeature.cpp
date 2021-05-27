@@ -9,8 +9,8 @@ const std::string NFIQ2::QualityFeatures::ImgProcROIFeature::FeaturePrefix {
 	"ImgProcROIArea_"
 };
 const std::string NFIQ2::QualityFeatureIDs::RegionOfInterest::Mean {
-	QualityFeatures::ImgProcROIFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::MeanSuffix
+	NFIQ2::QualityFeatures::ImgProcROIFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::MeanSuffix
 };
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(

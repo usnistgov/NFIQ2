@@ -12,61 +12,61 @@ const std::string NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix {
 };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin0Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin0Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin1Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin1Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin2Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin2Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin3Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin3Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin4Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin4Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin5Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin5Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin6Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin6Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin7Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin7Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin8Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin8Suffix
     };
 const std::string
     NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9 {
-	    QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	    QualityFeatures::BaseFeature::HistogramBin9Suffix
+	    NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	    NFIQ2::QualityFeatures::BaseFeature::HistogramBin9Suffix
     };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean {
-	QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	QualityFeatures::RVUPHistogramFeature::MeanSuffix
+	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::RVUPHistogramFeature::MeanSuffix
 };
 const std::string NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev {
-	QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
-	QualityFeatures::BaseFeature::StdDevSuffix
+	NFIQ2::QualityFeatures::RVUPHistogramFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::BaseFeature::StdDevSuffix
 };
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,

@@ -10,11 +10,11 @@ const std::string
 	    "FJFXPos_"
     };
 const std::string NFIQ2::QualityFeatureIDs::Minutiae::QualityMu2 {
-	QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix +
 	"Mu_MinutiaeQuality_2"
 };
 const std::string NFIQ2::QualityFeatureIDs::Minutiae::QualityOCL80 {
-	QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix +
+	NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FeaturePrefix +
 	"OCL_MinutiaeQuality_80"
 };
 

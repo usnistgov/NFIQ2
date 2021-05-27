@@ -7,8 +7,13 @@
 #include <vector>
 
 namespace NFIQ2 {
+/**
+ * Interpretation of quality features that may indicated corrective measures
+ * for subsequent captures of the same subject.
+ */
+namespace ActionableQualityFeedback {
 /** Identifiers for actionable feedback values. */
-namespace ActionableQualityFeedbackIDs {
+namespace IDs {
 /**
  * The image is blank or the contrast is too low.
  *
@@ -29,12 +34,23 @@ extern const std::string FingerprintImageWithMinutiae;
 extern const std::string SufficientFingerprintForeground;
 }
 
-/** Contains doubles corresponding to Actionable Feedback Thresholds. */
-namespace ActionableQualityFeedbackThreshold {
-static const double EmptyImageOrContrastTooLow { 250.0 };
-static const double UniformImage { 1.0 };
-static const double FingerprintImageWithMinutiae { 5.0 };
-static const double SufficientFingerprintForeground { 50000.0 };
+/**
+ * Thresholds corresponding to IDs.
+ *
+ * @details
+ * Comparing the values of IDs with Thresholds may indicate a corrective action
+ * for subsequent captures of the same subject.
+ */
+namespace Thresholds {
+/** Threshold value for IDs::EmptyImageOrContrastTooLow. */
+extern const double EmptyImageOrContrastTooLow;
+/** Threshold value for IDs::UniformImage. */
+extern const double UniformImage;
+/** Threshold value for IDs::FingerprintImageWithMinutiae. */
+extern const double FingerprintImageWithMinutiae;
+/** Threshold value for IDs::SufficientFingerprintForeground. */
+extern const double SufficientFingerprintForeground;
+}
 }
 
 /** Identifiers of individual quality features. */

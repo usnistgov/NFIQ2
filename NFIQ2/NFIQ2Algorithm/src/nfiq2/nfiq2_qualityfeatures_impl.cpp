@@ -22,20 +22,31 @@
 #include <vector>
 
 const std::string
-    NFIQ2::ActionableQualityFeedbackIDs::EmptyImageOrContrastTooLow {
+    NFIQ2::ActionableQualityFeedback::IDs::EmptyImageOrContrastTooLow {
 	    "EmptyImageOrContrastTooLow"
     };
-const std::string NFIQ2::ActionableQualityFeedbackIDs::UniformImage {
+const std::string NFIQ2::ActionableQualityFeedback::IDs::UniformImage {
 	"UniformImage"
 };
 const std::string
-    NFIQ2::ActionableQualityFeedbackIDs::FingerprintImageWithMinutiae {
+    NFIQ2::ActionableQualityFeedback::IDs::FingerprintImageWithMinutiae {
 	    "FingerprintImageWithMinutiae"
     };
 const std::string
-    NFIQ2::ActionableQualityFeedbackIDs::SufficientFingerprintForeground {
+    NFIQ2::ActionableQualityFeedback::IDs::SufficientFingerprintForeground {
 	    "SufficientFingerprintForeground"
     };
+const double
+    NFIQ2::ActionableQualityFeedback::Thresholds::EmptyImageOrContrastTooLow {
+	    250.0
+    };
+const double NFIQ2::ActionableQualityFeedback::Thresholds::UniformImage { 1.0 };
+const double
+    NFIQ2::ActionableQualityFeedback::Thresholds::FingerprintImageWithMinutiae {
+	    5.0
+    };
+const double NFIQ2::ActionableQualityFeedback::Thresholds::
+    SufficientFingerprintForeground { 50000.0 };
 
 std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
@@ -110,12 +121,12 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
 			actionableMap
-			    [ActionableQualityFeedbackIDs::UniformImage] =
+			    [ActionableQualityFeedback::IDs::UniformImage] =
 				muFeatureModule->getSigma();
 			isUniformImage =
-			    (actionableMap[ActionableQualityFeedbackIDs::
+			    (actionableMap[ActionableQualityFeedback::IDs::
 				     UniformImage] <
-					ActionableQualityFeedbackThreshold::
+					ActionableQualityFeedback::Thresholds::
 					    UniformImage ?
 					  true :
 					  false);
@@ -128,14 +139,16 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			     ++it_muFeatures) {
 				if (it_muFeatures->first.compare("Mu") == 0) {
 					actionableMap
-					    [ActionableQualityFeedbackIDs::
+					    [ActionableQualityFeedback::IDs::
 						    EmptyImageOrContrastTooLow] =
 						it_muFeatures->second;
 					isEmptyImage =
-					    (actionableMap[ActionableQualityFeedbackIDs::
-						     EmptyImageOrContrastTooLow] >
-							ActionableQualityFeedbackThreshold::
-							    EmptyImageOrContrastTooLow ?
+					    (actionableMap[ActionableQualityFeedback::
+						     IDs::
+							 EmptyImageOrContrastTooLow] >
+							ActionableQualityFeedback::
+							    Thresholds::
+								EmptyImageOrContrastTooLow ?
 							  true :
 							  false);
 				}
@@ -170,7 +183,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 					// return informative feature about
 					// number of minutiae
 					actionableMap
-					    [ActionableQualityFeedbackIDs::
+					    [ActionableQualityFeedback::IDs::
 						    FingerprintImageWithMinutiae] =
 						it_fjfxFeatures->second;
 				}
@@ -186,7 +199,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 
 			// add ROI information to actionable quality feedback
 			// absolute number of ROI pixels (foreground)
-			actionableMap[ActionableQualityFeedbackIDs::
+			actionableMap[ActionableQualityFeedback::IDs::
 				SufficientFingerprintForeground] =
 			    roiFeatureModule->getImgProcResults().noOfROIPixels;
 		}
@@ -257,11 +270,12 @@ std::vector<std::string>
 NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers()
 {
 	static const std::vector<std::string> actionableIdentifiers {
-		NFIQ2::ActionableQualityFeedbackIDs::UniformImage,
-		NFIQ2::ActionableQualityFeedbackIDs::EmptyImageOrContrastTooLow,
-		NFIQ2::ActionableQualityFeedbackIDs::
+		NFIQ2::ActionableQualityFeedback::IDs::UniformImage,
+		NFIQ2::ActionableQualityFeedback::IDs::
+		    EmptyImageOrContrastTooLow,
+		NFIQ2::ActionableQualityFeedback::IDs::
 		    FingerprintImageWithMinutiae,
-		ActionableQualityFeedbackIDs::SufficientFingerprintForeground
+		ActionableQualityFeedback::IDs::SufficientFingerprintForeground
 	};
 
 	return actionableIdentifiers;

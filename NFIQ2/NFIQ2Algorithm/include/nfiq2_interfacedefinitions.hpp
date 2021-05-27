@@ -53,6 +53,18 @@ extern const double SufficientFingerprintForeground;
 }
 }
 
+/** Identification strings for various objects. */
+namespace Identifiers {
+/** Modules that combine features to compute a quality score. */
+namespace Prediction {
+/** Identifiers of modules used to predict quality scores. */
+namespace Modules {
+/** Identifier for the RandomForest prediction module. */
+extern const char RandomForest[];
+}
+}
+}
+
 /** Individual features that when combined create an NFIQ 2 quality score. */
 namespace QualityFeatures {
 

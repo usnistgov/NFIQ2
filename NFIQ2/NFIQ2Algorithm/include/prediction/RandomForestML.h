@@ -23,9 +23,6 @@ class RandomForestML {
 	/** Destructor. */
 	virtual ~RandomForestML();
 
-	/** Stores the module name of the random RandomForestML object. */
-	static const std::string moduleName;
-
 	/** Returns the Random Forest Module name. */
 	std::string getModuleName() const;
 

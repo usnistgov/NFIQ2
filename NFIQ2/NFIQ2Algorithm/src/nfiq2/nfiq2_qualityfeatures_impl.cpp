@@ -108,16 +108,11 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	std::unordered_map<std::string, double> actionableMap {};
 
 	for (const auto &feature : features) {
-		if (feature->getModuleName().compare("NFIQ2_Mu") == 0) {
+		if (feature->getModuleName() == "NFIQ2_Mu") {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
 
-			std::unordered_map<std::string, double> muFeatures =
-			    muFeatureModule->getFeatures();
-
-			std::unordered_map<std::string, double>::iterator
-			    it_muFeatures;
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
 			actionableMap
@@ -134,14 +129,14 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			// Mu is computed always since it is used as feature
 			// anyway
 			bool isEmptyImage = false;
-			for (it_muFeatures = muFeatures.begin();
-			     it_muFeatures != muFeatures.end();
-			     ++it_muFeatures) {
-				if (it_muFeatures->first.compare("Mu") == 0) {
+			for (const auto &muFeature :
+			    muFeatureModule->getFeatures()) {
+				if (muFeature.first ==
+				    QualityFeatureIDs::Grayscale::Mean) {
 					actionableMap
 					    [ActionableQualityFeedback::IDs::
 						    EmptyImageOrContrastTooLow] =
-						it_muFeatures->second;
+						muFeature.second;
 					isEmptyImage =
 					    (actionableMap[ActionableQualityFeedback::
 						     IDs::
@@ -161,31 +156,23 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				return actionableMap;
 			}
 
-		} else if (feature->getModuleName().compare(
-			       "NFIQ2_FingerJetFX") == 0) {
+		} else if (feature->getModuleName() == "NFIQ2_FingerJetFX") {
 			// Minutiae
 			const std::shared_ptr<FingerJetFXFeature>
 			    fjfxFeatureModule =
 				std::dynamic_pointer_cast<FingerJetFXFeature>(
 				    feature);
 
-			std::unordered_map<std::string, double> fjfxFeatures =
-			    fjfxFeatureModule->getFeatures();
-
-			std::unordered_map<std::string, double>::iterator
-			    it_fjfxFeatures;
-
-			for (it_fjfxFeatures = fjfxFeatures.begin();
-			     it_fjfxFeatures != fjfxFeatures.end();
-			     ++it_fjfxFeatures) {
-				if (it_fjfxFeatures->first.compare(
-					"FingerJetFX_MinutiaeCount") == 0) {
+			for (const auto &fjfxFeature :
+			    fjfxFeatureModule->getFeatures()) {
+				if (fjfxFeature.first ==
+				    QualityFeatureIDs::Minutiae::Count) {
 					// return informative feature about
 					// number of minutiae
 					actionableMap
 					    [ActionableQualityFeedback::IDs::
 						    FingerprintImageWithMinutiae] =
-						it_fjfxFeatures->second;
+						fjfxFeature.second;
 				}
 			}
 

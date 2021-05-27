@@ -8,7 +8,7 @@
 
 namespace NFIQ2 {
 /** Contains strings corresponding to Actionable Feedback Scores. */
-namespace ActionableQualityFeedbackIdentifier {
+namespace ActionableQualityFeedbackIDs {
 
 static const std::string EmptyImageOrContrastTooLow {
 	"EmptyImageOrContrastTooLow"

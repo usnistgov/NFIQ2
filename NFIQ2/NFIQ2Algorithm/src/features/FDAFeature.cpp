@@ -7,6 +7,9 @@
 #include <cmath>
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::FrequencyDomainAnalysis[] {
+	"NFIQ2_FDA"
+};
 static const char NFIQ2FDAFeaturePrefix[] { "FDA_Bin10_" };
 const char
     NFIQ2::QualityFeatureIDs::FrequencyDomainAnalysis::Histogram::Bin0[] {
@@ -87,7 +90,7 @@ const std::string NFIQ2::QualityFeatures::FDAFeature::speedFeatureIDGroup =
     "Frequency domain";
 
 const std::string NFIQ2::QualityFeatures::FDAFeature::moduleName {
-	"NFIQ2_FDA"
+	NFIQ2::QualityFeatures::Modules::FrequencyDomainAnalysis
 };
 std::string
 NFIQ2::QualityFeatures::FDAFeature::getModuleName() const

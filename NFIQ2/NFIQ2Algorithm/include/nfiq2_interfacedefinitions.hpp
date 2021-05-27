@@ -53,7 +53,35 @@ extern const double SufficientFingerprintForeground;
 }
 }
 
-/** Identifiers of individual quality features. */
+/** Individual features that when combined create an NFIQ 2 quality score. */
+namespace QualityFeatures {
+
+/** Identifiers of modules used to calculate one or more Features. */
+namespace Modules {
+/** Identifier for the FrequencyDomainAnalysis feature module. */
+extern const char FrequencyDomainAnalysis[];
+/** Identifier for the MinutiaeCount feature module. */
+extern const char MinutiaeCount[];
+/** Identifier for the MinutiaeQuality feature module. */
+extern const char MinutiaeQuality[];
+/** Identifier for the LocalClarity feature module. */
+extern const char LocalClarity[];
+/** Identifier for the Grayscale feature module. */
+extern const char Grayscale[];
+/** Identifier for the OrientationCertainty feature module. */
+extern const char OrientationCertainty[];
+/** Identifier for the OrientationFlow feature module. */
+extern const char OrientationFlow[];
+/** Identifier for the RegionOfInterestMean feature module. */
+extern const char RegionOfInterestMean[];
+/** Identifier for the RegionOfInterestCoherence feature module. */
+extern const char RegionOfInterestCoherence[];
+/** Identifier for the RidgeValleyUniformity feature module. */
+extern const char RidgeValleyUniformity[];
+}
+}
+
+/** Identifiers of individual quality features and modules. */
 namespace QualityFeatureIDs {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {

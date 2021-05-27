@@ -5,6 +5,9 @@
 
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::MinutiaeQuality[] {
+	"NFIQ2_FJFXPos_MinutiaeQuality"
+};
 const char NFIQ2::QualityFeatureIDs::Minutiae::QualityMu2[] {
 	"FJFXPos_Mu_MinutiaeQuality_2"
 };
@@ -143,7 +146,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 const std::string
     NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::moduleName {
-	    "NFIQ2_FJFXPos_MinutiaeQuality"
+	    NFIQ2::QualityFeatures::Modules::MinutiaeQuality
     };
 std::string
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const

@@ -8,6 +8,7 @@
 #include <cmath>
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::OrientationFlow[] { "NFIQ2_OF" };
 static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
 const char NFIQ2::QualityFeatureIDs::OrientationFlow::Histogram::Bin0[] {
 	"OF_Bin10_0"
@@ -54,7 +55,9 @@ NFIQ2::QualityFeatures::OFFeature::OFFeature(
 
 NFIQ2::QualityFeatures::OFFeature::~OFFeature() = default;
 
-const std::string NFIQ2::QualityFeatures::OFFeature::moduleName { "NFIQ2_OF" };
+const std::string NFIQ2::QualityFeatures::OFFeature::moduleName {
+	NFIQ2::QualityFeatures::Modules::OrientationFlow
+};
 std::string
 NFIQ2::QualityFeatures::OFFeature::getModuleName() const
 {

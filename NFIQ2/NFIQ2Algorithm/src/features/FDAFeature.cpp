@@ -8,7 +8,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis[] {
-	"NFIQ2_FDA"
+	"FrequencyDomainAnalysis"
 };
 static const char NFIQ2FDAFeaturePrefix[] { "FDA_Bin10_" };
 const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
@@ -77,10 +77,6 @@ NFIQ2::QualityFeatures::FDAFeature::getAllQualityFeatureIDs()
 		Identifiers::QualityFeatures::FrequencyDomainAnalysis::Mean,
 		Identifiers::QualityFeatures::FrequencyDomainAnalysis::StdDev };
 }
-
-const char NFIQ2::QualityFeatures::FDAFeature::SpeedFeatureIDGroup[] {
-	"Frequency domain"
-};
 
 std::string
 NFIQ2::QualityFeatures::FDAFeature::getModuleName() const

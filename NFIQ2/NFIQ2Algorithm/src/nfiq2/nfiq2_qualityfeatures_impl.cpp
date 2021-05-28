@@ -48,7 +48,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
-	    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
+	    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
 
 	std::unordered_map<std::string, double> speedMap {};
 
@@ -309,22 +309,4 @@ NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs()
 	};
 
 	return ids;
-}
-
-std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups()
-{
-	static const std::vector<std::string> speedFeatureGroups {
-		FDAFeature::SpeedFeatureIDGroup,
-		FingerJetFXFeature::SpeedFeatureIDGroup,
-		FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup,
-		ImgProcROIFeature::SpeedFeatureIDGroup,
-		LCSFeature::SpeedFeatureIDGroup, MuFeature::SpeedFeatureIDGroup,
-		OCLHistogramFeature::SpeedFeatureIDGroup,
-		OFFeature::SpeedFeatureIDGroup,
-		QualityMapFeatures::SpeedFeatureIDGroup,
-		RVUPHistogramFeature::SpeedFeatureIDGroup
-	};
-
-	return speedFeatureGroups;
 }

@@ -6,7 +6,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::MinutiaeQuality[] {
-	"NFIQ2_FJFXPos_MinutiaeQuality"
+	"MinutiaeQuality"
 };
 const char NFIQ2::Identifiers::QualityFeatures::Minutiae::QualityMu2[] {
 	"FJFXPos_Mu_MinutiaeQuality_2"
@@ -25,11 +25,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
 
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::
     ~FJFXMinutiaeQualityFeature() = default;
-
-const char
-    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup[] {
-	    "Minutiae quality"
-    };
 
 std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const

@@ -43,15 +43,6 @@ std::vector<std::string> getAllQualityFeatureIDs();
 
 /**
  * @brief
- * Obtain all speed feature groups from quality modules.
- *
- * @return
- * Vector of strings containing all speed feature groups.
- */
-std::vector<std::string> getAllSpeedFeatureGroups();
-
-/**
- * @brief
  * Obtain computed quality feature data from a fingerprint image.
  *
  * @param rawImage

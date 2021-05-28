@@ -21,7 +21,6 @@ class LCSFeature : public BaseFeature {
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllQualityFeatureIDs();
-	static const char SpeedFeatureIDGroup[];
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(

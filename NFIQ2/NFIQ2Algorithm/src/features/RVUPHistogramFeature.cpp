@@ -8,7 +8,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity[] {
-	"NFIQ2_RVUPHistogram"
+	"RidgeValleyUniformity"
 };
 const char NFIQ2RVUPFeaturePrefix[] { "RVUP_Bin10_" };
 const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
@@ -50,10 +50,6 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
 }
 
 NFIQ2::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
-
-const char NFIQ2::QualityFeatures::RVUPHistogramFeature::SpeedFeatureIDGroup[] {
-	"Ridge valley uniformity"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(

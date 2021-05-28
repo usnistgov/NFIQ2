@@ -42,15 +42,6 @@ std::vector<std::string> getAllQualityModuleIDs();
 
 /**
  * @brief
- * Obtain all speed feature groups from quality modules.
- *
- * @return
- * Vector of strings containing all speed feature groups.
- */
-std::vector<std::string> getAllSpeedFeatureGroups();
-
-/**
- * @brief
  * Updates the floating point precision mode used on 32-bit Linux
  * versions of NFIQ 2.
  *

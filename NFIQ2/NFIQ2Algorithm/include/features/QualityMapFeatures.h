@@ -26,7 +26,6 @@ class QualityMapFeatures : public BaseFeature {
 	std::string getModuleName() const override;
 
 	static std::vector<std::string> getAllQualityFeatureIDs();
-	static const char SpeedFeatureIDGroup[];
 
 	// compute orientation angle of a block
 	static bool getAngleOfBlock(

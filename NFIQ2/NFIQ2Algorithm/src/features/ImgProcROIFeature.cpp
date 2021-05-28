@@ -6,7 +6,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::RegionOfInterestMean[] {
-	"NFIQ2_ImgProcROI"
+	"RegionOfInterestMean"
 };
 const char NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::Mean[] {
 	"ImgProcROIArea_Mean"
@@ -19,10 +19,6 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
 }
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
-
-const char NFIQ2::QualityFeatures::ImgProcROIFeature::SpeedFeatureIDGroup[] {
-	"Region of interest"
-};
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
 NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()

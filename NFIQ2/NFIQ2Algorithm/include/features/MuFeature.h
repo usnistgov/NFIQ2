@@ -23,7 +23,6 @@ class MuFeature : public BaseFeature {
 	double getSigma() const;
 
 	static std::vector<std::string> getAllQualityFeatureIDs();
-	static const char SpeedFeatureIDGroup[];
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(

@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::Contrast[] { "NFIQ2_Mu" };
+const char NFIQ2::Identifiers::QualityModules::Contrast[] { "Contrast" };
 const char NFIQ2::Identifiers::QualityFeatures::Contrast::Mean[] { "Mu" };
 const char NFIQ2::Identifiers::QualityFeatures::Contrast::MeanBlock[] { "MMB" };
 
@@ -16,10 +16,6 @@ NFIQ2::QualityFeatures::MuFeature::MuFeature(
 }
 
 NFIQ2::QualityFeatures::MuFeature::~MuFeature() = default;
-
-const char NFIQ2::QualityFeatures::MuFeature::SpeedFeatureIDGroup[] {
-	"Contrast"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::MuFeature::computeFeatureData(

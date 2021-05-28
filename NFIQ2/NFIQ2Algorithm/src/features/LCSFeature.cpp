@@ -6,7 +6,9 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::LocalClarity[] { "NFIQ2_LCS" };
+const char NFIQ2::Identifiers::QualityModules::LocalClarity[] {
+	"LocalClarity"
+};
 static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
 const char
     NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0[] {
@@ -88,10 +90,6 @@ NFIQ2::QualityFeatures::LCSFeature::getAllQualityFeatureIDs()
 		Identifiers::QualityFeatures::LocalClarity::Mean,
 		Identifiers::QualityFeatures::LocalClarity::StdDev };
 }
-
-const char NFIQ2::QualityFeatures::LCSFeature::SpeedFeatureIDGroup[] {
-	"Local clarity"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(

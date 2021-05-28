@@ -23,12 +23,6 @@ NFIQ2::QualityFeatures::getAllQualityModuleIDs()
 	return NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs();
 }
 
-std::vector<std::string>
-NFIQ2::QualityFeatures::getAllSpeedFeatureGroups()
-{
-	return NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups();
-}
-
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 NFIQ2::QualityFeatures::computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage)

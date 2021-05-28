@@ -91,10 +91,10 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 	}
 
 	if (this->speed) {
-		const auto speedIDs =
-		    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
-		for (const auto &i : speedIDs) {
-			if (i != speedIDs.front()) {
+		const auto moduleIDs =
+		    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
+		for (const auto &i : moduleIDs) {
+			if (i != moduleIDs.front()) {
 				*(this->out) << ",";
 			}
 
@@ -241,7 +241,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->speed) {
 		std::vector<std::string> sHeaders =
-		    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
+		    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
 
 		for (auto it = sHeaders.begin(); it != sHeaders.end(); ++it) {
 			if (it != sHeaders.begin()) {

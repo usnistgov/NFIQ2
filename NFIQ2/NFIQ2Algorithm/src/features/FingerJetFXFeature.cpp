@@ -8,7 +8,7 @@
 #include <tuple>
 
 const char NFIQ2::Identifiers::QualityModules::MinutiaeCount[] {
-	"NFIQ2_FingerJetFX"
+	"MinutiaeCount"
 };
 const char NFIQ2::Identifiers::QualityFeatures::Minutiae::Count[] {
 	"FingerJetFX_MinutiaeCount"
@@ -24,10 +24,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
 }
 
 NFIQ2::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
-
-const char NFIQ2::QualityFeatures::FingerJetFXFeature::SpeedFeatureIDGroup[] {
-	"Minutiae"
-};
 
 std::pair<unsigned int, unsigned int>
 NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(

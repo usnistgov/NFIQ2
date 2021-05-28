@@ -8,7 +8,9 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::OrientationFlow[] { "NFIQ2_OF" };
+const char NFIQ2::Identifiers::QualityModules::OrientationFlow[] {
+	"OrientationFlow"
+};
 static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
 const char
     NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0[] {
@@ -87,10 +89,6 @@ NFIQ2::QualityFeatures::OFFeature::getAllQualityFeatureIDs()
 		Identifiers::QualityFeatures::OrientationFlow::Mean,
 		Identifiers::QualityFeatures::OrientationFlow::StdDev };
 }
-
-const char NFIQ2::QualityFeatures::OFFeature::SpeedFeatureIDGroup[] {
-	"Orientation flow"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OFFeature::computeFeatureData(

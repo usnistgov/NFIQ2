@@ -7,7 +7,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence[] {
-	"NFIQ2_QualityMap"
+	"RegionOfInterestCoherence"
 };
 const char
     NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum[] {
@@ -27,10 +27,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
 }
 
 NFIQ2::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
-
-const char NFIQ2::QualityFeatures::QualityMapFeatures::SpeedFeatureIDGroup[] {
-	"Quality map"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(

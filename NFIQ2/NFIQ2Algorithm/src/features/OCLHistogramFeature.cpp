@@ -6,7 +6,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::OrientationCertainty[] {
-	"NFIQ2_OCLHistogram"
+	"OrientationCertainty"
 };
 static const char NFIQ2OCLFeaturePrefix[] { "OCL_Bin10_" };
 const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
@@ -43,10 +43,6 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
 }
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
-
-const char NFIQ2::QualityFeatures::OCLHistogramFeature::SpeedFeatureIDGroup[] {
-	"Orientation certainty"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(

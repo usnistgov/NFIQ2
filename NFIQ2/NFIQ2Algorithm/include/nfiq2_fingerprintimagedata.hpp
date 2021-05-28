@@ -34,11 +34,11 @@ class FingerprintImageData : public Data {
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imageDPI
+	 * @param imagePPI
 	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
-	    uint8_t fingerCode, uint16_t imageDPI);
+	    uint8_t fingerCode, uint16_t imagePPI);
 
 	/**
 	 * @brief
@@ -55,12 +55,12 @@ class FingerprintImageData : public Data {
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imageDPI
+	 * @param imagePPI
 	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
 	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
-	    uint16_t imageDPI);
+	    uint16_t imagePPI);
 
 	/** Copy constructor. */
 	FingerprintImageData(const FingerprintImageData &otherData);
@@ -75,7 +75,7 @@ class FingerprintImageData : public Data {
 	/** ISO finger code of the fingerprint in the image */
 	uint8_t m_FingerCode;
 	/** Dots per inch of the fingerprint image */
-	int16_t m_ImageDPI;
+	int16_t m_ImagePPI;
 
 	/**
 	 * @brief

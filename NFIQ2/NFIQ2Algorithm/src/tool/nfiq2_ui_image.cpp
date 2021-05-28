@@ -153,12 +153,12 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 
 			std::string warning = "NA";
 
-			const uint16_t imageDPI = static_cast<uint16_t>(
+			const uint16_t imagePPI = static_cast<uint16_t>(
 			    std::round(
 				img->getResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
 				    .xRes));
-			const uint16_t an2kDPI = static_cast<uint16_t>(
+			const uint16_t an2kPPI = static_cast<uint16_t>(
 			    std::round(
 				cap.getImageResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
@@ -166,7 +166,7 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 
 			// Check if there is a mismatch in resolution between
 			// the data-blob and the ANSI/NIST record
-			if (imageDPI != an2kDPI) {
+			if (imagePPI != an2kPPI) {
 				logger->debugMsg(
 				    "Resolution mismatch between data and "
 				    "ANSI/NIST "
@@ -268,12 +268,12 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 
 			std::string warning = "NA";
 
-			const uint16_t imageDPI = static_cast<uint16_t>(
+			const uint16_t imagePPI = static_cast<uint16_t>(
 			    std::round(
 				img->getResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
 				    .xRes));
-			const uint16_t an2kDPI = static_cast<uint16_t>(
+			const uint16_t an2kPPI = static_cast<uint16_t>(
 			    std::round(
 				cap.getImageResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
@@ -281,7 +281,7 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 
 			// Check if there is a mismatch in resolution between
 			// the data-blob and the ANSI2004 record
-			if (imageDPI != an2kDPI) {
+			if (imagePPI != an2kPPI) {
 				logger->debugMsg(
 				    "Resolution mismatch between data and "
 				    "ANSI2004 "

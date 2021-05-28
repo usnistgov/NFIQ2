@@ -53,7 +53,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 	cv::Mat img;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI !=
+	if (fingerprintImage.m_ImagePPI !=
 	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError,

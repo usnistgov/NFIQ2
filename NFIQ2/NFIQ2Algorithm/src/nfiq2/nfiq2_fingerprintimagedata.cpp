@@ -14,28 +14,28 @@ NFIQ2::FingerprintImageData::FingerprintImageData()
     , m_ImageWidth(0)
     , m_ImageHeight(0)
     , m_FingerCode(0)
-    , m_ImageDPI(NFIQ2::FingerprintImageData::Resolution500PPI)
+    , m_ImagePPI(NFIQ2::FingerprintImageData::Resolution500PPI)
 {
 }
 
 NFIQ2::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
-    uint32_t imageHeight, uint8_t fingerCode, uint16_t imageDPI)
+    uint32_t imageHeight, uint8_t fingerCode, uint16_t imagePPI)
     : Data()
     , m_ImageWidth(imageWidth)
     , m_ImageHeight(imageHeight)
     , m_FingerCode(fingerCode)
-    , m_ImageDPI(imageDPI)
+    , m_ImagePPI(imagePPI)
 {
 }
 
 NFIQ2::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
     uint32_t dataSize, uint32_t imageWidth, uint32_t imageHeight,
-    uint8_t fingerCode, uint16_t imageDPI)
+    uint8_t fingerCode, uint16_t imagePPI)
     : Data(pData, dataSize)
     , m_ImageWidth(imageWidth)
     , m_ImageHeight(imageHeight)
     , m_FingerCode(fingerCode)
-    , m_ImageDPI(imageDPI)
+    , m_ImagePPI(imagePPI)
 {
 }
 
@@ -46,7 +46,7 @@ NFIQ2::FingerprintImageData::FingerprintImageData(
 	m_ImageWidth = otherData.m_ImageWidth;
 	m_ImageHeight = otherData.m_ImageHeight;
 	m_FingerCode = otherData.m_FingerCode;
-	m_ImageDPI = otherData.m_ImageDPI;
+	m_ImagePPI = otherData.m_ImagePPI;
 }
 
 NFIQ2::FingerprintImageData::~FingerprintImageData()
@@ -58,7 +58,7 @@ NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 {
 	// make local copy of internal fingerprint image
 	NFIQ2::FingerprintImageData localFingerprintImage(this->m_ImageWidth,
-	    this->m_ImageHeight, this->m_FingerCode, this->m_ImageDPI);
+	    this->m_ImageHeight, this->m_FingerCode, this->m_ImagePPI);
 	// copy data now
 	localFingerprintImage.resize(this->size());
 	memcpy(
@@ -197,7 +197,7 @@ NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 	croppedImage.m_ImageHeight = roiImg.rows;
 	croppedImage.m_ImageWidth = roiImg.cols;
 	croppedImage.m_FingerCode = this->m_FingerCode;
-	croppedImage.m_ImageDPI = this->m_ImageDPI;
+	croppedImage.m_ImagePPI = this->m_ImagePPI;
 	// copy data now
 	unsigned int size = roiImg.rows * roiImg.cols;
 	croppedImage.resize(size);

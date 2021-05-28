@@ -93,7 +93,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// since FJFX somehow transforms the input image
 	NFIQ2::FingerprintImageData localFingerprintImage(
 	    fingerprintImage.m_ImageWidth, fingerprintImage.m_ImageHeight,
-	    fingerprintImage.m_FingerCode, fingerprintImage.m_ImageDPI);
+	    fingerprintImage.m_FingerCode, fingerprintImage.m_ImagePPI);
 	// copy data now
 	localFingerprintImage.resize(fingerprintImage.size());
 	memcpy((void *)localFingerprintImage.data(), fingerprintImage.data(),
@@ -131,7 +131,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	    (unsigned char *)localFingerprintImage.data(),
 	    localFingerprintImage.size(), localFingerprintImage.m_ImageWidth,
 	    localFingerprintImage.m_ImageHeight,
-	    localFingerprintImage.m_ImageDPI, FRFXLL_FEX_ENABLE_ENHANCEMENT,
+	    localFingerprintImage.m_ImagePPI, FRFXLL_FEX_ENABLE_ENHANCEMENT,
 	    &hFeatureSet);
 	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);

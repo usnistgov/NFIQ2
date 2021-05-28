@@ -39,7 +39,7 @@ std::vector<std::string> getAllQualityModuleIDs();
  * @return
  * Vector of strings containing all quality feature IDs.
  */
-std::vector<std::string> getAllQualityFeatureIDs();
+std::vector<std::string> getQualityFeatureIDs();
 
 /**
  * @brief

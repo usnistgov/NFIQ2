@@ -177,7 +177,7 @@ main(int argc, char **argv)
 
 	// Quality Feature Values
 	std::vector<std::string> featureIDs =
-	    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
+	    NFIQ2::QualityFeatures::getQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> qualityFeatures =
 	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);

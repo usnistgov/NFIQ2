@@ -12,9 +12,9 @@ NFIQ2::QualityFeatures::getAllActionableQualityFeedbackIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::getQualityFeatureIDs()
 {
-	return NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs();
+	return NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs();
 }
 
 std::vector<std::string>

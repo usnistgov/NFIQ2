@@ -29,7 +29,7 @@ std::vector<std::string> getAllActionableQualityFeedbackIDs();
  * @return
  * Vector of strings containing all quality feature IDs.
  */
-std::vector<std::string> getAllQualityFeatureIDs();
+std::vector<std::string> getQualityFeatureIDs();
 
 /**
  * @brief

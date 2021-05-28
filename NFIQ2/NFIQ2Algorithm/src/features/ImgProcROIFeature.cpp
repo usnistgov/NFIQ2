@@ -102,7 +102,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::ImgProcROIFeature::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::ImgProcROIFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::RegionOfInterest::Mean };
 }

@@ -75,7 +75,7 @@ NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::LCSFeature::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::LCSFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0,
 		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1,

@@ -74,7 +74,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(
 	&features)
 {
 	std::vector<std::string> qualityIdentifiers =
-	    NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs();
+	    NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> quality {};
 
@@ -267,19 +267,19 @@ NFIQ2::QualityFeatures::Impl::getAllActionableQualityFeedbackIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs()
 {
 	const std::vector<std::vector<std::string>> vov {
-		FDAFeature::getAllQualityFeatureIDs(),
-		FingerJetFXFeature::getAllQualityFeatureIDs(),
-		FJFXMinutiaeQualityFeature::getAllQualityFeatureIDs(),
-		ImgProcROIFeature::getAllQualityFeatureIDs(),
-		LCSFeature::getAllQualityFeatureIDs(),
-		MuFeature::getAllQualityFeatureIDs(),
-		OCLHistogramFeature::getAllQualityFeatureIDs(),
-		OFFeature::getAllQualityFeatureIDs(),
-		QualityMapFeatures::getAllQualityFeatureIDs(),
-		RVUPHistogramFeature::getAllQualityFeatureIDs()
+		FDAFeature::getQualityFeatureIDs(),
+		FingerJetFXFeature::getQualityFeatureIDs(),
+		FJFXMinutiaeQualityFeature::getQualityFeatureIDs(),
+		ImgProcROIFeature::getQualityFeatureIDs(),
+		LCSFeature::getQualityFeatureIDs(),
+		MuFeature::getQualityFeatureIDs(),
+		OCLHistogramFeature::getQualityFeatureIDs(),
+		OFFeature::getQualityFeatureIDs(),
+		QualityMapFeatures::getQualityFeatureIDs(),
+		RVUPHistogramFeature::getQualityFeatureIDs()
 	};
 
 	std::vector<std::string> qualityFeatureIDs {};

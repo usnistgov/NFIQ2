@@ -7,7 +7,7 @@ main()
 {
 	std::cout << "NFIQ 2 Features:\n";
 	for (const auto &features :
-	    NFIQ2::QualityFeatures::getAllQualityFeatureIDs()) {
+	    NFIQ2::QualityFeatures::getQualityFeatureIDs()) {
 		std::cout << " * " << features << '\n';
 	}
 

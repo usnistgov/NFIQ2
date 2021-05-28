@@ -104,7 +104,7 @@ class FingerJetFXFeature : public BaseFeature {
 
 	std::string getModuleName() const override;
 
-	static std::vector<std::string> getAllQualityFeatureIDs();
+	static std::vector<std::string> getQualityFeatureIDs();
 
 	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
 	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);

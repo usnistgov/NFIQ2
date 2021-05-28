@@ -205,7 +205,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::RVUPHistogramFeature::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::RVUPHistogramFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::RidgeValleyUniformity::
 		     Histogram::Bin0,

@@ -40,7 +40,7 @@ class ImgProcROIFeature : public BaseFeature {
 
 	std::string getModuleName() const override;
 
-	static std::vector<std::string> getAllQualityFeatureIDs();
+	static std::vector<std::string> getQualityFeatureIDs();
 
 	static ImgProcROIResults computeROI(cv::Mat &img, unsigned int bs);
 

@@ -142,15 +142,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		    "Unknown exception occurred!");
 	}
 
-	// Speed
-	NFIQ2::QualityFeatureSpeed speed;
-	speed.featureIDGroup = MuFeature::SpeedFeatureIDGroup;
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Contrast::MeanBlock);
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Contrast::Mean);
-	speed.featureSpeed = timer.stop();
-	this->setSpeed(speed);
+	this->setSpeed(timer.stop());
 
 	return featureDataList;
 }

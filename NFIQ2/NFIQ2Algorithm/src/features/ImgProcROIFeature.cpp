@@ -79,14 +79,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		featureDataList[fd_roi_pixel_area_mean.first] =
 		    fd_roi_pixel_area_mean.second;
 
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = ImgProcROIFeature::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::RegionOfInterest::Mean);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "

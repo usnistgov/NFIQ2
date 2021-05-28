@@ -342,19 +342,6 @@ extern const double FingerprintImageWithMinutiae;
 extern const double SufficientFingerprintForeground;
 } /* Thresholds::ActionableQualityFeedback */
 } /* Thresholds */
-
-/** This type represents a structure for timing information of features. */
-typedef struct feature_speed_t {
-	/** The name of the feature group. */
-	std::string featureIDGroup;
-	/**
-	 * The unique IDs of the features that are used for determining the
-	 * speed.
-	 */
-	std::vector<std::string> featureIDs;
-	/** The speed of feature data computation in milliseconds. */
-	double featureSpeed;
-} QualityFeatureSpeed;
-} // namespace NFIQ
+} /* NFIQ2 */
 
 #endif /* NFIQ2_INTERFACEDEFINITIONS_HPP_ */

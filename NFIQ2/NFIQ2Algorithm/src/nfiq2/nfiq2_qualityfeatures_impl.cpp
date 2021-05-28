@@ -42,7 +42,7 @@ const double
 const double NFIQ2::Thresholds::ActionableQualityFeedback::
     SufficientFingerprintForeground { 50000.0 };
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
@@ -50,7 +50,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
 	std::vector<std::string> speedIdentifiers =
 	    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
 
-	std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed> speedMap {};
+	std::unordered_map<std::string, double> speedMap {};
 
 	for (std::vector<std::string>::size_type i = 0;
 	     i < speedIdentifiers.size(); i++) {

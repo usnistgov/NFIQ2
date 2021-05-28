@@ -120,7 +120,6 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 	}
 
 	NFIQ2::Timer timerOF;
-	double timeOF = 0.0;
 	try {
 		timerOF.start();
 
@@ -302,18 +301,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2OFFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
-		timeOF = timerOF.stop();
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = OFFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2OFFeaturePrefix, 10);
-
-		speed.featureSpeed = timeOF;
-		this->setSpeed(speed);
-
+		this->setSpeed(timerOF.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Orientation Flow (OF): " << e.what();

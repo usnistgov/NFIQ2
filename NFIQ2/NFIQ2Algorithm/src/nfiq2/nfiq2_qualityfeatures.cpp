@@ -68,7 +68,7 @@ NFIQ2::QualityFeatures::getQualityFeatureData(
 	return NFIQ2::QualityFeatures::Impl::getQualityFeatureData(rawImage);
 }
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
+std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::getQualityFeatureSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)

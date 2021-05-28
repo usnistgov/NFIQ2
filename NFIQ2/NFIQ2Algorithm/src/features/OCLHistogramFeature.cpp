@@ -78,7 +78,6 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 
 	// compute OCL
 	NFIQ2::Timer timerOCL;
-	double timeOCL = 0.0;
 	std::vector<double> oclres;
 	try {
 		timerOCL.start();
@@ -129,18 +128,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2OCLFeaturePrefix,
 		    histogramBins10, oclres, 10);
 
-		timeOCL = timerOCL.stop();
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = OCLHistogramFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2OCLFeaturePrefix, 10);
-
-		speed.featureSpeed = timeOCL;
-		this->setSpeed(speed);
-
+		this->setSpeed(timerOCL.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature OCL histogram: " << e.what();

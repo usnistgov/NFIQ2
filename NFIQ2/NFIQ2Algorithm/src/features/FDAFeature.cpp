@@ -111,7 +111,6 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 	// ----------------------------
 
 	NFIQ2::Timer timer;
-	double time = 0.0;
 	try {
 		timer.start();
 
@@ -212,18 +211,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2FDAFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
-		time = timer.stop();
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FDAFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2FDAFeaturePrefix, 10);
-
-		speed.featureSpeed = time;
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "

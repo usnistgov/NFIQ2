@@ -208,15 +208,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		fd_min_cnt.second = 0; // no minutiae found
 		featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Minutiae::Count);
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Minutiae::CountCOM);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
+		this->setSpeed(timer.stop());
 
 		return featureDataList;
 	}
@@ -256,14 +248,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	fd_min_cnt.second = minCnt;
 	featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
-	NFIQ2::QualityFeatureSpeed speed;
-	speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Minutiae::Count);
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Minutiae::CountCOM);
-	speed.featureSpeed = timer.stop();
-	this->setSpeed(speed);
+	this->setSpeed(timer.stop());
 
 	return featureDataList;
 }

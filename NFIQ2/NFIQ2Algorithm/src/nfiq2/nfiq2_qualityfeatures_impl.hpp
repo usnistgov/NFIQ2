@@ -144,8 +144,7 @@ std::unordered_map<std::string, double> getQualityFeatureData(
  * @return
  * A map of string, quality feature speed pairs.
  */
-std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
-getQualityFeatureSpeeds(
+std::unordered_map<std::string, double> getQualityFeatureSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features);
 

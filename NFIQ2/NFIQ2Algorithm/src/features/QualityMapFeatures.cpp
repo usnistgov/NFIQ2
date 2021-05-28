@@ -90,15 +90,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 
 		featureDataList[fd_om_1.first] = fd_om_1.second;
 
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = QualityMapFeatures::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(Identifiers::QualityFeatures::
-			RegionOfInterest::CoherenceSum);
-		speed.featureIDs.push_back(Identifiers::QualityFeatures::
-			RegionOfInterest::CoherenceMean);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute orientation map: " << e.what();

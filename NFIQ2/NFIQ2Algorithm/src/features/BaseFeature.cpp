@@ -7,7 +7,7 @@ NFIQ2::QualityFeatures::BaseFeature::BaseFeature() = default;
 
 NFIQ2::QualityFeatures::BaseFeature::~BaseFeature() = default;
 
-NFIQ2::QualityFeatureSpeed
+double
 NFIQ2::QualityFeatures::BaseFeature::getSpeed() const
 {
 	return this->speed;
@@ -20,8 +20,7 @@ NFIQ2::QualityFeatures::BaseFeature::getFeatures() const
 }
 
 void
-NFIQ2::QualityFeatures::BaseFeature::setSpeed(
-    const NFIQ2::QualityFeatureSpeed &featureSpeed)
+NFIQ2::QualityFeatures::BaseFeature::setSpeed(const double featureSpeed)
 {
 	this->speed = featureSpeed;
 }

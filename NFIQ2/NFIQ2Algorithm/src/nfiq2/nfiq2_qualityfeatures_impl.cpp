@@ -103,7 +103,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 
 	for (const auto &feature : features) {
 		if (feature->getModuleName() ==
-		    Identifiers::QualityFeatures::Modules::Grayscale) {
+		    Identifiers::QualityFeatures::Modules::Contrast) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
@@ -127,7 +127,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			    muFeatureModule->getFeatures()) {
 				if (muFeature.first ==
 				    Identifiers::QualityFeatures::Features::
-					Grayscale::Mean) {
+					Contrast::Mean) {
 					actionableMap[Identifiers::
 						ActionableQualityFeedback::
 						    EmptyImageOrContrastTooLow] =

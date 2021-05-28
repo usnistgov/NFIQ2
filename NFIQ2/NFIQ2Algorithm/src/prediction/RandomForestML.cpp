@@ -193,8 +193,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		Identifiers::QualityFeatures::Features::LocalClarity::Mean,
 		Identifiers::QualityFeatures::Features::LocalClarity::StdDev,
 
-		Identifiers::QualityFeatures::Features::Grayscale::MeanBlock,
-		Identifiers::QualityFeatures::Features::Grayscale::Mean,
+		Identifiers::QualityFeatures::Features::Contrast::MeanBlock,
+		Identifiers::QualityFeatures::Features::Contrast::Mean,
 
 		Identifiers::QualityFeatures::Features::OrientationCertainty::
 		    Histogram::Bin0,

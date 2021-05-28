@@ -56,8 +56,8 @@ extern const char MinutiaeCount[];
 extern const char MinutiaeQuality[];
 /** Identifier for the LocalClarity feature module. */
 extern const char LocalClarity[];
-/** Identifier for the Grayscale feature module. */
-extern const char Grayscale[];
+/** Identifier for the Contrast feature module. */
+extern const char Contrast[];
 /** Identifier for the OrientationCertainty feature module. */
 extern const char OrientationCertainty[];
 /** Identifier for the OrientationFlow feature module. */
@@ -123,10 +123,10 @@ extern const char Count[];
 extern const char CountCOM[];
 
 /**
- * Percentage of minutiae whose quality value, as determined by Grayscale::Mean
+ * Percentage of minutiae whose quality value, as determined by Contrast::Mean
  * of a 32x32 pixel region centered on the minutiae, is between 0-0.5.
  *
- * @see Grayscale::Mean
+ * @see Contrast::Mean
  */
 extern const char QualityMu2[];
 
@@ -201,7 +201,7 @@ extern const char StdDev[];
 }
 
 /** Measure of the gray levels of the image. */
-namespace Grayscale {
+namespace Contrast {
 /** Arithmetic mean of the image. */
 extern const char Mean[];
 /** Arithmetic mean of per-block means of the image. */

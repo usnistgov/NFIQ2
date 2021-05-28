@@ -5,14 +5,14 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityFeatures::Modules::Grayscale[] {
+const char NFIQ2::Identifiers::QualityFeatures::Modules::Contrast[] {
 	"NFIQ2_Mu"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Features::Grayscale::Mean[] {
+const char NFIQ2::Identifiers::QualityFeatures::Features::Contrast::Mean[] {
 	"Mu"
 };
 const char
-    NFIQ2::Identifiers::QualityFeatures::Features::Grayscale::MeanBlock[] {
+    NFIQ2::Identifiers::QualityFeatures::Features::Contrast::MeanBlock[] {
 	    "MMB"
     };
 
@@ -98,8 +98,8 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 		// return MMB value
 		std::pair<std::string, double> fd_mmb;
-		fd_mmb = std::make_pair(Identifiers::QualityFeatures::Features::
-					    Grayscale::MeanBlock,
+		fd_mmb = std::make_pair(
+		    Identifiers::QualityFeatures::Features::Contrast::MeanBlock,
 		    avg);
 
 		featureDataList[fd_mmb.first] = fd_mmb.second;
@@ -133,7 +133,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		// return mu value
 		std::pair<std::string, double> fd_mu;
 		fd_mu = std::make_pair(
-		    Identifiers::QualityFeatures::Features::Grayscale::Mean,
+		    Identifiers::QualityFeatures::Features::Contrast::Mean,
 		    mu.val[0]);
 
 		featureDataList[fd_mu.first] = fd_mu.second;
@@ -155,9 +155,9 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = MuFeature::SpeedFeatureIDGroup;
 	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Grayscale::MeanBlock);
+	    Identifiers::QualityFeatures::Features::Contrast::MeanBlock);
 	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Grayscale::Mean);
+	    Identifiers::QualityFeatures::Features::Contrast::Mean);
 	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
@@ -177,7 +177,7 @@ NFIQ2::QualityFeatures::MuFeature::getSigma() const
 std::string
 NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 {
-	return NFIQ2::Identifiers::QualityFeatures::Modules::Grayscale;
+	return NFIQ2::Identifiers::QualityFeatures::Modules::Contrast;
 }
 
 std::vector<std::string>
@@ -185,8 +185,8 @@ NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Grayscale::MeanBlock);
+	    Identifiers::QualityFeatures::Features::Contrast::MeanBlock);
 	featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Grayscale::Mean);
+	    Identifiers::QualityFeatures::Features::Contrast::Mean);
 	return featureIDs;
 }

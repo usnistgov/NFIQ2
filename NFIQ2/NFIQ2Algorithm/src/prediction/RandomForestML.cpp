@@ -138,141 +138,113 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 	   the future.
 	*/
 	static const std::vector<std::string> rfFeatureOrder {
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin0,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin1,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin2,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin3,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin4,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin5,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin6,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin7,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin8,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Histogram::Bin9,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::Mean,
-		Identifiers::QualityFeatures::Features::
-		    FrequencyDomainAnalysis::StdDev,
-
-		Identifiers::QualityFeatures::Features::Minutiae::CountCOM,
-		Identifiers::QualityFeatures::Features::Minutiae::Count,
-		Identifiers::QualityFeatures::Features::Minutiae::QualityMu2,
-		Identifiers::QualityFeatures::Features::Minutiae::QualityOCL80,
-
-		Identifiers::QualityFeatures::Features::RegionOfInterest::Mean,
-
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin0,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin1,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin2,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin3,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin4,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin5,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin6,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin7,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin8,
-		Identifiers::QualityFeatures::Features::LocalClarity::
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		    Histogram::Bin9,
-		Identifiers::QualityFeatures::Features::LocalClarity::Mean,
-		Identifiers::QualityFeatures::Features::LocalClarity::StdDev,
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::Mean,
+		Identifiers::QualityFeatures::FrequencyDomainAnalysis::StdDev,
 
-		Identifiers::QualityFeatures::Features::Contrast::MeanBlock,
-		Identifiers::QualityFeatures::Features::Contrast::Mean,
+		Identifiers::QualityFeatures::Minutiae::CountCOM,
+		Identifiers::QualityFeatures::Minutiae::Count,
+		Identifiers::QualityFeatures::Minutiae::QualityMu2,
+		Identifiers::QualityFeatures::Minutiae::QualityOCL80,
 
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin0,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin1,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin2,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin3,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin4,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin5,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin6,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin7,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin8,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Histogram::Bin9,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    Mean,
-		Identifiers::QualityFeatures::Features::OrientationCertainty::
-		    StdDev,
+		Identifiers::QualityFeatures::RegionOfInterest::Mean,
 
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin0,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin1,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin2,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin3,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin4,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin5,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin6,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin7,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin8,
-		Identifiers::QualityFeatures::Features::OrientationFlow::
-		    Histogram::Bin9,
-		Identifiers::QualityFeatures::Features::OrientationFlow::Mean,
-		Identifiers::QualityFeatures::Features::OrientationFlow::StdDev,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin2,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin3,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin4,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin5,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin6,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin7,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin8,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin9,
+		Identifiers::QualityFeatures::LocalClarity::Mean,
+		Identifiers::QualityFeatures::LocalClarity::StdDev,
 
-		Identifiers::QualityFeatures::Features::RegionOfInterest::
-		    CoherenceMean,
-		Identifiers::QualityFeatures::Features::RegionOfInterest::
-		    CoherenceSum,
+		Identifiers::QualityFeatures::Contrast::MeanBlock,
+		Identifiers::QualityFeatures::Contrast::Mean,
 
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin0,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin1,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin2,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin3,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin4,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin5,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin6,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin7,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin8,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Histogram::Bin9,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    Mean,
-		Identifiers::QualityFeatures::Features::RidgeValleyUniformity::
-		    StdDev
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin0,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin1,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin2,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin3,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin4,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin5,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin6,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin7,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin8,
+		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		    Bin9,
+		Identifiers::QualityFeatures::OrientationCertainty::Mean,
+		Identifiers::QualityFeatures::OrientationCertainty::StdDev,
+
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin1,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin2,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin3,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin4,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin5,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin6,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin7,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin8,
+		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin9,
+		Identifiers::QualityFeatures::OrientationFlow::Mean,
+		Identifiers::QualityFeatures::OrientationFlow::StdDev,
+
+		Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean,
+		Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum,
+
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin0,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin1,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin2,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin3,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin4,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin5,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin6,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin7,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin8,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin9,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Mean,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::StdDev
 	};
 
 	try {

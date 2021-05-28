@@ -7,13 +7,13 @@
 #include <sstream>
 #include <tuple>
 
-const char NFIQ2::Identifiers::QualityFeatures::Modules::MinutiaeCount[] {
+const char NFIQ2::Identifiers::QualityModules::MinutiaeCount[] {
 	"NFIQ2_FingerJetFX"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Features::Minutiae::Count[] {
+const char NFIQ2::Identifiers::QualityFeatures::Minutiae::Count[] {
 	"FingerJetFX_MinutiaeCount"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Features::Minutiae::CountCOM[] {
+const char NFIQ2::Identifiers::QualityFeatures::Minutiae::CountCOM[] {
 	"FingerJetFX_MinCount_COMMinRect200x200"
 };
 
@@ -105,11 +105,11 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	std::pair<std::string, double> fd_min_cnt;
 	fd_min_cnt = std::make_pair(
-	    Identifiers::QualityFeatures::Features::Minutiae::Count, 0);
+	    Identifiers::QualityFeatures::Minutiae::Count, 0);
 
 	std::pair<std::string, double> fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200 = std::make_pair(
-	    Identifiers::QualityFeatures::Features::Minutiae::CountCOM, 0);
+	    Identifiers::QualityFeatures::Minutiae::CountCOM, 0);
 
 	NFIQ2::Timer timer;
 	timer.start();
@@ -212,9 +212,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Features::Minutiae::Count);
+		    Identifiers::QualityFeatures::Minutiae::Count);
 		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Features::Minutiae::CountCOM);
+		    Identifiers::QualityFeatures::Minutiae::CountCOM);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -259,9 +259,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
 	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Minutiae::Count);
+	    Identifiers::QualityFeatures::Minutiae::Count);
 	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Minutiae::CountCOM);
+	    Identifiers::QualityFeatures::Minutiae::CountCOM);
 	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
@@ -271,14 +271,14 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 std::string
 NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 {
-	return NFIQ2::Identifiers::QualityFeatures::Modules::MinutiaeCount;
+	return NFIQ2::Identifiers::QualityModules::MinutiaeCount;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::Features::Minutiae::CountCOM,
-		Identifiers::QualityFeatures::Features::Minutiae::Count };
+	return { Identifiers::QualityFeatures::Minutiae::CountCOM,
+		Identifiers::QualityFeatures::Minutiae::Count };
 }
 
 FRFXLL_RESULT

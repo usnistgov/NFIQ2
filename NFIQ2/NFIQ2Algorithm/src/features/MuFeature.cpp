@@ -5,16 +5,9 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityFeatures::Modules::Contrast[] {
-	"NFIQ2_Mu"
-};
-const char NFIQ2::Identifiers::QualityFeatures::Features::Contrast::Mean[] {
-	"Mu"
-};
-const char
-    NFIQ2::Identifiers::QualityFeatures::Features::Contrast::MeanBlock[] {
-	    "MMB"
-    };
+const char NFIQ2::Identifiers::QualityModules::Contrast[] { "NFIQ2_Mu" };
+const char NFIQ2::Identifiers::QualityFeatures::Contrast::Mean[] { "Mu" };
+const char NFIQ2::Identifiers::QualityFeatures::Contrast::MeanBlock[] { "MMB" };
 
 NFIQ2::QualityFeatures::MuFeature::MuFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
@@ -99,8 +92,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		// return MMB value
 		std::pair<std::string, double> fd_mmb;
 		fd_mmb = std::make_pair(
-		    Identifiers::QualityFeatures::Features::Contrast::MeanBlock,
-		    avg);
+		    Identifiers::QualityFeatures::Contrast::MeanBlock, avg);
 
 		featureDataList[fd_mmb.first] = fd_mmb.second;
 	} catch (const cv::Exception &e) {
@@ -133,8 +125,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		// return mu value
 		std::pair<std::string, double> fd_mu;
 		fd_mu = std::make_pair(
-		    Identifiers::QualityFeatures::Features::Contrast::Mean,
-		    mu.val[0]);
+		    Identifiers::QualityFeatures::Contrast::Mean, mu.val[0]);
 
 		featureDataList[fd_mu.first] = fd_mu.second;
 	} catch (const cv::Exception &e) {
@@ -155,9 +146,9 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = MuFeature::SpeedFeatureIDGroup;
 	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Contrast::MeanBlock);
+	    Identifiers::QualityFeatures::Contrast::MeanBlock);
 	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Contrast::Mean);
+	    Identifiers::QualityFeatures::Contrast::Mean);
 	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
@@ -177,16 +168,14 @@ NFIQ2::QualityFeatures::MuFeature::getSigma() const
 std::string
 NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 {
-	return NFIQ2::Identifiers::QualityFeatures::Modules::Contrast;
+	return NFIQ2::Identifiers::QualityModules::Contrast;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
-	featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Contrast::MeanBlock);
-	featureIDs.push_back(
-	    Identifiers::QualityFeatures::Features::Contrast::Mean);
+	featureIDs.push_back(Identifiers::QualityFeatures::Contrast::MeanBlock);
+	featureIDs.push_back(Identifiers::QualityFeatures::Contrast::Mean);
 	return featureIDs;
 }

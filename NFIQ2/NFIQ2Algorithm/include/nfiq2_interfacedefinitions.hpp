@@ -43,11 +43,8 @@ extern const char RandomForest[];
 } /* Identifiers::Prediction::Modules */
 } /* Identifiers::Prediction */
 
-/** Individual features that when combined create an NFIQ 2 quality score. */
-namespace QualityFeatures {
-
-/** Identifiers of modules used to calculate one or more Features. */
-namespace Modules {
+/** Modules that compute one or more QualityFeatures. */
+namespace QualityModules {
 /** Identifier for the FrequencyDomainAnalysis feature module. */
 extern const char FrequencyDomainAnalysis[];
 /** Identifier for the MinutiaeCount feature module. */
@@ -68,10 +65,10 @@ extern const char RegionOfInterestMean[];
 extern const char RegionOfInterestCoherence[];
 /** Identifier for the RidgeValleyUniformity feature module. */
 extern const char RidgeValleyUniformity[];
-} /* Identifiers::QualityFeatures::Modules */
+} /* Identifiers::QualityModules */
 
 /** Identifiers of individual quality features and modules. */
-namespace Features {
+namespace QualityFeatures {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {
 /**
@@ -323,7 +320,6 @@ extern const char Bin9[];
 extern const char Mean[];
 /** Standard deviation of local quality values. */
 extern const char StdDev[];
-}
 } /* Identifiers::QualityFeatures::RidgeValleyUniformity */
 } /* Identifiers::QualityFeatures */
 } /* Identifiers */

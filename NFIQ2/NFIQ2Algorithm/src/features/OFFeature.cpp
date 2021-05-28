@@ -72,7 +72,7 @@ NFIQ2::QualityFeatures::OFFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::OFFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::OFFeature::getAllQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0,
 		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin1,

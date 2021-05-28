@@ -270,15 +270,16 @@ std::vector<std::string>
 NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
 {
 	const std::vector<std::vector<std::string>> vov {
-		FDAFeature::getAllFeatureIDs(),
-		FingerJetFXFeature::getAllFeatureIDs(),
-		FJFXMinutiaeQualityFeature::getAllFeatureIDs(),
-		ImgProcROIFeature::getAllFeatureIDs(),
-		LCSFeature::getAllFeatureIDs(), MuFeature::getAllFeatureIDs(),
-		OCLHistogramFeature::getAllFeatureIDs(),
-		OFFeature::getAllFeatureIDs(),
-		QualityMapFeatures::getAllFeatureIDs(),
-		RVUPHistogramFeature::getAllFeatureIDs()
+		FDAFeature::getAllQualityFeatureIDs(),
+		FingerJetFXFeature::getAllQualityFeatureIDs(),
+		FJFXMinutiaeQualityFeature::getAllQualityFeatureIDs(),
+		ImgProcROIFeature::getAllQualityFeatureIDs(),
+		LCSFeature::getAllQualityFeatureIDs(),
+		MuFeature::getAllQualityFeatureIDs(),
+		OCLHistogramFeature::getAllQualityFeatureIDs(),
+		OFFeature::getAllQualityFeatureIDs(),
+		QualityMapFeatures::getAllQualityFeatureIDs(),
+		RVUPHistogramFeature::getAllQualityFeatureIDs()
 	};
 
 	std::vector<std::string> qualityFeatureIDs {};

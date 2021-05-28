@@ -144,7 +144,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getAllQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::Minutiae::QualityMu2,
 		Identifiers::QualityFeatures::Minutiae::QualityOCL80 };

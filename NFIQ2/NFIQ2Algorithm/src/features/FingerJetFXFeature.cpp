@@ -260,7 +260,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FingerJetFXFeature::getAllQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::Minutiae::CountCOM,
 		Identifiers::QualityFeatures::Minutiae::Count };

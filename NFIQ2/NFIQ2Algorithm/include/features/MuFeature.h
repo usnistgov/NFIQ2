@@ -22,7 +22,7 @@ class MuFeature : public BaseFeature {
 	 */
 	double getSigma() const;
 
-	static std::vector<std::string> getAllFeatureIDs();
+	static std::vector<std::string> getAllQualityFeatureIDs();
 	static const char SpeedFeatureIDGroup[];
 
     private:

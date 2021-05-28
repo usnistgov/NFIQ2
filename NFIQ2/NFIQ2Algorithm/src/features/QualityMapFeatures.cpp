@@ -318,7 +318,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
+NFIQ2::QualityFeatures::QualityMapFeatures::getAllQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean,
 		Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum };

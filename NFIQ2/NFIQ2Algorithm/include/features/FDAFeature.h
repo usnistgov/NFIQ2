@@ -25,7 +25,7 @@ class FDAFeature : public BaseFeature {
 
 	std::string getModuleName() const override;
 
-	static std::vector<std::string> getAllFeatureIDs();
+	static std::vector<std::string> getAllQualityFeatureIDs();
 	static const char SpeedFeatureIDGroup[];
 	static const char moduleName[];
 

@@ -164,7 +164,7 @@ NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::MuFeature::getAllQualityFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back(Identifiers::QualityFeatures::Contrast::MeanBlock);

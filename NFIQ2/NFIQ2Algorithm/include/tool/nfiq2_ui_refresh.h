@@ -46,16 +46,16 @@ bool askIfQuantize();
  *
  * @param[in] name
  *  The images name
- * @param[in] imageDPI
+ * @param[in] imagePPI
  *  The image resolution
- * @param[in] requiredDPI
- *  The required DPI for NFIQ 2 to produce an accurate score (500PPI)
+ * @param[in] requiredPPI
+ *  The required PPI for NFIQ 2 to produce an accurate score (500PPI)
  *
  * @return
  *  Yes/No response to resample prompt
  */
-bool askIfDefaultResolution(const std::string &name, const uint16_t imageDPI,
-    const uint16_t requiredDPI);
+bool askIfDefaultResolution(const std::string &name, const uint16_t imagePPI,
+    const uint16_t requiredPPI);
 
 /**
  * @brief
@@ -67,16 +67,16 @@ bool askIfDefaultResolution(const std::string &name, const uint16_t imageDPI,
  *
  * @param[in] name
  *  The images name
- * @param[in] imageDPI
+ * @param[in] imagePPI
  *  The image resolution
- * @param[in] requiredDPI
- *  The required DPI for NFIQ 2 to produce an accurate score (500PPI)
+ * @param[in] requiredPPI
+ *  The required PPI for NFIQ 2 to produce an accurate score (500PPI)
  *
  * @return
  *  Yes/No response to resample prompt
  */
-bool askIfResample(const std::string &name, const uint16_t imageDPI,
-    const uint16_t requiredDPI);
+bool askIfResample(const std::string &name, const uint16_t imagePPI,
+    const uint16_t requiredPPI);
 
 /**
  * @brief

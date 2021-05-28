@@ -1,7 +1,7 @@
 #ifndef FEATUREFUNCTIONS_H
 #define FEATUREFUNCTIONS_H
 
-#include <nfiq2_interfacedefinitions.hpp>
+#include <nfiq2_constants.hpp>
 #include <opencv2/core.hpp>
 
 #include <unordered_map>

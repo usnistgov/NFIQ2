@@ -92,8 +92,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// make local copy of fingerprint image
 	// since FJFX somehow transforms the input image
 	NFIQ2::FingerprintImageData localFingerprintImage(
-	    fingerprintImage.m_ImageWidth, fingerprintImage.m_ImageHeight,
-	    fingerprintImage.m_FingerCode, fingerprintImage.m_ImageDPI);
+	    fingerprintImage.imageWidth, fingerprintImage.imageHeight,
+	    fingerprintImage.fingerCode, fingerprintImage.imagePPI);
 	// copy data now
 	localFingerprintImage.resize(fingerprintImage.size());
 	memcpy((void *)localFingerprintImage.data(), fingerprintImage.data(),
@@ -129,10 +129,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	// extract feature set
 	const FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,
 	    (unsigned char *)localFingerprintImage.data(),
-	    localFingerprintImage.size(), localFingerprintImage.m_ImageWidth,
-	    localFingerprintImage.m_ImageHeight,
-	    localFingerprintImage.m_ImageDPI, FRFXLL_FEX_ENABLE_ENHANCEMENT,
-	    &hFeatureSet);
+	    localFingerprintImage.size(), localFingerprintImage.imageWidth,
+	    localFingerprintImage.imageHeight, localFingerprintImage.imagePPI,
+	    FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet);
 	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);
 		throw NFIQ2::Exception(
@@ -283,8 +282,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)
 {
-	unsigned int fpHeight = fingerprintImage.m_ImageHeight;
-	unsigned int fpWidth = fingerprintImage.m_ImageWidth;
+	unsigned int fpHeight = fingerprintImage.imageHeight;
+	unsigned int fpWidth = fingerprintImage.imageWidth;
 
 	FingerJetFXFeature::FJFXROIResults roiResults;
 	roiResults.chosenBlockSize = bs;

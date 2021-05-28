@@ -78,7 +78,7 @@ set(PUBLIC_HEADERS
     "include/nfiq2.hpp"
     "include/nfiq2_data.hpp"
     "include/nfiq2_fingerprintimagedata.hpp"
-    "include/nfiq2_interfacedefinitions.hpp"
+    "include/nfiq2_constants.hpp"
     "include/nfiq2_modelinfo.hpp"
     "include/nfiq2_algorithm.hpp"
     "include/nfiq2_exception.hpp"

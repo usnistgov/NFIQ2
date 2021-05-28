@@ -3,8 +3,8 @@
 
 #include <features/BaseFeature.h>
 #include <features/FingerJetFXFeature.h>
+#include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_interfacedefinitions.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 

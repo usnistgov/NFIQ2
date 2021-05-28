@@ -1,23 +1,19 @@
+/*
+ * This file is part of NIST Fingerprint Image Quality (NFIQ) 2. For more
+ * information on this project, refer to:
+ *   - https://nist.gov/services-resources/software/nfiq2
+ *   - https://github.com/usnistgov/NFIQ2
+ *
+ * This work is in the public domain. For complete licensing details, refer to:
+ *   - https://github.com/usnistgov/NFIQ2/blob/master/LICENSE.md
+ */
+
 #ifndef NFIQ2_FINGERPRINTIMAGEDATA_HPP_
 #define NFIQ2_FINGERPRINTIMAGEDATA_HPP_
 
 #include <nfiq2_data.hpp>
 
-/**
- * Pixel intensity threshold used for determining whitespace
- * around fingerprint.
- */
-#define MU_THRESHOLD 250
-
 namespace NFIQ2 {
-
-/** Resolution of an image in pixels per inch (PPI). */
-typedef enum image_resolution_e {
-	/** 500 PPI. */
-	e_ImageResolution_500dpi = 500,
-	/** 1000 PPI. */
-	e_ImageResolution_1000dpi = 1000
-} ImageResolution;
 
 /**
  * Binary data representing a decompressed fingerprint image, canonically
@@ -25,6 +21,9 @@ typedef enum image_resolution_e {
  */
 class FingerprintImageData : public Data {
     public:
+	/** 500 PPI resolution. */
+	static const uint16_t Resolution500PPI { 500 };
+
 	/** Default constructor. */
 	FingerprintImageData();
 
@@ -39,11 +38,11 @@ class FingerprintImageData : public Data {
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imageDPI
+	 * @param imagePPI
 	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
-	    uint8_t fingerCode, uint16_t imageDPI);
+	    uint8_t fingerCode, uint16_t imagePPI);
 
 	/**
 	 * @brief
@@ -60,12 +59,12 @@ class FingerprintImageData : public Data {
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imageDPI
+	 * @param imagePPI
 	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
 	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
-	    uint16_t imageDPI);
+	    uint16_t imagePPI);
 
 	/** Copy constructor. */
 	FingerprintImageData(const FingerprintImageData &otherData);
@@ -74,13 +73,13 @@ class FingerprintImageData : public Data {
 	virtual ~FingerprintImageData();
 
 	/** Width of the fingerprint image (in pixels) */
-	uint32_t m_ImageWidth;
+	uint32_t imageWidth;
 	/** Height of the fingerprint image (in pixels) */
-	uint32_t m_ImageHeight;
+	uint32_t imageHeight;
 	/** ISO finger code of the fingerprint in the image */
-	uint8_t m_FingerCode;
+	uint8_t fingerCode;
 	/** Dots per inch of the fingerprint image */
-	int16_t m_ImageDPI;
+	uint16_t imagePPI;
 
 	/**
 	 * @brief

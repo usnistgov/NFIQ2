@@ -3,9 +3,7 @@
 #include <iomanip>
 #include <sstream>
 
-NFIQ2::Data::Data()
-{
-}
+NFIQ2::Data::Data() = default;
 
 NFIQ2::Data::Data(const uint8_t *pData, uint32_t dataSize)
     : std::basic_string<uint8_t>(pData, dataSize)
@@ -22,9 +20,7 @@ NFIQ2::Data::Data(const std::basic_string<uint8_t> &otherData)
 {
 }
 
-NFIQ2::Data::~Data()
-{
-}
+NFIQ2::Data::~Data() = default;
 
 void
 NFIQ2::Data::writeToFile(const std::string &filename) const

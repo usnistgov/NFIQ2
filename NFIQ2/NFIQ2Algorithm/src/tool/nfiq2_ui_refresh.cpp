@@ -61,32 +61,32 @@ NFIQ2UI::askIfQuantize()
 
 bool
 NFIQ2UI::askIfDefaultResolution(const std::string &name,
-    const uint16_t imageDPI, const uint16_t requiredDPI)
+    const uint16_t imagePPI, const uint16_t requiredPPI)
 {
 	const std::string prompt { "The resolution of \"" + name +
-		"\" was parsed as " + std::to_string(imageDPI) +
+		"\" was parsed as " + std::to_string(imagePPI) +
 		" PPI, which is "
 		"sometimes used to indicate that resolution information was not "
 		"recorded. NFIQ 2 only supports " +
-		std::to_string(requiredDPI) +
+		std::to_string(requiredPPI) +
 		" PPI images. This application can resample images, but doing so "
 		"introduces error.\n"
 		"Assume this image was actually captured at " +
-		std::to_string(requiredDPI) + " PPI?" };
+		std::to_string(requiredPPI) + " PPI?" };
 	return NFIQ2UI::yesOrNo(prompt, false, true, true);
 }
 
 bool
-NFIQ2UI::askIfResample(const std::string &name, const uint16_t imageDPI,
-    const uint16_t requiredDPI)
+NFIQ2UI::askIfResample(const std::string &name, const uint16_t imagePPI,
+    const uint16_t requiredPPI)
 {
 	const std::string prompt { "The resolution of \"" + name +
-		"\" was parsed as " + std::to_string(imageDPI) + " PPI, not " +
-		std::to_string(requiredDPI) +
+		"\" was parsed as " + std::to_string(imagePPI) + " PPI, not " +
+		std::to_string(requiredPPI) +
 		" PPI, as required for NFIQ 2. "
 		"Would you like to introduce error and re-sample this "
 		"image to " +
-		std::to_string(requiredDPI) + " PPI?" };
+		std::to_string(requiredPPI) + " PPI?" };
 	return NFIQ2UI::yesOrNo(prompt, false, true, true);
 }
 
@@ -103,7 +103,7 @@ NFIQ2UI::resampleAndLogError(BE::Memory::uint8Array &grayscaleRawData,
 			static_cast<int>(dimensionInfo.imageWidth), CV_8U,
 			grayscaleRawData };
 		NFIR::resample(preResample, postResample,
-		    dimensionInfo.imageDPI, dimensionInfo.requiredDPI, "", "");
+		    dimensionInfo.imagePPI, dimensionInfo.requiredPPI, "", "");
 
 	} catch (const cv::Exception &e) {
 		const std::string errStr = "Error: Matrix creation error: " +
@@ -241,19 +241,19 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	const BE::Image::Resolution resolution = img->getResolution().toUnits(
 	    BE::Image::Resolution::Units::PPI);
 
-	const uint16_t imageDPI = static_cast<uint16_t>(
+	const uint16_t imagePPI = static_cast<uint16_t>(
 	    std::round(resolution.xRes));
 
 	cv::Mat postResample {};
 
-	static const uint8_t defaultDPI { 72 };
-	static const uint16_t requiredDPI { 500 };
+	static const uint8_t defaultPPI { 72 };
+	static const uint16_t requiredPPI { 500 };
 
 	const NFIQ2UI::DimensionInfo dimensionInfo { imageHeight, imageWidth,
-		imageDPI, requiredDPI };
+		imagePPI, requiredPPI };
 
-	if (resolution.xRes != resolution.yRes || imageDPI != requiredDPI) {
-		if (flags.force && imageDPI != defaultDPI) {
+	if (resolution.xRes != resolution.yRes || imagePPI != requiredPPI) {
+		if (flags.force && imagePPI != defaultPPI) {
 			// resample by force
 			imageProps.resampled = true;
 			try {
@@ -276,17 +276,17 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 				return;
 			}
 
-		} else if (flags.force && imageDPI == defaultDPI) {
+		} else if (flags.force && imagePPI == defaultPPI) {
 			// Don't resample, continue as if it was 500 ppi
 		} else if (interactive && !flags.force) {
-			if (imageDPI == defaultDPI &&
+			if (imagePPI == defaultPPI &&
 			    NFIQ2UI::askIfDefaultResolution(
-				name, imageDPI, requiredDPI)) {
+				name, imagePPI, requiredPPI)) {
 				// Yes, leave the image be
 			} else {
 				// Ask to resample
 				if (NFIQ2UI::askIfResample(
-					name, imageDPI, requiredDPI)) {
+					name, imagePPI, requiredPPI)) {
 					// Yes, resample image
 					imageProps.resampled = true;
 					try {
@@ -337,8 +337,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			}
 		} else {
 			const std::string errStr = "Error: Image is " +
-			    std::to_string(imageDPI) + " PPI, not " +
-			    std::to_string(requiredDPI) + " PPI";
+			    std::to_string(imagePPI) + " PPI, not " +
+			    std::to_string(requiredPPI) + " PPI";
 			if (singleImage) {
 				logger->printSingleError(errStr);
 			} else {
@@ -357,10 +357,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	const NFIQ2::FingerprintImageData wrappedImage = imageProps.resampled ?
 		  NFIQ2::FingerprintImageData(postResample.data, postResample.total(),
 		postResample.cols, postResample.rows, fingerPosition,
-		requiredDPI) :
+		requiredPPI) :
 		  NFIQ2::FingerprintImageData(grayscaleRawData,
 		grayscaleRawData.size(), imageWidth, imageHeight,
-		fingerPosition, requiredDPI);
+		fingerPosition, requiredPPI);
 
 	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	    features {};

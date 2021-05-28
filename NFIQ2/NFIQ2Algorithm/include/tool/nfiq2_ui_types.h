@@ -132,15 +132,15 @@ struct ImgCouple {
 struct DimensionInfo {
 	uint32_t imageHeight {};
 	uint32_t imageWidth {};
-	uint16_t imageDPI {};
-	uint16_t requiredDPI { 500 };
+	uint16_t imagePPI {};
+	uint16_t requiredPPI { 500 };
 
 	DimensionInfo(uint32_t imageHeight_, uint32_t imageWidth_,
-	    uint16_t imageDPI_, uint16_t requiredDPI_)
+	    uint16_t imagePPI_, uint16_t requiredPPI_)
 	    : imageHeight { imageHeight_ }
 	    , imageWidth { imageWidth_ }
-	    , imageDPI { imageDPI_ }
-	    , requiredDPI { requiredDPI_ }
+	    , imagePPI { imagePPI_ }
+	    , requiredPPI { requiredPPI_ }
 	{
 	}
 };

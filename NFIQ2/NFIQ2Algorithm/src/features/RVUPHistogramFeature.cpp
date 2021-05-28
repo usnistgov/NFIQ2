@@ -58,7 +58,8 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+	if (fingerprintImage.imagePPI !=
+	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
@@ -67,8 +68,8 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = cv::Mat(fingerprintImage.m_ImageHeight,
-		    fingerprintImage.m_ImageWidth, CV_8UC1,
+		img = cv::Mat(fingerprintImage.imageHeight,
+		    fingerprintImage.imageWidth, CV_8UC1,
 		    (void *)fingerprintImage.data());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;

@@ -1,8 +1,8 @@
 #ifndef BASEFEATURE_H
 #define BASEFEATURE_H
 
+#include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_interfacedefinitions.hpp>
 
 #include <string>
 #include <unordered_map>

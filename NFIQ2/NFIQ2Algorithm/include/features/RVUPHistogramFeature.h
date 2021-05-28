@@ -2,8 +2,8 @@
 #define RVUPHISTOGRAMFEATURE_H
 
 #include <features/BaseFeature.h>
+#include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_interfacedefinitions.hpp>
 
 #include <string>
 #include <vector>

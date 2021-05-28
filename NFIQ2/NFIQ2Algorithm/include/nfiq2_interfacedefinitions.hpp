@@ -7,13 +7,13 @@
 #include <vector>
 
 namespace NFIQ2 {
+/** Identification strings for various objects. */
+namespace Identifiers {
 /**
- * Interpretation of quality features that may indicated corrective measures
- * for subsequent captures of the same subject.
+ * Identifiers for interpretation of quality features that may indicated
+ * corrective measures for subsequent captures of the same subject.
  */
 namespace ActionableQualityFeedback {
-/** Identifiers for actionable feedback values. */
-namespace IDs {
 /**
  * The image is blank or the contrast is too low.
  *
@@ -32,16 +32,29 @@ extern const char UniformImage[];
 extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
 extern const char SufficientFingerprintForeground[];
-}
+} /* ActionableQualityFeedback */
 
+/** Modules that combine features to compute a quality score. */
+namespace Prediction {
+/** Identifiers of modules used to predict quality scores. */
+namespace Modules {
+/** Identifier for the RandomForest prediction module. */
+extern const char RandomForest[];
+} /* Identifiers::Prediction::Modules */
+} /* Identifiers::Prediction */
+} /* Identifiers */
+
+/** Threshold constants. */
+namespace Thresholds {
 /**
- * Thresholds corresponding to IDs.
+ * Thresholds corresponding to Identifiers::ActionableQualityFeedback.
  *
  * @details
- * Comparing the values of IDs with Thresholds may indicate a corrective action
- * for subsequent captures of the same subject.
+ * Comparing the values of Identifiers::ActionableQualityFeedback with
+ * Thresholds::ActionableQualityFeedback may indicate a corrective action for
+ * subsequent captures of the same subject.
  */
-namespace Thresholds {
+namespace ActionableQualityFeedback {
 /** Threshold value for IDs::EmptyImageOrContrastTooLow. */
 extern const double EmptyImageOrContrastTooLow;
 /** Threshold value for IDs::UniformImage. */
@@ -50,20 +63,8 @@ extern const double UniformImage;
 extern const double FingerprintImageWithMinutiae;
 /** Threshold value for IDs::SufficientFingerprintForeground. */
 extern const double SufficientFingerprintForeground;
-}
-}
-
-/** Identification strings for various objects. */
-namespace Identifiers {
-/** Modules that combine features to compute a quality score. */
-namespace Prediction {
-/** Identifiers of modules used to predict quality scores. */
-namespace Modules {
-/** Identifier for the RandomForest prediction module. */
-extern const char RandomForest[];
-}
-}
-}
+} /* Thresholds::ActionableQualityFeedback */
+} /* Thresholds */
 
 /** Individual features that when combined create an NFIQ 2 quality score. */
 namespace QualityFeatures {

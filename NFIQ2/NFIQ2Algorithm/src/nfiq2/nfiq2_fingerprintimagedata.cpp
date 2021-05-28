@@ -14,7 +14,7 @@ NFIQ2::FingerprintImageData::FingerprintImageData()
     , m_ImageWidth(0)
     , m_ImageHeight(0)
     , m_FingerCode(0)
-    , m_ImageDPI(NFIQ2::e_ImageResolution_500dpi)
+    , m_ImageDPI(NFIQ2::FingerprintImageData::Resolution500PPI)
 {
 }
 

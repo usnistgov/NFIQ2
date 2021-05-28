@@ -38,7 +38,8 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.m_ImageDPI != NFIQ2::e_ImageResolution_500dpi) {
+	if (fingerprintImage.m_ImageDPI !=
+	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");

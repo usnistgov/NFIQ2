@@ -11,20 +11,15 @@
 
 namespace NFIQ2 {
 
-/** Resolution of an image in pixels per inch (PPI). */
-typedef enum image_resolution_e {
-	/** 500 PPI. */
-	e_ImageResolution_500dpi = 500,
-	/** 1000 PPI. */
-	e_ImageResolution_1000dpi = 1000
-} ImageResolution;
-
 /**
  * Binary data representing a decompressed fingerprint image, canonically
  * encoded as per ISO/IEC 19794-4:2005.
  */
 class FingerprintImageData : public Data {
     public:
+	/** 500 PPI resolution. */
+	static const uint16_t Resolution500PPI { 500 };
+
 	/** Default constructor. */
 	FingerprintImageData();
 

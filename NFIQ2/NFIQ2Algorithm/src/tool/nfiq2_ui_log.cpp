@@ -247,8 +247,7 @@ NFIQ2UI::Log::printCSVHeader() const
 			if (it != sHeaders.begin()) {
 				*(this->out) << ',';
 			}
-			std::replace(it->begin(), it->end(), ' ', '_');
-			*(this->out) << *it;
+			*(this->out) << *it << "Speed";
 		}
 	}
 	*(this->out) << "\n";

@@ -24,6 +24,15 @@ class BaseFeature;
 std::vector<std::string> getAllActionableIdentifiers();
 
 /**
+ * @briefq
+ * Obtain all quality module identifiers.
+ *
+ * @return
+ * Vector of strings with all identifiers from Identifiers::QualityModules.
+ */
+std::vector<std::string> getAllQualityModuleIDs();
+
+/**
  * @brief
  * Obtain all quality feature IDs from quality modules.
  *

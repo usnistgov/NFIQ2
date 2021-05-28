@@ -17,6 +17,12 @@ NFIQ2::QualityFeatures::getAllQualityFeatureIDs()
 }
 
 std::vector<std::string>
+NFIQ2::QualityFeatures::getAllQualityModuleIDs()
+{
+	return NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs();
+}
+
+std::vector<std::string>
 NFIQ2::QualityFeatures::getAllSpeedFeatureGroups()
 {
 	return NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups();
@@ -37,6 +43,7 @@ NFIQ2::QualityFeatures::getActionableQualityFeedback(
 	return NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	    features);
 }
+
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::getActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage)

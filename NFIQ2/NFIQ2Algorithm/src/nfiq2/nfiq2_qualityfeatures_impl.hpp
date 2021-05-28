@@ -33,6 +33,15 @@ std::vector<std::string> getAllQualityFeatureIDs();
 
 /**
  * @brief
+ * Obtain all quality module identifiers.
+ *
+ * @return
+ * Vector of strings with all identifiers from Identifiers::QualityModules.
+ */
+std::vector<std::string> getAllQualityModuleIDs();
+
+/**
+ * @brief
  * Obtain all speed feature groups from quality modules.
  *
  * @return

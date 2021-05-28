@@ -292,6 +292,25 @@ NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
 }
 
 std::vector<std::string>
+NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs()
+{
+	static const std::vector<std::string> ids {
+		Identifiers::QualityModules::FrequencyDomainAnalysis,
+		Identifiers::QualityModules::MinutiaeCount,
+		Identifiers::QualityModules::MinutiaeQuality,
+		Identifiers::QualityModules::RegionOfInterestMean,
+		Identifiers::QualityModules::LocalClarity,
+		Identifiers::QualityModules::Contrast,
+		Identifiers::QualityModules::OrientationCertainty,
+		Identifiers::QualityModules::OrientationFlow,
+		Identifiers::QualityModules::RegionOfInterestCoherence,
+		Identifiers::QualityModules::RidgeValleyUniformity
+	};
+
+	return ids;
+}
+
+std::vector<std::string>
 NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups()
 {
 	static const std::vector<std::string> speedFeatureGroups {

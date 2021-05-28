@@ -251,7 +251,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers()
+NFIQ2::QualityFeatures::Impl::getAllActionableQualityFeedbackIDs()
 {
 	static const std::vector<std::string> actionableIdentifiers {
 		NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage,

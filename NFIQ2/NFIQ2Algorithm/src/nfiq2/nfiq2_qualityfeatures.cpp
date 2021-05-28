@@ -5,9 +5,10 @@
 #include <vector>
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::getAllActionableIdentifiers()
+NFIQ2::QualityFeatures::getAllActionableQualityFeedbackIDs()
 {
-	return NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers();
+	return NFIQ2::QualityFeatures::Impl::
+	    getAllActionableQualityFeedbackIDs();
 }
 
 std::vector<std::string>

@@ -13,12 +13,6 @@
 
 #include <nfiq2_data.hpp>
 
-/**
- * Pixel intensity threshold used for determining whitespace
- * around fingerprint.
- */
-#define MU_THRESHOLD 250
-
 namespace NFIQ2 {
 
 /**

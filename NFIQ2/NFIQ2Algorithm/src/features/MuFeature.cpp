@@ -17,8 +17,9 @@ NFIQ2::QualityFeatures::MuFeature::MuFeature(
 
 NFIQ2::QualityFeatures::MuFeature::~MuFeature() = default;
 
-const std::string NFIQ2::QualityFeatures::MuFeature::speedFeatureIDGroup =
-    "Contrast";
+const char NFIQ2::QualityFeatures::MuFeature::SpeedFeatureIDGroup[] {
+	"Contrast"
+};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
@@ -143,7 +144,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 	// Speed
 	NFIQ2::QualityFeatureSpeed speed;
-	speed.featureIDGroup = MuFeature::speedFeatureIDGroup;
+	speed.featureIDGroup = MuFeature::SpeedFeatureIDGroup;
 	speed.featureIDs.push_back(QualityFeatureIDs::Grayscale::MeanBlock);
 	speed.featureIDs.push_back(QualityFeatureIDs::Grayscale::Mean);
 	speed.featureSpeed = timer.stop();

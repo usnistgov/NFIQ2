@@ -77,8 +77,9 @@ NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 		QualityFeatureIDs::LocalClarity::StdDev };
 }
 
-const std::string NFIQ2::QualityFeatures::LCSFeature::speedFeatureIDGroup =
-    "Local clarity";
+const char NFIQ2::QualityFeatures::LCSFeature::SpeedFeatureIDGroup[] {
+	"Local clarity"
+};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
@@ -219,7 +220,7 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = LCSFeature::speedFeatureIDGroup;
+		speed.featureIDGroup = LCSFeature::SpeedFeatureIDGroup;
 
 		addHistogramFeatureNames(
 		    speed.featureIDs, NFIQ2LCSFeaturePrefix, 10);

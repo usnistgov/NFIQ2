@@ -60,9 +60,9 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
 
 NFIQ2::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
 
-const std::string
-    NFIQ2::QualityFeatures::RVUPHistogramFeature::speedFeatureIDGroup =
-	"Ridge valley uniformity";
+const char NFIQ2::QualityFeatures::RVUPHistogramFeature::SpeedFeatureIDGroup[] {
+	"Ridge valley uniformity"
+};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
@@ -200,7 +200,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup =
-		    RVUPHistogramFeature::speedFeatureIDGroup;
+		    RVUPHistogramFeature::SpeedFeatureIDGroup;
 
 		addHistogramFeatureNames(
 		    speed.featureIDs, NFIQ2RVUPFeaturePrefix, 10);

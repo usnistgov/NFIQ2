@@ -26,9 +26,10 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::
     ~FJFXMinutiaeQualityFeature() = default;
 
-const std::string
-    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::speedFeatureIDGroup =
-	"Minutiae quality";
+const char
+    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup[] {
+	    "Minutiae quality"
+    };
 
 std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
@@ -119,7 +120,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup =
-		    FJFXMinutiaeQualityFeature::speedFeatureIDGroup;
+		    FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(
 		    QualityFeatureIDs::Minutiae::QualityMu2);
 		speed.featureIDs.push_back(

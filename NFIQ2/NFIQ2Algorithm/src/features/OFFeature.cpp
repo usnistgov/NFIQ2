@@ -78,8 +78,9 @@ NFIQ2::QualityFeatures::OFFeature::getAllFeatureIDs()
 		QualityFeatureIDs::OrientationFlow::StdDev };
 }
 
-const std::string NFIQ2::QualityFeatures::OFFeature::speedFeatureIDGroup =
-    "Orientation flow";
+const char NFIQ2::QualityFeatures::OFFeature::SpeedFeatureIDGroup[] {
+	"Orientation flow"
+};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
@@ -295,7 +296,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = OFFeature::speedFeatureIDGroup;
+		speed.featureIDGroup = OFFeature::SpeedFeatureIDGroup;
 
 		addHistogramFeatureNames(
 		    speed.featureIDs, NFIQ2OFFeaturePrefix, 10);

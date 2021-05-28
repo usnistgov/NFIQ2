@@ -86,8 +86,9 @@ NFIQ2::QualityFeatures::FDAFeature::getAllFeatureIDs()
 		QualityFeatureIDs::FrequencyDomainAnalysis::StdDev };
 }
 
-const std::string NFIQ2::QualityFeatures::FDAFeature::speedFeatureIDGroup =
-    "Frequency domain";
+const char NFIQ2::QualityFeatures::FDAFeature::SpeedFeatureIDGroup[] {
+	"Frequency domain"
+};
 
 std::string
 NFIQ2::QualityFeatures::FDAFeature::getModuleName() const
@@ -223,7 +224,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FDAFeature::speedFeatureIDGroup;
+		speed.featureIDGroup = FDAFeature::SpeedFeatureIDGroup;
 
 		addHistogramFeatureNames(
 		    speed.featureIDs, NFIQ2FDAFeaturePrefix, 10);

@@ -79,13 +79,13 @@ class FingerprintImageData : public Data {
 	virtual ~FingerprintImageData();
 
 	/** Width of the fingerprint image (in pixels) */
-	uint32_t m_ImageWidth;
+	uint32_t imageWidth;
 	/** Height of the fingerprint image (in pixels) */
-	uint32_t m_ImageHeight;
+	uint32_t imageHeight;
 	/** ISO finger code of the fingerprint in the image */
-	uint8_t m_FingerCode;
+	uint8_t fingerCode;
 	/** Dots per inch of the fingerprint image */
-	int16_t m_ImagePPI;
+	int16_t imagePPI;
 
 	/**
 	 * @brief

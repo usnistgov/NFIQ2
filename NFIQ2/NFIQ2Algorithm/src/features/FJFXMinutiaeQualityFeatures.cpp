@@ -152,8 +152,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 	std::vector<MinutiaData> vecMinData;
 
 	// get matrix from fingerprint image
-	cv::Mat img = cv::Mat(fingerprintImage.m_ImageHeight,
-	    fingerprintImage.m_ImageWidth, CV_8UC1,
+	cv::Mat img = cv::Mat(fingerprintImage.imageHeight,
+	    fingerprintImage.imageWidth, CV_8UC1,
 	    (void *)fingerprintImage.data());
 
 	// compute overall mean and stddev
@@ -181,11 +181,11 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 
 		unsigned int takenBS_X = bs;
 		unsigned int takenBS_Y = bs;
-		if ((leftX + bs) > (int)fingerprintImage.m_ImageWidth) {
-			takenBS_X = (fingerprintImage.m_ImageWidth - leftX);
+		if ((leftX + bs) > (int)fingerprintImage.imageWidth) {
+			takenBS_X = (fingerprintImage.imageWidth - leftX);
 		}
-		if ((topY + bs) > (int)fingerprintImage.m_ImageHeight) {
-			takenBS_Y = (fingerprintImage.m_ImageHeight - topY);
+		if ((topY + bs) > (int)fingerprintImage.imageHeight) {
+			takenBS_Y = (fingerprintImage.imageHeight - topY);
 		}
 
 		cv::Mat block = img(
@@ -207,8 +207,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 	std::vector<MinutiaData> vecMinData;
 
 	// get matrix from fingerprint image
-	cv::Mat img = cv::Mat(fingerprintImage.m_ImageHeight,
-	    fingerprintImage.m_ImageWidth, CV_8UC1,
+	cv::Mat img = cv::Mat(fingerprintImage.imageHeight,
+	    fingerprintImage.imageWidth, CV_8UC1,
 	    (void *)fingerprintImage.data());
 
 	// iterate through all minutiae positions and
@@ -232,11 +232,11 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
 		// always take full blocks centered around minutiae location
 		// if in edge reason -> don't center around minutiae but take
 		// full block that is closest
-		if ((leftX + bs) > (int)fingerprintImage.m_ImageWidth) {
-			leftX = (fingerprintImage.m_ImageWidth - bs);
+		if ((leftX + bs) > (int)fingerprintImage.imageWidth) {
+			leftX = (fingerprintImage.imageWidth - bs);
 		}
-		if ((topY + bs) > (int)fingerprintImage.m_ImageHeight) {
-			topY = (fingerprintImage.m_ImageHeight - bs);
+		if ((topY + bs) > (int)fingerprintImage.imageHeight) {
+			topY = (fingerprintImage.imageHeight - bs);
 		}
 
 		cv::Mat block = img(cv::Rect(leftX, topY, bs, bs));

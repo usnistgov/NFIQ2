@@ -116,9 +116,9 @@ std::unordered_map<std::string, double> getQualityFeatureData(
  * A vector of BaseFeatures obtained from a raw fingerprint image.
  *
  * @return
- * A map of string, quality feature speed pairs.
+ * A map of Identifier::QualityModule, speed pairs.
  */
-std::unordered_map<std::string, double> getQualityFeatureSpeeds(
+std::unordered_map<std::string, double> getQualityModuleSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features);
 

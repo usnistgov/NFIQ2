@@ -6,40 +6,52 @@
 
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::LocalClarity[] { "NFIQ2_LCS" };
+const char NFIQ2::Identifiers::QualityModules::LocalClarity[] { "NFIQ2_LCS" };
 static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin0[] {
-	"LCS_Bin10_0"
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0[] {
+	    "LCS_Bin10_0"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1[] {
+	    "LCS_Bin10_1"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin2[] {
+	    "LCS_Bin10_2"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin3[] {
+	    "LCS_Bin10_3"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin4[] {
+	    "LCS_Bin10_4"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin5[] {
+	    "LCS_Bin10_5"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin6[] {
+	    "LCS_Bin10_6"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin7[] {
+	    "LCS_Bin10_7"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin8[] {
+	    "LCS_Bin10_8"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin9[] {
+	    "LCS_Bin10_9"
+    };
+const char NFIQ2::Identifiers::QualityFeatures::LocalClarity::Mean[] {
+	"LCS_Bin10_Mean"
 };
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin1[] {
-	"LCS_Bin10_1"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin2[] {
-	"LCS_Bin10_2"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin3[] {
-	"LCS_Bin10_3"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin4[] {
-	"LCS_Bin10_4"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin5[] {
-	"LCS_Bin10_5"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin6[] {
-	"LCS_Bin10_6"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin7[] {
-	"LCS_Bin10_7"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin8[] {
-	"LCS_Bin10_8"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin9[] {
-	"LCS_Bin10_9"
-};
-const char NFIQ2::QualityFeatureIDs::LocalClarity::Mean[] { "LCS_Bin10_Mean" };
-const char NFIQ2::QualityFeatureIDs::LocalClarity::StdDev[] {
+const char NFIQ2::Identifiers::QualityFeatures::LocalClarity::StdDev[] {
 	"LCS_Bin10_StdDev"
 };
 
@@ -57,24 +69,24 @@ NFIQ2::QualityFeatures::LCSFeature::~LCSFeature() = default;
 std::string
 NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::LocalClarity;
+	return NFIQ2::Identifiers::QualityModules::LocalClarity;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 {
-	return { QualityFeatureIDs::LocalClarity::Histogram::Bin0,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin1,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin2,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin3,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin4,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin5,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin6,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin7,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin8,
-		QualityFeatureIDs::LocalClarity::Histogram::Bin9,
-		QualityFeatureIDs::LocalClarity::Mean,
-		QualityFeatureIDs::LocalClarity::StdDev };
+	return { Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin2,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin3,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin4,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin5,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin6,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin7,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin8,
+		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin9,
+		Identifiers::QualityFeatures::LocalClarity::Mean,
+		Identifiers::QualityFeatures::LocalClarity::StdDev };
 }
 
 const char NFIQ2::QualityFeatures::LCSFeature::SpeedFeatureIDGroup[] {

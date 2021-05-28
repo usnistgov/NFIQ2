@@ -6,15 +6,17 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::RegionOfInterestCoherence[] {
+const char NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence[] {
 	"NFIQ2_QualityMap"
 };
-const char NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceSum[] {
-	"OrientationMap_ROIFilter_CoherenceSum"
-};
-const char NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceMean[] {
-	"OrientationMap_ROIFilter_CoherenceRel"
-};
+const char
+    NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum[] {
+	    "OrientationMap_ROIFilter_CoherenceSum"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean[] {
+	    "OrientationMap_ROIFilter_CoherenceRel"
+    };
 
 NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ2::FingerprintImageData &fingerprintImage,
@@ -75,25 +77,25 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 
 		// return features based on coherence values of orientation map
 		std::pair<std::string, double> fd_om_2;
-		fd_om_2 = std::make_pair(
-		    QualityFeatureIDs::RegionOfInterest::CoherenceMean,
+		fd_om_2 = std::make_pair(Identifiers::QualityFeatures::
+					     RegionOfInterest::CoherenceMean,
 		    coherenceRelFilter);
 
 		featureDataList[fd_om_2.first] = fd_om_2.second;
 
 		std::pair<std::string, double> fd_om_1;
-		fd_om_1 = std::make_pair(
-		    QualityFeatureIDs::RegionOfInterest::CoherenceSum,
+		fd_om_1 = std::make_pair(Identifiers::QualityFeatures::
+					     RegionOfInterest::CoherenceSum,
 		    coherenceSumFilter);
 
 		featureDataList[fd_om_1.first] = fd_om_1.second;
 
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = QualityMapFeatures::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    QualityFeatureIDs::RegionOfInterest::CoherenceSum);
-		speed.featureIDs.push_back(
-		    QualityFeatureIDs::RegionOfInterest::CoherenceMean);
+		speed.featureIDs.push_back(Identifiers::QualityFeatures::
+			RegionOfInterest::CoherenceSum);
+		speed.featureIDs.push_back(Identifiers::QualityFeatures::
+			RegionOfInterest::CoherenceMean);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -320,12 +322,12 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
 std::string
 NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::RegionOfInterestCoherence;
+	return NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
 {
-	return { QualityFeatureIDs::RegionOfInterest::CoherenceMean,
-		QualityFeatureIDs::RegionOfInterest::CoherenceSum };
+	return { Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean,
+		Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum };
 }

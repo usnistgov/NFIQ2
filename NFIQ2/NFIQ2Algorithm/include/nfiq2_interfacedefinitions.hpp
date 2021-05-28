@@ -7,13 +7,13 @@
 #include <vector>
 
 namespace NFIQ2 {
+/** Identification strings for various objects. */
+namespace Identifiers {
 /**
- * Interpretation of quality features that may indicated corrective measures
- * for subsequent captures of the same subject.
+ * Identifiers for interpretation of quality features that may indicated
+ * corrective measures for subsequent captures of the same subject.
  */
 namespace ActionableQualityFeedback {
-/** Identifiers for actionable feedback values. */
-namespace IDs {
 /**
  * The image is blank or the contrast is too low.
  *
@@ -27,49 +27,21 @@ extern const char UniformImage[];
  * Number of minutia in image.
  *
  * @note
- * Equivalent to QualityFeatures::Minutiae::Count.
+ * Equivalent to QualityFeatures::Features::Minutiae::Count.
  */
 extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
 extern const char SufficientFingerprintForeground[];
-}
+} /* ActionableQualityFeedback */
 
-/**
- * Thresholds corresponding to IDs.
- *
- * @details
- * Comparing the values of IDs with Thresholds may indicate a corrective action
- * for subsequent captures of the same subject.
- */
-namespace Thresholds {
-/** Threshold value for IDs::EmptyImageOrContrastTooLow. */
-extern const double EmptyImageOrContrastTooLow;
-/** Threshold value for IDs::UniformImage. */
-extern const double UniformImage;
-/** Threshold value for IDs::FingerprintImageWithMinutiae. */
-extern const double FingerprintImageWithMinutiae;
-/** Threshold value for IDs::SufficientFingerprintForeground. */
-extern const double SufficientFingerprintForeground;
-}
-}
-
-/** Identification strings for various objects. */
-namespace Identifiers {
 /** Modules that combine features to compute a quality score. */
-namespace Prediction {
-/** Identifiers of modules used to predict quality scores. */
-namespace Modules {
+namespace PredictionModules {
 /** Identifier for the RandomForest prediction module. */
 extern const char RandomForest[];
-}
-}
-}
+} /* Identifiers::PredictionModules */
 
-/** Individual features that when combined create an NFIQ 2 quality score. */
-namespace QualityFeatures {
-
-/** Identifiers of modules used to calculate one or more Features. */
-namespace Modules {
+/** Modules that compute one or more QualityFeatures. */
+namespace QualityModules {
 /** Identifier for the FrequencyDomainAnalysis feature module. */
 extern const char FrequencyDomainAnalysis[];
 /** Identifier for the MinutiaeCount feature module. */
@@ -78,8 +50,8 @@ extern const char MinutiaeCount[];
 extern const char MinutiaeQuality[];
 /** Identifier for the LocalClarity feature module. */
 extern const char LocalClarity[];
-/** Identifier for the Grayscale feature module. */
-extern const char Grayscale[];
+/** Identifier for the Contrast feature module. */
+extern const char Contrast[];
 /** Identifier for the OrientationCertainty feature module. */
 extern const char OrientationCertainty[];
 /** Identifier for the OrientationFlow feature module. */
@@ -90,11 +62,10 @@ extern const char RegionOfInterestMean[];
 extern const char RegionOfInterestCoherence[];
 /** Identifier for the RidgeValleyUniformity feature module. */
 extern const char RidgeValleyUniformity[];
-}
-}
+} /* Identifiers::QualityModules */
 
 /** Identifiers of individual quality features and modules. */
-namespace QualityFeatureIDs {
+namespace QualityFeatures {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {
 /**
@@ -146,10 +117,10 @@ extern const char Count[];
 extern const char CountCOM[];
 
 /**
- * Percentage of minutiae whose quality value, as determined by Grayscale::Mean
+ * Percentage of minutiae whose quality value, as determined by Contrast::Mean
  * of a 32x32 pixel region centered on the minutiae, is between 0-0.5.
  *
- * @see Grayscale::Mean
+ * @see Contrast::Mean
  */
 extern const char QualityMu2[];
 
@@ -224,7 +195,7 @@ extern const char StdDev[];
 }
 
 /** Measure of the gray levels of the image. */
-namespace Grayscale {
+namespace Contrast {
 /** Arithmetic mean of the image. */
 extern const char Mean[];
 /** Arithmetic mean of per-block means of the image. */
@@ -346,8 +317,31 @@ extern const char Bin9[];
 extern const char Mean[];
 /** Standard deviation of local quality values. */
 extern const char StdDev[];
-}
-}
+} /* Identifiers::QualityFeatures::RidgeValleyUniformity */
+} /* Identifiers::QualityFeatures */
+} /* Identifiers */
+
+/** Threshold constants. */
+namespace Thresholds {
+/**
+ * Thresholds corresponding to Identifiers::ActionableQualityFeedback.
+ *
+ * @details
+ * Comparing the values of Identifiers::ActionableQualityFeedback with
+ * Thresholds::ActionableQualityFeedback may indicate a corrective action for
+ * subsequent captures of the same subject.
+ */
+namespace ActionableQualityFeedback {
+/** Threshold value for IDs::EmptyImageOrContrastTooLow. */
+extern const double EmptyImageOrContrastTooLow;
+/** Threshold value for IDs::UniformImage. */
+extern const double UniformImage;
+/** Threshold value for IDs::FingerprintImageWithMinutiae. */
+extern const double FingerprintImageWithMinutiae;
+/** Threshold value for IDs::SufficientFingerprintForeground. */
+extern const double SufficientFingerprintForeground;
+} /* Thresholds::ActionableQualityFeedback */
+} /* Thresholds */
 
 /** This type represents a structure for timing information of features. */
 typedef struct feature_speed_t {

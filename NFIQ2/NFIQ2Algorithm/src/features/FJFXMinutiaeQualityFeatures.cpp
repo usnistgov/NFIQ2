@@ -5,13 +5,13 @@
 
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::MinutiaeQuality[] {
+const char NFIQ2::Identifiers::QualityModules::MinutiaeQuality[] {
 	"NFIQ2_FJFXPos_MinutiaeQuality"
 };
-const char NFIQ2::QualityFeatureIDs::Minutiae::QualityMu2[] {
+const char NFIQ2::Identifiers::QualityFeatures::Minutiae::QualityMu2[] {
 	"FJFXPos_Mu_MinutiaeQuality_2"
 };
-const char NFIQ2::QualityFeatureIDs::Minutiae::QualityOCL80[] {
+const char NFIQ2::Identifiers::QualityFeatures::Minutiae::QualityOCL80[] {
 	"FJFXPos_OCL_MinutiaeQuality_80"
 };
 
@@ -44,10 +44,12 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 	std::unordered_map<std::string, double> featureDataList;
 
 	std::pair<std::string, double> fd_mu;
-	fd_mu = std::make_pair(QualityFeatureIDs::Minutiae::QualityMu2, -1);
+	fd_mu = std::make_pair(
+	    Identifiers::QualityFeatures::Minutiae::QualityMu2, -1);
 
 	std::pair<std::string, double> fd_ocl;
-	fd_ocl = std::make_pair(QualityFeatureIDs::Minutiae::QualityOCL80, -1);
+	fd_ocl = std::make_pair(
+	    Identifiers::QualityFeatures::Minutiae::QualityOCL80, -1);
 
 	try {
 		NFIQ2::Timer timer;
@@ -122,9 +124,9 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		speed.featureIDGroup =
 		    FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(
-		    QualityFeatureIDs::Minutiae::QualityMu2);
+		    Identifiers::QualityFeatures::Minutiae::QualityMu2);
 		speed.featureIDs.push_back(
-		    QualityFeatureIDs::Minutiae::QualityOCL80);
+		    Identifiers::QualityFeatures::Minutiae::QualityOCL80);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -148,14 +150,14 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 std::string
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::MinutiaeQuality;
+	return NFIQ2::Identifiers::QualityModules::MinutiaeQuality;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
 {
-	return { QualityFeatureIDs::Minutiae::QualityMu2,
-		QualityFeatureIDs::Minutiae::QualityOCL80 };
+	return { Identifiers::QualityFeatures::Minutiae::QualityMu2,
+		Identifiers::QualityFeatures::Minutiae::QualityOCL80 };
 }
 
 std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>

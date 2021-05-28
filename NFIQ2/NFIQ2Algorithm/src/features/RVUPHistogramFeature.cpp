@@ -7,46 +7,37 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::RidgeValleyUniformity[] {
+const char NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity[] {
 	"NFIQ2_RVUPHistogram"
 };
 const char NFIQ2RVUPFeaturePrefix[] { "RVUP_Bin10_" };
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0[] {
-	"RVUP_Bin10_0"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1[] {
-	"RVUP_Bin10_1"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2[] {
-	"RVUP_Bin10_2"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3[] {
-	"RVUP_Bin10_3"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4[] {
-	"RVUP_Bin10_4"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5[] {
-	"RVUP_Bin10_5"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6[] {
-	"RVUP_Bin10_6"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7[] {
-	"RVUP_Bin10_7"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8[] {
-	"RVUP_Bin10_8"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9[] {
-	"RVUP_Bin10_9"
-};
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::Mean[] {
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin0[] { "RVUP_Bin10_0" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin1[] { "RVUP_Bin10_1" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin2[] { "RVUP_Bin10_2" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin3[] { "RVUP_Bin10_3" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin4[] { "RVUP_Bin10_4" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin5[] { "RVUP_Bin10_5" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin6[] { "RVUP_Bin10_6" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin7[] { "RVUP_Bin10_7" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin8[] { "RVUP_Bin10_8" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+    Histogram::Bin9[] { "RVUP_Bin10_9" };
+const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::Mean[] {
 	"RVUP_Bin10_Mean"
 };
-const char NFIQ2::QualityFeatureIDs::RidgeValleyUniformity::StdDev[] {
-	"RVUP_Bin10_StdDev"
-};
+const char
+    NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::StdDev[] {
+	    "RVUP_Bin10_StdDev"
+    };
 
 void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
@@ -226,24 +217,34 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 std::string
 NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::RidgeValleyUniformity;
+	return NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
 {
-	return { QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin0,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin1,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin2,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin3,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin4,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin5,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin6,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin7,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin8,
-		QualityFeatureIDs::RidgeValleyUniformity::Histogram::Bin9,
-		QualityFeatureIDs::RidgeValleyUniformity::Mean,
-		QualityFeatureIDs::RidgeValleyUniformity::StdDev };
+	return { Identifiers::QualityFeatures::RidgeValleyUniformity::
+		     Histogram::Bin0,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin1,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin2,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin3,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin4,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin5,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin6,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin7,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin8,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		    Bin9,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::Mean,
+		Identifiers::QualityFeatures::RidgeValleyUniformity::StdDev };
 }
 ///////////////////////////////////////////////////////////////////////
 /***

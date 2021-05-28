@@ -21,30 +21,25 @@
 #include <unordered_map>
 #include <vector>
 
-const char NFIQ2::ActionableQualityFeedback::IDs::EmptyImageOrContrastTooLow[] {
-	"EmptyImageOrContrastTooLow"
-};
-const char NFIQ2::ActionableQualityFeedback::IDs::UniformImage[] {
+const char NFIQ2::Identifiers::ActionableQualityFeedback::
+    EmptyImageOrContrastTooLow[] { "EmptyImageOrContrastTooLow" };
+const char NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage[] {
 	"UniformImage"
 };
-const char
-    NFIQ2::ActionableQualityFeedback::IDs::FingerprintImageWithMinutiae[] {
-	    "FingerprintImageWithMinutiae"
-    };
-const char
-    NFIQ2::ActionableQualityFeedback::IDs::SufficientFingerprintForeground[] {
-	    "SufficientFingerprintForeground"
-    };
+const char NFIQ2::Identifiers::ActionableQualityFeedback::
+    FingerprintImageWithMinutiae[] { "FingerprintImageWithMinutiae" };
+const char NFIQ2::Identifiers::ActionableQualityFeedback::
+    SufficientFingerprintForeground[] { "SufficientFingerprintForeground" };
 const double
-    NFIQ2::ActionableQualityFeedback::Thresholds::EmptyImageOrContrastTooLow {
+    NFIQ2::Thresholds::ActionableQualityFeedback::EmptyImageOrContrastTooLow {
 	    250.0
     };
-const double NFIQ2::ActionableQualityFeedback::Thresholds::UniformImage { 1.0 };
+const double NFIQ2::Thresholds::ActionableQualityFeedback::UniformImage { 1.0 };
 const double
-    NFIQ2::ActionableQualityFeedback::Thresholds::FingerprintImageWithMinutiae {
+    NFIQ2::Thresholds::ActionableQualityFeedback::FingerprintImageWithMinutiae {
 	    5.0
     };
-const double NFIQ2::ActionableQualityFeedback::Thresholds::
+const double NFIQ2::Thresholds::ActionableQualityFeedback::
     SufficientFingerprintForeground { 50000.0 };
 
 std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
@@ -108,20 +103,19 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 
 	for (const auto &feature : features) {
 		if (feature->getModuleName() ==
-		    QualityFeatures::Modules::Grayscale) {
+		    Identifiers::QualityModules::Contrast) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
 
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
-			actionableMap
-			    [ActionableQualityFeedback::IDs::UniformImage] =
-				muFeatureModule->getSigma();
+			actionableMap[Identifiers::ActionableQualityFeedback::
+				UniformImage] = muFeatureModule->getSigma();
 			isUniformImage =
-			    (actionableMap[ActionableQualityFeedback::IDs::
-				     UniformImage] <
-					ActionableQualityFeedback::Thresholds::
+			    (actionableMap[Identifiers::
+				     ActionableQualityFeedback::UniformImage] <
+					Thresholds::ActionableQualityFeedback::
 					    UniformImage ?
 					  true :
 					  false);
@@ -132,17 +126,18 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (const auto &muFeature :
 			    muFeatureModule->getFeatures()) {
 				if (muFeature.first ==
-				    QualityFeatureIDs::Grayscale::Mean) {
-					actionableMap
-					    [ActionableQualityFeedback::IDs::
+				    Identifiers::QualityFeatures::Contrast::
+					Mean) {
+					actionableMap[Identifiers::
+						ActionableQualityFeedback::
 						    EmptyImageOrContrastTooLow] =
-						muFeature.second;
+					    muFeature.second;
 					isEmptyImage =
-					    (actionableMap[ActionableQualityFeedback::
-						     IDs::
+					    (actionableMap[Identifiers::
+						     ActionableQualityFeedback::
 							 EmptyImageOrContrastTooLow] >
-							ActionableQualityFeedback::
-							    Thresholds::
+							Thresholds::
+							    ActionableQualityFeedback::
 								EmptyImageOrContrastTooLow ?
 							  true :
 							  false);
@@ -157,7 +152,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			}
 
 		} else if (feature->getModuleName() ==
-		    QualityFeatures::Modules::MinutiaeCount) {
+		    Identifiers::QualityModules::MinutiaeCount) {
 			// Minutiae
 			const std::shared_ptr<FingerJetFXFeature>
 			    fjfxFeatureModule =
@@ -167,18 +162,19 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (const auto &fjfxFeature :
 			    fjfxFeatureModule->getFeatures()) {
 				if (fjfxFeature.first ==
-				    QualityFeatureIDs::Minutiae::Count) {
+				    Identifiers::QualityFeatures::Minutiae::
+					Count) {
 					// return informative feature about
 					// number of minutiae
-					actionableMap
-					    [ActionableQualityFeedback::IDs::
+					actionableMap[Identifiers::
+						ActionableQualityFeedback::
 						    FingerprintImageWithMinutiae] =
-						fjfxFeature.second;
+					    fjfxFeature.second;
 				}
 			}
 
-		} else if (feature->getModuleName().compare(QualityFeatures::
-				   Modules::RegionOfInterestMean) == 0) {
+		} else if (feature->getModuleName().compare(Identifiers::
+				   QualityModules::RegionOfInterestMean) == 0) {
 			// FP Foreground
 			const std::shared_ptr<ImgProcROIFeature>
 			    roiFeatureModule =
@@ -187,7 +183,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 
 			// add ROI information to actionable quality feedback
 			// absolute number of ROI pixels (foreground)
-			actionableMap[ActionableQualityFeedback::IDs::
+			actionableMap[Identifiers::ActionableQualityFeedback::
 				SufficientFingerprintForeground] =
 			    roiFeatureModule->getImgProcResults().noOfROIPixels;
 		}
@@ -258,12 +254,13 @@ std::vector<std::string>
 NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers()
 {
 	static const std::vector<std::string> actionableIdentifiers {
-		NFIQ2::ActionableQualityFeedback::IDs::UniformImage,
-		NFIQ2::ActionableQualityFeedback::IDs::
+		NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage,
+		NFIQ2::Identifiers::ActionableQualityFeedback::
 		    EmptyImageOrContrastTooLow,
-		NFIQ2::ActionableQualityFeedback::IDs::
+		NFIQ2::Identifiers::ActionableQualityFeedback::
 		    FingerprintImageWithMinutiae,
-		ActionableQualityFeedback::IDs::SufficientFingerprintForeground
+		Identifiers::ActionableQualityFeedback::
+		    SufficientFingerprintForeground
 	};
 
 	return actionableIdentifiers;

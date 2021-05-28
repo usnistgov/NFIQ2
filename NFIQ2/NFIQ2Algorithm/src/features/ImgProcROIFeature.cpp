@@ -5,10 +5,10 @@
 
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::RegionOfInterestMean[] {
+const char NFIQ2::Identifiers::QualityModules::RegionOfInterestMean[] {
 	"NFIQ2_ImgProcROI"
 };
-const char NFIQ2::QualityFeatureIDs::RegionOfInterest::Mean[] {
+const char NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::Mean[] {
 	"ImgProcROIArea_Mean"
 };
 
@@ -74,7 +74,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 		std::pair<std::string, double> fd_roi_pixel_area_mean;
 		fd_roi_pixel_area_mean = std::make_pair(
-		    QualityFeatureIDs::RegionOfInterest::Mean,
+		    Identifiers::QualityFeatures::RegionOfInterest::Mean,
 		    this->imgProcResults_.meanOfROIPixels);
 		featureDataList[fd_roi_pixel_area_mean.first] =
 		    fd_roi_pixel_area_mean.second;
@@ -83,7 +83,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = ImgProcROIFeature::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(
-		    QualityFeatureIDs::RegionOfInterest::Mean);
+		    Identifiers::QualityFeatures::RegionOfInterest::Mean);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -109,13 +109,13 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 std::string
 NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::RegionOfInterestMean;
+	return NFIQ2::Identifiers::QualityModules::RegionOfInterestMean;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
 {
-	return { QualityFeatureIDs::RegionOfInterest::Mean };
+	return { Identifiers::QualityFeatures::RegionOfInterest::Mean };
 }
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults

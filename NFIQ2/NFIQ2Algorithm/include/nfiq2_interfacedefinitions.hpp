@@ -35,13 +35,10 @@ extern const char SufficientFingerprintForeground[];
 } /* ActionableQualityFeedback */
 
 /** Modules that combine features to compute a quality score. */
-namespace Prediction {
-/** Identifiers of modules used to predict quality scores. */
-namespace Modules {
+namespace PredictionModules {
 /** Identifier for the RandomForest prediction module. */
 extern const char RandomForest[];
-} /* Identifiers::Prediction::Modules */
-} /* Identifiers::Prediction */
+} /* Identifiers::PredictionModules */
 
 /** Modules that compute one or more QualityFeatures. */
 namespace QualityModules {

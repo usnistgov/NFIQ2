@@ -85,7 +85,7 @@ class FingerprintImageData : public Data {
 	/** ISO finger code of the fingerprint in the image */
 	uint8_t fingerCode;
 	/** Dots per inch of the fingerprint image */
-	int16_t imagePPI;
+	uint16_t imagePPI;
 
 	/**
 	 * @brief

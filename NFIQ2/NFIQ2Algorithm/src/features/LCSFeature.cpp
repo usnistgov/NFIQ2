@@ -6,6 +6,7 @@
 
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::LocalClarity[] { "NFIQ2_LCS" };
 static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
 const char NFIQ2::QualityFeatureIDs::LocalClarity::Histogram::Bin0[] {
 	"LCS_Bin10_0"
@@ -53,14 +54,10 @@ NFIQ2::QualityFeatures::LCSFeature::LCSFeature(
 
 NFIQ2::QualityFeatures::LCSFeature::~LCSFeature() = default;
 
-const std::string NFIQ2::QualityFeatures::LCSFeature::moduleName {
-	"NFIQ2_LCS"
-};
-
 std::string
 NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::LocalClarity;
 }
 
 std::vector<std::string>

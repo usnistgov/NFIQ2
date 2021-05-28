@@ -5,6 +5,9 @@
 
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::OrientationCertainty[] {
+	"NFIQ2_OCLHistogram"
+};
 static const char NFIQ2OCLFeaturePrefix[] { "OCL_Bin10_" };
 const char NFIQ2::QualityFeatureIDs::OrientationCertainty::Histogram::Bin0[] {
 	"OCL_Bin10_0"
@@ -207,14 +210,10 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
 	return true;
 }
 
-const std::string NFIQ2::QualityFeatures::OCLHistogramFeature::moduleName {
-	"NFIQ2_OCLHistogram"
-};
-
 std::string
 NFIQ2::QualityFeatures::OCLHistogramFeature::getModuleName() const
 {
-	return "NFIQ2_OCLHistogram";
+	return NFIQ2::QualityFeatures::Modules::OrientationCertainty;
 }
 
 std::vector<std::string>

@@ -26,7 +26,6 @@ class OCLHistogramFeature : public BaseFeature {
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
-	static const std::string moduleName;
 
 	// compute OCL value of a given block with block size BSxBS
 	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);

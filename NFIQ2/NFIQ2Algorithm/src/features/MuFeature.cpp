@@ -5,6 +5,7 @@
 
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::Grayscale[] { "NFIQ2_Mu" };
 const char NFIQ2::QualityFeatureIDs::Grayscale::Mean[] { "Mu" };
 const char NFIQ2::QualityFeatureIDs::Grayscale::MeanBlock[] { "MMB" };
 
@@ -161,12 +162,10 @@ NFIQ2::QualityFeatures::MuFeature::getSigma() const
 	return (this->sigma);
 }
 
-const std::string NFIQ2::QualityFeatures::MuFeature::moduleName { "NFIQ2_Mu" };
-
 std::string
 NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::Grayscale;
 }
 
 std::vector<std::string>

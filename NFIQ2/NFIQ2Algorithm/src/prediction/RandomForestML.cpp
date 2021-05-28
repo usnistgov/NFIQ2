@@ -30,6 +30,9 @@
 #include <ctime>
 #include <numeric> // std::accumulate
 
+const char NFIQ2::Identifiers::Prediction::Modules::RandomForest[] {
+	"NFIQ2_RandomForest"
+};
 std::string
 NFIQ2::Prediction::RandomForestML::calculateHashString(const std::string &s)
 {
@@ -247,12 +250,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 	}
 }
 
-const std::string NFIQ2::Prediction::RandomForestML::moduleName {
-	"NFIQ2_RandomForest"
-};
-
 std::string
 NFIQ2::Prediction::RandomForestML::getModuleName() const
 {
-	return moduleName;
+	return Identifiers::Prediction::Modules::RandomForest;
 }

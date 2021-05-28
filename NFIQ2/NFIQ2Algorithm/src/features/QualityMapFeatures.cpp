@@ -6,6 +6,9 @@
 #include <cmath>
 #include <sstream>
 
+const char NFIQ2::QualityFeatures::Modules::RegionOfInterestCoherence[] {
+	"NFIQ2_QualityMap"
+};
 const char NFIQ2::QualityFeatureIDs::RegionOfInterest::CoherenceSum[] {
 	"OrientationMap_ROIFilter_CoherenceSum"
 };
@@ -314,13 +317,10 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
 	grad_y = computeNumericalGradientX(mat.t()).t();
 }
 
-const std::string NFIQ2::QualityFeatures::QualityMapFeatures::moduleName {
-	"NFIQ2_QualityMap"
-};
 std::string
 NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::RegionOfInterestCoherence;
 }
 
 std::vector<std::string>

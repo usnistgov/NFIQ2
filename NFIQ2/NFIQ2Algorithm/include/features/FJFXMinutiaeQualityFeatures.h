@@ -38,7 +38,6 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 
 	static std::vector<std::string> getAllFeatureIDs();
 	static const std::string speedFeatureIDGroup;
-	static const std::string moduleName;
 
 	/** @throw NFIQ2::NFIQException
 	 * Template could not be extracted.

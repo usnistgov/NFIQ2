@@ -7,6 +7,9 @@
 #include <sstream>
 #include <tuple>
 
+const char NFIQ2::QualityFeatures::Modules::MinutiaeCount[] {
+	"NFIQ2_FingerJetFX"
+};
 const char NFIQ2::QualityFeatureIDs::Minutiae::Count[] {
 	"FingerJetFX_MinutiaeCount"
 };
@@ -261,13 +264,10 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	return featureDataList;
 }
 
-const std::string NFIQ2::QualityFeatures::FingerJetFXFeature::moduleName {
-	"NFIQ2_FingerJetFX"
-};
 std::string
 NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 {
-	return moduleName;
+	return NFIQ2::QualityFeatures::Modules::MinutiaeCount;
 }
 
 std::vector<std::string>

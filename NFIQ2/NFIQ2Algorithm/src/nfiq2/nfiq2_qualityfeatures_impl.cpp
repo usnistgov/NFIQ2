@@ -21,19 +21,18 @@
 #include <unordered_map>
 #include <vector>
 
-const std::string
-    NFIQ2::ActionableQualityFeedback::IDs::EmptyImageOrContrastTooLow {
-	    "EmptyImageOrContrastTooLow"
-    };
-const std::string NFIQ2::ActionableQualityFeedback::IDs::UniformImage {
+const char NFIQ2::ActionableQualityFeedback::IDs::EmptyImageOrContrastTooLow[] {
+	"EmptyImageOrContrastTooLow"
+};
+const char NFIQ2::ActionableQualityFeedback::IDs::UniformImage[] {
 	"UniformImage"
 };
-const std::string
-    NFIQ2::ActionableQualityFeedback::IDs::FingerprintImageWithMinutiae {
+const char
+    NFIQ2::ActionableQualityFeedback::IDs::FingerprintImageWithMinutiae[] {
 	    "FingerprintImageWithMinutiae"
     };
-const std::string
-    NFIQ2::ActionableQualityFeedback::IDs::SufficientFingerprintForeground {
+const char
+    NFIQ2::ActionableQualityFeedback::IDs::SufficientFingerprintForeground[] {
 	    "SufficientFingerprintForeground"
     };
 const double
@@ -299,15 +298,15 @@ std::vector<std::string>
 NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups()
 {
 	static const std::vector<std::string> speedFeatureGroups {
-		FDAFeature::speedFeatureIDGroup,
-		FingerJetFXFeature::speedFeatureIDGroup,
-		FJFXMinutiaeQualityFeature::speedFeatureIDGroup,
-		ImgProcROIFeature::speedFeatureIDGroup,
-		LCSFeature::speedFeatureIDGroup, MuFeature::speedFeatureIDGroup,
-		OCLHistogramFeature::speedFeatureIDGroup,
-		OFFeature::speedFeatureIDGroup,
-		QualityMapFeatures::speedFeatureIDGroup,
-		RVUPHistogramFeature::speedFeatureIDGroup
+		FDAFeature::SpeedFeatureIDGroup,
+		FingerJetFXFeature::SpeedFeatureIDGroup,
+		FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup,
+		ImgProcROIFeature::SpeedFeatureIDGroup,
+		LCSFeature::SpeedFeatureIDGroup, MuFeature::SpeedFeatureIDGroup,
+		OCLHistogramFeature::SpeedFeatureIDGroup,
+		OFFeature::SpeedFeatureIDGroup,
+		QualityMapFeatures::SpeedFeatureIDGroup,
+		RVUPHistogramFeature::SpeedFeatureIDGroup
 	};
 
 	return speedFeatureGroups;

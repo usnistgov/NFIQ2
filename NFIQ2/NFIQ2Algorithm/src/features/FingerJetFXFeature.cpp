@@ -25,9 +25,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
 
 NFIQ2::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 
-const std::string
-    NFIQ2::QualityFeatures::FingerJetFXFeature::speedFeatureIDGroup =
-	"Minutiae";
+const char NFIQ2::QualityFeatures::FingerJetFXFeature::SpeedFeatureIDGroup[] {
+	"Minutiae"
+};
 
 std::pair<unsigned int, unsigned int>
 NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
@@ -209,7 +209,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
+		speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(QualityFeatureIDs::Minutiae::Count);
 		speed.featureIDs.push_back(
 		    QualityFeatureIDs::Minutiae::CountCOM);
@@ -255,7 +255,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
 	NFIQ2::QualityFeatureSpeed speed;
-	speed.featureIDGroup = FingerJetFXFeature::speedFeatureIDGroup;
+	speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
 	speed.featureIDs.push_back(QualityFeatureIDs::Minutiae::Count);
 	speed.featureIDs.push_back(QualityFeatureIDs::Minutiae::CountCOM);
 	speed.featureSpeed = timer.stop();

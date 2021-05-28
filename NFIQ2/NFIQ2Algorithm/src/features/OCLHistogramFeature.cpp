@@ -54,9 +54,9 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
 
-const std::string
-    NFIQ2::QualityFeatures::OCLHistogramFeature::speedFeatureIDGroup =
-	"Orientation certainty";
+const char NFIQ2::QualityFeatures::OCLHistogramFeature::SpeedFeatureIDGroup[] {
+	"Orientation certainty"
+};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
@@ -143,7 +143,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = OCLHistogramFeature::speedFeatureIDGroup;
+		speed.featureIDGroup = OCLHistogramFeature::SpeedFeatureIDGroup;
 
 		addHistogramFeatureNames(
 		    speed.featureIDs, NFIQ2OCLFeaturePrefix, 10);

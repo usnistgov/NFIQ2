@@ -26,9 +26,9 @@ NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
 
 NFIQ2::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
 
-const std::string
-    NFIQ2::QualityFeatures::QualityMapFeatures::speedFeatureIDGroup =
-	"Quality map";
+const char NFIQ2::QualityFeatures::QualityMapFeatures::SpeedFeatureIDGroup[] {
+	"Quality map"
+};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
@@ -89,7 +89,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		featureDataList[fd_om_1.first] = fd_om_1.second;
 
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = QualityMapFeatures::speedFeatureIDGroup;
+		speed.featureIDGroup = QualityMapFeatures::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(
 		    QualityFeatureIDs::RegionOfInterest::CoherenceSum);
 		speed.featureIDs.push_back(

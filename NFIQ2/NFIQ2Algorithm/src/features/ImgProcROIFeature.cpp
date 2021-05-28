@@ -20,9 +20,9 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
 
-const std::string
-    NFIQ2::QualityFeatures::ImgProcROIFeature::speedFeatureIDGroup =
-	"Region of interest";
+const char NFIQ2::QualityFeatures::ImgProcROIFeature::SpeedFeatureIDGroup[] {
+	"Region of interest"
+};
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
 NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
@@ -81,7 +81,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = ImgProcROIFeature::speedFeatureIDGroup;
+		speed.featureIDGroup = ImgProcROIFeature::SpeedFeatureIDGroup;
 		speed.featureIDs.push_back(
 		    QualityFeatureIDs::RegionOfInterest::Mean);
 		speed.featureSpeed = timer.stop();

@@ -20,18 +20,18 @@ namespace IDs {
  * @details
  * The mean gray level appears white.
  */
-extern const std::string EmptyImageOrContrastTooLow;
+extern const char EmptyImageOrContrastTooLow[];
 /** Standard deviation of gray levels in image indicates uniformity. */
-extern const std::string UniformImage;
+extern const char UniformImage[];
 /**
  * Number of minutia in image.
  *
  * @note
  * Equivalent to QualityFeatures::Minutiae::Count.
  */
-extern const std::string FingerprintImageWithMinutiae;
+extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
-extern const std::string SufficientFingerprintForeground;
+extern const char SufficientFingerprintForeground[];
 }
 
 /**

@@ -76,7 +76,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 	this->throwIfUninitialized();
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getQualityFeatureData(features);
+	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);
 
 	if (quality.size() == 0) {
 		// no features have been computed
@@ -126,7 +126,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 	}
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getQualityFeatureData(features);
+	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);
 
 	if (quality.size() == 0) {
 		// no features have been computed

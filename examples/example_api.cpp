@@ -180,7 +180,7 @@ main(int argc, char **argv)
 	    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> qualityFeatures =
-	    NFIQ2::QualityFeatures::getQualityFeatureData(features);
+	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);
 
 	for (const auto &featureID : featureIDs) {
 		std::cout << featureID << ": " << qualityFeatures.at(featureID)

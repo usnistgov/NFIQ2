@@ -48,18 +48,18 @@ NFIQ2::QualityFeatures::getActionableQualityFeedback(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::getQualityFeatureData(
+NFIQ2::QualityFeatures::getQualityFeatureValues(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
-	return NFIQ2::QualityFeatures::Impl::getQualityFeatureData(features);
+	return NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(features);
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::getQualityFeatureData(
+NFIQ2::QualityFeatures::getQualityFeatureValues(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::Impl::getQualityFeatureData(rawImage);
+	return NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(rawImage);
 }
 
 std::unordered_map<std::string, double>

@@ -392,7 +392,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,
 		    imageProps.quantized, imageProps.resampled,
-		    NFIQ2::QualityFeatures::getQualityFeatureData(features),
+		    NFIQ2::QualityFeatures::getQualityFeatureValues(features),
 		    NFIQ2::QualityFeatures::getQualityModuleSpeeds(features),
 		    NFIQ2::QualityFeatures::getActionableQualityFeedback(
 			features));

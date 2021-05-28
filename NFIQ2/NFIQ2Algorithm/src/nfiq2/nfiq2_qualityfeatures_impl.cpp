@@ -103,7 +103,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 
 	for (const auto &feature : features) {
 		if (feature->getModuleName() ==
-		    QualityFeatures::Modules::Grayscale) {
+		    Identifiers::QualityFeatures::Modules::Grayscale) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
@@ -126,7 +126,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (const auto &muFeature :
 			    muFeatureModule->getFeatures()) {
 				if (muFeature.first ==
-				    QualityFeatureIDs::Grayscale::Mean) {
+				    Identifiers::QualityFeatures::Features::
+					Grayscale::Mean) {
 					actionableMap[Identifiers::
 						ActionableQualityFeedback::
 						    EmptyImageOrContrastTooLow] =
@@ -151,7 +152,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			}
 
 		} else if (feature->getModuleName() ==
-		    QualityFeatures::Modules::MinutiaeCount) {
+		    Identifiers::QualityFeatures::Modules::MinutiaeCount) {
 			// Minutiae
 			const std::shared_ptr<FingerJetFXFeature>
 			    fjfxFeatureModule =
@@ -161,7 +162,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (const auto &fjfxFeature :
 			    fjfxFeatureModule->getFeatures()) {
 				if (fjfxFeature.first ==
-				    QualityFeatureIDs::Minutiae::Count) {
+				    Identifiers::QualityFeatures::Features::
+					Minutiae::Count) {
 					// return informative feature about
 					// number of minutiae
 					actionableMap[Identifiers::
@@ -171,8 +173,9 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				}
 			}
 
-		} else if (feature->getModuleName().compare(QualityFeatures::
-				   Modules::RegionOfInterestMean) == 0) {
+		} else if (feature->getModuleName().compare(
+			       Identifiers::QualityFeatures::Modules::
+				   RegionOfInterestMean) == 0) {
 			// FP Foreground
 			const std::shared_ptr<ImgProcROIFeature>
 			    roiFeatureModule =

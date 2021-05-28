@@ -5,9 +5,16 @@
 
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::Grayscale[] { "NFIQ2_Mu" };
-const char NFIQ2::QualityFeatureIDs::Grayscale::Mean[] { "Mu" };
-const char NFIQ2::QualityFeatureIDs::Grayscale::MeanBlock[] { "MMB" };
+const char NFIQ2::Identifiers::QualityFeatures::Modules::Grayscale[] {
+	"NFIQ2_Mu"
+};
+const char NFIQ2::Identifiers::QualityFeatures::Features::Grayscale::Mean[] {
+	"Mu"
+};
+const char
+    NFIQ2::Identifiers::QualityFeatures::Features::Grayscale::MeanBlock[] {
+	    "MMB"
+    };
 
 NFIQ2::QualityFeatures::MuFeature::MuFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
@@ -91,8 +98,9 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 
 		// return MMB value
 		std::pair<std::string, double> fd_mmb;
-		fd_mmb = std::make_pair(
-		    QualityFeatureIDs::Grayscale::MeanBlock, avg);
+		fd_mmb = std::make_pair(Identifiers::QualityFeatures::Features::
+					    Grayscale::MeanBlock,
+		    avg);
 
 		featureDataList[fd_mmb.first] = fd_mmb.second;
 	} catch (const cv::Exception &e) {
@@ -125,7 +133,8 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		// return mu value
 		std::pair<std::string, double> fd_mu;
 		fd_mu = std::make_pair(
-		    QualityFeatureIDs::Grayscale::Mean, mu.val[0]);
+		    Identifiers::QualityFeatures::Features::Grayscale::Mean,
+		    mu.val[0]);
 
 		featureDataList[fd_mu.first] = fd_mu.second;
 	} catch (const cv::Exception &e) {
@@ -145,8 +154,10 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 	// Speed
 	NFIQ2::QualityFeatureSpeed speed;
 	speed.featureIDGroup = MuFeature::SpeedFeatureIDGroup;
-	speed.featureIDs.push_back(QualityFeatureIDs::Grayscale::MeanBlock);
-	speed.featureIDs.push_back(QualityFeatureIDs::Grayscale::Mean);
+	speed.featureIDs.push_back(
+	    Identifiers::QualityFeatures::Features::Grayscale::MeanBlock);
+	speed.featureIDs.push_back(
+	    Identifiers::QualityFeatures::Features::Grayscale::Mean);
 	speed.featureSpeed = timer.stop();
 	this->setSpeed(speed);
 
@@ -166,14 +177,16 @@ NFIQ2::QualityFeatures::MuFeature::getSigma() const
 std::string
 NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::Grayscale;
+	return NFIQ2::Identifiers::QualityFeatures::Modules::Grayscale;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
-	featureIDs.push_back(QualityFeatureIDs::Grayscale::MeanBlock);
-	featureIDs.push_back(QualityFeatureIDs::Grayscale::Mean);
+	featureIDs.push_back(
+	    Identifiers::QualityFeatures::Features::Grayscale::MeanBlock);
+	featureIDs.push_back(
+	    Identifiers::QualityFeatures::Features::Grayscale::Mean);
 	return featureIDs;
 }

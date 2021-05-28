@@ -5,12 +5,14 @@
 
 #include <sstream>
 
-const char NFIQ2::QualityFeatures::Modules::RegionOfInterestMean[] {
-	"NFIQ2_ImgProcROI"
-};
-const char NFIQ2::QualityFeatureIDs::RegionOfInterest::Mean[] {
-	"ImgProcROIArea_Mean"
-};
+const char
+    NFIQ2::Identifiers::QualityFeatures::Modules::RegionOfInterestMean[] {
+	    "NFIQ2_ImgProcROI"
+    };
+const char
+    NFIQ2::Identifiers::QualityFeatures::Features::RegionOfInterest::Mean[] {
+	    "ImgProcROIArea_Mean"
+    };
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
@@ -74,7 +76,8 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 		std::pair<std::string, double> fd_roi_pixel_area_mean;
 		fd_roi_pixel_area_mean = std::make_pair(
-		    QualityFeatureIDs::RegionOfInterest::Mean,
+		    Identifiers::QualityFeatures::Features::RegionOfInterest::
+			Mean,
 		    this->imgProcResults_.meanOfROIPixels);
 		featureDataList[fd_roi_pixel_area_mean.first] =
 		    fd_roi_pixel_area_mean.second;
@@ -82,8 +85,8 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		// Speed
 		NFIQ2::QualityFeatureSpeed speed;
 		speed.featureIDGroup = ImgProcROIFeature::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    QualityFeatureIDs::RegionOfInterest::Mean);
+		speed.featureIDs.push_back(Identifiers::QualityFeatures::
+			Features::RegionOfInterest::Mean);
 		speed.featureSpeed = timer.stop();
 		this->setSpeed(speed);
 
@@ -109,13 +112,16 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 std::string
 NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 {
-	return NFIQ2::QualityFeatures::Modules::RegionOfInterestMean;
+	return NFIQ2::Identifiers::QualityFeatures::Modules::
+	    RegionOfInterestMean;
 }
 
 std::vector<std::string>
 NFIQ2::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
 {
-	return { QualityFeatureIDs::RegionOfInterest::Mean };
+	return {
+		Identifiers::QualityFeatures::Features::RegionOfInterest::Mean
+	};
 }
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults

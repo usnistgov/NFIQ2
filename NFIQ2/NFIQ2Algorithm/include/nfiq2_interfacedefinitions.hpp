@@ -27,7 +27,7 @@ extern const char UniformImage[];
  * Number of minutia in image.
  *
  * @note
- * Equivalent to QualityFeatures::Minutiae::Count.
+ * Equivalent to QualityFeatures::Features::Minutiae::Count.
  */
 extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
@@ -42,29 +42,6 @@ namespace Modules {
 extern const char RandomForest[];
 } /* Identifiers::Prediction::Modules */
 } /* Identifiers::Prediction */
-} /* Identifiers */
-
-/** Threshold constants. */
-namespace Thresholds {
-/**
- * Thresholds corresponding to Identifiers::ActionableQualityFeedback.
- *
- * @details
- * Comparing the values of Identifiers::ActionableQualityFeedback with
- * Thresholds::ActionableQualityFeedback may indicate a corrective action for
- * subsequent captures of the same subject.
- */
-namespace ActionableQualityFeedback {
-/** Threshold value for IDs::EmptyImageOrContrastTooLow. */
-extern const double EmptyImageOrContrastTooLow;
-/** Threshold value for IDs::UniformImage. */
-extern const double UniformImage;
-/** Threshold value for IDs::FingerprintImageWithMinutiae. */
-extern const double FingerprintImageWithMinutiae;
-/** Threshold value for IDs::SufficientFingerprintForeground. */
-extern const double SufficientFingerprintForeground;
-} /* Thresholds::ActionableQualityFeedback */
-} /* Thresholds */
 
 /** Individual features that when combined create an NFIQ 2 quality score. */
 namespace QualityFeatures {
@@ -91,11 +68,10 @@ extern const char RegionOfInterestMean[];
 extern const char RegionOfInterestCoherence[];
 /** Identifier for the RidgeValleyUniformity feature module. */
 extern const char RidgeValleyUniformity[];
-}
-}
+} /* Identifiers::QualityFeatures::Modules */
 
 /** Identifiers of individual quality features and modules. */
-namespace QualityFeatureIDs {
+namespace Features {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {
 /**
@@ -348,7 +324,31 @@ extern const char Mean[];
 /** Standard deviation of local quality values. */
 extern const char StdDev[];
 }
-}
+} /* Identifiers::QualityFeatures::RidgeValleyUniformity */
+} /* Identifiers::QualityFeatures */
+} /* Identifiers */
+
+/** Threshold constants. */
+namespace Thresholds {
+/**
+ * Thresholds corresponding to Identifiers::ActionableQualityFeedback.
+ *
+ * @details
+ * Comparing the values of Identifiers::ActionableQualityFeedback with
+ * Thresholds::ActionableQualityFeedback may indicate a corrective action for
+ * subsequent captures of the same subject.
+ */
+namespace ActionableQualityFeedback {
+/** Threshold value for IDs::EmptyImageOrContrastTooLow. */
+extern const double EmptyImageOrContrastTooLow;
+/** Threshold value for IDs::UniformImage. */
+extern const double UniformImage;
+/** Threshold value for IDs::FingerprintImageWithMinutiae. */
+extern const double FingerprintImageWithMinutiae;
+/** Threshold value for IDs::SufficientFingerprintForeground. */
+extern const double SufficientFingerprintForeground;
+} /* Thresholds::ActionableQualityFeedback */
+} /* Thresholds */
 
 /** This type represents a structure for timing information of features. */
 typedef struct feature_speed_t {

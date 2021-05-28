@@ -8,7 +8,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity[] {
-	"NFIQ2_RVUPHistogram"
+	"RidgeValleyUniformity"
 };
 const char NFIQ2RVUPFeaturePrefix[] { "RVUP_Bin10_" };
 const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
@@ -51,10 +51,6 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
 
 NFIQ2::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
 
-const char NFIQ2::QualityFeatures::RVUPHistogramFeature::SpeedFeatureIDGroup[] {
-	"Ridge valley uniformity"
-};
-
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
@@ -87,7 +83,6 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 	// ----------
 
 	NFIQ2::Timer timerRVU;
-	double timeRVU = 0.0;
 	try {
 		timerRVU.start();
 
@@ -187,18 +182,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2RVUPFeaturePrefix,
 		    histogramBins10, rvures, 10);
 
-		timeRVU = timerRVU.stop();
-
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup =
-		    RVUPHistogramFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2RVUPFeaturePrefix, 10);
-
-		speed.featureSpeed = timeRVU;
-		this->setSpeed(speed);
-
+		this->setSpeed(timerRVU.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute RVU: " << e.what();
@@ -221,7 +205,7 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::RVUPHistogramFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::RVUPHistogramFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::RidgeValleyUniformity::
 		     Histogram::Bin0,

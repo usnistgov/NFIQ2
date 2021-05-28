@@ -165,7 +165,7 @@ main(int argc, char **argv)
 
 	// Actionable Feedback
 	std::vector<std::string> actionableIDs =
-	    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
+	    NFIQ2::QualityFeatures::getAllActionableQualityFeedbackIDs();
 
 	std::unordered_map<std::string, double> actionableQuality =
 	    NFIQ2::QualityFeatures::getActionableQualityFeedback(features);
@@ -177,10 +177,10 @@ main(int argc, char **argv)
 
 	// Quality Feature Values
 	std::vector<std::string> featureIDs =
-	    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
+	    NFIQ2::QualityFeatures::getQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> qualityFeatures =
-	    NFIQ2::QualityFeatures::getQualityFeatureData(features);
+	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);
 
 	for (const auto &featureID : featureIDs) {
 		std::cout << featureID << ": " << qualityFeatures.at(featureID)

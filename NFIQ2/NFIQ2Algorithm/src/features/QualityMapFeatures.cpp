@@ -7,7 +7,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence[] {
-	"NFIQ2_QualityMap"
+	"RegionOfInterestCoherence"
 };
 const char
     NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum[] {
@@ -27,10 +27,6 @@ NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
 }
 
 NFIQ2::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
-
-const char NFIQ2::QualityFeatures::QualityMapFeatures::SpeedFeatureIDGroup[] {
-	"Quality map"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
@@ -90,15 +86,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 
 		featureDataList[fd_om_1.first] = fd_om_1.second;
 
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = QualityMapFeatures::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(Identifiers::QualityFeatures::
-			RegionOfInterest::CoherenceSum);
-		speed.featureIDs.push_back(Identifiers::QualityFeatures::
-			RegionOfInterest::CoherenceMean);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute orientation map: " << e.what();
@@ -326,7 +314,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::QualityMapFeatures::getAllFeatureIDs()
+NFIQ2::QualityFeatures::QualityMapFeatures::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean,
 		Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum };

@@ -8,7 +8,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis[] {
-	"NFIQ2_FDA"
+	"FrequencyDomainAnalysis"
 };
 static const char NFIQ2FDAFeaturePrefix[] { "FDA_Bin10_" };
 const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
@@ -52,7 +52,7 @@ NFIQ2::QualityFeatures::FDAFeature::FDAFeature(
 NFIQ2::QualityFeatures::FDAFeature::~FDAFeature() = default;
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FDAFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FDAFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::FrequencyDomainAnalysis::
 		     Histogram::Bin0,
@@ -77,10 +77,6 @@ NFIQ2::QualityFeatures::FDAFeature::getAllFeatureIDs()
 		Identifiers::QualityFeatures::FrequencyDomainAnalysis::Mean,
 		Identifiers::QualityFeatures::FrequencyDomainAnalysis::StdDev };
 }
-
-const char NFIQ2::QualityFeatures::FDAFeature::SpeedFeatureIDGroup[] {
-	"Frequency domain"
-};
 
 std::string
 NFIQ2::QualityFeatures::FDAFeature::getModuleName() const
@@ -111,7 +107,6 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 	// ----------------------------
 
 	NFIQ2::Timer timer;
-	double time = 0.0;
 	try {
 		timer.start();
 
@@ -212,18 +207,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2FDAFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
-		time = timer.stop();
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FDAFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2FDAFeaturePrefix, 10);
-
-		speed.featureSpeed = time;
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "

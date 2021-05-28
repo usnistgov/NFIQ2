@@ -6,7 +6,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::MinutiaeQuality[] {
-	"NFIQ2_FJFXPos_MinutiaeQuality"
+	"MinutiaeQuality"
 };
 const char NFIQ2::Identifiers::QualityFeatures::Minutiae::QualityMu2[] {
 	"FJFXPos_Mu_MinutiaeQuality_2"
@@ -25,11 +25,6 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
 
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::
     ~FJFXMinutiaeQualityFeature() = default;
-
-const char
-    NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup[] {
-	    "Minutiae quality"
-    };
 
 std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
 NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
@@ -119,17 +114,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		    (double)this->minutiaData_.size();
 		featureDataList[fd_ocl.first] = fd_ocl.second;
 
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup =
-		    FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Minutiae::QualityMu2);
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Minutiae::QualityOCL80);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute FJFX based minutiae quality features: "
@@ -154,7 +139,7 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::Minutiae::QualityMu2,
 		Identifiers::QualityFeatures::Minutiae::QualityOCL80 };

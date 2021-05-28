@@ -8,7 +8,9 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::OrientationFlow[] { "NFIQ2_OF" };
+const char NFIQ2::Identifiers::QualityModules::OrientationFlow[] {
+	"OrientationFlow"
+};
 static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
 const char
     NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0[] {
@@ -72,7 +74,7 @@ NFIQ2::QualityFeatures::OFFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::OFFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::OFFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0,
 		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin1,
@@ -87,10 +89,6 @@ NFIQ2::QualityFeatures::OFFeature::getAllFeatureIDs()
 		Identifiers::QualityFeatures::OrientationFlow::Mean,
 		Identifiers::QualityFeatures::OrientationFlow::StdDev };
 }
-
-const char NFIQ2::QualityFeatures::OFFeature::SpeedFeatureIDGroup[] {
-	"Orientation flow"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
@@ -120,7 +118,6 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 	}
 
 	NFIQ2::Timer timerOF;
-	double timeOF = 0.0;
 	try {
 		timerOF.start();
 
@@ -302,18 +299,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2OFFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
-		timeOF = timerOF.stop();
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = OFFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2OFFeaturePrefix, 10);
-
-		speed.featureSpeed = timeOF;
-		this->setSpeed(speed);
-
+		this->setSpeed(timerOF.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Orientation Flow (OF): " << e.what();

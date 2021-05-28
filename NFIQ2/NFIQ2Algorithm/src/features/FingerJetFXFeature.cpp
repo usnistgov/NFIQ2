@@ -8,7 +8,7 @@
 #include <tuple>
 
 const char NFIQ2::Identifiers::QualityModules::MinutiaeCount[] {
-	"NFIQ2_FingerJetFX"
+	"MinutiaeCount"
 };
 const char NFIQ2::Identifiers::QualityFeatures::Minutiae::Count[] {
 	"FingerJetFX_MinutiaeCount"
@@ -24,10 +24,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
 }
 
 NFIQ2::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
-
-const char NFIQ2::QualityFeatures::FingerJetFXFeature::SpeedFeatureIDGroup[] {
-	"Minutiae"
-};
 
 std::pair<unsigned int, unsigned int>
 NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
@@ -208,15 +204,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		fd_min_cnt.second = 0; // no minutiae found
 		featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Minutiae::Count);
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::Minutiae::CountCOM);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
+		this->setSpeed(timer.stop());
 
 		return featureDataList;
 	}
@@ -256,14 +244,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	fd_min_cnt.second = minCnt;
 	featureDataList[fd_min_cnt.first] = fd_min_cnt.second;
 
-	NFIQ2::QualityFeatureSpeed speed;
-	speed.featureIDGroup = FingerJetFXFeature::SpeedFeatureIDGroup;
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Minutiae::Count);
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Minutiae::CountCOM);
-	speed.featureSpeed = timer.stop();
-	this->setSpeed(speed);
+	this->setSpeed(timer.stop());
 
 	return featureDataList;
 }
@@ -275,7 +256,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FingerJetFXFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::FingerJetFXFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::Minutiae::CountCOM,
 		Identifiers::QualityFeatures::Minutiae::Count };

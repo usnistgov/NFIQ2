@@ -6,7 +6,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::OrientationCertainty[] {
-	"NFIQ2_OCLHistogram"
+	"OrientationCertainty"
 };
 static const char NFIQ2OCLFeaturePrefix[] { "OCL_Bin10_" };
 const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
@@ -44,10 +44,6 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
 
 NFIQ2::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
 
-const char NFIQ2::QualityFeatures::OCLHistogramFeature::SpeedFeatureIDGroup[] {
-	"Orientation certainty"
-};
-
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
@@ -78,7 +74,6 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 
 	// compute OCL
 	NFIQ2::Timer timerOCL;
-	double timeOCL = 0.0;
 	std::vector<double> oclres;
 	try {
 		timerOCL.start();
@@ -129,18 +124,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2OCLFeaturePrefix,
 		    histogramBins10, oclres, 10);
 
-		timeOCL = timerOCL.stop();
-
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = OCLHistogramFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2OCLFeaturePrefix, 10);
-
-		speed.featureSpeed = timeOCL;
-		this->setSpeed(speed);
-
+		this->setSpeed(timerOCL.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature OCL histogram: " << e.what();
@@ -207,7 +191,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::OCLHistogramFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::OCLHistogramFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::OrientationCertainty::Histogram::
 		     Bin0,

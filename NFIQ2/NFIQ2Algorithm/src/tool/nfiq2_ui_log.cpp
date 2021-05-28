@@ -46,7 +46,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
     unsigned int score, const std::string &errmsg, const bool quantized,
     const bool resampled,
     const std::unordered_map<std::string, double> &features,
-    const std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed> &speed,
+    const std::unordered_map<std::string, double> &speed,
     const std::unordered_map<std::string, double> &actionable) const
 {
 	*(this->out) << "\"" << name << "\""
@@ -59,8 +59,8 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	// Print out actionable first
 	if (this->actionable) {
-		const auto actionableIDs =
-		    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
+		const auto actionableIDs = NFIQ2::QualityFeatures::
+		    getAllActionableQualityFeedbackIDs();
 		for (const auto &i : actionableIDs) {
 			if (i != actionableIDs.front()) {
 				*(this->out) << ",";
@@ -76,7 +76,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	if (this->verbose) {
 		const auto featureIDs =
-		    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
+		    NFIQ2::QualityFeatures::getQualityFeatureIDs();
 		for (const auto &i : featureIDs) {
 			if (i != featureIDs.front()) {
 				*(this->out) << ",";
@@ -91,15 +91,14 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 	}
 
 	if (this->speed) {
-		const auto speedIDs =
-		    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
-		for (const auto &i : speedIDs) {
-			if (i != speedIDs.front()) {
+		const auto moduleIDs =
+		    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
+		for (const auto &i : moduleIDs) {
+			if (i != moduleIDs.front()) {
 				*(this->out) << ",";
 			}
 
-			*(this->out)
-			    << std::setprecision(5) << speed.at(i).featureSpeed;
+			*(this->out) << std::setprecision(5) << speed.at(i);
 		}
 	}
 	*(this->out) << "\n";
@@ -209,8 +208,8 @@ NFIQ2UI::Log::printCSVHeader() const
 	}
 
 	if (this->actionable) {
-		std::vector<std::string> vHeaders =
-		    NFIQ2::QualityFeatures::getAllActionableIdentifiers();
+		std::vector<std::string> vHeaders = NFIQ2::QualityFeatures::
+		    getAllActionableQualityFeedbackIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -226,7 +225,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->verbose) {
 		std::vector<std::string> vHeaders =
-		    NFIQ2::QualityFeatures::getAllQualityFeatureIDs();
+		    NFIQ2::QualityFeatures::getQualityFeatureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -242,14 +241,13 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->speed) {
 		std::vector<std::string> sHeaders =
-		    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
+		    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
 
 		for (auto it = sHeaders.begin(); it != sHeaders.end(); ++it) {
 			if (it != sHeaders.begin()) {
 				*(this->out) << ',';
 			}
-			std::replace(it->begin(), it->end(), ' ', '_');
-			*(this->out) << *it;
+			*(this->out) << *it << "Speed";
 		}
 	}
 	*(this->out) << "\n";

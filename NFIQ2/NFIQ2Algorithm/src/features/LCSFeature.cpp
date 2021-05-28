@@ -6,7 +6,9 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::LocalClarity[] { "NFIQ2_LCS" };
+const char NFIQ2::Identifiers::QualityModules::LocalClarity[] {
+	"LocalClarity"
+};
 static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
 const char
     NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0[] {
@@ -73,7 +75,7 @@ NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::LCSFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0,
 		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1,
@@ -88,10 +90,6 @@ NFIQ2::QualityFeatures::LCSFeature::getAllFeatureIDs()
 		Identifiers::QualityFeatures::LocalClarity::Mean,
 		Identifiers::QualityFeatures::LocalClarity::StdDev };
 }
-
-const char NFIQ2::QualityFeatures::LCSFeature::SpeedFeatureIDGroup[] {
-	"Local clarity"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
@@ -121,7 +119,6 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 	}
 
 	NFIQ2::Timer timerLCS;
-	double timeLCS = 0.0;
 	try {
 		timerLCS.start();
 
@@ -215,8 +212,6 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		timeLCS = timerLCS.stop();
-
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(LCSHISTLIMITS[0]);
 		histogramBins10.push_back(LCSHISTLIMITS[1]);
@@ -230,16 +225,7 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 		addHistogramFeatures(featureDataList, NFIQ2LCSFeaturePrefix,
 		    histogramBins10, dataVector, 10);
 
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = LCSFeature::SpeedFeatureIDGroup;
-
-		addHistogramFeatureNames(
-		    speed.featureIDs, NFIQ2LCSFeaturePrefix, 10);
-
-		speed.featureSpeed = timeLCS;
-		this->setSpeed(speed);
-
+		this->setSpeed(timerLCS.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute LCS: " << e.what();

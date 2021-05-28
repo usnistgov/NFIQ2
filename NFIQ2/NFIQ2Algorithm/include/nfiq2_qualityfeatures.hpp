@@ -21,7 +21,16 @@ class BaseFeature;
  * Vector of strings containing all actionable quality feedback
  * identifiers.
  */
-std::vector<std::string> getAllActionableIdentifiers();
+std::vector<std::string> getAllActionableQualityFeedbackIDs();
+
+/**
+ * @briefq
+ * Obtain all quality module identifiers.
+ *
+ * @return
+ * Vector of strings with all identifiers from Identifiers::QualityModules.
+ */
+std::vector<std::string> getAllQualityModuleIDs();
 
 /**
  * @brief
@@ -30,16 +39,7 @@ std::vector<std::string> getAllActionableIdentifiers();
  * @return
  * Vector of strings containing all quality feature IDs.
  */
-std::vector<std::string> getAllQualityFeatureIDs();
-
-/**
- * @brief
- * Obtain all speed feature groups from quality modules.
- *
- * @return
- * Vector of strings containing all speed feature groups.
- */
-std::vector<std::string> getAllSpeedFeatureGroups();
+std::vector<std::string> getQualityFeatureIDs();
 
 /**
  * @brief
@@ -91,7 +91,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> getQualityFeatureData(
+std::unordered_map<std::string, double> getQualityFeatureValues(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features);
 
@@ -105,7 +105,7 @@ std::unordered_map<std::string, double> getQualityFeatureData(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> getQualityFeatureData(
+std::unordered_map<std::string, double> getQualityFeatureValues(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -116,10 +116,9 @@ std::unordered_map<std::string, double> getQualityFeatureData(
  * A vector of BaseFeatures obtained from a raw fingerprint image.
  *
  * @return
- * A map of string, quality feature speed pairs.
+ * A map of Identifier::QualityModule, speed pairs.
  */
-std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
-getQualityFeatureSpeeds(
+std::unordered_map<std::string, double> getQualityModuleSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features);
 

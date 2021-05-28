@@ -6,7 +6,7 @@
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityModules::RegionOfInterestMean[] {
-	"NFIQ2_ImgProcROI"
+	"RegionOfInterestMean"
 };
 const char NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::Mean[] {
 	"ImgProcROIArea_Mean"
@@ -19,10 +19,6 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
 }
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
-
-const char NFIQ2::QualityFeatures::ImgProcROIFeature::SpeedFeatureIDGroup[] {
-	"Region of interest"
-};
 
 NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
 NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
@@ -79,14 +75,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 		featureDataList[fd_roi_pixel_area_mean.first] =
 		    fd_roi_pixel_area_mean.second;
 
-		// Speed
-		NFIQ2::QualityFeatureSpeed speed;
-		speed.featureIDGroup = ImgProcROIFeature::SpeedFeatureIDGroup;
-		speed.featureIDs.push_back(
-		    Identifiers::QualityFeatures::RegionOfInterest::Mean);
-		speed.featureSpeed = timer.stop();
-		this->setSpeed(speed);
-
+		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "
@@ -113,7 +102,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::ImgProcROIFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::ImgProcROIFeature::getQualityFeatureIDs()
 {
 	return { Identifiers::QualityFeatures::RegionOfInterest::Mean };
 }

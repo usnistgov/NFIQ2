@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::Contrast[] { "NFIQ2_Mu" };
+const char NFIQ2::Identifiers::QualityModules::Contrast[] { "Contrast" };
 const char NFIQ2::Identifiers::QualityFeatures::Contrast::Mean[] { "Mu" };
 const char NFIQ2::Identifiers::QualityFeatures::Contrast::MeanBlock[] { "MMB" };
 
@@ -16,10 +16,6 @@ NFIQ2::QualityFeatures::MuFeature::MuFeature(
 }
 
 NFIQ2::QualityFeatures::MuFeature::~MuFeature() = default;
-
-const char NFIQ2::QualityFeatures::MuFeature::SpeedFeatureIDGroup[] {
-	"Contrast"
-};
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
@@ -142,15 +138,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 		    "Unknown exception occurred!");
 	}
 
-	// Speed
-	NFIQ2::QualityFeatureSpeed speed;
-	speed.featureIDGroup = MuFeature::SpeedFeatureIDGroup;
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Contrast::MeanBlock);
-	speed.featureIDs.push_back(
-	    Identifiers::QualityFeatures::Contrast::Mean);
-	speed.featureSpeed = timer.stop();
-	this->setSpeed(speed);
+	this->setSpeed(timer.stop());
 
 	return featureDataList;
 }
@@ -172,7 +160,7 @@ NFIQ2::QualityFeatures::MuFeature::getModuleName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::MuFeature::getAllFeatureIDs()
+NFIQ2::QualityFeatures::MuFeature::getQualityFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back(Identifiers::QualityFeatures::Contrast::MeanBlock);

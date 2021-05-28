@@ -42,15 +42,15 @@ const double
 const double NFIQ2::Thresholds::ActionableQualityFeedback::
     SufficientFingerprintForeground { 50000.0 };
 
-std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed>
-NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
+std::unordered_map<std::string, double>
+NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
-	    NFIQ2::QualityFeatures::getAllSpeedFeatureGroups();
+	    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
 
-	std::unordered_map<std::string, NFIQ2::QualityFeatureSpeed> speedMap {};
+	std::unordered_map<std::string, double> speedMap {};
 
 	for (std::vector<std::string>::size_type i = 0;
 	     i < speedIdentifiers.size(); i++) {
@@ -61,20 +61,20 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureSpeeds(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
+NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::getQualityFeatureData(
+	return NFIQ2::QualityFeatures::getQualityFeatureValues(
 	    NFIQ2::QualityFeatures::computeQualityFeatures(rawImage));
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::getQualityFeatureData(
+NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features)
 {
 	std::vector<std::string> qualityIdentifiers =
-	    NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs();
+	    NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> quality {};
 
@@ -251,7 +251,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers()
+NFIQ2::QualityFeatures::Impl::getAllActionableQualityFeedbackIDs()
 {
 	static const std::vector<std::string> actionableIdentifiers {
 		NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage,
@@ -267,18 +267,19 @@ NFIQ2::QualityFeatures::Impl::getAllActionableIdentifiers()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
+NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs()
 {
 	const std::vector<std::vector<std::string>> vov {
-		FDAFeature::getAllFeatureIDs(),
-		FingerJetFXFeature::getAllFeatureIDs(),
-		FJFXMinutiaeQualityFeature::getAllFeatureIDs(),
-		ImgProcROIFeature::getAllFeatureIDs(),
-		LCSFeature::getAllFeatureIDs(), MuFeature::getAllFeatureIDs(),
-		OCLHistogramFeature::getAllFeatureIDs(),
-		OFFeature::getAllFeatureIDs(),
-		QualityMapFeatures::getAllFeatureIDs(),
-		RVUPHistogramFeature::getAllFeatureIDs()
+		FDAFeature::getQualityFeatureIDs(),
+		FingerJetFXFeature::getQualityFeatureIDs(),
+		FJFXMinutiaeQualityFeature::getQualityFeatureIDs(),
+		ImgProcROIFeature::getQualityFeatureIDs(),
+		LCSFeature::getQualityFeatureIDs(),
+		MuFeature::getQualityFeatureIDs(),
+		OCLHistogramFeature::getQualityFeatureIDs(),
+		OFFeature::getQualityFeatureIDs(),
+		QualityMapFeatures::getQualityFeatureIDs(),
+		RVUPHistogramFeature::getQualityFeatureIDs()
 	};
 
 	std::vector<std::string> qualityFeatureIDs {};
@@ -292,19 +293,20 @@ NFIQ2::QualityFeatures::Impl::getAllQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllSpeedFeatureGroups()
+NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs()
 {
-	static const std::vector<std::string> speedFeatureGroups {
-		FDAFeature::SpeedFeatureIDGroup,
-		FingerJetFXFeature::SpeedFeatureIDGroup,
-		FJFXMinutiaeQualityFeature::SpeedFeatureIDGroup,
-		ImgProcROIFeature::SpeedFeatureIDGroup,
-		LCSFeature::SpeedFeatureIDGroup, MuFeature::SpeedFeatureIDGroup,
-		OCLHistogramFeature::SpeedFeatureIDGroup,
-		OFFeature::SpeedFeatureIDGroup,
-		QualityMapFeatures::SpeedFeatureIDGroup,
-		RVUPHistogramFeature::SpeedFeatureIDGroup
+	static const std::vector<std::string> ids {
+		Identifiers::QualityModules::FrequencyDomainAnalysis,
+		Identifiers::QualityModules::MinutiaeCount,
+		Identifiers::QualityModules::MinutiaeQuality,
+		Identifiers::QualityModules::RegionOfInterestMean,
+		Identifiers::QualityModules::LocalClarity,
+		Identifiers::QualityModules::Contrast,
+		Identifiers::QualityModules::OrientationCertainty,
+		Identifiers::QualityModules::OrientationFlow,
+		Identifiers::QualityModules::RegionOfInterestCoherence,
+		Identifiers::QualityModules::RidgeValleyUniformity
 	};
 
-	return speedFeatureGroups;
+	return ids;
 }

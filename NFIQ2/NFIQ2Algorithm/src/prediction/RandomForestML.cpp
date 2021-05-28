@@ -70,9 +70,7 @@ NFIQ2::Prediction::RandomForestML::joinRFTrainedParamsString()
 }
 #endif
 
-NFIQ2::Prediction::RandomForestML::RandomForestML()
-{
-}
+NFIQ2::Prediction::RandomForestML::RandomForestML() = default;
 
 NFIQ2::Prediction::RandomForestML::~RandomForestML()
 {

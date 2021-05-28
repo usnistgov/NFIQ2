@@ -49,9 +49,7 @@ NFIQ2::FingerprintImageData::FingerprintImageData(
 	imagePPI = otherData.imagePPI;
 }
 
-NFIQ2::FingerprintImageData::~FingerprintImageData()
-{
-}
+NFIQ2::FingerprintImageData::~FingerprintImageData() = default;
 
 NFIQ2::FingerprintImageData
 NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const

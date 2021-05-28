@@ -13,9 +13,7 @@ NFIQ2::Exception::Exception(
 {
 }
 
-NFIQ2::Exception::~Exception() noexcept
-{
-}
+NFIQ2::Exception::~Exception() noexcept = default;
 
 const char *
 NFIQ2::Exception::what() const noexcept

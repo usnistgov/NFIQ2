@@ -8,16 +8,14 @@
 
 static std::string trimWhitespace(const std::string &s);
 
-const std::string NFIQ2::ModelInfo::ModelInfoKeyName = "Name";
-const std::string NFIQ2::ModelInfo::ModelInfoKeyTrainer = "Trainer";
-const std::string NFIQ2::ModelInfo::ModelInfoKeyDescription = "Description";
-const std::string NFIQ2::ModelInfo::ModelInfoKeyVersion = "Version";
-const std::string NFIQ2::ModelInfo::ModelInfoKeyPath = "Path";
-const std::string NFIQ2::ModelInfo::ModelInfoKeyHash = "Hash";
+const char NFIQ2::ModelInfo::ModelInfoKeyName[] { "Name" };
+const char NFIQ2::ModelInfo::ModelInfoKeyTrainer[] { "Trainer" };
+const char NFIQ2::ModelInfo::ModelInfoKeyDescription[] { "Description" };
+const char NFIQ2::ModelInfo::ModelInfoKeyVersion[] { "Version" };
+const char NFIQ2::ModelInfo::ModelInfoKeyPath[] { "Path" };
+const char NFIQ2::ModelInfo::ModelInfoKeyHash[] { "Hash" };
 
-NFIQ2::ModelInfo::ModelInfo()
-{
-}
+NFIQ2::ModelInfo::ModelInfo() = default;
 
 NFIQ2::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 {
@@ -103,12 +101,14 @@ NFIQ2::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 	if (this->modelPath.empty()) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::NoDataAvailable,
 		    "The required model information: " +
-			ModelInfo::ModelInfoKeyPath + " was not found.");
+			std::string { ModelInfo::ModelInfoKeyPath } +
+			" was not found.");
 	}
 	if (this->modelHash.empty()) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::NoDataAvailable,
 		    "The required model information: " +
-			ModelInfo::ModelInfoKeyHash + " was not found.");
+			std::string { ModelInfo::ModelInfoKeyHash } +
+			" was not found.");
 	}
 }
 

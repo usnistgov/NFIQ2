@@ -920,8 +920,8 @@ NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 
 	if (!BE::IO::Utility::fileExists(modelInfoObj.getModelPath())) {
 		throw NFIQ2UI::PropertyParseError("Unable to parse '" +
-		    NFIQ2::ModelInfo::ModelInfoKeyPath + "' from '" +
-		    modelInfoFilePath + "' (No file exists at '" +
+		    std::string { NFIQ2::ModelInfo::ModelInfoKeyPath } +
+		    "' from '" + modelInfoFilePath + "' (No file exists at '" +
 		    modelInfoObj.getModelPath() + "')");
 	}
 

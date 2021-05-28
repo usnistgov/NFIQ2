@@ -73,17 +73,17 @@ class ModelInfo {
 	std::string getModelHash() const;
 
 	/** Name Key. */
-	static const std::string ModelInfoKeyName;
+	static const char ModelInfoKeyName[];
 	/** Trainer Key. */
-	static const std::string ModelInfoKeyTrainer;
+	static const char ModelInfoKeyTrainer[];
 	/** Description Key. */
-	static const std::string ModelInfoKeyDescription;
+	static const char ModelInfoKeyDescription[];
 	/** Version Key. */
-	static const std::string ModelInfoKeyVersion;
+	static const char ModelInfoKeyVersion[];
 	/** Path Key. */
-	static const std::string ModelInfoKeyPath;
+	static const char ModelInfoKeyPath[];
 	/** Hash Key. */
-	static const std::string ModelInfoKeyHash;
+	static const char ModelInfoKeyHash[];
 
     private:
 	/** Name member. */

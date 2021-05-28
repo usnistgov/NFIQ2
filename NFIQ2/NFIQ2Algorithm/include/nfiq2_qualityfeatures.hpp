@@ -34,7 +34,7 @@ class BaseFeature;
 std::vector<std::string> getAllActionableQualityFeedbackIDs();
 
 /**
- * @briefq
+ * @brief
  * Obtain all quality module identifiers.
  *
  * @return

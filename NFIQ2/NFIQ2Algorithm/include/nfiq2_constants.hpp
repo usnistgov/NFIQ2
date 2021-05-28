@@ -1,5 +1,5 @@
-#ifndef NFIQ2_INTERFACEDEFINITIONS_HPP_
-#define NFIQ2_INTERFACEDEFINITIONS_HPP_
+#ifndef NFIQ2_CONSTANTS_HPP_
+#define NFIQ2_CONSTANTS_HPP_
 
 #include <nfiq2_data.hpp>
 
@@ -344,4 +344,4 @@ extern const double SufficientFingerprintForeground;
 } /* Thresholds */
 } /* NFIQ2 */
 
-#endif /* NFIQ2_INTERFACEDEFINITIONS_HPP_ */
+#endif /* NFIQ2_CONSTANTS_HPP_ */

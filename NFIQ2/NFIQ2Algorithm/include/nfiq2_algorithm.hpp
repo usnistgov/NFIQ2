@@ -1,3 +1,13 @@
+/*
+ * This file is part of NIST Fingerprint Image Quality (NFIQ) 2. For more
+ * information on this project, refer to:
+ *   - https://nist.gov/services-resources/software/nfiq2
+ *   - https://github.com/usnistgov/NFIQ2
+ *
+ * This work is in the public domain. For complete licensing details, refer to:
+ *   - https://github.com/usnistgov/NFIQ2/blob/master/LICENSE.md
+ */
+
 #ifndef NFIQ2_ALGORITHM_HPP_
 #define NFIQ2_ALGORITHM_HPP_
 

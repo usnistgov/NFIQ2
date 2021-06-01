@@ -68,3 +68,12 @@ NFIQ2::QualityFeatures::getQualityModuleSpeeds(
 {
 	return NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(features);
 }
+
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+NFIQ2::QualityFeatures::getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	&features)
+{
+	return NFIQ2::QualityFeatures::Impl::getQualityModules(features);
+}

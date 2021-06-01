@@ -256,6 +256,21 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 	return features;
 }
 
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+NFIQ2::QualityFeatures::Impl::getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	&features)
+{
+	std::unordered_map<std::string,
+	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	    ret {};
+	for (const auto &feature : features)
+		ret[feature->getModuleName()] = feature;
+
+	return ret;
+}
+
 std::vector<std::string>
 NFIQ2::QualityFeatures::Impl::getActionableQualityFeedbackIDs()
 {

@@ -139,6 +139,21 @@ std::unordered_map<std::string, double> getQualityModuleSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
 	&features);
 
+/**
+ * @brief
+ * Obtain quality modules organized as a map.
+ *
+ * @param features
+ * A vector of BaseFeatures obtained from a raw fingerprint image.
+ *
+ * @return
+ * `features` in a map with `feature`'s identifier as the map key.
+ */
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	&features);
 }}}
 
 #endif /* NFIQ2_QUALITYFEATURES_IMPL_HPP_ */

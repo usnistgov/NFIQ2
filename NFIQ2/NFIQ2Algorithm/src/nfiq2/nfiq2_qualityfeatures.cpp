@@ -17,9 +17,9 @@ NFIQ2::QualityFeatures::getQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::getAllQualityModuleIDs()
+NFIQ2::QualityFeatures::getQualityModuleIDs()
 {
-	return NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs();
+	return NFIQ2::QualityFeatures::Impl::getQualityModuleIDs();
 }
 
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>

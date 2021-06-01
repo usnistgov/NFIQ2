@@ -48,7 +48,7 @@ NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
-	    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
+	    NFIQ2::QualityFeatures::getQualityModuleIDs();
 
 	std::unordered_map<std::string, double> speedMap {};
 
@@ -299,7 +299,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs()
+NFIQ2::QualityFeatures::Impl::getQualityModuleIDs()
 {
 	static const std::vector<std::string> ids {
 		Identifiers::QualityModules::FrequencyDomainAnalysis,

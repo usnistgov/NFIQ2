@@ -38,7 +38,7 @@ std::vector<std::string> getQualityFeatureIDs();
  * @return
  * Vector of strings with all identifiers from Identifiers::QualityModules.
  */
-std::vector<std::string> getAllQualityModuleIDs();
+std::vector<std::string> getQualityModuleIDs();
 
 /**
  * @brief

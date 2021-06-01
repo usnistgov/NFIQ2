@@ -101,6 +101,12 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 {
 	std::unordered_map<std::string, double> actionableMap {};
 
+	/* Pre-populate the map */
+	for (const auto &id : getAllActionableQualityFeedbackIDs()) {
+		actionableMap[id] =
+		    std::numeric_limits<double>::signaling_NaN();
+	}
+
 	for (const auto &feature : features) {
 		if (feature->getModuleName() ==
 		    Identifiers::QualityModules::Contrast) {

@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['getactionablequalityfeedback_180',['getActionableQualityFeedback',['../namespace_n_f_i_q2_1_1_quality_features.html#a0b2e880ab7df056ae33adc7fcbfc602b',1,'NFIQ2::QualityFeatures::getActionableQualityFeedback(const std::vector&lt; std::shared_ptr&lt; NFIQ2::QualityFeatures::BaseFeature &gt;&gt; &amp;features)'],['../namespace_n_f_i_q2_1_1_quality_features.html#a2a7c59b76e6a9b6127c790daffbd83a7',1,'NFIQ2::QualityFeatures::getActionableQualityFeedback(const NFIQ2::FingerprintImageData &amp;rawImage)']]],
-  ['getallactionablequalityfeedbackids_181',['getAllActionableQualityFeedbackIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a094f4466ba38123cab6cceca8fbf5202',1,'NFIQ2::QualityFeatures']]],
-  ['getallqualitymoduleids_182',['getAllQualityModuleIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a6d81cbf410a7b7484003cc08def6705d',1,'NFIQ2::QualityFeatures']]],
+  ['getactionablequalityfeedback_181',['getActionableQualityFeedback',['../namespace_n_f_i_q2_1_1_quality_features.html#a0b2e880ab7df056ae33adc7fcbfc602b',1,'NFIQ2::QualityFeatures::getActionableQualityFeedback(const std::vector&lt; std::shared_ptr&lt; NFIQ2::QualityFeatures::BaseFeature &gt;&gt; &amp;features)'],['../namespace_n_f_i_q2_1_1_quality_features.html#a2a7c59b76e6a9b6127c790daffbd83a7',1,'NFIQ2::QualityFeatures::getActionableQualityFeedback(const NFIQ2::FingerprintImageData &amp;rawImage)']]],
+  ['getactionablequalityfeedbackids_182',['getActionableQualityFeedbackIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a79caa6e3b2b6fa7b9282640875679338',1,'NFIQ2::QualityFeatures']]],
   ['getelapsedtime_183',['getElapsedTime',['../class_n_f_i_q2_1_1_timer.html#ad707777376b914e547941226850d4fe3',1,'NFIQ2::Timer']]],
   ['getembeddedfct_184',['getEmbeddedFCT',['../class_n_f_i_q2_1_1_algorithm.html#a3cb11fe5b2a309f437e47cc1a75afa70',1,'NFIQ2::Algorithm']]],
   ['geterrorcode_185',['getErrorCode',['../class_n_f_i_q2_1_1_exception.html#adae7305fdfa119afc6f36f95fc48081a',1,'NFIQ2::Exception']]],
@@ -16,5 +15,7 @@ var searchData=
   ['getparameterhash_193',['getParameterHash',['../class_n_f_i_q2_1_1_algorithm.html#a6db06604ab42e57ee56ba2434cedb3c8',1,'NFIQ2::Algorithm']]],
   ['getqualityfeatureids_194',['getQualityFeatureIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#affd6fa32435b9ff75026081bd64c7403',1,'NFIQ2::QualityFeatures']]],
   ['getqualityfeaturevalues_195',['getQualityFeatureValues',['../namespace_n_f_i_q2_1_1_quality_features.html#adf1c1247876c91b19b76af26b1a384aa',1,'NFIQ2::QualityFeatures::getQualityFeatureValues(const std::vector&lt; std::shared_ptr&lt; NFIQ2::QualityFeatures::BaseFeature &gt;&gt; &amp;features)'],['../namespace_n_f_i_q2_1_1_quality_features.html#ad903bea5238448f907c856eb6ed04266',1,'NFIQ2::QualityFeatures::getQualityFeatureValues(const NFIQ2::FingerprintImageData &amp;rawImage)']]],
-  ['getqualitymodulespeeds_196',['getQualityModuleSpeeds',['../namespace_n_f_i_q2_1_1_quality_features.html#a9699bfc1cdddcf03022b914178c5634b',1,'NFIQ2::QualityFeatures']]]
+  ['getqualitymoduleids_196',['getQualityModuleIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a9cf48d72f936ebbd83df583a3f5bd7dd',1,'NFIQ2::QualityFeatures']]],
+  ['getqualitymodules_197',['getQualityModules',['../namespace_n_f_i_q2_1_1_quality_features.html#ac84c99c5d40eb196a3faa534762395bc',1,'NFIQ2::QualityFeatures']]],
+  ['getqualitymodulespeeds_198',['getQualityModuleSpeeds',['../namespace_n_f_i_q2_1_1_quality_features.html#a9699bfc1cdddcf03022b914178c5634b',1,'NFIQ2::QualityFeatures']]]
 ];

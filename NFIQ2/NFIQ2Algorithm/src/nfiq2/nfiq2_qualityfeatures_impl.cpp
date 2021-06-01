@@ -48,7 +48,7 @@ NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
-	    NFIQ2::QualityFeatures::getAllQualityModuleIDs();
+	    NFIQ2::QualityFeatures::getQualityModuleIDs();
 
 	std::unordered_map<std::string, double> speedMap {};
 
@@ -102,7 +102,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	std::unordered_map<std::string, double> actionableMap {};
 
 	/* Pre-populate the map */
-	for (const auto &id : getAllActionableQualityFeedbackIDs()) {
+	for (const auto &id : getActionableQualityFeedbackIDs()) {
 		actionableMap[id] =
 		    std::numeric_limits<double>::signaling_NaN();
 	}
@@ -256,8 +256,23 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 	return features;
 }
 
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+NFIQ2::QualityFeatures::Impl::getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	&features)
+{
+	std::unordered_map<std::string,
+	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	    ret {};
+	for (const auto &feature : features)
+		ret[feature->getModuleName()] = feature;
+
+	return ret;
+}
+
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllActionableQualityFeedbackIDs()
+NFIQ2::QualityFeatures::Impl::getActionableQualityFeedbackIDs()
 {
 	static const std::vector<std::string> actionableIdentifiers {
 		NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage,
@@ -299,7 +314,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs()
+NFIQ2::QualityFeatures::Impl::getQualityModuleIDs()
 {
 	static const std::vector<std::string> ids {
 		Identifiers::QualityModules::FrequencyDomainAnalysis,

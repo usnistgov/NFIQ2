@@ -31,7 +31,7 @@ class BaseFeature;
  * Vector of strings containing all actionable quality feedback
  * identifiers.
  */
-std::vector<std::string> getAllActionableQualityFeedbackIDs();
+std::vector<std::string> getActionableQualityFeedbackIDs();
 
 /**
  * @brief
@@ -40,7 +40,7 @@ std::vector<std::string> getAllActionableQualityFeedbackIDs();
  * @return
  * Vector of strings with all identifiers from Identifiers::QualityModules.
  */
-std::vector<std::string> getAllQualityModuleIDs();
+std::vector<std::string> getQualityModuleIDs();
 
 /**
  * @brief
@@ -117,6 +117,22 @@ std::unordered_map<std::string, double> getQualityFeatureValues(
  */
 std::unordered_map<std::string, double> getQualityFeatureValues(
     const NFIQ2::FingerprintImageData &rawImage);
+
+/**
+ * @brief
+ * Obtain quality modules organized as a map.
+ *
+ * @param features
+ * A vector of BaseFeatures obtained from a raw fingerprint image.
+ *
+ * @return
+ * `features` in a map with `feature`'s identifier as the map key.
+ */
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	&features);
 
 /**
  * @brief

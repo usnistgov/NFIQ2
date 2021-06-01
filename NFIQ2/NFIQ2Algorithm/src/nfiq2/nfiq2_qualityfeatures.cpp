@@ -5,10 +5,9 @@
 #include <vector>
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::getAllActionableQualityFeedbackIDs()
+NFIQ2::QualityFeatures::getActionableQualityFeedbackIDs()
 {
-	return NFIQ2::QualityFeatures::Impl::
-	    getAllActionableQualityFeedbackIDs();
+	return NFIQ2::QualityFeatures::Impl::getActionableQualityFeedbackIDs();
 }
 
 std::vector<std::string>
@@ -18,9 +17,9 @@ NFIQ2::QualityFeatures::getQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::getAllQualityModuleIDs()
+NFIQ2::QualityFeatures::getQualityModuleIDs()
 {
-	return NFIQ2::QualityFeatures::Impl::getAllQualityModuleIDs();
+	return NFIQ2::QualityFeatures::Impl::getQualityModuleIDs();
 }
 
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
@@ -68,4 +67,13 @@ NFIQ2::QualityFeatures::getQualityModuleSpeeds(
 	&features)
 {
 	return NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(features);
+}
+
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+NFIQ2::QualityFeatures::getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	&features)
+{
+	return NFIQ2::QualityFeatures::Impl::getQualityModules(features);
 }

@@ -102,7 +102,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 	std::unordered_map<std::string, double> actionableMap {};
 
 	/* Pre-populate the map */
-	for (const auto &id : getAllActionableQualityFeedbackIDs()) {
+	for (const auto &id : getActionableQualityFeedbackIDs()) {
 		actionableMap[id] =
 		    std::numeric_limits<double>::signaling_NaN();
 	}
@@ -257,7 +257,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getAllActionableQualityFeedbackIDs()
+NFIQ2::QualityFeatures::Impl::getActionableQualityFeedbackIDs()
 {
 	static const std::vector<std::string> actionableIdentifiers {
 		NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage,

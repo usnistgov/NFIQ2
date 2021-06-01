@@ -165,7 +165,7 @@ main(int argc, char **argv)
 
 	// Actionable Feedback
 	std::vector<std::string> actionableIDs =
-	    NFIQ2::QualityFeatures::getAllActionableQualityFeedbackIDs();
+	    NFIQ2::QualityFeatures::getActionableQualityFeedbackIDs();
 
 	std::unordered_map<std::string, double> actionableQuality =
 	    NFIQ2::QualityFeatures::getActionableQualityFeedback(features);

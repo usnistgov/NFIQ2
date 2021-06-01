@@ -59,8 +59,8 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	// Print out actionable first
 	if (this->actionable) {
-		const auto actionableIDs = NFIQ2::QualityFeatures::
-		    getAllActionableQualityFeedbackIDs();
+		const auto actionableIDs =
+		    NFIQ2::QualityFeatures::getActionableQualityFeedbackIDs();
 		for (const auto &i : actionableIDs) {
 			if (i != actionableIDs.front()) {
 				*(this->out) << ",";
@@ -208,8 +208,8 @@ NFIQ2UI::Log::printCSVHeader() const
 	}
 
 	if (this->actionable) {
-		std::vector<std::string> vHeaders = NFIQ2::QualityFeatures::
-		    getAllActionableQualityFeedbackIDs();
+		std::vector<std::string> vHeaders =
+		    NFIQ2::QualityFeatures::getActionableQualityFeedbackIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {

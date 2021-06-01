@@ -31,7 +31,7 @@ class BaseFeature;
  * Vector of strings containing all actionable quality feedback
  * identifiers.
  */
-std::vector<std::string> getAllActionableQualityFeedbackIDs();
+std::vector<std::string> getActionableQualityFeedbackIDs();
 
 /**
  * @brief

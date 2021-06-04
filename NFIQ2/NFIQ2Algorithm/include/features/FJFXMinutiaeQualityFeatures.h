@@ -38,7 +38,7 @@ class FJFXMinutiaeQualityFeature : public BaseFeature {
 
 	static std::vector<std::string> getQualityFeatureIDs();
 
-	/** @throw NFIQ2::NFIQException
+	/** @throw NFIQ2::Exception
 	 * Template could not be extracted.
 	 */
 	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;

@@ -44,7 +44,7 @@ class ImgProcROIFeature : public BaseFeature {
 
 	static ImgProcROIResults computeROI(cv::Mat &img, unsigned int bs);
 
-	/** @throw NFIQ2::NFIQException
+	/** @throw NFIQ2::Exception
 	 * Img Proc Results could not be computed.
 	 */
 	ImgProcROIResults getImgProcResults();

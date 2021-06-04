@@ -88,7 +88,7 @@ class FingerprintImageData : public Data {
 	 * @return
 	 * Cropped fingerprint image.
 	 *
-	 * @throws NFIQException
+	 * @throws NFIQ2::Exception
 	 * Error performing the crop, or the image is too small to be processed
 	 * after cropping.
 	 */

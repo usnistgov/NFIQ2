@@ -17,7 +17,7 @@ class MuFeature : public BaseFeature {
 
 	std::string getModuleName() const override;
 
-	/** @throw NFIQ2::NFIQException
+	/** @throw NFIQ2::Exception
 	 * Sigma has not yet been calculated.
 	 */
 	double getSigma() const;

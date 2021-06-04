@@ -44,7 +44,10 @@
  * Follow these high-level steps to compute an NFIQ 2 quality score in your own
  * application.
  *
- *   1. Add `#include <nfiq2/nfiq2.hpp>` to your source code.
+ *   1. Include `nfiq2.hpp` in your source file.
+ *      - NIST's [releases][2] install headers in `/usr/local/nfiq2/include` on
+ *        macOS and Linux, `C:\Program Files\NFIQ 2\include` on Windows 64-bit,
+ *        and `C:\Program Files (x86)\NFIQ 2\include` on Windows 32-bit.
  *   2. Instantiate a NFIQ2::ModelInfo that points to the included
  *      [random forest model parameters][3], and use it to instantiate a
  *      NFIQ2::Algorithm.

@@ -72,7 +72,8 @@ std::vector<std::string> getQualityFeatureIDs();
 
 /**
  * @addtogroup compute
- * Compute NFIQ 2 quality modules, values, and scores.
+ * Compute NFIQ 2 quality modules, quality values, quality scores, and
+ * actionable quality feedback.
  * @{
  */
 

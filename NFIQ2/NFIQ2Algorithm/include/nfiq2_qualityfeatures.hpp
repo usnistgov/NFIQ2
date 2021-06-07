@@ -78,7 +78,7 @@ std::vector<std::string> getQualityFeatureIDs();
 
 /**
  * @brief
- * Obtain computed quality feature modules from a fingerprint image.
+ * Compute quality modules.
  *
  * @param rawImage
  * Fingerprint image in raw format.
@@ -91,7 +91,7 @@ computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
- * Compute quality feature values from a fingerprint image.
+ * Compute quality feature values.
  *
  * @param rawImage
  * Fingerprint image in raw format.
@@ -106,7 +106,7 @@ std::unordered_map<std::string, double> computeQualityFeatures(
 
 /**
  * @brief
- * Compute actionable quality feedback from a fingerprint image.
+ * Compute actionable quality feedback.
  *
  * @param rawImage
  * Fingerprint image in raw format.

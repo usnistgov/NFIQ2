@@ -20,8 +20,20 @@
 
 namespace NFIQ2 { namespace QualityFeatures {
 
-/* Forward declaration. */
+/**
+ * @brief
+ * Controls the computation of one or more quality features.
+ *
+ * @note
+ * Forward declaration into public interface.
+ */
 class Module;
+
+/******************************************************************************/
+
+/*
+ * Obtain identifier constants.
+ */
 
 /**
  * @brief
@@ -56,6 +68,12 @@ std::vector<std::string> getQualityModuleIDs();
  */
 std::vector<std::string> getQualityFeatureIDs();
 
+/******************************************************************************/
+
+/*
+ * Compute values.
+ */
+
 /**
  * @brief
  * Obtain computed quality feature modules from a fingerprint image.
@@ -68,6 +86,43 @@ std::vector<std::string> getQualityFeatureIDs();
  */
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
+
+/**
+ * @brief
+ * Compute quality feature values from a fingerprint image.
+ *
+ * @param rawImage
+ * Fingerprint image in raw format.
+ *
+ * @return
+ * A map of quality feature identifiers to quality feature values.
+ *
+ * @see Identifiers::QualityFeatures
+ */
+std::unordered_map<std::string, double> computeQualityFeatures(
+    const NFIQ2::FingerprintImageData &rawImage);
+
+/**
+ * @brief
+ * Compute actionable quality feedback from a fingerprint image.
+ *
+ * @param rawImage
+ * Fingerprint image in raw format.
+ *
+ * @return
+ * A map of actionable quality identifiers to actionable quality values.
+ *
+ * @see Identifiers::ActionableQualityFeedback
+ * @see Thresholds::ActionableQualityFeedback
+ */
+std::unordered_map<std::string, double> computeActionableQualityFeedback(
+    const NFIQ2::FingerprintImageData &rawImage);
+
+/******************************************************************************/
+
+/*
+ * Extract values in other formats.
+ */
 
 /**
  * @brief
@@ -88,22 +143,6 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
 
 /**
  * @brief
- * Compute actionable quality feedback from a fingerprint image.
- *
- * @param rawImage
- * Fingerprint image in raw format.
- *
- * @return
- * A map of actionable quality identifiers to actionable quality values.
- *
- * @see Identifiers::ActionableQualityFeedback
- * @see Thresholds::ActionableQualityFeedback
- */
-std::unordered_map<std::string, double> computeActionableQualityFeedback(
-    const NFIQ2::FingerprintImageData &rawImage);
-
-/**
- * @brief
  * Obtain quality feature data from computed quality modules.
  *
  * @param modules
@@ -117,21 +156,6 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
 std::unordered_map<std::string, double> getQualityFeatureValues(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&modules);
-
-/**
- * @brief
- * Compute quality feature values from a fingerprint image.
- *
- * @param rawImage
- * Fingerprint image in raw format.
- *
- * @return
- * A map of quality feature identifiers to quality feature values.
- *
- * @see Identifiers::QualityFeatures
- */
-std::unordered_map<std::string, double> computeQualityFeatures(
-    const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief

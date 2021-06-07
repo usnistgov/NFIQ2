@@ -107,7 +107,7 @@ std::unordered_map<std::string, double> getQualityFeatureValues(
 
 /**
  * @brief
- * Obtain quality feature data from a fingerprint image.
+ * Compute and obtain quality features from a fingerprint image.
  *
  * @param rawImage
  * Fingerprint image in raw format.
@@ -115,7 +115,7 @@ std::unordered_map<std::string, double> getQualityFeatureValues(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> getQualityFeatureValues(
+std::unordered_map<std::string, double> computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**

@@ -70,8 +70,10 @@ std::vector<std::string> getQualityFeatureIDs();
 
 /******************************************************************************/
 
-/*
- * Compute values.
+/**
+ * @addtogroup compute
+ * Compute NFIQ 2 quality modules, values, and scores.
+ * @{
  */
 
 /**
@@ -118,7 +120,7 @@ std::unordered_map<std::string, double> computeQualityFeatures(
 std::unordered_map<std::string, double> computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage);
 
-/******************************************************************************/
+/**@}**************************************************************************/
 
 /*
  * Extract values in other formats.

@@ -85,6 +85,8 @@ class Algorithm {
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
+	 *
+	 * @ingroup compute
 	 */
 	unsigned int computeQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
@@ -103,6 +105,8 @@ class Algorithm {
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
+	 *
+	 * @ingroup compute
 	 */
 	unsigned int computeQualityScore(
 	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
@@ -121,6 +125,8 @@ class Algorithm {
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
+	 *
+	 * @ingroup compute
 	 */
 	unsigned int computeQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;

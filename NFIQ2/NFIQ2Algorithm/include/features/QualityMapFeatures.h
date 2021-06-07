@@ -1,7 +1,7 @@
 #ifndef QUALITYMAPFEATURES_H
 #define QUALITYMAPFEATURES_H
 
-#include <features/BaseFeature.h>
+#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <opencv2/core.hpp>
@@ -17,7 +17,7 @@ namespace NFIQ2 { namespace QualityFeatures {
 #define LOW_FLOW_MAP_LOW_FLOW 127
 #define LOW_FLOW_MAP_HIGH_FLOW 255
 
-class QualityMapFeatures : public BaseFeature {
+class QualityMapFeatures : public Module {
     public:
 	QualityMapFeatures(const NFIQ2::FingerprintImageData &fingerprintImage,
 	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);

@@ -58,7 +58,7 @@ set(SOURCE_FILES
     "src/nfiq2/version.cpp")
 
 set(FEATURES_FILES
-    "src/features/BaseFeature.cpp"
+    "src/features/Module.cpp"
     "src/features/FDAFeature.cpp"
     "src/features/FJFXMinutiaeQualityFeatures.cpp"
     "src/features/FeatureFunctions.cpp"

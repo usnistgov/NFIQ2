@@ -91,7 +91,7 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from a vector of extracted BaseFeatures
+	 * Computes the quality score from a vector of extracted Modules
 	 * from a cropped fingerprint image.
 	 *
 	 * @param features
@@ -104,9 +104,9 @@ class Algorithm {
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 */
-	unsigned int computeQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
-	    const;
+	unsigned int computeQualityScore(
+	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+		&features) const;
 
 	/**
 	 * @brief

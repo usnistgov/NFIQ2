@@ -1,6 +1,6 @@
 #ifndef FDAFEATURE_H
 #define FDAFEATURE_H
-#include <features/BaseFeature.h>
+#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 
@@ -18,7 +18,7 @@ namespace NFIQ2 { namespace QualityFeatures {
 static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
 	0.50, 1 };
 
-class FDAFeature : public BaseFeature {
+class FDAFeature : public Module {
     public:
 	FDAFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~FDAFeature();

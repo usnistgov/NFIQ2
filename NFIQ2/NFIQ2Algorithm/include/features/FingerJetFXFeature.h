@@ -1,7 +1,7 @@
 #ifndef FINGERJETFXFEATURE_H
 #define FINGERJETFXFEATURE_H
 
-#include <features/BaseFeature.h>
+#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 
@@ -12,7 +12,7 @@
 
 namespace NFIQ2 { namespace QualityFeatures {
 
-class FingerJetFXFeature : public BaseFeature {
+class FingerJetFXFeature : public Module {
     public:
 	typedef enum com_type {
 		e_COMType_MinutiaeLocation = 1,

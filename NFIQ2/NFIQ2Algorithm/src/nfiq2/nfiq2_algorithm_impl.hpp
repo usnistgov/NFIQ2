@@ -75,9 +75,9 @@ class Algorithm::Impl {
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 */
-	unsigned int computeQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
-	    const;
+	unsigned int computeQualityScore(
+	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+		&features) const;
 
 	/**
 	 * @brief

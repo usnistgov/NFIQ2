@@ -21,7 +21,7 @@
 namespace NFIQ2 { namespace QualityFeatures {
 
 /* Forward declaration. */
-class BaseFeature;
+class Module;
 
 /**
  * @brief
@@ -61,7 +61,7 @@ std::vector<std::string> getQualityFeatureIDs();
  * @return
  * A vector of quality modules containing computed feature data.
  */
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -69,13 +69,13 @@ computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
  * Obtain actionable quality feedback from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * A map of string, actionable quality feedback pairs.
  */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 /**
@@ -96,13 +96,13 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * Obtain quality feature data from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * A map of string, quality feature data pairs.
  */
 std::unordered_map<std::string, double> getQualityFeatureValues(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 /**
@@ -123,15 +123,14 @@ std::unordered_map<std::string, double> computeQualityFeatures(
  * Obtain quality modules organized as a map.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * `features` in a map with `feature`'s identifier as the map key.
  */
-std::unordered_map<std::string,
-    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 /**
@@ -139,13 +138,13 @@ getQualityModules(
  * Obtain quality feature speeds from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * A map of Identifier::QualityModule, speed pairs.
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 }}

@@ -362,8 +362,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredPPI);
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	    modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> modules {};
 	unsigned int score {};
 	try {
 		modules = NFIQ2::QualityFeatures::computeQualityModules(

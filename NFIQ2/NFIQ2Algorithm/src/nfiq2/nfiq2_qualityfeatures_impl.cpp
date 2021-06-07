@@ -1,9 +1,9 @@
-#include <features/BaseFeature.h>
 #include <features/FDAFeature.h>
 #include <features/FJFXMinutiaeQualityFeatures.h>
 #include <features/FingerJetFXFeature.h>
 #include <features/ImgProcROIFeature.h>
 #include <features/LCSFeature.h>
+#include <features/Module.h>
 #include <features/MuFeature.h>
 #include <features/OCLHistogramFeature.h>
 #include <features/OFFeature.h>
@@ -44,7 +44,7 @@ const double NFIQ2::Thresholds::ActionableQualityFeedback::
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
@@ -70,7 +70,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features)
 {
 	std::vector<std::string> qualityIdentifiers =
@@ -96,7 +96,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features)
 {
 	std::unordered_map<std::string, double> actionableMap {};
@@ -213,7 +213,7 @@ NFIQ2::QualityFeatures::Impl::setFPU(unsigned int)
 }
 #endif
 
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 NFIQ2::QualityFeatures::Impl::computeQualityModules(
     const NFIQ2::FingerprintImageData &rawImage)
 {
@@ -223,7 +223,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityModules(
 	const NFIQ2::FingerprintImageData croppedImage =
 	    rawImage.removeWhiteFrameAroundFingerprint();
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	    features {};
 
 	features.push_back(std::make_shared<FDAFeature>(croppedImage));
@@ -256,14 +256,13 @@ NFIQ2::QualityFeatures::Impl::computeQualityModules(
 	return features;
 }
 
-std::unordered_map<std::string,
-    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 NFIQ2::QualityFeatures::Impl::getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features)
 {
 	std::unordered_map<std::string,
-	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+	    std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	    ret {};
 	for (const auto &feature : features)
 		ret[feature->getModuleName()] = feature;

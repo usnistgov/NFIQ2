@@ -1,5 +1,5 @@
-#ifndef BASEFEATURE_H
-#define BASEFEATURE_H
+#ifndef QUALITYFEATURES_MODULE_H_
+#define QUALITYFEATURES_MODULE_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -9,11 +9,11 @@
 #include <vector>
 
 namespace NFIQ2 { namespace QualityFeatures {
-class BaseFeature {
+class Module {
     public:
-	BaseFeature();
+	Module();
 
-	virtual ~BaseFeature();
+	virtual ~Module();
 
 	/** @return Identifier for this particular feature */
 	virtual std::string getModuleName() const = 0;

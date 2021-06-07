@@ -136,8 +136,7 @@ main(int argc, char **argv)
 	    data.get(), cols * rows, cols, rows, 0, PPI);
 
 	// Calculate all feature values.
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	    modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> modules {};
 	try {
 		modules = NFIQ2::QualityFeatures::computeQualityModules(
 		    rawImage);

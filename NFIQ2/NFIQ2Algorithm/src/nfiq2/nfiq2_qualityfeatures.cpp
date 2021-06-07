@@ -38,10 +38,10 @@ NFIQ2::QualityFeatures::getActionableQualityFeedback(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::getActionableQualityFeedback(
+NFIQ2::QualityFeatures::computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
+	return NFIQ2::QualityFeatures::Impl::computeActionableQualityFeedback(
 	    rawImage);
 }
 

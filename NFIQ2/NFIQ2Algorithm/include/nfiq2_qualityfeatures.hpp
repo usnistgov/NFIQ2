@@ -82,7 +82,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
 
 /**
  * @brief
- * Obtain actionable quality feedback from a fingerprint image.
+ * Compute actionable quality feedback from a fingerprint image.
  *
  * @param rawImage
  * Fingerprint image in raw format.
@@ -90,7 +90,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * @return
  * A map of string, actionable quality feedback pairs.
  */
-std::unordered_map<std::string, double> getActionableQualityFeedback(
+std::unordered_map<std::string, double> computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**

@@ -59,10 +59,10 @@ std::vector<std::string> getQualityFeatureIDs();
  * Fingerprint image in raw format.
  *
  * @return
- * A vector if BaseFeature modules containing computed feature data.
+ * A vector of quality modules containing computed feature data.
  */
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-computeQualityFeatures(const NFIQ2::FingerprintImageData &rawImage);
+computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief

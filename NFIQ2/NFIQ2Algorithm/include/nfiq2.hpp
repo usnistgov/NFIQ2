@@ -59,7 +59,7 @@
  *      thrown.
  *      * **Note**: If the calling application needs to inspect individual
  *                  quality feature values or quality module calculation speeds,
- *                  first call NFIQ2::QualityFeatures::computeQualityFeatures
+ *                  first call NFIQ2::QualityFeatures::computeQualityModules
  *                  with the image from 2 instead, and then pass the result of
  *                  that method to NFIQ2::Algorithm::computeQualityScore. Use
  *                  the other methods within NFIQ2::QualityFeatures to isolate

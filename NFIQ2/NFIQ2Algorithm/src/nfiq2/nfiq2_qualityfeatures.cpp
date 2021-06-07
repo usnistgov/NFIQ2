@@ -23,10 +23,10 @@ NFIQ2::QualityFeatures::getQualityModuleIDs()
 }
 
 std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-NFIQ2::QualityFeatures::computeQualityFeatures(
+NFIQ2::QualityFeatures::computeQualityModules(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::Impl::computeQualityFeatures(rawImage);
+	return NFIQ2::QualityFeatures::Impl::computeQualityModules(rawImage);
 }
 
 std::unordered_map<std::string, double>

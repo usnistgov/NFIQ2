@@ -363,12 +363,12 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		fingerPosition, requiredPPI);
 
 	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	    features {};
+	    modules {};
 	unsigned int score {};
 	try {
-		features = NFIQ2::QualityFeatures::computeQualityFeatures(
+		modules = NFIQ2::QualityFeatures::computeQualityModules(
 		    wrappedImage);
-		score = model.computeQualityScore(features);
+		score = model.computeQualityScore(modules);
 	} catch (const NFIQ2::Exception &e) {
 		std::string errStr {
 			"Error: NFIQ2 computeQualityScore returned an error code: "
@@ -392,10 +392,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,
 		    imageProps.quantized, imageProps.resampled,
-		    NFIQ2::QualityFeatures::getQualityFeatureValues(features),
-		    NFIQ2::QualityFeatures::getQualityModuleSpeeds(features),
+		    NFIQ2::QualityFeatures::getQualityFeatureValues(modules),
+		    NFIQ2::QualityFeatures::getQualityModuleSpeeds(modules),
 		    NFIQ2::QualityFeatures::getActionableQualityFeedback(
-			features));
+			modules));
 	}
 }
 

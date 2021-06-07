@@ -110,15 +110,15 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 	// --------------------------------------------------------
 
 	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	    features {};
+	    modules {};
 	try {
-		features = NFIQ2::QualityFeatures::computeQualityFeatures(
+		modules = NFIQ2::QualityFeatures::computeQualityModules(
 		    rawImage);
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (const std::exception &e) {
 		/*
-		 * Nothing should get here, but computeQualityFeatures() calls
+		 * Nothing should get here, but computeQualityModules() calls
 		 * a lot of code...
 		 */
 		throw NFIQ2::Exception(
@@ -126,7 +126,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 	}
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);
+	    NFIQ2::QualityFeatures::getQualityFeatureValues(modules);
 
 	if (quality.size() == 0) {
 		// no features have been computed

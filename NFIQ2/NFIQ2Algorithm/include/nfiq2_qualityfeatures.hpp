@@ -20,16 +20,29 @@
 
 namespace NFIQ2 { namespace QualityFeatures {
 
-/* Forward declaration. */
-class BaseFeature;
+/**
+ * @brief
+ * Controls the computation of one or more quality features.
+ *
+ * @note
+ * Forward declaration into public interface.
+ */
+class Module;
+
+/******************************************************************************/
+
+/*
+ * Obtain identifier constants.
+ */
 
 /**
  * @brief
  * Obtain all actionable quality feedback identifiers.
  *
  * @return
- * Vector of strings containing all actionable quality feedback
- * identifiers.
+ * Vector of strings containing all actionable quality feedback identifiers.
+ *
+ * @see Identifiers::ActionableQualityFeedback
  */
 std::vector<std::string> getActionableQualityFeedbackIDs();
 
@@ -38,7 +51,9 @@ std::vector<std::string> getActionableQualityFeedbackIDs();
  * Obtain all quality module identifiers.
  *
  * @return
- * Vector of strings with all identifiers from Identifiers::QualityModules.
+ * Vector of strings with all quality module identifiers.
+ *
+ * @see Identifiers::QualityModules
  */
 std::vector<std::string> getQualityModuleIDs();
 
@@ -47,107 +62,138 @@ std::vector<std::string> getQualityModuleIDs();
  * Obtain all quality feature IDs from quality modules.
  *
  * @return
- * Vector of strings containing all quality feature IDs.
+ * Vector of strings containing all quality feature identifiers.
+ *
+ * @see Identifiers::QualityFeatures
  */
 std::vector<std::string> getQualityFeatureIDs();
 
+/******************************************************************************/
+
+/**
+ * @addtogroup compute
+ * Compute NFIQ 2 quality modules, quality values, quality scores, and
+ * actionable quality feedback.
+ * @{
+ */
+
 /**
  * @brief
- * Obtain computed quality feature data from a fingerprint image.
+ * Compute quality modules.
  *
  * @param rawImage
  * Fingerprint image in raw format.
  *
  * @return
- * A vector if BaseFeature modules containing computed feature data.
+ * A vector of quality modules containing computed feature values.
  */
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-computeQualityFeatures(const NFIQ2::FingerprintImageData &rawImage);
+std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
- * Obtain actionable quality feedback from a vector of features.
- *
- * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
- *
- * @return
- * A map of string, actionable quality feedback pairs.
- */
-std::unordered_map<std::string, double> getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	&features);
-
-/**
- * @brief
- * Obtain actionable quality feedback from a fingerprint image.
+ * Compute quality feature values.
  *
  * @param rawImage
  * Fingerprint image in raw format.
  *
  * @return
- * A map of string, actionable quality feedback pairs.
+ * A map of quality feature identifiers to quality feature values.
+ *
+ * @see Identifiers::QualityFeatures
  */
-std::unordered_map<std::string, double> getActionableQualityFeedback(
+std::unordered_map<std::string, double> computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
- * Obtain quality feature data from a vector of features.
- *
- * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
- *
- * @return
- * A map of string, quality feature data pairs.
- */
-std::unordered_map<std::string, double> getQualityFeatureValues(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	&features);
-
-/**
- * @brief
- * Obtain quality feature data from a fingerprint image.
+ * Compute actionable quality feedback.
  *
  * @param rawImage
  * Fingerprint image in raw format.
  *
  * @return
- * A map of string, quality feature data pairs.
+ * A map of actionable quality identifiers to actionable quality values.
+ *
+ * @see Identifiers::ActionableQualityFeedback
+ * @see Thresholds::ActionableQualityFeedback
+ */
+std::unordered_map<std::string, double> computeActionableQualityFeedback(
+    const NFIQ2::FingerprintImageData &rawImage);
+
+/**@}**************************************************************************/
+
+/*
+ * Extract values in other formats.
+ */
+
+/**
+ * @brief
+ * Obtain actionable quality feedback from computed quality modules.
+ *
+ * @param modules
+ * Computed quality modules.
+ *
+ * @return
+ * A map of actionable quality identifiers to actionable quality values.
+ *
+ * @see Identifiers::ActionableQualityFeedback
+ * @see Thresholds::ActionableQualityFeedback
+ */
+std::unordered_map<std::string, double> getActionableQualityFeedback(
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	&modules);
+
+/**
+ * @brief
+ * Obtain quality feature data from computed quality modules.
+ *
+ * @param modules
+ * Computed quality modules.
+ *
+ * @return
+ * A map of quality feature identifiers to quality feature values.
+ *
+ * @see Identifiers::QualityFeatures
  */
 std::unordered_map<std::string, double> getQualityFeatureValues(
-    const NFIQ2::FingerprintImageData &rawImage);
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	&modules);
 
 /**
  * @brief
  * Obtain quality modules organized as a map.
  *
- * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * @param modules
+ * Computed quality modules.
  *
  * @return
- * `features` in a map with `feature`'s identifier as the map key.
+ * Module from `modules` in a map with the quality module's identifier as the
+ * key.
+ *
+ * @see Identifiers::QualityModules
  */
-std::unordered_map<std::string,
-    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	&features);
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	&modules);
 
 /**
  * @brief
- * Obtain quality feature speeds from a vector of features.
+ * Obtain time elapsed during quality module computation, in milliseconds.
  *
- * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * @param modules
+ * Computed quality modules.
  *
  * @return
- * A map of Identifier::QualityModule, speed pairs.
+ * A map of quality module identifiers to the elapsed time in milliseconds for
+ * the module's computation.
+ *
+ * @see Identifiers::QualityModules
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-	&features);
-
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	&modules);
 }}
 
 #endif /* NFIQ2_QUALITYFEATURES_HPP_ */

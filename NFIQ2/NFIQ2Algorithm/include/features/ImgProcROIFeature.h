@@ -1,7 +1,7 @@
 #ifndef IMGPROCROIFEATURE_H
 #define IMGPROCROIFEATURE_H
 
-#include <features/BaseFeature.h>
+#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <opencv2/core.hpp>
@@ -11,7 +11,7 @@
 
 namespace NFIQ2 { namespace QualityFeatures {
 
-class ImgProcROIFeature : public BaseFeature {
+class ImgProcROIFeature : public Module {
     public:
 	struct ImgProcROIResults {
 		/** input block size in pixels */

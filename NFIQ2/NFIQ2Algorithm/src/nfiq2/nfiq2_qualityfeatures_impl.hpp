@@ -1,7 +1,7 @@
 #ifndef NFIQ2_QUALITYFEATURES_IMPL_HPP_
 #define NFIQ2_QUALITYFEATURES_IMPL_HPP_
 
-#include <features/BaseFeature.h>
+#include <features/Module.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_qualityfeatures.hpp>
 
@@ -66,23 +66,23 @@ void setFPU(unsigned int mode);
  * Fingerprint image in raw format.
  *
  * @return
- * A vector if BaseFeature modules containing computed feature data.
+ * A vector of quality modules containing computed feature data.
  */
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
-computeQualityFeatures(const NFIQ2::FingerprintImageData &rawImage);
+std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
  * Obtain actionable quality feedback from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * A map of string, actionable quality feedback pairs.
  */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 /**
@@ -95,7 +95,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * @return
  * A map of string, actionable quality feedback pairs.
  */
-std::unordered_map<std::string, double> getActionableQualityFeedback(
+std::unordered_map<std::string, double> computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -103,18 +103,18 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * Obtain quality feature data from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * A map of string, quality feature data pairs.
  */
 std::unordered_map<std::string, double> getQualityFeatureValues(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 /**
  * @brief
- * Obtain quality feature data from a fingerprint image.
+ * Compute and obtain quality features from a fingerprint image.
  *
  * @param rawImage
  * Fingerprint image in raw format.
@@ -122,7 +122,7 @@ std::unordered_map<std::string, double> getQualityFeatureValues(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> getQualityFeatureValues(
+std::unordered_map<std::string, double> computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -130,13 +130,13 @@ std::unordered_map<std::string, double> getQualityFeatureValues(
  * Obtain quality feature speeds from a vector of features.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * A map of string, quality feature speed pairs.
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 
 /**
@@ -144,15 +144,14 @@ std::unordered_map<std::string, double> getQualityModuleSpeeds(
  * Obtain quality modules organized as a map.
  *
  * @param features
- * A vector of BaseFeatures obtained from a raw fingerprint image.
+ * A vector of Modules obtained from a raw fingerprint image.
  *
  * @return
  * `features` in a map with `feature`'s identifier as the map key.
  */
-std::unordered_map<std::string,
-    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 }}}
 

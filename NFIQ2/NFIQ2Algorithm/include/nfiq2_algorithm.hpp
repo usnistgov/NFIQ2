@@ -75,52 +75,57 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Computes the quality score from the provided fingerprint image data.
+	 * Compute a NFIQ 2 quality score.
 	 *
 	 * @param rawImage
 	 * Fingerprint image.
 	 *
 	 * @return
-	 * Computed quality score.
+	 * Computed NFIQ 2 quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
+	 *
+	 * @ingroup compute
 	 */
 	unsigned int computeQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from a vector of extracted BaseFeatures
-	 * from a cropped fingerprint image.
+	 * Compute a NFIQ 2 quality score.
 	 *
-	 * @param features
-	 * Vector of computed feature metrics that contain quality
-	 * information for a fingerprint image.
+	 * @param modules
+	 * Computed quality modules.
 	 *
 	 * @return
-	 * Computed quality score.
+	 * Computed NFIQ 2 quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
+	 *
+	 * @ingroup compute
+	 * @see QualityFeatures::computeQualityModules
 	 */
-	unsigned int computeQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ2::QualityFeatures::BaseFeature>> &features)
-	    const;
+	unsigned int computeQualityScore(
+	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+		&modules) const;
 
 	/**
 	 * @brief
-	 * Computes the quality score from a map of extracted image quality
-	 * feature data.
+	 * Compute a NFIQ 2 quality score.
 	 *
 	 * @param features
-	 * Map of string, quality feature data pairs.
+	 * Map of quality feature identifiers to quality feature values.
 	 *
 	 * @return
-	 * Computed quality score.
+	 * Computed NFIQ 2 quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
+	 *
+	 * @ingroup compute
+	 * @see QualityFeatures::computeQualityFeatures
 	 */
 	unsigned int computeQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;

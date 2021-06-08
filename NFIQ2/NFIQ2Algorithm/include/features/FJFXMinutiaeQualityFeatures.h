@@ -1,8 +1,8 @@
 #ifndef FINGERJETFXMINUTIAEQUALITYFEATURE_H
 #define FINGERJETFXMINUTIAEQUALITYFEATURE_H
 
-#include <features/BaseFeature.h>
 #include <features/FingerJetFXFeature.h>
+#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <opencv2/core/core.hpp>
@@ -20,7 +20,7 @@ namespace NFIQ2 { namespace QualityFeatures {
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-class FJFXMinutiaeQualityFeature : public BaseFeature {
+class FJFXMinutiaeQualityFeature : public Module {
     public:
 	struct MinutiaData {
 		int x;		///< x-coordinate from top-left corner

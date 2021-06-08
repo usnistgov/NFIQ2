@@ -1,7 +1,7 @@
 #ifndef MUFEATURE_H
 #define MUFEATURE_H
 
-#include <features/BaseFeature.h>
+#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 
@@ -10,7 +10,7 @@
 
 namespace NFIQ2 { namespace QualityFeatures {
 
-class MuFeature : public BaseFeature {
+class MuFeature : public Module {
     public:
 	MuFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~MuFeature();

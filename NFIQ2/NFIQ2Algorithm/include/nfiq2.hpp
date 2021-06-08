@@ -55,16 +55,17 @@
  *      fingerprint image.
  *   4. Pass the NFIQ2::FingerprintImageData from 3 to
  *      NFIQ2::Algorithm::computeQualityScore of the NFIQ2::Algorithm
- *      instantiated in 2. A quality score is retuned or a NFIQ2::Exception is
+ *      instantiated in 2. A quality score is returned or a NFIQ2::Exception is
  *      thrown.
  *      * **Note**: If the calling application needs to inspect individual
  *                  quality feature values or quality module calculation speeds,
- *                  first call NFIQ2::QualityFeatures::computeQualityFeatures
- *                  with the image from 2 instead, and then pass the result of
- *                  that method to NFIQ2::Algorithm::computeQualityScore. Use
- *                  the other methods within NFIQ2::QualityFeatures to isolate
- *                  the individual quality feature values and quality module
- *                  speeds required.
+ *                  first call NFIQ2::QualityFeatures::computeQualityModules or
+ *                  NFIQ2::QualityFeatures::computeQualityFeatures with the
+ *                  image from 2 instead, and then pass the result of that
+ *                  method to NFIQ2::Algorithm::computeQualityScore. Use the
+ *                  other methods within NFIQ2::QualityFeatures to isolate the
+ *                  individual quality feature values and quality module speeds
+ *                  required.
  *
  * @section Examples
  * Some examples of using the API can be found in the [examples directory][4] in

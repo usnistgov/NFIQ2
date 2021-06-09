@@ -1,5 +1,7 @@
 #include <nfiq2_exception.hpp>
 
+#include <map>
+
 NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode)
     : errorCode(errorCode)
 {

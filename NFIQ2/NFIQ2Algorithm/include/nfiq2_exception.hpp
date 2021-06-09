@@ -12,7 +12,6 @@
 #define NFIQ2_EXCEPTION_HPP_
 
 #include <exception>
-#include <map>
 #include <string>
 
 namespace NFIQ2 {

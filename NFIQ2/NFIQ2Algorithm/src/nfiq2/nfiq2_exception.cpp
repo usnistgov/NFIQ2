@@ -1,6 +1,6 @@
 #include <nfiq2_exception.hpp>
 
-NFIQ2::Exception::Exception(const NFIQ2::ErrorCode &errorCode)
+NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode)
     : errorCode(errorCode)
 {
 	/* Map of ErrorCode and their respective explanations. */
@@ -34,7 +34,7 @@ NFIQ2::Exception::Exception(const NFIQ2::ErrorCode &errorCode)
 }
 
 NFIQ2::Exception::Exception(
-    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage)
+    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage)
     : errorCode(errorCode)
     , errorMessage(errorMessage)
 {

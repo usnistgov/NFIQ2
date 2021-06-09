@@ -46,7 +46,7 @@ class Exception : public std::exception {
 	 * @param errorCode
 	 * Error code for thrown exception.
 	 */
-	Exception(const NFIQ2::ErrorCode &errorCode);
+	Exception(const NFIQ2::ErrorCode errorCode);
 
 	/**
 	 * @brief
@@ -59,7 +59,7 @@ class Exception : public std::exception {
 	 * User defined error message for thrown exception.
 	 */
 	Exception(
-	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
+	    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage);
 
 	/** Destructor. */
 	virtual ~Exception() noexcept;

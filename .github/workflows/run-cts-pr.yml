@@ -135,6 +135,9 @@ jobs:
       if: ${{ runner.os != 'Windows' }}
       shell: bash
       run: |
+        pwd
+        find
+        ls ..
         unzip -q nfiq2_compliance.zip
         install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
 
@@ -151,3 +154,32 @@ jobs:
         path: github.csv
         retention-days: 7
         if-no-files-found: error
+
+  - name: Passed the CTS
+    uses: actions/github-script@v3
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      script: |
+        var fs = require('fs');
+        var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
+        await github.issues.createComment({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: issue_number,
+          body: 'Compliance regression test passed'
+        });
+
+  - name: Failed the CTS
+    if: ${{ failure() }}
+    uses: actions/github-script@v3
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      script: |
+        var fs = require('fs');
+        var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
+        await github.issues.createComment({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: issue_number,
+          body: 'Compliance regression test failed'
+        });

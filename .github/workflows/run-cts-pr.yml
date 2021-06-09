@@ -149,9 +149,8 @@ jobs:
 
     - name: Upload CTS output artifact
       uses: actions/upload-artifact@v2
-      working-directory: ${{ github.workspace }}/complianceTestSet
       with:
         name: cts_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
-        path: github.csv
+        path: ${{ github.workspace }}/complianceTestSet/github.csv
         retention-days: 7
         if-no-files-found: error

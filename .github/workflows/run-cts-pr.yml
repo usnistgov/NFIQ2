@@ -15,10 +15,6 @@ on:
       - 'appveyor.yml'
       - 'complianceTestSet/**'
 
-env:
-  CONFIGURATION: Release
-  BUILD_NFIQ2_CLI: ON
-
 jobs:
   runcts:
     name: Run CTS
@@ -28,6 +24,7 @@ jobs:
       ${{ github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success' }}
     strategy:
+      fail-fast: false
       matrix:
         config:
           # https://github.com/actions/virtual-environments
@@ -119,7 +116,6 @@ jobs:
             zstd
 
     - name: Download Compliance Test
-      working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash
       run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
 
@@ -130,31 +126,28 @@ jobs:
 
     - name: Run Compliance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
-      working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash
       run: |
         unzip -q nfiq2_compliance.zip
-        ../install_staging/nfiq2/bin/nfiq2 -m ../install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
 
     - name: Run Compliance Test (Linux)
       if: ${{ runner.os != 'Windows' }}
-      working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash
       run: |
         unzip -q nfiq2_compliance.zip
-        ../install_staging/nfiq2/bin/nfiq2 -m ../install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
 
     - name: Diff Compliance Test
-      working-directory: ${{ github.workspace }}/complianceTestSet
       shell: bash
       run: |
         python -m pip install pandas
-        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv
+        python complianceTestSet/diff.py -s CTS_MASTER_OUTPUT.csv github.csv
 
     - name: Upload CTS output artifact
       uses: actions/upload-artifact@v2
       with:
         name: cts_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
-        path: ${{ github.workspace }}/complianceTestSet/github.csv
+        path: github.csv
         retention-days: 7
         if-no-files-found: error

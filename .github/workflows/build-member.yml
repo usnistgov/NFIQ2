@@ -5,8 +5,9 @@ on:
     branches:
       - master
     paths-ignore:
-      - '.github/workflows/build-pr-target.yml'
+      - '.github/workflows/build-pr.yml'
       - '.github/workflows/clang-format.yml'
+      - '.github/workflows/run-cts-pr.yml'
       - '.gitignore'
       - '.travis.yml'
       - '**.md'

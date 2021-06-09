@@ -1,9 +1,10 @@
-name: PR Build and Run
+name: Build PR
 
 on:
-  pull_request_target:
+  pull_request:
     paths-ignore:
       - '.github/workflows/build-member.yml'
+      - '.github/workflows/run-cts-pr.yml'
       - '.github/workflows/clang-format.yml'
       - '.gitignore'
       - '.travis.yml'
@@ -17,7 +18,7 @@ env:
 
 jobs:
   build:
-    name: Build Matrix + CTS
+    name: Build Matrix
 
     runs-on: ${{ matrix.config.os }}
     strategy:
@@ -180,35 +181,15 @@ jobs:
       shell: bash
       run: otool -L install_staging/nfiq2/bin/nfiq2
 
-    - name: Download Compliance Test
-      working-directory: ${{ github.workspace }}/complianceTestSet
+    - name: Save PR number and artifacts
+      working-directory: ${{ github.workspace }}/build
       shell: bash
-      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+      run: echo ${{ github.event.number }} > install_staging/pr_number
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+    - name: Upload install_staging artifact
+      uses: actions/upload-artifact@v2
       with:
-        python-version: '3.x'
-
-    - name: Run Compliance Test (Windows)
-      if: ${{ runner.os == 'Windows' }}
-      working-directory: ${{ github.workspace }}/complianceTestSet
-      shell: bash
-      run: |
-        unzip -q nfiq2_compliance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
-
-    - name: Run Compliance Test (Linux)
-      if: ${{ runner.os != 'Windows' }}
-      working-directory: ${{ github.workspace }}/complianceTestSet
-      shell: bash
-      run: |
-        unzip -q nfiq2_compliance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
-
-    - name: Diff Compliance Test
-      working-directory: ${{ github.workspace }}/complianceTestSet
-      shell: bash
-      run: |
-        python -m pip install pandas
-        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv
+        name: install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}
+        path: ${{ github.workspace }}/build/install_staging
+        retention-days: 7
+        if-no-files-found: error

@@ -1,0 +1,157 @@
+name: Run CTS on PR
+
+on:
+  workflow_run:
+    workflows: ["Build PR"]
+    types:
+      - completed
+    paths-ignore:
+      - '.github/workflows/build-member.yml'
+      - '.github/workflows/build-pr.yml'
+      - '.github/workflows/clang-format.yml'
+      - '.gitignore'
+      - '.travis.yml'
+      - '**.md'
+      - 'appveyor.yml'
+      - 'complianceTestSet/**'
+
+env:
+  CONFIGURATION: Release
+  BUILD_NFIQ2_CLI: ON
+
+jobs:
+  runcts:
+    name: Run CTS
+
+    runs-on: ${{ matrix.config.os }}
+    if: >
+      ${{ github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      matrix:
+        config:
+          # https://github.com/actions/virtual-environments
+          - { os: macOS-10.15, arch: x64 }
+          - { os: ubuntu-18.04, arch: x64 }
+          - { os: ubuntu-20.04, arch: x64 }
+          - { os: windows-2019, arch: x64 }
+          - { os: windows-2019, arch: x86 }
+          - { os: windows-2016, arch: x64 }
+          - { os: windows-2016, arch: x86 }
+
+    steps:
+    - name: Download install_staging artifact
+      uses: actions/github-script@v3.1.0
+      with:
+        script: |
+          var artifacts = await github.actions.listWorkflowRunArtifacts({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             run_id: ${{github.event.workflow_run.id}},
+          });
+          var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}"
+          })[0];
+          var download = await github.actions.downloadArtifact({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             artifact_id: matchArtifact.id,
+             archive_format: 'zip',
+          });
+          var fs = require('fs');
+          fs.writeFileSync('${{github.workspace}}/install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
+
+    - name: Unzip install_staging
+      run: unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
+
+    - name: Show Dependencies (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: ldd install_staging/nfiq2/bin/nfiq2
+
+    - name: Show Dependencies (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: otool -L install_staging/nfiq2/bin/nfiq2
+
+    - name: Checkout Compliance Test Script
+      uses: actions/checkout@v2
+      with:
+        submodules: false
+
+    - name: Install Packages (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        sudo apt -y install \
+            libdb++-dev \
+            libhwloc-dev \
+            libjbig-dev \
+            libjpeg-dev \
+            liblzma-dev \
+            libopenjp2-7-dev \
+            libpng-dev \
+            libsqlite3-dev \
+            libssl-dev \
+            libtiff-dev \
+            libwebp-dev \
+            libzstd-dev \
+            zlib1g-dev
+
+    - name: Install Packages (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: |
+        brew install \
+            berkeley-db \
+            hwloc \
+            jpeg-turbo \
+            libpng \
+            libtiff \
+            openjpeg \
+            openssl \
+            sqlite \
+            zlib \
+            zstd
+
+    - name: Download Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Run Compliance Test (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../install_staging/nfiq2/bin/nfiq2 -m ../install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Run Compliance Test (Linux)
+      if: ${{ runner.os != 'Windows' }}
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        unzip -q nfiq2_compliance.zip
+        ../install_staging/nfiq2/bin/nfiq2 -m ../install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+
+    - name: Diff Compliance Test
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      shell: bash
+      run: |
+        python -m pip install pandas
+        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv
+
+    - name: Upload CTS output artifact
+      uses: actions/upload-artifact@v2
+      working-directory: ${{ github.workspace }}/complianceTestSet
+      with:
+        name: cts_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
+        path: github.csv
+        retention-days: 7
+        if-no-files-found: error

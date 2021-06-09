@@ -70,13 +70,13 @@ class FingerprintImageData : public Data {
 	/** Destructor. */
 	virtual ~FingerprintImageData();
 
-	/** Width of the fingerprint image (in pixels) */
+	/** Width of the fingerprint image in pixels. */
 	uint32_t width { 0 };
-	/** Height of the fingerprint image (in pixels) */
+	/** Height of the fingerprint image in pixels. */
 	uint32_t height { 0 };
-	/** ISO finger code of the fingerprint in the image */
+	/** ISO finger code of the fingerprint in the image. */
 	uint8_t fingerCode { 0 };
-	/** Pixels per inch of the fingerprint image */
+	/** Pixels per inch of the fingerprint image. */
 	uint16_t ppi { Resolution500PPI };
 
 	/**

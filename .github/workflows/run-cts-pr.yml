@@ -59,10 +59,14 @@ jobs:
              archive_format: 'zip',
           });
           var fs = require('fs');
-          fs.writeFileSync('${{github.workspace}}/install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
+          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
 
     - name: Unzip install_staging
-      run: unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
+      run: |
+        mkdir install_staging
+        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip install_staging
+        cd install_staging
+        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
 
     - name: Show Dependencies (Linux)
       if: ${{ runner.os == 'Linux' }}

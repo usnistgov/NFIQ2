@@ -12,7 +12,6 @@
 #define NFIQ2_EXCEPTION_HPP_
 
 #include <exception>
-#include <map>
 #include <string>
 
 namespace NFIQ2 {
@@ -36,55 +35,29 @@ enum class ErrorCode {
 	InvalidImageSize
 };
 
-/** Map of ErrorCode and their respective explanations. */
-static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
-	{ NFIQ2::ErrorCode::UnknownError, "Unknown error" },
-	{ NFIQ2::ErrorCode::NotEnoughMemory, "Not enough memory" },
-	{ NFIQ2::ErrorCode::BadArguments, "Bad arguments" },
-	{ NFIQ2::ErrorCode::FeatureCalculationError,
-	    "Feature calculation error" },
-	{ NFIQ2::ErrorCode::CannotWriteToFile, "Cannot write to file" },
-	{ NFIQ2::ErrorCode::CannotReadFromFile, "Cannot read from file" },
-	{ NFIQ2::ErrorCode::NoDataAvailable, "No data available" },
-	{ NFIQ2::ErrorCode::CannotDecodeBase64, "Cannot decode base64 string" },
-	{ NFIQ2::ErrorCode::InvalidConfiguration,
-	    "An invalid configuration entry was found" },
-	{ NFIQ2::ErrorCode::MachineLearningError,
-	    "An machine learning error occurred" },
-	{ NFIQ2::ErrorCode::FJFX_CannotCreateContext,
-	    "Cannot create context for FJFX feature extractor" },
-	{ NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
-	    "Cannot create feature set from fingerprint data" },
-	{ NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
-	    "No feature set could be created" },
-	{ NFIQ2::ErrorCode::InvalidNFIQ2Score, "Invalid NFIQ2 Score" },
-	{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
-};
-
 /** Exceptions thrown from NFIQ2 functions. */
 class Exception : public std::exception {
     public:
 	/**
 	 * @brief
-	 * Constructor which uses supplied error code and default message.
+	 * Constructor that supplies a default error description.
 	 *
 	 * @param errorCode
-	 * Error code for thrown exception.
+	 * Code that broadly describes the type of error.
 	 */
-	Exception(const NFIQ2::ErrorCode &errorCode);
+	Exception(const NFIQ2::ErrorCode errorCode);
 
 	/**
 	 * @brief
-	 * Constructor which uses supplied error code and user-defined message.
+	 * Constructor that relies on a developer-provided error description.
 	 *
 	 * @param errorCode
-	 * Error code for thrown exception.
-	 *
+	 * Code that broadly describes the type of error.
 	 * @param errorMessage
-	 * User defined error message for thrown exception.
+	 * Description of what happened.
 	 */
 	Exception(
-	    const NFIQ2::ErrorCode &errorCode, const std::string &errorMessage);
+	    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage);
 
 	/** Destructor. */
 	virtual ~Exception() noexcept;
@@ -96,31 +69,44 @@ class Exception : public std::exception {
 	 * @return
 	 * The exception message.
 	 */
-	virtual const char *what() const noexcept;
+	virtual const char *what() const noexcept override;
 
 	/**
 	 * @brief
-	 * Obtain the return code of the exception.
+	 * Obtain the code that broadly describes the type of error.
 	 *
 	 * @return
-	 * The return code.
+	 * Code that broadly describes the type of error.
 	 */
 	NFIQ2::ErrorCode getErrorCode() const;
 
 	/**
 	 * @brief
-	 * Obtain the error message of the exception.
+	 * Obtain a description of what happened.
 	 *
 	 * @return
-	 * The error message.
+	 * Description of what happened.
 	 */
 	std::string getErrorMessage() const;
 
+	/**
+	 * @brief
+	 * Obtain a default error message for a given ErrorCode.
+	 *
+	 * @param errorCode
+	 * Error code from ErrorCode
+	 *
+	 * @return
+	 * String containing default description of `errorCode`.
+	 */
+	static std::string defaultErrorMessage(
+	    const NFIQ2::ErrorCode errorCode);
+
     private:
-	/** Exception error type. */
-	NFIQ2::ErrorCode errorCode;
-	/** Error message string. */
-	std::string errorMessage;
+	/** Code that broadly describes the type of error. */
+	const NFIQ2::ErrorCode errorCode { ErrorCode::UnknownError };
+	/** Description of what happened. */
+	const std::string errorMessage {};
 };
 } // namespace NFIQ
 

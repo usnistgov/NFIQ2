@@ -58,6 +58,11 @@ jobs:
           var fs = require('fs');
           fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
 
+    - name: Checkout Compliance Test Script
+      uses: actions/checkout@v2
+      with:
+        submodules: false
+
     - name: Unzip install_staging
       run: |
         mkdir install_staging
@@ -74,11 +79,6 @@ jobs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: otool -L install_staging/nfiq2/bin/nfiq2
-
-    - name: Checkout Compliance Test Script
-      uses: actions/checkout@v2
-      with:
-        submodules: false
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}

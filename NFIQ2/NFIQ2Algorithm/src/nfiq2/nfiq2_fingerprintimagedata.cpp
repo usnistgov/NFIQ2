@@ -6,8 +6,8 @@ int debug = 0;
 
 #include <cstring>
 
-static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);
-static double computeMuFromColumn(unsigned int columnIndex, cv::Mat &img);
+static double computeMuFromRow(unsigned int rowIndex, const cv::Mat &img);
+static double computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img);
 
 NFIQ2::FingerprintImageData::FingerprintImageData()
     : Data()
@@ -209,7 +209,7 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 }
 
 double
-computeMuFromRow(unsigned int rowIndex, cv::Mat &img)
+computeMuFromRow(unsigned int rowIndex, const cv::Mat &img)
 {
 	double mu = 0.0;
 	for (int j = 0; j < img.cols; j++) {
@@ -222,7 +222,7 @@ computeMuFromRow(unsigned int rowIndex, cv::Mat &img)
 }
 
 double
-computeMuFromColumn(unsigned int columnIndex, cv::Mat &img)
+computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img)
 {
 	double mu = 0.0;
 	for (int i = 0; i < img.rows; i++) {

@@ -40,22 +40,21 @@ class Exception : public std::exception {
     public:
 	/**
 	 * @brief
-	 * Constructor which uses supplied error code and default message.
+	 * Constructor that supplies a default error description.
 	 *
 	 * @param errorCode
-	 * Error code for thrown exception.
+	 * Code that broadly describes the type of error.
 	 */
 	Exception(const NFIQ2::ErrorCode errorCode);
 
 	/**
 	 * @brief
-	 * Constructor which uses supplied error code and user-defined message.
+	 * Constructor that relies on a developer-provided error description.
 	 *
 	 * @param errorCode
-	 * Error code for thrown exception.
-	 *
+	 * Code that broadly describes the type of error.
 	 * @param errorMessage
-	 * User defined error message for thrown exception.
+	 * Description of what happened.
 	 */
 	Exception(
 	    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage);
@@ -74,19 +73,19 @@ class Exception : public std::exception {
 
 	/**
 	 * @brief
-	 * Obtain the return code of the exception.
+	 * Obtain the code that broadly describes the type of error.
 	 *
 	 * @return
-	 * The return code.
+	 * Code that broadly describes the type of error.
 	 */
 	NFIQ2::ErrorCode getErrorCode() const;
 
 	/**
 	 * @brief
-	 * Obtain the error message of the exception.
+	 * Obtain a description of what happened.
 	 *
 	 * @return
-	 * The error message.
+	 * Description of what happened.
 	 */
 	std::string getErrorMessage() const;
 
@@ -104,9 +103,9 @@ class Exception : public std::exception {
 	    const NFIQ2::ErrorCode errorCode);
 
     private:
-	/** Exception error type. */
+	/** Code that broadly describes the type of error. */
 	const NFIQ2::ErrorCode errorCode { ErrorCode::UnknownError };
-	/** Error message string. */
+	/** Description of what happened. */
 	const std::string errorMessage {};
 };
 } // namespace NFIQ

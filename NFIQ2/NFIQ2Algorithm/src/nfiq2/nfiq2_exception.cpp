@@ -69,7 +69,7 @@ NFIQ2::Exception::defaultErrorMessage(const NFIQ2::ErrorCode errorCode)
 	if (message == errorCodeMessage.end()) {
 		try {
 			return (errorCodeMessage.at(ErrorCode::UnknownError));
-		} catch (const std::out_of_range) {
+		} catch (const std::out_of_range &) {
 			return {};
 		}
 	} else

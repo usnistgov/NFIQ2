@@ -37,6 +37,11 @@ jobs:
           - { os: windows-2016, arch: x86 }
 
     steps:
+    - name: Checkout Compliance Test Script
+      uses: actions/checkout@v2
+      with:
+        submodules: false
+
     - name: Download install_staging artifact
       uses: actions/github-script@v3.1.0
       with:
@@ -57,11 +62,6 @@ jobs:
           });
           var fs = require('fs');
           fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
-
-    - name: Checkout Compliance Test Script
-      uses: actions/checkout@v2
-      with:
-        submodules: false
 
     - name: Unzip install_staging
       run: |

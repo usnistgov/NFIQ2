@@ -71,7 +71,7 @@ class Exception : public std::exception {
 	 * @return
 	 * The exception message.
 	 */
-	virtual const char *what() const noexcept;
+	virtual const char *what() const noexcept override;
 
 	/**
 	 * @brief

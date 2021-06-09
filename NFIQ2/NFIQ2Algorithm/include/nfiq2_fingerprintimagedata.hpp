@@ -31,18 +31,17 @@ class FingerprintImageData : public Data {
 	 * @brief
 	 * Constructor that does not store image data.
 	 *
-	 *
-	 * @param imageWidth
+	 * @param width
 	 * Width of the image in pixels.
-	 * @param imageHeight
+	 * @param height
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imagePPI
+	 * @param ppi
 	 * Resolution of the image in pixels per inch.
 	 */
-	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
-	    uint8_t fingerCode, uint16_t imagePPI);
+	FingerprintImageData(
+	    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi);
 
 	/**
 	 * @brief
@@ -53,18 +52,17 @@ class FingerprintImageData : public Data {
 	 * canonically encoded as per ISO/IEC 19794-4:2005.
 	 * @param dataSize
 	 * Size of the buffer pointed to by `pData`.
-	 * @param imageWidth
+	 * @param width
 	 * Width of the image in pixels.
-	 * @param imageHeight
+	 * @param height
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imagePPI
+	 * @param ppi
 	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
-	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
-	    uint16_t imagePPI);
+	    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi);
 
 	/** Copy constructor. */
 	FingerprintImageData(const FingerprintImageData &otherData);
@@ -73,13 +71,13 @@ class FingerprintImageData : public Data {
 	virtual ~FingerprintImageData();
 
 	/** Width of the fingerprint image (in pixels) */
-	uint32_t imageWidth { 0 };
+	uint32_t width { 0 };
 	/** Height of the fingerprint image (in pixels) */
-	uint32_t imageHeight { 0 };
+	uint32_t height { 0 };
 	/** ISO finger code of the fingerprint in the image */
 	uint8_t fingerCode { 0 };
 	/** Pixels per inch of the fingerprint image */
-	uint16_t imagePPI { Resolution500PPI };
+	uint16_t ppi { Resolution500PPI };
 
 	/**
 	 * @brief

@@ -11,31 +11,31 @@ static double computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img);
 
 NFIQ2::FingerprintImageData::FingerprintImageData()
     : Data()
-    , imageWidth(0)
-    , imageHeight(0)
+    , width(0)
+    , height(0)
     , fingerCode(0)
-    , imagePPI(NFIQ2::FingerprintImageData::Resolution500PPI)
+    , ppi(NFIQ2::FingerprintImageData::Resolution500PPI)
 {
 }
 
-NFIQ2::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
-    uint32_t imageHeight, uint8_t fingerCode, uint16_t imagePPI)
+NFIQ2::FingerprintImageData::FingerprintImageData(
+    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi)
     : Data()
-    , imageWidth(imageWidth)
-    , imageHeight(imageHeight)
+    , width(width)
+    , height(height)
     , fingerCode(fingerCode)
-    , imagePPI(imagePPI)
+    , ppi(ppi)
 {
 }
 
 NFIQ2::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
-    uint32_t dataSize, uint32_t imageWidth_, uint32_t imageHeight_,
-    uint8_t fingerCode_, uint16_t imagePPI_)
+    uint32_t dataSize, uint32_t width_, uint32_t height_, uint8_t fingerCode_,
+    uint16_t ppi_)
     : Data(pData, dataSize)
-    , imageWidth(imageWidth_)
-    , imageHeight(imageHeight_)
+    , width(width_)
+    , height(height_)
     , fingerCode(fingerCode_)
-    , imagePPI(imagePPI_)
+    , ppi(ppi_)
 {
 }
 
@@ -43,10 +43,10 @@ NFIQ2::FingerprintImageData::FingerprintImageData(
     const FingerprintImageData &otherData)
     : Data(otherData)
 {
-	imageWidth = otherData.imageWidth;
-	imageHeight = otherData.imageHeight;
+	width = otherData.width;
+	height = otherData.height;
 	fingerCode = otherData.fingerCode;
-	imagePPI = otherData.imagePPI;
+	ppi = otherData.ppi;
 }
 
 NFIQ2::FingerprintImageData::~FingerprintImageData() = default;
@@ -64,8 +64,8 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = cv::Mat(this->imageHeight, this->imageWidth, CV_8UC1,
-		    (void *)this->data());
+		img = cv::Mat(
+		    this->height, this->width, CV_8UC1, (void *)this->data());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
@@ -190,10 +190,10 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 	}
 
 	NFIQ2::FingerprintImageData croppedImage;
-	croppedImage.imageHeight = roiImg.rows;
-	croppedImage.imageWidth = roiImg.cols;
+	croppedImage.height = roiImg.rows;
+	croppedImage.width = roiImg.cols;
 	croppedImage.fingerCode = this->fingerCode;
-	croppedImage.imagePPI = this->imagePPI;
+	croppedImage.ppi = this->ppi;
 	// copy data now
 	const unsigned int size = roiImg.rows * roiImg.cols;
 	croppedImage.resize(size);

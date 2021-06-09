@@ -91,7 +91,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
-	if (fingerprintImage.imagePPI !=
+	if (fingerprintImage.ppi !=
 	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FeatureCalculationError,
@@ -99,9 +99,8 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 	}
 
 	// get matrix from fingerprint image
-	cv::Mat img = cv::Mat(fingerprintImage.imageHeight,
-	    fingerprintImage.imageWidth, CV_8UC1,
-	    (void *)fingerprintImage.data());
+	cv::Mat img = cv::Mat(fingerprintImage.height, fingerprintImage.width,
+	    CV_8UC1, (void *)fingerprintImage.data());
 
 	// ----------------------------
 	// compute Fda (taken from Rvu)

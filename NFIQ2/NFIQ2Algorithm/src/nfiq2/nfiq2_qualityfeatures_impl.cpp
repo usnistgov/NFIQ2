@@ -221,7 +221,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityModules(
 	setFPU(0x27F);
 
 	const NFIQ2::FingerprintImageData croppedImage =
-	    rawImage.removeWhiteFrameAroundFingerprint();
+	    rawImage.copyRemovingNearWhiteFrame();
 
 	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	    features {};

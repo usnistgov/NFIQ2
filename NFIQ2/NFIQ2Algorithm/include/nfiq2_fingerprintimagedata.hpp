@@ -31,18 +31,17 @@ class FingerprintImageData : public Data {
 	 * @brief
 	 * Constructor that does not store image data.
 	 *
-	 *
-	 * @param imageWidth
+	 * @param width
 	 * Width of the image in pixels.
-	 * @param imageHeight
+	 * @param height
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imagePPI
+	 * @param ppi
 	 * Resolution of the image in pixels per inch.
 	 */
-	FingerprintImageData(uint32_t imageWidth, uint32_t imageHeight,
-	    uint8_t fingerCode, uint16_t imagePPI);
+	FingerprintImageData(
+	    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi);
 
 	/**
 	 * @brief
@@ -53,18 +52,17 @@ class FingerprintImageData : public Data {
 	 * canonically encoded as per ISO/IEC 19794-4:2005.
 	 * @param dataSize
 	 * Size of the buffer pointed to by `pData`.
-	 * @param imageWidth
+	 * @param width
 	 * Width of the image in pixels.
-	 * @param imageHeight
+	 * @param height
 	 * Height of the image in pixels.
 	 * @param fingerCode
 	 * Finger position of the fingerprint in the image.
-	 * @param imagePPI
+	 * @param ppi
 	 * Resolution of the image in pixels per inch.
 	 */
 	FingerprintImageData(const uint8_t *pData, uint32_t dataSize,
-	    uint32_t imageWidth, uint32_t imageHeight, uint8_t fingerCode,
-	    uint16_t imagePPI);
+	    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi);
 
 	/** Copy constructor. */
 	FingerprintImageData(const FingerprintImageData &otherData);
@@ -72,18 +70,19 @@ class FingerprintImageData : public Data {
 	/** Destructor. */
 	virtual ~FingerprintImageData();
 
-	/** Width of the fingerprint image (in pixels) */
-	uint32_t imageWidth;
-	/** Height of the fingerprint image (in pixels) */
-	uint32_t imageHeight;
-	/** ISO finger code of the fingerprint in the image */
-	uint8_t fingerCode;
-	/** Dots per inch of the fingerprint image */
-	uint16_t imagePPI;
+	/** Width of the fingerprint image in pixels. */
+	uint32_t width { 0 };
+	/** Height of the fingerprint image in pixels. */
+	uint32_t height { 0 };
+	/** ISO finger code of the fingerprint in the image. */
+	uint8_t fingerCode { 0 };
+	/** Pixels per inch of the fingerprint image. */
+	uint16_t ppi { Resolution500PPI };
 
 	/**
 	 * @brief
-	 * Remove near-white lines around the image.
+	 * Obtain a copy of the image with near-white lines surrounding the
+	 * fingerprint removed.
 	 *
 	 * @return
 	 * Cropped fingerprint image.
@@ -92,7 +91,7 @@ class FingerprintImageData : public Data {
 	 * Error performing the crop, or the image is too small to be processed
 	 * after cropping.
 	 */
-	NFIQ2::FingerprintImageData removeWhiteFrameAroundFingerprint() const;
+	NFIQ2::FingerprintImageData copyRemovingNearWhiteFrame() const;
 };
 } // namespace NFIQ
 

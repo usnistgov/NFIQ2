@@ -6,36 +6,36 @@ int debug = 0;
 
 #include <cstring>
 
-static double computeMuFromRow(unsigned int rowIndex, cv::Mat &img);
-static double computeMuFromColumn(unsigned int columnIndex, cv::Mat &img);
+static double computeMuFromRow(unsigned int rowIndex, const cv::Mat &img);
+static double computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img);
 
 NFIQ2::FingerprintImageData::FingerprintImageData()
     : Data()
-    , imageWidth(0)
-    , imageHeight(0)
+    , width(0)
+    , height(0)
     , fingerCode(0)
-    , imagePPI(NFIQ2::FingerprintImageData::Resolution500PPI)
+    , ppi(NFIQ2::FingerprintImageData::Resolution500PPI)
 {
 }
 
-NFIQ2::FingerprintImageData::FingerprintImageData(uint32_t imageWidth,
-    uint32_t imageHeight, uint8_t fingerCode, uint16_t imagePPI)
+NFIQ2::FingerprintImageData::FingerprintImageData(
+    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi)
     : Data()
-    , imageWidth(imageWidth)
-    , imageHeight(imageHeight)
+    , width(width)
+    , height(height)
     , fingerCode(fingerCode)
-    , imagePPI(imagePPI)
+    , ppi(ppi)
 {
 }
 
 NFIQ2::FingerprintImageData::FingerprintImageData(const uint8_t *pData,
-    uint32_t dataSize, uint32_t imageWidth_, uint32_t imageHeight_,
-    uint8_t fingerCode_, uint16_t imagePPI_)
+    uint32_t dataSize, uint32_t width_, uint32_t height_, uint8_t fingerCode_,
+    uint16_t ppi_)
     : Data(pData, dataSize)
-    , imageWidth(imageWidth_)
-    , imageHeight(imageHeight_)
+    , width(width_)
+    , height(height_)
     , fingerCode(fingerCode_)
-    , imagePPI(imagePPI_)
+    , ppi(ppi_)
 {
 }
 
@@ -43,37 +43,29 @@ NFIQ2::FingerprintImageData::FingerprintImageData(
     const FingerprintImageData &otherData)
     : Data(otherData)
 {
-	imageWidth = otherData.imageWidth;
-	imageHeight = otherData.imageHeight;
+	width = otherData.width;
+	height = otherData.height;
 	fingerCode = otherData.fingerCode;
-	imagePPI = otherData.imagePPI;
+	ppi = otherData.ppi;
 }
 
 NFIQ2::FingerprintImageData::~FingerprintImageData() = default;
 
 NFIQ2::FingerprintImageData
-NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
+NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 {
 	/**
 	 * Pixel intensity threshold used for determining whitespace
-	 * around fingerprint.
+	 * around fingerprint. Consecutive rows <= this value starting on each
+	 * edge shall be removed.
 	 */
 	static const double MU_THRESHOLD { 250 };
-
-	// make local copy of internal fingerprint image
-	NFIQ2::FingerprintImageData localFingerprintImage(this->imageWidth,
-	    this->imageHeight, this->fingerCode, this->imagePPI);
-	// copy data now
-	localFingerprintImage.resize(this->size());
-	memcpy(
-	    (void *)localFingerprintImage.data(), this->data(), this->size());
 
 	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = cv::Mat(localFingerprintImage.imageHeight,
-		    localFingerprintImage.imageWidth, CV_8UC1,
-		    (void *)localFingerprintImage.data());
+		img = cv::Mat(
+		    this->height, this->width, CV_8UC1, (void *)this->data());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "
@@ -158,8 +150,8 @@ NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 		topRowIndex = 0;
 		height = img.rows;
 	}
-	cv::Rect roi(leftIndex, topRowIndex, width, height);
-	cv::Mat roiImg = img(roi);
+	const cv::Rect roi(leftIndex, topRowIndex, width, height);
+	const cv::Mat roiImg = img(roi);
 
 	static const uint16_t fingerJetMinWidth = 196;
 	static const uint16_t fingerJetMaxWidth = 800;
@@ -198,12 +190,12 @@ NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 	}
 
 	NFIQ2::FingerprintImageData croppedImage;
-	croppedImage.imageHeight = roiImg.rows;
-	croppedImage.imageWidth = roiImg.cols;
+	croppedImage.height = roiImg.rows;
+	croppedImage.width = roiImg.cols;
 	croppedImage.fingerCode = this->fingerCode;
-	croppedImage.imagePPI = this->imagePPI;
+	croppedImage.ppi = this->ppi;
 	// copy data now
-	unsigned int size = roiImg.rows * roiImg.cols;
+	const unsigned int size = roiImg.rows * roiImg.cols;
 	croppedImage.resize(size);
 	unsigned int counter = 0;
 	for (int i = 0; i < roiImg.rows; i++) {
@@ -217,7 +209,7 @@ NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
 }
 
 double
-computeMuFromRow(unsigned int rowIndex, cv::Mat &img)
+computeMuFromRow(unsigned int rowIndex, const cv::Mat &img)
 {
 	double mu = 0.0;
 	for (int j = 0; j < img.cols; j++) {
@@ -230,7 +222,7 @@ computeMuFromRow(unsigned int rowIndex, cv::Mat &img)
 }
 
 double
-computeMuFromColumn(unsigned int columnIndex, cv::Mat &img)
+computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img)
 {
 	double mu = 0.0;
 	for (int i = 0; i < img.rows; i++) {

@@ -150,8 +150,8 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 		topRowIndex = 0;
 		height = img.rows;
 	}
-	cv::Rect roi(leftIndex, topRowIndex, width, height);
-	cv::Mat roiImg = img(roi);
+	const cv::Rect roi(leftIndex, topRowIndex, width, height);
+	const cv::Mat roiImg = img(roi);
 
 	static const uint16_t fingerJetMinWidth = 196;
 	static const uint16_t fingerJetMaxWidth = 800;
@@ -195,7 +195,7 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 	croppedImage.fingerCode = this->fingerCode;
 	croppedImage.imagePPI = this->imagePPI;
 	// copy data now
-	unsigned int size = roiImg.rows * roiImg.cols;
+	const unsigned int size = roiImg.rows * roiImg.cols;
 	croppedImage.resize(size);
 	unsigned int counter = 0;
 	for (int i = 0; i < roiImg.rows; i++) {

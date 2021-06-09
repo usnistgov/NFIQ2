@@ -52,11 +52,12 @@ NFIQ2::FingerprintImageData::FingerprintImageData(
 NFIQ2::FingerprintImageData::~FingerprintImageData() = default;
 
 NFIQ2::FingerprintImageData
-NFIQ2::FingerprintImageData::removeWhiteFrameAroundFingerprint() const
+NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 {
 	/**
 	 * Pixel intensity threshold used for determining whitespace
-	 * around fingerprint.
+	 * around fingerprint. Consecutive rows <= this value starting on each
+	 * edge shall be removed.
 	 */
 	static const double MU_THRESHOLD { 250 };
 

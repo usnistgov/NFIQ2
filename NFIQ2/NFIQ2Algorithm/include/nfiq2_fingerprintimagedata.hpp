@@ -83,7 +83,8 @@ class FingerprintImageData : public Data {
 
 	/**
 	 * @brief
-	 * Remove near-white lines around the image.
+	 * Obtain a copy of the image with near-white lines surrounding the
+	 * fingerprint removed.
 	 *
 	 * @return
 	 * Cropped fingerprint image.
@@ -92,7 +93,7 @@ class FingerprintImageData : public Data {
 	 * Error performing the crop, or the image is too small to be processed
 	 * after cropping.
 	 */
-	NFIQ2::FingerprintImageData removeWhiteFrameAroundFingerprint() const;
+	NFIQ2::FingerprintImageData copyRemovingNearWhiteFrame() const;
 };
 } // namespace NFIQ
 

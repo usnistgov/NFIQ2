@@ -32,7 +32,9 @@ NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode)
 		{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
 	};
 
-	this->errorMessage = errorCodeMessage.at(errorCode);
+	const auto message = errorCodeMessage.find(errorCode);
+	if (message != errorCodeMessage.end())
+		this->errorMessage = message->second;
 }
 
 NFIQ2::Exception::Exception(

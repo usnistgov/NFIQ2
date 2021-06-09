@@ -90,11 +90,24 @@ class Exception : public std::exception {
 	 */
 	std::string getErrorMessage() const;
 
+	/**
+	 * @brief
+	 * Obtain a default error message for a given ErrorCode.
+	 *
+	 * @param errorCode
+	 * Error code from ErrorCode
+	 *
+	 * @return
+	 * String containing default description of `errorCode`.
+	 */
+	static std::string defaultErrorMessage(
+	    const NFIQ2::ErrorCode errorCode);
+
     private:
 	/** Exception error type. */
-	NFIQ2::ErrorCode errorCode;
+	const NFIQ2::ErrorCode errorCode { ErrorCode::UnknownError };
 	/** Error message string. */
-	std::string errorMessage;
+	const std::string errorMessage {};
 };
 } // namespace NFIQ
 

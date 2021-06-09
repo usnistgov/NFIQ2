@@ -3,7 +3,40 @@
 #include <map>
 
 NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode)
+    : errorCode { errorCode }
+    , errorMessage { defaultErrorMessage(errorCode) }
+{
+}
+
+NFIQ2::Exception::Exception(
+    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage)
     : errorCode(errorCode)
+    , errorMessage(errorMessage)
+{
+}
+
+NFIQ2::Exception::~Exception() noexcept = default;
+
+const char *
+NFIQ2::Exception::what() const noexcept
+{
+	return this->errorMessage.c_str();
+}
+
+NFIQ2::ErrorCode
+NFIQ2::Exception::getErrorCode() const
+{
+	return this->errorCode;
+}
+
+std::string
+NFIQ2::Exception::getErrorMessage() const
+{
+	return this->errorMessage;
+}
+
+std::string
+NFIQ2::Exception::defaultErrorMessage(const NFIQ2::ErrorCode errorCode)
 {
 	/* Map of ErrorCode and their respective explanations. */
 	static const std::map<NFIQ2::ErrorCode, std::string> errorCodeMessage {
@@ -33,33 +66,12 @@ NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode)
 	};
 
 	const auto message = errorCodeMessage.find(errorCode);
-	if (message != errorCodeMessage.end())
-		this->errorMessage = message->second;
-}
-
-NFIQ2::Exception::Exception(
-    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage)
-    : errorCode(errorCode)
-    , errorMessage(errorMessage)
-{
-}
-
-NFIQ2::Exception::~Exception() noexcept = default;
-
-const char *
-NFIQ2::Exception::what() const noexcept
-{
-	return this->errorMessage.c_str();
-}
-
-NFIQ2::ErrorCode
-NFIQ2::Exception::getErrorCode() const
-{
-	return this->errorCode;
-}
-
-std::string
-NFIQ2::Exception::getErrorMessage() const
-{
-	return this->errorMessage;
+	if (message == errorCodeMessage.end()) {
+		try {
+			return (errorCodeMessage.at(ErrorCode::UnknownError));
+		} catch (const std::out_of_range) {
+			return {};
+		}
+	} else
+		return (message->second);
 }

@@ -61,20 +61,11 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 	 */
 	static const double MU_THRESHOLD { 250 };
 
-	// make local copy of internal fingerprint image
-	NFIQ2::FingerprintImageData localFingerprintImage(this->imageWidth,
-	    this->imageHeight, this->fingerCode, this->imagePPI);
-	// copy data now
-	localFingerprintImage.resize(this->size());
-	memcpy(
-	    (void *)localFingerprintImage.data(), this->data(), this->size());
-
 	cv::Mat img;
 	try {
 		// get matrix from fingerprint image
-		img = cv::Mat(localFingerprintImage.imageHeight,
-		    localFingerprintImage.imageWidth, CV_8UC1,
-		    (void *)localFingerprintImage.data());
+		img = cv::Mat(this->imageHeight, this->imageWidth, CV_8UC1,
+		    (void *)this->data());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot get matrix from fingerprint image: "

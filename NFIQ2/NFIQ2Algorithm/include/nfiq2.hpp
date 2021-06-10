@@ -95,7 +95,7 @@
  * scores.
  */
 namespace NFIQ2 {
-/* Still yet another pointless change again timed once again and again! */
+/* Pointless change */
 }
 
 #endif /* NFIQ2_HPP_ */

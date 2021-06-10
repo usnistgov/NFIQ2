@@ -153,20 +153,6 @@ jobs:
         retention-days: 7
         if-no-files-found: error
 
-    - name: Passed the CTS
-      uses: actions/github-script@v3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          var fs = require('fs');
-          var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
-          await github.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issue_number,
-            body: '✅ Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) passed.'
-          });
-
     - name: Failed the CTS
       if: ${{ failure() }}
       uses: actions/github-script@v3
@@ -179,5 +165,24 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
-            body: '❌ Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed. Please review the artifacts for this run.'
+            body: ':x: Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed. Please review the artifacts for this run.'
+          });
+
+  comment_on_pr:
+    name: Comment on PR
+    needs: runcts
+    runs-on: ubuntu-latest
+    steps:
+    - name: Passed the CTS
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          var fs = require('fs');
+          var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
+          await github.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: issue_number,
+            body: ':white_check_mark: Compliance regression test passed on all tested platforms.'
           });

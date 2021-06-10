@@ -6,9 +6,8 @@ on:
     types:
       - completed
     paths-ignore:
-      - '.github/workflows/build-member.yml'
-      - '.github/workflows/build-pr.yml'
-      - '.github/workflows/clang-format.yml'
+      - '.github/**'
+      - '!.github/workflows/run-cts-pr.yml'
       - '.gitignore'
       - '.travis.yml'
       - '**.md'

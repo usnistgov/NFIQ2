@@ -3,9 +3,8 @@ name: Build PR
 on:
   pull_request:
     paths-ignore:
-      - '.github/workflows/build-member.yml'
-      - '.github/workflows/run-cts-pr.yml'
-      - '.github/workflows/clang-format.yml'
+      - '.github/**'
+      - '!.github/workflows/build-pr.yml'
       - '.gitignore'
       - '.travis.yml'
       - '**.md'

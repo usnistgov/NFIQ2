@@ -171,8 +171,40 @@ jobs:
   comment_on_pr:
     name: Comment on PR
     needs: runcts
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          - { os: ubuntu-20.04, arch: x64 }
     steps:
+    - name: Download install_staging artifact
+      uses: actions/github-script@v3.1.0
+      with:
+        script: |
+          var artifacts = await github.actions.listWorkflowRunArtifacts({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             run_id: ${{github.event.workflow_run.id}},
+          });
+          var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}"
+          })[0];
+          var download = await github.actions.downloadArtifact({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             artifact_id: matchArtifact.id,
+             archive_format: 'zip',
+          });
+          var fs = require('fs');
+          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
+
+    - name: Unzip install_staging
+      run: |
+        mkdir install_staging
+        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip install_staging
+        cd install_staging
+        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
+
     - name: Passed the CTS
       uses: actions/github-script@v3
       with:

@@ -78,7 +78,7 @@ cmake .. -DBUILD_NFIQ2_CLI=OFF
 cmake --build .
 ```
 
-Quick Build: Library + Command Line Interface
+Quick Build: Library + Command-line Interface
 ---------------------------------------------
 You must *recursively* clone the repository to retrieve git submodules
 (i.e., do **not** use the GitHub ZIP file download).
@@ -137,6 +137,11 @@ The CMake builds supports the following options:
 
  * `BUILD_NFIQ2_CLI` (default: `ON`)
    * Whether or not to build the standalone command-line executable.
+ * `EMBED_RANDOM_FOREST_PARAMETERS` (default: `OFF`)
+   * Whether or not to embed random forest parameters into the library.
+ * `EMBEDDED_RANDOM_FOREST_PARAMETER_FCT` (default: `0`)
+   * Friction ridge capture technology code for embedded random forest
+     parameters. Only valid if `EMBED_RANDOM_FOREST_PARAMETERS` is `ON`.
 
 Communication
 -------------
@@ -144,7 +149,7 @@ If you found a bug and can provide steps to reliably reproduce it, or if you
 have a feature request, please
 [open an issue](https://github.com/usnistgov/NFIQ2/issues). Other
 questions may be addressed to the
-[NIST project maintainers](mailto:nfiq2.development@nist.gov).
+[NIST project maintainers](mailto:nfiq2@nist.gov).
 
 License
 -------

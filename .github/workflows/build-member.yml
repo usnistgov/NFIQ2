@@ -96,7 +96,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
-        fresh-vcpkg/vcpkg install \
+        fresh-vcpkg/vcpkg install --recurse \
           --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
           hwloc \
@@ -110,7 +110,8 @@ jobs:
           zlib \
           zstd
         # getopt is not static
-        fresh-vcpkg/vcpkg install --triplet=${{ matrix.config.arch }}-windows getopt
+        fresh-vcpkg/vcpkg install --recurse \
+          --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Build Directory Cache
       id: builddir-cache

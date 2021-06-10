@@ -164,7 +164,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
-            body: 'Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) passed'
+            body: '✅ Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) passed.'
           });
 
     - name: Failed the CTS
@@ -179,5 +179,5 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
-            body: 'Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed'
+            body: '❌ Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed. Please review the artifacts for this run.'
           });

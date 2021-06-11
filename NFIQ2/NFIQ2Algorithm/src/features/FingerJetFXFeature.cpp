@@ -46,7 +46,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 	switch (fxRes) {
 	case FRFXLL_ERR_FB_TOO_SMALL_AREA:
 		return "FRFXLL_ERR_FB_TOO_SMALL_AREA: Fingerprint area is too "
-		       "small. Most likely this is bacause the tip of the "
+		       "small. Most likely this is because the tip of the "
 		       "finger is presented.";
 	case FRFXLL_ERR_INVALID_PARAM:
 		return "FRFXLL_ERR_INVALID_PARAM: One or more of the "

@@ -60,6 +60,7 @@ jobs:
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
+        sudo apt -y update
         sudo apt -y install \
             libdb++-dev \
             libhwloc-dev \

@@ -7,11 +7,6 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
   message( STATUS "Detected ${CMAKE_CXX_COMPILER_ID} compiler" )
   if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
     message( STATUS "Detected Android" )
-    set( LINK_LIB_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/lib/${ANDROID_ABI}/lib")
-    set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/${ANDROID_ABI}/lib")
-  else()
-    set( LINK_LIB_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/lib/lib")
-    set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/lib")
   endif()
 ##################################################
   if( USE_SANITIZER )
@@ -55,8 +50,6 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   message( STATUS "Detected MSVC compiler (Windows)" )
-  set( LINK_LIB_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/lib/Release/")
-  set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/Release/")
 
   # Static-link MS CRT
     foreach(flag_var

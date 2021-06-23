@@ -40,8 +40,6 @@ include( "${ROOT_PATH}/cmake/target.cmake" )
 # setup compiler
 include( "${ROOT_PATH}/cmake/compiler.cmake" )
 
-# include special settings for fingerjetfxose
-include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 

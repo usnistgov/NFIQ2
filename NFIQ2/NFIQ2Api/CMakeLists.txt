@@ -51,6 +51,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_compile_definitions("${PROJECT_NAME}"
 	PRIVATE I_UNDERSTAND_THIS_NFIQ2_API_WILL_BE_REMOVED)
+target_compile_definitions("${PROJECT_NAME}" PRIVATE ${NFIQ2_DEFINITIONS})
+target_compile_options("${PROJECT_NAME}" PRIVATE ${NFIQ2_CXX_FLAGS})
 
 string( REPLACE "." "" OPENCV_VERSION2 "${OPENCV_VERSION}")
 

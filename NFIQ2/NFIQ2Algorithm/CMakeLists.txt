@@ -97,6 +97,10 @@ set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     OUTPUT_NAME "nfiq2"
 )
 
+target_compile_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_CXX_FLAGS})
+target_link_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_LIBRARY_LINKER_FLAGS})
+
+target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_DEFINITIONS})
 if (EMBED_RANDOM_FOREST_PARAMETERS)
 	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS")
 	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT=${EMBEDDED_RANDOM_FOREST_PARAMETER_FCT}")
@@ -132,13 +136,15 @@ if (BUILD_NFIQ2_CLI)
 	if( USE_SANITIZER )
 	  target_link_libraries( ${NFIQ2_TEST_APP} "asan" )
 	endif()
+	target_compile_definitions(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_DEFINITIONS})
+	target_compile_options(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_CXX_FLAGS})
+	target_link_options(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_CLI_LINKER_FLAGS})
 
 	# set the required libraries
 	add_dependencies(${NFIQ2_TEST_APP} ${NFIQ2_STATIC_LIBRARY_TARGET})
 	set( PROJECT_LIBS ${NFIQ2_STATIC_LIBRARY_TARGET} )
 
 	if("${TARGET_PLATFORM}" MATCHES "win*")
-	  add_definitions("-DNOMINMAX")
 	  set( PROJECT_LIBS ${PROJECT_LIBS} ws2_32 )
 	elseif("${TARGET_PLATFORM}" MATCHES "android*")
 	  find_package(Threads REQUIRED)

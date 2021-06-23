@@ -1,102 +1,121 @@
-option(USE_SANITIZER "Using the GCC sanitizer" OFF)
+option(USE_SANITIZER "Integrate address sanitizer" OFF)
+
+option(BUILD_STATIC "Build static library" ON)
+option(BUILD_SHARED "Build shared library" OFF)
+
 include(CheckCXXSourceRuns)
+function(checkForStaticLibs)
+	if (APPLE)
+		return()
+	endif()
 
-add_definitions("-D_USE_MATH_DEFINES")
-if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
-#####################################################
-  message( STATUS "Detected ${CMAKE_CXX_COMPILER_ID} compiler" )
-  if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
-    message( STATUS "Detected Android" )
-  endif()
-##################################################
-  if( USE_SANITIZER )
-    message( STATUS "Configure diagnostic build with sanitizer")
-    add_definitions( "-O0 -Wno-unused-variable -fsanitize=address -fsanitize=leak -fstack-check -fno-omit-frame-pointer -static-libasan" )
-  else()
-    add_definitions( "-O3 -Wno-unused-variable " )
-  endif()
-  if("${TARGET_PLATFORM}" MATCHES "win*")
-    add_definitions("-DWIN32 -D_WIN32")
-  else()
-    add_definitions("-DLINUX -fPIC")
-  endif()
+	# Only check GNU (we know MSVC will work)
+	if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+		if (WIN32)
+			set(CMAKE_REQUIRED_FLAGS "-static;-static-libgcc;-static-libstdc++")
+			set(CMAKE_REQUIRED_LINK_OPTIONS "-static;-static-libgcc;-static-libstdc++;-add-stdcall-alias;-enable-stdcall-fixup")
+		elseif(UNIX)
+			set(CMAKE_REQUIRED_FLAGS "-static-libgcc;-static-libstdc++")
+			set(CMAKE_REQUIRED_LINK_OPTIONS "-z defs;-static-libgcc;-static-libstdc++")
+		endif()
 
-  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    add_definitions("-Wno-unused-but-set-variable ")
-    if("${TARGET_PLATFORM}" MATCHES "win*")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ -Wl,-add-stdcall-alias -Wl,-enable-stdcall-fixup")
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ -Wl,-enable-stdcall-fixup")
-      check_cxx_source_runs("int main() { return 0; }" STATIC_SYSTEM_LIBS)
-      if (NOT STATIC_SYSTEM_LIBS)
-         message(WARNING "You are missing one or more static system libraries that will be linked by -static-libgcc -static-libstdc++")
-      endif()
-    elseif("${TARGET_PLATFORM}" MATCHES "linux*")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgcc -static-libstdc++ -Wl,-z,defs")
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-      check_cxx_source_runs("int main() { return 0; }" STATIC_SYSTEM_LIBS)
-      if (NOT STATIC_SYSTEM_LIBS)
-         message(WARNING "You are missing one or more static system libraries that will be linked by -static-libgcc -static-libstdc++")
-      endif()
-    endif()
-  endif()
+		check_cxx_source_runs("int main() { return 0; }" STATIC_SYSTEM_LIBS)
+		if (NOT STATIC_SYSTEM_LIBS)
+			message(WARNING "You are missing one or both of static-libgcc and static-libstdc++")
+		endif()
+	endif()
+endfunction()
 
-  if( 32BITS)
-    set( CMAKE_C_FLAGS "-m32")
-    set( CMAKE_CXX_FLAGS "-m32")
-  elseif( 64BITS)
-    set( CMAKE_C_FLAGS "-m64")
-    set( CMAKE_CXX_FLAGS "-m64")
-  endif()
+if (BUILD_STATIC)
+	checkForStaticLibs()
+endif()
 
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  message( STATUS "Detected MSVC compiler (Windows)" )
+# Pre-processor definitions
+set(NFIQ2_DEFINITIONS)
+# C++ flags
+set(NFIQ2_CXX_FLAGS)
+# Library linker flags
+set(NFIQ2_LIBRARY_LINKER_FLAGS)
+# CLI linker flags
+set(NFIQ2_CLI_LINKER_FLAGS)
 
-  # Static-link MS CRT
-    foreach(flag_var
-            CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-            CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-#      if (DEBUG)
-#      set(${flag_var} "${${flag_var}} /MDd /nologo")
-#      else()
-      set(${flag_var} "${${flag_var}} /MD /nologo")
-#      endif()
-    endforeach(flag_var)
-#  if (STATIC_LINK)
-    foreach(flag_var
-            CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-            CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-      if(${flag_var} MATCHES "/MD")
-        string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-      endif()
-      if(${flag_var} MATCHES "/MDd")
-        string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
-      endif()
-    endforeach(flag_var)
-#  endif()
+# Enable definitions of mathematical constants
+list(APPEND NFIQ2_DEFINITIONS "_USE_MATH_DEFINES")
 
-  # Disable some "unsafe" warnings
-  foreach(flag_var
-          CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-          CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-      set(${flag_var} "${${flag_var}} /D_CRT_SECURE_NO_WARNINGS /nologo")
-  endforeach(flag_var)
+# Don't use min/max macros from Windows header
+if (WIN32)
+	list(APPEND NFIQ2_DEFINITIONS "NOMINMAX")
+endif()
 
-  # Don't show copyright
-  foreach(flag_var
-          CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-          CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-      set(${flag_var} "${${flag_var}} /nologo")
-  endforeach(flag_var)
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+	message(STATUS "Detected ${CMAKE_CXX_COMPILER_ID} compiler")
 
-  # Show most warnings
-  foreach(flag_var
-          CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-          CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-      set(${flag_var} "${${flag_var}} /W3")
-  endforeach(flag_var)
+	if (USE_SANITIZER)
+		list(APPEND NFIQ2_CXX_FLAGS -fsanitize=address -fsanitize=leak -fstack-check -fno-omit-frame-pointer)
+		if (BUILD_STATIC)
+			list(APPEND NFIQ2_CXX_FLAGS -static-libasan)
+		endif()
+	endif()
 
+	# Position-independent library code
+	list(APPEND NFIQ2_CXX_FLAGS -fPIC)
+
+	# Linking static runtimes
+	if (BUILD_STATIC)
+		list(APPEND NFIQ2_CXX_FLAGS -static)
+		if (CMAKE_CXX_COMPILER_ID EQUAL "GNU")
+			list(APPEND NFIQ2_CXX_FLAGS -static-libgcc -static-libstdc++)
+
+			list(APPEND NFIQ2_CXX_FLAGS "-static" "-static-libgcc" "-static-libstdc++")
+			if (WIN32)
+				list(APPEND NFIQ2_LIBRARY_LINKER_FLAGS "-static" "-static-libgcc" "-static-libstdc++" "-add-stdcall-alias" "-enable-stdcall-fixup")
+			elseif(UNIX)
+				list(APPEND NFIQ2_CXX_FLAGS "-static-libgcc" "-static-libstdc++")
+				list(APPEND NFIQ2_LIBRARY_LINKER_FLAGS "-static-libgcc" "static-libstdc++")
+			endif()
+		endif()
+	endif()
+
+	# Disallow undefined static symbols (failsafe)
+	if (CMAKE_CXX_COMPILER_ID EQUAL GNU)
+		list(APPEND NFIQ2_CLI_LINKER_FLAGS "-z defs")
+		list(APPEND NFIQ2_LIBRARY_LINKER_FLAGS "-z defs")
+	endif()
+
+	if(32BITS)
+		list(APPEND NFIQ2_CXX_FLAGS -m32)
+	elseif(64BITS)
+		list(APPEND NFIQ2_CXX_FLAGS -m64)
+	endif()
+
+	# Compiler warnings
+	list(APPEND NFIQ2_CXX_FLAGS -Wall -Wpedantic -Wextra
+#	    -Wconversion
+#	    -Wsign-conversion -Wimplicit-fallthrough -Wdouble-promotion -Wshadow
+#	    -Wnon-virtual-dtor -Woverloaded-virtual -Wunused -Wformat=2
+	)
+
+	# clang vs. gnu specific warnings
+	if (CMAKE_CXX_COMPILER_ID EQUAL GNU)
+		list(APPEND NFIQ2_CXX_FLAGS
+		)
+	else()
+		list(APPEND NFIQ2_CXX_FLAGS
+#		    -Wdocumentation
+		)
+	endif()
+
+elseif (MSVC)
+	# No copyright notice
+	list(APPEND NFIQ2_CXX_FLAGS /nologo)
+
+	# No warnings for unsecure functions
+	list(APPEND NFIQ2_DEFINITIONS _CRT_SECURE_NO_WARNINGS)
+
+	# Warnings
+	list(APPEND NFIQ2_CXX_FLAGS /W3)
 else()
-  message( STATUS "Detected compiler ${CMAKE_CXX_COMPILER_ID} which is currently not supported" )
+	message(FATAL_ERROR "Detected compiler ${CMAKE_CXX_COMPILER_ID}, which is currently not supported. Please report this (or better yet, implement support): https://github.com/usnistgov/NFIQ2/issues")
 endif()
 
 if(CMAKE_HOST_WIN32 AND MINGW)

@@ -18,19 +18,6 @@ include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 include("${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp")
 
-# add include directories
-include_directories("${CMAKE_BINARY_DIR}")
-
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-
-# add libbiomeval include directories
-include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
-
-include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
-
-include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
-
 option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
 set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
     "ANSI/NIST-ITL 1-2011: Update 2015 friction ridge capture technology (FRCT) code for parameters to embed")
@@ -38,9 +25,6 @@ set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
 set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 set(SOURCE_FILES
     "src/nfiq2/nfiq2_data.cpp"
@@ -98,6 +82,11 @@ set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     CXX_EXTENSIONS NO
 )
 
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/digestpp")
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} SYSTEM PRIVATE ${OpenCV_INCLUDE_DIRS})
+
 target_compile_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_CXX_FLAGS})
 target_link_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_LIBRARY_LINKER_FLAGS})
 
@@ -140,6 +129,12 @@ if (BUILD_NFIQ2_CLI)
 	target_compile_definitions(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_DEFINITIONS})
 	target_compile_options(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_CXX_FLAGS})
 	target_link_options(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_CLI_LINKER_FLAGS})
+
+	target_include_directories(${NFIQ2_TEST_APP} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE ${OpenCV_INCLUDE_DIRS})
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 	# set the required libraries
 	add_dependencies(${NFIQ2_TEST_APP} ${NFIQ2_STATIC_LIBRARY_TARGET})

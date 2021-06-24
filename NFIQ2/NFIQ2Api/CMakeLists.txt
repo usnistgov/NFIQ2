@@ -9,18 +9,9 @@ set(HEADER_FILES "nfiq2api.h")
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 
-# add include directories
-include_directories("${CMAKE_BINARY_DIR}")
-
-include_directories("${SUPERBUILD_ROOT_PATH}/NFIQ2/NFIQ2Algorithm")
-include_directories("${SUPERBUILD_ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include")
-
-include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/download/FingerJetFXOSE-master/src/libFRFXLL/include")
-
 set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
-include_directories(${OpenCV_INCLUDE})
 
 # set and increment version
 include( "${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake" )
@@ -42,6 +33,8 @@ else()
       ${VERSION_FILES}
     )
 endif()
+
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/NFIQ2/NFIQ2Algorithm/include")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/nfiq2api.h"

@@ -34,26 +34,10 @@ set(CMAKE_CXX_STANDARD 11)
 # detect target platform
 include( "${ROOT_PATH}/cmake/target.cmake" )
 
-# setup compiler
-include( "${ROOT_PATH}/cmake/compiler.cmake" )
-
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
-
-# forwarding 32/64 compiler flags
-if( 32BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m32"
-    -DCMAKE_CXX_FLAGS="-m32"
-  )
-elseif( 64BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m64"
-    -DCMAKE_CXX_FLAGS="-m64"
-  )
-endif()
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")

@@ -96,10 +96,8 @@ if (EMBED_RANDOM_FOREST_PARAMETERS)
 	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT=${EMBEDDED_RANDOM_FOREST_PARAMETER_FCT}")
 endif()
 
-# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once FJFX builds
-# FIXME: are updated.
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
+# FingerJet installed to install dir. NFIQ 2 depends on it.
+link_directories("${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
 	FRFXLL_static
 	${OpenCV_LIBS}
@@ -291,10 +289,3 @@ install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET}
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT install_staging)
-
-# FIXME: FingerJet doesn't have an install target
-install(FILES
-	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
-	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-	COMPONENT install_staging)

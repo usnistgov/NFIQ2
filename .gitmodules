@@ -1,6 +1,6 @@
 [submodule "fingerjetfxose"]
 	path = fingerjetfxose
-	url = https://github.com/FingerJetFXOSE/FingerJetFXOSE.git
+	url = https://github.com/gfiumara/FingerJetFXOSE.git
 [submodule "digestpp"]
 	path = digestpp
 	url = https://github.com/kerukuro/digestpp.git

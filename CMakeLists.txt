@@ -30,10 +30,6 @@ set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CON
 # detect target platform
 include( "${ROOT_PATH}/cmake/target.cmake" )
 
-# include special settings for fingerjetfxose
-include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
-
-add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
@@ -124,6 +120,16 @@ if (MSVC)
 		)
 endif()
 
+ExternalProject_Add(fjfxose
+	SOURCE_DIR ${PROJECT_SOURCE_DIR}/fingerjetfxose/FingerJetFXOSE
+	CMAKE_ARGS
+		${COMPILER_CMAKE_ARGS}
+		${ANDROID_CMAKE_ARGS}
+		${IOS_CMAKE_ARGS}
+		${MULTI_CONFIG_ARGS}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+)
+
 ExternalProject_Add(OpenCV
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/opencv
 	CMAKE_ARGS
@@ -179,7 +185,7 @@ ExternalProject_Add(nfiq2
 		${EMBEDDING_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV fjfxose)
 
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval nfir)

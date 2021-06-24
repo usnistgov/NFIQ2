@@ -18,7 +18,9 @@ include( "${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake" )
 
 include(GNUInstallDirs)
 link_directories( "${CMAKE_BINARY_DIR}/../../../nfiq2-prefix/src/nfiq2-build" )
-link_directories( "${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src" )
+
+# FingerJet installed to install dir. NFIQ 2 depends on it.
+link_directories("${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 
 # add targets
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")

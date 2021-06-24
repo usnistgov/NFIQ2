@@ -2,8 +2,6 @@ cmake_minimum_required (VERSION 3.15)
 
 project( Nfiq2Api )
 
-set(CMAKE_CXX_STANDARD 11)
-
 # add files from folder
 set(SOURCE_FILES "nfiq2api.cpp")
 set(HEADER_FILES "nfiq2api.h")
@@ -47,6 +45,9 @@ endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/nfiq2api.h"
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
 )
 
 target_compile_definitions("${PROJECT_NAME}"

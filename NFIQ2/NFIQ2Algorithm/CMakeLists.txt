@@ -2,8 +2,6 @@ cmake_minimum_required (VERSION 3.15)
 
 project( nfiq2 )
 
-set (CMAKE_CXX_STANDARD 11)
-
 # FIXME: Prefer static libs on macOS and Windows, since it's "easy" on Linux to
 #        install the dependencies. Once we have a shared lib, we should reverse
 #        this during that build
@@ -95,6 +93,9 @@ add_library( ${NFIQ2_STATIC_LIBRARY_TARGET} STATIC
 set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
     OUTPUT_NAME "nfiq2"
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
 )
 
 target_compile_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_CXX_FLAGS})
@@ -244,7 +245,11 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 
 	set_target_properties(${NFIQ2_TEST_APP}
-	  PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
+	  PROPERTIES RUNTIME_OUTPUT_NAME nfiq2
+	  CXX_STANDARD 11
+	  CXX_STANDARD_REQUIRED YES
+	  CXX_EXTENSIONS NO
+	)
 
 	install(TARGETS ${NFIQ2_TEST_APP}
 	    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

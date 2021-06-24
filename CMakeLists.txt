@@ -27,8 +27,6 @@ set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 set(NFIQ2_CONTAINER_DIR "nfiq2")
 set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CONTAINER_DIR}")
 
-set(CMAKE_CXX_STANDARD 11)
-
 # detect target platform
 include( "${ROOT_PATH}/cmake/target.cmake" )
 

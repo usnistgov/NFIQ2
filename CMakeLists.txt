@@ -40,9 +40,6 @@ include( "${ROOT_PATH}/cmake/target.cmake" )
 # setup compiler
 include( "${ROOT_PATH}/cmake/compiler.cmake" )
 
-
-add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
-
 # forwarding 32/64 compiler flags
 if( 32BITS)
   set( COMPILER_CMAKE_ARGS
@@ -155,6 +152,16 @@ if (MSVC)
 		)
 endif()
 
+ExternalProject_Add(fjfxose
+	SOURCE_DIR ${PROJECT_SOURCE_DIR}/fingerjetfxose/FingerJetFXOSE
+	CMAKE_ARGS
+		${COMPILER_CMAKE_ARGS}
+		${ANDROID_CMAKE_ARGS}
+		${IOS_CMAKE_ARGS}
+		${MULTI_CONFIG_ARGS}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+)
+
 ExternalProject_Add(OpenCV
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/opencv
 	CMAKE_ARGS
@@ -212,7 +219,7 @@ ExternalProject_Add(nfiq2
 		${EMBEDDING_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV fjfxose)
 
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval nfir)

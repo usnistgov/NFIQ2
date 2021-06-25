@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 3.15)
 
+# Require MSVC_RUNTIME_LIBRARY
+cmake_policy(SET CMP0091 NEW)
+
 project( nfiq2 )
 
 # FIXME: Prefer static libs on macOS and Windows, since it's "easy" on Linux to
@@ -80,6 +83,7 @@ set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
 
 target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -242,6 +246,7 @@ if (BUILD_NFIQ2_CLI)
 	  CXX_STANDARD 11
 	  CXX_STANDARD_REQUIRED YES
 	  CXX_EXTENSIONS NO
+	  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 	)
 
 	install(TARGETS ${NFIQ2_TEST_APP}

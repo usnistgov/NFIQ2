@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 3.15)
 
+# Require MSVC_RUNTIME_LIBRARY
+cmake_policy(SET CMP0091 NEW)
+
 project( NFIQ2_SUPERBUILD )
 
 message(STATUS "NFIQ 2 Superbuild")

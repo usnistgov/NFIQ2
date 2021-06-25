@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 3.15)
 
+# Require MSVC_RUNTIME_LIBRARY
+cmake_policy(SET CMP0091 NEW)
+
 project( Nfiq2Api )
 
 # add files from folder
@@ -43,6 +46,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
 
 target_compile_definitions("${PROJECT_NAME}"

@@ -1,4 +1,7 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.15)
+
+# Require MSVC_RUNTIME_LIBRARY
+cmake_policy(SET CMP0091 NEW)
 
 project( NFIQ2_SUPERBUILD )
 
@@ -16,8 +19,6 @@ if(EMBED_RANDOM_FOREST_PARAMETERS)
 	list(APPEND EMBEDDING_CMAKE_ARGS -DEMBED_RANDOM_FOREST_PARAMETERS=${EMBED_RANDOM_FOREST_PARAMETERS})
 endif()
 
-set( NO_SEARCH TRUE )
-
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
@@ -29,33 +30,13 @@ set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 set(NFIQ2_CONTAINER_DIR "nfiq2")
 set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CONTAINER_DIR}")
 
-set(CMAKE_CXX_STANDARD 11)
-
-# set colors for cmake comand line
-include( "${ROOT_PATH}/cmake/colors.cmake" )
-
 # detect target platform
 include( "${ROOT_PATH}/cmake/target.cmake" )
 
-# setup compiler
-include( "${ROOT_PATH}/cmake/compiler.cmake" )
-
-# forwarding 32/64 compiler flags
-if( 32BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m32"
-    -DCMAKE_CXX_FLAGS="-m32"
-  )
-elseif( 64BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m64"
-    -DCMAKE_CXX_FLAGS="-m64"
-  )
-endif()
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
-  message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
+  message( STATUS "-- Forwarding Android build flags to the external projects" )
   set(ANDROID_CMAKE_ARGS
     -DANDROID_ABI=${ANDROID_ABI}
     -DANDROID_PLATFORM=${ANDROID_PLATFORM}
@@ -65,29 +46,10 @@ if( NOT "${ANDROID_ABI}" STREQUAL "")
   )
 endif()
 
-# forwarding android build flags
-if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
-  message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
-  set(IOS_CMAKE_ARGS
-    -DPLATFORM=${PLATFORM}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DENABLE_ARC=${ENABLE_ARC}
-  )
-endif()
-
 include(ExternalProject)
 
-set(MULTI_CONFIG_ARGS)
-if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
-	if (${GENERATOR_IS_MULTI_CONFIG})
-		list(APPEND MULTI_CONFIG_ARGS
-			-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
-			)
-	endif()
-elseif (MSVC OR Xcode)
-	list(APPEND MULTI_CONFIG_ARGS
-		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
-		)
+if (${GENERATOR_IS_MULTI_CONFIG})
+	set(MULTI_CONFIG_ARGS -DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES})
 endif()
 
 set(OPENCV_CMAKE_ARGS
@@ -168,7 +130,6 @@ ExternalProject_Add(OpenCV
 		${OPENCV_CMAKE_ARGS}
 		${COMPILER_CMAKE_ARGS}
 		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 )
@@ -213,7 +174,6 @@ ExternalProject_Add(nfiq2
 		${COMPILER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 		${EMBEDDING_CMAKE_ARGS}
@@ -232,7 +192,6 @@ ExternalProject_Add(nfiq2api
 		${COMPILER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

@@ -12,7 +12,6 @@ on:
       - '.travis.yml'
       - '**.md'
       - 'appveyor.yml'
-      - 'complianceTestSet/**'
 
 jobs:
   runcts:
@@ -36,7 +35,7 @@ jobs:
           - { os: windows-2016, arch: x86 }
 
     steps:
-    - name: Checkout Compliance Test Script
+    - name: Checkout Conformance Test Script
       uses: actions/checkout@v2
       with:
         submodules: false
@@ -115,40 +114,40 @@ jobs:
             zlib \
             zstd
 
-    - name: Download Compliance Test
+    - name: Download Conformance Test
       shell: bash
-      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+      run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
-    - name: Run Compliance Test (Windows)
+    - name: Run Conformance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
-        unzip -q nfiq2_compliance.zip
-        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        unzip -q nfiq2_conformance.zip
+        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
 
-    - name: Run Compliance Test (Linux)
+    - name: Run Conformance Test (Linux)
       if: ${{ runner.os != 'Windows' }}
       shell: bash
       run: |
-        unzip -q nfiq2_compliance.zip
+        unzip -q nfiq2_conformance.zip
         chmod +x install_staging/nfiq2/bin/nfiq2
-        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
 
-    - name: Diff Compliance Test
+    - name: Diff Conformance Test
       shell: bash
       run: |
         python -m pip install pandas
-        python complianceTestSet/diff.py -s complianceTestSet/CTS_MASTER_OUTPUT.csv github.csv
+        python conformance/diff.py -s conformance/conformance_expected_output.csv github.csv
 
-    - name: Upload CTS output artifact
+    - name: Upload conformance output artifact
       uses: actions/upload-artifact@v2
       with:
-        name: cts_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
+        name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
         path: github.csv
         retention-days: 7
         if-no-files-found: error
@@ -165,7 +164,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
-            body: ':x: Compliance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed. Please review the artifacts for this run.'
+            body: ':x: Conformance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed. Please review the artifacts for this run.'
           });
 
   comment_on_pr:
@@ -216,5 +215,5 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
-            body: ':white_check_mark: Compliance regression test passed on all tested platforms.'
+            body: ':white_check_mark: Conformance regression test passed on all tested platforms.'
           });

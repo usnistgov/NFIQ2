@@ -1,29 +1,38 @@
-# Compliance Test
+# Conformance
 
+This directory contains the tools required to test conformance of the NFIQ 2
+code to ISO/IEC 29794-4.
 
-Contained in this directory are the tools required to perform compliance testing on NFIQ 2.0. A compliant NFIQ 2.0 implementation will produce a clean diff upon performing compliance testing. 
-
-**NOTE:** It is important to have Python Pandas v1.1.0 (or greater) installed for the diff script to work correctly. 
+**The images forming the conformance dataset are subject to a license agreement
+and _are not included_ on GitHub. They can be [downloaded from the NIST
+website](https://nigos.nist.gov/datasets/nfiq2_conformance/).**
 
 ## Included Files
 
-#### CTS_MASTER_OUTPUT.csv
-- The correct NFIQ2 score output for the Compliance Test dataset found here: [NFIQ2 Compliance Test Set](https://nigos.nist.gov/datasets/nfiq2_compliance/)
-- This CSV output contains NFIQ2 scores and their individual quality scores. 
-It also contains actionable quality scores. Speed output has been omitted.
+ * **conformance_expected_output.csv**
+   - Expected output from NFIQ 2 when run against the
+     [conformance dataset](https://nigos.nist.gov/datasets/nfiq2_conformance/).
+   - Contains unified quality score, quality metric values (`-v`), and
+     actionable feedback (`-a`).
+   - These values differ from ISO/IEC 29794-4:2017 Annex A due to the change in
+     imagery and bug fixes. The standard will be revised to correct this.
+ * **diff.py**
+   - Python script used to compare the contents of two CSV outputs of NFIQ ≥2.1.
+   - **NOTE:** Python 3 and Pandas v1.1.0 (or greater) are required.
 
+## Usage
 
-#### diff.py
-- The python script that will be used to compare the contents of two CSV outputs. 
-- Use this script to detect any diffs present between a modified version of NFIQ 2.0 and the master.
-	
+    $ python3 diff.py conformance_expected_output.csv YOUR_NFIQ2_OUTPUT.csv [-o {differences.csv}] [-s]
 
-## diff.py Usage
+ - **conformance_expected_output.csv**:
+   - The file included in this directory.
+ - **YOUR_NFIQ2_OUTPUT.csv** contains the user generated NFIQ 2.0 csv output to be checked.
+ - **`-o differences.csv`**
+   - Optional system path where any differences are written.
+ - **`-s`**: Print either _True_ or _False_ to indicate whether the two CSVs
+   files are the same.
 
+### Output
 
-    $ diff.py CTS_MASTER_OUTPUT.csv YOUR_NFIQ2_OUTPUT.csv [-o {DIFF_OUTPUT_PATH}] [-s]
-
- - ***YOUR_NFIQ2_OUTPUT.csv*** contains the user generated NFIQ 2.0 csv output to be checked.
- - ***DIFF_OUTPUT_PATH*** is a an optional system path where the user can save diff output to a file using the ***-o*** flag.
- - To print either a "**True**" or "**False**" to indicate whether the two csv files are the same, the user can add the optional ***-s*** flag.
-
+If conformant, there will no output. Otherwise, values that differ will be
+printed.

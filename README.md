@@ -33,7 +33,7 @@ NFIQ source code serves as the reference implementation of the standard.
 Operationally, NFIQ has increased the reliability, accuracy, and interoperability  of fingerprint recognition
 systems by identifying the samples that are likely to cause recognition failure.
 
-If you would like more information please read the [NFIQ 2 Report](https://www.nist.gov/document/nfiq2reportpdf).
+If you would like more information please read the [NFIQ 2 Report](https://doi.org/10.6028/NIST.IR.8382).
 
 Download
 --------

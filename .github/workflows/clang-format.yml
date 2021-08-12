@@ -34,7 +34,7 @@ jobs:
         echo -n "Checking coding style with clang-format..."
         fail=0
         while read -r i; do
-            if ! clang-format-11 --Werror --dry-run "${i}" > /dev/null 2>&1;
+            if ! clang-format-12 --Werror --dry-run "${i}" > /dev/null 2>&1;
             then
                 if [ "${fail}" == "0" ]; then
                     echo "[FAIL]"

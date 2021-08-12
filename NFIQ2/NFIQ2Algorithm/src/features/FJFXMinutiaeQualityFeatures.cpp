@@ -146,8 +146,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getQualityFeatureIDs()
 }
 
 std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
-    int bs, const NFIQ2::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(int bs,
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
 
@@ -200,8 +200,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(
 }
 
 std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(
-    int bs, const NFIQ2::FingerprintImageData &fingerprintImage)
+NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(int bs,
+    const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
 

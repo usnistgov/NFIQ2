@@ -166,14 +166,14 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 			for (int c = blkoffset;
 			     c < cols - (blocksize + blkoffset - 1);
 			     c += blocksize) {
-				im_roi = img(
-				    cv::Range(
-					r, cv::min(r + blocksize, img.rows)),
-				    cv::Range(
-					c, cv::min(c + blocksize, img.cols)));
-				maskB1 = maskim(
-				    cv::Range(
-					r, cv::min(r + blocksize, maskim.rows)),
+				im_roi = img(cv::Range(r,
+						 cv::min(r + blocksize,
+						     img.rows)),
+				    cv::Range(c,
+					cv::min(c + blocksize, img.cols)));
+				maskB1 = maskim(cv::Range(r,
+						    cv::min(r + blocksize,
+							maskim.rows)),
 				    cv::Range(c,
 					cv::min(c + blocksize, maskim.cols)));
 				maskBseg.at<uint8_t>(br, bc) = allfun(maskB1);
@@ -181,8 +181,8 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 				    CENTERED_DIFFERENCES);
 
 				// ridge ORIENT local
-				blkorient.at<double>(br, bc) = ridgeorient(
-				    cova, covb, covc);
+				blkorient.at<double>(br, bc) = ridgeorient(cova,
+				    covb, covc);
 				bc = bc + 1;
 			}
 			br = br + 1;
@@ -210,9 +210,9 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 			for (int j = 1; j <= blkorient.cols; j++) {
 				// remember: OpenCV ranges are open-ended on the
 				// upper end
-				cv::Mat blkROI = paddedBlkorient(
-				    cv::Range(i - 1, i + 2),
-				    cv::Range(j - 1, j + 2));
+				cv::Mat blkROI =
+				    paddedBlkorient(cv::Range(i - 1, i + 2),
+					cv::Range(j - 1, j + 2));
 				// Subtract the input block from the center
 				// value and get its absolute value.
 				cv::Mat blockAbsDiff;
@@ -242,8 +242,8 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		cv::Mat maskBloqseg(maskBseg.rows, maskBseg.cols, CV_8UC1);
 		for (int i = 1; i <= maskBseg.rows; i++) {
 			for (int j = 1; j <= maskBseg.cols; j++) {
-				cv::Mat blkROI = paddedMaskBseg(
-				    cv::Range(i - 1, i + 2),
+				cv::Mat blkROI = paddedMaskBseg(cv::Range(i - 1,
+								    i + 2),
 				    cv::Range(j - 1, j + 2));
 				maskBloqseg.at<uint8_t>(i - 1, j - 1) = allfun(
 				    blkROI);
@@ -265,9 +265,9 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		for (int i = 0; i < loqall.rows; i++) {
 			for (int j = 0; j < loqall.cols; j++) {
 				if (maskBloq.at<uint8_t>(i, j) == 1) {
-					loqs.at<double>(
-					    i, j) = (loqall.at<double>(i, j) -
-							angmin) /
+					loqs.at<double>(i,
+					    j) = (loqall.at<double>(i, j) -
+						     angmin) /
 					    angdiff;
 					dataVector.push_back(
 					    loqs.at<double>(i, j));

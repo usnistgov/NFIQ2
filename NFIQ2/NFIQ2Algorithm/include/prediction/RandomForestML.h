@@ -32,8 +32,8 @@ class RandomForestML {
 #endif
 
 	/** Initialize model (When not using embedded parameters). */
-	std::string initModule(
-	    const std::string &fileName, const std::string &fileHash);
+	std::string initModule(const std::string &fileName,
+	    const std::string &fileHash);
 
 	/**
 	 * Compute NFIQ2 quality score based on model and provided

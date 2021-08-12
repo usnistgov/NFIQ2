@@ -216,8 +216,8 @@ NFIQ2UI::checkThreads(const std::string &threadArg)
 		    "threads to " +
 		    std::to_string(n) + "?\n";
 
-		const bool response = NFIQ2UI::yesOrNo(
-		    prompt, false, true, true);
+		const bool response = NFIQ2UI::yesOrNo(prompt, false, true,
+		    true);
 
 		if (response) {
 			return n;

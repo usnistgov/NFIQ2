@@ -184,8 +184,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						logger->printSingleError(
 						    errStr);
 					} else {
-						logger->printError(
-						    errStr, imageProps);
+						logger->printError(errStr,
+						    imageProps);
 					}
 					return;
 				}
@@ -269,8 +269,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						logger->printSingleError(
 						    e.what());
 					} else {
-						logger->printError(
-						    e.what(), imageProps);
+						logger->printError(e.what(),
+						    imageProps);
 					}
 				}
 				return;
@@ -280,13 +280,13 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 			// Don't resample, continue as if it was 500 ppi
 		} else if (interactive && !flags.force) {
 			if (imagePPI == defaultPPI &&
-			    NFIQ2UI::askIfDefaultResolution(
-				name, imagePPI, requiredPPI)) {
+			    NFIQ2UI::askIfDefaultResolution(name, imagePPI,
+				requiredPPI)) {
 				// Yes, leave the image be
 			} else {
 				// Ask to resample
-				if (NFIQ2UI::askIfResample(
-					name, imagePPI, requiredPPI)) {
+				if (NFIQ2UI::askIfResample(name, imagePPI,
+					requiredPPI)) {
 					// Yes, resample image
 					imageProps.resampled = true;
 					try {
@@ -329,8 +329,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 						logger->printSingleError(
 						    errStr);
 					} else {
-						logger->printError(
-						    errStr, imageProps);
+						logger->printError(errStr,
+						    imageProps);
 					}
 					return;
 				}
@@ -496,8 +496,8 @@ NFIQ2UI::batchConsume(NFIQ2UI::SafeSplitPathsQueue &splitQueue,
 
 		// Iterate through the vector and produce a score for each image
 		for (const auto &j : item) {
-			const auto images = NFIQ2UI::getImages(
-			    j, threadedlogger);
+			const auto images = NFIQ2UI::getImages(j,
+			    threadedlogger);
 
 			for (const auto &image : images) {
 				NFIQ2UI::executeSingle(image, flags, model,
@@ -527,8 +527,8 @@ NFIQ2UI::executeBatch(const std::string &filename, const Flags &flags,
 			const auto images = NFIQ2UI::getImages(i, logger);
 
 			for (const auto &image : images) {
-				executeSingle(
-				    image, flags, model, logger, false, false);
+				executeSingle(image, flags, model, logger,
+				    false, false);
 			}
 		}
 
@@ -539,8 +539,8 @@ NFIQ2UI::executeBatch(const std::string &filename, const Flags &flags,
 		const std::vector<std::string>::size_type splittingFactor = 2;
 
 		// Split paths up into chunks using SafeQueue subclass
-		NFIQ2UI::SafeSplitPathsQueue splitQueue(
-		    content, splittingFactor);
+		NFIQ2UI::SafeSplitPathsQueue splitQueue(content,
+		    splittingFactor);
 
 		SafeQueue<std::string> printQueue;
 		printQueue.setNumThreads(flags.numthreads);
@@ -567,8 +567,8 @@ NFIQ2UI::executeBatch(const std::string &filename, const Flags &flags,
 		}
 
 		// Start printing thread
-		std::thread printThread(
-		    threadedPrint, std::ref(printQueue), logger);
+		std::thread printThread(threadedPrint, std::ref(printQueue),
+		    logger);
 
 		// Join consumer threads
 		for (auto &i : threads) {
@@ -605,8 +605,8 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 		rs = BE::IO::RecordStore::openRecordStore(name);
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "Error: Could not open RecordStore" };
-		threadedlogger->printError(
-		    name, 0, error.append(e.what()), false, false);
+		threadedlogger->printError(name, 0, error.append(e.what()),
+		    false, false);
 		return;
 	}
 
@@ -617,8 +617,8 @@ NFIQ2UI::recordStoreConsume(const std::string &name,
 		// Iterate through the vector and produce a score for each image
 		for (const auto &j : item) {
 			const auto data = rs->read(j);
-			const auto images = NFIQ2UI::getImages(
-			    data, j, threadedlogger);
+			const auto images = NFIQ2UI::getImages(data, j,
+			    threadedlogger);
 
 			for (const auto &image : images) {
 				NFIQ2UI::executeSingle(image, flags, model,
@@ -643,8 +643,8 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 		rs = BE::IO::RecordStore::openRecordStore(filename);
 	} catch (const BE::Error::Exception &e) {
 		std::string error { "Error: Could not open RecordStore" };
-		logger->printError(
-		    filename, 0, error.append(e.what()), false, false);
+		logger->printError(filename, 0, error.append(e.what()), false,
+		    false);
 		return;
 	}
 
@@ -666,8 +666,8 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 				    "Iterating through images in record: " +
 				    rec.key + ", calling executeSingle");
 
-				NFIQ2UI::executeSingle(
-				    image, flags, model, logger, false, false);
+				NFIQ2UI::executeSingle(image, flags, model,
+				    logger, false, false);
 			}
 		}
 	} else {
@@ -696,10 +696,11 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 		std::vector<std::thread> threads;
 		for (unsigned int i { 0 }; i < upperThreadBound; ++i) {
 			try {
-				threads.emplace_back(std::bind(
-				    &recordStoreConsume, filename,
-				    std::ref(splitQueue), std::ref(printQueue),
-				    flags, std::cref(model)));
+				threads.emplace_back(
+				    std::bind(&recordStoreConsume, filename,
+					std::ref(splitQueue),
+					std::ref(printQueue), flags,
+					std::cref(model)));
 			} catch (const std::exception &e) {
 				std::cerr << "Error during thread creation: "
 					  << e.what() << "\n";
@@ -708,8 +709,8 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 		}
 
 		// Start printing thread
-		std::thread printThread(
-		    threadedPrint, std::ref(printQueue), logger);
+		std::thread printThread(threadedPrint, std::ref(printQueue),
+		    logger);
 
 		// Join consumer threads
 		for (auto &i : threads) {
@@ -729,8 +730,8 @@ NFIQ2UI::executeRecordStore(const std::string &filename, const Flags &flags,
 }
 
 void
-NFIQ2UI::threadedPrint(
-    SafeQueue<std::string> &printQueue, std::shared_ptr<NFIQ2UI::Log> logger)
+NFIQ2UI::threadedPrint(SafeQueue<std::string> &printQueue,
+    std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	while (printQueue.getNumThreads() != 0) {
 		if (!printQueue.isEmpty()) {
@@ -833,12 +834,12 @@ NFIQ2UI::procSingle(NFIQ2UI::Arguments arguments, const NFIQ2::Algorithm &model,
 	if (arguments.vecSingle.size() == 1 && arguments.vecDirs.size() == 0 &&
 	    arguments.vecBatch.size() == 0 && !arguments.flags.verbose &&
 	    !arguments.flags.speed && !arguments.flags.actionable) {
-		const auto images = NFIQ2UI::getImages(
-		    arguments.vecSingle[0], logger);
+		const auto images = NFIQ2UI::getImages(arguments.vecSingle[0],
+		    logger);
 
 		for (const auto &image : images) {
-			NFIQ2UI::executeSingle(
-			    image, arguments.flags, model, logger, true, true);
+			NFIQ2UI::executeSingle(image, arguments.flags, model,
+			    logger, true, true);
 		}
 	} else {
 		for (const auto &i : arguments.vecSingle) {
@@ -854,8 +855,8 @@ NFIQ2UI::procSingle(NFIQ2UI::Arguments arguments, const NFIQ2::Algorithm &model,
 
 // Only prints header if it is needed
 void
-NFIQ2UI::printHeader(
-    NFIQ2UI::Arguments arguments, std::shared_ptr<NFIQ2UI::Log> logger)
+NFIQ2UI::printHeader(NFIQ2UI::Arguments arguments,
+    std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	if ((arguments.vecSingle.size() == 1 &&
 		(arguments.flags.verbose || arguments.flags.speed ||
@@ -949,8 +950,8 @@ main(int argc, char **argv)
 
 	std::shared_ptr<NFIQ2UI::Log> logger {};
 	try {
-		logger = std::make_shared<NFIQ2UI::Log>(
-		    arguments.flags, arguments.output);
+		logger = std::make_shared<NFIQ2UI::Log>(arguments.flags,
+		    arguments.output);
 	} catch (const NFIQ2UI::FileOpenError &e) {
 		std::cerr << "Error: Could not create logger object. "
 			  << e.what() << "\n";

@@ -58,8 +58,8 @@ NFIQ2UI::ModelConstructionError::ModelConstructionError(const std::string &info)
 {
 }
 
-NFIQ2UI::ResampleError::ResampleError(
-    const std::string &info, const bool errorHandled = true)
+NFIQ2UI::ResampleError::ResampleError(const std::string &info,
+    const bool errorHandled = true)
     : Exception("ResampleError: " + info)
 {
 	this->_errorHandled = errorHandled;

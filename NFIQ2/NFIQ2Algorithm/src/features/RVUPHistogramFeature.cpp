@@ -131,28 +131,28 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 			for (int c = blkoffset;
 			     c < cols - (blksize + blkoffset - 1);
 			     c += blksize) {
-				im_roi = img(
-				    cv::Range(
-					r, cv::min(r + blksize, img.rows)),
-				    cv::Range(
-					c, cv::min(c + blksize, img.cols)));
-				maskB1 = maskim(
-				    cv::Range(
-					r, cv::min(r + blksize, maskim.rows)),
-				    cv::Range(
-					c, cv::min(c + blksize, maskim.cols)));
+				im_roi = img(cv::Range(r,
+						 cv::min(r + blksize,
+						     img.rows)),
+				    cv::Range(c,
+					cv::min(c + blksize, img.cols)));
+				maskB1 = maskim(cv::Range(r,
+						    cv::min(r + blksize,
+							maskim.rows)),
+				    cv::Range(c,
+					cv::min(c + blksize, maskim.cols)));
 				maskBseg.at<uint8_t>(br, bc) = allfun(maskB1);
 				covcoef(im_roi, cova, covb, covc,
 				    CENTERED_DIFFERENCES);
 
 				// ridge ORIENT local
-				blkorient.at<double>(br, bc) = ridgeorient(
-				    cova, covb, covc);
+				blkorient.at<double>(br, bc) = ridgeorient(cova,
+				    covb, covc);
 				// overlapping windows (border = blkoffset)
-				blkwim = img(
-				    cv::Range(r - blkoffset,
-					cv::min(
-					    r + blksize + blkoffset, img.rows)),
+				blkwim = img(cv::Range(r - blkoffset,
+						 cv::min(r + blksize +
+							 blkoffset,
+						     img.rows)),
 				    cv::Range(c - blkoffset,
 					cv::min(c + blksize + blkoffset,
 					    img.cols)));
@@ -277,8 +277,8 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 	}
 
 	cv::Mat blockRotated;
-	NFIQ2::QualityFeatures::getRotatedBlock(
-	    block, orientation, padFlag, blockRotated);
+	NFIQ2::QualityFeatures::getRotatedBlock(block, orientation, padFlag,
+	    blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;
@@ -298,8 +298,8 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	NFIQ2::QualityFeatures::getRidgeValleyStructure(
-	    blockCropped, ridval, dt);
+	NFIQ2::QualityFeatures::getRidgeValleyStructure(blockCropped, ridval,
+	    dt);
 
 	// Ridge-valley thickness
 	//  change = xor(ridval,circshift(ridval,1)); // find the bin change

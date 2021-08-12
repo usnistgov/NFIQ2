@@ -125,8 +125,8 @@ class Log {
 	 *  @param[in] imageProps
 	 *    A struct containing image property information
 	 */
-	void printError(
-	    const std::string &errmsg, const ImageProps &imageProps) const;
+	void printError(const std::string &errmsg,
+	    const ImageProps &imageProps) const;
 
 	/**
 	 *  @brief

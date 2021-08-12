@@ -48,11 +48,11 @@ class FJFXMinutiaeQualityFeature : public Module {
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
-	std::vector<MinutiaData> computeMuMinQuality(
-	    int bs, const NFIQ2::FingerprintImageData &fingerprintImage);
+	std::vector<MinutiaData> computeMuMinQuality(int bs,
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
-	std::vector<MinutiaData> computeOCLMinQuality(
-	    int bs, const NFIQ2::FingerprintImageData &fingerprintImage);
+	std::vector<MinutiaData> computeOCLMinQuality(int bs,
+	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	double computeMMBBasedOnCOM(int bs,
 	    const NFIQ2::FingerprintImageData &fingerprintImage,

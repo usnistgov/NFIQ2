@@ -9,8 +9,8 @@ NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode)
 {
 }
 
-NFIQ2::Exception::Exception(
-    const NFIQ2::ErrorCode errorCode, const std::string &errorMessage)
+NFIQ2::Exception::Exception(const NFIQ2::ErrorCode errorCode,
+    const std::string &errorMessage)
     : errorCode(errorCode)
     , errorMessage(errorMessage)
 {

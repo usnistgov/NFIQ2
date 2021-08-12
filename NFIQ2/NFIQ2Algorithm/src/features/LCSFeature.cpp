@@ -171,15 +171,15 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 			for (int c = blkoffset;
 			     c < cols - (blocksize + blkoffset - 1);
 			     c += blocksize) {
-				im_roi = img(
-				    cv::Range(
-					r, cv::min(r + blocksize, img.rows)),
-				    cv::Range(
-					c, cv::min(c + blocksize, img.cols)));
+				im_roi = img(cv::Range(r,
+						 cv::min(r + blocksize,
+						     img.rows)),
+				    cv::Range(c,
+					cv::min(c + blocksize, img.cols)));
 				//      blkim = im(r:r+blksz-1, c:c+blksz-1);
-				maskB1 = maskim(
-				    cv::Range(
-					r, cv::min(r + blocksize, maskim.rows)),
+				maskB1 = maskim(cv::Range(r,
+						    cv::min(r + blocksize,
+							maskim.rows)),
 				    cv::Range(c,
 					cv::min(c + blocksize, maskim.cols)));
 				//      maskB1 = maskim(r:r+blksz-1,
@@ -189,13 +189,13 @@ NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
 				    CENTERED_DIFFERENCES);
 
 				// ridge ORIENT local
-				blkorient.at<double>(br, bc) = ridgeorient(
-				    cova, covb, covc);
+				blkorient.at<double>(br, bc) = ridgeorient(cova,
+				    covb, covc);
 				// overlapping windows (border = blkoffset)
-				blkwim = img(
-				    cv::Range(r - blkoffset,
-					cv::min(r + blocksize + blkoffset,
-					    img.rows)),
+				blkwim = img(cv::Range(r - blkoffset,
+						 cv::min(r + blocksize +
+							 blkoffset,
+						     img.rows)),
 				    cv::Range(c - blkoffset,
 					cv::min(c + blocksize + blkoffset,
 					    img.cols)));
@@ -284,8 +284,8 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 	}
 
 	cv::Mat blockRotated;
-	NFIQ2::QualityFeatures::getRotatedBlock(
-	    block, orientation, padFlag, blockRotated);
+	NFIQ2::QualityFeatures::getRotatedBlock(block, orientation, padFlag,
+	    blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;
@@ -303,8 +303,8 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 	int rowend = icBlock + yoff;
 	int colstart = icBlock - (xoff - 1) - 1;
 	int colend = icBlock + xoff;
-	cv::Mat v2 = blockRotated(
-	    cv::Range(rowstart, rowend), cv::Range(colstart, colend));
+	cv::Mat v2 = blockRotated(cv::Range(rowstart, rowend),
+	    cv::Range(colstart, colend));
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;

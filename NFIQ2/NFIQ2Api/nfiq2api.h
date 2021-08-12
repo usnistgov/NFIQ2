@@ -27,8 +27,8 @@
 extern "C" {
 #endif
 
-DLLEXPORT void STDCALL GetNfiq2Version(
-    int *major, int *minor, int *patch, const char **ocv);
+DLLEXPORT void STDCALL GetNfiq2Version(int *major, int *minor, int *patch,
+    const char **ocv);
 DLLEXPORT const char *STDCALL InitNfiq2(char **hash);
 DLLEXPORT int STDCALL ComputeNfiq2Score(int fpos, const unsigned char *pixels,
     int size, int width, int height, int ppi);

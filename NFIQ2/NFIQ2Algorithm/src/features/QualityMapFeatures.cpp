@@ -186,9 +186,9 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 			int angleDegree = (int)((angle * 180 / M_PI) + 0.5);
 			for (int k = i; k < (i + actualBS_Y); k++) {
 				for (int l = j; l < (j + actualBS_X); l++) {
-					omImg.at<uchar>(
-					    k, l) = angleDegree; // set to angle
-								 // value
+					omImg.at<uchar>(k,
+					    l) = angleDegree; // set to angle
+							      // value
 				}
 			}
 		}

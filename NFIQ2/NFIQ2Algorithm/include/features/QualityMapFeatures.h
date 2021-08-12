@@ -28,8 +28,8 @@ class QualityMapFeatures : public Module {
 	static std::vector<std::string> getQualityFeatureIDs();
 
 	// compute orientation angle of a block
-	static bool getAngleOfBlock(
-	    const cv::Mat &block, double &angle, double &coherence);
+	static bool getAngleOfBlock(const cv::Mat &block, double &angle,
+	    double &coherence);
 
 	// computes low flow value of block
 	static double computeLowFlowBlockValue(const cv::Mat &block);
@@ -48,8 +48,8 @@ class QualityMapFeatures : public Module {
 
 	// static helper functions for numberical gradient computation
 	static cv::Mat computeNumericalGradientX(const cv::Mat &mat);
-	static void computeNumericalGradients(
-	    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
+	static void computeNumericalGradients(const cv::Mat &mat,
+	    cv::Mat &grad_x, cv::Mat &grad_y);
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(

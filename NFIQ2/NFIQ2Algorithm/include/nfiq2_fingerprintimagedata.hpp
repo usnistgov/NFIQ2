@@ -40,8 +40,8 @@ class FingerprintImageData : public Data {
 	 * @param ppi
 	 * Resolution of the image in pixels per inch.
 	 */
-	FingerprintImageData(
-	    uint32_t width, uint32_t height, uint8_t fingerCode, uint16_t ppi);
+	FingerprintImageData(uint32_t width, uint32_t height,
+	    uint8_t fingerCode, uint16_t ppi);
 
 	/**
 	 * @brief

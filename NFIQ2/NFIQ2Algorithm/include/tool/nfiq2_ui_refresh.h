@@ -100,8 +100,8 @@ bool askIfResample(const std::string &name, const uint16_t imagePPI,
  * @return
  *  The resampled matrix
  */
-cv::Mat resampleAndLogError(
-    BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
+cv::Mat
+resampleAndLogError(BiometricEvaluation::Memory::uint8Array &grayscaleRawData,
     const NFIQ2UI::DimensionInfo &dimensionInfo,
     const NFIQ2UI::ImageProps &imageProps,
     std::shared_ptr<NFIQ2UI::Log> logger = nullptr);
@@ -294,8 +294,8 @@ void executeRecordStore(const std::string &filename, const Flags &flags,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void threadedPrint(
-    SafeQueue<std::string> &printQueue, std::shared_ptr<NFIQ2UI::Log> logger);
+void threadedPrint(SafeQueue<std::string> &printQueue,
+    std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -354,8 +354,8 @@ void procSingle(NFIQ2UI::Arguments arguments, const NFIQ2::Algorithm &model,
  *  @param[in] logger
  *      Prints scores, errors and debug messages to an output stream.
  */
-void printHeader(
-    NFIQ2UI::Arguments arguments, std::shared_ptr<NFIQ2UI::Log> logger);
+void printHeader(NFIQ2UI::Arguments arguments,
+    std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief

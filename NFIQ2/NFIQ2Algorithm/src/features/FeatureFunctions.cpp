@@ -311,8 +311,8 @@ NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 	}
 
 	if (padFlag) {
-		cv::copyMakeBorder(
-		    block, Inblock, 2, 2, 2, 2, cv::BORDER_CONSTANT, 0);
+		cv::copyMakeBorder(block, Inblock, 2, 2, 2, 2,
+		    cv::BORDER_CONSTANT, 0);
 	} else {
 		Inblock = block;
 	}
@@ -322,8 +322,8 @@ NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 		//   rad2deg(orientation), 'nearest', 'crop');
 		rotatedBlock.create(block.rows, block.cols, block.type());
 		double orientDegrees = orientation * Rad2Deg;
-		cv::Point2f center(
-		    ((float)Inblock.cols / 2.0f), ((float)Inblock.rows / 2.0f));
+		cv::Point2f center(((float)Inblock.cols / 2.0f),
+		    ((float)Inblock.rows / 2.0f));
 		rot_mat = getRotationMatrix2D(center, orientDegrees, 1);
 		cv::warpAffine(Inblock, rotatedBlock, rot_mat,
 		    rotatedBlock.size(), cv::INTER_NEAREST);
@@ -441,8 +441,8 @@ NFIQ2::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
 			tmpreal = tmp * cos(2 * CV_PI * freq * x1);
 			tmpimag = tmp * sin(2 * CV_PI * freq * x1);
 			std::complex<double> fourier(tmpreal, tmpimag);
-			FilterOut.at<std::complex<double>>(
-			    j + ks2, i + ks2) = fourier;
+			FilterOut.at<std::complex<double>>(j + ks2,
+			    i + ks2) = fourier;
 		}
 	}
 	return;
@@ -463,8 +463,8 @@ NFIQ2::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
 
 	cv::Mat kernTmp(dftSize, filter.type(), cv::Scalar::all(0));
 	// Copy the filter to the upper left corner of the tmp array
-	cv::Mat kernROI(
-	    kernTmp, cv::Range(0, filter.rows), cv::Range(0, filter.cols));
+	cv::Mat kernROI(kernTmp, cv::Range(0, filter.rows),
+	    cv::Range(0, filter.cols));
 	filter.copyTo(kernROI);
 	cv::dft(kernTmp, kernTmp, cv::DFT_COMPLEX_OUTPUT);
 
@@ -521,8 +521,8 @@ NFIQ2::QualityFeatures::computeNumericalGradientX(const cv::Mat &mat)
 }
 
 void
-NFIQ2::QualityFeatures::computeNumericalGradients(
-    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y)
+NFIQ2::QualityFeatures::computeNumericalGradients(const cv::Mat &mat,
+    cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
 	grad_x = computeNumericalGradientX(mat);

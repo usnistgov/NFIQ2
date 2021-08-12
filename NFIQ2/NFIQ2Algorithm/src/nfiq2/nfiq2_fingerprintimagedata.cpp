@@ -81,11 +81,7 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 		double mu = computeMuFromRow(i, img);
 		if (mu <= MU_THRESHOLD) {
 			// Mu is not > threshold anymore -> top row index found
-			if (i == 0) {
-				topRowIndex = i;
-			} else {
-				topRowIndex = (i - 1);
-			}
+			topRowIndex = i;
 			break;
 		}
 	}
@@ -98,11 +94,7 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 		if (mu <= MU_THRESHOLD) {
 			// Mu is not > threshold anymore -> bottom row index
 			// found
-			if (i == (img.rows - 1)) {
-				bottomRowIndex = i;
-			} else {
-				bottomRowIndex = (i + 1);
-			}
+			bottomRowIndex = i;
 			break;
 		}
 	}
@@ -114,11 +106,7 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 		double mu = computeMuFromColumn(j, img);
 		if (mu <= MU_THRESHOLD) {
 			// Mu is not > threshold anymore -> left index found
-			if (j == 0) {
-				leftIndex = j;
-			} else {
-				leftIndex = (j - 1);
-			}
+			leftIndex = j;
 			break;
 		}
 	}
@@ -130,11 +118,7 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 		double mu = computeMuFromColumn(j, img);
 		if (mu <= MU_THRESHOLD) {
 			// Mu is not > threshold anymore -> right index found
-			if (j == (img.cols - 1)) {
-				rightIndex = j;
-			} else {
-				rightIndex = (j + 1);
-			}
+			rightIndex = j;
 			break;
 		}
 	}

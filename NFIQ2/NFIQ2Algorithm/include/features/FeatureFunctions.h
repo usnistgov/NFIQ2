@@ -44,15 +44,15 @@ double calccoh(double gxx, double gyy, double gxy);
 double calcof(double gsxavg, double gsyavg);
 
 cv::Mat computeNumericalGradientX(const cv::Mat &mat);
-void computeNumericalGradients(
-    const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y);
+void computeNumericalGradients(const cv::Mat &mat, cv::Mat &grad_x,
+    cv::Mat &grad_y);
 
-void addHistogramFeatures(
-    std::unordered_map<std::string, double> &featureDataList,
+void
+addHistogramFeatures(std::unordered_map<std::string, double> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount);
-void addSamplingFeatureNames(
-    std::vector<std::string> &featureNames, const char *prefix);
+void addSamplingFeatureNames(std::vector<std::string> &featureNames,
+    const char *prefix);
 void addHistogramFeatureNames(std::vector<std::string> &featureNames,
     const std::string &prefix, int binCount);
 #endif

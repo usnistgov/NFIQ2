@@ -51,8 +51,8 @@ NFIQ2UI::getImages(const BE::Memory::uint8Array &dataArray,
 	default:
 		logger->debugMsg("Image type could not be determined. " + name +
 		    " will not be processed");
-		logger->printError(
-		    name, 0, "Error: Could not determine FileType", 0, 0);
+		logger->printError(name, 0,
+		    "Error: Could not determine FileType", 0, 0);
 
 		return vecCouple;
 	}
@@ -60,8 +60,8 @@ NFIQ2UI::getImages(const BE::Memory::uint8Array &dataArray,
 
 // Returns images given a path
 std::vector<NFIQ2UI::ImgCouple>
-NFIQ2UI::getImages(
-    const std::string &path, std::shared_ptr<NFIQ2UI::Log> logger)
+NFIQ2UI::getImages(const std::string &path,
+    std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	logger->debugMsg("Trying to obtain data from path: " + path);
 	std::vector<NFIQ2UI::ImgCouple> vecCouple {};
@@ -78,8 +78,8 @@ NFIQ2UI::getImages(
 		std::string error {
 			"Error: Could not obtain data from path : "
 		};
-		logger->printError(
-		    path, 0, error.append(e.what()), false, false);
+		logger->printError(path, 0, error.append(e.what()), false,
+		    false);
 	}
 
 	return vecCouple;
@@ -207,8 +207,8 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 			    "Invalid fingerprint position provided: " + name +
 			    "_" + std::to_string(fingerPosition));
 
-			logger->printError(
-			    name + "_" + std::to_string(fingerPosition),
+			logger->printError(name + "_" +
+				std::to_string(fingerPosition),
 			    static_cast<uint8_t>(fingerPosition),
 			    "Error: Invalid FingerPosition for NFIQ2 (not "
 			    "0-12)",
@@ -235,8 +235,8 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 	try {
 		// Make Ansi2004Record and collect fingerprint captures
 		ansi2004 =
-		    std::make_shared<BE::DataInterchange::ANSI2004Record>(
-			empty, dataArray);
+		    std::make_shared<BE::DataInterchange::ANSI2004Record>(empty,
+			dataArray);
 	} catch (const BE::Error::Exception &e) {
 		// Could not make ANSI2004Record
 		std::string error {
@@ -322,8 +322,8 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 			    "Invalid fingerprint position provided: " + name +
 			    "_" + std::to_string(fingerPosition));
 
-			logger->printError(
-			    name + "_" + std::to_string(fingerPosition),
+			logger->printError(name + "_" +
+				std::to_string(fingerPosition),
 			    static_cast<uint8_t>(fingerPosition),
 			    "Error: Invalid finger print position for "
 			    "NFIQ2",

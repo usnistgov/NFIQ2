@@ -151,8 +151,8 @@ NFIQ2UI::Log::printError(const std::string &name, uint8_t fingerCode,
 
 // Wrapper for printError that takes in an ImageProps
 void
-NFIQ2UI::Log::printError(
-    const std::string &errmsg, const ImageProps &imageProps) const
+NFIQ2UI::Log::printError(const std::string &errmsg,
+    const ImageProps &imageProps) const
 {
 	NFIQ2UI::Log::printError(imageProps.name, imageProps.fingerPosition,
 	    errmsg, imageProps.quantized, imageProps.resampled);

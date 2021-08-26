@@ -155,16 +155,16 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 			for (int c = blkoffset;
 			     c < cols - (blksize + blkoffset - 1);
 			     c += blksize) {
-				im_roi = img(
-				    cv::Range(
-					r, cv::min(r + blksize, img.rows)),
-				    cv::Range(
-					c, cv::min(c + blksize, img.cols)));
-				maskB1 = maskim(
-				    cv::Range(
-					r, cv::min(r + blksize, maskim.rows)),
-				    cv::Range(
-					c, cv::min(c + blksize, maskim.cols)));
+				im_roi = img(cv::Range(r,
+						 cv::min(r + blksize,
+						     img.rows)),
+				    cv::Range(c,
+					cv::min(c + blksize, img.cols)));
+				maskB1 = maskim(cv::Range(r,
+						    cv::min(r + blksize,
+							maskim.rows)),
+				    cv::Range(c,
+					cv::min(c + blksize, maskim.cols)));
 				uint8_t mask = allfun(maskB1);
 				if (mask == 1) {
 					covcoef(im_roi, cova, covb, covc,
@@ -175,10 +175,10 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 					    bc) = ridgeorient(cova, covb, covc);
 					// overlapping windows (border =
 					// blkoffset)
-					blkwim = img(
-					    cv::Range(r - blkoffset,
-						cv::min(r + blksize + blkoffset,
-						    img.rows)),
+					blkwim = img(cv::Range(r - blkoffset,
+							 cv::min(r + blksize +
+								 blkoffset,
+							     img.rows)),
 					    cv::Range(c - blkoffset,
 						cv::min(c + blksize + blkoffset,
 						    img.cols)));
@@ -270,8 +270,8 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	// rotate image to get the ridges horizontal using nearest-neighbor
 	// interpolation
 	cv::Mat blockRotated;
-	NFIQ2::QualityFeatures::getRotatedBlock(
-	    block, orientation + (M_PI / 2), padFlag, blockRotated);
+	NFIQ2::QualityFeatures::getRotatedBlock(block, orientation + (M_PI / 2),
+	    padFlag, blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;
@@ -326,8 +326,8 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	double mVal;
 	cv::Point mLoc;
 	cv::minMaxLoc(amp, 0, &mVal, 0, &mLoc);
-	cv::Mat ampDenom(
-	    amp, cv::Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
+	cv::Mat ampDenom(amp,
+	    cv::Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
 	cv::Scalar iqmDenom = sum(ampDenom);
 	if (mLoc.x == 0 || mLoc.x + 1 >= amp.cols) {
 		// ?????? FIXME

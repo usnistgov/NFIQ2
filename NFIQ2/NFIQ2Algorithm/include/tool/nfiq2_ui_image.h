@@ -57,8 +57,8 @@ namespace NFIQ2UI {
  *    images contained in a data-blob.
  */
 
-std::vector<NFIQ2UI::ImgCouple> getImages(
-    const BiometricEvaluation::Memory::uint8Array &dataArray,
+std::vector<NFIQ2UI::ImgCouple>
+getImages(const BiometricEvaluation::Memory::uint8Array &dataArray,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
@@ -77,8 +77,8 @@ std::vector<NFIQ2UI::ImgCouple> getImages(
  *    Vector of ImgCouple containing pertinent information for all
  *    images contained in a data-blob.
  */
-std::vector<NFIQ2UI::ImgCouple> getImages(
-    const std::string &path, std::shared_ptr<NFIQ2UI::Log> logger);
+std::vector<NFIQ2UI::ImgCouple> getImages(const std::string &path,
+    std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
  *  @brief
@@ -100,8 +100,8 @@ std::vector<NFIQ2UI::ImgCouple> getImages(
  *    Vector of ImgCouple containing pertinent information for all
  *    images contained in a data-blob.
  */
-std::vector<NFIQ2UI::ImgCouple> getImagesFromImage(
-    const BiometricEvaluation::Memory::uint8Array &imageData,
+std::vector<NFIQ2UI::ImgCouple>
+getImagesFromImage(const BiometricEvaluation::Memory::uint8Array &imageData,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
@@ -119,8 +119,8 @@ std::vector<NFIQ2UI::ImgCouple> getImagesFromImage(
  *    Vector of ImgCouple containing pertinent information for all
  *    images contained in a data-blob.
  */
-std::vector<NFIQ2UI::ImgCouple> getImagesFromAN2K(
-    const BiometricEvaluation::Memory::uint8Array &an2kData,
+std::vector<NFIQ2UI::ImgCouple>
+getImagesFromAN2K(const BiometricEvaluation::Memory::uint8Array &an2kData,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger);
 
 /**
@@ -138,8 +138,8 @@ std::vector<NFIQ2UI::ImgCouple> getImagesFromAN2K(
  *    Vector of ImgCouple containing pertinent information for all
  *    images contained in a data-blob.
  */
-std::vector<NFIQ2UI::ImgCouple> getImagesFromANSI2004(
-    const BiometricEvaluation::Memory::uint8Array &ansiData,
+std::vector<NFIQ2UI::ImgCouple>
+getImagesFromANSI2004(const BiometricEvaluation::Memory::uint8Array &ansiData,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger);
 
 } // namespace NFIQ2UI

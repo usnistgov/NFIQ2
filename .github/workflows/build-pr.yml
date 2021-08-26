@@ -9,7 +9,7 @@ on:
       - '.travis.yml'
       - '**.md'
       - 'appveyor.yml'
-      - 'complianceTestSet/**'
+      - 'conformance/**'
 
 env:
   CONFIGURATION: Release

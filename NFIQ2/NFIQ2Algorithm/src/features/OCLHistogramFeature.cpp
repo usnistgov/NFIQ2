@@ -96,13 +96,13 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 					// ignore other blocks
 
 					// get current block
-					cv::Mat bl_img = img(cv::Rect(
-					    j, i, actualBS_X, actualBS_Y));
+					cv::Mat bl_img = img(cv::Rect(j, i,
+					    actualBS_X, actualBS_Y));
 
 					// get OCL value of current block
 					double bl_ocl = 0.0;
-					if (!getOCLValueOfBlock(
-						bl_img, bl_ocl)) {
+					if (!getOCLValueOfBlock(bl_img,
+						bl_ocl)) {
 						continue; // block is not used
 					}
 

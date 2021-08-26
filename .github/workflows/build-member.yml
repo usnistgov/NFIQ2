@@ -11,7 +11,7 @@ on:
       - '.travis.yml'
       - '**.md'
       - 'appveyor.yml'
-      - 'complianceTestSet/**'
+      - 'conformance/**'
 
 env:
   CONFIGURATION: Release
@@ -180,35 +180,35 @@ jobs:
       shell: bash
       run: otool -L install_staging/nfiq2/bin/nfiq2
 
-    - name: Download Compliance Test
-      working-directory: ${{ github.workspace }}/complianceTestSet
+    - name: Download Conformance Test
+      working-directory: ${{ github.workspace }}/conformance
       shell: bash
-      run: curl -o nfiq2_compliance.zip -L ${{ secrets.NFIQ2_COMPLIANCE_TEST_SET_URL }}
+      run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
-    - name: Run Compliance Test (Windows)
+    - name: Run Conformance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
-      working-directory: ${{ github.workspace }}/complianceTestSet
+      working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
-        unzip -q nfiq2_compliance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        unzip -q nfiq2_conformance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
 
-    - name: Run Compliance Test (Linux)
+    - name: Run Conformance Test (Linux)
       if: ${{ runner.os != 'Windows' }}
-      working-directory: ${{ github.workspace }}/complianceTestSet
+      working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
-        unzip -q nfiq2_compliance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_compliance/images -a -v -q -o github.csv
+        unzip -q nfiq2_conformance.zip
+        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
 
-    - name: Diff Compliance Test
-      working-directory: ${{ github.workspace }}/complianceTestSet
+    - name: Diff Conformance Test
+      working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
         python -m pip install pandas
-        python ./diff.py -s CTS_MASTER_OUTPUT.csv github.csv
+        python ./diff.py -s conformance_expected_output.csv github.csv

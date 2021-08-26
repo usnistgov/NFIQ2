@@ -84,8 +84,8 @@ NFIQ2::ModelInfo::ModelInfo(const std::string &modelInfoFilePath)
 						} else {
 							this->modelPath =
 							    modelInfoFilePath
-								.substr(
-								    0, found) +
+								.substr(0,
+								    found) +
 							    '/' + end;
 						}
 					}
@@ -159,10 +159,11 @@ trimWhitespace(const std::string &s)
 		[&](const char &c) -> bool { return (!std::isspace(c)); }));
 
 	/* Erase from the last non-whitespace to the end */
-	output.erase(
-	    std::find_if(output.rbegin(), output.rend(),
-		[&](const char &c) -> bool { return (!std::isspace(c)); })
-		.base(),
+	output.erase(std::find_if(output.rbegin(), output.rend(),
+			 [&](const char &c) -> bool {
+				 return (!std::isspace(c));
+			 })
+			 .base(),
 	    output.end());
 
 	return output;

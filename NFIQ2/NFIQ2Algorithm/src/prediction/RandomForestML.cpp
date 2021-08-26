@@ -104,8 +104,8 @@ NFIQ2::Prediction::RandomForestML::initModule()
 #endif
 
 std::string
-NFIQ2::Prediction::RandomForestML::initModule(
-    const std::string &fileName, const std::string &fileHash)
+NFIQ2::Prediction::RandomForestML::initModule(const std::string &fileName,
+    const std::string &fileHash)
 {
 	std::ifstream input(fileName);
 	std::string params((std::istreambuf_iterator<char>(input)),
@@ -255,8 +255,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		}
 
 		// copy data to structure
-		cv::Mat sample_data = cv::Mat(
-		    1, rfFeatureOrder.size(), CV_32FC1);
+		cv::Mat sample_data = cv::Mat(1, rfFeatureOrder.size(),
+		    CV_32FC1);
 
 		for (unsigned int i { 0 }; i < rfFeatureOrder.size(); ++i) {
 			sample_data.at<float>(0, i) = features.at(
@@ -265,16 +265,16 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 
 		// returns probability that between 0 and 1 that result belongs
 		// to second class
-		float prob = m_pTrainedRF->predict(
-		    sample_data, cv::noArray(), cv::ml::StatModel::RAW_OUTPUT);
+		float prob = m_pTrainedRF->predict(sample_data, cv::noArray(),
+		    cv::ml::StatModel::RAW_OUTPUT);
 		// return quality value
 		qualityValue = (int)(prob + 0.5);
 
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::MachineLearningError, e.msg);
 	} catch (const std::out_of_range &e) {
-		throw Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, e.what());
+		throw Exception(NFIQ2::ErrorCode::FeatureCalculationError,
+		    e.what());
 	}
 }
 

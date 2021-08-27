@@ -119,10 +119,10 @@ jobs:
         path: |
           ${{ github.workspace }}/build
           !${{ github.workspace }}/build/nfir*
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-2
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
         restore-keys: |
-          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-2
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-2
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
 
     - name: Get CMake Version
       shell: bash

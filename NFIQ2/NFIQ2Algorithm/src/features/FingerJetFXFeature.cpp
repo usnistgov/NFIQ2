@@ -1,7 +1,9 @@
 #include <features/FingerJetFXFeature.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
+#include <opencv2/core.hpp>
 
+#include <algorithm>
 #include <cstring>
 #include <memory>
 #include <sstream>
@@ -89,6 +91,32 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 {
 	std::unordered_map<std::string, double> featureDataList;
 
+	/*
+	 * FingerJet FX has a minimum image size, but it doesn't mind extra
+	 * whitespace. Pad image with white on the bottom and right to make
+	 * FingerJet FX happy, while also not modifying any other NFIQ2
+	 * block-based features.
+	 */
+	static const uint32_t fingerJetMinWidth { 196 };
+	static const uint32_t fingerJetMinHeight { 196 };
+	static const uint8_t whitePixel { 255 };
+	cv::Mat biggerImageCV {};
+	const bool imageTooSmall { (fingerprintImage.width <
+				       fingerJetMinWidth) ||
+		(fingerprintImage.height < fingerJetMinHeight) };
+	if (imageTooSmall) {
+		const cv::Mat originalImage(fingerprintImage.height,
+		    fingerprintImage.width, CV_8UC1,
+		    (uint8_t *)fingerprintImage.data());
+
+		biggerImageCV = cv::Mat(std::max(fingerprintImage.height,
+					    fingerJetMinHeight),
+		    std::max(fingerprintImage.width, fingerJetMinWidth),
+		    CV_8UC1);
+		biggerImageCV = whitePixel;
+		originalImage.copyTo(biggerImageCV(cv::Rect(0, 0,
+		    fingerprintImage.width, fingerprintImage.height)));
+	}
 
 	std::pair<std::string, double> fd_min_cnt;
 	fd_min_cnt =
@@ -117,10 +145,19 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 		    "NULL).");
 	}
 
+	const uint8_t *imageDataPtr { imageTooSmall ? biggerImageCV.ptr() :
+							    fingerprintImage.data() };
+	const uint32_t imageWidth { imageTooSmall ? biggerImageCV.cols :
+							  fingerprintImage.width };
+	const uint32_t imageHeight { imageTooSmall ? biggerImageCV.rows :
+							   fingerprintImage.height };
+	const uint64_t imageDataSize { imageTooSmall ?
+			  imageWidth * imageHeight :
+			  fingerprintImage.size() };
+
 	// extract feature set
 	const FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,
-	    (unsigned char *)fingerprintImage.data(), fingerprintImage.size(),
-	    fingerprintImage.width, fingerprintImage.height,
+	    imageDataPtr, imageDataSize, imageWidth, imageHeight,
 	    fingerprintImage.ppi, FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet);
 	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);
@@ -171,6 +208,13 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	this->minutiaData_.clear();
 	this->minutiaData_.reserve(minCnt);
 	for (unsigned int i = 0; i < minCnt; i++) {
+		/* If FJFX somehow found minutiae in whitespace, remove them */
+		if (imageTooSmall) {
+			if ((mdata[i].x >= fingerprintImage.width) ||
+			    (mdata[i].y >= fingerprintImage.height))
+				continue;
+		}
+
 		this->minutiaData_.emplace_back(static_cast<unsigned int>(
 						    mdata[i].x),
 		    static_cast<unsigned int>(mdata[i].y),

@@ -89,15 +89,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 {
 	std::unordered_map<std::string, double> featureDataList;
 
-	// make local copy of fingerprint image
-	// since FJFX somehow transforms the input image
-	NFIQ2::FingerprintImageData localFingerprintImage(
-	    fingerprintImage.width, fingerprintImage.height,
-	    fingerprintImage.fingerCode, fingerprintImage.ppi);
-	// copy data now
-	localFingerprintImage.resize(fingerprintImage.size());
-	memcpy((void *)localFingerprintImage.data(), fingerprintImage.data(),
-	    fingerprintImage.size());
 
 	std::pair<std::string, double> fd_min_cnt;
 	fd_min_cnt =
@@ -128,10 +119,9 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	// extract feature set
 	const FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,
-	    (unsigned char *)localFingerprintImage.data(),
-	    localFingerprintImage.size(), localFingerprintImage.width,
-	    localFingerprintImage.height, localFingerprintImage.ppi,
-	    FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet);
+	    (unsigned char *)fingerprintImage.data(), fingerprintImage.size(),
+	    fingerprintImage.width, fingerprintImage.height,
+	    fingerprintImage.ppi, FRFXLL_FEX_ENABLE_ENHANCEMENT, &hFeatureSet);
 	if (!FRFXLL_SUCCESS(fxRes)) {
 		FRFXLLCloseHandle(&hCtx);
 		throw NFIQ2::Exception(

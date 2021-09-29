@@ -202,25 +202,29 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 double
 computeMuFromRow(unsigned int rowIndex, const cv::Mat &img)
 {
-	double mu = 0.0;
-	for (int j = 0; j < img.cols; j++) {
+	// As of last test with OpenCV 4.5.3, this is significantly faster than
+	// std::accumulate of img.row(rowIndex)
+	unsigned int mu { 0 };
+	for (int j = 0; j < img.cols; ++j) {
 		// get gray value of image (0 = black, 255 = white)
-		mu += (double)img.at<uchar>(rowIndex, j);
+		mu += *img.ptr<uchar>(rowIndex, j);
 	}
 
-	mu /= img.cols;
-	return mu;
+	return static_cast<double>(
+	    static_cast<double>(mu) / static_cast<double>(img.cols));
 }
 
 double
 computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img)
 {
-	double mu = 0.0;
-	for (int i = 0; i < img.rows; i++) {
+	// As of last test with OpenCV 4.5.3, this is significantly faster than
+	// std::accumulate of img.col(columnIndex)
+	unsigned int mu { 0 };
+	for (int i = 0; i < img.rows; ++i) {
 		// get gray value of image (0 = black, 255 = white)
-		mu += (double)img.at<uchar>(i, columnIndex);
+		mu += *img.ptr<uchar>(i, columnIndex);
 	}
 
-	mu /= img.rows;
-	return mu;
+	return static_cast<double>(
+	    static_cast<double>(mu) / static_cast<double>(img.rows));
 }

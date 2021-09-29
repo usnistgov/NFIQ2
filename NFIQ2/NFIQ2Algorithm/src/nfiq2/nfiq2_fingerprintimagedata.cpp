@@ -76,66 +76,73 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 
 	// start from top of image and find top row index that is already part
 	// of the fingerprint image
-	int topRowIndex = 0;
-	for (int i = 0; i < img.rows; i++) {
-		double mu = computeMuFromRow(i, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> top row index found
-			topRowIndex = i;
+	int topRowIndex { 0 }, bottomRowIndex { img.rows - 1 };
+	for (; topRowIndex < img.rows; ++topRowIndex) {
+		if (computeMuFromRow(topRowIndex, img) <= MU_THRESHOLD) {
 			break;
 		}
 	}
 
-	// start from bottom of image and find bottom row index that is already
-	// part of the fingerprint image
-	int bottomRowIndex = (img.rows - 1);
-	for (int i = (img.rows - 1); i >= 0; i--) {
-		double mu = computeMuFromRow(i, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> bottom row index
-			// found
-			bottomRowIndex = i;
-			break;
+	// If we traversed all rows and never found data, we can stop
+	if (topRowIndex >= img.rows) {
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::InvalidImageSize,
+			"All image rows appear to be blank" };
+	} else {
+		// start from bottom of image and find bottom row index that is
+		// already part of the fingerprint image
+		for (; bottomRowIndex >= topRowIndex; --bottomRowIndex) {
+			if (computeMuFromRow(bottomRowIndex, img) <=
+			    MU_THRESHOLD) {
+				break;
+			}
 		}
+
+		// topRowIndex was 0 and was the only row with pixels. for loop
+		// made us go negative.
+		if (bottomRowIndex <= 0)
+			bottomRowIndex = 0;
 	}
 
 	// start from left of image and find left index that is already part of
 	// the fingerprint image
-	int leftIndex = 0;
-	for (int j = 0; j < img.cols; j++) {
-		double mu = computeMuFromColumn(j, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> left index found
-			leftIndex = j;
+	int leftIndex { 0 }, rightIndex { img.cols - 1 };
+	for (; leftIndex < img.cols; ++leftIndex) {
+		if (computeMuFromColumn(leftIndex, img) <= MU_THRESHOLD) {
 			break;
 		}
 	}
 
-	// start from right of image and find right index that is already part
-	// of the fingerprint image
-	int rightIndex = (img.cols - 1);
-	for (int j = (img.cols - 1); j >= 0; j--) {
-		double mu = computeMuFromColumn(j, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> right index found
-			rightIndex = j;
-			break;
+	// If we traversed all the columns, then we don't need to check starting
+	// from the other side.
+	if (leftIndex >= img.cols) {
+		// If we traversed all columns and never found data, we can stop
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::InvalidImageSize,
+			"All image columns appear to be blank" };
+	} else {
+		// start from right of image and find right index that is
+		// already part of the fingerprint image
+		for (; rightIndex >= leftIndex; --rightIndex) {
+			if (computeMuFromColumn(rightIndex, img) <=
+			    MU_THRESHOLD) {
+				break;
+			}
 		}
+		// leftRow was 0 and was the only column with pixels. for loop
+		// made us go negative.
+		if (rightIndex <= 0)
+			rightIndex = 0;
 	}
+	if ((rightIndex <= leftIndex) || (bottomRowIndex <= topRowIndex))
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::InvalidImageSize,
+			"Asked to inclusively crop from (" +
+			    std::to_string(leftIndex) + ',' +
+			    std::to_string(topRowIndex) + ") to (" +
+			    std::to_string(rightIndex) + ',' +
+			    std::to_string(bottomRowIndex) + ')' };
 
-	// now crop image according to detected border indices
-	int width = rightIndex - leftIndex + 1;
-	if (width <= 0) {
-		leftIndex = 0;
-		width = img.cols;
-	}
-	int height = bottomRowIndex - topRowIndex + 1;
-	if (height <= 0) {
-		topRowIndex = 0;
-		height = img.rows;
-	}
-	const cv::Rect roi(leftIndex, topRowIndex, width, height);
-	const cv::Mat roiImg = img(roi);
+	// OpenCV range upper boundaries are not included, so add 1 to index
+	const cv::Mat roiImg = img(cv::Range(topRowIndex, bottomRowIndex + 1),
+	    cv::Range(leftIndex, rightIndex + 1));
 
 	static const uint16_t fingerJetMinWidth = 196;
 	static const uint16_t fingerJetMaxWidth = 800;

@@ -65,6 +65,9 @@ HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized
 # Speed headers are filtered out, if present
 df = df.filter(HEADERS)
 df2 = df2.filter(HEADERS)
+if df.shape != df2.shape:
+  print("Please only compare CSV results from the same dataset\n")
+  sys.exit(1)
 
 # Replace the full filename path with just the file base name for both dataframes
 bnTemp = []

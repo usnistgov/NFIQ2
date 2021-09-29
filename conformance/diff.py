@@ -70,15 +70,10 @@ if df.shape != df2.shape:
   sys.exit(1)
 
 # Replace the full filename path with just the file base name for both dataframes
-bnTemp = []
-for col in df['Filename']:
-    bnTemp.append(os.path.basename(col.replace('\\',os.sep)))
-df['Filename'] = bnTemp
-
-bn2Temp = []
-for col in df2['Filename']:
-    bn2Temp.append(os.path.basename(col.replace('\\',os.sep)))
-df2['Filename'] = bn2Temp
+df = df.assign(Filename = lambda dataframe: dataframe['Filename'].map(
+    lambda path: os.path.basename(path.replace('\\', os.sep).replace('/', os.sep))))
+df2 = df2.assign(Filename = lambda dataframe: dataframe['Filename'].map(
+    lambda path: os.path.basename(path.replace('\\', os.sep).replace('/', os.sep))))
 
 # Sort each dataframe on key 'Filename'
 df = df.sort_values(by=['Filename'])

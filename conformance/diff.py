@@ -101,7 +101,7 @@ a = diff_df.query('variable_1 == "self"').drop('variable_1', axis = 1)
 b = diff_df.query('variable_1 != "self"').drop('variable_1', axis = 1)
 
 # Join the results on 'Filename' and 'variable_0' (The attribute name that has a difference)
-diff_df = pd.merge(a, b, on=['Filename', 'variable_0']).dropna()
+diff_df = pd.merge(a, b, on=['Filename', 'variable_0'])
 
 # Clarify column names
 diff_df = diff_df.rename(columns={'variable_0':'Variable', 'value_x':'X', 'value_y':'Y'})

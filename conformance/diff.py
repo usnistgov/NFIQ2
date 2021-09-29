@@ -3,11 +3,11 @@
 import sys, pandas as pd, argparse, os.path
 from distutils.version import StrictVersion
 
-# Need Pandas v1.1.0 
+# Need Pandas v1.1.0
 if StrictVersion(pd.__version__) < StrictVersion("1.1.0"):
   print("This script requires the use of Pandas v1.1.0.")
   sys.exit(1)
-    
+
 # Argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("csv1", type = str, help="First CSV")
@@ -54,7 +54,7 @@ HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized
            "LCS_Bin10_0", "LCS_Bin10_1", "LCS_Bin10_2", "LCS_Bin10_3", "LCS_Bin10_4", "LCS_Bin10_5",
            "LCS_Bin10_6", "LCS_Bin10_7", "LCS_Bin10_8", "LCS_Bin10_9", "LCS_Bin10_Mean", "LCS_Bin10_StdDev",
            "MMB", "Mu",
-           "OCL_Bin10_0", "OCL_Bin10_1", "OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5", 
+           "OCL_Bin10_0", "OCL_Bin10_1", "OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5",
            "OCL_Bin10_6", "OCL_Bin10_7", "OCL_Bin10_8", "OCL_Bin10_9", "OCL_Bin10_Mean", "OCL_Bin10_StdDev",
            "OF_Bin10_0", "OF_Bin10_1", "OF_Bin10_2", "OF_Bin10_3", "OF_Bin10_4", "OF_Bin10_5",
            "OF_Bin10_6", "OF_Bin10_7", "OF_Bin10_8", "OF_Bin10_9", "OF_Bin10_Mean", "OF_Bin10_StdDev",
@@ -85,7 +85,7 @@ df2 = df2.sort_values(by=['Filename'])
 df = df.reset_index(drop=True)
 df2 = df2.reset_index(drop=True)
 
-# Compute the diff dataframe using Pandas compare - NEED Pandas V1.1.0 MINIMUM    
+# Compute the diff dataframe using Pandas compare - NEED Pandas V1.1.0 MINIMUM
 diff_df = df.compare(df2, keep_equal=False, keep_shape=False, align_axis=1)
 
 # Used to re-add filenames post comparison at the front of the diff dataframe

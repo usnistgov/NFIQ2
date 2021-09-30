@@ -9,7 +9,6 @@ on:
       - '.github/**'
       - '!.github/workflows/run-cts-pr.yml'
       - '.gitignore'
-      - '.travis.yml'
       - '**.md'
       - 'appveyor.yml'
 

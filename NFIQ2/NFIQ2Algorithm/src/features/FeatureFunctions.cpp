@@ -554,9 +554,8 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	int currentBucket = 0;
 	double currentBound = binBoundaries.at(currentBucket);
 
-	for (std::vector<double>::iterator it = dataVector.begin();
-	     it != dataVector.end(); ++it) {
-		while (!cvIsInf(*it) && *it >= currentBound) {
+	for (const auto &value : dataVector) {
+		while (!cvIsInf(value) && value >= currentBound) {
 			currentBucket++;
 			currentBound = binBoundaries.at(currentBucket);
 		}

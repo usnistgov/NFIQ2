@@ -550,10 +550,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 
 	std::sort(dataVector.begin(), dataVector.end());
 
-	int *bins = new int[binCount];
-	for (int i = 0; i < binCount; i++) {
-		bins[i] = 0;
-	}
+	std::vector<int> bins(binCount, 0);
 	int currentBucket = 0;
 	double currentBound = binBoundaries.at(currentBucket);
 
@@ -578,10 +575,6 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	    mean.val[0];
 	featureDataList[featurePrefix + FeatureFunctionsStdDevSuffix] =
 	    stdDev.val[0];
-
-	if (bins) {
-		delete[] bins;
-	}
 }
 
 void

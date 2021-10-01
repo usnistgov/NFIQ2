@@ -35,11 +35,6 @@ jobs:
           - { os: windows-2016, arch: x86 }
 
     steps:
-    - name: Switch macOS 11 to Xcode 13
-      if: ${{ env.RUNNER_NAME == 'macOS-11' }}
-      run: |
-        sudo xcode-select --switch /Applications/Xcode_13.0.app
-
     - name: Checkout Code and Submodules
       uses: actions/checkout@v2
       with:

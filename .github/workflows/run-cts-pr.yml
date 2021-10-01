@@ -25,6 +25,7 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-11, arch: x64 }
           - { os: macOS-10.15, arch: x64 }
           - { os: ubuntu-18.04, arch: x64 }
           - { os: ubuntu-20.04, arch: x64 }
@@ -34,6 +35,11 @@ jobs:
           - { os: windows-2016, arch: x86 }
 
     steps:
+    - name: Switch macOS 11 to Xcode 13
+      if: ${{ env.RUNNER_NAME == 'macOS-11' }}
+      run: |
+        sudo xcode-select --switch /Applications/Xcode_13.0.app
+
     - name: Checkout Conformance Test Script
       uses: actions/checkout@v2
       with:

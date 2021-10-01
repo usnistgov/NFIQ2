@@ -9,8 +9,8 @@
 
 static const int maxSampleCount = 50;
 
-static const char FeaturFunctionsStdDevSuffix[] = "StdDev";
-static const char FeaturFunctionsMeanSuffix[] = "Mean";
+static const char FeatureFunctionsStdDevSuffix[] = "StdDev";
+static const char FeatureFunctionsMeanSuffix[] = "Mean";
 
 /***
 From the matlab code:
@@ -168,13 +168,11 @@ NFIQ2::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
 			cv::Sobel(doubleIm, dfy, CV_64F, 0, 1, 3, 1, 0,
 			    cv::BORDER_REFLECT_101);
 		} catch (const cv::Exception &e) {
-			std::stringstream ssErr;
-			ssErr << "Call to OpenCV Sobel operator function "
-				 "failed: "
-			      << e.what();
 			throw NFIQ2::Exception(
 			    NFIQ2::ErrorCode::FeatureCalculationError,
-			    ssErr.str());
+			    "Call to OpenCV Sobel operator function "
+			    "failed: " +
+				std::string(e.what()));
 		}
 	}
 
@@ -328,10 +326,10 @@ NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 		cv::warpAffine(Inblock, rotatedBlock, rot_mat,
 		    rotatedBlock.size(), cv::INTER_NEAREST);
 	} catch (const cv::Exception &e) {
-		std::stringstream ssErr;
-		ssErr << "Exception during block rotation: " << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    "Exception during block rotation: " +
+			std::string(e.what()));
 	}
 
 	return;
@@ -375,12 +373,11 @@ NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 	try {
 		cv::solve(dttemp, v3, dt1, cv::DECOMP_QR);
 	} catch (const cv::Exception &e) {
-		std::stringstream ssErr;
-		ssErr << "Exception during ridge/valley processing: "
-			 "cv::solve(cv::DECOMP_QR) "
-		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    "Exception during ridge/valley processing: "
+		    "cv::solve(cv::DECOMP_QR) " +
+			std::string(e.what()));
 	}
 
 	// Round to 10 decimal points to preserve score consistency across
@@ -542,11 +539,13 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	const auto myBinCount = binBoundaries.size();
 
 	if (myBinCount != binCount) {
-		std::stringstream s;
-		s << "Wrong histogram bin count for " << featurePrefix
-		  << ". Should be " << binCount << " but is " << myBinCount;
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, s.str());
+		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    "Wrong histogram bin count for " + featurePrefix +
+			". "
+			"Should be " +
+			std::to_string(binCount) + " but is " +
+			std::to_string(myBinCount));
 	}
 
 	std::sort(dataVector.begin(), dataVector.end());
@@ -568,32 +567,17 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 	}
 
 	for (int i = 0; i < binCount; i++) {
-		std::pair<std::string, double> fd;
-
-		std::stringstream s;
-		s << featurePrefix << i;
-
-		fd = std::make_pair(s.str(), bins[i]);
-
-		featureDataList[fd.first] = fd.second;
+		featureDataList[featurePrefix + std::to_string(i)] = bins[i];
 	}
 
 	cv::Mat dataMat(dataVector);
 	cv::Scalar mean, stdDev;
 	cv::meanStdDev(dataMat, mean, stdDev);
 
-	std::pair<std::string, double> meanFD, stdDevFD;
-	std::stringstream meanSs, stdDevSs;
-
-	meanSs << featurePrefix << FeaturFunctionsMeanSuffix;
-	stdDevSs << featurePrefix << FeaturFunctionsStdDevSuffix;
-
-	meanFD = std::make_pair(meanSs.str(), mean.val[0]);
-
-	stdDevFD = std::make_pair(stdDevSs.str(), stdDev.val[0]);
-
-	featureDataList[meanFD.first] = meanFD.second;
-	featureDataList[stdDevFD.first] = stdDevFD.second;
+	featureDataList[featurePrefix + FeatureFunctionsMeanSuffix] =
+	    mean.val[0];
+	featureDataList[featurePrefix + FeatureFunctionsStdDevSuffix] =
+	    stdDev.val[0];
 
 	if (bins) {
 		delete[] bins;
@@ -605,9 +589,7 @@ NFIQ2::QualityFeatures::addSamplingFeatureNames(
     std::vector<std::string> &featureNames, const char *prefix)
 {
 	for (int i = 0; i < maxSampleCount; i++) {
-		std::stringstream s;
-		s << prefix << i;
-		featureNames.push_back(s.str());
+		featureNames.push_back(prefix + std::to_string(i));
 	}
 }
 
@@ -617,13 +599,8 @@ NFIQ2::QualityFeatures::addHistogramFeatureNames(
     int binCount)
 {
 	for (int i = 0; i < binCount; i++) {
-		std::stringstream s;
-		s << prefix << i;
-		featureNames.push_back(s.str());
+		featureNames.push_back(prefix + std::to_string(i));
 	}
-	std::stringstream meanSs, stdDevSs;
-	meanSs << prefix << FeaturFunctionsMeanSuffix;
-	stdDevSs << prefix << FeaturFunctionsStdDevSuffix;
-	featureNames.push_back(meanSs.str());
-	featureNames.push_back(stdDevSs.str());
+	featureNames.push_back(prefix + FeatureFunctionsMeanSuffix);
+	featureNames.push_back(prefix + FeatureFunctionsStdDevSuffix);
 }

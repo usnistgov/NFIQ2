@@ -6,7 +6,6 @@ on:
       - '.github/**'
       - '!.github/workflows/build-pr.yml'
       - '.gitignore'
-      - '.travis.yml'
       - '**.md'
       - 'appveyor.yml'
       - 'conformance/**'

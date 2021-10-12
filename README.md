@@ -2,7 +2,6 @@
 
 [![Download Latest Version](https://img.shields.io/badge/download-v2.1-informational)](https://github.com/usnistgov/NFIQ2/releases)
 [![Build Libraries and CLI + Run CTS](https://github.com/usnistgov/NFIQ2/actions/workflows/build-member.yml/badge.svg)](https://github.com/usnistgov/NFIQ2/actions/workflows/build-member.yml)
-[![Legacy Mac Build Status (TravisCI)](https://travis-ci.org/usnistgov/NFIQ2.svg?branch=master)](https://travis-ci.org/usnistgov/NFIQ2)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
 Overview

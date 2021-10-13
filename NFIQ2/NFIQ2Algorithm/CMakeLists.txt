@@ -178,8 +178,6 @@ if (BUILD_NFIQ2_CLI)
 
 	# The following is lifted from libbiomeval and can be removed once find_package has been implemented for the library.
 	# TODO: libbiomeval should implement find_package
-	list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
-
 	find_package(SQLite3 REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} SQLite::SQLite3)
 
@@ -204,8 +202,12 @@ if (BUILD_NFIQ2_CLI)
 	find_package(PNG REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})
 
-	find_package(BERKELEYDB REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${BERKELEYDB_LIBRARIES})
+	# We want to use CMake's FindSQLite3.cmake, not libbiomeval's
+	if (${SQLite3_FOUND})
+		list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
+		find_package(BERKELEYDB REQUIRED)
+		target_link_libraries(${NFIQ2_TEST_APP} ${BERKELEYDB_LIBRARIES})
+	endif()
 
 	if(APPLE)
 	  find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)

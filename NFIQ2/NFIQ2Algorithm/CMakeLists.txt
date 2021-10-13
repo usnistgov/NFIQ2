@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.14)
 
 project( nfiq2 )
 
@@ -180,8 +180,8 @@ if (BUILD_NFIQ2_CLI)
 	# TODO: libbiomeval should implement find_package
 	list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
 
-	find_package(SQLITE3 REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${SQLITE3_LIBRARIES})
+	find_package(SQLite3 REQUIRED)
+	target_link_libraries(${NFIQ2_TEST_APP} SQLite::SQLite3)
 
 	find_package(TIFF REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})

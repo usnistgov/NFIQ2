@@ -180,10 +180,8 @@ if (BUILD_NFIQ2_CLI)
 	# TODO: libbiomeval should implement find_package
 	if (APPLE)
 		set(SQLite3_ROOT /usr/local/opt/sqlite)
-		find_package(SQLite3 REQUIRED HINTS /usr/local/opt/sqlite)
-	else()
-		find_package(SQLite3 REQUIRED)
 	endif()
+	find_package(SQLite3 REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} SQLite::SQLite3)
 
 	find_package(TIFF REQUIRED)

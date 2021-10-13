@@ -194,6 +194,16 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 			bc = 0;
 		}
 
+		const int binCount { 10 };
+		if (dataVector.size() < binCount) {
+			throw NFIQ2::Exception {
+				ErrorCode::FeatureCalculationError,
+				"Cannot compute Frequency Domain Analysis (FDA): "
+				"Not enough data to generate histogram bins (is "
+				"the image blank?)"
+			};
+		}
+
 		std::vector<double> histogramBins10;
 		histogramBins10.push_back(FDAHISTLIMITS[0]);
 		histogramBins10.push_back(FDAHISTLIMITS[1]);
@@ -205,7 +215,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[7]);
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
 		addHistogramFeatures(featureDataList, NFIQ2FDAFeaturePrefix,
-		    histogramBins10, dataVector, 10);
+		    histogramBins10, dataVector, binCount);
 
 		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {

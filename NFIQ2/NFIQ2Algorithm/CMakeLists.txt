@@ -202,8 +202,11 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 	target_link_libraries(${NFIQ2_TEST_APP} ${LIBZSTD})
 
+	if (APPLE)
+		set(PNG_ROOT /usr/local/opt/libpng)
+	endif()
 	find_package(PNG REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})
+	target_link_libraries(${NFIQ2_TEST_APP} PNG::PNG)
 
 	# We want to use CMake's FindSQLite3.cmake, not libbiomeval's
 	if (${SQLite3_FOUND})

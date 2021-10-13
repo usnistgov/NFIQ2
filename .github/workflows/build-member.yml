@@ -119,7 +119,7 @@ jobs:
         path: |
           ${{ github.workspace }}/build
           !${{ github.workspace }}/build/nfir*
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
 
     - name: Get CMake Version
       shell: bash

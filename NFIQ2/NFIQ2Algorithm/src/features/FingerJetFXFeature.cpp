@@ -99,7 +99,6 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	 */
 	static const uint32_t fingerJetMinWidth { 196 };
 	static const uint32_t fingerJetMinHeight { 196 };
-	static const uint8_t whitePixel { 255 };
 	cv::Mat biggerImageCV {};
 	const bool imageTooSmall { (fingerprintImage.width <
 				       fingerJetMinWidth) ||
@@ -113,6 +112,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 					    fingerJetMinHeight),
 		    std::max(fingerprintImage.width, fingerJetMinWidth),
 		    CV_8UC1);
+		static const uint8_t whitePixel { 255 };
 		biggerImageCV = whitePixel;
 		originalImage.copyTo(biggerImageCV(cv::Rect(0, 0,
 		    fingerprintImage.width, fingerprintImage.height)));
@@ -208,7 +208,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	this->minutiaData_.clear();
 	this->minutiaData_.reserve(minCnt);
 	for (unsigned int i = 0; i < minCnt; i++) {
-		/* If FJFX somehow found minutiae in whitespace, remove them */
+		/* If FJFX found minutiae in whitespace, remove them */
 		if (imageTooSmall) {
 			if ((mdata[i].x >= fingerprintImage.width) ||
 			    (mdata[i].y >= fingerprintImage.height))

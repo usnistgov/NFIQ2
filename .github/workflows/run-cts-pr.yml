@@ -140,7 +140,7 @@ jobs:
     - name: Diff Conformance Test
       shell: bash
       run: |
-        python -m pip install pandas
+        python -m pip install pandas packaging
         python conformance/diff.py -s conformance/conformance_expected_output.csv github.csv
 
     - name: Upload conformance output artifact

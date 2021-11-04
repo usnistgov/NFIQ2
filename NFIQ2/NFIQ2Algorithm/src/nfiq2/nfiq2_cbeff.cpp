@@ -6,7 +6,9 @@ const unsigned int NFIQ2::Identifiers::CBEFF::Vendor { 0x0101 };
 const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev0 { 0x01 };
 const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev1 { 0x17 };
 const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev2 { 0x18 };
-const unsigned int NFIQ2::Identifiers::CBEFF::UnifiedQualityScore { NFIQ2Rev2 };
+const unsigned int NFIQ2::Identifiers::CBEFF::UnifiedQualityScore {
+	NFIQ2::Identifiers::CBEFF::NFIQ2Rev2
+};
 
 const unsigned int NFIQ2::Identifiers::CBEFF::OrientationCertainty::Mean {
 	0x02

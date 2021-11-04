@@ -214,5 +214,5 @@ jobs:
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
-        python -m pip install pandas
+        python -m pip install pandas packaging
         python ./diff.py -s conformance_expected_output.csv github.csv

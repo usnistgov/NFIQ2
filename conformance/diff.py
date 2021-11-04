@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import sys, pandas as pd, argparse, os.path
-from distutils.version import StrictVersion
+from packaging.version import Version
 
 # Need Pandas v1.1.0
-if StrictVersion(pd.__version__) < StrictVersion("1.1.0"):
+if Version(pd.__version__) < Version("1.1.0"):
   print("This script requires the use of Pandas v1.1.0.")
   sys.exit(1)
 

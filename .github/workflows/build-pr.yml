@@ -121,10 +121,12 @@ jobs:
         path: |
           ${{ github.workspace }}/build
           !${{ github.workspace }}/build/nfir*
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
+          !${{ github.workspace }}/build/nfiq2api-prefix/src/nfiq2api-build/CMakeFiles/Nfiq2Api.dir/version.AppleClang.apple64.cpp.o*
+          !${{ github.workspace }}/build/nfiq2-prefix/src/nfiq2-build/CMakeFiles/nfiq2-static-lib.dir/src/nfiq2/version.cpp.o*
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
         restore-keys: |
-          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
 
     - name: Get CMake Version
       shell: bash

@@ -19,6 +19,97 @@
 namespace NFIQ2 {
 /** Identification strings for various objects. */
 namespace Identifiers {
+
+/** CBEFF quality algorithm identifiers. */
+namespace CBEFF {
+/** Quality algorithm vendor */
+extern const unsigned int Vendor;
+
+/** Unified quality score (NFIQ 2.0). */
+extern const unsigned int NFIQ2Rev0;
+/** Unified quality score (NFIQ 2.1). */
+extern const unsigned int NFIQ2Rev1;
+/** Unified quality score (NFIQ 2.2). */
+extern const unsigned int NFIQ2Rev2;
+/** Unified quality score (ISO/IEC 29794-4). */
+extern const unsigned int UnifiedQualityScore;
+
+/** Orientation certainty quality algorithm identifiers. */
+namespace OrientationCertainty {
+/** Mean of local orientation certainty level. */
+extern const unsigned int Mean;
+/** Standard deviation of local orientation certainty level. */
+extern const unsigned int StdDev;
+}
+
+/** Local clarity quality algorithm identifiers. */
+namespace LocalClarity {
+/** Mean of local clarity score. */
+extern const unsigned int Mean;
+/** Standard deviation of local clarity score. */
+extern const unsigned int StdDev;
+}
+
+/** Frequency domain analysis quality algorithm identifiers. */
+namespace FrequencyDomainAnalysis {
+/** Mean of local frequency domain analysis. */
+extern const unsigned int Mean;
+/** Standard deviation of local frequency domain analysis. */
+extern const unsigned int StdDev;
+}
+
+/** Ridge valley uniformity quality algorithm identifiers. */
+namespace RidgeValleyUniformity {
+/** Mean of local ridge valley uniformity. */
+extern const unsigned int Mean;
+/** Standard deviation of local ridge valley uniformity. */
+extern const unsigned int StdDev;
+}
+
+/** Orientation flow quality algorithm identifiers. */
+namespace OrientationFlow {
+/** Mean of local orientation flow. */
+extern const unsigned int Mean;
+/** Standard deviation of orientation flow. */
+extern const unsigned int StdDev;
+}
+
+/** Image contrast quality algorithm identifiers. */
+namespace Contrast {
+/** Average contrast ("MU"). */
+extern const unsigned int Mean;
+/** Average of average constrasts ("MMB"). */
+extern const unsigned int MeanBlock;
+}
+
+/** Minutie-based quality algorithm identifiers. */
+namespace Minutiae {
+/** Minutiae count. */
+extern const unsigned int Count;
+/** Minutiae count in center of mass. */
+extern const unsigned int CountCOM;
+/** Minutiae quality based on image mean. */
+extern const unsigned int QualityMu2;
+/** Minutiae quality based on orientation certainty level. */
+extern const unsigned int QualityOCL80;
+}
+
+/** Region of interest quality algorithm identifiers. */
+namespace RegionOfInterest {
+/** Region of interest image mean. */
+extern const unsigned int Mean;
+/** Region of interest orientation map coherence sum. */
+extern const unsigned int CoherenceSum;
+/** Region of interest relative orientation map coherence sum. */
+extern const unsigned int CoherenceMean;
+}
+
+/** Radial power spectrum. */
+extern const unsigned int RadialPowerSpectrum;
+/** Gabor quality score. */
+extern const unsigned int Gabor;
+}
+
 /**
  * Identifiers for interpretation of quality features that may indicated
  * corrective measures for subsequent captures of the same subject.

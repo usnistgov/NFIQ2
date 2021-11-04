@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['randomforest_266',['RandomForest',['../namespace_n_f_i_q2_1_1_identifiers_1_1_prediction_modules.html#a280112c921e3ac4b2d713e34a47e0f13',1,'NFIQ2::Identifiers::PredictionModules']]],
-  ['regionofinterestcoherence_267',['RegionOfInterestCoherence',['../namespace_n_f_i_q2_1_1_identifiers_1_1_quality_modules.html#a5228c74748d93cbbe600f6e3323634d2',1,'NFIQ2::Identifiers::QualityModules']]],
-  ['regionofinterestmean_268',['RegionOfInterestMean',['../namespace_n_f_i_q2_1_1_identifiers_1_1_quality_modules.html#a22398acfef6eadaf1e18d6bf5143660b',1,'NFIQ2::Identifiers::QualityModules']]],
-  ['resolution500ppi_269',['Resolution500PPI',['../class_n_f_i_q2_1_1_fingerprint_image_data.html#aac7f93d5fa036298aa6c416f45751bca',1,'NFIQ2::FingerprintImageData']]],
-  ['ridgevalleyuniformity_270',['RidgeValleyUniformity',['../namespace_n_f_i_q2_1_1_identifiers_1_1_quality_modules.html#ab852a83a2c771df84e7e5f28983aa2c3',1,'NFIQ2::Identifiers::QualityModules']]]
+  ['patch_0',['Patch',['../namespace_n_f_i_q2_1_1_version.html#a30808856f2434aedcc6e04afe7586ea0',1,'NFIQ2::Version']]],
+  ['ppi_1',['ppi',['../class_n_f_i_q2_1_1_fingerprint_image_data.html#a49de05ad6ba8719b5ed06fcd4028a050',1,'NFIQ2::FingerprintImageData']]],
+  ['pretty_2',['Pretty',['../namespace_n_f_i_q2_1_1_version.html#a8896bc2d9e4a2f0da4280f1e78043a1d',1,'NFIQ2::Version']]]
 ];

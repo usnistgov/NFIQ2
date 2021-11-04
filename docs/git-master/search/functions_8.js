@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3d_210',['operator=',['../class_n_f_i_q2_1_1_algorithm.html#ae790d53662b58291030b2ca84338c627',1,'NFIQ2::Algorithm::operator=(const Algorithm &amp;)'],['../class_n_f_i_q2_1_1_algorithm.html#ab0666f2b2356ad026f0bd5289b19733e',1,'NFIQ2::Algorithm::operator=(Algorithm &amp;&amp;) noexcept']]]
+  ['operator_3d_0',['operator=',['../class_n_f_i_q2_1_1_algorithm.html#af44a9c5926d3cf1f1df66e5891541c1b',1,'NFIQ2::Algorithm::operator=(const Algorithm &amp;)'],['../class_n_f_i_q2_1_1_algorithm.html#a2215cfaf8cf1c5426e0c26758ecf46cb',1,'NFIQ2::Algorithm::operator=(Algorithm &amp;&amp;) noexcept']]]
 ];

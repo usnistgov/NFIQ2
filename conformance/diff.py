@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import sys, pandas as pd, argparse, os.path
-from distutils.version import StrictVersion
+from packaging.version import Version
 
-# Need Pandas v1.1.0 
-if StrictVersion(pd.__version__) < StrictVersion("1.1.0"):
+# Need Pandas v1.1.0
+if Version(pd.__version__) < Version("1.1.0"):
   print("This script requires the use of Pandas v1.1.0.")
   sys.exit(1)
-    
+
 # Argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("csv1", type = str, help="First CSV")
@@ -54,7 +54,7 @@ HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized
            "LCS_Bin10_0", "LCS_Bin10_1", "LCS_Bin10_2", "LCS_Bin10_3", "LCS_Bin10_4", "LCS_Bin10_5",
            "LCS_Bin10_6", "LCS_Bin10_7", "LCS_Bin10_8", "LCS_Bin10_9", "LCS_Bin10_Mean", "LCS_Bin10_StdDev",
            "MMB", "Mu",
-           "OCL_Bin10_0", "OCL_Bin10_1", "OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5", 
+           "OCL_Bin10_0", "OCL_Bin10_1", "OCL_Bin10_2", "OCL_Bin10_3", "OCL_Bin10_4", "OCL_Bin10_5",
            "OCL_Bin10_6", "OCL_Bin10_7", "OCL_Bin10_8", "OCL_Bin10_9", "OCL_Bin10_Mean", "OCL_Bin10_StdDev",
            "OF_Bin10_0", "OF_Bin10_1", "OF_Bin10_2", "OF_Bin10_3", "OF_Bin10_4", "OF_Bin10_5",
            "OF_Bin10_6", "OF_Bin10_7", "OF_Bin10_8", "OF_Bin10_9", "OF_Bin10_Mean", "OF_Bin10_StdDev",
@@ -65,17 +65,15 @@ HEADERS = ["Filename", "FingerCode", "QualityScore", "OptionalError", "Quantized
 # Speed headers are filtered out, if present
 df = df.filter(HEADERS)
 df2 = df2.filter(HEADERS)
+if df.shape != df2.shape:
+  print("Please only compare CSV results from the same dataset\n")
+  sys.exit(1)
 
 # Replace the full filename path with just the file base name for both dataframes
-bnTemp = []
-for col in df['Filename']:
-    bnTemp.append(os.path.basename(col.replace('\\',os.sep)))
-df['Filename'] = bnTemp
-
-bn2Temp = []
-for col in df2['Filename']:
-    bn2Temp.append(os.path.basename(col.replace('\\',os.sep)))
-df2['Filename'] = bn2Temp
+df = df.assign(Filename = lambda dataframe: dataframe['Filename'].map(
+    lambda path: os.path.basename(path.replace('\\', os.sep).replace('/', os.sep))))
+df2 = df2.assign(Filename = lambda dataframe: dataframe['Filename'].map(
+    lambda path: os.path.basename(path.replace('\\', os.sep).replace('/', os.sep))))
 
 # Sort each dataframe on key 'Filename'
 df = df.sort_values(by=['Filename'])
@@ -85,7 +83,7 @@ df2 = df2.sort_values(by=['Filename'])
 df = df.reset_index(drop=True)
 df2 = df2.reset_index(drop=True)
 
-# Compute the diff dataframe using Pandas compare - NEED Pandas V1.1.0 MINIMUM    
+# Compute the diff dataframe using Pandas compare - NEED Pandas V1.1.0 MINIMUM
 diff_df = df.compare(df2, keep_equal=False, keep_shape=False, align_axis=1)
 
 # Used to re-add filenames post comparison at the front of the diff dataframe
@@ -103,7 +101,7 @@ a = diff_df.query('variable_1 == "self"').drop('variable_1', axis = 1)
 b = diff_df.query('variable_1 != "self"').drop('variable_1', axis = 1)
 
 # Join the results on 'Filename' and 'variable_0' (The attribute name that has a difference)
-diff_df = pd.merge(a, b, on=['Filename', 'variable_0']).dropna()
+diff_df = pd.merge(a, b, on=['Filename', 'variable_0'])
 
 # Clarify column names
 diff_df = diff_df.rename(columns={'variable_0':'Variable', 'value_x':'X', 'value_y':'Y'})

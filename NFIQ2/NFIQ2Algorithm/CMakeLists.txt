@@ -30,6 +30,7 @@ find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${Ope
 set(OpenCV_SHARED ON)
 
 set(SOURCE_FILES
+    "src/nfiq2/nfiq2_cbeff.cpp"
     "src/nfiq2/nfiq2_data.cpp"
     "src/nfiq2/nfiq2_fingerprintimagedata.cpp"
     "src/nfiq2/nfiq2_modelinfo.cpp"
@@ -172,59 +173,8 @@ if (BUILD_NFIQ2_CLI)
 	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
 	endif()
 
-	# Linking in biomeval lib - must occur before individual libs due to linker bug
-	if(MSVC)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
-	else()
-	  target_link_libraries( ${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build/lib/${CMAKE_STATIC_LIBRARY_PREFIX}biomeval${CMAKE_STATIC_LIBRARY_SUFFIX})
-	endif()
-
-	# The following is lifted from libbiomeval and can be removed once find_package has been implemented for the library.
-	# TODO: libbiomeval should implement find_package
-	list(APPEND CMAKE_MODULE_PATH "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/libbiomeval/cmake/Modules")
-
-	find_package(SQLITE3 REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${SQLITE3_LIBRARIES})
-
-	find_package(TIFF REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${TIFF_LIBRARIES})
-	# Required by static libtiff
-	find_package(LibLZMA REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${LIBLZMA_LIBRARIES})
-	if (NOT APPLE AND NOT WIN32)
-		find_library(LIBJBIG jbig REQUIRED)
-		target_link_libraries(${NFIQ2_TEST_APP} ${LIBJBIG})
-	endif()
-	if (NOT WIN32)
-		find_library(LIBWEBP webp REQUIRED)
-		target_link_libraries(${NFIQ2_TEST_APP} ${LIBWEBP})
-	endif()
-	if (APPLE OR WIN32)
-		find_library(LIBZSTD ${CMAKE_STATIC_LIBRARY_PREFIX}zstd${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}zstd_static${CMAKE_STATIC_LIBRARY_SUFFIX} REQUIRED)
-	endif()
-	target_link_libraries(${NFIQ2_TEST_APP} ${LIBZSTD})
-
-	find_package(PNG REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${PNG_LIBRARIES})
-
-	find_package(BERKELEYDB REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${BERKELEYDB_LIBRARIES})
-
-	if(APPLE)
-	  find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${FOUNDATION_FRAMEWORK})
-	  find_library(SECURITY_FRAMEWORK Security REQUIRED)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${SECURITY_FRAMEWORK})
-	else()
-	  find_package(OpenSSL REQUIRED)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${OPENSSL_LIBRARIES})
-	endif()
-
-	find_package(OPENJP2 REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${OPENJP2_LIBRARIES})
-
-	find_package(JPEG REQUIRED)
-	target_link_libraries(${NFIQ2_TEST_APP} ${JPEG_LIBRARIES})
+	find_package(biomeval REQUIRED PATHS ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build)
+	target_link_libraries(${NFIQ2_TEST_APP} biomeval::biomeval)
 
 	# Getopt for Windows
 	if(MSVC)

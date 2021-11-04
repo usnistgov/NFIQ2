@@ -76,117 +76,92 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 
 	// start from top of image and find top row index that is already part
 	// of the fingerprint image
-	int topRowIndex = 0;
-	for (int i = 0; i < img.rows; i++) {
-		double mu = computeMuFromRow(i, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> top row index found
-			if (i == 0) {
-				topRowIndex = i;
-			} else {
-				topRowIndex = (i - 1);
-			}
+	int topRowIndex { 0 }, bottomRowIndex { img.rows - 1 };
+	for (; topRowIndex < img.rows; ++topRowIndex) {
+		if (computeMuFromRow(topRowIndex, img) <= MU_THRESHOLD) {
 			break;
 		}
 	}
 
-	// start from bottom of image and find bottom row index that is already
-	// part of the fingerprint image
-	int bottomRowIndex = (img.rows - 1);
-	for (int i = (img.rows - 1); i >= 0; i--) {
-		double mu = computeMuFromRow(i, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> bottom row index
-			// found
-			if (i == (img.rows - 1)) {
-				bottomRowIndex = i;
-			} else {
-				bottomRowIndex = (i + 1);
+	// If we traversed all rows and never found data, we can stop
+	if (topRowIndex >= img.rows) {
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::InvalidImageSize,
+			"All image rows appear to be blank" };
+	} else {
+		// start from bottom of image and find bottom row index that is
+		// already part of the fingerprint image
+		for (; bottomRowIndex >= topRowIndex; --bottomRowIndex) {
+			if (computeMuFromRow(bottomRowIndex, img) <=
+			    MU_THRESHOLD) {
+				break;
 			}
-			break;
 		}
+
+		// topRowIndex was 0 and was the only row with pixels. for loop
+		// made us go negative.
+		if (bottomRowIndex <= 0)
+			bottomRowIndex = 0;
 	}
 
 	// start from left of image and find left index that is already part of
 	// the fingerprint image
-	int leftIndex = 0;
-	for (int j = 0; j < img.cols; j++) {
-		double mu = computeMuFromColumn(j, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> left index found
-			if (j == 0) {
-				leftIndex = j;
-			} else {
-				leftIndex = (j - 1);
-			}
+	int leftIndex { 0 }, rightIndex { img.cols - 1 };
+	for (; leftIndex < img.cols; ++leftIndex) {
+		if (computeMuFromColumn(leftIndex, img) <= MU_THRESHOLD) {
 			break;
 		}
 	}
 
-	// start from right of image and find right index that is already part
-	// of the fingerprint image
-	int rightIndex = (img.cols - 1);
-	for (int j = (img.cols - 1); j >= 0; j--) {
-		double mu = computeMuFromColumn(j, img);
-		if (mu <= MU_THRESHOLD) {
-			// Mu is not > threshold anymore -> right index found
-			if (j == (img.cols - 1)) {
-				rightIndex = j;
-			} else {
-				rightIndex = (j + 1);
+	// If we traversed all the columns, then we don't need to check starting
+	// from the other side.
+	if (leftIndex >= img.cols) {
+		// If we traversed all columns and never found data, we can stop
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::InvalidImageSize,
+			"All image columns appear to be blank" };
+	} else {
+		// start from right of image and find right index that is
+		// already part of the fingerprint image
+		for (; rightIndex >= leftIndex; --rightIndex) {
+			if (computeMuFromColumn(rightIndex, img) <=
+			    MU_THRESHOLD) {
+				break;
 			}
-			break;
 		}
+		// leftRow was 0 and was the only column with pixels. for loop
+		// made us go negative.
+		if (rightIndex <= 0)
+			rightIndex = 0;
 	}
+	if ((rightIndex <= leftIndex) || (bottomRowIndex <= topRowIndex))
+		throw NFIQ2::Exception { NFIQ2::ErrorCode::InvalidImageSize,
+			"Asked to inclusively crop from (" +
+			    std::to_string(leftIndex) + ',' +
+			    std::to_string(topRowIndex) + ") to (" +
+			    std::to_string(rightIndex) + ',' +
+			    std::to_string(bottomRowIndex) + ')' };
 
-	// now crop image according to detected border indices
-	int width = rightIndex - leftIndex + 1;
-	if (width <= 0) {
-		leftIndex = 0;
-		width = img.cols;
-	}
-	int height = bottomRowIndex - topRowIndex + 1;
-	if (height <= 0) {
-		topRowIndex = 0;
-		height = img.rows;
-	}
-	const cv::Rect roi(leftIndex, topRowIndex, width, height);
-	const cv::Mat roiImg = img(roi);
+	// OpenCV range upper boundaries are not included, so add 1 to index
+	const cv::Mat roiImg = img(cv::Range(topRowIndex, bottomRowIndex + 1),
+	    cv::Range(leftIndex, rightIndex + 1));
 
-	static const uint16_t fingerJetMinWidth = 196;
 	static const uint16_t fingerJetMaxWidth = 800;
-	static const uint16_t fingerJetMinHeight = 196;
 	static const uint16_t fingerJetMaxHeight = 1000;
 
 	// Values are from FJFX image size thresholds
-	if (roiImg.cols <= fingerJetMinWidth) {
-		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidImageSize,
-		    "Width is too small after trimming whitespace. WxH: " +
-			std::to_string(roiImg.cols) + "x" +
-			std::to_string(roiImg.rows) +
-			", but minimum width is " +
-			std::to_string(fingerJetMinWidth + 1));
-	} else if (roiImg.cols >= fingerJetMaxWidth) {
+	if (roiImg.cols > fingerJetMaxWidth) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidImageSize,
 		    "Width is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
 			", but maximum width is " +
-			std::to_string(fingerJetMaxWidth - 1));
-	} else if (roiImg.rows <= fingerJetMinHeight) {
-		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidImageSize,
-		    "Height is too small after trimming whitespace. WxH: " +
-			std::to_string(roiImg.cols) + "x" +
-			std::to_string(roiImg.rows) +
-			", but minimum height is " +
-			std::to_string(fingerJetMinHeight + 1));
-	} else if (roiImg.rows >= fingerJetMaxHeight) {
+			std::to_string(fingerJetMaxWidth));
+	} else if (roiImg.rows > fingerJetMaxHeight) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidImageSize,
 		    "Height is too large after trimming whitespace. WxH: " +
 			std::to_string(roiImg.cols) + "x" +
 			std::to_string(roiImg.rows) +
 			", but maximum height is " +
-			std::to_string(fingerJetMaxHeight - 1));
+			std::to_string(fingerJetMaxHeight));
 	}
 
 	NFIQ2::FingerprintImageData croppedImage;
@@ -211,25 +186,29 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 double
 computeMuFromRow(unsigned int rowIndex, const cv::Mat &img)
 {
-	double mu = 0.0;
-	for (int j = 0; j < img.cols; j++) {
+	// As of last test with OpenCV 4.5.3, this is significantly faster than
+	// std::accumulate of img.row(rowIndex)
+	unsigned int mu { 0 };
+	for (int j = 0; j < img.cols; ++j) {
 		// get gray value of image (0 = black, 255 = white)
-		mu += (double)img.at<uchar>(rowIndex, j);
+		mu += *img.ptr<uchar>(rowIndex, j);
 	}
 
-	mu /= img.cols;
-	return mu;
+	return static_cast<double>(
+	    static_cast<double>(mu) / static_cast<double>(img.cols));
 }
 
 double
 computeMuFromColumn(unsigned int columnIndex, const cv::Mat &img)
 {
-	double mu = 0.0;
-	for (int i = 0; i < img.rows; i++) {
+	// As of last test with OpenCV 4.5.3, this is significantly faster than
+	// std::accumulate of img.col(columnIndex)
+	unsigned int mu { 0 };
+	for (int i = 0; i < img.rows; ++i) {
 		// get gray value of image (0 = black, 255 = white)
-		mu += (double)img.at<uchar>(i, columnIndex);
+		mu += *img.ptr<uchar>(i, columnIndex);
 	}
 
-	mu /= img.rows;
-	return mu;
+	return static_cast<double>(
+	    static_cast<double>(mu) / static_cast<double>(img.rows));
 }

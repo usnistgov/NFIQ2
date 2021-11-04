@@ -6,7 +6,6 @@ on:
       - '.github/**'
       - '!.github/workflows/build-pr.yml'
       - '.gitignore'
-      - '.travis.yml'
       - '**.md'
       - 'appveyor.yml'
       - 'conformance/**'
@@ -24,9 +23,12 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-11, arch: x64 }
           - { os: macOS-10.15, arch: x64 }
           - { os: ubuntu-18.04, arch: x64 }
           - { os: ubuntu-20.04, arch: x64 }
+          - { os: windows-2022, arch: x64 }
+          - { os: windows-2022, arch: x86 }
           - { os: windows-2019, arch: x64 }
           - { os: windows-2019, arch: x86 }
           - { os: windows-2016, arch: x64 }
@@ -119,10 +121,12 @@ jobs:
         path: |
           ${{ github.workspace }}/build
           !${{ github.workspace }}/build/nfir*
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-2
+          !${{ github.workspace }}/build/nfiq2api-prefix/src/nfiq2api-build/CMakeFiles/Nfiq2Api.dir/version.AppleClang.apple64.cpp.o*
+          !${{ github.workspace }}/build/nfiq2-prefix/src/nfiq2-build/CMakeFiles/nfiq2-static-lib.dir/src/nfiq2/version.cpp.o*
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
         restore-keys: |
-          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-2
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-2
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv454
 
     - name: Get CMake Version
       shell: bash

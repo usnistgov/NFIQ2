@@ -46,6 +46,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 set(SOURCE_FILES
+    "src/nfiq2/nfiq2_cbeff.cpp"
     "src/nfiq2/nfiq2_data.cpp"
     "src/nfiq2/nfiq2_fingerprintimagedata.cpp"
     "src/nfiq2/nfiq2_modelinfo.cpp"

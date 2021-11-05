@@ -389,7 +389,7 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 		set(CPACK_SYSTEM_NAME "win32")
 	endif()
 	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-${CPACK_SYSTEM_NAME}")
-elseif (EXISTS "/etc/lsb-release")
+elseif (EXISTS "/etc/debconf.conf")
 	list(APPEND CPACK_GENERATOR "DEB")
 	set(CPACK_DEB_COMPONENT_INSTALL ON)
 

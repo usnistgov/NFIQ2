@@ -16,6 +16,13 @@ if(EMBED_RANDOM_FOREST_PARAMETERS)
 	list(APPEND EMBEDDING_CMAKE_ARGS -DEMBED_RANDOM_FOREST_PARAMETERS=${EMBED_RANDOM_FOREST_PARAMETERS})
 endif()
 
+# macOS Code Signing
+option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
+set(MACOS_CODESIGN_IDENTITY "" CACHE STRING "Apple Developer ID")
+set(MACOS_NOTARIZATION_USERNAME "" CACHE STRING "Username for macOS notarization")
+set(MACOS_NOTARIZATION_PASSWORD "" CACHE STRING "Username for macOS password")
+
+
 set( NO_SEARCH TRUE )
 
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
@@ -339,6 +346,35 @@ if (APPLE)
 	execute_process(COMMAND uname -m OUTPUT_VARIABLE MAC_ARCH)
 	string(STRIP "${MAC_ARCH}" MAC_ARCH)
 	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-macos-${OSX_VERS}-${MAC_ARCH}")
+
+	# macOS Code Signing
+	if (MACOS_CODESIGN)
+		if ("${MACOS_CODESIGN_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_CODESIGN_IDENTITY to your developer identity in order to code sign")
+		endif()
+
+		set(CPACK_PRODUCTBUILD_IDENTITY_NAME "${MACOS_CODESIGN_IDENTITY}")
+		set(CPACK_PKGBUILD_IDENTITY_NAME "${MACOS_CODESIGN_IDENTITY}")
+		set(CPACK_PRODUCTBUILD_IDENTIFIER "gov.nist.nfiq2")
+		ExternalProject_Add_Step(nfiq2api codesign
+		    DEPENDEES install
+		    COMMAND codesign -f --options runtime --sign "${MACOS_CODESIGN_IDENTITY}" ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/nfiq2 ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/opencv_version ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libFRFXLL.dylib ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libNfiq2Api.dylib
+		    COMMENT "Codesigning all binaries and dylibs...")
+
+		# Notarize the installer
+		# XXX: Use CPACK_POST_BUILD_SCRIPTS instead, since this can't depend on
+		if ("${MACOS_NOTARIZATION_USERNAME}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_NOTARIZATION_USERNAME to your developer username to notarize the installer")
+		endif()
+		if ("${MACOS_NOTARIZATION_PASSWORD}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_NOTARIZATION_PASSWORD to your app-specific password to notarize the installer")
+		endif()
+		add_custom_target(notarize
+		    COMMENT "Notarizing installer package..."
+		    COMMAND xcrun altool --notarize-app --primary-bundle-id "${CPACK_PRODUCTBUILD_IDENTIFIER}" --username "${MACOS_NOTARIZATION_USERNAME}" --password "${MACOS_NOTARIZATION_PASSWORD}" --file "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg"
+		    VERBATIM)
+	endif()
+
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Install WiX from https://wixtoolset.org/releases/
 	list(APPEND CPACK_GENERATOR "WIX")

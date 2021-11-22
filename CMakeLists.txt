@@ -372,6 +372,10 @@ if (APPLE)
 		    COMMENT "Notarizing installer package..."
 		    COMMAND xcrun notarytool submit "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg" --keychain-profile "${MACOS_NOTARYTOOL_PROFILE}" --wait
 		    VERBATIM)
+		add_custom_target(staple
+		    DEPENDS notarize
+		    COMMENT "Stapling notarization ticket to installer package..."
+		    COMMAND xcrun stapler staple "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg"
 		    VERBATIM)
 	endif()
 

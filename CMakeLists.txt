@@ -18,7 +18,8 @@ endif()
 
 # macOS Code Signing
 option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
-set(MACOS_CODESIGN_IDENTITY "" CACHE STRING "Apple Developer ID")
+set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for applications")
+set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
 set(MACOS_NOTARIZATION_USERNAME "" CACHE STRING "Username for macOS notarization")
 set(MACOS_NOTARIZATION_PASSWORD "" CACHE STRING "Username for macOS password")
 
@@ -349,12 +350,15 @@ if (APPLE)
 
 	# macOS Code Signing
 	if (MACOS_CODESIGN)
-		if ("${MACOS_CODESIGN_IDENTITY}" STREQUAL "")
-			message(FATAL_ERROR "You must set MACOS_CODESIGN_IDENTITY to your developer identity in order to code sign")
+		if ("${MACOS_APPLICATION_SIGNING_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_APPLICATION_SIGNING_IDENTITY to your developer identity in order to code sign")
+		endif()
+		if ("${MACOS_INSTALLER_SIGNING_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_INSTALLER_SIGNING_IDENTITY to your developer identity in order to code sign")
 		endif()
 
-		set(CPACK_PRODUCTBUILD_IDENTITY_NAME "${MACOS_CODESIGN_IDENTITY}")
-		set(CPACK_PKGBUILD_IDENTITY_NAME "${MACOS_CODESIGN_IDENTITY}")
+		set(CPACK_PRODUCTBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
+		set(CPACK_PKGBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
 		set(CPACK_PRODUCTBUILD_IDENTIFIER "gov.nist.nfiq2")
 		ExternalProject_Add_Step(nfiq2api codesign
 		    DEPENDEES install

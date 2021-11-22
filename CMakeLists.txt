@@ -20,9 +20,7 @@ endif()
 option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
 set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for applications")
 set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
-set(MACOS_NOTARIZATION_USERNAME "" CACHE STRING "Username for macOS notarization")
-set(MACOS_NOTARIZATION_PASSWORD "" CACHE STRING "Username for macOS password")
-
+set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain (insert these with `xcrun notarytool store-credentials')")
 
 set( NO_SEARCH TRUE )
 
@@ -366,16 +364,14 @@ if (APPLE)
 		    COMMENT "Codesigning all binaries and dylibs...")
 
 		# Notarize the installer
-		# XXX: Use CPACK_POST_BUILD_SCRIPTS instead, since this can't depend on
-		if ("${MACOS_NOTARIZATION_USERNAME}" STREQUAL "")
-			message(FATAL_ERROR "You must set MACOS_NOTARIZATION_USERNAME to your developer username to notarize the installer")
-		endif()
-		if ("${MACOS_NOTARIZATION_PASSWORD}" STREQUAL "")
-			message(FATAL_ERROR "You must set MACOS_NOTARIZATION_PASSWORD to your app-specific password to notarize the installer")
+		# XXX: Use CPACK_POST_BUILD_SCRIPTS instead, since this can't depend on packaging
+		if ("${MACOS_NOTARYTOOL_PROFILE}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_NOTARYTOOL_PROFILE to the name of the notarytool credentials stored in your Keychain. Insert these with `xcrun notarytool store-credentials'.")
 		endif()
 		add_custom_target(notarize
 		    COMMENT "Notarizing installer package..."
-		    COMMAND xcrun altool --notarize-app --primary-bundle-id "${CPACK_PRODUCTBUILD_IDENTIFIER}" --username "${MACOS_NOTARIZATION_USERNAME}" --password "${MACOS_NOTARIZATION_PASSWORD}" --file "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg"
+		    COMMAND xcrun notarytool submit "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg" --keychain-profile "${MACOS_NOTARYTOOL_PROFILE}" --wait
+		    VERBATIM)
 		    VERBATIM)
 	endif()
 

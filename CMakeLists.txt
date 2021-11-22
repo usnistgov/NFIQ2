@@ -362,7 +362,7 @@ if (APPLE)
 		set(CPACK_PRODUCTBUILD_IDENTIFIER "gov.nist.nfiq2")
 		ExternalProject_Add_Step(nfiq2api codesign
 		    DEPENDEES install
-		    COMMAND codesign -f --options runtime --sign "${MACOS_CODESIGN_IDENTITY}" ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/nfiq2 ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/opencv_version ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libFRFXLL.dylib ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libNfiq2Api.dylib
+		    COMMAND codesign -f --options runtime --sign "${MACOS_APPLICATION_SIGNING_IDENTITY}" ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/nfiq2 ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/opencv_version ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libFRFXLL.dylib ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libNfiq2Api.dylib
 		    COMMENT "Codesigning all binaries and dylibs...")
 
 		# Notarize the installer

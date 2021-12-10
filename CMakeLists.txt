@@ -22,6 +22,8 @@ set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for a
 set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
 set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain (insert these with `xcrun notarytool store-credentials')")
 
+option(MACOS_FORCE_STATIC "Force static library dependencies only" OFF)
+
 set( NO_SEARCH TRUE )
 
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
@@ -137,7 +139,6 @@ set(OPENCV_CMAKE_ARGS
 	-DWITH_JASPER=OFF
 	-DWITH_JPEG=OFF
 	-DBUILD_PNG=OFF
-	-DBUILD_ZLIB=OFF
 	-DBUILD_JASPER=OFF
 	-DBUILD_JPEG=OFF
 	-DWITH_ADE=OFF
@@ -154,6 +155,13 @@ endif("${TARGET_PLATFORM}" MATCHES "win*")
 if ("${TARGET_PLATFORM}" MATCHES "apple32")
 	list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
 endif ()
+
+# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
+# or we'll have to redistribute them. If you're building for your own machine,
+# link whatever you find. macOS 11+ hides zlib and other system libraries.
+if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+	list(APPEND OPENCV_CMAKE_ARGS -DBUILD_ZLIB=ON)
+endif()
 
 set(VCPKG_CMAKE_ARGS)
 if (MSVC)
@@ -175,6 +183,14 @@ ExternalProject_Add(OpenCV
 )
 
 if (BUILD_NFIQ2_CLI)
+
+# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
+# or we'll have to redistribute them. If you're building for your own machine,
+# link whatever you find
+if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+	set(EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
+endif()
+
 ExternalProject_Add(libbiomeval
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
 	INSTALL_COMMAND ""
@@ -189,6 +205,7 @@ ExternalProject_Add(libbiomeval
 		-DWITH_PCSC=OFF
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
+		${EXTRA_BIOMEVAL_CMAKE_ARGS}
 )
 
 ExternalProject_Add(nfir

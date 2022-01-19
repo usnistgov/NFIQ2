@@ -70,13 +70,15 @@ if( NOT "${ANDROID_ABI}" STREQUAL "")
   )
 endif()
 
-# forwarding android build flags
+# forwarding iOS build flags
 if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
   message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
   set(IOS_CMAKE_ARGS
     -DPLATFORM=${PLATFORM}
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DENABLE_ARC=${ENABLE_ARC}
+    -DENABLE_BITCODE=${ENABLE_BITCODE}
+    -DCMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}
   )
 endif()
 
@@ -98,6 +100,7 @@ endif()
 set(OPENCV_CMAKE_ARGS
 	-DBUILD_SHARED_LIBS=OFF
 	-DBUILD_OPENCV_APPS=OFF
+	-DBUILD_opencv_apps=OFF #opencv 4.5.4 seems to use this flag with lower case, keeping both entries to anticipate future fix
 	-DBUILD_ANDROID_EXAMPLES=OFF
 	-DBUILD_DOCS=OFF
 	-DBUILD_EXAMPLES=OFF
@@ -106,6 +109,7 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_TESTS=OFF
 	-DBUILD_WITH_DEBUG_INFO=OFF
 	-DBUILD_FAT_JAVA_LIB=OFF
+	-DBUILD_ANDROID_PROJECTS=OFF
 	-DBUILD_ANDROID_SERVICE=OFF
 	-DBUILD_ANDROID_PACKAGE=OFF
 	-DBUILD_TINY_GPU_MODULE=OFF

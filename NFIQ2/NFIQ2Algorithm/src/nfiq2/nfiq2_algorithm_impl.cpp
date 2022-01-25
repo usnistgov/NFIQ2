@@ -54,6 +54,36 @@ NFIQ2::Algorithm::Impl::Impl(const std::string &fileName,
 	}
 }
 
+#ifdef __ANDROID__
+NFIQ2::Algorithm::Impl::Impl(AAssetManager* assets,
+    const std::string &fileName,
+    const std::string &fileHash)
+    : initialized { false }
+{
+	// init RF module that takes some time to load the parameters
+	try {
+		this->m_parameterHash = m_RandomForestML.initModule( assets, 
+		    fileName,
+		    fileHash);
+		this->initialized = true;
+	} catch (const cv::Exception &e) {
+		throw Exception(NFIQ2::ErrorCode::BadArguments,
+		    "Could not initialize random forest parameters with "
+		    "external file. Most likely, the file does not exist. "
+		    "Check the path (" +
+			fileName + ") and hash (" + fileHash +
+			") (initial error: " + e.msg + ").");
+	} catch (const NFIQ2::Exception &e) {
+		throw Exception(NFIQ2::ErrorCode::BadArguments,
+		    "Could not initialize random forest parameters with "
+		    "external file. Most likely, the hash is not correct. "
+		    "Check the path (" +
+			fileName + ") and hash (" + fileHash +
+			") (initial error: " + e.what() + ").");
+	}
+}
+#endif
+
 NFIQ2::Algorithm::Impl::~Impl() = default;
 
 double

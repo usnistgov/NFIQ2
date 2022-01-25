@@ -41,6 +41,21 @@ class Algorithm::Impl {
 	 */
 	Impl(const std::string &fileName, const std::string &fileHash);
 
+#ifdef __ANDROID__
+	/**
+	 * @brief
+	 * Constructor that loads random forest parameters from AAR.
+	 *
+	 * @param assets
+   * The Android Asset Manager, provided by the Java/Kotlin App.
+	 * @param fileName
+	 * The file path containing the random forest model.
+	 * @param fileHash
+	 * The md5 checksum of the provided file.
+	 */
+	Impl(AAssetManager* assets, const std::string &fileName, const std::string &fileHash);
+#endif
+
 	/** Destructor. */
 	virtual ~Impl();
 

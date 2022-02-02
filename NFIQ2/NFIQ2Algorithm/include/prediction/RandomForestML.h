@@ -9,8 +9,8 @@
 #include <vector>
 
 #ifdef __ANDROID__
-# include <android/asset_manager.h>
-# include <android/log.h>
+#include <android/asset_manager.h>
+#include <android/log.h>
 #endif
 
 namespace NFIQ2 { namespace Prediction {
@@ -37,14 +37,14 @@ class RandomForestML {
 #endif
 
 	/** Initialize model (When not using embedded parameters). */
-	std::string initModule(const std::string &fileName,
-	    const std::string &fileHash);
+	std::string initModule(
+	    const std::string &fileName, const std::string &fileHash);
 
 #ifdef __ANDROID__
-	/** Initialize model from Android AAR (When not using embedded parameters). */
-	std::string initModule(AAssetManager* assets,
-	    const std::string &fileName,
-	    const std::string &fileHash);
+	/** Initialize model from Android AAR (When not using embedded
+	 * parameters). */
+	std::string initModule(AAssetManager *assets,
+	    const std::string &fileName, const std::string &fileHash);
 #endif
 
 	/**

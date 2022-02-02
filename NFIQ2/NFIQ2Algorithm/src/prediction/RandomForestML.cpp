@@ -104,8 +104,8 @@ NFIQ2::Prediction::RandomForestML::initModule()
 #endif
 
 std::string
-NFIQ2::Prediction::RandomForestML::initModule(const std::string &fileName,
-    const std::string &fileHash)
+NFIQ2::Prediction::RandomForestML::initModule(
+    const std::string &fileName, const std::string &fileHash)
 {
 	std::ifstream input(fileName);
 	std::string params((std::istreambuf_iterator<char>(input)),
@@ -125,42 +125,39 @@ NFIQ2::Prediction::RandomForestML::initModule(const std::string &fileName,
 
 #ifdef __ANDROID__
 std::string
-NFIQ2::Prediction::RandomForestML::initModule(AAssetManager* assets,
-    const std::string &fileName,
-    const std::string &fileHash)
+NFIQ2::Prediction::RandomForestML::initModule(AAssetManager *assets,
+    const std::string &fileName, const std::string &fileHash)
 {
-  if( assets == nullptr )
-  {
+	if (assets == nullptr) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized!");
-  }
-  __android_log_write( ANDROID_LOG_INFO, "NFIQ2::Prediction::RandomForestML", "Using android asset manager to read model file" );
-  AAssetDir* assetDir = AAssetManager_openDir( assets, "" );
-  const char* file = nullptr;
-  std::string params;
-  while( ( file = AAssetDir_getNextFileName( assetDir ) ) != NULL )
-  {
-    if( fileName == std::string( file ) )
-    {
-      AAsset* asset = AAssetManager_open( assets, file, AASSET_MODE_STREAMING );
-      char buffer[BUFSIZ + 1];
-      memset( buffer, 0, BUFSIZ + 1 );
-      std::stringstream ss;
-      while( AAsset_read( asset, buffer, BUFSIZ ) > 0 )
-      {
-        ss << buffer;
-      }
-      params = ss.str();
-      AAsset_close( asset );
-      break;
-    }
-  }
-  AAssetDir_close( assetDir );
-  if( params.size() == 0 )
-  {
+	}
+	__android_log_write(ANDROID_LOG_INFO,
+	    "NFIQ2::Prediction::RandomForestML",
+	    "Using android asset manager to read model file");
+	AAssetDir *assetDir = AAssetManager_openDir(assets, "");
+	const char *file = nullptr;
+	std::string params;
+	while ((file = AAssetDir_getNextFileName(assetDir)) != NULL) {
+		if (fileName == std::string(file)) {
+			AAsset *asset = AAssetManager_open(
+			    assets, file, AASSET_MODE_STREAMING);
+			char buffer[BUFSIZ + 1];
+			memset(buffer, 0, BUFSIZ + 1);
+			std::stringstream ss;
+			while (AAsset_read(asset, buffer, BUFSIZ) > 0) {
+				ss << buffer;
+			}
+			params = ss.str();
+			AAsset_close(asset);
+			break;
+		}
+	}
+	AAssetDir_close(assetDir);
+	if (params.size() == 0) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized!");
-  }
+	}
 	initModule(params);
 	// calculate and compare the hash
 	std::string hash = calculateHashString(params);
@@ -307,8 +304,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		}
 
 		// copy data to structure
-		cv::Mat sample_data = cv::Mat(1, rfFeatureOrder.size(),
-		    CV_32FC1);
+		cv::Mat sample_data = cv::Mat(
+		    1, rfFeatureOrder.size(), CV_32FC1);
 
 		for (unsigned int i { 0 }; i < rfFeatureOrder.size(); ++i) {
 			sample_data.at<float>(0, i) = features.at(
@@ -317,16 +314,16 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 
 		// returns probability that between 0 and 1 that result belongs
 		// to second class
-		float prob = m_pTrainedRF->predict(sample_data, cv::noArray(),
-		    cv::ml::StatModel::RAW_OUTPUT);
+		float prob = m_pTrainedRF->predict(
+		    sample_data, cv::noArray(), cv::ml::StatModel::RAW_OUTPUT);
 		// return quality value
 		qualityValue = (int)(prob + 0.5);
 
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::MachineLearningError, e.msg);
 	} catch (const std::out_of_range &e) {
-		throw Exception(NFIQ2::ErrorCode::FeatureCalculationError,
-		    e.what());
+		throw Exception(
+		    NFIQ2::ErrorCode::FeatureCalculationError, e.what());
 	}
 }
 

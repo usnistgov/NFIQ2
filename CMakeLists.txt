@@ -18,6 +18,13 @@ project( NFIQ2_SUPERBUILD )
 message(STATUS "NFIQ 2 Superbuild")
 
 option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
+set(NFIQ2_CLI_INCOMPATIBLE_SYSTEMS "Android;iOS;tvOS;watchOS")
+if (BUILD_NFIQ2_CLI)
+	if (CMAKE_SYSTEM_NAME IN_LIST NFIQ2_CLI_INCOMPATIBLE_SYSTEMS)
+		message(AUTHOR_WARNING "BUILD_NFIQ2_CLI=YES not compatible with ${CMAKE_SYSTEM_NAME}, disabling")
+		set(BUILD_NFIQ2_CLI OFF)
+	endif()
+endif()
 
 # Options for embedding random forest parameters
 option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)

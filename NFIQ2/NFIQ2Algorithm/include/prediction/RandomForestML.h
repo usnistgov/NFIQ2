@@ -37,8 +37,8 @@ class RandomForestML {
 #endif
 
 	/** Initialize model (When not using embedded parameters). */
-	std::string initModule(
-	    const std::string &fileName, const std::string &fileHash);
+	std::string initModule(const std::string &fileName,
+	    const std::string &fileHash);
 
 #ifdef __ANDROID__
 	/** Initialize model from Android AAR (When not using embedded

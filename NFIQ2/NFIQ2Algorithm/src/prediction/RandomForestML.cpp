@@ -129,38 +129,38 @@ NFIQ2::Prediction::RandomForestML::initModule(AAssetManager* assets,
     const std::string &fileName,
     const std::string &fileHash)
 {
-	if( assets == nullptr )
-	{
+  if( assets == nullptr )
+  {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized!");
-	}
-	__android_log_write( ANDROID_LOG_INFO, "NFIQ2::Prediction::RandomForestML", "Using android asset manager to read model file" );
-	AAssetDir* assetDir = AAssetManager_openDir( assets, "" );
-	const char* file = nullptr;
-	std::string params;
-	while( ( file = AAssetDir_getNextFileName( assetDir ) ) != NULL )
-	{
-	if( fileName == std::string( file ) )
-	{
-		AAsset* asset = AAssetManager_open( assets, file, AASSET_MODE_STREAMING );
-		char buffer[BUFSIZ + 1];
-		memset( buffer, 0, BUFSIZ + 1 );
-		std::stringstream ss;
-		while( AAsset_read( asset, buffer, BUFSIZ ) > 0 )
-		{
-			ss << buffer;
-		}
-		params = ss.str();
-		AAsset_close( asset );
-		break;
-		}
-	}
-	AAssetDir_close( assetDir );
-	if( params.size() == 0 )
-	{
+  }
+  __android_log_write( ANDROID_LOG_INFO, "NFIQ2::Prediction::RandomForestML", "Using android asset manager to read model file" );
+  AAssetDir* assetDir = AAssetManager_openDir( assets, "" );
+  const char* file = nullptr;
+  std::string params;
+  while( ( file = AAssetDir_getNextFileName( assetDir ) ) != NULL )
+  {
+    if( fileName == std::string( file ) )
+    {
+      AAsset* asset = AAssetManager_open( assets, file, AASSET_MODE_STREAMING );
+      char buffer[BUFSIZ + 1];
+      memset( buffer, 0, BUFSIZ + 1 );
+      std::stringstream ss;
+      while( AAsset_read( asset, buffer, BUFSIZ ) > 0 )
+      {
+        ss << buffer;
+      }
+      params = ss.str();
+      AAsset_close( asset );
+      break;
+    }
+  }
+  AAssetDir_close( assetDir );
+  if( params.size() == 0 )
+  {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized!");
-	}
+  }
 	initModule(params);
 	// calculate and compare the hash
 	std::string hash = calculateHashString(params);

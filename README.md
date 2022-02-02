@@ -1,12 +1,25 @@
 # NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
 
-[![Download Latest Version](https://img.shields.io/badge/download-v2.1-informational)](https://github.com/usnistgov/NFIQ2/releases)
+[![Download Latest Version](https://img.shields.io/badge/download-v2.2-informational)](https://github.com/usnistgov/NFIQ2/releases)
 [![Build Libraries and CLI + Run CTS](https://github.com/usnistgov/NFIQ2/actions/workflows/build-member.yml/badge.svg)](https://github.com/usnistgov/NFIQ2/actions/workflows/build-member.yml)
 [![Frequently Asked Questions](https://img.shields.io/badge/wiki-frequently%20asked%20questions-informational)](https://github.com/usnistgov/NFIQ2/wiki/Frequently-Asked-Questions)
 
+About
+-----
+[National Institute of Standards and Technology (NIST)](https://www.nist.gov)
+Fingerprint Image Quality (NFIQ) is software that links image
+quality of optical and ink 500 pixel per inch fingerprints to operational
+recognition performance. This allows quality values to be tightly defined and
+then numerically calibrated, which in turn allows for the standardization needed
+to support a worldwide deployment of fingerprint sensors with universally
+interpretable image qualities. NFIQ 2 quality features are formally standardized
+as part of [ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791).
+This repository serves as a formally recognized reference implementation of the
+international standard.
+
 Overview
 --------
-In 2004, the [National Institute of Standards and Technology (NIST)](https://www.nist.gov) developed the first open source and publicly available fingerprint quality assessment tool, [NIST Finger Image Quality (NFIQ)](https://www.nist.gov/services-resources/software/nist-biometric-image-software-nbis#NFIQ).
+In 2004, [NIST](https://www.nist.gov) developed the first open source and publicly available fingerprint quality assessment tool, [NFIQ](https://www.nist.gov/services-resources/software/nist-biometric-image-software-nbis#NFIQ).
 NFIQ 2 is a revision of that tool.
 Advances in fingerprint technology since 2004 necessitated an update to NFIQ.
 As such, development of NFIQ 2 was initiated in 2011 as collaboration between
@@ -23,16 +36,17 @@ This allowed quality values to be tightly defined and then numerically calibrate
 This, in turn, allowed for the standardization needed to support a worldwide deployment of fingerprint sensors with
 universally interpretable image qualities.
 
-NFIQ 2 is the basis for a revision of the
-Technical Report [ISO/IEC TR 29794-4:2010](http://www.iso.org/iso/catalogue_detail.htm?csnumber=50911)
-into an international standard.  Specifically, NFIQ quality features are being formally standardized as part of
-[ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791) and
-NFIQ source code serves as the reference implementation of the standard.
+NFIQ 2 is formally recognized as a reference implementation of the normative
+metrics presented in
+[ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791).
+The international standard is undergoing revision in 2022 to bring it up to date
+with changes made in this repository.
 
 Operationally, NFIQ has increased the reliability, accuracy, and interoperability  of fingerprint recognition
 systems by identifying the samples that are likely to cause recognition failure.
 
-If you would like more information please read the [NFIQ 2 Report](https://doi.org/10.6028/NIST.IR.8382).
+If you would like more information, please read the [NFIQ 2 Report](https://doi.org/10.6028/NIST.IR.8382)
+and [ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791).
 
 Download
 --------

@@ -19,6 +19,16 @@ if(EMBED_RANDOM_FOREST_PARAMETERS)
 	list(APPEND EMBEDDING_CMAKE_ARGS -DEMBED_RANDOM_FOREST_PARAMETERS=${EMBED_RANDOM_FOREST_PARAMETERS})
 endif()
 
+# macOS Code Signing
+option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
+set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for applications")
+set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
+set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain (insert these with `xcrun notarytool store-credentials')")
+
+option(MACOS_FORCE_STATIC "Force static library dependencies only" OFF)
+
+set( NO_SEARCH TRUE )
+
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
@@ -55,6 +65,7 @@ endif()
 set(OPENCV_CMAKE_ARGS
 	-DBUILD_SHARED_LIBS=OFF
 	-DBUILD_OPENCV_APPS=OFF
+	-DBUILD_opencv_apps=OFF #opencv 4.5.4 seems to use this flag with lower case, keeping both entries to anticipate future fix
 	-DBUILD_ANDROID_EXAMPLES=OFF
 	-DBUILD_DOCS=OFF
 	-DBUILD_EXAMPLES=OFF
@@ -63,6 +74,7 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_TESTS=OFF
 	-DBUILD_WITH_DEBUG_INFO=OFF
 	-DBUILD_FAT_JAVA_LIB=OFF
+	-DBUILD_ANDROID_PROJECTS=OFF
 	-DBUILD_ANDROID_SERVICE=OFF
 	-DBUILD_ANDROID_PACKAGE=OFF
 	-DBUILD_TINY_GPU_MODULE=OFF
@@ -88,14 +100,13 @@ set(OPENCV_CMAKE_ARGS
 	-DWITH_JASPER=OFF
 	-DWITH_JPEG=OFF
 	-DBUILD_PNG=OFF
-	-DBUILD_ZLIB=OFF
 	-DBUILD_JASPER=OFF
 	-DBUILD_JPEG=OFF
 	-DWITH_ADE=OFF
 	-DWITH_WEBP=OFF
 	-DWITH_OPENEXR=OFF
 	-DWITH_QUIRC=OFF
-	-DBUILD_LIST=core,ml,imgproc)
+	-DBUILD_LIST=core,ml,imgproc,imgcodecs)
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
 list(APPEND OPENCV_CMAKE_ARGS
@@ -105,6 +116,13 @@ endif("${TARGET_PLATFORM}" MATCHES "win*")
 if ("${TARGET_PLATFORM}" MATCHES "apple32")
 	list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
 endif ()
+
+# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
+# or we'll have to redistribute them. If you're building for your own machine,
+# link whatever you find. macOS 11+ hides zlib and other system libraries.
+if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+	list(APPEND OPENCV_CMAKE_ARGS -DBUILD_ZLIB=ON)
+endif()
 
 set(VCPKG_CMAKE_ARGS)
 if (MSVC)
@@ -135,6 +153,14 @@ ExternalProject_Add(OpenCV
 )
 
 if (BUILD_NFIQ2_CLI)
+
+# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
+# or we'll have to redistribute them. If you're building for your own machine,
+# link whatever you find
+if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+	set(EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
+endif()
+
 ExternalProject_Add(libbiomeval
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
 	INSTALL_COMMAND ""
@@ -149,6 +175,7 @@ ExternalProject_Add(libbiomeval
 		-DWITH_PCSC=OFF
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
+		${EXTRA_BIOMEVAL_CMAKE_ARGS}
 )
 
 ExternalProject_Add(nfir
@@ -303,6 +330,40 @@ if (APPLE)
 	execute_process(COMMAND uname -m OUTPUT_VARIABLE MAC_ARCH)
 	string(STRIP "${MAC_ARCH}" MAC_ARCH)
 	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-macos-${OSX_VERS}-${MAC_ARCH}")
+	set(CPACK_PRODUCTBUILD_IDENTIFIER "gov.nist.nfiq2")
+
+	# macOS Code Signing
+	if (MACOS_CODESIGN)
+		if ("${MACOS_APPLICATION_SIGNING_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_APPLICATION_SIGNING_IDENTITY to your developer identity in order to code sign")
+		endif()
+		if ("${MACOS_INSTALLER_SIGNING_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_INSTALLER_SIGNING_IDENTITY to your developer identity in order to code sign")
+		endif()
+
+		set(CPACK_PRODUCTBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
+		set(CPACK_PKGBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
+		ExternalProject_Add_Step(nfiq2api codesign
+		    DEPENDEES install
+		    COMMAND codesign --prefix "${CPACK_PRODUCTBUILD_IDENTIFIER}." -f --options runtime --sign "${MACOS_APPLICATION_SIGNING_IDENTITY}" ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/nfiq2 ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/opencv_version ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libFRFXLL.dylib ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libNfiq2Api.dylib
+		    COMMENT "Codesigning all binaries and dylibs...")
+
+		# Notarize the installer
+		# XXX: Use CPACK_POST_BUILD_SCRIPTS instead, since this can't depend on packaging
+		if ("${MACOS_NOTARYTOOL_PROFILE}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_NOTARYTOOL_PROFILE to the name of the notarytool credentials stored in your Keychain. Insert these with `xcrun notarytool store-credentials'.")
+		endif()
+		add_custom_target(notarize
+		    COMMENT "Notarizing installer package..."
+		    COMMAND xcrun notarytool submit "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg" --keychain-profile "${MACOS_NOTARYTOOL_PROFILE}" --wait
+		    VERBATIM)
+		add_custom_target(staple
+		    DEPENDS notarize
+		    COMMENT "Stapling notarization ticket to installer package..."
+		    COMMAND xcrun stapler staple "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg"
+		    VERBATIM)
+	endif()
+
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Install WiX from https://wixtoolset.org/releases/
 	list(APPEND CPACK_GENERATOR "WIX")
@@ -353,7 +414,7 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 		set(CPACK_SYSTEM_NAME "win32")
 	endif()
 	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-${CPACK_SYSTEM_NAME}")
-elseif (EXISTS "/etc/lsb-release")
+elseif (EXISTS "/etc/debconf.conf")
 	list(APPEND CPACK_GENERATOR "DEB")
 	set(CPACK_DEB_COMPONENT_INSTALL ON)
 

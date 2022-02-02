@@ -130,7 +130,8 @@ NFIQ2::Prediction::RandomForestML::initModule(AAssetManager *assets,
 {
 	if (assets == nullptr) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
-		    "The trained network could not be initialized!");
+		    "Prediction::RandomForestML::initModule: AAssetManager is "
+		    "null");
 	}
 	__android_log_write(ANDROID_LOG_INFO,
 	    "NFIQ2::Prediction::RandomForestML",

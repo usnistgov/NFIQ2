@@ -8,8 +8,8 @@ NFIQ2::Algorithm::Algorithm()
 {
 }
 
-NFIQ2::Algorithm::Algorithm(const std::string &fileName,
-    const std::string &fileHash)
+NFIQ2::Algorithm::Algorithm(
+    const std::string &fileName, const std::string &fileHash)
     : pimpl { new NFIQ2::Algorithm::Impl(fileName, fileHash) }
 {
 }
@@ -19,6 +19,14 @@ NFIQ2::Algorithm::Algorithm(const NFIQ2::ModelInfo &modelInfoObj)
 	    modelInfoObj.getModelHash() }
 {
 }
+
+#ifdef __ANDROID__
+NFIQ2::Algorithm::Algorithm(AAssetManager *assets, const std::string &fileName,
+    const std::string &fileHash)
+    : pimpl { new NFIQ2::Algorithm::Impl(assets, fileName, fileHash) }
+{
+}
+#endif
 
 NFIQ2::Algorithm::Algorithm(const Algorithm &rhs)
     : pimpl(new Impl(*rhs.pimpl))

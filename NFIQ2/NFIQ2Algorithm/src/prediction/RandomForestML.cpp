@@ -133,9 +133,6 @@ NFIQ2::Prediction::RandomForestML::initModule(AAssetManager *assets,
 		    "Prediction::RandomForestML::initModule: AAssetManager is "
 		    "null");
 	}
-	__android_log_write(ANDROID_LOG_INFO,
-	    "NFIQ2::Prediction::RandomForestML",
-	    "Using android asset manager to read model file");
 	AAssetDir *assetDir = AAssetManager_openDir(assets, "");
 	const char *file = nullptr;
 	std::string params;

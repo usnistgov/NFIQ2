@@ -153,8 +153,9 @@ NFIQ2::Prediction::RandomForestML::initModule(AAssetManager *assets,
 	}
 	AAssetDir_close(assetDir);
 	if (params.size() == 0) {
-		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
-		    "The trained network could not be initialized!");
+		throw Exception{ErrorCode::CouldNotReadFile,
+		    "The trained network could not be initialized (no data "
+		    "read from asset (" + fileName + ")"};
 	}
 	initModule(params);
 	// calculate and compare the hash

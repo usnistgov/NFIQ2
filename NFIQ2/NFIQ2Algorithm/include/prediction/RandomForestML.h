@@ -10,7 +10,6 @@
 
 #ifdef __ANDROID__
 #include <android/asset_manager.h>
-#include <android/log.h>
 #endif
 
 namespace NFIQ2 { namespace Prediction {

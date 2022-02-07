@@ -8,8 +8,8 @@ NFIQ2::Algorithm::Algorithm()
 {
 }
 
-NFIQ2::Algorithm::Algorithm(
-    const std::string &fileName, const std::string &fileHash)
+NFIQ2::Algorithm::Algorithm(const std::string &fileName,
+    const std::string &fileHash)
     : pimpl { new NFIQ2::Algorithm::Impl(fileName, fileHash) }
 {
 }

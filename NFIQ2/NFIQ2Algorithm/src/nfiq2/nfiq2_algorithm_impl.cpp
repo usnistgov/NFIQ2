@@ -28,14 +28,14 @@ NFIQ2::Algorithm::Impl::Impl()
 #endif
 }
 
-NFIQ2::Algorithm::Impl::Impl(
-    const std::string &fileName, const std::string &fileHash)
+NFIQ2::Algorithm::Impl::Impl(const std::string &fileName,
+    const std::string &fileHash)
     : initialized { false }
 {
 	// init RF module that takes some time to load the parameters
 	try {
-		this->m_parameterHash = m_RandomForestML.initModule(
-		    fileName, fileHash);
+		this->m_parameterHash = m_RandomForestML.initModule(fileName,
+		    fileHash);
 		this->initialized = true;
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::BadArguments,
@@ -61,8 +61,8 @@ NFIQ2::Algorithm::Impl::Impl(AAssetManager *assets, const std::string &fileName,
 {
 	// init RF module that takes some time to load the parameters
 	try {
-		this->m_parameterHash = m_RandomForestML.initModule(
-		    assets, fileName, fileHash);
+		this->m_parameterHash = m_RandomForestML.initModule(assets,
+		    fileName, fileHash);
 		this->initialized = true;
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::BadArguments,
@@ -148,8 +148,8 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 		 * Nothing should get here, but computeQualityModules() calls
 		 * a lot of code...
 		 */
-		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::UnknownError, e.what());
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::UnknownError,
+		    e.what());
 	}
 
 	const std::unordered_map<std::string, double> quality =

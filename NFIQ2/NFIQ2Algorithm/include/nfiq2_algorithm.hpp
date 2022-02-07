@@ -21,7 +21,7 @@
 #include <unordered_map>
 
 #ifdef __ANDROID__
-# include <android/asset_manager.h>
+#include <android/asset_manager.h>
 #endif
 
 namespace NFIQ2 {
@@ -53,7 +53,8 @@ class Algorithm {
 	 */
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 #ifdef __ANDROID__
-  Algorithm(AAssetManager* assets, const std::string &fileName, const std::string &fileHash);
+	Algorithm(AAssetManager *assets, const std::string &fileName,
+	    const std::string &fileHash);
 #endif
 
 	/**

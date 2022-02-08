@@ -53,7 +53,7 @@ class Algorithm {
 	 */
 	Algorithm(const std::string &fileName, const std::string &fileHash);
 #ifdef __ANDROID__
-	Algorithm(const AAssetManager *assets, const std::string &fileName,
+	Algorithm(AAssetManager *assets, const std::string &fileName,
 	    const std::string &fileHash);
 #endif
 

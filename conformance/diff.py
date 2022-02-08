@@ -22,7 +22,8 @@ if not(os.path.isfile(args.csv1) and os.path.isfile(args.csv1)):
     sys.exit(1)
 
 # Set precision to 5. Same precision used in NFIQ2 output.
-pd.set_option('precision', 5)
+if Version(pd.__version__) >= Version("1.4.0"):
+	pd.set_option('styler.format.precision', 5)
 pd.set_option('display.precision', 5)
 
 # Try to read data from each CSV. Exit upon failure.

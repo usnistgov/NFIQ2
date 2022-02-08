@@ -1,8 +1,9 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.15)
+
+# Require MSVC_RUNTIME_LIBRARY
+cmake_policy(SET CMP0091 NEW)
 
 project( nfiq2 )
-
-set (CMAKE_CXX_STANDARD 11)
 
 # FIXME: Prefer static libs on macOS and Windows, since it's "easy" on Linux to
 #        install the dependencies. Once we have a shared lib, we should reverse
@@ -13,26 +14,12 @@ endif()
 
 include(GNUInstallDirs)
 
-include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
 
 # Configure version header
 include("${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp")
-
-# add include directories
-include_directories("${CMAKE_BINARY_DIR}")
-
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-
-# add libbiomeval include directories
-include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
-
-include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
-
-include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
 
 option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
 set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
@@ -41,9 +28,6 @@ set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
 set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
 find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
 set(OpenCV_SHARED ON)
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 set(SOURCE_FILES
     "src/nfiq2/nfiq2_cbeff.cpp"
@@ -97,17 +81,28 @@ add_library( ${NFIQ2_STATIC_LIBRARY_TARGET} STATIC
 set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
     OUTPUT_NAME "nfiq2"
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
 
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/digestpp")
+target_include_directories(${NFIQ2_STATIC_LIBRARY_TARGET} SYSTEM PRIVATE ${OpenCV_INCLUDE_DIRS})
+
+target_compile_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_CXX_FLAGS})
+target_link_options(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_LIBRARY_LINKER_FLAGS})
+
+target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PRIVATE ${NFIQ2_DEFINITIONS})
 if (EMBED_RANDOM_FOREST_PARAMETERS)
 	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS")
 	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT=${EMBEDDED_RANDOM_FOREST_PARAMETER_FCT}")
 endif()
 
-# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once FJFX builds
-# FIXME: are updated.
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
+# FingerJet installed to install dir. NFIQ 2 depends on it.
+link_directories("${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
 	FRFXLL_static
 	${OpenCV_LIBS}
@@ -134,13 +129,21 @@ if (BUILD_NFIQ2_CLI)
 	if( USE_SANITIZER )
 	  target_link_libraries( ${NFIQ2_TEST_APP} "asan" )
 	endif()
+	target_compile_definitions(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_DEFINITIONS})
+	target_compile_options(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_CXX_FLAGS})
+	target_link_options(${NFIQ2_TEST_APP} PRIVATE ${NFIQ2_CLI_LINKER_FLAGS})
+
+	target_include_directories(${NFIQ2_TEST_APP} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE ${OpenCV_INCLUDE_DIRS})
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
+	target_include_directories(${NFIQ2_TEST_APP} SYSTEM PRIVATE "${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 	# set the required libraries
 	add_dependencies(${NFIQ2_TEST_APP} ${NFIQ2_STATIC_LIBRARY_TARGET})
 	set( PROJECT_LIBS ${NFIQ2_STATIC_LIBRARY_TARGET} )
 
 	if("${TARGET_PLATFORM}" MATCHES "win*")
-	  add_definitions("-DNOMINMAX")
 	  set( PROJECT_LIBS ${PROJECT_LIBS} ws2_32 )
 	elseif("${TARGET_PLATFORM}" MATCHES "android*")
 	  find_package(Threads REQUIRED)
@@ -189,7 +192,12 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 
 	set_target_properties(${NFIQ2_TEST_APP}
-	  PROPERTIES RUNTIME_OUTPUT_NAME nfiq2)
+	  PROPERTIES RUNTIME_OUTPUT_NAME nfiq2
+	  CXX_STANDARD 11
+	  CXX_STANDARD_REQUIRED YES
+	  CXX_EXTENSIONS NO
+	  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+	)
 
 	install(TARGETS ${NFIQ2_TEST_APP}
 	    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -236,10 +244,3 @@ install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET}
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT install_staging)
-
-# FIXME: FingerJet doesn't have an install target
-install(FILES
-	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
-	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-	COMPONENT install_staging)

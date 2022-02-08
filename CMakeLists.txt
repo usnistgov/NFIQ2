@@ -1,10 +1,30 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.15)
+
+# Require MSVC_RUNTIME_LIBRARY
+cmake_policy(SET CMP0091 NEW)
+
+# Capture user-supplied CMake command-line arguments for forwarding.
+# (source: https://stackoverflow.com/a/48555098/277718)
+get_cmake_property(vars CACHE_VARIABLES)
+foreach(var ${vars})
+	get_property(currentHelpString CACHE "${var}" PROPERTY HELPSTRING)
+	if("${currentHelpString}" MATCHES "No help, variable specified on the command line." OR "${currentHelpString}" STREQUAL "")
+		list(APPEND USER_CMAKE_ARGS "-D${var}=${${var}}")
+	endif()
+endforeach()
 
 project( NFIQ2_SUPERBUILD )
 
 message(STATUS "NFIQ 2 Superbuild")
 
 option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
+set(NFIQ2_CLI_INCOMPATIBLE_SYSTEMS "Android;iOS;tvOS;watchOS")
+if (BUILD_NFIQ2_CLI)
+	if (CMAKE_SYSTEM_NAME IN_LIST NFIQ2_CLI_INCOMPATIBLE_SYSTEMS)
+		message(AUTHOR_WARNING "BUILD_NFIQ2_CLI=YES not compatible with ${CMAKE_SYSTEM_NAME}, disabling")
+		set(BUILD_NFIQ2_CLI OFF)
+	endif()
+endif()
 
 # Options for embedding random forest parameters
 option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
@@ -15,6 +35,14 @@ if(EMBED_RANDOM_FOREST_PARAMETERS)
 	message(STATUS "Embedding random forest parameters")
 	list(APPEND EMBEDDING_CMAKE_ARGS -DEMBED_RANDOM_FOREST_PARAMETERS=${EMBED_RANDOM_FOREST_PARAMETERS})
 endif()
+
+# macOS Code Signing
+option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
+set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for applications")
+set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
+set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain (insert these with `xcrun notarytool store-credentials')")
+
+option(MACOS_FORCE_STATIC "Force static library dependencies only" OFF)
 
 set( NO_SEARCH TRUE )
 
@@ -29,75 +57,15 @@ set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 set(NFIQ2_CONTAINER_DIR "nfiq2")
 set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CONTAINER_DIR}")
 
-set(CMAKE_CXX_STANDARD 11)
-
-# set colors for cmake comand line
-include( "${ROOT_PATH}/cmake/colors.cmake" )
-
 # detect target platform
 include( "${ROOT_PATH}/cmake/target.cmake" )
 
-# setup compiler
-include( "${ROOT_PATH}/cmake/compiler.cmake" )
-
-# include special settings for fingerjetfxose
-include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
-
-add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
-
-# forwarding 32/64 compiler flags
-if( 32BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m32"
-    -DCMAKE_CXX_FLAGS="-m32"
-  )
-elseif( 64BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m64"
-    -DCMAKE_CXX_FLAGS="-m64"
-  )
-endif()
-
-# forwarding android build flags
-if( NOT "${ANDROID_ABI}" STREQUAL "")
-  message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
-  set(ANDROID_CMAKE_ARGS
-    -DANDROID_ABI=${ANDROID_ABI}
-    -DANDROID_PLATFORM=${ANDROID_PLATFORM}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
-    -DANDROID_TARGET=${ANDROID_TARGET}
-  )
-endif()
-
-# forwarding android build flags
-if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
-  message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
-  set(IOS_CMAKE_ARGS
-    -DPLATFORM=${PLATFORM}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DENABLE_ARC=${ENABLE_ARC}
-  )
-endif()
-
 include(ExternalProject)
-
-set(MULTI_CONFIG_ARGS)
-if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
-	if (${GENERATOR_IS_MULTI_CONFIG})
-		list(APPEND MULTI_CONFIG_ARGS
-			-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
-			)
-	endif()
-elseif (MSVC OR Xcode)
-	list(APPEND MULTI_CONFIG_ARGS
-		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
-		)
-endif()
 
 set(OPENCV_CMAKE_ARGS
 	-DBUILD_SHARED_LIBS=OFF
 	-DBUILD_OPENCV_APPS=OFF
+	-DBUILD_opencv_apps=OFF #opencv 4.5.4 seems to use this flag with lower case, keeping both entries to anticipate future fix
 	-DBUILD_ANDROID_EXAMPLES=OFF
 	-DBUILD_DOCS=OFF
 	-DBUILD_EXAMPLES=OFF
@@ -106,6 +74,7 @@ set(OPENCV_CMAKE_ARGS
 	-DBUILD_TESTS=OFF
 	-DBUILD_WITH_DEBUG_INFO=OFF
 	-DBUILD_FAT_JAVA_LIB=OFF
+	-DBUILD_ANDROID_PROJECTS=OFF
 	-DBUILD_ANDROID_SERVICE=OFF
 	-DBUILD_ANDROID_PACKAGE=OFF
 	-DBUILD_TINY_GPU_MODULE=OFF
@@ -131,14 +100,13 @@ set(OPENCV_CMAKE_ARGS
 	-DWITH_JASPER=OFF
 	-DWITH_JPEG=OFF
 	-DBUILD_PNG=OFF
-	-DBUILD_ZLIB=OFF
 	-DBUILD_JASPER=OFF
 	-DBUILD_JPEG=OFF
 	-DWITH_ADE=OFF
 	-DWITH_WEBP=OFF
 	-DWITH_OPENEXR=OFF
 	-DWITH_QUIRC=OFF
-	-DBUILD_LIST=core,ml,imgproc)
+	-DBUILD_LIST=core,ml,imgproc,imgcodecs)
 
 if("${TARGET_PLATFORM}" MATCHES "win*")
 list(APPEND OPENCV_CMAKE_ARGS
@@ -149,49 +117,61 @@ if ("${TARGET_PLATFORM}" MATCHES "apple32")
 	list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
 endif ()
 
-set(VCPKG_CMAKE_ARGS)
-if (MSVC)
-	list(APPEND VCPKG_CMAKE_ARGS
-		-DVCPKG_VERBOSE=${VCPKG_VERBOSE}
-		-DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
-		)
+# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
+# or we'll have to redistribute them. If you're building for your own machine,
+# link whatever you find. macOS 11+ hides zlib and other system libraries.
+if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+	list(APPEND OPENCV_CMAKE_ARGS -DBUILD_ZLIB=ON)
 endif()
+
+ExternalProject_Add(fjfxose
+	SOURCE_DIR ${PROJECT_SOURCE_DIR}/fingerjetfxose/FingerJetFXOSE
+	CMAKE_ARGS
+		${USER_CMAKE_ARGS}
+		${COMPILER_CMAKE_ARGS}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+)
 
 ExternalProject_Add(OpenCV
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/opencv
 	CMAKE_ARGS
+		${USER_CMAKE_ARGS}
 		${OPENCV_CMAKE_ARGS}
 		${COMPILER_CMAKE_ARGS}
-		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
-		${MULTI_CONFIG_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 )
 
 if (BUILD_NFIQ2_CLI)
+
+# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
+# or we'll have to redistribute them. If you're building for your own machine,
+# link whatever you find
+if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+	set(EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
+endif()
+
 ExternalProject_Add(libbiomeval
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
 	INSTALL_COMMAND ""
 	CMAKE_ARGS
-		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+		${USER_CMAKE_ARGS}
 		-DBUILD_BIOMEVAL_TESTS=OFF
-		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		-DBUILD_SHARED_LIBS=OFF
 		-DWITH_HWLOC=OFF
 		-DWITH_MPI=OFF
 		-DWITH_FFMPEG=OFF
 		-DWITH_PCSC=OFF
-		${VCPKG_CMAKE_ARGS}
-		${MULTI_CONFIG_ARGS}
+		${EXTRA_BIOMEVAL_CMAKE_ARGS}
+		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 )
 
 ExternalProject_Add(nfir
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/NFIR
 	CMAKE_ARGS
+		${USER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
 		-DFORCE_WIN_STATIC_RUNTIME=ON
-		${MULTI_CONFIG_ARGS}
 )
 
 ExternalProject_Add_StepDependencies(nfir build OpenCV)
@@ -201,20 +181,16 @@ endif(BUILD_NFIQ2_CLI)
 ExternalProject_Add(nfiq2
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Algorithm
 	CMAKE_ARGS
-		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+		${USER_CMAKE_ARGS}
 		-DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI}
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		-DTARGET_PLATFORM=${TARGET_PLATFORM}
 		${COMPILER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
-		${VCPKG_CMAKE_ARGS}
-		${MULTI_CONFIG_ARGS}
 		${EMBEDDING_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
-ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
+ExternalProject_Add_StepDependencies(nfiq2 build OpenCV fjfxose)
 
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval nfir)
@@ -223,11 +199,10 @@ endif(BUILD_NFIQ2_CLI)
 ExternalProject_Add(nfiq2api
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Api
 	CMAKE_ARGS
+		${USER_CMAKE_ARGS}
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		${COMPILER_CMAKE_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)
@@ -339,6 +314,40 @@ if (APPLE)
 	execute_process(COMMAND uname -m OUTPUT_VARIABLE MAC_ARCH)
 	string(STRIP "${MAC_ARCH}" MAC_ARCH)
 	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-macos-${OSX_VERS}-${MAC_ARCH}")
+	set(CPACK_PRODUCTBUILD_IDENTIFIER "gov.nist.nfiq2")
+
+	# macOS Code Signing
+	if (MACOS_CODESIGN)
+		if ("${MACOS_APPLICATION_SIGNING_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_APPLICATION_SIGNING_IDENTITY to your developer identity in order to code sign")
+		endif()
+		if ("${MACOS_INSTALLER_SIGNING_IDENTITY}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_INSTALLER_SIGNING_IDENTITY to your developer identity in order to code sign")
+		endif()
+
+		set(CPACK_PRODUCTBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
+		set(CPACK_PKGBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
+		ExternalProject_Add_Step(nfiq2api codesign
+		    DEPENDEES install
+		    COMMAND codesign --prefix "${CPACK_PRODUCTBUILD_IDENTIFIER}." -f --options runtime --sign "${MACOS_APPLICATION_SIGNING_IDENTITY}" ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/nfiq2 ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/opencv_version ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libFRFXLL.dylib ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libNfiq2Api.dylib
+		    COMMENT "Codesigning all binaries and dylibs...")
+
+		# Notarize the installer
+		# XXX: Use CPACK_POST_BUILD_SCRIPTS instead, since this can't depend on packaging
+		if ("${MACOS_NOTARYTOOL_PROFILE}" STREQUAL "")
+			message(FATAL_ERROR "You must set MACOS_NOTARYTOOL_PROFILE to the name of the notarytool credentials stored in your Keychain. Insert these with `xcrun notarytool store-credentials'.")
+		endif()
+		add_custom_target(notarize
+		    COMMENT "Notarizing installer package..."
+		    COMMAND xcrun notarytool submit "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg" --keychain-profile "${MACOS_NOTARYTOOL_PROFILE}" --wait
+		    VERBATIM)
+		add_custom_target(staple
+		    DEPENDS notarize
+		    COMMENT "Stapling notarization ticket to installer package..."
+		    COMMAND xcrun stapler staple "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg"
+		    VERBATIM)
+	endif()
+
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Install WiX from https://wixtoolset.org/releases/
 	list(APPEND CPACK_GENERATOR "WIX")

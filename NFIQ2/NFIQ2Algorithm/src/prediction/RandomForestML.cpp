@@ -48,7 +48,7 @@ void
 NFIQ2::Prediction::RandomForestML::initModule(const std::string &params)
 {
 	// create file storage with parameters in memory
-	cv::FileStorage fs(params.c_str(),
+	cv::FileStorage fs(params,
 	    cv::FileStorage::READ | cv::FileStorage::MEMORY |
 		cv::FileStorage::FORMAT_YAML);
 	// now import data structures

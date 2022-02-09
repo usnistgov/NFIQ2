@@ -194,7 +194,7 @@ NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
 			bc = 0;
 		}
 
-		const int binCount { 10 };
+		const unsigned int binCount { 10 };
 		if (dataVector.size() < binCount) {
 			throw NFIQ2::Exception {
 				ErrorCode::FeatureCalculationError,

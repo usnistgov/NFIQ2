@@ -532,7 +532,7 @@ void
 NFIQ2::QualityFeatures::addHistogramFeatures(
     std::unordered_map<std::string, double> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
-    std::vector<double> &dataVector, int binCount)
+    std::vector<double> &dataVector, unsigned int binCount)
 {
 	binBoundaries.push_back(std::numeric_limits<double>::infinity());
 
@@ -562,7 +562,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 		bins[currentBucket]++;
 	}
 
-	for (int i = 0; i < binCount; i++) {
+	for (unsigned int i = 0; i < binCount; i++) {
 		featureDataList[featurePrefix + std::to_string(i)] = bins[i];
 	}
 
@@ -588,9 +588,9 @@ NFIQ2::QualityFeatures::addSamplingFeatureNames(
 void
 NFIQ2::QualityFeatures::addHistogramFeatureNames(
     std::vector<std::string> &featureNames, const std::string &prefix,
-    int binCount)
+    unsigned int binCount)
 {
-	for (int i = 0; i < binCount; i++) {
+	for (unsigned int i = 0; i < binCount; i++) {
 		featureNames.push_back(prefix + std::to_string(i));
 	}
 	featureNames.push_back(prefix + FeatureFunctionsMeanSuffix);

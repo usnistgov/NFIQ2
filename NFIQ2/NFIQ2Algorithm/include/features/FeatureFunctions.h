@@ -50,11 +50,11 @@ void computeNumericalGradients(const cv::Mat &mat, cv::Mat &grad_x,
 void
 addHistogramFeatures(std::unordered_map<std::string, double> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
-    std::vector<double> &dataVector, int binCount);
+    std::vector<double> &dataVector, unsigned int binCount);
 void addSamplingFeatureNames(std::vector<std::string> &featureNames,
     const char *prefix);
 void addHistogramFeatureNames(std::vector<std::string> &featureNames,
-    const std::string &prefix, int binCount);
+    const std::string &prefix, unsigned int binCount);
 #endif
 }
 }

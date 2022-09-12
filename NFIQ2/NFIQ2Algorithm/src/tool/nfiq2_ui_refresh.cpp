@@ -355,10 +355,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	// resolution, or are assumed to be that resolution.
 
 	const NFIQ2::FingerprintImageData wrappedImage = imageProps.resampled ?
-		  NFIQ2::FingerprintImageData(postResample.data, postResample.total(),
+	    NFIQ2::FingerprintImageData(postResample.data, postResample.total(),
 		postResample.cols, postResample.rows, fingerPosition,
 		requiredPPI) :
-		  NFIQ2::FingerprintImageData(grayscaleRawData,
+	    NFIQ2::FingerprintImageData(grayscaleRawData,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredPPI);
 
@@ -977,20 +977,20 @@ main(int argc, char **argv)
 
 	logger->debugMsg("Model Name: " +
 	    (modelInfoObj.getModelName().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelName()));
+		    "<NA>" :
+		    modelInfoObj.getModelName()));
 	logger->debugMsg("Model Trainer: " +
 	    (modelInfoObj.getModelTrainer().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelTrainer()));
+		    "<NA>" :
+		    modelInfoObj.getModelTrainer()));
 	logger->debugMsg("Model Description: " +
 	    (modelInfoObj.getModelDescription().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelDescription()));
+		    "<NA>" :
+		    modelInfoObj.getModelDescription()));
 	logger->debugMsg("Model Version: " +
 	    (modelInfoObj.getModelVersion().empty() ?
-			  "<NA>" :
-			  modelInfoObj.getModelVersion()));
+		    "<NA>" :
+		    modelInfoObj.getModelVersion()));
 	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
 

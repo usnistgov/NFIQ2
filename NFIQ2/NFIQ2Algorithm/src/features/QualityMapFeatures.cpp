@@ -117,11 +117,11 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 	for (int i = 0; i < img.rows; i += bs) {
 		for (int j = 0; j < img.cols; j += bs) {
 			int actualBS_X = ((img.cols - j) < (int)bs) ?
-				  (img.cols - j) :
-				  bs;
+			    (img.cols - j) :
+			    bs;
 			int actualBS_Y = ((img.rows - i) < (int)bs) ?
-				  (img.rows - i) :
-				  bs;
+			    (img.rows - i) :
+			    bs;
 
 			// check if block is vector of ROI blocks
 			if (bFilterByROI) {

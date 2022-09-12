@@ -10,7 +10,6 @@ on:
       - '!.github/workflows/run-cts-pr.yml'
       - '.gitignore'
       - '**.md'
-      - 'appveyor.yml'
 
 jobs:
   runcts:

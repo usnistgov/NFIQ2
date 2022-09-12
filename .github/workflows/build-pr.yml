@@ -7,7 +7,6 @@ on:
       - '!.github/workflows/build-pr.yml'
       - '.gitignore'
       - '**.md'
-      - 'appveyor.yml'
       - 'conformance/**'
 
 env:

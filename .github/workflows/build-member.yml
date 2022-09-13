@@ -162,7 +162,7 @@ jobs:
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
-            -DOPENSSL_ROOT_DIR=C:/vcpkg/packages/openssl_${{ matrix.config.arch }}-windows-static/ \
+            -DOPENSSL_ROOT_DIR=../fresh-vcpkg/packages/openssl_${{ matrix.config.arch }}-windows-static/ \
             ${GITHUB_WORKSPACE}
 
     - name: Build (Single-config Generator)

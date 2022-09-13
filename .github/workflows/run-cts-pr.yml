@@ -39,6 +39,13 @@ jobs:
       with:
         submodules: false
 
+    # The Mono framework on macOS GitHub Runners provides some really old and
+    # conflicting libraries at high precedence, so remove it.
+    - name: Remove Mono Framework (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: sudo rm -rf /Library/Frameworks/Mono.framework
+
     - name: Download install_staging artifact
       uses: actions/github-script@v3.1.0
       with:

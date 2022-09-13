@@ -7,7 +7,6 @@ on:
       - '!.github/workflows/build-pr.yml'
       - '.gitignore'
       - '**.md'
-      - 'appveyor.yml'
       - 'conformance/**'
 
 env:
@@ -23,16 +22,14 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-12, arch: x64 }
           - { os: macOS-11, arch: x64 }
-          - { os: macOS-10.15, arch: x64 }
-          - { os: ubuntu-18.04, arch: x64 }
+          - { os: ubuntu-22.04, arch: x64 }
           - { os: ubuntu-20.04, arch: x64 }
           - { os: windows-2022, arch: x64 }
           - { os: windows-2022, arch: x86 }
           - { os: windows-2019, arch: x64 }
           - { os: windows-2019, arch: x86 }
-          - { os: windows-2016, arch: x64 }
-          - { os: windows-2016, arch: x86 }
 
     steps:
     - name: Checkout Code and Submodules
@@ -161,6 +158,7 @@ jobs:
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
+            -DOPENSSL_ROOT_DIR=C:/vcpkg/packages/openssl_${{ matrix.config.arch }}-windows-static/ \
             ${GITHUB_WORKSPACE}
 
     - name: Build (Single-config Generator)

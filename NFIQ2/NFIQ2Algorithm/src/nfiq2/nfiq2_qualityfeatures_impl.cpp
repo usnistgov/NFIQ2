@@ -123,8 +123,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 				     ActionableQualityFeedback::UniformImage] <
 					Thresholds::ActionableQualityFeedback::
 					    UniformImage ?
-					  true :
-					  false);
+				    true :
+				    false);
 
 			// Mu is computed always since it is used as feature
 			// anyway
@@ -145,8 +145,8 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 							Thresholds::
 							    ActionableQualityFeedback::
 								EmptyImageOrContrastTooLow ?
-							  true :
-							  false);
+						    true :
+						    false);
 				}
 			}
 

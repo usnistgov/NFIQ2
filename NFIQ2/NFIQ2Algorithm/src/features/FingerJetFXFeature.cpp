@@ -146,14 +146,14 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	}
 
 	const uint8_t *imageDataPtr { imageTooSmall ? biggerImageCV.ptr() :
-							    fingerprintImage.data() };
+						      fingerprintImage.data() };
 	const uint32_t imageWidth { imageTooSmall ? biggerImageCV.cols :
-							  fingerprintImage.width };
+						    fingerprintImage.width };
 	const uint32_t imageHeight { imageTooSmall ? biggerImageCV.rows :
-							   fingerprintImage.height };
+						     fingerprintImage.height };
 	const uint64_t imageDataSize { imageTooSmall ?
-			  imageWidth * imageHeight :
-			  fingerprintImage.size() };
+		    imageWidth * imageHeight :
+		    fingerprintImage.size() };
 
 	// extract feature set
 	const FRFXLL_RESULT fxRes = FRFXLLCreateFeatureSetFromRaw(hCtx,

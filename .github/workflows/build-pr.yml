@@ -44,19 +44,12 @@ jobs:
       shell: bash
       run: sudo rm -rf /Library/Frameworks/Mono.framework
 
-    - name: Install vcpkg
-      working-directory: ${{ github.workspace }}
-      if: ${{ runner.os == 'Windows' }}
-      run: |
-        git clone https://github.com/microsoft/vcpkg.git fresh-vcpkg
-        .\\fresh-vcpkg\\bootstrap-vcpkg.bat -disableMetrics
-
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       id: vcpkg-cache
       uses: actions/cache@v2
       with:
-        path: fresh-vcpkg\installed
+        path: ${{ env.VCPKG_ROOT }}\installed
         key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
         restore-keys: |
           pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
@@ -102,7 +95,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
-        fresh-vcpkg/vcpkg install --recurse \
+        vcpkg install --recurse \
           --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
           hwloc \
@@ -116,7 +109,7 @@ jobs:
           zlib \
           zstd
         # getopt is not static
-        fresh-vcpkg/vcpkg install --recurse \
+        vcpkg install --recurse \
           --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Build Directory Cache
@@ -160,12 +153,12 @@ jobs:
       run: |
         cmake \
             -A ${cmake_arch_flag} \
-            -DCMAKE_TOOLCHAIN_FILE=${GITHUB_WORKSPACE}/fresh-vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=${{ matrix.config.arch }}-windows-static \
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI} \
-            -DOPENSSL_ROOT_DIR=../fresh-vcpkg/packages/openssl_${{ matrix.config.arch }}-windows-static/ \
+            -DOPENSSL_ROOT_DIR=${VCPKG_ROOT}/packages/openssl_${{ matrix.config.arch }}-windows-static \
             ${GITHUB_WORKSPACE}
 
     - name: Build (Single-config Generator)

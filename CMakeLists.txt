@@ -192,7 +192,10 @@ if (BUILD_NFIQ2_CLI)
 # or we'll have to redistribute them. If you're building for your own machine,
 # link whatever you find
 if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
-	set(EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
+	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
+endif()
+if (NOT "${OPENSSL_ROOT_DIR}" STREQUAL "")
+	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS "-DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR}")
 endif()
 
 ExternalProject_Add(libbiomeval

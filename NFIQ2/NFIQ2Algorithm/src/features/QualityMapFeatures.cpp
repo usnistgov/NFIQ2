@@ -64,12 +64,11 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 		// ------------------------
 
 		// get orientation map with ROI filter
-		// uses block size 16
 		double coherenceSumFilter = 0.0;
 		double coherenceRelFilter = 0.0;
 		cv::Mat orientationMapImgFilter = computeOrientationMap(img,
-		    true, coherenceSumFilter, coherenceRelFilter, 16,
-		    this->imgProcResults_);
+		    true, coherenceSumFilter, coherenceRelFilter,
+		    Sizes::LocalRegionSquare, this->imgProcResults_);
 
 		// return features based on coherence values of orientation map
 		std::pair<std::string, double> fd_om_2;

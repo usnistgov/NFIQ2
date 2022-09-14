@@ -33,7 +33,7 @@ class OFFeature : public Module {
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	/** Processing is done in subblocks of this size. */
-	const int blocksize { 16 };
+	const int blocksize { Sizes::LocalRegionSquare };
 	/** Size of the rotated block in the x dimension */
 	const int slantedBlockSizeX {
 		Sizes::VerticallyAlignedLocalRegionWidth

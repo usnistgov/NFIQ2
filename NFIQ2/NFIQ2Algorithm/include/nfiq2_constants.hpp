@@ -243,15 +243,15 @@ namespace RegionOfInterest {
  */
 extern const char Mean[];
 
-/** Sum of coherence values over all 16x16 pixel regions within the ROI. */
+/** Sum of coherence values over all local regions within the ROI. */
 extern const char CoherenceSum[];
 
 /**
- * Average of coherence values over all 16x16 pixel regions within the ROI.
+ * Average of coherence values over all local regions within the ROI.
  *
  * @details
- * This is computed as RegionOfInterest::CoherenceSum / (number of 16x16 pixel
- * regions that contain at least 1 pixel within the ROI).
+ * This is computed as RegionOfInterest::CoherenceSum / (number of local regions
+ * that contain at least 1 pixel within the ROI).
  *
  * @see CoherenceSum
  */

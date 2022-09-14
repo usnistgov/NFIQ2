@@ -46,15 +46,22 @@ jobs:
       shell: bash
       run: sudo rm -rf /Library/Frameworks/Mono.framework
 
+    - name: Prepare for Package Cache (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash
+      run: |
+        mkdir -p ${VCPKG_ROOT}/bincache
+        echo "VCPKG_DEFAULT_BINARY_CACHE=${VCPKG_ROOT}/bincache" >> ${GITHUB_ENV}
+
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       id: vcpkg-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
-        path: ${{ env.VCPKG_ROOT }}\installed
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-SHARED_${{ matrix.config.shared }}-STATIC_${{ matrix.config.force-static-deps }}-vcpkg
         restore-keys: |
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg_install-1
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-SHARED_${{ matrix.config.shared }}-STATIC_${{ matrix.config.force-static-deps }}-vcpkg
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -115,7 +122,7 @@ jobs:
 
     - name: Build Directory Cache
       id: builddir-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           ${{ github.workspace }}/build

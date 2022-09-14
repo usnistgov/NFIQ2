@@ -57,10 +57,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-SHARED_${{ matrix.config.shared }}-STATIC_${{ matrix.config.force-static-deps }}-vcpkg
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
         restore-keys: |
-          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-SHARED_${{ matrix.config.shared }}-STATIC_${{ matrix.config.force-static-deps }}-vcpkg
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-SHARED_${{ matrix.config.shared }}-STATIC_${{ matrix.config.force-static-deps }}-vcpkg
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}

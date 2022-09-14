@@ -1,8 +1,8 @@
 # Version information
 set(NFIQ2_VERSION_MAJOR "2")
-set(NFIQ2_VERSION_MINOR "2")
+set(NFIQ2_VERSION_MINOR "3")
 set(NFIQ2_VERSION_PATCH "0")
-set(NFIQ2_VERSION_STATUS "")
+set(NFIQ2_VERSION_STATUS "pre.1")
 
 ################################################################################
 #                     DO NOT CHANGE VALUES BELOW THIS LINE                     #

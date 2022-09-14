@@ -52,7 +52,7 @@ NFIQ2::QualityFeatures::MuFeature::computeFeatureData(
 	// -------------------------
 
 	try {
-		unsigned int blockSize = 32;
+		const unsigned int blockSize = Sizes::LocalRegionSquare;
 		unsigned int width = fingerprintImage.width;
 		unsigned int height = fingerprintImage.height;
 		std::vector<double> vecMeans;

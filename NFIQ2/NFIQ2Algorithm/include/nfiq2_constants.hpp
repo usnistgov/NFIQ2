@@ -219,7 +219,7 @@ extern const char CountCOM[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by Contrast::Mean
- * of a 32x32 pixel region centered on the minutiae, is between 0-0.5.
+ * of a local region centered on the minutiae, is between 0-0.5.
  *
  * @see Contrast::Mean
  */
@@ -227,7 +227,7 @@ extern const char QualityMu2[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by the Orientation
- * Certainty Level of a 32x32 pixel region centered on the minutiae, is above
+ * Certainty Level of a local region centered on the minutiae, is above
  * 80.
  *
  * @see OrientationCertainty
@@ -238,8 +238,8 @@ extern const char QualityOCL80[];
 /** Measures based on the foreground area of the image. */
 namespace RegionOfInterest {
 /**
- * Mean grayscale value of the number of 32x32 pixel regions having at least 1
- * pixel in the ROI.
+ * Mean grayscale value of the number of local regions having at least 1 pixel
+ * in the ROI.
  */
 extern const char Mean[];
 
@@ -443,6 +443,23 @@ extern const double FingerprintImageWithMinutiae;
 extern const double SufficientFingerprintForeground;
 } /* Thresholds::ActionableQualityFeedback */
 } /* Thresholds */
+
+/** Block size constants. */
+namespace Sizes {
+/**
+ * Number of pixels (in width and height) comprising a local region.
+ *
+ * @details
+ * As defined by ISO/IEC 29794-4:202X, Section 5.1.2, "The size for each local
+ * region shall be 32 x 32 pixels, which is sufficient to cover 2 clear ridges."
+ */
+const unsigned int LocalRegionSquare { 32 };
+/** Width after rotating local region to vertically align ridges. */
+const unsigned int VerticallyAlignedLocalRegionWidth { 32 };
+/** Height after rotating local region to vertically align ridges. */
+const unsigned int VerticallyAlignedLocalRegionHeight { 16 };
+}
+
 } /* NFIQ2 */
 
 #endif /* NFIQ2_CONSTANTS_HPP_ */

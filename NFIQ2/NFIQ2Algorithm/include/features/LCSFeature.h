@@ -26,7 +26,7 @@ class LCSFeature : public Module {
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
-	const int blocksize { 32 };
+	const int blocksize { Sizes::LocalRegionSquare };
 	const double threshold { .1 };
 	const int scannerRes { 500 };
 	const bool padFlag { false };

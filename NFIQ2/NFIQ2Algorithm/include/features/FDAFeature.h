@@ -32,10 +32,14 @@ class FDAFeature : public Module {
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
-	const int blocksize { 32 };
+	const int blocksize { Sizes::LocalRegionSquare };
 	const double threshold { .1 };
-	const int slantedBlockSizeX { 32 };
-	const int slantedBlockSizeY { 16 };
+	const int slantedBlockSizeX {
+		Sizes::VerticallyAlignedLocalRegionWidth
+	};
+	const int slantedBlockSizeY {
+		Sizes::VerticallyAlignedLocalRegionHeight
+	};
 	const bool padFlag { true }; // used by getRotatedBlock
 };
 }}

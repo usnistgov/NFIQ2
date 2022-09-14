@@ -1,7 +1,7 @@
 #ifndef OCLHISTOGRAMFEATURE_H
 #define OCLHISTOGRAMFEATURE_H
 
-#define BS_OCL 32 // block size for OCL
+#define BS_OCL NFIQ2::Sizes::LocalRegionSquare // block size for OCL
 
 #include <features/Module.h>
 #include <nfiq2_constants.hpp>

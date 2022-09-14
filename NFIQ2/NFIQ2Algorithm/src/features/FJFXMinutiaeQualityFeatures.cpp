@@ -53,7 +53,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		// compute minutiae quality based on Mu feature computated at
 		// minutiae positions
 		std::vector<MinutiaData> vecMuMinQualityData =
-		    computeMuMinQuality(32, fingerprintImage);
+		    computeMuMinQuality(Sizes::LocalRegionSquare,
+			fingerprintImage);
 
 		std::vector<unsigned int> vecRanges(
 		    4); // index 0 = -1 .. -0.5, ....

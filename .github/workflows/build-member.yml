@@ -24,6 +24,7 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-13, arch: x64 }
           - { os: macOS-12, arch: x64 }
           - { os: macOS-11, arch: x64 }
           - { os: ubuntu-22.04, arch: x64 }

@@ -52,7 +52,7 @@ jobs:
       shell: bash
       run: |
         mkdir -p "${VCPKG_ROOT}/bincache"
-        echo "VCPKG_DEFAULT_BINARY_CACHE=\"${VCPKG_ROOT}/bincache\"" >> ${GITHUB_ENV}
+        echo "VCPKG_DEFAULT_BINARY_CACHE=${VCPKG_ROOT}/bincache" >> ${GITHUB_ENV}
 
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}

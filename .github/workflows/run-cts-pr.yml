@@ -24,6 +24,7 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-13, arch: x64 }
           - { os: macOS-12, arch: x64 }
           - { os: macOS-11, arch: x64 }
           - { os: ubuntu-22.04, arch: x64 }
@@ -47,10 +48,10 @@ jobs:
       run: sudo rm -rf /Library/Frameworks/Mono.framework
 
     - name: Download install_staging artifact
-      uses: actions/github-script@v3.1.0
+      uses: actions/github-script@v6
       with:
         script: |
-          var artifacts = await github.actions.listWorkflowRunArtifacts({
+          var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
              owner: context.repo.owner,
              repo: context.repo.repo,
              run_id: ${{github.event.workflow_run.id}},
@@ -58,7 +59,7 @@ jobs:
           var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
             return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}"
           })[0];
-          var download = await github.actions.downloadArtifact({
+          var download = await github.rest.actions.downloadArtifact({
              owner: context.repo.owner,
              repo: context.repo.repo,
              artifact_id: matchArtifact.id,
@@ -125,7 +126,7 @@ jobs:
       run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.x'
 
@@ -151,7 +152,7 @@ jobs:
         python conformance/diff.py -s conformance/conformance_expected_output.csv github.csv
 
     - name: Upload conformance output artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
         path: github.csv
@@ -160,13 +161,13 @@ jobs:
 
     - name: Failed the CTS
       if: ${{ failure() }}
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           var fs = require('fs');
           var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
-          await github.issues.createComment({
+          await github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
@@ -180,13 +181,13 @@ jobs:
     strategy:
       matrix:
         config:
-          - { os: ubuntu-20.04, arch: x64 }
+          - { os: ubuntu-latest, arch: x64 }
     steps:
     - name: Download install_staging artifact
-      uses: actions/github-script@v3.1.0
+      uses: actions/github-script@v6
       with:
         script: |
-          var artifacts = await github.actions.listWorkflowRunArtifacts({
+          var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
              owner: context.repo.owner,
              repo: context.repo.repo,
              run_id: ${{github.event.workflow_run.id}},
@@ -194,7 +195,7 @@ jobs:
           var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
             return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}"
           })[0];
-          var download = await github.actions.downloadArtifact({
+          var download = await github.rest.actions.downloadArtifact({
              owner: context.repo.owner,
              repo: context.repo.repo,
              artifact_id: matchArtifact.id,
@@ -211,13 +212,13 @@ jobs:
         unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
 
     - name: Passed the CTS
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           var fs = require('fs');
           var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
-          await github.issues.createComment({
+          await github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,

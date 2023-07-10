@@ -24,15 +24,16 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-13, arch: x64 }
-          - { os: macOS-12, arch: x64 }
-          - { os: macOS-11, arch: x64 }
-          - { os: ubuntu-22.04, arch: x64 }
-          - { os: ubuntu-20.04, arch: x64 }
-          - { os: windows-2022, arch: x64 }
-          - { os: windows-2022, arch: x86 }
-          - { os: windows-2019, arch: x64 }
-          - { os: windows-2019, arch: x86 }
+          - { os: macOS-13, arch: x64, embed_rf: OFF }
+          - { os: macOS-12, arch: x64, embed_rf: OFF }
+          - { os: macOS-11, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
+          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }
+          - { os: windows-2022, arch: x64, embed_rf: OFF }
+          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { os: windows-2019, arch: x64, embed_rf: OFF }
+          - { os: windows-2019, arch: x86, embed_rf: OFF }
 
     steps:
     - name: Checkout Code and Submodules
@@ -148,6 +149,7 @@ jobs:
         cmake \
             -DCMAKE_BUILD_TYPE="${CONFIGURATION}" \
             -DBUILD_NFIQ2_CLI="${BUILD_NFIQ2_CLI}" \
+            -DEMBED_RANDOM_FOREST_PARAMETERS="${{ matrix.config.embed_rf }}" \
             ${GITHUB_WORKSPACE}
 
     - name: Configure CMake (Multi-config Generator)
@@ -164,6 +166,7 @@ jobs:
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI="${BUILD_NFIQ2_CLI}" \
+            -DEMBED_RANDOM_FOREST_PARAMETERS="${{ matrix.config.embed_rf }}" \
             -DOPENSSL_ROOT_DIR="${VCPKG_INSTALLATION_ROOT}/packages/openssl_${{ matrix.config.arch }}-windows-static" \
             ${GITHUB_WORKSPACE}
 

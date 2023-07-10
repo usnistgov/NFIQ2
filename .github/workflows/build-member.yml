@@ -24,15 +24,16 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-13, arch: x64 }
-          - { os: macOS-12, arch: x64 }
-          - { os: macOS-11, arch: x64 }
-          - { os: ubuntu-22.04, arch: x64 }
-          - { os: ubuntu-20.04, arch: x64 }
-          - { os: windows-2022, arch: x64 }
-          - { os: windows-2022, arch: x86 }
-          - { os: windows-2019, arch: x64 }
-          - { os: windows-2019, arch: x86 }
+          - { os: macOS-13, arch: x64, embed_rf: OFF }
+          - { os: macOS-12, arch: x64, embed_rf: OFF }
+          - { os: macOS-11, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
+          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }
+          - { os: windows-2022, arch: x64, embed_rf: OFF }
+          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { os: windows-2019, arch: x64, embed_rf: OFF }
+          - { os: windows-2019, arch: x86, embed_rf: OFF }
 
     steps:
     - name: Checkout Code and Submodules
@@ -148,6 +149,7 @@ jobs:
         cmake \
             -DCMAKE_BUILD_TYPE="${CONFIGURATION}" \
             -DBUILD_NFIQ2_CLI="${BUILD_NFIQ2_CLI}" \
+            -DEMBED_RANDOM_FOREST_PARAMETERS="${{ matrix.config.embed_rf }}" \
             ${GITHUB_WORKSPACE}
 
     - name: Configure CMake (Multi-config Generator)
@@ -164,6 +166,7 @@ jobs:
             -DCMAKE_CONFIGURATION_TYPES="${CONFIGURATION}" \
             -DVCPKG_VERBOSE=ON \
             -DBUILD_NFIQ2_CLI="${BUILD_NFIQ2_CLI}" \
+            -DEMBED_RANDOM_FOREST_PARAMETERS="${{ matrix.config.embed_rf }}" \
             -DOPENSSL_ROOT_DIR="${VCPKG_INSTALLATION_ROOT}/packages/openssl_${{ matrix.config.arch }}-windows-static" \
             ${GITHUB_WORKSPACE}
 
@@ -201,13 +204,23 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: Set up external model argument
+      if: ${{ matrix.config.embed_rf == 'OFF' }}
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt" >> $GITHUB_ENV
+
+    - name: Set up embedded model argument
+      if: ${{ matrix.config.embed_rf == 'ON' }}
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=" >> $GITHUB_ENV
+
     - name: Run Conformance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
         unzip -q nfiq2_conformance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
+        ../build/install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -d -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Run Conformance Test (Linux)
       if: ${{ runner.os != 'Windows' }}
@@ -215,7 +228,7 @@ jobs:
       shell: bash
       run: |
         unzip -q nfiq2_conformance.zip
-        ../build/install_staging/nfiq2/bin/nfiq2 -m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
+        ../build/install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -d -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Diff Conformance Test
       working-directory: ${{ github.workspace }}/conformance

@@ -24,15 +24,16 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-13, arch: x64 }
-          - { os: macOS-12, arch: x64 }
-          - { os: macOS-11, arch: x64 }
-          - { os: ubuntu-22.04, arch: x64 }
-          - { os: ubuntu-20.04, arch: x64 }
-          - { os: windows-2022, arch: x64 }
-          - { os: windows-2022, arch: x86 }
-          - { os: windows-2019, arch: x64 }
-          - { os: windows-2019, arch: x86 }
+          - { os: macOS-13, arch: x64, embed_rf: OFF }
+          - { os: macOS-12, arch: x64, embed_rf: OFF }
+          - { os: macOS-11, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
+          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }
+          - { os: windows-2022, arch: x64, embed_rf: OFF }
+          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { os: windows-2019, arch: x64, embed_rf: OFF }
+          - { os: windows-2019, arch: x86, embed_rf: OFF }
 
     steps:
     - name: Checkout Conformance Test Script
@@ -57,7 +58,7 @@ jobs:
              run_id: ${{github.event.workflow_run.id}},
           });
           var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}"
+            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}"
           })[0];
           var download = await github.rest.actions.downloadArtifact({
              owner: context.repo.owner,
@@ -66,14 +67,14 @@ jobs:
              archive_format: 'zip',
           });
           var fs = require('fs');
-          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
+          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip', Buffer.from(download.data));
 
     - name: Unzip install_staging
       run: |
         mkdir install_staging
-        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip install_staging
+        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip install_staging
         cd install_staging
-        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
+        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip
 
     - name: Show Dependencies (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -130,12 +131,22 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: Set up external model argument
+      if: ${{ matrix.config.embed_rf == 'OFF' }}
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m install_staging/nfiq2/bin/nist_plain_tir-ink.txt" >> $GITHUB_ENV
+
+    - name: Set up embedded model argument
+      if: ${{ matrix.config.embed_rf == 'ON' }}
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=" >> $GITHUB_ENV
+
     - name: Run Conformance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
         unzip -q nfiq2_conformance.zip
-        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -d -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Run Conformance Test (Linux)
       if: ${{ runner.os != 'Windows' }}
@@ -143,7 +154,7 @@ jobs:
       run: |
         unzip -q nfiq2_conformance.zip
         chmod +x install_staging/nfiq2/bin/nfiq2
-        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -d -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Diff Conformance Test
       shell: bash

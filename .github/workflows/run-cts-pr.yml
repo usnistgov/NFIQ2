@@ -130,12 +130,22 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: Set up external model argument
+      if: ${{ matrix.config.embed_rf == 'OFF' }}
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m install_staging/nfiq2/bin/nist_plain_tir-ink.txt" >> $GITHUB_ENV
+
+    - name: Set up embedded model argument
+      if: ${{ matrix.config.embed_rf == 'ON' }}
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=" >> $GITHUB_ENV
+
     - name: Run Conformance Test (Windows)
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
         unzip -q nfiq2_conformance.zip
-        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/bin/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -d -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Run Conformance Test (Linux)
       if: ${{ runner.os != 'Windows' }}
@@ -143,7 +153,7 @@ jobs:
       run: |
         unzip -q nfiq2_conformance.zip
         chmod +x install_staging/nfiq2/bin/nfiq2
-        install_staging/nfiq2/bin/nfiq2 -m install_staging/nfiq2/share/nist_plain_tir-ink.txt -i nfiq2_conformance/images -a -v -q -o github.csv
+        install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -d -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Diff Conformance Test
       shell: bash

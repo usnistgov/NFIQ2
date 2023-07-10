@@ -131,10 +131,15 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Set up external model argument
-      if: ${{ matrix.config.embed_rf == 'OFF' }}
+    - name: Set up external model argument (Windows)
+      if: matrix.config.embed_rf == 'OFF' && runner.os == 'Windows'
       shell: bash
       run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m install_staging/nfiq2/bin/nist_plain_tir-ink.txt" >> $GITHUB_ENV
+
+    - name: Set up external model argument (Linux/macOS)
+      if: matrix.config.embed_rf == 'OFF' && runner.os != 'Windows'
+      shell: bash
+      run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m install_staging/nfiq2/share/nist_plain_tir-ink.txt" >> $GITHUB_ENV
 
     - name: Set up embedded model argument
       if: ${{ matrix.config.embed_rf == 'ON' }}

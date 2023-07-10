@@ -199,7 +199,7 @@ jobs:
       run: echo ${{ github.event.number }} > install_staging/pr_number
 
     - name: Upload install_staging artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}
         path: ${{ github.workspace }}/build/install_staging

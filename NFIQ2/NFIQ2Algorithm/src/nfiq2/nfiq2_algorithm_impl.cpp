@@ -21,7 +21,7 @@
 NFIQ2::Algorithm::Impl::Impl()
     : initialized { false }
 {
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	// init RF module that takes some time to load the parameters
 	this->m_parameterHash = m_RandomForestML.initModule();
 	this->initialized = true;

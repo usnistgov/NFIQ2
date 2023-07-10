@@ -21,7 +21,7 @@
 NFIQ2::Algorithm::Impl::Impl()
     : initialized { false }
 {
-#ifdef EMBED_RANDOMFOREST_PARAMETERS
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	// init RF module that takes some time to load the parameters
 	this->m_parameterHash = m_RandomForestML.initModule();
 	this->initialized = true;
@@ -32,6 +32,13 @@ NFIQ2::Algorithm::Impl::Impl(const std::string &fileName,
     const std::string &fileHash)
     : initialized { false }
 {
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+	throw Exception { NFIQ2::ErrorCode::BadArguments,
+		"Refusing to initialize random forest parameters with external "
+		"file because the NFIQ 2 library was built with embedded "
+		"random forest parameters." };
+#endif
+
 	// init RF module that takes some time to load the parameters
 	try {
 		this->m_parameterHash = m_RandomForestML.initModule(fileName,
@@ -197,8 +204,7 @@ NFIQ2::Algorithm::Impl::getEmbeddedFCT() const
 			"Random forest parameters were not embedded" };
 
 #ifdef NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT
-	return std::stoul(
-	    std::string(NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT));
+	return (NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT);
 #else
 	throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
 		"Random forest parameters did not specify FCT" };

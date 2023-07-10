@@ -258,6 +258,7 @@ ExternalProject_Add(nfiq2api
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
+		${EMBEDDING_CMAKE_ARGS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

@@ -326,6 +326,9 @@ NFIQ2UI::printUsage()
 		  << NFIQ2::Version::Pretty
 		  << " (Date: " << NFIQ2::Version::BuildDate
 		  << ", Commit: " << NFIQ2::Version::Commit << ")\n";
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+	std::cout << "Embedded model present\n";
+#endif
 }
 
 // Print to stdout if undefined flag is used

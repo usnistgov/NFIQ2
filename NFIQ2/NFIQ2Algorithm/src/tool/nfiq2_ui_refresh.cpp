@@ -963,6 +963,21 @@ main(int argc, char **argv)
 	double timeInit = 0.0;
 	timerInit.start();
 
+	std::shared_ptr<NFIQ2::Algorithm> model {};
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+	logger->debugMsg("Model: Using embedded model");
+	try {
+		model = std::make_shared<NFIQ2::Algorithm>();
+	} catch (const NFIQ2::Exception &e) {
+		std::cerr << "Model could not be constructed. " << e.what()
+			  << "\n";
+		return EXIT_FAILURE;
+	}
+
+	logger->debugMsg("Model Hash: " + model->getParameterHash());
+	logger->debugMsg(
+	    "Model FCT: " + std::to_string(model->getEmbeddedFCT()));
+#else  /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 	NFIQ2::ModelInfo modelInfoObj {};
 
 	try {
@@ -994,7 +1009,6 @@ main(int argc, char **argv)
 	logger->debugMsg("Model Path: " + modelInfoObj.getModelPath());
 	logger->debugMsg("Model Hash: " + modelInfoObj.getModelHash());
 
-	std::shared_ptr<NFIQ2::Algorithm> model {};
 	try {
 		model = std::make_shared<NFIQ2::Algorithm>(modelInfoObj);
 	} catch (const NFIQ2::Exception &e) {
@@ -1002,6 +1016,7 @@ main(int argc, char **argv)
 			  << "\n";
 		return EXIT_FAILURE;
 	}
+#endif /* NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS */
 
 	timeInit = timerInit.stop();
 

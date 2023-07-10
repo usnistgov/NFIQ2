@@ -32,6 +32,13 @@ NFIQ2::Algorithm::Impl::Impl(const std::string &fileName,
     const std::string &fileHash)
     : initialized { false }
 {
+#ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
+	throw Exception { NFIQ2::ErrorCode::BadArguments,
+		"Refusing to initialize random forest parameters with external "
+		"file because the NFIQ 2 library was built with embedded "
+		"random forest parameters." };
+#endif
+
 	// init RF module that takes some time to load the parameters
 	try {
 		this->m_parameterHash = m_RandomForestML.initModule(fileName,

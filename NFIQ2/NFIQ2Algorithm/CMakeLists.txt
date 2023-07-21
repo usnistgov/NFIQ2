@@ -1,3 +1,12 @@
+#
+# NFIQ2-ALGORITHM CmakeLists_NFIQ2-Algorithm...
+#
+
+#
+# The CMake program makes it possible to write simple configuration files to control a project’s
+# compilation process and generate native build files across platforms.
+#
+
 cmake_minimum_required (VERSION 3.3)
 
 project( nfiq2 )
@@ -23,27 +32,55 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp.in" "${CMAKE_C
 
 # add include directories
 include_directories("${CMAKE_BINARY_DIR}")
-
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 # add libbiomeval include directories
-include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
-
+# include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
 include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
-
 include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
 
 option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
 set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
     "ANSI/NIST-ITL 1-2011: Update 2015 friction ridge capture technology (FRCT) code for parameters to embed")
 
-set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
-find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
-set(OpenCV_SHARED ON)
+#######################################################################################################################################
+
+######################
+### OpenCV Support ###
+######################
+
+#
+# OpenCV Static.
+#
+# Shared for OpenCV Support...
+#
+# set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
+# find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
+# set(OpenCV_SHARED ON)
+# include_directories(${OpenCV_INCLUDE})
+#
+
+#
+# Static for OpenCV Support...
+#
+set(OpenCV_DIR "C:/opencv_static_4_7_0/x64-Release/x64/vc17/staticlib")
+find_package(OpenCV REQUIRED core imgproc imgcodecs videoio ml highgui)
+set(OpenCV_STATIC ON)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
+#
+# Messages INFO...
+#
+message(STATUS "OpenCV library status:")
+message(STATUS "    config: ${OpenCV_DIR}")
+message(STATUS "    version: ${OpenCV_VERSION}")
+message(STATUS "    libraries: ${OpenCV_LIBS}")
+message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+
+#######################################################################################################################################
+
+### include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 set(SOURCE_FILES
     "src/nfiq2/nfiq2_cbeff.cpp"
@@ -164,14 +201,16 @@ if (BUILD_NFIQ2_CLI)
 	  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
 	endif()
 
-	if(MSVC)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
-	else()
-	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
-	endif()
+	#
+	# if(MSVC)
+	# target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
+	# else()
+	#   target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
+	# endif()
+	#
 
-	find_package(biomeval REQUIRED PATHS ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build)
-	target_link_libraries(${NFIQ2_TEST_APP} biomeval::biomeval)
+	##find_package(biomeval REQUIRED PATHS ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build)
+	##target_link_libraries(${NFIQ2_TEST_APP} biomeval::biomeval)
 
 	# Getopt for Windows
 	if(MSVC)

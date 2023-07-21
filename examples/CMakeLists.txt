@@ -1,13 +1,47 @@
+#
+# NFIQ2 Example...
+#
+
+#
+#	The CMake program makes it possible to write simple configuration files to control a project’s
+#	compilation process and generate native build files across platforms.
+#
+
+#
+# Sets the minimum required version of cmake for a project.
+# Call the cmake_minimum_required() command at the beginning of the top-level CMakeLists.txt file even before calling the project() command.
+# It is important to establish version and policy settings before invoking other commands whose behavior they may affect.
+#
+# CMake Policies -> https://cmake.org/cmake/help/v3.3/manual/cmake-policies.7.html
+#
 cmake_minimum_required(VERSION 3.11)
 
+#
+# Sets the name of the project, and stores it in the variable PROJECT_NAME.
+# When called from the top-level CMakeLists.txt also stores the project name in the variable CMAKE_PROJECT_NAME.
+#
 project(examples)
 
+#
+# Record the specified message text in the log.
+# If more than one message string is given, they are concatenated into a single message with no separator between the strings.
+#
+message(STATUS "NFIQ2 RUNNING EXAMPLE...")
+
+#
+# LIBNFIQ2 Static Support...
+#
 option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
 
+#
 # TODO: Add find_package for NFIQ2
-set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
-include_directories(${NFIQ2_INSTALL_DIR}/include)
+#
+set(NFIQ2_INSTALL_DIR C:/Users/marco.silva/NFIQ2/build/install_staging/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
+include_directories(${NFIQ2_INSTALL_DIR})
+#
+
 ################################################################################
+
 set(REQUIRED_LIBS "")
 
 if (LINK_AGAINST_STATIC_LIBNFIQ2)
@@ -22,11 +56,13 @@ if (LINK_AGAINST_STATIC_LIBNFIQ2)
 			${NFIQ2_INSTALL_DIR}/lib
 		REQUIRED)
 
+	set(OpenCV_DIR "C:/opencv_static_4_7_0/x64-Release/x64/vc17/staticlib")
+	find_package(OpenCV REQUIRED core imgproc imgcodecs videoio ml highgui)
 	set(OpenCV_STATIC ON)
-	find_package(OpenCV REQUIRED
-		HINTS
-			${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4
-			${NFIQ2_INSTALL_DIR})
+	include_directories(${OpenCV_INCLUDE_DIRS})
+		#HINTS
+			#${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4
+			#${NFIQ2_INSTALL_DIR})
 
 	list(APPEND REQUIRED_LIBS
 		${LIBNFIQ2_STATIC}

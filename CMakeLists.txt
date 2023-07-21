@@ -1,12 +1,45 @@
+#
+# NFIQ2 CmakeLists_NFIQ2...
+#
+
+#
+#	The CMake program makes it possible to write simple configuration files to control a project’s
+#	compilation process and generate native build files across platforms.
+#
+
+#
+# Sets the minimum required version of cmake for a project.
+# Call the cmake_minimum_required() command at the beginning of the top-level CMakeLists.txt file even before calling the project() command.
+# It is important to establish version and policy settings before invoking other commands whose behavior they may affect.
+#
+# CMake Policies -> https://cmake.org/cmake/help/v3.3/manual/cmake-policies.7.html
+#
 cmake_minimum_required (VERSION 3.3)
 
+#
+# Sets the name of the project, and stores it in the variable PROJECT_NAME.
+# When called from the top-level CMakeLists.txt also stores the project name in the variable CMAKE_PROJECT_NAME.
+#
 project( NFIQ2_SUPERBUILD )
 
+#
+# Record the specified message text in the log.
+# If more than one message string is given, they are concatenated into a single message with no separator between the strings.
+#
 message(STATUS "NFIQ 2 Superbuild")
 
+#
+# Provide a boolean option that the user can optionally select.
+#	Enable or Disable support for nfiq2 CLI (Command Line Interface).
+#
 option(BUILD_NFIQ2_CLI "Build the Command-line Interface for NFIQ2" ON)
 
-# Options for embedding random forest parameters
+#######################################################################################################################################
+
+##########################################
+### Embedding random forest parameters ###
+##########################################
+
 option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library" OFF)
 set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
     "ANSI/NIST-ITL 1-2011: Update 2015 friction ridge capture technology (FRCT) code for parameters to embed")
@@ -16,26 +49,45 @@ if(EMBED_RANDOM_FOREST_PARAMETERS)
 	list(APPEND EMBEDDING_CMAKE_ARGS -DEMBED_RANDOM_FOREST_PARAMETERS=${EMBED_RANDOM_FOREST_PARAMETERS})
 endif()
 
-# macOS Code Signing
-option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
-set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for applications")
-set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
-set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain (insert these with `xcrun notarytool store-credentials')")
+#######################################################################################################################################
 
-option(MACOS_FORCE_STATIC "Force static library dependencies only" OFF)
+#
+# macOS Code Signing (Support).
+#
+# option(MACOS_CODESIGN "Sign the macOS binaries and package installers" OFF)
+#	set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for applications")
+# set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
+# set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain\
+#		(insert these with `xcrun notarytool store-credentials')")
+# 	option(MACOS_FORCE_STATIC "Force static library dependencies only" OFF)
+#
 
+#
+# Configuration Source Path of NFIQ2 Project.
+#
 set( NO_SEARCH TRUE )
-
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
+#
 # ExternalProjects have their own install() that we can't control, and the
 # `install' target is executed at superbuild build time. To counteract this, we
 # will set CMAKE_INSTALL_PREFIX to ${INSTALL_STAGING_DIR} for all
 # ExternalProjects. The superbuild's install and  packaging with CPack will copy
 # this staging directory.
+#
+
+#
+# NFIQ2 Project.
+#
 set(NFIQ2_CONTAINER_DIR "nfiq2")
 set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CONTAINER_DIR}")
+
+###########################
+### CMake Basic Configs ###
+###########################
+
+#######################################################################################################################################
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -53,7 +105,12 @@ include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
-# forwarding 32/64 compiler flags
+#######################################################################################################################################
+
+#
+# FLAGS for x32 and x64 Compile.
+# forwarding 32/64 compiler flags...
+#
 if( 32BITS)
   set( COMPILER_CMAKE_ARGS
     -DCMAKE_C_FLAGS="-m32"
@@ -66,29 +123,39 @@ elseif( 64BITS)
   )
 endif()
 
-# forwarding android build flags
-if( NOT "${ANDROID_ABI}" STREQUAL "")
-  message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
-  set(ANDROID_CMAKE_ARGS
-    -DANDROID_ABI=${ANDROID_ABI}
-    -DANDROID_PLATFORM=${ANDROID_PLATFORM}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
-    -DANDROID_TARGET=${ANDROID_TARGET}
-  )
-endif()
+#
+# FLAGS for Android Compile.
+#
+# forwarding android build flags...
+#
+#	if( NOT "${ANDROID_ABI}" STREQUAL "")
+# 	message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
+#  	set(ANDROID_CMAKE_ARGS
+#   	-DANDROID_ABI=${ANDROID_ABI}
+#    	-DANDROID_PLATFORM=${ANDROID_PLATFORM}
+#    	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+#    	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+#    	-DANDROID_TARGET=${ANDROID_TARGET}
+# )
+#	endif()
+#
 
-# forwarding iOS build flags
-if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
-  message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
-  set(IOS_CMAKE_ARGS
-    -DPLATFORM=${PLATFORM}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DENABLE_ARC=${ENABLE_ARC}
-    -DENABLE_BITCODE=${ENABLE_BITCODE}
-    -DCMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}
-  )
-endif()
+#
+# FLAGS for iOS Compile.
+#
+# forwarding iOS build flags...
+#
+# if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
+#   message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
+#   set(IOS_CMAKE_ARGS
+#     -DPLATFORM=${PLATFORM}
+#     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+#     -DENABLE_ARC=${ENABLE_ARC}
+#     -DENABLE_BITCODE=${ENABLE_BITCODE}
+#     -DCMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}
+#   )
+# endif()
+#
 
 include(ExternalProject)
 
@@ -105,68 +172,97 @@ elseif (MSVC OR Xcode)
 		)
 endif()
 
-set(OPENCV_CMAKE_ARGS
-	-DBUILD_SHARED_LIBS=OFF
-	-DBUILD_OPENCV_APPS=OFF
-	-DBUILD_opencv_apps=OFF #opencv 4.5.4 seems to use this flag with lower case, keeping both entries to anticipate future fix
-	-DBUILD_ANDROID_EXAMPLES=OFF
-	-DBUILD_DOCS=OFF
-	-DBUILD_EXAMPLES=OFF
-	-DBUILD_PACKAGE=OFF
-	-DBUILD_PERF_TESTS=OFF
-	-DBUILD_TESTS=OFF
-	-DBUILD_WITH_DEBUG_INFO=OFF
-	-DBUILD_FAT_JAVA_LIB=OFF
-	-DBUILD_ANDROID_PROJECTS=OFF
-	-DBUILD_ANDROID_SERVICE=OFF
-	-DBUILD_ANDROID_PACKAGE=OFF
-	-DBUILD_TINY_GPU_MODULE=OFF
-	-DENABLE_PRECOMPILED_HEADERS=OFF
-	-DWITH_GTK=OFF
-	-DENABLE_FAST_MATH=OFF
-	-DWITH_PROTOBUF=OFF
-	-DBUILD_PROTOBUF=OFF
-	-DWITH_IPP=OFF
-	-DWITH_ITT=OFF
-	-DWITH_DSHOW=OFF
-	-DWITH_MSMF=OFF
-	-DWITH_FFMPEG=OFF
-	-DWITH_EIGEN=OFF
-	-DWITH_TBB=OFF
-	-DWITH_OPENMP=OFF
-	-DWITH_PTHREADS_PF=OFF
-	-DWITH_OPENJPEG=OFF
-	-DBUILD_OPENJPEG=OFF
-	-DWITH_TIFF=OFF
-	-DBUILD_TIFF=OFF
-	-DWITH_PNG=OFF
-	-DWITH_JASPER=OFF
-	-DWITH_JPEG=OFF
-	-DBUILD_PNG=OFF
-	-DBUILD_JASPER=OFF
-	-DBUILD_JPEG=OFF
-	-DWITH_ADE=OFF
-	-DWITH_WEBP=OFF
-	-DWITH_OPENEXR=OFF
-	-DWITH_QUIRC=OFF
-	-DBUILD_LIST=core,ml,imgproc,imgcodecs)
+#######################################################################################################################################
 
+##################################
+### Flags de Compilação OPENCV ###
+##################################
+
+#
+# OpenCV Support Arguments.
+#
+# set(OPENCV_CMAKE_ARGS
+#	 -DBUILD_SHARED_LIBS=OFF
+#	 -DBUILD_OPENCV_APPS=OFF
+#	 -DBUILD_opencv_apps=OFF #opencv 4.5.4 seems to use this flag with lower case, keeping both entries to anticipate future fix
+#	 -DBUILD_ANDROID_EXAMPLES=OFF
+#	 -DBUILD_DOCS=OFF
+#	 -DBUILD_EXAMPLES=OFF
+#	 -DBUILD_PACKAGE=OFF
+#	 -DBUILD_PERF_TESTS=OFF
+#	 -DBUILD_TESTS=OFF
+#	 -DBUILD_WITH_DEBUG_INFO=OFF
+#	 -DBUILD_FAT_JAVA_LIB=OFF
+#	 -DBUILD_ANDROID_PROJECTS=OFF
+#	 -DBUILD_ANDROID_SERVICE=OFF
+#	 -DBUILD_ANDROID_PACKAGE=OFF
+#	 -DBUILD_TINY_GPU_MODULE=OFF
+#	 -DENABLE_PRECOMPILED_HEADERS=OFF
+#	 -DWITH_GTK=OFF
+#	 -DENABLE_FAST_MATH=OFF
+#	 -DWITH_PROTOBUF=OFF
+#	 -DBUILD_PROTOBUF=OFF
+#	 -DWITH_IPP=OFF
+#	 -DWITH_ITT=OFF
+#	 -DWITH_DSHOW=OFF
+#	 -DWITH_MSMF=OFF
+#	 -DWITH_FFMPEG=OFF
+#	 -DWITH_EIGEN=OFF
+#	 -DWITH_TBB=OFF
+#	 -DWITH_OPENMP=OFF
+#	 -DWITH_PTHREADS_PF=OFF
+#	 -DWITH_OPENJPEG=OFF
+#	 -DBUILD_OPENJPEG=OFF
+#	 -DWITH_TIFF=OFF
+#	 -DBUILD_TIFF=OFF
+#	 -DWITH_PNG=OFF
+#	 -DWITH_JASPER=OFF
+#	 -DWITH_JPEG=OFF
+#	 -DBUILD_PNG=OFF
+#	 -DBUILD_JASPER=OFF
+#	 -DBUILD_JPEG=OFF
+#	 -DWITH_ADE=OFF
+#	 -DWITH_WEBP=OFF
+#	 -DWITH_OPENEXR=OFF
+#	 -DWITH_QUIRC=OFF
+#	 -DBUILD_LIST=core,ml,imgproc,imgcodecs)
+#
+
+#######################################################################################################################################
+
+###############################################################
+### Loading OpenCV ARGS according Operating Systems Support ###
+###############################################################
+
+#
+# Windows OpenCV Support Append.
+#
 if("${TARGET_PLATFORM}" MATCHES "win*")
 list(APPEND OPENCV_CMAKE_ARGS
 	-DBUILD_WITH_STATIC_CRT=ON)
 endif("${TARGET_PLATFORM}" MATCHES "win*")
 
-if ("${TARGET_PLATFORM}" MATCHES "apple32")
-	list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
-endif ()
-
+#
+# MacOS OpenCV Support Append.
+#
+# if ("${TARGET_PLATFORM}" MATCHES "apple32")
+#	 list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
+# endif ()
+#
 # For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
 # or we'll have to redistribute them. If you're building for your own machine,
 # link whatever you find. macOS 11+ hides zlib and other system libraries.
-if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
-	list(APPEND OPENCV_CMAKE_ARGS -DBUILD_ZLIB=ON)
-endif()
+#
+# if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+#	 list(APPEND OPENCV_CMAKE_ARGS -DBUILD_ZLIB=ON)
+# endif()
+#
 
+#######################################################################################################################################
+
+#
+# Setting VCPKG Arguments...
+#
 set(VCPKG_CMAKE_ARGS)
 if (MSVC)
 	list(APPEND VCPKG_CMAKE_ARGS
@@ -175,58 +271,104 @@ if (MSVC)
 		)
 endif()
 
-ExternalProject_Add(OpenCV
-	SOURCE_DIR ${PROJECT_SOURCE_DIR}/opencv
-	CMAKE_ARGS
-		${OPENCV_CMAKE_ARGS}
-		${COMPILER_CMAKE_ARGS}
-		${ANDROID_CMAKE_ARGS}
-		${IOS_CMAKE_ARGS}
-		${MULTI_CONFIG_ARGS}
-		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-)
+#######################################################################################################################################
+
+############################
+### OpenCV Setup Project ###
+############################
+
+#
+# ExternalProject_Add(OpenCV
+#	 SOURCE_DIR ${PROJECT_SOURCE_DIR}/opencv
+#	 CMAKE_ARGS
+#		 ${OPENCV_CMAKE_ARGS}
+#		 ${COMPILER_CMAKE_ARGS}
+#		 ${ANDROID_CMAKE_ARGS}
+#		 ${IOS_CMAKE_ARGS}
+#		 ${MULTI_CONFIG_ARGS}
+#		 -DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+# )
+#
+
+#######################################################################################################################################
+
+#########################
+### Support CLI NFIQ2 ###
+#########################
 
 if (BUILD_NFIQ2_CLI)
 
+#
+# IOs/MAC Config for Dynamic LIB Dependencies...
+#
 # For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
 # or we'll have to redistribute them. If you're building for your own machine,
 # link whatever you find
-if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
-	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
-endif()
+#
+# if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
+#	 list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
+# endif()
+#
+
+#
+# Verify OPENSSL Support...
+#
 if (NOT "${OPENSSL_ROOT_DIR}" STREQUAL "")
 	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS "-DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR}")
 endif()
 
-ExternalProject_Add(libbiomeval
-	SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
-	INSTALL_COMMAND ""
-	CMAKE_ARGS
-		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-		-DBUILD_BIOMEVAL_TESTS=OFF
-		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-		-DBUILD_SHARED_LIBS=OFF
-		-DWITH_HWLOC=OFF
-		-DWITH_MPI=OFF
-		-DWITH_FFMPEG=OFF
-		-DWITH_PCSC=OFF
-		${VCPKG_CMAKE_ARGS}
-		${MULTI_CONFIG_ARGS}
-		${EXTRA_BIOMEVAL_CMAKE_ARGS}
-)
+#######################################################################################################################################
 
-ExternalProject_Add(nfir
-	SOURCE_DIR ${PROJECT_SOURCE_DIR}/NFIR
-	CMAKE_ARGS
-		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
-		-DFORCE_WIN_STATIC_RUNTIME=ON
-		${MULTI_CONFIG_ARGS}
-)
+#################################
+### LIBBIOMEVAL Setup Project ###
+#################################
 
-ExternalProject_Add_StepDependencies(nfir build OpenCV)
+#
+# ExternalProject_Add(libbiomeval
+#	 SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
+#	 INSTALL_COMMAND ""
+#	 CMAKE_ARGS
+#		 -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+#		 -DBUILD_BIOMEVAL_TESTS=OFF
+#		 -DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+#		 -DBUILD_SHARED_LIBS=OFF
+#		 -DWITH_HWLOC=OFF
+#		 -DWITH_MPI=OFF
+#		 -DWITH_FFMPEG=OFF
+#		 -DWITH_PCSC=OFF
+#		 ${VCPKG_CMAKE_ARGS}
+#		 ${MULTI_CONFIG_ARGS}
+#		 ${EXTRA_BIOMEVAL_CMAKE_ARGS}
+# )
+#
+
+#######################################################################################################################################
+
+#########################
+### FIR Setup Project ###
+#########################
+
+#
+# ExternalProject_Add(nfir
+#	 SOURCE_DIR ${PROJECT_SOURCE_DIR}/NFIR
+#	 CMAKE_ARGS
+#		 -DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+#		 -DOpenCV_DIR=${OpenCV_DIR}
+#		 -DFORCE_WIN_STATIC_RUNTIME=ON
+#		 ${MULTI_CONFIG_ARGS}
+# )
+#
+#
+# ExternalProject_Add_StepDependencies(nfir build OpenCV)
+#
 
 endif(BUILD_NFIQ2_CLI)
+
+#######################################################################################################################################
+
+###########################
+### NFIQ2 Setup Project ###
+###########################
 
 ExternalProject_Add(nfiq2
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Algorithm
@@ -249,6 +391,10 @@ ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
 if (BUILD_NFIQ2_CLI)
 	ExternalProject_Add_StepDependencies(nfiq2 build libbiomeval nfir)
 endif(BUILD_NFIQ2_CLI)
+
+###############################
+### NFIQ2 API Setup Project ###
+###############################
 
 ExternalProject_Add(nfiq2api
 	SOURCE_DIR	${ROOT_PATH}/NFIQ2/NFIQ2Api
@@ -313,28 +459,39 @@ set(CPACK_PACKAGE_VERSION_MAJOR "${NFIQ2_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${NFIQ2_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${NFIQ2_VERSION_PATCH}")
 
-# Move repo documentation into usable form for packages
-find_program(PANDOC pandoc)
-if (PANDOC)
-	set(DOC_FORMAT "rtf")
+#######################################################################################################################################
 
-	# Strip remote SVGs from README
-	execute_process(COMMAND grep -v ^\\[! "${ROOT_PATH}/README.md" OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/README.md")
-	execute_process(COMMAND sed -i.bak -e s|<img.*/>|| "${CMAKE_CURRENT_BINARY_DIR}/README.md")
-	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}" "${CMAKE_CURRENT_BINARY_DIR}/README.md")
-	set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}")
+####################################
+### PANDOC Support Documentation ###
+####################################
 
-	execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.${DOC_FORMAT}" "${ROOT_PATH}/LICENSE.md")
-	set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.${DOC_FORMAT}")
-else()
-	file(COPY "${ROOT_PATH}/LICENSE.md" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-	file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.md" "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.txt")
-	set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.txt")
+# 
+# Move repo documentation into usable form for packages...
+#
+# find_program(PANDOC pandoc)
+# if (PANDOC)
+#	 set(DOC_FORMAT "rtf")
+#
+#	 # Strip remote SVGs from README
+#	 execute_process(COMMAND grep -v ^\\[! "${ROOT_PATH}/README.md" OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/README.md")
+#	 execute_process(COMMAND sed -i.bak -e s|<img.*/>|| "${CMAKE_CURRENT_BINARY_DIR}/README.md")
+#	 execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}" "${CMAKE_CURRENT_BINARY_DIR}/README.md")
+#	 set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.${DOC_FORMAT}")
+#
+#	 execute_process(COMMAND ${PANDOC} -f markdown_mmd -s --columns 1 -o "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.${DOC_FORMAT}" "${ROOT_PATH}/LICENSE.md")
+#	 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.${DOC_FORMAT}")
+# else()
+#	 file(COPY "${ROOT_PATH}/LICENSE.md" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+#	 file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.md" "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.txt")
+#	 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_BINARY_DIR}/LICENSE.txt")
+#
+#	 file(COPY "${ROOT_PATH}/README.md" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+#	 file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
+#	 set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
+# endif()
+#
 
-	file(COPY "${ROOT_PATH}/README.md" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-	file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
-	set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_BINARY_DIR}/README.txt")
-endif()
+#######################################################################################################################################
 
 # Don't set "install_staging" component, because some generators will grab all
 # files for install, including the externalprojects.
@@ -343,25 +500,40 @@ if (BUILD_NFIQ2_CLI)
 else()
 	set(CPACK_COMPONENTS_ALL development)
 endif()
+
+
 set(CPACK_COMPONENT_NFIQ2_CLI_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Command Line Interface")
 set(CPACK_COMPONENT_DEVELOPMENT_DISPLAY_NAME "${NFIQ2_PRODUCT_NAME} Development Files")
-
 set(CPACK_GENERATOR)
 
-if (UNIX)
-	set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+#######################################################################################################################################
 
-	# Make a link (/usr/local/bin/nfiq2 -> /usr/local/nfiq2/bin/nfiq2) using
-	# ln instead of cmake -E create_symlink because it does not have to be
-	# an absolute path and the destination does not have to exist when
-	# created.
-	install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${INSTALL_STAGING_DIR}/../bin)" COMPONENT nfiq2_cli)
-	install(CODE "execute_process(COMMAND ln -s -f \"../nfiq2/bin/nfiq2\" \"nfiq2\" WORKING_DIRECTORY \"${INSTALL_STAGING_DIR}/../bin\")" COMPONENT nfiq2_cli)
-	install(FILES "${INSTALL_STAGING_DIR}/../bin/nfiq2"
-	    DESTINATION "${ORIGINAL_CMAKE_INSTALL_BINDIR}"
-	    COMPONENT nfiq2_cli)
-endif (UNIX)
+############################################################
+### Installation NFIQ2 Package based on Operating System ###
+############################################################
 
+#
+# UNIX and LINUX support.
+#
+# if (UNIX)
+#	 set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+#
+#	 Make a link (/usr/local/bin/nfiq2 -> /usr/local/nfiq2/bin/nfiq2) using
+#	 ln instead of cmake -E create_symlink because it does not have to be
+#	 an absolute path and the destination does not have to exist when
+#	 created.
+#
+#	 install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${INSTALL_STAGING_DIR}/../bin)" COMPONENT nfiq2_cli)
+#	 install(CODE "execute_process(COMMAND ln -s -f \"../nfiq2/bin/nfiq2\" \"nfiq2\" WORKING_DIRECTORY \"${INSTALL_STAGING_DIR}/../bin\")" COMPONENT nfiq2_cli)
+#	 install(FILES "${INSTALL_STAGING_DIR}/../bin/nfiq2"
+#	     DESTINATION "${ORIGINAL_CMAKE_INSTALL_BINDIR}"
+#	     COMPONENT nfiq2_cli)
+# endif (UNIX)
+#
+
+#
+# APPLE and WINDOWS support.
+#
 if (APPLE)
 	list(APPEND CPACK_GENERATOR "productbuild")
 	execute_process(COMMAND sw_vers -productVersion OUTPUT_VARIABLE OSX_VERS)
@@ -401,8 +573,11 @@ if (APPLE)
 		    COMMENT "Stapling notarization ticket to installer package..."
 		    COMMAND xcrun stapler staple "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.pkg"
 		    VERBATIM)
-	endif()
+  endif()
 
+#
+# WINDOWS support.
+#
 elseif (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Install WiX from https://wixtoolset.org/releases/
 	list(APPEND CPACK_GENERATOR "WIX")
@@ -515,3 +690,5 @@ elseif (EXISTS "/etc/redhat-release")
 endif()
 
 include(CPack)
+
+#######################################################################################################################################

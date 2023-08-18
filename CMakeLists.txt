@@ -54,17 +54,15 @@ include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
 # forwarding 32/64 compiler flags
-if( 32BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m32"
-    -DCMAKE_CXX_FLAGS="-m32"
-  )
-elseif( 64BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m64"
-    -DCMAKE_CXX_FLAGS="-m64"
-  )
-endif()
+foreach(flag_var
+        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
+        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+			if (32BITS)
+				set(${flag_var} "${${flag_var}} -m32")
+			elseif(64BITS)
+				set(${flag_var} "${${flag_var}} -m64")
+			endif()
+endforeach(flag_var)
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")

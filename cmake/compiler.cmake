@@ -59,15 +59,6 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   set( LINK_3RD_PREFIX "${BUILD_PATH}/opencv-${OPENCV_VERSION}/3rdparty/lib/Release/")
 
   # Static-link MS CRT
-    foreach(flag_var
-            CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-            CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-#      if (DEBUG)
-#      set(${flag_var} "${${flag_var}} /MDd /nologo")
-#      else()
-      set(${flag_var} "${${flag_var}} /MD /nologo")
-#      endif()
-    endforeach(flag_var)
 #  if (STATIC_LINK)
     foreach(flag_var
             CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE

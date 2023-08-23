@@ -13,6 +13,15 @@ endif()
 
 include(GNUInstallDirs)
 
+
+if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
+	get_cmake_property(IS_MULTI_CONFIG GENERATOR_IS_MULTI_CONFIG)
+elseif (MSVC OR Xcode)
+	set(IS_MULTI_CONFIG "ON")
+else()
+	set(IS_MULTI_CONFIG "OFF")
+endif()
+
 include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
 include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
@@ -107,7 +116,7 @@ endif()
 # FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once FJFX builds
 # FIXME: are updated.
 link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>")
+link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<BOOL:${IS_MULTI_CONFIG}>:$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>>")
 target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
 	FRFXLL_static
 	${OpenCV_LIBS}
@@ -239,7 +248,7 @@ install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET}
 
 # FIXME: FingerJet doesn't have an install target
 install(FILES
-	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
-	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<BOOL:${IS_MULTI_CONFIG}>:$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>>${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<BOOL:${IS_MULTI_CONFIG}>:$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>>${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
 	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 	COMPONENT install_staging)

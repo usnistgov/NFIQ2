@@ -263,13 +263,32 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 			    rfFeatureOrder[i]);
 		}
 
-		// returns probability that between 0 and 1 that result belongs
-		// to second class
-		float prob = m_pTrainedRF->predict(sample_data, cv::noArray(),
-		    cv::ml::StatModel::RAW_OUTPUT);
-		// return quality value
-		qualityValue = (int)(prob + 0.5);
+		const float raw_prediction = m_pTrainedRF->predict(sample_data,
+		    cv::noArray(), cv::ml::StatModel::RAW_OUTPUT);
 
+		/*
+		 * raw_prediction is in the range of 0 to max_trees.
+		 * Scale to range required by ISO/IEC 29794-1 (i.e., 0-100).
+		 */
+		static const float min_quality { 0 };
+		static const float max_quality { 100 };
+		static const float min_trees { 0 };
+		const float max_trees { static_cast<float>(
+		    m_pTrainedRF->getRoots().size()) };
+		const float scaled_prediction { ((raw_prediction - min_trees) /
+						    (max_trees - min_trees)) *
+			    (max_quality - min_quality) +
+			min_quality };
+
+		qualityValue = std::floor(scaled_prediction + 0.5);
+		if ((qualityValue > max_quality) ||
+		    (qualityValue < min_quality)) {
+			throw Exception { ErrorCode::FeatureCalculationError,
+				"Computed quality out of range (" +
+				    std::to_string(qualityValue) + " not in [" +
+				    std::to_string(min_quality) + ", " +
+				    std::to_string(max_quality) + "])" };
+		}
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::MachineLearningError, e.msg);
 	} catch (const std::out_of_range &e) {

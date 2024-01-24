@@ -250,8 +250,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 	rect200x200.height = 200;
 	vecRectDimensions.push_back(rect200x200);
 
-	FingerJetFXFeature::FJFXROIResults roiResults = computeROI(32,
-	    fingerprintImage, vecRectDimensions);
+	FingerJetFXFeature::FJFXROIResults roiResults = computeROI(
+	    Sizes::LocalRegionSquare, fingerprintImage, vecRectDimensions);
 	double noOfMinInRect200x200 = 0;
 	for (unsigned int i = 0;
 	     i < roiResults.vecNoOfMinutiaeInRectangular.size(); i++) {

@@ -33,11 +33,15 @@ class OFFeature : public Module {
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
 	/** Processing is done in subblocks of this size. */
-	const int blocksize { 16 };
+	const int blocksize { Sizes::LocalRegionSquare };
 	/** Size of the rotated block in the x dimension */
-	const int slantedBlockSizeX { 32 };
+	const int slantedBlockSizeX {
+		Sizes::VerticallyAlignedLocalRegionWidth
+	};
 	/** Size of the rotated block in the y dimension */
-	const int slantedBlockSizeY { 16 };
+	const int slantedBlockSizeY {
+		Sizes::VerticallyAlignedLocalRegionHeight
+	};
 	/**Threshold for differentiating foreground/background blocks */
 	const double threshold { .1 };
 	/**Minimum angle change inclusion in the quality measure */

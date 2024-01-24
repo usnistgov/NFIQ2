@@ -140,21 +140,17 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeROI(cv::Mat &img,
 	std::vector<cv::Vec4i> hierarchy;
 
 	// find contours in image
+	contImg = ~contImg;
 	cv::findContours(contImg, contours, hierarchy, cv::RETR_CCOMP,
 	    cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 
 	// if holes are found -> close holes
-	if (hierarchy.size() > 2) {
-		cv::Mat filledImg;
-		cv::cvtColor(threshImg2, filledImg, cv::COLOR_GRAY2BGR);
-
-		for (unsigned int idx = 0; idx < (hierarchy.size() - 2);
-		     idx++) {
-			cv::drawContours(filledImg, contours, idx,
-			    cv::Scalar(0, 0, 0, 0), cv::FILLED, 8, hierarchy);
+	for (int h {}; h < hierarchy.size(); ++h) {
+		// If contour on inverted image has a parent, it's a hole
+		if (hierarchy[h][3] != -1) {
+			cv::drawContours(threshImg2, contours, h, cv::Scalar(0),
+			    cv::LineTypes::FILLED, 8, hierarchy);
 		}
-
-		cv::cvtColor(filledImg, threshImg2, cv::COLOR_BGR2GRAY);
 	}
 
 	// 7. remove smaller blobs at the edges that are not part of the

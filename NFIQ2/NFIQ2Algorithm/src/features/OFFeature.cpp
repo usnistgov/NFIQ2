@@ -218,6 +218,14 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 				cv::Mat blockAbsDiff;
 				cv::Scalar centerVal = blkROI.at<double>(1, 1);
 				absdiff(centerVal, blkROI, blockAbsDiff);
+
+				// Account for circularity of angles
+				blockAbsDiff.forEach<double>(
+				    [](double &angleDiff, const int *position) {
+					    angleDiff = std::min(angleDiff,
+						360 - angleDiff);
+				    });
+
 				cv::Scalar loq = sum(blockAbsDiff) /
 				    (bsize - 1);
 				loqall.at<double>(i - 1, j - 1) = loq.val[0];

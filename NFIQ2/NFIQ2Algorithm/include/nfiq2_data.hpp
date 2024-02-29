@@ -13,6 +13,7 @@
 
 #include <nfiq2_exception.hpp>
 
+#include <cstdint>
 #include <fstream>
 #include <string>
 #include <vector>

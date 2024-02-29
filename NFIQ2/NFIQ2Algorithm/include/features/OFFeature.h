@@ -28,6 +28,9 @@ class OFFeature : public Module {
 
 	static std::vector<std::string> getQualityFeatureIDs();
 
+	/**Minimum angle change inclusion in the quality measure */
+	static constexpr double angleMin { 4.0 };
+
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
@@ -44,8 +47,6 @@ class OFFeature : public Module {
 	};
 	/**Threshold for differentiating foreground/background blocks */
 	const double threshold { .1 };
-	/**Minimum angle change inclusion in the quality measure */
-	const double angleMin { 4.0 };
 };
 }}
 

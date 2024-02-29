@@ -206,6 +206,8 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		const double bsize = 9; // The center point plus its immediate
 					// neighbors forms a 3x3 block
 
+		constexpr double Deg2Rad = M_PI / 180.0;
+		constexpr double ThreeSixtyRad = Deg2Rad * 360.0;
 		for (int i = 1; i <= blkorient.rows; i++) {
 			for (int j = 1; j <= blkorient.cols; j++) {
 				// remember: OpenCV ranges are open-ended on the
@@ -223,7 +225,7 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 				blockAbsDiff.forEach<double>(
 				    [](double &angleDiff, const int *position) {
 					    angleDiff = std::min(angleDiff,
-						360 - angleDiff);
+						ThreeSixtyRad - angleDiff);
 				    });
 
 				cv::Scalar loq = sum(blockAbsDiff) /
@@ -235,10 +237,9 @@ NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
 		// angdiff     = deg2rad(90-angmin);
 		// angmin      = deg2rad(angmin);
 		// loqs        = zeros(size(loqall));
-		const double Deg2Rad = M_PI / 180.0;
-		const double PI4 = 90.0;
-		double angdiff = (PI4 - angleMin) * Deg2Rad;
-		double angmin = angleMin * Deg2Rad;
+		constexpr double PI4 = 90.0;
+		constexpr double angdiff = (PI4 - angleMin) * Deg2Rad;
+		constexpr double angmin = angleMin * Deg2Rad;
 
 		// % overlapping window: if one of the surrouding blocks from
 		// which the anglediff was computed % is in background, exclude

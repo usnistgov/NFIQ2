@@ -26,7 +26,6 @@ jobs:
           # https://github.com/actions/virtual-environments
           - { os: macOS-13, arch: x64, embed_rf: OFF }
           - { os: macOS-12, arch: x64, embed_rf: OFF }
-          - { os: macOS-11, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }
@@ -37,7 +36,7 @@ jobs:
 
     steps:
     - name: Checkout Code and Submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: true
 
@@ -58,7 +57,7 @@ jobs:
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       id: vcpkg-cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
@@ -89,7 +88,8 @@ jobs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |
-        brew install \
+        HOMEBREW_NO_INSTALL_CLEANUP=1 HOMEBREW_NO_AUTO_UPDATE=1 \
+            HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 brew install \
             berkeley-db \
             hwloc \
             jpeg-turbo \
@@ -124,7 +124,7 @@ jobs:
 
     - name: Build Directory Cache
       id: builddir-cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ${{ github.workspace }}/build
@@ -200,7 +200,7 @@ jobs:
       run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 

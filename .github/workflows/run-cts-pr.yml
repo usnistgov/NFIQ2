@@ -26,7 +26,6 @@ jobs:
           # https://github.com/actions/virtual-environments
           - { os: macOS-13, arch: x64, embed_rf: OFF }
           - { os: macOS-12, arch: x64, embed_rf: OFF }
-          - { os: macOS-11, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }
@@ -37,7 +36,7 @@ jobs:
 
     steps:
     - name: Checkout Conformance Test Script
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: false
 
@@ -49,7 +48,7 @@ jobs:
       run: sudo rm -rf /Library/Frameworks/Mono.framework
 
     - name: Download install_staging artifact
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -110,7 +109,8 @@ jobs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |
-        brew install \
+        HOMEBREW_NO_INSTALL_CLEANUP=1 HOMEBREW_NO_AUTO_UPDATE=1 \
+            HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 brew install \
             berkeley-db \
             hwloc \
             jpeg-turbo \
@@ -127,7 +127,7 @@ jobs:
       run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
@@ -168,12 +168,13 @@ jobs:
         python conformance/diff.py -s conformance/conformance_expected_output.csv github.csv
 
     - name: Upload conformance output artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
         path: github.csv
         retention-days: 7
         if-no-files-found: error
+        overwrite: true
 
     - name: Failed the CTS
       if: ${{ failure() }}
@@ -200,7 +201,7 @@ jobs:
           - { os: ubuntu-22.04, arch: x64 }
     steps:
     - name: Download install_staging artifact
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -228,7 +229,7 @@ jobs:
         unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
 
     - name: Passed the CTS
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |

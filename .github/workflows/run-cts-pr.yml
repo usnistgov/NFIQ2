@@ -210,7 +210,7 @@ jobs:
              run_id: ${{github.event.workflow_run.id}},
           });
           var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}"
+            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}"
           })[0];
           var download = await github.rest.actions.downloadArtifact({
              owner: context.repo.owner,

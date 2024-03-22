@@ -54,17 +54,15 @@ include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
 add_subdirectory("${ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/" "${BUILD_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/")
 
 # forwarding 32/64 compiler flags
-if( 32BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m32"
-    -DCMAKE_CXX_FLAGS="-m32"
-  )
-elseif( 64BITS)
-  set( COMPILER_CMAKE_ARGS
-    -DCMAKE_C_FLAGS="-m64"
-    -DCMAKE_CXX_FLAGS="-m64"
-  )
-endif()
+foreach(flag_var
+        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
+        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+			if (32BITS)
+				set(${flag_var} "${${flag_var}} -m32")
+			elseif(64BITS)
+				set(${flag_var} "${${flag_var}} -m64")
+			endif()
+endforeach(flag_var)
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
@@ -92,16 +90,46 @@ endif()
 
 include(ExternalProject)
 
+set(default_build_type "Release")
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+	message(STATUS "Setting build/configuration to ${default_build_type}")
+	if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
+		get_cmake_property(IS_MULTI_CONFIG GENERATOR_IS_MULTI_CONFIG)
+		if (${IS_MULTI_CONFIG})
+			set(CMAKE_CONFIGURATION_TYPES "${default_build_type}" CACHE STRING "Build configurations")
+			set_property(CACHE CMAKE_CONFIGURATION_TYPES PROPERTY STRINGS "Debug" "Release")
+		else()
+			set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Build configuration")
+			set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+		endif()
+	elseif (MSVC OR Xcode)
+		set(CMAKE_CONFIGURATION_TYPES "${default_build_type}" CACHE STRING "Build configurations")
+		set_property(CACHE CMAKE_CONFIGURATION_TYPES PROPERTY STRINGS "Debug" "Release")
+	else()
+		set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Build configuration")
+		set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+	endif()
+endif ()
+
 set(MULTI_CONFIG_ARGS)
 if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
-	if (${GENERATOR_IS_MULTI_CONFIG})
+	get_cmake_property(IS_MULTI_CONFIG GENERATOR_IS_MULTI_CONFIG)
+	if (${IS_MULTI_CONFIG})
 		list(APPEND MULTI_CONFIG_ARGS
 			-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+			)
+	else()
+		list(APPEND MULTI_CONFIG_ARGS
+			-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 			)
 	endif()
 elseif (MSVC OR Xcode)
 	list(APPEND MULTI_CONFIG_ARGS
 		-DCMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}
+		)
+else()
+	list(APPEND MULTI_CONFIG_ARGS
+		-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 		)
 endif()
 
@@ -255,6 +283,7 @@ ExternalProject_Add(nfiq2api
 	CMAKE_ARGS
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
 		${COMPILER_CMAKE_ARGS}
+		${MULTI_CONFIG_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}

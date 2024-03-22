@@ -14,6 +14,10 @@ website](https://nigos.nist.gov/datasets/nfiq2_conformance/).**
      [conformance dataset](https://nigos.nist.gov/datasets/nfiq2_conformance/).
    - Contains unified quality score, quality metric values (`-v`), and
      actionable feedback (`-a`).
+ * **conformance_expected_output-v2.3.0-mapped.csv**
+   - Expected output from NFIQ 2 v2.3.0 when run against the
+     [conformance dataset](https://nigos.nist.gov/datasets/nfiq2_conformance/),
+     with all values mapped 0-100 (`-b`).
  * **diff.py**
    - Python script used to compare the contents of two CSV outputs of NFIQ ≥2.1.
    - **NOTE:** Python 3 and Pandas v1.1.0 (or greater) are required.

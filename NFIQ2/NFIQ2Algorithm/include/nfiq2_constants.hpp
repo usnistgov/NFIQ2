@@ -77,9 +77,9 @@ extern const unsigned int StdDev;
 /** Image contrast quality algorithm identifiers. */
 namespace Contrast {
 /** Average contrast ("MU"). */
-extern const unsigned int Mean;
+extern const unsigned int MeanImage;
 /** Average of average constrasts ("MMB"). */
-extern const unsigned int MeanBlock;
+extern const unsigned int MeanMeanBlock;
 }
 
 /** Minutie-based quality algorithm identifiers. */
@@ -89,9 +89,9 @@ extern const unsigned int Count;
 /** Minutiae count in center of mass. */
 extern const unsigned int CountCOM;
 /** Minutiae quality based on image mean. */
-extern const unsigned int QualityMu2;
+extern const unsigned int PercentImageMean50;
 /** Minutiae quality based on orientation certainty level. */
-extern const unsigned int QualityOCL80;
+extern const unsigned int PercentOrientationCertainty80;
 }
 
 /** Region of interest quality algorithm identifiers. */
@@ -99,9 +99,9 @@ namespace RegionOfInterest {
 /** Region of interest image mean. */
 extern const unsigned int Mean;
 /** Region of interest orientation map coherence sum. */
-extern const unsigned int CoherenceSum;
+extern const unsigned int OrientationMapCoherenceSum;
 /** Region of interest relative orientation map coherence sum. */
-extern const unsigned int CoherenceMean;
+extern const unsigned int OrientationMapCoherenceMean;
 }
 
 }

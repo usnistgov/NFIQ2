@@ -35,18 +35,23 @@ const unsigned int NFIQ2::Identifiers::CBEFF::RidgeValleyUniformity::StdDev {
 const unsigned int NFIQ2::Identifiers::CBEFF::OrientationFlow::Mean { 0x2A };
 const unsigned int NFIQ2::Identifiers::CBEFF::OrientationFlow::StdDev { 0x2B };
 
-const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::Mean { 0x2C };
-const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::MeanBlock { 0x2D };
+const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::MeanImage { 0x2C };
+const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::MeanMeanBlock { 0x2D };
 
 const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::Count { 0x2E };
 const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::CountCOM { 0x2F };
-const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::QualityMu2 { 0x30 };
-const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::QualityOCL80 { 0x31 };
+const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::PercentImageMean50 {
+	0x30
+};
+const unsigned int
+    NFIQ2::Identifiers::CBEFF::Minutiae::PercentOrientationCertainty80 { 0x31 };
 
 const unsigned int NFIQ2::Identifiers::CBEFF::RegionOfInterest::Mean { 0x32 };
-const unsigned int NFIQ2::Identifiers::CBEFF::RegionOfInterest::CoherenceSum {
-	0x33
-};
-const unsigned int NFIQ2::Identifiers::CBEFF::RegionOfInterest::CoherenceMean {
-	0x34
-};
+const unsigned int
+    NFIQ2::Identifiers::CBEFF::RegionOfInterest::OrientationMapCoherenceSum {
+	    0x33
+    };
+const unsigned int
+    NFIQ2::Identifiers::CBEFF::RegionOfInterest::OrientationMapCoherenceMean {
+	    0x34
+    };

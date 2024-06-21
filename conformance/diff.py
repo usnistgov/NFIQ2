@@ -8,6 +8,13 @@ if Version(pd.__version__) < Version("1.1.0"):
   print("This script requires the use of Pandas v1.1.0.")
   sys.exit(1)
 
+# melt() with a MultiIndex is not working as of 2.2.0. Force use of an earlier
+# version for now until the regression is corrected or we fix this script.
+# See: https://github.com/pandas-dev/pandas/issues/57663
+if Version(pd.__version__) >= Version("2.2.0"):
+  print("This script does not support Pandas v2.2.0.")
+  sys.exit(1)
+
 # Argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("csv1", type = str, help="First CSV")

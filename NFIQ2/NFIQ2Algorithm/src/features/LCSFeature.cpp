@@ -418,10 +418,10 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 
 		cv::Scalar muNWr {}, muNWv {};
 		if (!NWr.empty()) {
-			muNWr = mean(NWr, cv::noArray());
+			muNWr = cv::mean(NWr, cv::noArray());
 		}
 		if (!NWv.empty()) {
-			muNWv = mean(NWv, cv::noArray());
+			muNWv = cv::mean(NWv, cv::noArray());
 		}
 
 		if ((muNWr.val[0] >= NWrmin) && (muNWr.val[0] <= NWrmax) &&

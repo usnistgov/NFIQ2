@@ -33,8 +33,6 @@ extern const unsigned int NFIQ2Rev1;
 extern const unsigned int NFIQ2Rev2;
 /** Unified quality score (NFIQ 2.3). */
 extern const unsigned int NFIQ2Rev3;
-/** Unified quality score (ISO/IEC 29794-4). */
-extern const unsigned int UnifiedQualityScore;
 
 /** Orientation certainty quality algorithm identifiers. */
 namespace OrientationCertainty {
@@ -106,10 +104,6 @@ extern const unsigned int CoherenceSum;
 extern const unsigned int CoherenceMean;
 }
 
-/** Radial power spectrum. */
-extern const unsigned int RadialPowerSpectrum;
-/** Gabor quality score. */
-extern const unsigned int Gabor;
 }
 
 /**

@@ -7,9 +7,6 @@ const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev0 { 0x21 };
 const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev1 { 0x37 };
 const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev2 { 0x38 };
 const unsigned int NFIQ2::Identifiers::CBEFF::NFIQ2Rev3 { 0x39 };
-const unsigned int NFIQ2::Identifiers::CBEFF::UnifiedQualityScore {
-	NFIQ2::Identifiers::CBEFF::NFIQ2Rev3
-};
 
 const unsigned int NFIQ2::Identifiers::CBEFF::OrientationCertainty::Mean {
 	0x22
@@ -53,6 +50,3 @@ const unsigned int NFIQ2::Identifiers::CBEFF::RegionOfInterest::CoherenceSum {
 const unsigned int NFIQ2::Identifiers::CBEFF::RegionOfInterest::CoherenceMean {
 	0x34
 };
-
-const unsigned int NFIQ2::Identifiers::CBEFF::RadialPowerSpectrum { 0x15 };
-const unsigned int NFIQ2::Identifiers::CBEFF::Gabor { 0x16 };

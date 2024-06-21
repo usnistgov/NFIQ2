@@ -31,6 +31,8 @@ extern const unsigned int NFIQ2Rev0;
 extern const unsigned int NFIQ2Rev1;
 /** Unified quality score (NFIQ 2.2). */
 extern const unsigned int NFIQ2Rev2;
+/** Unified quality score (NFIQ 2.3). */
+extern const unsigned int NFIQ2Rev3;
 /** Unified quality score (ISO/IEC 29794-4). */
 extern const unsigned int UnifiedQualityScore;
 

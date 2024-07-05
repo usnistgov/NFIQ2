@@ -35,8 +35,8 @@ const unsigned int NFIQ2::Identifiers::CBEFF::RidgeValleyUniformity::StdDev {
 const unsigned int NFIQ2::Identifiers::CBEFF::OrientationFlow::Mean { 0x2A };
 const unsigned int NFIQ2::Identifiers::CBEFF::OrientationFlow::StdDev { 0x2B };
 
-const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::MeanImage { 0x2C };
-const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::MeanMeanBlock { 0x2D };
+const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::ImageMean { 0x2C };
+const unsigned int NFIQ2::Identifiers::CBEFF::Contrast::MeanOfBlockMeans { 0x2D };
 
 const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::Count { 0x2E };
 const unsigned int NFIQ2::Identifiers::CBEFF::Minutiae::CountCOM { 0x2F };

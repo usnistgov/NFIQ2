@@ -77,9 +77,9 @@ extern const unsigned int StdDev;
 /** Image contrast quality algorithm identifiers. */
 namespace Contrast {
 /** Average contrast ("MU"). */
-extern const unsigned int MeanImage;
+extern const unsigned int ImageMean;
 /** Average of average constrasts ("MMB"). */
-extern const unsigned int MeanMeanBlock;
+extern const unsigned int MeanOfBlockMeans;
 }
 
 /** Minutie-based quality algorithm identifiers. */

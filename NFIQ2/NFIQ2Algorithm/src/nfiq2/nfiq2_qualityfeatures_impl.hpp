@@ -100,7 +100,7 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
 
 /**
  * @brief
- * Obtain quality feature data from a vector of features.
+ * Obtain native quality measures from a vector of features.
  *
  * @param features
  * A vector of Modules obtained from a raw fingerprint image.
@@ -108,7 +108,7 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> getQualityFeatureValues(
+std::unordered_map<std::string, double> getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features);
 

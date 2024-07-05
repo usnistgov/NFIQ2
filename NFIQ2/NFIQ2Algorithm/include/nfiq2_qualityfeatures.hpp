@@ -146,7 +146,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
 
 /**
  * @brief
- * Obtain quality feature data from computed quality modules.
+ * Obtain native quality measures from computed quality modules.
  *
  * @param modules
  * Computed quality modules.
@@ -156,7 +156,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  *
  * @see Identifiers::QualityFeatures
  */
-std::unordered_map<std::string, double> getQualityFeatureValues(
+std::unordered_map<std::string, double> getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&modules);
 

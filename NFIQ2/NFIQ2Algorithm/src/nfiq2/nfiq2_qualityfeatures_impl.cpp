@@ -64,12 +64,12 @@ std::unordered_map<std::string, double>
 NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::getQualityFeatureValues(
+	return NFIQ2::QualityFeatures::getNativeQualityMeasures(
 	    NFIQ2::QualityFeatures::computeQualityModules(rawImage));
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(
+NFIQ2::QualityFeatures::Impl::getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features)
 {

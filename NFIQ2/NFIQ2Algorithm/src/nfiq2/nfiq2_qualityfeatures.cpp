@@ -46,10 +46,10 @@ NFIQ2::QualityFeatures::computeActionableQualityFeedback(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::getQualityFeatureValues(
+NFIQ2::QualityFeatures::getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> &modules)
 {
-	return NFIQ2::QualityFeatures::Impl::getQualityFeatureValues(modules);
+	return NFIQ2::QualityFeatures::Impl::getNativeQualityMeasures(modules);
 }
 
 std::unordered_map<std::string, double>

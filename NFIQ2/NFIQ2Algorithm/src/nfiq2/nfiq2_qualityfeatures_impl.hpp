@@ -69,7 +69,7 @@ void setFPU(unsigned int mode);
  * A vector of quality modules containing computed feature data.
  */
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
+computeNativeQualityMeasures(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief
@@ -127,7 +127,8 @@ std::unordered_map<std::string, double> computeQualityMeasures(
 
 /**
  * @brief
- * Obtain quality feature speeds from a vector of features.
+ * Obtain time elapsed during native quality measure algorithm computation, in
+ * milliseconds.
  *
  * @param features
  * A vector of Modules obtained from a raw fingerprint image.
@@ -141,7 +142,7 @@ std::unordered_map<std::string, double> getQualityModuleSpeeds(
 
 /**
  * @brief
- * Obtain quality modules organized as a map.
+ * Obtain native quality measure algorithms organized as a map.
  *
  * @param features
  * A vector of Modules obtained from a raw fingerprint image.
@@ -151,7 +152,7 @@ std::unordered_map<std::string, double> getQualityModuleSpeeds(
  */
 std::unordered_map<std::string,
     std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-getQualityModules(
+getNativeQualityMeasureAlgorithms(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features);
 }}}

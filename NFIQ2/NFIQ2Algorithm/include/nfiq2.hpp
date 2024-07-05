@@ -59,7 +59,8 @@
  *      thrown.
  *      * **Note**: If the calling application needs to inspect individual
  *                  quality feature values or quality module calculation speeds,
- *                  first call NFIQ2::QualityMeasures::computeQualityModules or
+ *                  first call
+ * NFIQ2::QualityMeasures::computeNativeQualityMeasures or
  *                  NFIQ2::QualityMeasures::computeQualityMeasures with the
  *                  image from 2 instead, and then pass the result of that
  *                  method to NFIQ2::Algorithm::computeUnifiedQualityScore. Use

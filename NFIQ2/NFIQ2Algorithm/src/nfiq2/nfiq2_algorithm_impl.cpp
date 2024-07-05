@@ -119,14 +119,14 @@ NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
 	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    modules {};
 	try {
-		modules = NFIQ2::QualityMeasures::computeQualityModules(
+		modules = NFIQ2::QualityMeasures::computeNativeQualityMeasures(
 		    rawImage);
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (const std::exception &e) {
 		/*
-		 * Nothing should get here, but computeQualityModules() calls
-		 * a lot of code...
+		 * Nothing should get here, but computeNativeQualityMeasures()
+		 * calls a lot of code...
 		 */
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::UnknownError,
 		    e.what());

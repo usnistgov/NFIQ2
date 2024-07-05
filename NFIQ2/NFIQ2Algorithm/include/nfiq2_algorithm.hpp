@@ -105,7 +105,7 @@ class Algorithm {
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
-	 * @see QualityMeasures::computeQualityModules
+	 * @see QualityMeasures::computeNativeQualityMeasures
 	 */
 	unsigned int computeUnifiedQualityScore(const std::vector<
 	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &modules) const;

@@ -23,10 +23,11 @@ NFIQ2::QualityMeasures::getQualityModuleIDs()
 }
 
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-NFIQ2::QualityMeasures::computeQualityModules(
+NFIQ2::QualityMeasures::computeNativeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityMeasures::Impl::computeQualityModules(rawImage);
+	return NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasures(
+	    rawImage);
 }
 
 std::unordered_map<std::string, double>
@@ -71,9 +72,10 @@ NFIQ2::QualityMeasures::getQualityModuleSpeeds(
 
 std::unordered_map<std::string,
     std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-NFIQ2::QualityMeasures::getQualityModules(
+NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithms(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&modules)
 {
-	return NFIQ2::QualityMeasures::Impl::getQualityModules(modules);
+	return NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithms(
+	    modules);
 }

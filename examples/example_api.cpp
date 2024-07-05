@@ -139,7 +139,7 @@ main(int argc, char **argv)
 	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    algorithms {};
 	try {
-		modules = NFIQ2::QualityMeasures::computeQualityModules(
+		modules = NFIQ2::QualityMeasures::computeNativeQualityMeasures(
 		    rawImage);
 	} catch (const NFIQ2::Exception &e) {
 		std::cerr << "Error in calculating quality features: "

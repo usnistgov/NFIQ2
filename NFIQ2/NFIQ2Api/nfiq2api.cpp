@@ -112,8 +112,8 @@ ComputeNfiq2Score(int fpos, const unsigned char *pixels, int size, int width,
 		if (g_nfiq2.get() != nullptr) {
 			NFIQ2::FingerprintImageData rawImage(pixels, size,
 			    width, height, fpos, ppi);
-			int qualityScore = (int)g_nfiq2->computeQualityScore(
-			    rawImage);
+			int qualityScore =
+			    (int)g_nfiq2->computeUnifiedQualityScore(rawImage);
 			return qualityScore;
 		}
 	} catch (const NFIQ2::Exception &exc) {

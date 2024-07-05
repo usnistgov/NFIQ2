@@ -41,8 +41,8 @@
  * application.
  *
  * @section quick_score Quick Start
- * Follow these high-level steps to compute an NFIQ 2 quality score in your own
- * application.
+ * Follow these high-level steps to compute an ISO/IEC 29794-4:2024 unified
+ * quality score in your own application.
  *
  *   1. Include `nfiq2.hpp` in your source file.
  *      - NIST's [releases][2] install headers in `/usr/local/nfiq2/include` on
@@ -54,7 +54,7 @@
  *   3. Instantiate a NFIQ2::FingerprintImageData with a *decompressed*
  *      fingerprint image.
  *   4. Pass the NFIQ2::FingerprintImageData from 3 to
- *      NFIQ2::Algorithm::computeQualityScore of the NFIQ2::Algorithm
+ *      NFIQ2::Algorithm::computeUnifiedQualityScore of the NFIQ2::Algorithm
  *      instantiated in 2. A quality score is returned or a NFIQ2::Exception is
  *      thrown.
  *      * **Note**: If the calling application needs to inspect individual
@@ -62,10 +62,9 @@
  *                  first call NFIQ2::QualityFeatures::computeQualityModules or
  *                  NFIQ2::QualityFeatures::computeQualityFeatures with the
  *                  image from 2 instead, and then pass the result of that
- *                  method to NFIQ2::Algorithm::computeQualityScore. Use the
- *                  other methods within NFIQ2::QualityFeatures to isolate the
- *                  individual quality feature values and quality module speeds
- *                  required.
+ *                  method to NFIQ2::Algorithm::computeUnifiedQualityScore. Use
+ * the other methods within NFIQ2::QualityFeatures to isolate the individual
+ * quality feature values and quality module speeds required.
  *
  * @section Examples
  * Some examples of using the API can be found in the [examples directory][4] in

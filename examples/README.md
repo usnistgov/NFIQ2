@@ -10,7 +10,7 @@ If example_api is able to parse both a NFIQ 2 RF Model and a valid fingerprint i
 Each score will be printed with its respective header. Each score will be printed on a separate line.
 
 
-The first score that gets printed is the NFIQ 2 Quality Score and it will appear as:
+The first score that gets printed is the ISO/IEC 29794-4:2024 Unified Quality Score and it will appear as:
 		
 	"QualityScore: [value]"
 

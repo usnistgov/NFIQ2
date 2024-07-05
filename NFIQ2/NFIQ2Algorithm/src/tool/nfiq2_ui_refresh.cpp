@@ -367,10 +367,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	try {
 		modules = NFIQ2::QualityFeatures::computeQualityModules(
 		    wrappedImage);
-		score = model.computeQualityScore(modules);
+		score = model.computeUnifiedQualityScore(modules);
 	} catch (const NFIQ2::Exception &e) {
 		std::string errStr {
-			"Error: NFIQ2 computeQualityScore returned an error code: "
+			"Error: NFIQ2 computeUnifiedQualityScore returned an error code: "
 		};
 		errStr = errStr.append(e.what());
 		if (singleImage) {

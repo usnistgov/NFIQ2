@@ -75,31 +75,31 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Compute a NFIQ 2 quality score.
+	 * Compute an ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @param rawImage
 	 * Fingerprint image.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @brief
-	 * Compute a NFIQ 2 quality score.
+	 * Compute an ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @param modules
 	 * Computed quality modules.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
@@ -107,19 +107,19 @@ class Algorithm {
 	 * @ingroup compute
 	 * @see QualityFeatures::computeQualityModules
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 		&modules) const;
 
 	/**
 	 * @brief
-	 * Compute a NFIQ 2 quality score.
+	 * Compute an ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @param features
 	 * Map of quality feature identifiers to quality feature values.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
@@ -127,7 +127,7 @@ class Algorithm {
 	 * @ingroup compute
 	 * @see QualityFeatures::computeQualityFeatures
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;
 
 	/**

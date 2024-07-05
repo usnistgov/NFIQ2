@@ -146,11 +146,11 @@ main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 
-	// Pass the feature values through the random forest to obtain  an
-	// NFIQ 2 quality score
+	// Pass the feature values through the random forest to obtain an
+	// ISO/IEC 29794-4:2024 unified quality score
 	unsigned int nfiq2 {};
 	try {
-		nfiq2 = model.computeQualityScore(modules);
+		nfiq2 = model.computeUnifiedQualityScore(modules);
 	} catch (...) {
 		std::cerr << "Error in calculating NFIQ 2 score\n";
 		return (EXIT_FAILURE);

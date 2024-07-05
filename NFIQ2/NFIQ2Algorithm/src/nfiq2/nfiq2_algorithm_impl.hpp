@@ -57,7 +57,7 @@ class Algorithm::Impl {
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
@@ -75,7 +75,7 @@ class Algorithm::Impl {
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 		&features) const;
 
@@ -93,7 +93,7 @@ class Algorithm::Impl {
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;
 
 	/**
@@ -143,13 +143,14 @@ class Algorithm::Impl {
 
 	/**
 	 * @brief
-	 * Retrieves NFIQ 2 quality score from a map of feature data.
+	 * Retrieves ISO/IEC 29794-4:2024 unified quality score from a map of
+	 * feature data.
 	 *
 	 * @param features
 	 * Map of string, QualityFeatureData pairs.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed ISO/IEC 29794-4:2024 unified quality score.
 	 *
 	 * @throws Exception
 	 * Failure to compute (OpenCV reason contained within message string) or

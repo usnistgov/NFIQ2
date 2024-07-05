@@ -76,7 +76,7 @@ NFIQ2::Algorithm::Impl::getQualityPrediction(
 }
 
 unsigned int
-NFIQ2::Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
     const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
 	&features) const
 {
@@ -107,7 +107,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2::Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
     const NFIQ2::FingerprintImageData &rawImage) const
 {
 	this->throwIfUninitialized();
@@ -156,7 +156,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2::Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
     const std::unordered_map<std::string, double> &features) const
 {
 	this->throwIfUninitialized();

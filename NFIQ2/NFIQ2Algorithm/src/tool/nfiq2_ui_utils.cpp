@@ -303,6 +303,9 @@ NFIQ2UI::printUsage()
 	    << "-v: Displays individual quality score information about each processed image"
 	    << "\n";
 	std::cout
+	    << "-b: Displays native quality measure values mapped for 39794-2 quality blocks"
+	    << "\n";
+	std::cout
 	    << "-q: Displays individual quality speed timings about each processed image"
 	    << "\n";
 	std::cout

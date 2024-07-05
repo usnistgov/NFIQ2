@@ -195,6 +195,8 @@ class Log {
 	bool speed;
 	/** Value of the actionable flag */
 	bool actionable;
+	/** Value of the qualityBlockValues flag */
+	bool qbMapped;
 	/** Used if a specified file will be the output stream */
 	std::ofstream logFile {};
 };

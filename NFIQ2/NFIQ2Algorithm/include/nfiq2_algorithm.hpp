@@ -131,6 +131,50 @@ class Algorithm {
 
 	/**
 	 * @brief
+	 * Obtain the quality block values (i.e., [0, 100]) for the native
+	 * quality measure values.
+	 *
+	 * @param nativeQualityMeasureValues
+	 * Map of keys representing identifiers for the native quality measures
+	 * (from nfiq2_constants.hpp), and values representing native quality
+	 * measure values.
+	 *
+	 * @return
+	 * Native quality measure values mapped [0, 100], per
+	 * ISO/IEC 29794-4:2024, suitable for inclusion in an ISO/IEC 39794-2
+	 * quality block.
+	 *
+	 * @throw Exception
+	 * Unrecognized key value in `nativeQualityMeasureValues`
+	 */
+	static std::unordered_map<std::string, unsigned int>
+	getQualityBlockValues(const std::unordered_map<std::string, double>
+		&nativeQualityMeasureValues);
+
+	/**
+	 * @brief
+	 * Obtain the quality block value (i.e., [0, 100]) for the native
+	 * quality measure value.
+	 *
+	 * @param featureIdentifier
+	 * Identifier for the native quality measure (from nfiq2_constants.hpp).
+	 * @param native
+	 * Native quality measure value.
+	 *
+	 * @return
+	 * Native quality measure value mapped [0, 100], per
+	 * ISO/IEC 29794-4:2024, suitable for inclusion in an ISO/IEC 39794-2
+	 * quality block.
+	 *
+	 * @throw Exception
+	 * Unrecognized value for `featureIdentifier`.
+	 */
+	static unsigned int
+	getQualityBlockValue(const std::string &featureIdentifier,
+	    const double nativeQualityMeasureValue);
+
+	/**
+	 * @brief
 	 * Obtain MD5 checksum of random forest parameter file loaded.
 	 *
 	 * @return

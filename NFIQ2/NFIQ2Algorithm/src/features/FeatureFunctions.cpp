@@ -1,9 +1,16 @@
 
+#include <features/FDAFeature.h>
 #include <features/FeatureFunctions.h>
+#include <features/LCSFeature.h>
+#include <features/OCLHistogramFeature.h>
+#include <features/OFFeature.h>
+#include <features/RVUPHistogramFeature.h>
 #include <nfiq2_exception.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include <algorithm>
 #include <cmath>
+#include <complex>
 #include <cstring>
 #include <limits>
 
@@ -595,4 +602,120 @@ NFIQ2::QualityMeasures::addHistogramFeatureNames(
 	}
 	featureNames.push_back(prefix + FeatureFunctionsMeanSuffix);
 	featureNames.push_back(prefix + FeatureFunctionsStdDevSuffix);
+}
+
+double
+NFIQ2::QualityMeasures::sigmoid(const double nativeQuality,
+    const double inflectionPoint, const double scaling)
+{
+	return (
+	    std::pow(1 + std::exp((inflectionPoint - nativeQuality) / scaling),
+		-1));
+}
+
+uint8_t
+NFIQ2::QualityMeasures::knownRange(const double nativeQuality,
+    const double minNativeQuality, const double maxNativeQuality)
+{
+	return std::floor(101 *
+	    ((nativeQuality - minNativeQuality) /
+		(maxNativeQuality - minNativeQuality +
+		    std::numeric_limits<double>::epsilon())));
+}
+
+uint8_t
+NFIQ2::QualityMeasures::getQualityBlockValue(
+    const std::string &featureIdentifier, const double native)
+{
+	if ((featureIdentifier ==
+		Identifiers::QualityMeasures::Contrast::Mean) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::Contrast::MeanBlock) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::Minutiae::QualityMu2) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::RegionOfInterest::Mean)) {
+		return (NFIQ2::QualityMeasures::knownRange(native, 0, 255));
+	}
+
+	if ((featureIdentifier ==
+		Identifiers::QualityMeasures::Minutiae::Count) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::Minutiae::CountCOM)) {
+		return (std::min(native, 100.0));
+	}
+
+	if (featureIdentifier ==
+	    Identifiers::QualityMeasures::Minutiae::QualityOCL80) {
+		return (NFIQ2::QualityMeasures::knownRange(native, 0, 1));
+	}
+
+	if (featureIdentifier ==
+	    Identifiers::QualityMeasures::RegionOfInterest::CoherenceMean) {
+		return (NFIQ2::QualityMeasures::knownRange(native, 0, 1));
+	}
+
+	if (featureIdentifier ==
+	    Identifiers::QualityMeasures::RegionOfInterest::CoherenceSum) {
+		return (NFIQ2::QualityMeasures::knownRange(native, 0, 3150));
+	}
+
+	if ((featureIdentifier ==
+		Identifiers::QualityMeasures::OrientationCertainty::Mean) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::LocalClarity::Mean) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::Mean)) {
+		return (NFIQ2::QualityMeasures::knownRange(native, 0, 1));
+	}
+
+	if (featureIdentifier ==
+	    Identifiers::QualityMeasures::OrientationFlow::Mean) {
+		constexpr double deg2Rad = M_PI / 180.0;
+
+		constexpr double minAngleDiffDegree { 0.0 };
+		constexpr double minAngleDiffRadian { minAngleDiffDegree *
+			deg2Rad };
+		constexpr double maxAngleDiffDegree { 180.0 };
+		constexpr double maxAngleDiffRadian { maxAngleDiffDegree *
+			deg2Rad };
+
+		constexpr double thetaMinDegree { OFFeature::angleMin };
+		constexpr double thetaMinRadian { thetaMinDegree * deg2Rad };
+
+		constexpr double denominator = { (90.0 * deg2Rad) -
+			thetaMinRadian };
+
+		constexpr double minOFLLocalValue {
+			(minAngleDiffRadian - thetaMinRadian) / denominator
+		};
+		constexpr double maxOFLLocalValue {
+			(maxAngleDiffRadian - thetaMinRadian) / denominator
+		};
+
+		return (NFIQ2::QualityMeasures::knownRange(native,
+		    minOFLLocalValue, maxOFLLocalValue));
+	}
+
+	if ((featureIdentifier ==
+		Identifiers::QualityMeasures::OrientationCertainty::StdDev) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::LocalClarity::StdDev) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
+		    StdDev) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::OrientationFlow::StdDev)) {
+		return (NFIQ2::QualityMeasures::knownRange(native, 0, 1));
+	}
+
+	if ((featureIdentifier ==
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Mean) ||
+	    (featureIdentifier ==
+		Identifiers::QualityMeasures::RidgeValleyUniformity::StdDev)) {
+		return (std::floor(
+		    100 * QualityMeasures::sigmoid(native, 1, 0.5) + 0.5));
+	}
+
+	return (0xFF);
 }

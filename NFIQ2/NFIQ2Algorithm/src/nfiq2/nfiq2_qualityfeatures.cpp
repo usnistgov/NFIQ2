@@ -17,9 +17,10 @@ NFIQ2::QualityMeasures::getQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::getQualityModuleIDs()
+NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithmIDs()
 {
-	return NFIQ2::QualityMeasures::Impl::getQualityModuleIDs();
+	return NFIQ2::QualityMeasures::Impl::
+	    getNativeQualityMeasureAlgorithmIDs();
 }
 
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>

@@ -48,14 +48,14 @@ std::vector<std::string> getActionableQualityFeedbackIDs();
 
 /**
  * @brief
- * Obtain all quality module identifiers.
+ * Obtain all native quality measure algorithm identifiers.
  *
  * @return
  * Vector of strings with all quality module identifiers.
  *
  * @see Identifiers::QualityModules
  */
-std::vector<std::string> getQualityModuleIDs();
+std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
 
 /**
  * @brief

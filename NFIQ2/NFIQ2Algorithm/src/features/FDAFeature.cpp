@@ -11,81 +11,81 @@ const char NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis[] {
 	"FrequencyDomainAnalysis"
 };
 static const char NFIQ2FDAFeaturePrefix[] { "FDA_Bin10_" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin0[] { "FDA_Bin10_0" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin1[] { "FDA_Bin10_1" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin2[] { "FDA_Bin10_2" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin3[] { "FDA_Bin10_3" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin4[] { "FDA_Bin10_4" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin5[] { "FDA_Bin10_5" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin6[] { "FDA_Bin10_6" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin7[] { "FDA_Bin10_7" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin8[] { "FDA_Bin10_8" };
-const char NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin9[] { "FDA_Bin10_9" };
 const char
-    NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::Mean[] {
+    NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::Mean[] {
 	    "FDA_Bin10_Mean"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::FrequencyDomainAnalysis::StdDev[] {
+    NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::StdDev[] {
 	    "FDA_Bin10_StdDev"
     };
 
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-NFIQ2::QualityFeatures::FDAFeature::FDAFeature(
+NFIQ2::QualityMeasures::FDAFeature::FDAFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::FDAFeature::~FDAFeature() = default;
+NFIQ2::QualityMeasures::FDAFeature::~FDAFeature() = default;
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FDAFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::FDAFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+	return { Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		     Histogram::Bin0,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin1,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin2,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin3,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin4,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin5,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin6,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin7,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin8,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		    Histogram::Bin9,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::Mean,
-		Identifiers::QualityFeatures::FrequencyDomainAnalysis::StdDev };
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::Mean,
+		Identifiers::QualityMeasures::FrequencyDomainAnalysis::StdDev };
 }
 
 std::string
-NFIQ2::QualityFeatures::FDAFeature::getModuleName() const
+NFIQ2::QualityMeasures::FDAFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis;
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::FDAFeature::computeFeatureData(
+NFIQ2::QualityMeasures::FDAFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -280,7 +280,7 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	// rotate image to get the ridges horizontal using nearest-neighbor
 	// interpolation
 	cv::Mat blockRotated;
-	NFIQ2::QualityFeatures::getRotatedBlock(block, orientation + (M_PI / 2),
+	NFIQ2::QualityMeasures::getRotatedBlock(block, orientation + (M_PI / 2),
 	    padFlag, blockRotated);
 
 	//% set x and y

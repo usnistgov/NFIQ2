@@ -9,43 +9,43 @@ const char NFIQ2::Identifiers::QualityModules::OrientationCertainty[] {
 	"OrientationCertainty"
 };
 static const char NFIQ2OCLFeaturePrefix[] { "OCL_Bin10_" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin0[] { "OCL_Bin10_0" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin1[] { "OCL_Bin10_1" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin2[] { "OCL_Bin10_2" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin3[] { "OCL_Bin10_3" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin4[] { "OCL_Bin10_4" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin5[] { "OCL_Bin10_5" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin6[] { "OCL_Bin10_6" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin7[] { "OCL_Bin10_7" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin8[] { "OCL_Bin10_8" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::
     Histogram::Bin9[] { "OCL_Bin10_9" };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::Mean[] {
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::Mean[] {
 	"OCL_Bin10_Mean"
 };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationCertainty::StdDev[] {
+const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::StdDev[] {
 	"OCL_Bin10_StdDev"
 };
 
-NFIQ2::QualityFeatures::OCLHistogramFeature::OCLHistogramFeature(
+NFIQ2::QualityMeasures::OCLHistogramFeature::OCLHistogramFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::OCLHistogramFeature::~OCLHistogramFeature() = default;
+NFIQ2::QualityMeasures::OCLHistogramFeature::~OCLHistogramFeature() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
+NFIQ2::QualityMeasures::OCLHistogramFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -142,7 +142,7 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::computeFeatureData(
 }
 
 bool
-NFIQ2::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
+NFIQ2::QualityMeasures::OCLHistogramFeature::getOCLValueOfBlock(
     const cv::Mat &block, double &ocl)
 {
 	double eigv_max = 0.0, eigv_min = 0.0;
@@ -185,34 +185,34 @@ NFIQ2::QualityFeatures::OCLHistogramFeature::getOCLValueOfBlock(
 }
 
 std::string
-NFIQ2::QualityFeatures::OCLHistogramFeature::getModuleName() const
+NFIQ2::QualityMeasures::OCLHistogramFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::OrientationCertainty;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::OCLHistogramFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::OCLHistogramFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+	return { Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		     Bin0,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin1,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin2,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin3,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin4,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin5,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin6,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin7,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin8,
-		Identifiers::QualityFeatures::OrientationCertainty::Histogram::
+		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin9,
-		Identifiers::QualityFeatures::OrientationCertainty::Mean,
-		Identifiers::QualityFeatures::OrientationCertainty::StdDev };
+		Identifiers::QualityMeasures::OrientationCertainty::Mean,
+		Identifiers::QualityMeasures::OrientationCertainty::StdDev };
 }

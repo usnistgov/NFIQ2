@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ2 { namespace QualityFeatures { namespace Impl {
+namespace NFIQ2 { namespace QualityMeasures { namespace Impl {
 
 /**
  * @brief
@@ -68,7 +68,7 @@ void setFPU(unsigned int mode);
  * @return
  * A vector of quality modules containing computed feature data.
  */
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -82,7 +82,7 @@ computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
  * A map of string, actionable quality feedback pairs.
  */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features);
 
 /**
@@ -109,7 +109,7 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
  * A map of string, quality feature data pairs.
  */
 std::unordered_map<std::string, double> getNativeQualityMeasures(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features);
 
 /**
@@ -122,7 +122,7 @@ std::unordered_map<std::string, double> getNativeQualityMeasures(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> computeQualityFeatures(
+std::unordered_map<std::string, double> computeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -136,7 +136,7 @@ std::unordered_map<std::string, double> computeQualityFeatures(
  * A map of string, quality feature speed pairs.
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features);
 
 /**
@@ -149,9 +149,9 @@ std::unordered_map<std::string, double> getQualityModuleSpeeds(
  * @return
  * `features` in a map with `feature`'s identifier as the map key.
  */
-std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features);
 }}}
 

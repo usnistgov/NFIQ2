@@ -13,7 +13,7 @@
 * @brief NFIQ2 Frequency Domain Analysis Quality Feature
 ******************************************************************************/
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
 	0.50, 1 };

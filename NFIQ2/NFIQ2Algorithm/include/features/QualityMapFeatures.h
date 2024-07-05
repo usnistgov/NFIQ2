@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 #define LOW_FLOW_MAP_NO_DIRECTION 0
 #define LOW_FLOW_MAP_LOW_FLOW 127

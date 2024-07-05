@@ -12,23 +12,23 @@
 const char NFIQ2::Identifiers::QualityModules::MinutiaeCount[] {
 	"MinutiaeCount"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Minutiae::Count[] {
+const char NFIQ2::Identifiers::QualityMeasures::Minutiae::Count[] {
 	"FingerJetFX_MinutiaeCount"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Minutiae::CountCOM[] {
+const char NFIQ2::Identifiers::QualityMeasures::Minutiae::CountCOM[] {
 	"FingerJetFX_MinCount_COMMinRect200x200"
 };
 
-NFIQ2::QualityFeatures::FingerJetFXFeature::FingerJetFXFeature(
+NFIQ2::QualityMeasures::FingerJetFXFeature::FingerJetFXFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::FingerJetFXFeature::~FingerJetFXFeature() = default;
+NFIQ2::QualityMeasures::FingerJetFXFeature::~FingerJetFXFeature() = default;
 
 std::pair<unsigned int, unsigned int>
-NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
+NFIQ2::QualityMeasures::FingerJetFXFeature::centerOfMinutiaeMass(
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
 {
 	unsigned int lx { 0 }, ly { 0 };
@@ -42,7 +42,7 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::centerOfMinutiaeMass(
 }
 
 std::string
-NFIQ2::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
+NFIQ2::QualityMeasures::FingerJetFXFeature::parseFRFXLLError(
     const FRFXLL_RESULT fxRes)
 {
 	switch (fxRes) {
@@ -79,14 +79,14 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::parseFRFXLLError(
 	}
 }
 
-std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
-NFIQ2::QualityFeatures::FingerJetFXFeature::getMinutiaData() const
+std::vector<NFIQ2::QualityMeasures::FingerJetFXFeature::Minutia>
+NFIQ2::QualityMeasures::FingerJetFXFeature::getMinutiaData() const
 {
 	return (this->minutiaData_);
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
+NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -120,11 +120,11 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 
 	std::pair<std::string, double> fd_min_cnt;
 	fd_min_cnt =
-	    std::make_pair(Identifiers::QualityFeatures::Minutiae::Count, 0);
+	    std::make_pair(Identifiers::QualityMeasures::Minutiae::Count, 0);
 
 	std::pair<std::string, double> fd_min_cnt_comrect200x200;
 	fd_min_cnt_comrect200x200 =
-	    std::make_pair(Identifiers::QualityFeatures::Minutiae::CountCOM, 0);
+	    std::make_pair(Identifiers::QualityMeasures::Minutiae::CountCOM, 0);
 
 	NFIQ2::Timer timer;
 	timer.start();
@@ -283,20 +283,20 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityFeatures::FingerJetFXFeature::getModuleName() const
+NFIQ2::QualityMeasures::FingerJetFXFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::MinutiaeCount;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FingerJetFXFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::FingerJetFXFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::Minutiae::CountCOM,
-		Identifiers::QualityFeatures::Minutiae::Count };
+	return { Identifiers::QualityMeasures::Minutiae::CountCOM,
+		Identifiers::QualityMeasures::Minutiae::Count };
 }
 
 FRFXLL_RESULT
-NFIQ2::QualityFeatures::FingerJetFXFeature::createContext(
+NFIQ2::QualityMeasures::FingerJetFXFeature::createContext(
     FRFXLL_HANDLE_PT phContext)
 {
 	FRFXLL_RESULT rc = FRFXLL_OK;
@@ -311,8 +311,8 @@ NFIQ2::QualityFeatures::FingerJetFXFeature::createContext(
 	return rc;
 }
 
-NFIQ2::QualityFeatures::FingerJetFXFeature::FJFXROIResults
-NFIQ2::QualityFeatures::FingerJetFXFeature::computeROI(int bs,
+NFIQ2::QualityMeasures::FingerJetFXFeature::FJFXROIResults
+NFIQ2::QualityMeasures::FingerJetFXFeature::computeROI(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage,
     std::vector<FingerJetFXFeature::Object> vecRectDimensions)
 {

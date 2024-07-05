@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 /* Ideal Standard Deviation of pixel values in a neighborhood. */
 #define IDEALSTDEV 64

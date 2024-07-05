@@ -362,10 +362,10 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredPPI);
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> modules {};
 	unsigned int score {};
 	try {
-		modules = NFIQ2::QualityFeatures::computeQualityModules(
+		modules = NFIQ2::QualityMeasures::computeQualityModules(
 		    wrappedImage);
 		score = model.computeUnifiedQualityScore(modules);
 	} catch (const NFIQ2::Exception &e) {
@@ -391,9 +391,9 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,
 		    imageProps.quantized, imageProps.resampled,
-		    NFIQ2::QualityFeatures::getNativeQualityMeasures(modules),
-		    NFIQ2::QualityFeatures::getQualityModuleSpeeds(modules),
-		    NFIQ2::QualityFeatures::getActionableQualityFeedback(
+		    NFIQ2::QualityMeasures::getNativeQualityMeasures(modules),
+		    NFIQ2::QualityMeasures::getQualityModuleSpeeds(modules),
+		    NFIQ2::QualityMeasures::getActionableQualityFeedback(
 			modules));
 	}
 }

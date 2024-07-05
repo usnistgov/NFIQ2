@@ -8,20 +8,20 @@
 const char NFIQ2::Identifiers::QualityModules::RegionOfInterestMean[] {
 	"RegionOfInterestMean"
 };
-const char NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::Mean[] {
+const char NFIQ2::Identifiers::QualityMeasures::RegionOfInterest::Mean[] {
 	"ImgProcROIArea_Mean"
 };
 
-NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIFeature(
+NFIQ2::QualityMeasures::ImgProcROIFeature::ImgProcROIFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::ImgProcROIFeature::~ImgProcROIFeature() = default;
+NFIQ2::QualityMeasures::ImgProcROIFeature::~ImgProcROIFeature() = default;
 
-NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
-NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
+NFIQ2::QualityMeasures::ImgProcROIFeature::ImgProcROIResults
+NFIQ2::QualityMeasures::ImgProcROIFeature::getImgProcResults()
 {
 	if (!this->imgProcComputed_) {
 		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
@@ -32,7 +32,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::getImgProcResults()
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
+NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -70,7 +70,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 
 		std::pair<std::string, double> fd_roi_pixel_area_mean;
 		fd_roi_pixel_area_mean = std::make_pair(
-		    Identifiers::QualityFeatures::RegionOfInterest::Mean,
+		    Identifiers::QualityMeasures::RegionOfInterest::Mean,
 		    this->imgProcResults_.meanOfROIPixels);
 		featureDataList[fd_roi_pixel_area_mean.first] =
 		    fd_roi_pixel_area_mean.second;
@@ -96,19 +96,19 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityFeatures::ImgProcROIFeature::getModuleName() const
+NFIQ2::QualityMeasures::ImgProcROIFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::RegionOfInterestMean;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::ImgProcROIFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::ImgProcROIFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::RegionOfInterest::Mean };
+	return { Identifiers::QualityMeasures::RegionOfInterest::Mean };
 }
 
-NFIQ2::QualityFeatures::ImgProcROIFeature::ImgProcROIResults
-NFIQ2::QualityFeatures::ImgProcROIFeature::computeROI(cv::Mat &img,
+NFIQ2::QualityMeasures::ImgProcROIFeature::ImgProcROIResults
+NFIQ2::QualityMeasures::ImgProcROIFeature::computeROI(cv::Mat &img,
     unsigned int bs)
 {
 	ImgProcROIResults roiResults;
@@ -282,7 +282,7 @@ NFIQ2::QualityFeatures::ImgProcROIFeature::computeROI(cv::Mat &img,
 }
 
 bool
-NFIQ2::QualityFeatures::ImgProcROIFeature::isBlackPixelAvailable(cv::Mat &img,
+NFIQ2::QualityMeasures::ImgProcROIFeature::isBlackPixelAvailable(cv::Mat &img,
     cv::Point &point)
 {
 	bool found = false;

@@ -77,13 +77,13 @@ NFIQ2::Algorithm::Impl::getQualityPrediction(
 
 unsigned int
 NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features) const
 {
 	this->throwIfUninitialized();
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getNativeQualityMeasures(features);
+	    NFIQ2::QualityMeasures::getNativeQualityMeasures(features);
 
 	if (quality.size() == 0) {
 		// no features have been computed
@@ -116,9 +116,9 @@ NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
 	// compute quality features (including actionable feedback)
 	// --------------------------------------------------------
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> modules {};
 	try {
-		modules = NFIQ2::QualityFeatures::computeQualityModules(
+		modules = NFIQ2::QualityMeasures::computeQualityModules(
 		    rawImage);
 	} catch (const NFIQ2::Exception &) {
 		throw;
@@ -132,7 +132,7 @@ NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
 	}
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getNativeQualityMeasures(modules);
+	    NFIQ2::QualityMeasures::getNativeQualityMeasures(modules);
 
 	if (quality.size() == 0) {
 		// no features have been computed

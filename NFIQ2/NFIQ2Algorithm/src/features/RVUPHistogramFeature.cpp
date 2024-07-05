@@ -11,31 +11,31 @@ const char NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity[] {
 	"RidgeValleyUniformity"
 };
 const char NFIQ2RVUPFeaturePrefix[] { "RVUP_Bin10_" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin0[] { "RVUP_Bin10_0" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin1[] { "RVUP_Bin10_1" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin2[] { "RVUP_Bin10_2" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin3[] { "RVUP_Bin10_3" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin4[] { "RVUP_Bin10_4" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin5[] { "RVUP_Bin10_5" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin6[] { "RVUP_Bin10_6" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin7[] { "RVUP_Bin10_7" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin8[] { "RVUP_Bin10_8" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin9[] { "RVUP_Bin10_9" };
-const char NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::Mean[] {
+const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::Mean[] {
 	"RVUP_Bin10_Mean"
 };
 const char
-    NFIQ2::Identifiers::QualityFeatures::RidgeValleyUniformity::StdDev[] {
+    NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::StdDev[] {
 	    "RVUP_Bin10_StdDev"
     };
 
@@ -43,16 +43,16 @@ void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
-NFIQ2::QualityFeatures::RVUPHistogramFeature::RVUPHistogramFeature(
+NFIQ2::QualityMeasures::RVUPHistogramFeature::RVUPHistogramFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
+NFIQ2::QualityMeasures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
+NFIQ2::QualityMeasures::RVUPHistogramFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -199,36 +199,36 @@ NFIQ2::QualityFeatures::RVUPHistogramFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityFeatures::RVUPHistogramFeature::getModuleName() const
+NFIQ2::QualityMeasures::RVUPHistogramFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::RVUPHistogramFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::RVUPHistogramFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::RidgeValleyUniformity::
+	return { Identifiers::QualityMeasures::RidgeValleyUniformity::
 		     Histogram::Bin0,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin1,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin2,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin3,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin4,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin5,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin6,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin7,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin8,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Histogram::
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Histogram::
 		    Bin9,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::Mean,
-		Identifiers::QualityFeatures::RidgeValleyUniformity::StdDev };
+		Identifiers::QualityMeasures::RidgeValleyUniformity::Mean,
+		Identifiers::QualityMeasures::RidgeValleyUniformity::StdDev };
 }
 ///////////////////////////////////////////////////////////////////////
 /***
@@ -277,7 +277,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 	}
 
 	cv::Mat blockRotated;
-	NFIQ2::QualityFeatures::getRotatedBlock(block, orientation, padFlag,
+	NFIQ2::QualityMeasures::getRotatedBlock(block, orientation, padFlag,
 	    blockRotated);
 
 	//% set x and y
@@ -298,7 +298,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	NFIQ2::QualityFeatures::getRidgeValleyStructure(blockCropped, ridval,
+	NFIQ2::QualityMeasures::getRidgeValleyStructure(blockCropped, ridval,
 	    dt);
 
 	// Ridge-valley thickness

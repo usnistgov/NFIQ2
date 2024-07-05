@@ -43,12 +43,12 @@ const double NFIQ2::Thresholds::ActionableQualityFeedback::
     SufficientFingerprintForeground { 50000.0 };
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+NFIQ2::QualityMeasures::Impl::getQualityModuleSpeeds(
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
-	    NFIQ2::QualityFeatures::getQualityModuleIDs();
+	    NFIQ2::QualityMeasures::getQualityModuleIDs();
 
 	std::unordered_map<std::string, double> speedMap {};
 
@@ -61,20 +61,20 @@ NFIQ2::QualityFeatures::Impl::getQualityModuleSpeeds(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::computeQualityFeatures(
+NFIQ2::QualityMeasures::Impl::computeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::getNativeQualityMeasures(
-	    NFIQ2::QualityFeatures::computeQualityModules(rawImage));
+	return NFIQ2::QualityMeasures::getNativeQualityMeasures(
+	    NFIQ2::QualityMeasures::computeQualityModules(rawImage));
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::getNativeQualityMeasures(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+NFIQ2::QualityMeasures::Impl::getNativeQualityMeasures(
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features)
 {
 	std::vector<std::string> qualityIdentifiers =
-	    NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs();
+	    NFIQ2::QualityMeasures::Impl::getQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> quality {};
 
@@ -87,16 +87,16 @@ NFIQ2::QualityFeatures::Impl::getNativeQualityMeasures(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::computeActionableQualityFeedback(
+NFIQ2::QualityMeasures::Impl::computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityFeatures::getActionableQualityFeedback(
-	    NFIQ2::QualityFeatures::computeQualityModules(rawImage));
+	return NFIQ2::QualityMeasures::getActionableQualityFeedback(
+	    NFIQ2::QualityMeasures::computeQualityModules(rawImage));
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features)
 {
 	std::unordered_map<std::string, double> actionableMap {};
@@ -132,7 +132,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (const auto &muFeature :
 			    muFeatureModule->getFeatures()) {
 				if (muFeature.first ==
-				    Identifiers::QualityFeatures::Contrast::
+				    Identifiers::QualityMeasures::Contrast::
 					Mean) {
 					actionableMap[Identifiers::
 						ActionableQualityFeedback::
@@ -168,7 +168,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 			for (const auto &fjfxFeature :
 			    fjfxFeatureModule->getFeatures()) {
 				if (fjfxFeature.first ==
-				    Identifiers::QualityFeatures::Minutiae::
+				    Identifiers::QualityMeasures::Minutiae::
 					Count) {
 					// return informative feature about
 					// number of minutiae
@@ -202,19 +202,19 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedback(
 // mode as a paramenter, otherwise this parameter is unused.
 #if defined(__linux) && defined(__i386__)
 void
-NFIQ2::QualityFeatures::Impl::setFPU(unsigned int mode)
+NFIQ2::QualityMeasures::Impl::setFPU(unsigned int mode)
 {
 	asm("fldcw %0" : : "m"(*&mode));
 }
 #else
 void
-NFIQ2::QualityFeatures::Impl::setFPU(unsigned int)
+NFIQ2::QualityMeasures::Impl::setFPU(unsigned int)
 {
 }
 #endif
 
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
-NFIQ2::QualityFeatures::Impl::computeQualityModules(
+std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+NFIQ2::QualityMeasures::Impl::computeQualityModules(
     const NFIQ2::FingerprintImageData &rawImage)
 {
 	/* use double-precision rounding for 32-bit linux */
@@ -223,7 +223,7 @@ NFIQ2::QualityFeatures::Impl::computeQualityModules(
 	const NFIQ2::FingerprintImageData croppedImage =
 	    rawImage.copyRemovingNearWhiteFrame();
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	    features {};
 
 	features.push_back(std::make_shared<FDAFeature>(croppedImage));
@@ -257,13 +257,13 @@ NFIQ2::QualityFeatures::Impl::computeQualityModules(
 	return features;
 }
 
-std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
-NFIQ2::QualityFeatures::Impl::getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+NFIQ2::QualityMeasures::Impl::getQualityModules(
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features)
 {
 	std::unordered_map<std::string,
-	    std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	    std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	    ret {};
 	for (const auto &feature : features)
 		ret[feature->getModuleName()] = feature;
@@ -272,7 +272,7 @@ NFIQ2::QualityFeatures::Impl::getQualityModules(
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getActionableQualityFeedbackIDs()
+NFIQ2::QualityMeasures::Impl::getActionableQualityFeedbackIDs()
 {
 	static const std::vector<std::string> actionableIdentifiers {
 		NFIQ2::Identifiers::ActionableQualityFeedback::UniformImage,
@@ -288,7 +288,7 @@ NFIQ2::QualityFeatures::Impl::getActionableQualityFeedbackIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::Impl::getQualityFeatureIDs()
 {
 	const std::vector<std::vector<std::string>> vov {
 		FDAFeature::getQualityFeatureIDs(),
@@ -314,7 +314,7 @@ NFIQ2::QualityFeatures::Impl::getQualityFeatureIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::Impl::getQualityModuleIDs()
+NFIQ2::QualityMeasures::Impl::getQualityModuleIDs()
 {
 	static const std::vector<std::string> ids {
 		Identifiers::QualityModules::FrequencyDomainAnalysis,

@@ -30,7 +30,7 @@ From the matlab code:
 ***/
 
 void
-NFIQ2::QualityFeatures::ridgesegment(const cv::Mat &img, int blksze,
+NFIQ2::QualityMeasures::ridgesegment(const cv::Mat &img, int blksze,
     double thresh, cv::OutputArray _normImage, cv::Mat &maskImage,
     cv::OutputArray _maskIndex)
 
@@ -129,7 +129,7 @@ gradients inside %   a block specified as a parameter
 %
 ***/
 void
-NFIQ2::QualityFeatures::covcoef(const cv::Mat &imblock, double &a, double &b,
+NFIQ2::QualityMeasures::covcoef(const cv::Mat &imblock, double &a, double &b,
     double &c, ocl_type compMethod)
 {
 	/*** Compute the gradient of the input block.  In Matlab, this is done
@@ -219,7 +219,7 @@ function orientang = ridgeorient(a, b, c)
 ***/
 
 double
-NFIQ2::QualityFeatures::ridgeorient(double a, double b, double c)
+NFIQ2::QualityMeasures::ridgeorient(double a, double b, double c)
 {
 	double denom, sin2theta, cos2theta, orientang;
 	double temp;
@@ -236,7 +236,7 @@ NFIQ2::QualityFeatures::ridgeorient(double a, double b, double c)
 /////////////////////////////////////////////////////////////////////////
 
 uint8_t
-NFIQ2::QualityFeatures::allfun(const cv::Mat &Image)
+NFIQ2::QualityMeasures::allfun(const cv::Mat &Image)
 /*** Returns 1 if all elements are nonzero, 0 otherwise.
 % Equivalent to matlab:
 % all elements of x should be nonzero, otherwise flag a
@@ -266,7 +266,7 @@ forward differences at the edges and central differences elsewhere.
 Spacing is 1.  The input matrix is assumed to be 64-bit floating point
 */
 void
-NFIQ2::QualityFeatures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
+NFIQ2::QualityMeasures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
 {
 	outBlock.create(inBlock.size(), CV_64F);
 
@@ -289,7 +289,7 @@ NFIQ2::QualityFeatures::diffGrad(const cv::Mat &inBlock, cv::Mat &outBlock)
 
 //////////////////////////////////////////////////////////////
 void
-NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
+NFIQ2::QualityMeasures::getRotatedBlock(const cv::Mat &block,
     const double orientation, bool padFlag, cv::Mat &rotatedBlock)
 {
 	const double Rad2Deg = 180.0 / M_PI;
@@ -336,7 +336,7 @@ NFIQ2::QualityFeatures::getRotatedBlock(const cv::Mat &block,
 }
 //////////////////////////////////////////////////////////////////////////////
 void
-NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
+NFIQ2::QualityMeasures::getRidgeValleyStructure(const cv::Mat &blockCropped,
     std::vector<uint8_t> &ridval, std::vector<double> &dt)
 {
 	// average profile of blockCropped: Compute average of each column to
@@ -419,7 +419,7 @@ NFIQ2::QualityFeatures::getRidgeValleyStructure(const cv::Mat &blockCropped,
  * @return
  */
 void
-NFIQ2::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
+NFIQ2::QualityMeasures::GaborFilterCx(const int ksize, const double theta,
     const double freq, const int sigma, cv::Mat &FilterOut)
 {
 	int ks2 = (ksize - 1) / 2;
@@ -448,7 +448,7 @@ NFIQ2::QualityFeatures::GaborFilterCx(const int ksize, const double theta,
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-NFIQ2::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
+NFIQ2::QualityMeasures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
     cv::Mat &ConvOut, const cv::Size &imageSize, const cv::Size &dftSize)
 {
 	int OutType = filter.type();
@@ -481,13 +481,13 @@ NFIQ2::QualityFeatures::Conv2D(const cv::Mat &imDFT, const cv::Mat &filter,
 ////////////////////////////////////////
 // compute coherence for COH/CS
 double
-NFIQ2::QualityFeatures::calccoh(double gxx, double gyy, double gxy)
+NFIQ2::QualityMeasures::calccoh(double gxx, double gyy, double gxy)
 {
 	return sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy) / (gxx + gyy);
 }
 
 double
-NFIQ2::QualityFeatures::calcof(double gsxavg, double gsyavg)
+NFIQ2::QualityMeasures::calcof(double gsxavg, double gsyavg)
 {
 	double theta = 0;
 	double phi = atan2(gsyavg, gsxavg);
@@ -500,7 +500,7 @@ NFIQ2::QualityFeatures::calcof(double gsxavg, double gsyavg)
 }
 
 cv::Mat
-NFIQ2::QualityFeatures::computeNumericalGradientX(const cv::Mat &mat)
+NFIQ2::QualityMeasures::computeNumericalGradientX(const cv::Mat &mat)
 {
 	cv::Mat out(mat.rows, mat.cols, CV_64F);
 
@@ -518,7 +518,7 @@ NFIQ2::QualityFeatures::computeNumericalGradientX(const cv::Mat &mat)
 }
 
 void
-NFIQ2::QualityFeatures::computeNumericalGradients(const cv::Mat &mat,
+NFIQ2::QualityMeasures::computeNumericalGradients(const cv::Mat &mat,
     cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
@@ -529,7 +529,7 @@ NFIQ2::QualityFeatures::computeNumericalGradients(const cv::Mat &mat,
 }
 
 void
-NFIQ2::QualityFeatures::addHistogramFeatures(
+NFIQ2::QualityMeasures::addHistogramFeatures(
     std::unordered_map<std::string, double> &featureDataList,
     std::string featurePrefix, std::vector<double> &binBoundaries,
     std::vector<double> &dataVector, int binCount)
@@ -577,7 +577,7 @@ NFIQ2::QualityFeatures::addHistogramFeatures(
 }
 
 void
-NFIQ2::QualityFeatures::addSamplingFeatureNames(
+NFIQ2::QualityMeasures::addSamplingFeatureNames(
     std::vector<std::string> &featureNames, const char *prefix)
 {
 	for (int i = 0; i < maxSampleCount; i++) {
@@ -586,7 +586,7 @@ NFIQ2::QualityFeatures::addSamplingFeatureNames(
 }
 
 void
-NFIQ2::QualityFeatures::addHistogramFeatureNames(
+NFIQ2::QualityMeasures::addHistogramFeatureNames(
     std::vector<std::string> &featureNames, const std::string &prefix,
     int binCount)
 {

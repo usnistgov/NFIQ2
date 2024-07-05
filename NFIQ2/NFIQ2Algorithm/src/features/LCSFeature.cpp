@@ -11,88 +11,88 @@ const char NFIQ2::Identifiers::QualityModules::LocalClarity[] {
 };
 static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin0[] {
 	    "LCS_Bin10_0"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin1[] {
 	    "LCS_Bin10_1"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin2[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin2[] {
 	    "LCS_Bin10_2"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin3[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin3[] {
 	    "LCS_Bin10_3"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin4[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin4[] {
 	    "LCS_Bin10_4"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin5[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin5[] {
 	    "LCS_Bin10_5"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin6[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin6[] {
 	    "LCS_Bin10_6"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin7[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin7[] {
 	    "LCS_Bin10_7"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin8[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin8[] {
 	    "LCS_Bin10_8"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::LocalClarity::Histogram::Bin9[] {
+    NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin9[] {
 	    "LCS_Bin10_9"
     };
-const char NFIQ2::Identifiers::QualityFeatures::LocalClarity::Mean[] {
+const char NFIQ2::Identifiers::QualityMeasures::LocalClarity::Mean[] {
 	"LCS_Bin10_Mean"
 };
-const char NFIQ2::Identifiers::QualityFeatures::LocalClarity::StdDev[] {
+const char NFIQ2::Identifiers::QualityMeasures::LocalClarity::StdDev[] {
 	"LCS_Bin10_StdDev"
 };
 
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
-NFIQ2::QualityFeatures::LCSFeature::LCSFeature(
+NFIQ2::QualityMeasures::LCSFeature::LCSFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::LCSFeature::~LCSFeature() = default;
+NFIQ2::QualityMeasures::LCSFeature::~LCSFeature() = default;
 
 std::string
-NFIQ2::QualityFeatures::LCSFeature::getModuleName() const
+NFIQ2::QualityMeasures::LCSFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::LocalClarity;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::LCSFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::LCSFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::LocalClarity::Histogram::Bin0,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin1,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin2,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin3,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin4,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin5,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin6,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin7,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin8,
-		Identifiers::QualityFeatures::LocalClarity::Histogram::Bin9,
-		Identifiers::QualityFeatures::LocalClarity::Mean,
-		Identifiers::QualityFeatures::LocalClarity::StdDev };
+	return { Identifiers::QualityMeasures::LocalClarity::Histogram::Bin0,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin1,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin2,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin3,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin4,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin5,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin6,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin7,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin8,
+		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin9,
+		Identifiers::QualityMeasures::LocalClarity::Mean,
+		Identifiers::QualityMeasures::LocalClarity::StdDev };
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::LCSFeature::computeFeatureData(
+NFIQ2::QualityMeasures::LCSFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -284,7 +284,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 	}
 
 	cv::Mat blockRotated;
-	NFIQ2::QualityFeatures::getRotatedBlock(block, orientation, padFlag,
+	NFIQ2::QualityMeasures::getRotatedBlock(block, orientation, padFlag,
 	    blockRotated);
 
 	//% set x and y
@@ -308,7 +308,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> ridval;
 	std::vector<double> dt;
-	NFIQ2::QualityFeatures::getRidgeValleyStructure(v2, ridval, dt);
+	NFIQ2::QualityMeasures::getRidgeValleyStructure(v2, ridval, dt);
 
 	// Ridge-valley thickness
 	//  begrid = ridval(1); % begining with ridge?

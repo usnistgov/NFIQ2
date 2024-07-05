@@ -8,14 +8,14 @@
 const char NFIQ2::Identifiers::QualityModules::MinutiaeQuality[] {
 	"MinutiaeQuality"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Minutiae::QualityMu2[] {
+const char NFIQ2::Identifiers::QualityMeasures::Minutiae::QualityMu2[] {
 	"FJFXPos_Mu_MinutiaeQuality_2"
 };
-const char NFIQ2::Identifiers::QualityFeatures::Minutiae::QualityOCL80[] {
+const char NFIQ2::Identifiers::QualityMeasures::Minutiae::QualityOCL80[] {
 	"FJFXPos_OCL_MinutiaeQuality_80"
 };
 
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage,
     const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
     : minutiaData_ { minutiaData }
@@ -23,28 +23,28 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
 	this->setFeatures(computeFeatureData(fingerprintImage));
 };
 
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::
     ~FJFXMinutiaeQualityFeature() = default;
 
-std::vector<NFIQ2::QualityFeatures::FingerJetFXFeature::Minutia>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getMinutiaData() const
+std::vector<NFIQ2::QualityMeasures::FingerJetFXFeature::Minutia>
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getMinutiaData() const
 {
 	return (this->minutiaData_);
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
 
 	std::pair<std::string, double> fd_mu;
 	fd_mu = std::make_pair(
-	    Identifiers::QualityFeatures::Minutiae::QualityMu2, -1);
+	    Identifiers::QualityMeasures::Minutiae::QualityMu2, -1);
 
 	std::pair<std::string, double> fd_ocl;
 	fd_ocl = std::make_pair(
-	    Identifiers::QualityFeatures::Minutiae::QualityOCL80, -1);
+	    Identifiers::QualityMeasures::Minutiae::QualityOCL80, -1);
 
 	try {
 		NFIQ2::Timer timer;
@@ -134,20 +134,20 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getModuleName() const
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::MinutiaeQuality;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::Minutiae::QualityMu2,
-		Identifiers::QualityFeatures::Minutiae::QualityOCL80 };
+	return { Identifiers::QualityMeasures::Minutiae::QualityMu2,
+		Identifiers::QualityMeasures::Minutiae::QualityOCL80 };
 }
 
-std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(int bs,
+std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::MinutiaData>
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeMuMinQuality(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -200,8 +200,8 @@ NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeMuMinQuality(int bs,
 	return vecMinData;
 }
 
-std::vector<NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ2::QualityFeatures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(int bs,
+std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::MinutiaData>
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;

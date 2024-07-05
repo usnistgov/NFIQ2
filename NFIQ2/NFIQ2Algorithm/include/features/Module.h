@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 class Module {
     public:
 	Module();

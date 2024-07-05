@@ -41,7 +41,7 @@ NFIQ2::Algorithm::computeUnifiedQualityScore(
 
 unsigned int
 NFIQ2::Algorithm::computeUnifiedQualityScore(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&features) const
 {
 	return (this->pimpl->computeUnifiedQualityScore(features));

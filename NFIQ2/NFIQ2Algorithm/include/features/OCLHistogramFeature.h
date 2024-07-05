@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 	0.81, 0.852, 0.898 };

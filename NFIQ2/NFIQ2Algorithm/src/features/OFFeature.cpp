@@ -13,85 +13,85 @@ const char NFIQ2::Identifiers::QualityModules::OrientationFlow[] {
 };
 static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin0[] {
 	    "OF_Bin10_0"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin1[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin1[] {
 	    "OF_Bin10_1"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin2[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin2[] {
 	    "OF_Bin10_2"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin3[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin3[] {
 	    "OF_Bin10_3"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin4[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin4[] {
 	    "OF_Bin10_4"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin5[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin5[] {
 	    "OF_Bin10_5"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin6[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin6[] {
 	    "OF_Bin10_6"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin7[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin7[] {
 	    "OF_Bin10_7"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin8[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin8[] {
 	    "OF_Bin10_8"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin9[] {
+    NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin9[] {
 	    "OF_Bin10_9"
     };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationFlow::Mean[] {
+const char NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Mean[] {
 	"OF_Bin10_Mean"
 };
-const char NFIQ2::Identifiers::QualityFeatures::OrientationFlow::StdDev[] {
+const char NFIQ2::Identifiers::QualityMeasures::OrientationFlow::StdDev[] {
 	"OF_Bin10_StdDev"
 };
 
-NFIQ2::QualityFeatures::OFFeature::OFFeature(
+NFIQ2::QualityMeasures::OFFeature::OFFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::OFFeature::~OFFeature() = default;
+NFIQ2::QualityMeasures::OFFeature::~OFFeature() = default;
 
 std::string
-NFIQ2::QualityFeatures::OFFeature::getModuleName() const
+NFIQ2::QualityMeasures::OFFeature::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::OrientationFlow;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::OFFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::OFFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin0,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin1,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin2,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin3,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin4,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin5,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin6,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin7,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin8,
-		Identifiers::QualityFeatures::OrientationFlow::Histogram::Bin9,
-		Identifiers::QualityFeatures::OrientationFlow::Mean,
-		Identifiers::QualityFeatures::OrientationFlow::StdDev };
+	return { Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin0,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin1,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin2,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin3,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin4,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin5,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin6,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin7,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin8,
+		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin9,
+		Identifiers::QualityMeasures::OrientationFlow::Mean,
+		Identifiers::QualityMeasures::OrientationFlow::StdDev };
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::OFFeature::computeFeatureData(
+NFIQ2::QualityMeasures::OFFeature::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;

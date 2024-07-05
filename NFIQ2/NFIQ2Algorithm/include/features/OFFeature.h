@@ -14,7 +14,7 @@
 * @brief NFIQ2 Orientation Flow Quality Feature
 ******************************************************************************/
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 static double OFHISTLIMITS[9] = { 1.715e-2, 3.5e-2, 5.57e-2, 8.1e-2, 1.15e-1,
 	1.718e-1, 2.569e-1, 4.758e-1, 7.48e-1 };

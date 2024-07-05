@@ -18,7 +18,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 /**
  * @brief
@@ -64,7 +64,7 @@ std::vector<std::string> getQualityModuleIDs();
  * @return
  * Vector of strings containing all quality feature identifiers.
  *
- * @see Identifiers::QualityFeatures
+ * @see Identifiers::QualityMeasures
  */
 std::vector<std::string> getQualityFeatureIDs();
 
@@ -87,7 +87,7 @@ std::vector<std::string> getQualityFeatureIDs();
  * @return
  * A vector of quality modules containing computed feature values.
  */
-std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -100,9 +100,9 @@ computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
  * @return
  * A map of quality feature identifiers to quality feature values.
  *
- * @see Identifiers::QualityFeatures
+ * @see Identifiers::QualityMeasures
  */
-std::unordered_map<std::string, double> computeQualityFeatures(
+std::unordered_map<std::string, double> computeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -141,7 +141,7 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
  * @see Thresholds::ActionableQualityFeedback
  */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&modules);
 
 /**
@@ -154,10 +154,10 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * @return
  * A map of quality feature identifiers to quality feature values.
  *
- * @see Identifiers::QualityFeatures
+ * @see Identifiers::QualityMeasures
  */
 std::unordered_map<std::string, double> getNativeQualityMeasures(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&modules);
 
 /**
@@ -173,9 +173,9 @@ std::unordered_map<std::string, double> getNativeQualityMeasures(
  *
  * @see Identifiers::QualityModules
  */
-std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&modules);
 
 /**
@@ -192,7 +192,7 @@ getQualityModules(
  * @see Identifiers::QualityModules
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 	&modules);
 }}
 

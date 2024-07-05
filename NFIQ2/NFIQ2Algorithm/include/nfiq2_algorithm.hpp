@@ -105,10 +105,10 @@ class Algorithm {
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
-	 * @see QualityFeatures::computeQualityModules
+	 * @see QualityMeasures::computeQualityModules
 	 */
 	unsigned int computeUnifiedQualityScore(
-	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+	    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
 		&modules) const;
 
 	/**
@@ -125,7 +125,7 @@ class Algorithm {
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
-	 * @see QualityFeatures::computeQualityFeatures
+	 * @see QualityMeasures::computeQualityMeasures
 	 */
 	unsigned int computeUnifiedQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;

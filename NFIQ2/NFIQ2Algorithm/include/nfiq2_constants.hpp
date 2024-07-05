@@ -124,7 +124,7 @@ extern const char UniformImage[];
  * Number of minutia in image.
  *
  * @note
- * Equivalent to QualityFeatures::Features::Minutiae::Count.
+ * Equivalent to QualityMeasures::Features::Minutiae::Count.
  */
 extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
@@ -137,7 +137,7 @@ namespace PredictionModules {
 extern const char RandomForest[];
 } /* Identifiers::PredictionModules */
 
-/** Modules that compute one or more QualityFeatures. */
+/** Modules that compute one or more QualityMeasures. */
 namespace QualityModules {
 /** Identifier for the FrequencyDomainAnalysis feature module. */
 extern const char FrequencyDomainAnalysis[];
@@ -162,7 +162,7 @@ extern const char RidgeValleyUniformity[];
 } /* Identifiers::QualityModules */
 
 /** Identifiers of individual quality features and modules. */
-namespace QualityFeatures {
+namespace QualityMeasures {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {
 /**
@@ -414,8 +414,8 @@ extern const char Bin9[];
 extern const char Mean[];
 /** Standard deviation of local quality values. */
 extern const char StdDev[];
-} /* Identifiers::QualityFeatures::RidgeValleyUniformity */
-} /* Identifiers::QualityFeatures */
+} /* Identifiers::QualityMeasures::RidgeValleyUniformity */
+} /* Identifiers::QualityMeasures */
 } /* Identifiers */
 
 /** Threshold constants. */

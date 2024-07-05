@@ -10,15 +10,15 @@ const char NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence[] {
 	"RegionOfInterestCoherence"
 };
 const char
-    NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum[] {
+    NFIQ2::Identifiers::QualityMeasures::RegionOfInterest::CoherenceSum[] {
 	    "OrientationMap_ROIFilter_CoherenceSum"
     };
 const char
-    NFIQ2::Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean[] {
+    NFIQ2::Identifiers::QualityMeasures::RegionOfInterest::CoherenceMean[] {
 	    "OrientationMap_ROIFilter_CoherenceRel"
     };
 
-NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
+NFIQ2::QualityMeasures::QualityMapFeatures::QualityMapFeatures(
     const NFIQ2::FingerprintImageData &fingerprintImage,
     const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
     : imgProcResults_ { imgProcResults }
@@ -26,10 +26,10 @@ NFIQ2::QualityFeatures::QualityMapFeatures::QualityMapFeatures(
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityFeatures::QualityMapFeatures::~QualityMapFeatures() = default;
+NFIQ2::QualityMeasures::QualityMapFeatures::~QualityMapFeatures() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
+NFIQ2::QualityMeasures::QualityMapFeatures::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -72,14 +72,14 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 
 		// return features based on coherence values of orientation map
 		std::pair<std::string, double> fd_om_2;
-		fd_om_2 = std::make_pair(Identifiers::QualityFeatures::
+		fd_om_2 = std::make_pair(Identifiers::QualityMeasures::
 					     RegionOfInterest::CoherenceMean,
 		    coherenceRelFilter);
 
 		featureDataList[fd_om_2.first] = fd_om_2.second;
 
 		std::pair<std::string, double> fd_om_1;
-		fd_om_1 = std::make_pair(Identifiers::QualityFeatures::
+		fd_om_1 = std::make_pair(Identifiers::QualityMeasures::
 					     RegionOfInterest::CoherenceSum,
 		    coherenceSumFilter);
 
@@ -99,7 +99,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeFeatureData(
 }
 
 cv::Mat
-NFIQ2::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
+NFIQ2::QualityMeasures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
     bool bFilterByROI, double &coherenceSum, double &coherenceRel,
     unsigned int bs, ImgProcROIFeature::ImgProcROIResults roiResults)
 {
@@ -213,7 +213,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 }
 
 bool
-NFIQ2::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
+NFIQ2::QualityMeasures::QualityMapFeatures::getAngleOfBlock(
     const cv::Mat &block, double &angle, double &coherence)
 {
 	// compute the numerical gradients of the block
@@ -274,7 +274,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::getAngleOfBlock(
 }
 
 cv::Mat
-NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
+NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradientX(
     const cv::Mat &mat)
 {
 	cv::Mat out(mat.rows, mat.cols, CV_64F, cv::Scalar(0));
@@ -296,7 +296,7 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradientX(
 }
 
 void
-NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
+NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
@@ -307,14 +307,14 @@ NFIQ2::QualityFeatures::QualityMapFeatures::computeNumericalGradients(
 }
 
 std::string
-NFIQ2::QualityFeatures::QualityMapFeatures::getModuleName() const
+NFIQ2::QualityMeasures::QualityMapFeatures::getModuleName() const
 {
 	return NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence;
 }
 
 std::vector<std::string>
-NFIQ2::QualityFeatures::QualityMapFeatures::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::QualityMapFeatures::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean,
-		Identifiers::QualityFeatures::RegionOfInterest::CoherenceSum };
+	return { Identifiers::QualityMeasures::RegionOfInterest::CoherenceMean,
+		Identifiers::QualityMeasures::RegionOfInterest::CoherenceSum };
 }

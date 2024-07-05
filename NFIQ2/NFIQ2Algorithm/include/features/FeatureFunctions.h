@@ -8,7 +8,7 @@
 
 namespace NFIQ2 {
 
-namespace QualityFeatures {
+namespace QualityMeasures {
 
 void ridgesegment(const cv::Mat &Image, int blksze, double thresh,
     cv::OutputArray NormImage, cv::Mat &MaskImage, cv::OutputArray MaskIndex);

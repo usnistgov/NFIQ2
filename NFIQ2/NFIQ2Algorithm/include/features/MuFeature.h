@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace NFIQ2 { namespace QualityFeatures {
+namespace NFIQ2 { namespace QualityMeasures {
 
 class MuFeature : public Module {
     public:

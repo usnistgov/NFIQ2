@@ -65,6 +65,8 @@ struct Flags {
 	bool actionable { false };
 	/** Number of threads used for multi-threading */
 	unsigned int numthreads { 1 };
+	/** Print mapped quality block values */
+	bool qualityBlockValues { false };
 };
 
 /**

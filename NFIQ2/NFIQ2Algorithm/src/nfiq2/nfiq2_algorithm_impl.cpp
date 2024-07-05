@@ -1,5 +1,6 @@
 #include <features/FDAFeature.h>
 #include <features/FJFXMinutiaeQualityFeatures.h>
+#include <features/FeatureFunctions.h>
 #include <features/FingerJetFXFeature.h>
 #include <features/ImgProcROIFeature.h>
 #include <features/LCSFeature.h>
@@ -162,6 +163,27 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 	this->throwIfUninitialized();
 
 	return (unsigned int)getQualityPrediction(features);
+}
+
+std::unordered_map<std::string, unsigned int>
+NFIQ2::Algorithm::Impl::getQualityBlockValues(
+    const std::unordered_map<std::string, double> &nativeQualityMeasureValues)
+{
+	std::unordered_map<std::string, unsigned int> ret {};
+	for (const auto &it : nativeQualityMeasureValues) {
+		ret[it.first] = getQualityBlockValue(it.first, it.second);
+	}
+
+	return (ret);
+}
+
+unsigned int
+NFIQ2::Algorithm::Impl::getQualityBlockValue(
+    const std::string &featureIdentifier,
+    const double nativeQualityMeasureValue)
+{
+	return (QualityFeatures::getQualityBlockValue(featureIdentifier,
+	    nativeQualityMeasureValue));
 }
 
 std::string

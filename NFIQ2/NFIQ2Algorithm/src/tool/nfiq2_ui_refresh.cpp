@@ -754,7 +754,7 @@ NFIQ2UI::processArguments(int argc, char **argv)
 
 	std::string output {};
 
-	static const char options[] { "i:f:o:j:vqdFrm:a" };
+	static const char options[] { "i:f:o:j:vqdFrm:ab" };
 	int c {};
 
 	auto vecPush = [&](const std::string &m) {
@@ -802,6 +802,9 @@ NFIQ2UI::processArguments(int argc, char **argv)
 		case 'a':
 			flags.actionable = true;
 			break;
+		case 'b':
+			flags.qualityBlockValues = true;
+			break;
 		case '?':
 			NFIQ2UI::printUsage();
 			throw NFIQ2UI::UndefinedFlagError(
@@ -833,7 +836,8 @@ NFIQ2UI::procSingle(NFIQ2UI::Arguments arguments, const NFIQ2::Algorithm &model,
 	// If there is only one image being processed
 	if (arguments.vecSingle.size() == 1 && arguments.vecDirs.size() == 0 &&
 	    arguments.vecBatch.size() == 0 && !arguments.flags.verbose &&
-	    !arguments.flags.speed && !arguments.flags.actionable) {
+	    !arguments.flags.speed && !arguments.flags.actionable &&
+	    !arguments.flags.qualityBlockValues) {
 		const auto images = NFIQ2UI::getImages(arguments.vecSingle[0],
 		    logger);
 
@@ -860,7 +864,8 @@ NFIQ2UI::printHeader(NFIQ2UI::Arguments arguments,
 {
 	if ((arguments.vecSingle.size() == 1 &&
 		(arguments.flags.verbose || arguments.flags.speed ||
-		    arguments.flags.actionable)) ||
+		    arguments.flags.actionable ||
+		    arguments.flags.qualityBlockValues)) ||
 	    (arguments.vecSingle.size() == 1 &&
 		NFIQ2UI::isAN2K(arguments.vecSingle[0])) ||
 	    arguments.vecSingle.size() > 1 || arguments.vecDirs.size() != 0 ||

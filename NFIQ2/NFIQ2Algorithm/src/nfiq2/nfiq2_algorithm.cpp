@@ -54,6 +54,21 @@ NFIQ2::Algorithm::computeQualityScore(
 	return (this->pimpl->computeQualityScore(features));
 }
 
+std::unordered_map<std::string, unsigned int>
+NFIQ2::Algorithm::getQualityBlockValues(
+    const std::unordered_map<std::string, double> &nativeQualityMeasureValues)
+{
+	return (Impl::getQualityBlockValues(nativeQualityMeasureValues));
+}
+
+unsigned int
+NFIQ2::Algorithm::getQualityBlockValue(const std::string &featureIdentifier,
+    const double nativeQualityMeasureValue)
+{
+	return (Impl::getQualityBlockValue(featureIdentifier,
+	    nativeQualityMeasureValue));
+}
+
 std::string
 NFIQ2::Algorithm::getParameterHash() const
 {

@@ -134,7 +134,7 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getModuleName() const
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::MinutiaeQuality;
 }

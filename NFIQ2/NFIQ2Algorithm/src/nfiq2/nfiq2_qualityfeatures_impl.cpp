@@ -44,7 +44,7 @@ const double NFIQ2::Thresholds::ActionableQualityFeedback::
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::Impl::getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
 	std::vector<std::string> speedIdentifiers =
@@ -70,7 +70,7 @@ NFIQ2::QualityMeasures::Impl::computeQualityMeasures(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::Impl::getNativeQualityMeasures(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
 	std::vector<std::string> qualityIdentifiers =
@@ -96,7 +96,7 @@ NFIQ2::QualityMeasures::Impl::computeActionableQualityFeedback(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
 	std::unordered_map<std::string, double> actionableMap {};
@@ -108,7 +108,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 	}
 
 	for (const auto &feature : features) {
-		if (feature->getModuleName() ==
+		if (feature->getName() ==
 		    Identifiers::QualityModules::Contrast) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
@@ -157,7 +157,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 				return actionableMap;
 			}
 
-		} else if (feature->getModuleName() ==
+		} else if (feature->getName() ==
 		    Identifiers::QualityModules::MinutiaeCount) {
 			// Minutiae
 			const std::shared_ptr<FingerJetFXFeature>
@@ -179,7 +179,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 				}
 			}
 
-		} else if (feature->getModuleName().compare(Identifiers::
+		} else if (feature->getName().compare(Identifiers::
 				   QualityModules::RegionOfInterestMean) == 0) {
 			// FP Foreground
 			const std::shared_ptr<ImgProcROIFeature>
@@ -213,7 +213,7 @@ NFIQ2::QualityMeasures::Impl::setFPU(unsigned int)
 }
 #endif
 
-std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 NFIQ2::QualityMeasures::Impl::computeQualityModules(
     const NFIQ2::FingerprintImageData &rawImage)
 {
@@ -223,7 +223,7 @@ NFIQ2::QualityMeasures::Impl::computeQualityModules(
 	const NFIQ2::FingerprintImageData croppedImage =
 	    rawImage.copyRemovingNearWhiteFrame();
 
-	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    features {};
 
 	features.push_back(std::make_shared<FDAFeature>(croppedImage));
@@ -257,16 +257,17 @@ NFIQ2::QualityMeasures::Impl::computeQualityModules(
 	return features;
 }
 
-std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 NFIQ2::QualityMeasures::Impl::getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
 	std::unordered_map<std::string,
-	    std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    ret {};
 	for (const auto &feature : features)
-		ret[feature->getModuleName()] = feature;
+		ret[feature->getName()] = feature;
 
 	return ret;
 }

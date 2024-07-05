@@ -68,7 +68,7 @@ NFIQ2::QualityMeasures::OFFeature::OFFeature(
 NFIQ2::QualityMeasures::OFFeature::~OFFeature() = default;
 
 std::string
-NFIQ2::QualityMeasures::OFFeature::getModuleName() const
+NFIQ2::QualityMeasures::OFFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::OrientationFlow;
 }

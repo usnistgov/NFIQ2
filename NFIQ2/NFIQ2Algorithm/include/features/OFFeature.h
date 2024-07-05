@@ -19,12 +19,12 @@ namespace NFIQ2 { namespace QualityMeasures {
 static double OFHISTLIMITS[9] = { 1.715e-2, 3.5e-2, 5.57e-2, 8.1e-2, 1.15e-1,
 	1.718e-1, 2.569e-1, 4.758e-1, 7.48e-1 };
 
-class OFFeature : public Module {
+class OFFeature : public Algorithm {
     public:
 	OFFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~OFFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

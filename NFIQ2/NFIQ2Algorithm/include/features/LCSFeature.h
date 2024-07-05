@@ -13,12 +13,12 @@ namespace NFIQ2 { namespace QualityMeasures {
 static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
 	0.87 };
 
-class LCSFeature : public Module {
+class LCSFeature : public Algorithm {
     public:
 	LCSFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~LCSFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

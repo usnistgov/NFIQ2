@@ -24,7 +24,7 @@ class RandomForestML {
 	virtual ~RandomForestML();
 
 	/** Returns the Random Forest Module name. */
-	std::string getModuleName() const;
+	std::string getName() const;
 
 #ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	/** Initializes module when parameters are embedded. */

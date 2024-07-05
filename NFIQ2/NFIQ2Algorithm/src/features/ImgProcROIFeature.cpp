@@ -96,7 +96,7 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::ImgProcROIFeature::getModuleName() const
+NFIQ2::QualityMeasures::ImgProcROIFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::RegionOfInterestMean;
 }

@@ -199,7 +199,7 @@ NFIQ2::QualityMeasures::RVUPHistogramFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::RVUPHistogramFeature::getModuleName() const
+NFIQ2::QualityMeasures::RVUPHistogramFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity;
 }

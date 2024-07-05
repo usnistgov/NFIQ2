@@ -18,12 +18,12 @@ namespace NFIQ2 { namespace QualityMeasures {
 static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
 	0.50, 1 };
 
-class FDAFeature : public Module {
+class FDAFeature : public Algorithm {
     public:
 	FDAFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~FDAFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 	static const char moduleName[];

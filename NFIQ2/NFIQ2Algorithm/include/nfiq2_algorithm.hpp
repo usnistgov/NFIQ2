@@ -107,9 +107,8 @@ class Algorithm {
 	 * @ingroup compute
 	 * @see QualityMeasures::computeQualityModules
 	 */
-	unsigned int computeUnifiedQualityScore(
-	    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
-		&modules) const;
+	unsigned int computeUnifiedQualityScore(const std::vector<
+	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &modules) const;
 
 	/**
 	 * @brief

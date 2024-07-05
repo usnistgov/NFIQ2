@@ -16,13 +16,13 @@ namespace NFIQ2 { namespace QualityMeasures {
 static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
 	0.81, 0.852, 0.898 };
 
-class OCLHistogramFeature : public Module {
+class OCLHistogramFeature : public Algorithm {
     public:
 	OCLHistogramFeature(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~OCLHistogramFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

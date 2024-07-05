@@ -79,7 +79,7 @@ NFIQ2::QualityMeasures::FDAFeature::getQualityFeatureIDs()
 }
 
 std::string
-NFIQ2::QualityMeasures::FDAFeature::getModuleName() const
+NFIQ2::QualityMeasures::FDAFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis;
 }

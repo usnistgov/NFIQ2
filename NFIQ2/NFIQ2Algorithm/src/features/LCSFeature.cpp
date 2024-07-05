@@ -69,7 +69,7 @@ NFIQ2::QualityMeasures::LCSFeature::LCSFeature(
 NFIQ2::QualityMeasures::LCSFeature::~LCSFeature() = default;
 
 std::string
-NFIQ2::QualityMeasures::LCSFeature::getModuleName() const
+NFIQ2::QualityMeasures::LCSFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::LocalClarity;
 }

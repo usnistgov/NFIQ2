@@ -77,7 +77,7 @@ NFIQ2::Algorithm::Impl::getQualityPrediction(
 
 unsigned int
 NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features) const
 {
 	this->throwIfUninitialized();
@@ -116,7 +116,8 @@ NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
 	// compute quality features (including actionable feedback)
 	// --------------------------------------------------------
 
-	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	    modules {};
 	try {
 		modules = NFIQ2::QualityMeasures::computeQualityModules(
 		    rawImage);

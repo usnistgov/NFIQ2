@@ -11,7 +11,7 @@
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-class ImgProcROIFeature : public Module {
+class ImgProcROIFeature : public Algorithm {
     public:
 	struct ImgProcROIResults {
 		/** input block size in pixels */
@@ -38,7 +38,7 @@ class ImgProcROIFeature : public Module {
 	ImgProcROIFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~ImgProcROIFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

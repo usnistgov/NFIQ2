@@ -22,7 +22,7 @@ NFIQ2::QualityMeasures::getQualityModuleIDs()
 	return NFIQ2::QualityMeasures::Impl::getQualityModuleIDs();
 }
 
-std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 NFIQ2::QualityMeasures::computeQualityModules(
     const NFIQ2::FingerprintImageData &rawImage)
 {
@@ -31,7 +31,8 @@ NFIQ2::QualityMeasures::computeQualityModules(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> &modules)
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	&modules)
 {
 	return NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 	    modules);
@@ -47,7 +48,8 @@ NFIQ2::QualityMeasures::computeActionableQualityFeedback(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::getNativeQualityMeasures(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> &modules)
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	&modules)
 {
 	return NFIQ2::QualityMeasures::Impl::getNativeQualityMeasures(modules);
 }
@@ -61,14 +63,17 @@ NFIQ2::QualityMeasures::computeQualityMeasures(
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> &modules)
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	&modules)
 {
 	return NFIQ2::QualityMeasures::Impl::getQualityModuleSpeeds(modules);
 }
 
-std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 NFIQ2::QualityMeasures::getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> &modules)
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	&modules)
 {
 	return NFIQ2::QualityMeasures::Impl::getQualityModules(modules);
 }

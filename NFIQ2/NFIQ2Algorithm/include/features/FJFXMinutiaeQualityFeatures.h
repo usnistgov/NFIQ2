@@ -20,7 +20,7 @@ namespace NFIQ2 { namespace QualityMeasures {
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-class FJFXMinutiaeQualityFeature : public Module {
+class FJFXMinutiaeQualityFeature : public Algorithm {
     public:
 	struct MinutiaData {
 		int x;		///< x-coordinate from top-left corner
@@ -34,7 +34,7 @@ class FJFXMinutiaeQualityFeature : public Module {
 
 	virtual ~FJFXMinutiaeQualityFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

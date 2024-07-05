@@ -12,7 +12,7 @@
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-class FingerJetFXFeature : public Module {
+class FingerJetFXFeature : public Algorithm {
     public:
 	typedef enum com_type {
 		e_COMType_MinutiaeLocation = 1,
@@ -102,7 +102,7 @@ class FingerJetFXFeature : public Module {
 	FingerJetFXFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~FingerJetFXFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

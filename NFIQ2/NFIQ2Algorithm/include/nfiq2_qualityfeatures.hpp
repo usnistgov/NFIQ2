@@ -27,7 +27,7 @@ namespace NFIQ2 { namespace QualityMeasures {
  * @note
  * Forward declaration into public interface.
  */
-class Module;
+class Algorithm;
 
 /******************************************************************************/
 
@@ -87,7 +87,7 @@ std::vector<std::string> getQualityFeatureIDs();
  * @return
  * A vector of quality modules containing computed feature values.
  */
-std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 computeQualityModules(const NFIQ2::FingerprintImageData &rawImage);
 
 /**
@@ -141,7 +141,7 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
  * @see Thresholds::ActionableQualityFeedback
  */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&modules);
 
 /**
@@ -157,7 +157,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * @see Identifiers::QualityMeasures
  */
 std::unordered_map<std::string, double> getNativeQualityMeasures(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&modules);
 
 /**
@@ -173,9 +173,10 @@ std::unordered_map<std::string, double> getNativeQualityMeasures(
  *
  * @see Identifiers::QualityModules
  */
-std::unordered_map<std::string, std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+std::unordered_map<std::string,
+    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 getQualityModules(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&modules);
 
 /**
@@ -192,7 +193,7 @@ getQualityModules(
  * @see Identifiers::QualityModules
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
-    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>>
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&modules);
 }}
 

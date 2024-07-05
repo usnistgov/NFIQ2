@@ -10,12 +10,12 @@
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-class MuFeature : public Module {
+class MuFeature : public Algorithm {
     public:
 	MuFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~MuFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	/** @throw NFIQ2::Exception
 	 * Sigma has not yet been calculated.

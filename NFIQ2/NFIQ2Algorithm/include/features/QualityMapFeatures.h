@@ -17,13 +17,13 @@ namespace NFIQ2 { namespace QualityMeasures {
 #define LOW_FLOW_MAP_LOW_FLOW 127
 #define LOW_FLOW_MAP_HIGH_FLOW 255
 
-class QualityMapFeatures : public Module {
+class QualityMapFeatures : public Algorithm {
     public:
 	QualityMapFeatures(const NFIQ2::FingerprintImageData &fingerprintImage,
 	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);
 	virtual ~QualityMapFeatures();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

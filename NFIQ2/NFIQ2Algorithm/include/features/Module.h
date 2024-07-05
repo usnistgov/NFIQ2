@@ -9,14 +9,14 @@
 #include <vector>
 
 namespace NFIQ2 { namespace QualityMeasures {
-class Module {
+class Algorithm {
     public:
-	Module();
+	Algorithm();
 
-	virtual ~Module();
+	virtual ~Algorithm();
 
 	/** @return Identifier for this particular feature */
-	virtual std::string getModuleName() const = 0;
+	virtual std::string getName() const = 0;
 
 	/** @return computed quality feature speed */
 	virtual double getSpeed() const;

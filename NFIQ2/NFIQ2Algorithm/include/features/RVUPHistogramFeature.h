@@ -12,13 +12,13 @@ namespace NFIQ2 { namespace QualityMeasures {
 
 static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
-class RVUPHistogramFeature : public Module {
+class RVUPHistogramFeature : public Algorithm {
     public:
 	RVUPHistogramFeature(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 	virtual ~RVUPHistogramFeature();
 
-	std::string getModuleName() const override;
+	std::string getName() const override;
 
 	static std::vector<std::string> getQualityFeatureIDs();
 

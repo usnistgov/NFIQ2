@@ -154,7 +154,7 @@ NFIQ2::QualityMeasures::MuFeature::getSigma() const
 }
 
 std::string
-NFIQ2::QualityMeasures::MuFeature::getModuleName() const
+NFIQ2::QualityMeasures::MuFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::Contrast;
 }

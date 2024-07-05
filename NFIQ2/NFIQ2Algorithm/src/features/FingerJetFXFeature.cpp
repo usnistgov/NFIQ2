@@ -283,7 +283,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::FingerJetFXFeature::getModuleName() const
+NFIQ2::QualityMeasures::FingerJetFXFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::MinutiaeCount;
 }

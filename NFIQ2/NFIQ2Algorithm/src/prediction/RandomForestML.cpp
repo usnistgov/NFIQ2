@@ -298,7 +298,7 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 }
 
 std::string
-NFIQ2::Prediction::RandomForestML::getModuleName() const
+NFIQ2::Prediction::RandomForestML::getName() const
 {
 	return Identifiers::PredictionModules::RandomForest;
 }

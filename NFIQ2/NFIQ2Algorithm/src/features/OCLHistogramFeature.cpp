@@ -185,7 +185,7 @@ NFIQ2::QualityMeasures::OCLHistogramFeature::getOCLValueOfBlock(
 }
 
 std::string
-NFIQ2::QualityMeasures::OCLHistogramFeature::getModuleName() const
+NFIQ2::QualityMeasures::OCLHistogramFeature::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::OrientationCertainty;
 }

@@ -307,7 +307,7 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradients(
 }
 
 std::string
-NFIQ2::QualityMeasures::QualityMapFeatures::getModuleName() const
+NFIQ2::QualityMeasures::QualityMapFeatures::getName() const
 {
 	return NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence;
 }

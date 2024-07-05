@@ -136,7 +136,8 @@ main(int argc, char **argv)
 	    data.get(), cols * rows, cols, rows, 0, PPI);
 
 	// Calculate all feature values.
-	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Module>> modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	    algorithms {};
 	try {
 		modules = NFIQ2::QualityMeasures::computeQualityModules(
 		    rawImage);
@@ -150,7 +151,7 @@ main(int argc, char **argv)
 	// ISO/IEC 29794-4:2024 unified quality score
 	unsigned int nfiq2 {};
 	try {
-		nfiq2 = model.computeUnifiedQualityScore(modules);
+		nfiq2 = model.computeUnifiedQualityScore(algorithms);
 	} catch (...) {
 		std::cerr << "Error in calculating NFIQ 2 score\n";
 		return (EXIT_FAILURE);
@@ -167,7 +168,7 @@ main(int argc, char **argv)
 	    NFIQ2::QualityMeasures::getActionableQualityFeedbackIDs();
 
 	std::unordered_map<std::string, double> actionableQuality =
-	    NFIQ2::QualityMeasures::getActionableQualityFeedback(modules);
+	    NFIQ2::QualityMeasures::getActionableQualityFeedback(algorithms);
 
 	for (const auto &actionableID : actionableIDs) {
 		std::cout << actionableID << ": "
@@ -179,7 +180,7 @@ main(int argc, char **argv)
 	    NFIQ2::QualityMeasures::getQualityFeatureIDs();
 
 	std::unordered_map<std::string, double> qualityFeatures =
-	    NFIQ2::QualityMeasures::getNativeQualityMeasures(modules);
+	    NFIQ2::QualityMeasures::getNativeQualityMeasures(algorithms);
 
 	for (const auto &featureID : featureIDs) {
 		std::cout << featureID << ": " << qualityFeatures.at(featureID)

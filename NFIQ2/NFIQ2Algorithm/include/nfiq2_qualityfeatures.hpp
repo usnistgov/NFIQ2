@@ -103,7 +103,7 @@ computeNativeQualityMeasureAlgorithms(
  *
  * @see Identifiers::QualityMeasures
  */
-std::unordered_map<std::string, double> computeQualityMeasures(
+std::unordered_map<std::string, double> computeNativeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**

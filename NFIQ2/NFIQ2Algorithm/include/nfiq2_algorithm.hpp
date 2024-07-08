@@ -124,7 +124,7 @@ class Algorithm {
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
-	 * @see QualityMeasures::computeQualityMeasures
+	 * @see QualityMeasures::computeNativeQualityMeasures
 	 */
 	unsigned int computeUnifiedQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;

@@ -123,7 +123,7 @@ std::unordered_map<std::string, double> getNativeQualityMeasures(
  * @return
  * A map of string, quality feature data pairs.
  */
-std::unordered_map<std::string, double> computeQualityMeasures(
+std::unordered_map<std::string, double> computeNativeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage);
 
 /**

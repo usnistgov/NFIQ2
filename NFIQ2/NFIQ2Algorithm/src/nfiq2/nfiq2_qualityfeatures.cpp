@@ -57,10 +57,11 @@ NFIQ2::QualityMeasures::getNativeQualityMeasures(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::computeQualityMeasures(
+NFIQ2::QualityMeasures::computeNativeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityMeasures::Impl::computeQualityMeasures(rawImage);
+	return NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasures(
+	    rawImage);
 }
 
 std::unordered_map<std::string, double>

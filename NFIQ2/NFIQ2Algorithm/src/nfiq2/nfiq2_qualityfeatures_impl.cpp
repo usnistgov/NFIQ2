@@ -61,7 +61,7 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithmSpeeds(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::Impl::computeQualityMeasures(
+NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
 	return NFIQ2::QualityMeasures::getNativeQualityMeasures(

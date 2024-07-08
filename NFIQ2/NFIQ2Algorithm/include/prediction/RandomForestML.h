@@ -12,7 +12,7 @@ namespace NFIQ2 { namespace Prediction {
 
 /**
  * This class handles the Random Forest Machine Learning model used
- * to generate ISO/IEC 29794-4:2024 unified quality scores.
+ * to generate unified quality scores.
  */
 class RandomForestML {
 

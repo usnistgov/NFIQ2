@@ -8,7 +8,7 @@ If example_api is able to parse both an NFIQ 2 model and fingerprint image, the 
 
 Each native quality measure will be printed with its respective header. Each native quality measure will be printed on a separate line.
 
-The first value that printed is the ISO/IEC 29794-4:2024 Unified Quality Score and it will appear as:
+The first value that printed is the unified quality score and it will appear as:
 
 	"UnifiedQualityScore: [value]"
 

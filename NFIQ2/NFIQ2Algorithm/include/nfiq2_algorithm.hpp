@@ -23,8 +23,8 @@
 namespace NFIQ2 {
 
 /**
- * Applies trained random forest parameters to quality features, computing an
- * overall quality score (i.e., NFIQ2).
+ * Applies trained random forest parameters to quality features, computing a
+ * unified quality score.
  */
 class Algorithm {
     public:
@@ -75,13 +75,13 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Compute an ISO/IEC 29794-4:2024 unified quality score.
+	 * Compute a unified quality score.
 	 *
 	 * @param rawImage
 	 * Fingerprint image.
 	 *
 	 * @return
-	 * Computed ISO/IEC 29794-4:2024 unified quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
@@ -93,13 +93,13 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Compute an ISO/IEC 29794-4:2024 unified quality score.
+	 * Compute a unified quality score.
 	 *
 	 * @param modules
 	 * Computed quality modules.
 	 *
 	 * @return
-	 * Computed ISO/IEC 29794-4:2024 unified quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
@@ -112,13 +112,13 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Compute an ISO/IEC 29794-4:2024 unified quality score.
+	 * Compute a unified quality score.
 	 *
 	 * @param features
 	 * Map of quality feature identifiers to quality feature values.
 	 *
 	 * @return
-	 * Computed ISO/IEC 29794-4:2024 unified quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.

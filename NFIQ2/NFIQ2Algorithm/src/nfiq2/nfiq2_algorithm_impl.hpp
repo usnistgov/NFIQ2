@@ -187,14 +187,13 @@ class Algorithm::Impl {
 
 	/**
 	 * @brief
-	 * Retrieves ISO/IEC 29794-4:2024 unified quality score from a map of
-	 * feature data.
+	 * Retrieves unified quality score from a map of feature data.
 	 *
 	 * @param features
 	 * Map of string, QualityFeatureData pairs.
 	 *
 	 * @return
-	 * Computed ISO/IEC 29794-4:2024 unified quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throws Exception
 	 * Failure to compute (OpenCV reason contained within message string) or

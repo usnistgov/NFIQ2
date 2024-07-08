@@ -41,8 +41,8 @@
  * application.
  *
  * @section quick_score Quick Start
- * Follow these high-level steps to compute an ISO/IEC 29794-4:2024 unified
- * quality score in your own application.
+ * Follow these high-level steps to compute an unified quality score in your own
+ * application.
  *
  *   1. Include `nfiq2.hpp` in your source file.
  *      - NIST's [releases][2] install headers in `/usr/local/nfiq2/include` on
@@ -58,14 +58,13 @@
  *      instantiated in 2. A quality score is returned or a NFIQ2::Exception is
  *      thrown.
  *      * **Note**: If the calling application needs to inspect individual
- *                  quality feature values or quality module calculation speeds,
- *                  first call
- * NFIQ2::QualityMeasures::computeNativeQualityMeasures or
- *                  NFIQ2::QualityMeasures::computeQualityMeasures with the
- *                  image from 2 instead, and then pass the result of that
- *                  method to NFIQ2::Algorithm::computeUnifiedQualityScore. Use
- * the other methods within NFIQ2::QualityMeasures to isolate the individual
- * quality feature values and quality module speeds required.
+ *        quality feature values or quality module calculation speeds, first
+ *        call NFIQ2::QualityMeasures::computeNativeQualityMeasures or
+ *        NFIQ2::QualityMeasures::computeQualityMeasures with the image from 2
+ *        instead, and then pass the result of that method to
+ *        NFIQ2::Algorithm::computeUnifiedQualityScore. Use the other methods
+ *        within NFIQ2::QualityMeasures to isolate the individual native quality
+ *        measures and speeds required.
  *
  * @section Examples
  * Some examples of using the API can be found in the [examples directory][4] in

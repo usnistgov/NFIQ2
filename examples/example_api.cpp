@@ -149,7 +149,7 @@ main(int argc, char **argv)
 	}
 
 	// Pass the native quality measures through the random forest to obtain
-	// an ISO/IEC 29794-4:2024 unified quality score
+	// a unified quality score
 	unsigned int nfiq2 {};
 	try {
 		nfiq2 = model.computeUnifiedQualityScore(algorithms);

@@ -7,9 +7,10 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis[] {
-	"FrequencyDomainAnalysis"
-};
+const char
+    NFIQ2::Identifiers::QualityMeasureAlgorithms::FrequencyDomainAnalysis[] {
+	    "FrequencyDomainAnalysis"
+    };
 static const char NFIQ2FDAFeaturePrefix[] { "FDA_Bin10_" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin0[] { "FDA_Bin10_0" };
@@ -81,7 +82,8 @@ NFIQ2::QualityMeasures::FDAFeature::getQualityFeatureIDs()
 std::string
 NFIQ2::QualityMeasures::FDAFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::FrequencyDomainAnalysis;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
+	    FrequencyDomainAnalysis;
 }
 
 std::unordered_map<std::string, double>

@@ -5,7 +5,9 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::Contrast[] { "Contrast" };
+const char NFIQ2::Identifiers::QualityMeasureAlgorithms::Contrast[] {
+	"Contrast"
+};
 const char NFIQ2::Identifiers::QualityMeasures::Contrast::Mean[] { "Mu" };
 const char NFIQ2::Identifiers::QualityMeasures::Contrast::MeanBlock[] { "MMB" };
 
@@ -156,7 +158,7 @@ NFIQ2::QualityMeasures::MuFeature::getSigma() const
 std::string
 NFIQ2::QualityMeasures::MuFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::Contrast;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::Contrast;
 }
 
 std::vector<std::string>

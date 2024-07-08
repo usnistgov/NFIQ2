@@ -111,7 +111,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 
 	for (const auto &feature : features) {
 		if (feature->getName() ==
-		    Identifiers::QualityModules::Contrast) {
+		    Identifiers::QualityMeasureAlgorithms::Contrast) {
 			// Uniform and Contrast
 			const std::shared_ptr<MuFeature> muFeatureModule =
 			    std::dynamic_pointer_cast<MuFeature>(feature);
@@ -160,7 +160,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 			}
 
 		} else if (feature->getName() ==
-		    Identifiers::QualityModules::MinutiaeCount) {
+		    Identifiers::QualityMeasureAlgorithms::MinutiaeCount) {
 			// Minutiae
 			const std::shared_ptr<FingerJetFXFeature>
 			    fjfxFeatureModule =
@@ -181,8 +181,9 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 				}
 			}
 
-		} else if (feature->getName().compare(Identifiers::
-				   QualityModules::RegionOfInterestMean) == 0) {
+		} else if (feature->getName().compare(
+			       Identifiers::QualityMeasureAlgorithms::
+				   RegionOfInterestMean) == 0) {
 			// FP Foreground
 			const std::shared_ptr<ImgProcROIFeature>
 			    roiFeatureModule =
@@ -320,16 +321,17 @@ std::vector<std::string>
 NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithmIDs()
 {
 	static const std::vector<std::string> ids {
-		Identifiers::QualityModules::FrequencyDomainAnalysis,
-		Identifiers::QualityModules::MinutiaeCount,
-		Identifiers::QualityModules::MinutiaeQuality,
-		Identifiers::QualityModules::RegionOfInterestMean,
-		Identifiers::QualityModules::LocalClarity,
-		Identifiers::QualityModules::Contrast,
-		Identifiers::QualityModules::OrientationCertainty,
-		Identifiers::QualityModules::OrientationFlow,
-		Identifiers::QualityModules::RegionOfInterestCoherence,
-		Identifiers::QualityModules::RidgeValleyUniformity
+		Identifiers::QualityMeasureAlgorithms::FrequencyDomainAnalysis,
+		Identifiers::QualityMeasureAlgorithms::MinutiaeCount,
+		Identifiers::QualityMeasureAlgorithms::MinutiaeQuality,
+		Identifiers::QualityMeasureAlgorithms::RegionOfInterestMean,
+		Identifiers::QualityMeasureAlgorithms::LocalClarity,
+		Identifiers::QualityMeasureAlgorithms::Contrast,
+		Identifiers::QualityMeasureAlgorithms::OrientationCertainty,
+		Identifiers::QualityMeasureAlgorithms::OrientationFlow,
+		Identifiers::QualityMeasureAlgorithms::
+		    RegionOfInterestCoherence,
+		Identifiers::QualityMeasureAlgorithms::RidgeValleyUniformity
 	};
 
 	return ids;

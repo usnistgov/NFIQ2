@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::MinutiaeQuality[] {
+const char NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeQuality[] {
 	"MinutiaeQuality"
 };
 const char NFIQ2::Identifiers::QualityMeasures::Minutiae::QualityMu2[] {
@@ -136,7 +136,7 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
 std::string
 NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::MinutiaeQuality;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeQuality;
 }
 
 std::vector<std::string>

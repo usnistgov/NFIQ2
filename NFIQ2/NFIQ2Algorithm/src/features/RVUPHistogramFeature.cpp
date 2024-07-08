@@ -7,9 +7,10 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity[] {
-	"RidgeValleyUniformity"
-};
+const char
+    NFIQ2::Identifiers::QualityMeasureAlgorithms::RidgeValleyUniformity[] {
+	    "RidgeValleyUniformity"
+    };
 const char NFIQ2RVUPFeaturePrefix[] { "RVUP_Bin10_" };
 const char NFIQ2::Identifiers::QualityMeasures::RidgeValleyUniformity::
     Histogram::Bin0[] { "RVUP_Bin10_0" };
@@ -201,7 +202,8 @@ NFIQ2::QualityMeasures::RVUPHistogramFeature::computeFeatureData(
 std::string
 NFIQ2::QualityMeasures::RVUPHistogramFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::RidgeValleyUniformity;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
+	    RidgeValleyUniformity;
 }
 
 std::vector<std::string>

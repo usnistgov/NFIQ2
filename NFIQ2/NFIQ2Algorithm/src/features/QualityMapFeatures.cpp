@@ -6,9 +6,10 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence[] {
-	"RegionOfInterestCoherence"
-};
+const char
+    NFIQ2::Identifiers::QualityMeasureAlgorithms::RegionOfInterestCoherence[] {
+	    "RegionOfInterestCoherence"
+    };
 const char
     NFIQ2::Identifiers::QualityMeasures::RegionOfInterest::CoherenceSum[] {
 	    "OrientationMap_ROIFilter_CoherenceSum"
@@ -309,7 +310,8 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradients(
 std::string
 NFIQ2::QualityMeasures::QualityMapFeatures::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::RegionOfInterestCoherence;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
+	    RegionOfInterestCoherence;
 }
 
 std::vector<std::string>

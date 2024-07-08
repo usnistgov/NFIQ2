@@ -9,7 +9,7 @@
 #include <sstream>
 #include <tuple>
 
-const char NFIQ2::Identifiers::QualityModules::MinutiaeCount[] {
+const char NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeCount[] {
 	"MinutiaeCount"
 };
 const char NFIQ2::Identifiers::QualityMeasures::Minutiae::Count[] {
@@ -285,7 +285,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 std::string
 NFIQ2::QualityMeasures::FingerJetFXFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::MinutiaeCount;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeCount;
 }
 
 std::vector<std::string>

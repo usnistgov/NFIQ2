@@ -36,7 +36,8 @@ std::vector<std::string> getQualityFeatureIDs();
  * Obtain all native quality measure algorithm identifiers.
  *
  * @return
- * Vector of strings with all identifiers from Identifiers::QualityModules.
+ * Vector of strings with all identifiers from
+ * Identifiers::QualityMeasureAlgorithms.
  */
 std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
 

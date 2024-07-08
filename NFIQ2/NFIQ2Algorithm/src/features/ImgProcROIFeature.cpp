@@ -5,9 +5,10 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::RegionOfInterestMean[] {
-	"RegionOfInterestMean"
-};
+const char
+    NFIQ2::Identifiers::QualityMeasureAlgorithms::RegionOfInterestMean[] {
+	    "RegionOfInterestMean"
+    };
 const char NFIQ2::Identifiers::QualityMeasures::RegionOfInterest::Mean[] {
 	"ImgProcROIArea_Mean"
 };
@@ -98,7 +99,8 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
 std::string
 NFIQ2::QualityMeasures::ImgProcROIFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::RegionOfInterestMean;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
+	    RegionOfInterestMean;
 }
 
 std::vector<std::string>

@@ -137,8 +137,8 @@ namespace PredictionModules {
 extern const char RandomForest[];
 } /* Identifiers::PredictionModules */
 
-/** Modules that compute one or more QualityMeasures. */
-namespace QualityModules {
+/** Algorithms that compute one or more QualityMeasures. */
+namespace QualityMeasureAlgorithms {
 /** Identifier for the FrequencyDomainAnalysis feature module. */
 extern const char FrequencyDomainAnalysis[];
 /** Identifier for the MinutiaeCount feature module. */
@@ -159,7 +159,7 @@ extern const char RegionOfInterestMean[];
 extern const char RegionOfInterestCoherence[];
 /** Identifier for the RidgeValleyUniformity feature module. */
 extern const char RidgeValleyUniformity[];
-} /* Identifiers::QualityModules */
+} /* Identifiers::QualityMeasureAlgorithms */
 
 /** Identifiers of individual quality features and modules. */
 namespace QualityMeasures {

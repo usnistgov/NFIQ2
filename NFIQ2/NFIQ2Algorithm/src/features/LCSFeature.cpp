@@ -6,7 +6,7 @@
 
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::LocalClarity[] {
+const char NFIQ2::Identifiers::QualityMeasureAlgorithms::LocalClarity[] {
 	"LocalClarity"
 };
 static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
@@ -71,7 +71,7 @@ NFIQ2::QualityMeasures::LCSFeature::~LCSFeature() = default;
 std::string
 NFIQ2::QualityMeasures::LCSFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::LocalClarity;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::LocalClarity;
 }
 
 std::vector<std::string>

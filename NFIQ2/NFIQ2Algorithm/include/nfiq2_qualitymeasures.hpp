@@ -53,7 +53,7 @@ std::vector<std::string> getActionableQualityFeedbackIDs();
  * @return
  * Vector of strings with all quality module identifiers.
  *
- * @see Identifiers::QualityModules
+ * @see Identifiers::QualityMeasureAlgorithms
  */
 std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
 
@@ -173,7 +173,7 @@ std::unordered_map<std::string, double> getNativeQualityMeasures(
  * Algorithms from `algorithms` in a map with the algorithms's identifier as the
  * key.
  *
- * @see Identifiers::QualityModules
+ * @see Identifiers::QualityMeasureAlgorithms
  */
 std::unordered_map<std::string,
     std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
@@ -193,7 +193,7 @@ getNativeQualityMeasureAlgorithms(
  * A map of quality measure algorithm identifiers to the elapsed time in
  * milliseconds for the quality measure's computation.
  *
- * @see Identifiers::QualityModules
+ * @see Identifiers::QualityMeasureAlgorithms
  */
 std::unordered_map<std::string, double> getNativeQualityMeasureAlgorithmSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>

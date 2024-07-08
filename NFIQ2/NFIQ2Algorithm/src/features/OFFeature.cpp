@@ -8,7 +8,7 @@
 #include <cmath>
 #include <sstream>
 
-const char NFIQ2::Identifiers::QualityModules::OrientationFlow[] {
+const char NFIQ2::Identifiers::QualityMeasureAlgorithms::OrientationFlow[] {
 	"OrientationFlow"
 };
 static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
@@ -70,7 +70,7 @@ NFIQ2::QualityMeasures::OFFeature::~OFFeature() = default;
 std::string
 NFIQ2::QualityMeasures::OFFeature::getName() const
 {
-	return NFIQ2::Identifiers::QualityModules::OrientationFlow;
+	return NFIQ2::Identifiers::QualityMeasureAlgorithms::OrientationFlow;
 }
 
 std::vector<std::string>

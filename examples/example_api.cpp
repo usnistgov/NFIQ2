@@ -99,7 +99,7 @@ main(int argc, char **argv)
 	static const uint16_t PPI = 500;
 
 	// To compute an NFIQ 2 score, you must load the RF model you wish to
-	// use This segment loads the model information file that contains data
+	// use. This segment loads the model information file that contains data
 	// about the RF model.
 	NFIQ2::ModelInfo modelInfoObj {};
 	try {
@@ -135,20 +135,21 @@ main(int argc, char **argv)
 	NFIQ2::FingerprintImageData rawImage = NFIQ2::FingerprintImageData(
 	    data.get(), cols * rows, cols, rows, 0, PPI);
 
-	// Calculate all feature values.
+	// Calculate all native quality measures.
 	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    algorithms {};
 	try {
-		modules = NFIQ2::QualityMeasures::computeNativeQualityMeasures(
-		    rawImage);
+		algorithms =
+		    NFIQ2::QualityMeasures::computeNativeQualityMeasures(
+			rawImage);
 	} catch (const NFIQ2::Exception &e) {
 		std::cerr << "Error in calculating quality features: "
 			  << e.what() << '\n';
 		return (EXIT_FAILURE);
 	}
 
-	// Pass the feature values through the random forest to obtain an
-	// ISO/IEC 29794-4:2024 unified quality score
+	// Pass the native quality measures through the random forest to obtain
+	// an ISO/IEC 29794-4:2024 unified quality score
 	unsigned int nfiq2 {};
 	try {
 		nfiq2 = model.computeUnifiedQualityScore(algorithms);
@@ -161,7 +162,7 @@ main(int argc, char **argv)
 	// README file. The following code iterates through
 	// the NFIQ2Results object, extracts scores, and prints them to
 	// stdout.
-	std::cout << "QualityScore: " << nfiq2 << '\n';
+	std::cout << "UnifiedQualityScore: " << nfiq2 << '\n';
 
 	// Actionable Feedback
 	std::vector<std::string> actionableIDs =

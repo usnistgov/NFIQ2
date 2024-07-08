@@ -43,7 +43,7 @@ const double NFIQ2::Thresholds::ActionableQualityFeedback::
     SufficientFingerprintForeground { 50000.0 };
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::Impl::getQualityModuleSpeeds(
+NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithmSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {

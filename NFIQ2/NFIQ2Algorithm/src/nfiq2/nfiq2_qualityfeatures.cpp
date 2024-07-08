@@ -64,11 +64,12 @@ NFIQ2::QualityMeasures::computeQualityMeasures(
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::getQualityModuleSpeeds(
+NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithmSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&modules)
 {
-	return NFIQ2::QualityMeasures::Impl::getQualityModuleSpeeds(modules);
+	return NFIQ2::QualityMeasures::Impl::
+	    getNativeQualityMeasureAlgorithmSpeeds(modules);
 }
 
 std::unordered_map<std::string,

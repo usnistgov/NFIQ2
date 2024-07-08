@@ -194,7 +194,7 @@ getNativeQualityMeasureAlgorithms(
  *
  * @see Identifiers::QualityModules
  */
-std::unordered_map<std::string, double> getQualityModuleSpeeds(
+std::unordered_map<std::string, double> getNativeQualityMeasureAlgorithmSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&algorithms);
 }}

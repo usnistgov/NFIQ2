@@ -136,7 +136,7 @@ std::unordered_map<std::string, double> computeQualityMeasures(
  * @return
  * A map of string, quality feature speed pairs.
  */
-std::unordered_map<std::string, double> getQualityModuleSpeeds(
+std::unordered_map<std::string, double> getNativeQualityMeasureAlgorithmSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features);
 

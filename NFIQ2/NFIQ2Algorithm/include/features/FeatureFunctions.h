@@ -57,7 +57,7 @@ void addHistogramFeatureNames(std::vector<std::string> &featureNames,
 /**
  * @brief
  * Computation of sigmoid function defined in ISO/IEC 29794-4:2024,
- * Clause 6.1.1.1.
+ * Clause 6.1.2.1.
  *
  * @param nativeQuality
  * Native quality measure value.
@@ -69,7 +69,7 @@ void addHistogramFeatureNames(std::vector<std::string> &featureNames,
  * @return
  * Point on sigmoid curve.
  *
- * @see ISO/IEC 29794-4:2024, Clause 6.1.1.1.
+ * @see ISO/IEC 29794-4:2024, Clause 6.1.2.1.
  */
 double sigmoid(const double nativeQuality, const double inflectionPoint,
     const double scaling);
@@ -88,7 +88,7 @@ double sigmoid(const double nativeQuality, const double inflectionPoint,
  * @return
  * Mapping of `nativeQuality` between 0-100 inclusive.
  *
- * @see ISO/IEC 29794-4:2024, Clause 6.1.1.2.
+ * @see ISO/IEC 29794-4:2024, Clause 6.1.2.2.
  */
 uint8_t knownRange(const double nativeQuality, const double minNativeQuality,
     const double maxNativeQuality);

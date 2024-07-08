@@ -1,4 +1,4 @@
-#include "nfiq2_qualityfeatures_impl.hpp"
+#include "nfiq2_qualitymeasures_impl.hpp"
 #include <list>
 #include <memory>
 #include <string>

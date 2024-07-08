@@ -17,7 +17,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_modelinfo.hpp>
-#include <nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualitymeasures.hpp>
 #include <nfiq2_timer.hpp>
 #include <nfiq2_version.hpp>
 

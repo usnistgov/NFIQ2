@@ -11,9 +11,9 @@
 #include <features/RVUPHistogramFeature.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualitymeasures.hpp>
 
-#include "nfiq2_qualityfeatures_impl.hpp"
+#include "nfiq2_qualitymeasures_impl.hpp"
 #include <iomanip>
 #include <list>
 #include <memory>

@@ -8,8 +8,8 @@
  *   - https://github.com/usnistgov/NFIQ2/blob/master/LICENSE.md
  */
 
-#ifndef NFIQ2_QUALITYFEATURES_HPP_
-#define NFIQ2_QUALITYFEATURES_HPP_
+#ifndef NFIQ2_QUALITYMEASURES_HPP_
+#define NFIQ2_QUALITYMEASURES_HPP_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -200,4 +200,4 @@ std::unordered_map<std::string, double> getNativeQualityMeasureAlgorithmSpeeds(
 	&algorithms);
 }}
 
-#endif /* NFIQ2_QUALITYFEATURES_HPP_ */
+#endif /* NFIQ2_QUALITYMEASURES_HPP_ */

@@ -1,9 +1,9 @@
-#ifndef NFIQ2_QUALITYFEATURES_IMPL_HPP_
-#define NFIQ2_QUALITYFEATURES_IMPL_HPP_
+#ifndef NFIQ2_QUALITYMEASURES_IMPL_HPP_
+#define NFIQ2_QUALITYMEASURES_IMPL_HPP_
 
 #include <features/Module.h>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualitymeasures.hpp>
 
 #include <list>
 #include <memory>
@@ -158,4 +158,4 @@ getNativeQualityMeasureAlgorithms(
 	&features);
 }}}
 
-#endif /* NFIQ2_QUALITYFEATURES_IMPL_HPP_ */
+#endif /* NFIQ2_QUALITYMEASURES_IMPL_HPP_ */

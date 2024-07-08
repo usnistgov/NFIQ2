@@ -176,7 +176,7 @@ NFIQ2::QualityMeasures::covcoef(const cv::Mat &imblock, double &a, double &b,
 			    cv::BORDER_REFLECT_101);
 		} catch (const cv::Exception &e) {
 			throw NFIQ2::Exception(
-			    NFIQ2::ErrorCode::FeatureCalculationError,
+			    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 			    "Call to OpenCV Sobel operator function "
 			    "failed: " +
 				std::string(e.what()));
@@ -308,7 +308,7 @@ NFIQ2::QualityMeasures::getRotatedBlock(const cv::Mat &block,
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
 		throw NFIQ2::Exception {
-			NFIQ2::ErrorCode::FeatureCalculationError,
+			NFIQ2::ErrorCode::QualityMeasureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'
@@ -334,7 +334,7 @@ NFIQ2::QualityMeasures::getRotatedBlock(const cv::Mat &block,
 		    rotatedBlock.size(), cv::INTER_NEAREST);
 	} catch (const cv::Exception &e) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Exception during block rotation: " +
 			std::string(e.what()));
 	}
@@ -381,7 +381,7 @@ NFIQ2::QualityMeasures::getRidgeValleyStructure(const cv::Mat &blockCropped,
 		cv::solve(dttemp, v3, dt1, cv::DECOMP_QR);
 	} catch (const cv::Exception &e) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Exception during ridge/valley processing: "
 		    "cv::solve(cv::DECOMP_QR) " +
 			std::string(e.what()));
@@ -547,7 +547,7 @@ NFIQ2::QualityMeasures::addHistogramFeatures(
 
 	if (myBinCount != binCount) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Wrong histogram bin count for " + featurePrefix +
 			". "
 			"Should be " +

@@ -121,12 +121,13 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
 		ssErr << "Cannot compute FJFX based minutiae quality features: "
 		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Unknown exception occurred!");
 	}
 

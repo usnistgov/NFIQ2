@@ -284,17 +284,19 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		qualityValue = std::floor(scaled_prediction + 0.5);
 		if ((qualityValue > max_quality) ||
 		    (qualityValue < min_quality)) {
-			throw Exception { ErrorCode::FeatureCalculationError,
+			throw Exception {
+				ErrorCode::QualityMeasureCalculationError,
 				"Computed quality out of range (" +
 				    std::to_string(qualityValue) + " not in [" +
 				    std::to_string(min_quality) + ", " +
-				    std::to_string(max_quality) + "])" };
+				    std::to_string(max_quality) + "])"
+			};
 		}
 	} catch (const cv::Exception &e) {
 		throw Exception(NFIQ2::ErrorCode::MachineLearningError, e.msg);
 	} catch (const std::out_of_range &e) {
-		throw Exception(NFIQ2::ErrorCode::FeatureCalculationError,
-		    e.what());
+		throw Exception(
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError, e.what());
 	}
 }
 

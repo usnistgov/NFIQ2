@@ -39,7 +39,7 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeFeatureData(
 	if (fingerprintImage.ppi !=
 	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -56,7 +56,8 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeFeatureData(
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	}
 
 	try {
@@ -91,7 +92,8 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeFeatureData(
 		std::stringstream ssErr;
 		ssErr << "Cannot compute orientation map: " << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	}

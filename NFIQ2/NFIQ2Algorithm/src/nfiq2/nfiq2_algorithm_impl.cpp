@@ -89,7 +89,7 @@ NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
 	if (quality.size() == 0) {
 		// no features have been computed
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "No features have been computed");
 	}
 
@@ -140,7 +140,7 @@ NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
 	if (quality.size() == 0) {
 		// no features have been computed
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "No features have been computed");
 	}
 

@@ -96,7 +96,7 @@ NFIQ2::QualityMeasures::FDAFeature::computeFeatureData(
 	if (fingerprintImage.ppi !=
 	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -199,7 +199,7 @@ NFIQ2::QualityMeasures::FDAFeature::computeFeatureData(
 		const int binCount { 10 };
 		if (dataVector.size() < binCount) {
 			throw NFIQ2::Exception {
-				ErrorCode::FeatureCalculationError,
+				ErrorCode::QualityMeasureCalculationError,
 				"Cannot compute Frequency Domain Analysis (FDA): "
 				"Not enough data to generate histogram bins (is "
 				"the image blank?)"
@@ -225,12 +225,13 @@ NFIQ2::QualityMeasures::FDAFeature::computeFeatureData(
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "
 		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Unknown exception occurred!");
 	}
 
@@ -272,7 +273,7 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	int icBlock = static_cast<int>(cBlock);
 	if (icBlock != cBlock) {
 		throw NFIQ2::Exception {
-			NFIQ2::ErrorCode::FeatureCalculationError,
+			NFIQ2::ErrorCode::QualityMeasureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
 			    std::to_string(block.rows) + ')'

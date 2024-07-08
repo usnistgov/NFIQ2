@@ -71,7 +71,8 @@ NFIQ2::FingerprintImageData::copyRemovingNearWhiteFrame() const
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	}
 
 	// start from top of image and find top row index that is already part

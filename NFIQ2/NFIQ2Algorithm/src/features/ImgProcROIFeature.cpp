@@ -42,7 +42,7 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
 	if (fingerprintImage.ppi !=
 	    NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Only 500 dpi fingerprint images are supported!");
 	}
 
@@ -56,7 +56,8 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
 		ssErr << "Cannot get matrix from fingerprint image: "
 		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	}
 
 	NFIQ2::Timer timer;
@@ -82,12 +83,13 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
 		ssErr << "Cannot compute feature (ImgProc)ROI area: "
 		      << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError, ssErr.str());
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
+		    ssErr.str());
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Unknown exception occurred!");
 	}
 

@@ -26,29 +26,11 @@ This tool features some additional options, including batch operation support, o
 
 OPTIONS
 =======
-**-i** _image/record/directory/rs_
-: Allows for explicit _image/record/directory/rs_ arguments to be passed. Using this option with a _image/record/directory/rs_ is equivalent to providing file paths directly to **nfiq2**.
-
-**-f** _batch_
-: Batch files. A batch file is a plain text file, where each line is the path to a file to process.
-
-**-o** _file_
-: Write all output to be printed to _file_. _file_ will be overwritten if it exists.
-
-**-j** _threads_
-: Indicates the number of worker _threads_ that will be spawned when running batch or RecordStore operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. Note that one additional thread will be spawned for coordinating output.
-
 **-a**
 : Actionable quality output. Provides additonal actionable quality feedback pertainting to each processed fingerprint image.
 
-**-v**
-: Verbose output. Provides individual native quality measures computed during the calculation of the overall quality score.
-
 **-b**
 : Verbose output. Provides individual quality component values mapped [0-100] of the native quality measures computed during the calculation of the overall quality score. These values are required for inclusion in ISO/IEC 29794-1:2024 quality blocks.
-
-**-q**
-: Speed. Provides elapsed time for computation of each native quality measure.
 
 **-d**
 : Debug. Provides additional information pertaining to program execution and details each step of computation.
@@ -56,8 +38,15 @@ OPTIONS
 **-F**
 : Force. Does not ask for user input when when an image does not meet image requirements. See **NOTES 2**.
 
-**-r**
-: Recursion. Allows for directories to be recursively scanned for images/records. The recursion performed is depth-first and stops once all branches have been scanned.
+**-f** _batch_
+: Batch files. A batch file is a plain text file, where each line is the path to a file to process.
+
+**-i** _image/record/directory/rs_
+: Allows for explicit _image/record/directory/rs_ arguments to be passed. Using this option with a _image/record/directory/rs_ is equivalent to providing file paths directly to **nfiq2**.
+
+**-j** _threads_
+: Indicates the number of worker _threads_ that will be spawned when running batch or RecordStore operations. This number may exceed the number of physical cores on a user's system; however, a warning will appear asking if the user would like to proceed or change the number of _threads_ to equal the number of physical cores. Note that one additional thread will be spawned for coordinating output.
+
 
 **-m** _model_
 : Path to an model information file. Allows for alternative random forest parameters to be used in conjunction with **nfiq2**. A default file is provided. This file contains "_Key_ = _Value_" pairs of information, with _Key_:
@@ -68,6 +57,18 @@ OPTIONS
 	* **Version**: Version number of the parameters.
 	* **Path**: Path to the random forest parameters. If the path provided is relative, it must be relative to the directory containing the file passed with *-m*, not the current working directory or the nfiq2 executable.
 	* **Hash**: Hash of random forest parameters, as parsed by OpenCV.
+
+**-o** _file_
+: Write all output to be printed to _file_. _file_ will be overwritten if it exists.
+
+**-q**
+: Speed. Provides elapsed time for computation of each native quality measure.
+
+**-r**
+: Recursion. Allows for directories to be recursively scanned for images/records. The recursion performed is depth-first and stops once all branches have been scanned.
+
+**-v**
+: Verbose output. Provides individual native quality measures computed during the calculation of the overall quality score.
 
 NOTES
 =====

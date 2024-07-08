@@ -65,7 +65,8 @@ NFIQ2::QualityMeasures::Impl::computeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage)
 {
 	return NFIQ2::QualityMeasures::getNativeQualityMeasures(
-	    NFIQ2::QualityMeasures::computeNativeQualityMeasures(rawImage));
+	    NFIQ2::QualityMeasures::computeNativeQualityMeasureAlgorithms(
+		rawImage));
 }
 
 std::unordered_map<std::string, double>
@@ -91,7 +92,8 @@ NFIQ2::QualityMeasures::Impl::computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage)
 {
 	return NFIQ2::QualityMeasures::getActionableQualityFeedback(
-	    NFIQ2::QualityMeasures::computeNativeQualityMeasures(rawImage));
+	    NFIQ2::QualityMeasures::computeNativeQualityMeasureAlgorithms(
+		rawImage));
 }
 
 std::unordered_map<std::string, double>
@@ -214,7 +216,7 @@ NFIQ2::QualityMeasures::Impl::setFPU(unsigned int)
 #endif
 
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasures(
+NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasureAlgorithms(
     const NFIQ2::FingerprintImageData &rawImage)
 {
 	/* use double-precision rounding for 32-bit linux */

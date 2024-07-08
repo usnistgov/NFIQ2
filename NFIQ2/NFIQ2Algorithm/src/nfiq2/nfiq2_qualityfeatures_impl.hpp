@@ -69,7 +69,8 @@ void setFPU(unsigned int mode);
  * A vector of quality modules containing computed feature data.
  */
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-computeNativeQualityMeasures(const NFIQ2::FingerprintImageData &rawImage);
+computeNativeQualityMeasureAlgorithms(
+    const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief

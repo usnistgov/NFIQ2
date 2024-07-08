@@ -366,8 +366,8 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	    modules {};
 	unsigned int score {};
 	try {
-		modules = NFIQ2::QualityMeasures::computeNativeQualityMeasures(
-		    wrappedImage);
+		modules = NFIQ2::QualityMeasures::
+		    computeNativeQualityMeasureAlgorithms(wrappedImage);
 		score = model.computeUnifiedQualityScore(modules);
 	} catch (const NFIQ2::Exception &e) {
 		std::string errStr {

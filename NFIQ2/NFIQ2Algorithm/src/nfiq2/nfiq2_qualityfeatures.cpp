@@ -24,11 +24,11 @@ NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithmIDs()
 }
 
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-NFIQ2::QualityMeasures::computeNativeQualityMeasures(
+NFIQ2::QualityMeasures::computeNativeQualityMeasureAlgorithms(
     const NFIQ2::FingerprintImageData &rawImage)
 {
-	return NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasures(
-	    rawImage);
+	return NFIQ2::QualityMeasures::Impl::
+	    computeNativeQualityMeasureAlgorithms(rawImage);
 }
 
 std::unordered_map<std::string, double>

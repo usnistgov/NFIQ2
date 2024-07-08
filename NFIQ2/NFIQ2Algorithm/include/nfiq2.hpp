@@ -62,7 +62,7 @@
  *      * **Note**: If the calling application needs to inspect individual
  *        native quality measures, computation speeds, or quality components
  *        compatible with ISO/IEC 39794-2 quality blocks, first call
- *        NFIQ2::QualityMeasures::computeNativeQualityMeasures or
+ *        NFIQ2::QualityMeasures::computeNativeQualityMeasureAlgorithms or
  *        NFIQ2::QualityMeasures::computeQualityMeasures with the image from 2
  *        instead, and then pass the result of that method to
  *        NFIQ2::Algorithm::computeUnifiedQualityScore. Use the other methods

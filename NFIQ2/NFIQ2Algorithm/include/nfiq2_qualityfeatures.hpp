@@ -88,7 +88,8 @@ std::vector<std::string> getQualityFeatureIDs();
  * A vector of evaluated native quality measure algorithms.
  */
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-computeNativeQualityMeasures(const NFIQ2::FingerprintImageData &rawImage);
+computeNativeQualityMeasureAlgorithms(
+    const NFIQ2::FingerprintImageData &rawImage);
 
 /**
  * @brief

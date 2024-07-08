@@ -135,7 +135,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 			    muFeatureModule->getFeatures()) {
 				if (muFeature.first ==
 				    Identifiers::QualityMeasures::Contrast::
-					Mean) {
+					ImageMean) {
 					actionableMap[Identifiers::
 						ActionableQualityFeedback::
 						    EmptyImageOrContrastTooLow] =

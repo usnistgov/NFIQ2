@@ -161,8 +161,9 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 
 		Identifiers::QualityMeasures::Minutiae::CountCOM,
 		Identifiers::QualityMeasures::Minutiae::Count,
-		Identifiers::QualityMeasures::Minutiae::QualityMu2,
-		Identifiers::QualityMeasures::Minutiae::QualityOCL80,
+		Identifiers::QualityMeasures::Minutiae::PercentImageMean50,
+		Identifiers::QualityMeasures::Minutiae::
+		    PercentOrientationCertainty80,
 
 		Identifiers::QualityMeasures::RegionOfInterest::Mean,
 
@@ -179,8 +180,8 @@ NFIQ2::Prediction::RandomForestML::evaluate(
 		Identifiers::QualityMeasures::LocalClarity::Mean,
 		Identifiers::QualityMeasures::LocalClarity::StdDev,
 
-		Identifiers::QualityMeasures::Contrast::MeanBlock,
-		Identifiers::QualityMeasures::Contrast::Mean,
+		Identifiers::QualityMeasures::Contrast::MeanOfBlockMeans,
+		Identifiers::QualityMeasures::Contrast::ImageMean,
 
 		Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		    Bin0,

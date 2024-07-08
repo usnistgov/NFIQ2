@@ -8,12 +8,11 @@
 const char NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeQuality[] {
 	"MinutiaeQuality"
 };
-const char NFIQ2::Identifiers::QualityMeasures::Minutiae::QualityMu2[] {
+const char NFIQ2::Identifiers::QualityMeasures::Minutiae::PercentImageMean50[] {
 	"FJFXPos_Mu_MinutiaeQuality_2"
 };
-const char NFIQ2::Identifiers::QualityMeasures::Minutiae::QualityOCL80[] {
-	"FJFXPos_OCL_MinutiaeQuality_80"
-};
+const char NFIQ2::Identifiers::QualityMeasures::Minutiae::
+    PercentOrientationCertainty80[] { "FJFXPos_OCL_MinutiaeQuality_80" };
 
 NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage,
@@ -40,11 +39,12 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
 
 	std::pair<std::string, double> fd_mu;
 	fd_mu = std::make_pair(
-	    Identifiers::QualityMeasures::Minutiae::QualityMu2, -1);
+	    Identifiers::QualityMeasures::Minutiae::PercentImageMean50, -1);
 
 	std::pair<std::string, double> fd_ocl;
-	fd_ocl = std::make_pair(
-	    Identifiers::QualityMeasures::Minutiae::QualityOCL80, -1);
+	fd_ocl = std::make_pair(Identifiers::QualityMeasures::Minutiae::
+				    PercentOrientationCertainty80,
+	    -1);
 
 	try {
 		NFIQ2::Timer timer;
@@ -142,8 +142,9 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getName() const
 std::vector<std::string>
 NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getQualityFeatureIDs()
 {
-	return { Identifiers::QualityMeasures::Minutiae::QualityMu2,
-		Identifiers::QualityMeasures::Minutiae::QualityOCL80 };
+	return { Identifiers::QualityMeasures::Minutiae::PercentImageMean50,
+		Identifiers::QualityMeasures::Minutiae::
+		    PercentOrientationCertainty80 };
 }
 
 std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::MinutiaData>

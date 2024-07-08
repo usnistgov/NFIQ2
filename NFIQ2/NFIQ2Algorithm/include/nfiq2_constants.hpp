@@ -217,9 +217,9 @@ extern const char CountCOM[];
  * Percentage of minutiae whose quality value, as determined by Contrast::Mean
  * of a local region centered on the minutiae, is between 0-0.5.
  *
- * @see Contrast::Mean
+ * @see Contrast::ImageMean
  */
-extern const char QualityMu2[];
+extern const char PercentImageMean50[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by the Orientation
@@ -228,7 +228,7 @@ extern const char QualityMu2[];
  *
  * @see OrientationCertainty
  */
-extern const char QualityOCL80[];
+extern const char PercentOrientationCertainty80[];
 }
 
 /** Measures based on the foreground area of the image. */
@@ -294,9 +294,9 @@ extern const char StdDev[];
 /** Measure of the gray levels of the image. */
 namespace Contrast {
 /** Arithmetic mean of the image. */
-extern const char Mean[];
+extern const char ImageMean[];
 /** Arithmetic mean of per-block means of the image. */
-extern const char MeanBlock[];
+extern const char MeanOfBlockMeans[];
 }
 
 /**

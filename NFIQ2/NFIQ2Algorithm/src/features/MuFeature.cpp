@@ -8,8 +8,10 @@
 const char NFIQ2::Identifiers::QualityMeasureAlgorithms::Contrast[] {
 	"Contrast"
 };
-const char NFIQ2::Identifiers::QualityMeasures::Contrast::Mean[] { "Mu" };
-const char NFIQ2::Identifiers::QualityMeasures::Contrast::MeanBlock[] { "MMB" };
+const char NFIQ2::Identifiers::QualityMeasures::Contrast::ImageMean[] { "Mu" };
+const char NFIQ2::Identifiers::QualityMeasures::Contrast::MeanOfBlockMeans[] {
+	"MMB"
+};
 
 NFIQ2::QualityMeasures::MuFeature::MuFeature(
     const NFIQ2::FingerprintImageData &fingerprintImage)
@@ -90,7 +92,8 @@ NFIQ2::QualityMeasures::MuFeature::computeFeatureData(
 		// return MMB value
 		std::pair<std::string, double> fd_mmb;
 		fd_mmb = std::make_pair(
-		    Identifiers::QualityMeasures::Contrast::MeanBlock, avg);
+		    Identifiers::QualityMeasures::Contrast::MeanOfBlockMeans,
+		    avg);
 
 		featureDataList[fd_mmb.first] = fd_mmb.second;
 	} catch (const cv::Exception &e) {
@@ -123,7 +126,8 @@ NFIQ2::QualityMeasures::MuFeature::computeFeatureData(
 		// return mu value
 		std::pair<std::string, double> fd_mu;
 		fd_mu = std::make_pair(
-		    Identifiers::QualityMeasures::Contrast::Mean, mu.val[0]);
+		    Identifiers::QualityMeasures::Contrast::ImageMean,
+		    mu.val[0]);
 
 		featureDataList[fd_mu.first] = fd_mu.second;
 	} catch (const cv::Exception &e) {
@@ -165,7 +169,8 @@ std::vector<std::string>
 NFIQ2::QualityMeasures::MuFeature::getQualityFeatureIDs()
 {
 	std::vector<std::string> featureIDs;
-	featureIDs.push_back(Identifiers::QualityMeasures::Contrast::MeanBlock);
-	featureIDs.push_back(Identifiers::QualityMeasures::Contrast::Mean);
+	featureIDs.push_back(
+	    Identifiers::QualityMeasures::Contrast::MeanOfBlockMeans);
+	featureIDs.push_back(Identifiers::QualityMeasures::Contrast::ImageMean);
 	return featureIDs;
 }

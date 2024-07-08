@@ -628,11 +628,11 @@ NFIQ2::QualityMeasures::getQualityBlockValue(
     const std::string &featureIdentifier, const double native)
 {
 	if ((featureIdentifier ==
-		Identifiers::QualityMeasures::Contrast::Mean) ||
+		Identifiers::QualityMeasures::Contrast::ImageMean) ||
 	    (featureIdentifier ==
-		Identifiers::QualityMeasures::Contrast::MeanBlock) ||
+		Identifiers::QualityMeasures::Contrast::MeanOfBlockMeans) ||
 	    (featureIdentifier ==
-		Identifiers::QualityMeasures::Minutiae::QualityMu2) ||
+		Identifiers::QualityMeasures::Minutiae::PercentImageMean50) ||
 	    (featureIdentifier ==
 		Identifiers::QualityMeasures::RegionOfInterest::Mean)) {
 		return (NFIQ2::QualityMeasures::knownRange(native, 0, 255));
@@ -646,7 +646,8 @@ NFIQ2::QualityMeasures::getQualityBlockValue(
 	}
 
 	if (featureIdentifier ==
-	    Identifiers::QualityMeasures::Minutiae::QualityOCL80) {
+	    Identifiers::QualityMeasures::Minutiae::
+		PercentOrientationCertainty80) {
 		return (NFIQ2::QualityMeasures::knownRange(native, 0, 1));
 	}
 

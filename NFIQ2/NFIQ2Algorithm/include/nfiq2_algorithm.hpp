@@ -23,8 +23,8 @@
 namespace NFIQ2 {
 
 /**
- * Applies trained random forest parameters to quality features, computing a
- * unified quality score.
+ * Applies trained random forest parameters to native quality measures,
+ * computing a unified quality score.
  */
 class Algorithm {
     public:

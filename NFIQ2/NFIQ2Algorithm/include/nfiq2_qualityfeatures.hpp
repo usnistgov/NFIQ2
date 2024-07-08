@@ -22,7 +22,7 @@ namespace NFIQ2 { namespace QualityMeasures {
 
 /**
  * @brief
- * Controls the computation of one or more quality features.
+ * Controls the computation of one or more quality measures.
  *
  * @note
  * Forward declaration into public interface.
@@ -59,7 +59,7 @@ std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
 
 /**
  * @brief
- * Obtain all quality feature IDs from quality modules.
+ * Obtain all quality measure identifiers from quality measure algorithms.
  *
  * @return
  * Vector of strings containing all quality feature identifiers.
@@ -72,7 +72,7 @@ std::vector<std::string> getQualityFeatureIDs();
 
 /**
  * @addtogroup compute
- * Compute NFIQ 2 quality modules, quality values, quality scores, and
+ * Compute unified quality scoress, native quality measures, and
  * actionable quality feedback.
  * @{
  */
@@ -85,7 +85,7 @@ std::vector<std::string> getQualityFeatureIDs();
  * Fingerprint image in raw format.
  *
  * @return
- * A vector of quality modules containing computed feature values.
+ * A vector of evaluated native quality measure algorithms.
  */
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 computeNativeQualityMeasures(const NFIQ2::FingerprintImageData &rawImage);
@@ -98,7 +98,7 @@ computeNativeQualityMeasures(const NFIQ2::FingerprintImageData &rawImage);
  * Fingerprint image in raw format.
  *
  * @return
- * A map of quality feature identifiers to quality feature values.
+ * A map of quality measure algorithm identifiers to native quality measures.
  *
  * @see Identifiers::QualityMeasures
  */
@@ -131,8 +131,8 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
  * @brief
  * Obtain actionable quality feedback from computed quality modules.
  *
- * @param modules
- * Computed quality modules.
+ * @param algorithms
+ * Computed native quality measure algorithms.
  *
  * @return
  * A map of actionable quality identifiers to actionable quality values.
@@ -142,14 +142,15 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
  */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&modules);
+	&algorithms);
 
 /**
  * @brief
- * Obtain native quality measures from computed quality modules.
+ * Obtain native quality measures from computed native quality measure
+ * algorithms.
  *
- * @param modules
- * Computed quality modules.
+ * @param algorithms
+ * Computed native quality measure algorithms.
  *
  * @return
  * A map of quality feature identifiers to quality feature values.
@@ -158,17 +159,17 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  */
 std::unordered_map<std::string, double> getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&modules);
+	&algorithms);
 
 /**
  * @brief
  * Obtain native quality measure algorithms organized as a map.
  *
- * @param modules
- * Computed quality modules.
+ * @param algorithms
+ * Computed native quality measure algorithms.
  *
  * @return
- * Module from `modules` in a map with the quality module's identifier as the
+ * Algorithms from `algorithms` in a map with the algorithms's identifier as the
  * key.
  *
  * @see Identifiers::QualityModules
@@ -177,25 +178,25 @@ std::unordered_map<std::string,
     std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 getNativeQualityMeasureAlgorithms(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&modules);
+	&algorithms);
 
 /**
  * @brief
- * Obtain time elapsed during native quality measure algorithm computation, in
+ * Obtain time elapsed during native quality measure algorithm's computation, in
  * milliseconds.
  *
- * @param modules
- * Computed quality modules.
+ * @param algorithms
+ * Computed native quality measure algorithms.
  *
  * @return
- * A map of quality module identifiers to the elapsed time in milliseconds for
- * the module's computation.
+ * A map of quality measure algorithm identifiers to the elapsed time in
+ * milliseconds for the quality measure's computation.
  *
  * @see Identifiers::QualityModules
  */
 std::unordered_map<std::string, double> getQualityModuleSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&modules);
+	&algorithms);
 }}
 
 #endif /* NFIQ2_QUALITYFEATURES_HPP_ */

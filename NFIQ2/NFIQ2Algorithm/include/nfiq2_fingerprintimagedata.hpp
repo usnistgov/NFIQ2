@@ -17,7 +17,7 @@ namespace NFIQ2 {
 
 /**
  * Binary data representing a decompressed fingerprint image, canonically
- * encoded as per ISO/IEC 19794-4:2005.
+ * encoded as per ISO/IEC 39794-4:2019.
  */
 class FingerprintImageData : public Data {
     public:
@@ -49,7 +49,7 @@ class FingerprintImageData : public Data {
 	 *
 	 * @param pData
 	 * Pointer to decompressed 8 bit-per-pixel grayscale image data,
-	 * canonically encoded as per ISO/IEC 19794-4:2005.
+	 * canonically encoded as per ISO/IEC 39794-4:2019.
 	 * @param dataSize
 	 * Size of the buffer pointed to by `pData`.
 	 * @param width

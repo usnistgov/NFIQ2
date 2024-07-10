@@ -51,7 +51,7 @@ std::vector<std::string> getActionableQualityFeedbackIDs();
  * Obtain all native quality measure algorithm identifiers.
  *
  * @return
- * Vector of strings with all quality module identifiers.
+ * Vector of strings with all quality measure algorithm identifiers.
  *
  * @see Identifiers::QualityMeasureAlgorithms
  */
@@ -62,7 +62,7 @@ std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
  * Obtain all quality measure identifiers from quality measure algorithms.
  *
  * @return
- * Vector of strings containing all quality feature identifiers.
+ * Vector of strings containing all quality measure identifiers.
  *
  * @see Identifiers::QualityMeasures
  */
@@ -72,7 +72,7 @@ std::vector<std::string> getNativeQualityMeasureIDs();
 
 /**
  * @addtogroup compute
- * Compute unified quality scoress, native quality measures, and
+ * Compute unified quality scores, native quality measures, and
  * actionable quality feedback.
  * @{
  */
@@ -93,7 +93,7 @@ computeNativeQualityMeasureAlgorithms(
 
 /**
  * @brief
- * Compute quality feature values.
+ * Compute native quality measure values.
  *
  * @param rawImage
  * Fingerprint image in raw format.
@@ -130,7 +130,7 @@ std::unordered_map<std::string, double> computeActionableQualityFeedback(
 
 /**
  * @brief
- * Obtain actionable quality feedback from computed quality modules.
+ * Obtain actionable quality feedback from computed quality measure algorithms.
  *
  * @param algorithms
  * Computed native quality measure algorithms.
@@ -154,7 +154,7 @@ std::unordered_map<std::string, double> getActionableQualityFeedback(
  * Computed native quality measure algorithms.
  *
  * @return
- * A map of quality feature identifiers to quality feature values.
+ * A map of quality measure identifiers to quality measure values.
  *
  * @see Identifiers::QualityMeasures
  */

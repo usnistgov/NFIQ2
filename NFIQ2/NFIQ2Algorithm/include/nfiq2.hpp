@@ -93,7 +93,7 @@
 
 /**
  * @brief
- * Classes and functions that contribute to the calculation of NFIQ 2 quality
+ * Classes and functions that contribute to the calculation of unified quality
  * scores.
  */
 namespace NFIQ2 {

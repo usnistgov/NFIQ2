@@ -95,8 +95,8 @@ class Algorithm {
 	 * @brief
 	 * Compute a unified quality score.
 	 *
-	 * @param modules
-	 * Computed quality modules.
+	 * @param algorithms
+	 * Computed quality measure algorithms.
 	 *
 	 * @return
 	 * Computed unified quality score.
@@ -108,14 +108,15 @@ class Algorithm {
 	 * @see QualityMeasures::computeNativeQualityMeasureAlgorithms
 	 */
 	unsigned int computeUnifiedQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &modules) const;
+	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &algorithms) const;
 
 	/**
 	 * @brief
 	 * Compute a unified quality score.
 	 *
 	 * @param features
-	 * Map of quality feature identifiers to quality feature values.
+	 * Map of quality measure algorithm identifiers to native quality
+	 * measures.
 	 *
 	 * @return
 	 * Computed unified quality score.

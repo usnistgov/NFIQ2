@@ -22,7 +22,7 @@ class MuFeature : public Algorithm {
 	 */
 	double getSigma() const;
 
-	static std::vector<std::string> getQualityFeatureIDs();
+	static std::vector<std::string> getNativeQualityMeasureIDs();
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(

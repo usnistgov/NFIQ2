@@ -107,7 +107,7 @@ extern const unsigned int OrientationMapCoherenceMean;
 }
 
 /**
- * Identifiers for interpretation of quality features that may indicated
+ * Identifiers for interpretation of quality measures that may indicate
  * corrective measures for subsequent captures of the same subject.
  */
 namespace ActionableQualityFeedback {
@@ -124,7 +124,7 @@ extern const char UniformImage[];
  * Number of minutia in image.
  *
  * @note
- * Equivalent to QualityMeasures::Features::Minutiae::Count.
+ * Equivalent to QualityMeasures::Algorithms::Minutiae::Count.
  */
 extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
@@ -142,29 +142,29 @@ extern const char RandomForest[];
 
 /** Algorithms that compute one or more QualityMeasures. */
 namespace QualityMeasureAlgorithms {
-/** Identifier for the FrequencyDomainAnalysis feature module. */
+/** Identifier for the FrequencyDomainAnalysis quality measure algorithm. */
 extern const char FrequencyDomainAnalysis[];
-/** Identifier for the MinutiaeCount feature module. */
+/** Identifier for the MinutiaeCount quality measure algorithm. */
 extern const char MinutiaeCount[];
-/** Identifier for the MinutiaeQuality feature module. */
+/** Identifier for the MinutiaeQuality quality measure algorithm. */
 extern const char MinutiaeQuality[];
-/** Identifier for the LocalClarity feature module. */
+/** Identifier for the LocalClarity quality measure algorithm. */
 extern const char LocalClarity[];
-/** Identifier for the Contrast feature module. */
+/** Identifier for the Contrast quality measure algorithm. */
 extern const char Contrast[];
-/** Identifier for the OrientationCertainty feature module. */
+/** Identifier for the OrientationCertainty quality measure algorithm. */
 extern const char OrientationCertainty[];
-/** Identifier for the OrientationFlow feature module. */
+/** Identifier for the OrientationFlow quality measure algorithm. */
 extern const char OrientationFlow[];
-/** Identifier for the RegionOfInterestMean feature module. */
+/** Identifier for the RegionOfInterestMean quality measure algorithm. */
 extern const char RegionOfInterestMean[];
-/** Identifier for the RegionOfInterestCoherence feature module. */
+/** Identifier for the RegionOfInterestCoherence quality measure algorithm. */
 extern const char RegionOfInterestCoherence[];
-/** Identifier for the RidgeValleyUniformity feature module. */
+/** Identifier for the RidgeValleyUniformity quality measure algorithm. */
 extern const char RidgeValleyUniformity[];
 } /* Identifiers::QualityMeasureAlgorithms */
 
-/** Identifiers of individual quality features and modules. */
+/** Identifiers of individual quality measures. */
 namespace QualityMeasures {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {

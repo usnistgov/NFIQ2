@@ -209,7 +209,7 @@ NFIQ2::QualityMeasures::RVUPHistogramFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::RVUPHistogramFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::RVUPHistogramFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::RidgeValleyUniformity::
 		     Histogram::Bin0,

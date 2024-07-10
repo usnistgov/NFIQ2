@@ -36,7 +36,7 @@ class FJFXMinutiaeQualityFeature : public Algorithm {
 
 	std::string getName() const override;
 
-	static std::vector<std::string> getQualityFeatureIDs();
+	static std::vector<std::string> getNativeQualityMeasureIDs();
 
 	/** @throw NFIQ2::Exception
 	 * Template could not be extracted.

@@ -106,7 +106,7 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::ImgProcROIFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::ImgProcROIFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::RegionOfInterest::Mean };
 }

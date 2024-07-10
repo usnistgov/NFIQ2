@@ -141,7 +141,7 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::Minutiae::PercentImageMean50,
 		Identifiers::QualityMeasures::Minutiae::

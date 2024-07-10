@@ -78,7 +78,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 	if (this->verbose) {
 		const auto featureIDs =
-		    NFIQ2::QualityMeasures::getQualityFeatureIDs();
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
 		for (const auto &i : featureIDs) {
 			if (i != featureIDs.front()) {
 				*(this->out) << ",";
@@ -112,7 +112,7 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 		const auto mappedValues =
 		    NFIQ2::Algorithm::getQualityBlockValues(features);
 		const auto featureIDs =
-		    NFIQ2::QualityMeasures::getQualityFeatureIDs();
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
 		for (const auto &i : featureIDs) {
 			if (i != featureIDs.front()) {
 				*(this->out) << ",";
@@ -261,7 +261,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->verbose) {
 		std::vector<std::string> vHeaders =
-		    NFIQ2::QualityMeasures::getQualityFeatureIDs();
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -293,7 +293,7 @@ NFIQ2UI::Log::printCSVHeader() const
 
 	if (this->qbMapped) {
 		std::vector<std::string> vHeaders =
-		    NFIQ2::QualityMeasures::getQualityFeatureIDs();
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {

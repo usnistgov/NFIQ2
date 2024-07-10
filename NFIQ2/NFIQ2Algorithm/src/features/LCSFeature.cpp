@@ -75,7 +75,7 @@ NFIQ2::QualityMeasures::LCSFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::LCSFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::LCSFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::LocalClarity::Histogram::Bin0,
 		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin1,

@@ -25,7 +25,7 @@ class FDAFeature : public Algorithm {
 
 	std::string getName() const override;
 
-	static std::vector<std::string> getQualityFeatureIDs();
+	static std::vector<std::string> getNativeQualityMeasureIDs();
 	static const char moduleName[];
 
     private:

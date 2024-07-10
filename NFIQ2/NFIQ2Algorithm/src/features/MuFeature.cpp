@@ -169,7 +169,7 @@ NFIQ2::QualityMeasures::MuFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::MuFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::MuFeature::getNativeQualityMeasureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back(

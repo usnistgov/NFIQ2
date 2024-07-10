@@ -11,9 +11,9 @@ NFIQ2::QualityMeasures::getActionableQualityFeedbackIDs()
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::getNativeQualityMeasureIDs()
 {
-	return NFIQ2::QualityMeasures::Impl::getQualityFeatureIDs();
+	return NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureIDs();
 }
 
 std::vector<std::string>

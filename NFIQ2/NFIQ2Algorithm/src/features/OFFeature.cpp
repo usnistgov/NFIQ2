@@ -74,7 +74,7 @@ NFIQ2::QualityMeasures::OFFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::OFFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::OFFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin0,
 		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin1,

@@ -317,7 +317,7 @@ NFIQ2::QualityMeasures::QualityMapFeatures::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::QualityMapFeatures::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::QualityMapFeatures::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::RegionOfInterest::CoherenceMean,
 		Identifiers::QualityMeasures::RegionOfInterest::CoherenceSum };

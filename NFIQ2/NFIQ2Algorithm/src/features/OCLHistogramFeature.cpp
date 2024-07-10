@@ -195,7 +195,7 @@ NFIQ2::QualityMeasures::OCLHistogramFeature::getName() const
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::OCLHistogramFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::OCLHistogramFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		     Bin0,

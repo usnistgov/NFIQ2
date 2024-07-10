@@ -66,7 +66,7 @@ std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
  *
  * @see Identifiers::QualityMeasures
  */
-std::vector<std::string> getQualityFeatureIDs();
+std::vector<std::string> getNativeQualityMeasureIDs();
 
 /******************************************************************************/
 

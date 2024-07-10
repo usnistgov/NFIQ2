@@ -25,7 +25,7 @@ class QualityMapFeatures : public Algorithm {
 
 	std::string getName() const override;
 
-	static std::vector<std::string> getQualityFeatureIDs();
+	static std::vector<std::string> getNativeQualityMeasureIDs();
 
 	// compute orientation angle of a block
 	static bool getAngleOfBlock(const cv::Mat &block, double &angle,

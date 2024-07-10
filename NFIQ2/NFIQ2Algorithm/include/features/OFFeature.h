@@ -26,7 +26,7 @@ class OFFeature : public Algorithm {
 
 	std::string getName() const override;
 
-	static std::vector<std::string> getQualityFeatureIDs();
+	static std::vector<std::string> getNativeQualityMeasureIDs();
 
 	/**Minimum angle change inclusion in the quality measure */
 	static constexpr double angleMin { 4.0 };

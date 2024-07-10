@@ -53,7 +53,7 @@ NFIQ2::QualityMeasures::FDAFeature::FDAFeature(
 NFIQ2::QualityMeasures::FDAFeature::~FDAFeature() = default;
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::FDAFeature::getQualityFeatureIDs()
+NFIQ2::QualityMeasures::FDAFeature::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		     Histogram::Bin0,

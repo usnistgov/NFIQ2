@@ -58,7 +58,10 @@ parsePGM(char *filename, std::shared_ptr<uint8_t> &data, uint32_t &rows,
 void
 printUsage()
 {
-	std::cout << "example_api: usage: example_api [-h] modelInfoFile "
+	std::cout << "example_api: usage: example_api [-h] "
+#ifndef NFIQ2_EMBEDDED_MODEL
+		     "modelInfoFile "
+#endif
 		     "fingerPrintImage\n";
 }
 
@@ -66,13 +69,21 @@ void
 printHelp()
 {
 	std::cout << "NFIQ 2 API Example\n\nThis is a sample program that "
-		     "shows how to use the NFIQ 2 API on an image.\n\nThis "
-		     "command line tool takes two arguments.\nThe first is the "
-		     "path to a NFIQ 2 RandomForest model information file.\n"
-		     "The second is the path to a single fingerprint image.\n\n"
+		     "shows how to use the NFIQ 2 API on an image.\n\n"
+#if defined(NFIQ2_EMBEDDED_MODEL)
+		     "This command line tool takes one argument.\nIt is "
+		     "the path to a single PGM fingerprint image.\n\n"
+		     "Please provide arguments to the binary in the designated "
+		     "order.\nEx: $ example_api fingerImage01.pgm\n";
+#else
+		     "This command line tool takes two arguments.\nThe first "
+		     "is the path to a NFIQ 2 RandomForest model information "
+		     "file.\nThe second is the path to a single PGM "
+		     "fingerprint image.\n\n"
 		     "Please provide arguments to the binary in the designated "
 		     "order.\nEx: $ example_api nist_plain_tir.txt "
 		     "fingerImage01.pgm\n";
+#endif
 }
 
 int
@@ -80,6 +91,19 @@ main(int argc, char **argv)
 {
 	const std::string helpStr { "-h" };
 
+#if defined(NFIQ2_EMBEDDED_MODEL)
+	if (argc != 2) {
+		printUsage();
+		return (EXIT_FAILURE);
+	}
+
+	if (helpStr.compare(argv[1]) == 0) {
+		printHelp();
+		return (EXIT_FAILURE);
+	}
+
+	static const size_t pgmPathArgvIdx { 1 };
+#else
 	if (argc == 2 && helpStr.compare(argv[1]) == 0) {
 		printHelp();
 		return (EXIT_FAILURE);
@@ -90,6 +114,9 @@ main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 
+	static const size_t pgmPathArgvIdx { 2 };
+#endif
+
 	// Note: NFIQ 2 only operates on images captured at a resolution of
 	// 500 PPI. Unfortunately, the images contained within this repository
 	// are encoded in PGM format, which does not encode resolution
@@ -98,6 +125,18 @@ main(int argc, char **argv)
 	// results.
 	static const uint16_t PPI = 500;
 
+	// You must instantiate an NFIQ2::Algorithm instance, which requires
+	// a model. The build system supports embedding a single model within
+	// the library or reading a model at runtime.
+#if defined(NFIQ2_EMBEDDED_MODEL)
+	// If you've built NFIQ 2 with a model embedded, there's nothing to do
+	// other than instantiate the object.
+	NFIQ2::Algorithm model {};
+	if (!model.isEmbedded()) {
+		std::cerr << "Model is not embedded.\n";
+		return (EXIT_FAILURE);
+	}
+#else
 	// To compute an NFIQ 2 score, you must load the RF model you wish to
 	// use. This segment loads the model information file that contains data
 	// about the RF model.
@@ -122,13 +161,14 @@ main(int argc, char **argv)
 		    << "Could not initialize model from model info file\n";
 		return (EXIT_FAILURE);
 	}
+#endif
 
 	// This calls the PGM parser on the image passed by command line
 	// argument.
 	uint32_t rows = 0;
 	uint32_t cols = 0;
 	std::shared_ptr<uint8_t> data {};
-	parsePGM(argv[2], data, rows, cols);
+	parsePGM(argv[pgmPathArgvIdx], data, rows, cols);
 
 	// This constructs a FingerprintImageData object that stores the
 	// relevant image information NFIQ 2 needs to compute a score.

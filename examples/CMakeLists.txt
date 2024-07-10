@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.11)
 project(examples)
 
 option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
+option(NFIQ2_EMBEDDED_MODEL "Link against library with embedded model (no NFIQ2::ModelInfo)" NO)
 
 # TODO: Add find_package for NFIQ2
 set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
@@ -87,6 +88,10 @@ set_target_properties(example_api PROPERTIES
 	CXX_STANDARD_REQUIRED YES
 	CXX_EXTENSIONS NO)
 list(APPEND ALL_TARGETS example_api)
+
+if (NFIQ2_EMBEDDED_MODEL)
+	target_compile_definitions(example_api PUBLIC NFIQ2_EMBEDDED_MODEL)
+endif()
 
 ################################################################################
 

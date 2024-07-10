@@ -158,7 +158,7 @@ class Algorithm {
 	 *
 	 * @param featureIdentifier
 	 * Identifier for the native quality measure (from nfiq2_constants.hpp).
-	 * @param native
+	 * @param nativeQualityMeasureValue
 	 * Native quality measure value.
 	 *
 	 * @return

@@ -148,6 +148,8 @@ class Algorithm {
 	 *
 	 * @throw Exception
 	 * Unrecognized key value in `nativeQualityMeasureValues`
+	 *
+	 * @ingroup compute
 	 */
 	static std::unordered_map<std::string, unsigned int>
 	getQualityBlockValues(const std::unordered_map<std::string, double>
@@ -158,7 +160,7 @@ class Algorithm {
 	 * Obtain the quality block value (i.e., [0, 100]) for the native
 	 * quality measure value.
 	 *
-	 * @param featureIdentifier
+	 * @param nativeQualityMeasureIdentifier
 	 * Identifier for the native quality measure (from nfiq2_constants.hpp).
 	 * @param nativeQualityMeasureValue
 	 * Native quality measure value.
@@ -169,10 +171,12 @@ class Algorithm {
 	 * quality block.
 	 *
 	 * @throw Exception
-	 * Unrecognized value for `featureIdentifier`.
+	 * Unrecognized value for `nativeQualityMeasureIdentifier`.
+	 *
+	 * @ingroup compute
 	 */
 	static unsigned int
-	getQualityBlockValue(const std::string &featureIdentifier,
+	getQualityBlockValue(const std::string &nativeQualityMeasureIdentifier,
 	    const double nativeQualityMeasureValue);
 
 	/**

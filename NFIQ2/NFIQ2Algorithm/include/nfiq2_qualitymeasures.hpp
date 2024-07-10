@@ -72,8 +72,8 @@ std::vector<std::string> getNativeQualityMeasureIDs();
 
 /**
  * @addtogroup compute
- * Compute unified quality scores, native quality measures, and
- * actionable quality feedback.
+ * Compute unified quality scores, native quality measures, quality block
+ * values, and actionable quality feedback.
  * @{
  */
 

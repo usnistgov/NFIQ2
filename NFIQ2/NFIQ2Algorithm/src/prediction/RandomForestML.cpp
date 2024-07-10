@@ -60,8 +60,7 @@ NFIQ2::Prediction::RandomForestML::initModule(const std::string &params)
 std::string
 NFIQ2::Prediction::RandomForestML::joinRFTrainedParamsString()
 {
-	unsigned int size = sizeof(g_strRandomForestTrainedParams) /
-	    sizeof(g_strRandomForestTrainedParams[0]);
+	const auto size = g_strRandomForestTrainedParams.size();
 	std::string result = "";
 	for (unsigned int i = 0; i < size; i++) {
 		result.append(g_strRandomForestTrainedParams[i]);

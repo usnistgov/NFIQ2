@@ -12,33 +12,10 @@
 
 namespace NFIQ2 { namespace QualityMeasures { namespace Impl {
 
-/**
- * @brief
- * Obtain all actionable quality feedback identifiers.
- *
- * @return
- * Vector of strings containing all actionable quality feedback
- * identifiers.
- */
 std::vector<std::string> getActionableQualityFeedbackIDs();
 
-/**
- * @brief
- * Obtain all quality feature IDs from quality modules.
- *
- * @return
- * Vector of strings containing all quality feature IDs.
- */
 std::vector<std::string> getNativeQualityMeasureIDs();
 
-/**
- * @brief
- * Obtain all native quality measure algorithm identifiers.
- *
- * @return
- * Vector of strings with all identifiers from
- * Identifiers::QualityMeasureAlgorithms.
- */
 std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
 
 /**
@@ -59,104 +36,33 @@ std::vector<std::string> getNativeQualityMeasureAlgorithmIDs();
  */
 void setFPU(unsigned int mode);
 
-/**
- * @brief
- * Obtain computed quality feature data from a fingerprint image.
- *
- * @param rawImage
- * Fingerprint image in raw format.
- *
- * @return
- * A vector of quality modules containing computed feature data.
- */
 std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 computeNativeQualityMeasureAlgorithms(
     const NFIQ2::FingerprintImageData &rawImage);
 
-/**
- * @brief
- * Obtain actionable quality feedback from a vector of features.
- *
- * @param features
- * A vector of Modules obtained from a raw fingerprint image.
- *
- * @return
- * A map of string, actionable quality feedback pairs.
- */
 std::unordered_map<std::string, double> getActionableQualityFeedback(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&features);
+	&algorithms);
 
-/**
- * @brief
- * Obtain actionable quality feedback from a fingerprint image.
- *
- * @param rawImage
- * Fingerprint image in raw format.
- *
- * @return
- * A map of string, actionable quality feedback pairs.
- */
 std::unordered_map<std::string, double> computeActionableQualityFeedback(
     const NFIQ2::FingerprintImageData &rawImage);
 
-/**
- * @brief
- * Obtain native quality measures from a vector of features.
- *
- * @param features
- * A vector of Modules obtained from a raw fingerprint image.
- *
- * @return
- * A map of string, quality feature data pairs.
- */
 std::unordered_map<std::string, double> getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&features);
+	&algorithms);
 
-/**
- * @brief
- * Compute and obtain quality features from a fingerprint image.
- *
- * @param rawImage
- * Fingerprint image in raw format.
- *
- * @return
- * A map of string, quality feature data pairs.
- */
 std::unordered_map<std::string, double> computeNativeQualityMeasures(
     const NFIQ2::FingerprintImageData &rawImage);
 
-/**
- * @brief
- * Obtain time elapsed during native quality measure algorithm computation, in
- * milliseconds.
- *
- * @param features
- * A vector of Modules obtained from a raw fingerprint image.
- *
- * @return
- * A map of string, quality feature speed pairs.
- */
 std::unordered_map<std::string, double> getNativeQualityMeasureAlgorithmSpeeds(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&features);
+	&algorithms);
 
-/**
- * @brief
- * Obtain native quality measure algorithms organized as a map.
- *
- * @param features
- * A vector of Modules obtained from a raw fingerprint image.
- *
- * @return
- * `features` in a map with `feature`'s identifier as the map key.
- */
 std::unordered_map<std::string,
     std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 getNativeQualityMeasureAlgorithms(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	&features);
+	&algorithms);
 }}}
 
 #endif /* NFIQ2_QUALITYMEASURES_IMPL_HPP_ */

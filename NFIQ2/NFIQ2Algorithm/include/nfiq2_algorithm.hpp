@@ -108,7 +108,8 @@ class Algorithm {
 	 * @see QualityMeasures::computeNativeQualityMeasureAlgorithms
 	 */
 	unsigned int computeUnifiedQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &algorithms) const;
+	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &algorithms)
+	    const;
 
 	/**
 	 * @brief

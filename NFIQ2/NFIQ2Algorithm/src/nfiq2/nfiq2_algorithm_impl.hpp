@@ -14,10 +14,7 @@
 
 namespace NFIQ2 {
 
-/**
- * Internal implementation of Applies trained random forest parameters to
- * quality features, computing an overall quality score (i.e., NFIQ2).
- */
+/** Internal implementation of NFIQ2::Algorithm */
 class Algorithm::Impl {
     public:
 	/**
@@ -44,141 +41,30 @@ class Algorithm::Impl {
 	/** Destructor. */
 	virtual ~Impl();
 
-	/**
-	 * @brief
-	 * Computes the quality score from the provided fingerprint image data.
-	 *
-	 * @param rawImage
-	 * Fingerprint image in raw format.
-	 *
-	 * @return
-	 * Computed quality score.
-	 *
-	 * @throw Exception
-	 * Called before random forest parameters were loaded.
-	 */
 	unsigned int computeUnifiedQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
 
-	/**
-	 * @brief
-	 * Computes the quality score from a vector of extracted `features`
-	 * from a cropped fingerprint image.
-	 *
-	 * @param features
-	 * Vector of computed feature metrics that contain quality
-	 * information for a fingerprint image.
-	 *
-	 * @return
-	 * Computed quality score.
-	 *
-	 * @throw Exception
-	 * Called before random forest parameters were loaded.
-	 */
 	unsigned int computeUnifiedQualityScore(const std::vector<
-	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &features)
+	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &algorithms)
 	    const;
 
-	/**
-	 * @brief
-	 * Obtain the quality block values (i.e., [0, 100]) for the native
-	 * quality measure values.
-	 *
-	 * @param nativeQualityMeasureValues
-	 * Map of keys representing identifiers for the native quality measures
-	 * (from nfiq2_constants.hpp), and values representing native quality
-	 * measure values.
-	 *
-	 * @return
-	 * Native quality measure values mapped [0, 100], per
-	 * ISO/IEC 29794-4:2024, suitable for inclusion in an ISO/IEC 39794-2
-	 * quality block.
-	 *
-	 * @throw Exception
-	 * Unrecognized key value in `nativeQualityMeasureValues`
-	 */
 	static std::unordered_map<std::string, unsigned int>
 	getQualityBlockValues(const std::unordered_map<std::string, double>
 		&nativeQualityMeasureValues);
 
-	/**
-	 * @brief
-	 * Obtain the quality block value (i.e., [0, 100]) for the native
-	 * quality measure value.
-	 *
-	 * @param featureIdentifier
-	 * Identifier for the native quality measure (from nfiq2_constants.hpp).
-	 * @param native
-	 * Native quality measure value.
-	 *
-	 * @return
-	 * Native quality measure value mapped [0, 100], per
-	 * ISO/IEC 29794-4:2024, suitable for inclusion in an ISO/IEC 39794-2
-	 * quality block.
-	 *
-	 * @throw Exception
-	 * Unrecognized value for `featureIdentifier`.
-	 */
 	static unsigned int
 	getQualityBlockValue(const std::string &featureIdentifier,
 	    const double nativeQualityMeasureValue);
 
-	/**
-	 * @brief
-	 * Computes the quality score from a map of extracted image
-	 * quality feature data.
-	 *
-	 * @param features
-	 * Map of string, quality feature data pairs.
-	 *
-	 * @return
-	 * Computed quality score.
-	 *
-	 * @throw Exception
-	 * Called before random forest parameters were loaded.
-	 */
 	unsigned int computeUnifiedQualityScore(
-	    const std::unordered_map<std::string, double> &features) const;
+	    const std::unordered_map<std::string, double> &algorithms) const;
 
-	/**
-	 * @brief
-	 * Obtain MD5 checksum of Random Forest parameter file loaded.
-	 *
-	 * @return
-	 * MD5 checksum of the Random Forest parameter file loaded.
-	 *
-	 * @throw Exception
-	 * Called before random forest parameters were loaded.
-	 */
 	std::string getParameterHash() const;
 
-	/**
-	 * @brief
-	 * Obtain if the random forest parameters are embedded in the library
-	 * or located externally.
-	 *
-	 * @return
-	 * true if random forest parameters are embedded, false otherwise.
-	 */
 	bool isEmbedded() const;
 
-	/**
-	 * @brief
-	 * Determine if random forest parameters have been loaded.
-	 *
-	 * @return
-	 * true if some set of random forest parameters have been loaded, false
-	 * otherwise.
-	 */
 	bool isInitialized() const;
 
-	/**
-	 * @brief
-	 * Retrieves FR capture technology.
-	 *
-	 * @return
-	 * Embedded friction ridge capture technology specified.
-	 */
 	unsigned int getEmbeddedFCT() const;
 
     private:
@@ -189,8 +75,10 @@ class Algorithm::Impl {
 	 * @brief
 	 * Retrieves unified quality score from a map of feature data.
 	 *
-	 * @param features
-	 * Map of string, QualityFeatureData pairs.
+	 * @param nativeQualityMeasureValues
+	 * Map of keys representing identifiers for the native quality measures
+	 * (from nfiq2_constants.hpp), and values representing native quality
+	 * measure values.
 	 *
 	 * @return
 	 * Computed unified quality score.
@@ -200,7 +88,8 @@ class Algorithm::Impl {
 	 * called before random forest parameters loaded.
 	 */
 	double getQualityPrediction(
-	    const std::unordered_map<std::string, double> &features) const;
+	    const std::unordered_map<std::string, double>
+		&nativeQualityMeasureValues) const;
 
 	/**
 	 * @brief

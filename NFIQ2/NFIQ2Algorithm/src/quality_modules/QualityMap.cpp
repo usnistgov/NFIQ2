@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
-#include <quality_modules/ImgProcROIFeature.h>
-#include <quality_modules/QualityMapFeatures.h>
+#include <quality_modules/ImgProcROI.h>
+#include <quality_modules/QualityMap.h>
 
 #include <cmath>
 #include <sstream>
@@ -19,18 +19,18 @@ const char
 	    "OrientationMap_ROIFilter_CoherenceRel"
     };
 
-NFIQ2::QualityMeasures::QualityMapFeatures::QualityMapFeatures(
+NFIQ2::QualityMeasures::QualityMap::QualityMap(
     const NFIQ2::FingerprintImageData &fingerprintImage,
-    const ImgProcROIFeature::ImgProcROIResults &imgProcResults)
+    const ImgProcROI::ImgProcROIResults &imgProcResults)
     : imgProcResults_ { imgProcResults }
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::QualityMapFeatures::~QualityMapFeatures() = default;
+NFIQ2::QualityMeasures::QualityMap::~QualityMap() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::QualityMapFeatures::computeFeatureData(
+NFIQ2::QualityMeasures::QualityMap::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -102,9 +102,9 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeFeatureData(
 }
 
 cv::Mat
-NFIQ2::QualityMeasures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
+NFIQ2::QualityMeasures::QualityMap::computeOrientationMap(cv::Mat &img,
     bool bFilterByROI, double &coherenceSum, double &coherenceRel,
-    unsigned int bs, ImgProcROIFeature::ImgProcROIResults roiResults)
+    unsigned int bs, ImgProcROI::ImgProcROIResults roiResults)
 {
 	coherenceSum = 0.0;
 	coherenceRel = 0.0;
@@ -216,8 +216,8 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeOrientationMap(cv::Mat &img,
 }
 
 bool
-NFIQ2::QualityMeasures::QualityMapFeatures::getAngleOfBlock(
-    const cv::Mat &block, double &angle, double &coherence)
+NFIQ2::QualityMeasures::QualityMap::getAngleOfBlock(const cv::Mat &block,
+    double &angle, double &coherence)
 {
 	// compute the numerical gradients of the block
 	// in x and y direction
@@ -277,7 +277,7 @@ NFIQ2::QualityMeasures::QualityMapFeatures::getAngleOfBlock(
 }
 
 cv::Mat
-NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradientX(
+NFIQ2::QualityMeasures::QualityMap::computeNumericalGradientX(
     const cv::Mat &mat)
 {
 	cv::Mat out(mat.rows, mat.cols, CV_64F, cv::Scalar(0));
@@ -299,7 +299,7 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradientX(
 }
 
 void
-NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradients(
+NFIQ2::QualityMeasures::QualityMap::computeNumericalGradients(
     const cv::Mat &mat, cv::Mat &grad_x, cv::Mat &grad_y)
 {
 	// get x-gradient
@@ -310,14 +310,14 @@ NFIQ2::QualityMeasures::QualityMapFeatures::computeNumericalGradients(
 }
 
 std::string
-NFIQ2::QualityMeasures::QualityMapFeatures::getName() const
+NFIQ2::QualityMeasures::QualityMap::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
 	    RegionOfInterestCoherence;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::QualityMapFeatures::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::QualityMap::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::RegionOfInterest::CoherenceMean,
 		Identifiers::QualityMeasures::RegionOfInterest::CoherenceSum };

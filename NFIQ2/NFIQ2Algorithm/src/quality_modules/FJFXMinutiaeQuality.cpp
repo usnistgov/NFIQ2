@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
-#include <quality_modules/FJFXMinutiaeQualityFeatures.h>
-#include <quality_modules/OCLHistogramFeature.h>
+#include <quality_modules/FJFXMinutiaeQuality.h>
+#include <quality_modules/OCLHistogram.h>
 
 #include <sstream>
 
@@ -14,25 +14,24 @@ const char NFIQ2::Identifiers::QualityMeasures::Minutiae::PercentImageMean50[] {
 const char NFIQ2::Identifiers::QualityMeasures::Minutiae::
     PercentOrientationCertainty80[] { "FJFXPos_OCL_MinutiaeQuality_80" };
 
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::FJFXMinutiaeQualityFeature(
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::FJFXMinutiaeQuality(
     const NFIQ2::FingerprintImageData &fingerprintImage,
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
+    const std::vector<FingerJetFX::Minutia> &minutiaData)
     : minutiaData_ { minutiaData }
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 };
 
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::
-    ~FJFXMinutiaeQualityFeature() = default;
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::~FJFXMinutiaeQuality() = default;
 
-std::vector<NFIQ2::QualityMeasures::FingerJetFXFeature::Minutia>
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getMinutiaData() const
+std::vector<NFIQ2::QualityMeasures::FingerJetFX::Minutia>
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::getMinutiaData() const
 {
 	return (this->minutiaData_);
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -135,21 +134,21 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getName() const
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeQuality;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::Minutiae::PercentImageMean50,
 		Identifiers::QualityMeasures::Minutiae::
 		    PercentOrientationCertainty80 };
 }
 
-std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeMuMinQuality(int bs,
+std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQuality::MinutiaData>
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::computeMuMinQuality(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -202,8 +201,8 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeMuMinQuality(int bs,
 	return vecMinData;
 }
 
-std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::MinutiaData>
-NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(int bs,
+std::vector<NFIQ2::QualityMeasures::FJFXMinutiaeQuality::MinutiaData>
+NFIQ2::QualityMeasures::FJFXMinutiaeQuality::computeOCLMinQuality(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::vector<MinutiaData> vecMinData;
@@ -246,7 +245,7 @@ NFIQ2::QualityMeasures::FJFXMinutiaeQualityFeature::computeOCLMinQuality(int bs,
 		// ignore return value as if false is returned OCL value is 0
 		// anyway
 		double ocl = 0.0;
-		OCLHistogramFeature::getOCLValueOfBlock(block, ocl);
+		OCLHistogram::getOCLValueOfBlock(block, ocl);
 
 		// assign minutiae quality value
 		// in range 0 (worst) - 100 (best)

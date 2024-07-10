@@ -12,7 +12,7 @@
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-class FingerJetFXFeature : public Algorithm {
+class FingerJetFX : public Algorithm {
     public:
 	typedef enum com_type {
 		e_COMType_MinutiaeLocation = 1,
@@ -99,19 +99,19 @@ class FingerJetFXFeature : public Algorithm {
 					     ///< the defined circle
 	};
 
-	FingerJetFXFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
-	virtual ~FingerJetFXFeature();
+	FingerJetFX(const NFIQ2::FingerprintImageData &fingerprintImage);
+	virtual ~FingerJetFX();
 
 	std::string getName() const override;
 
 	static std::vector<std::string> getNativeQualityMeasureIDs();
 
 	static std::pair<unsigned int, unsigned int> centerOfMinutiaeMass(
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
+	    const std::vector<FingerJetFX::Minutia> &minutiaData);
 
 	static std::string parseFRFXLLError(const FRFXLL_RESULT fxRes);
 
-	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+	std::vector<FingerJetFX::Minutia> getMinutiaData() const;
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
@@ -120,11 +120,11 @@ class FingerJetFXFeature : public Algorithm {
 	FRFXLL_RESULT
 	createContext(FRFXLL_HANDLE_PT phContext);
 
-	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
+	std::vector<FingerJetFX::Minutia> minutiaData_ {};
 
 	FJFXROIResults computeROI(int bs,
 	    const NFIQ2::FingerprintImageData &fingerprintImage,
-	    std::vector<FingerJetFXFeature::Object> vecRectDimensions);
+	    std::vector<FingerJetFX::Object> vecRectDimensions);
 };
 }}
 

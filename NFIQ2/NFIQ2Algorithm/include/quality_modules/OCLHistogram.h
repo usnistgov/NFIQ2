@@ -1,8 +1,11 @@
-#ifndef MUFEATURE_H
-#define MUFEATURE_H
+#ifndef OCLHISTOGRAMFEATURE_H
+#define OCLHISTOGRAMFEATURE_H
+
+#define BS_OCL NFIQ2::Sizes::LocalRegionSquare // block size for OCL
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
+#include <opencv2/core.hpp>
 #include <quality_modules/Module.h>
 
 #include <string>
@@ -10,26 +13,24 @@
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-class MuFeature : public Algorithm {
+static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
+	0.81, 0.852, 0.898 };
+
+class OCLHistogram : public Algorithm {
     public:
-	MuFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
-	virtual ~MuFeature();
+	OCLHistogram(const NFIQ2::FingerprintImageData &fingerprintImage);
+	virtual ~OCLHistogram();
 
 	std::string getName() const override;
 
-	/** @throw NFIQ2::Exception
-	 * Sigma has not yet been calculated.
-	 */
-	double getSigma() const;
-
 	static std::vector<std::string> getNativeQualityMeasureIDs();
+
+	// compute OCL value of a given block with block size BSxBS
+	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
-
-	bool sigmaComputed { false };
-	double sigma {};
 };
 
 }}

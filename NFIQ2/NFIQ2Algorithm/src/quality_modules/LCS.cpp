@@ -1,15 +1,15 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
-#include <quality_modules/FeatureFunctions.h>
-#include <quality_modules/LCSFeature.h>
+#include <quality_modules/LCS.h>
+#include <quality_modules/common_functions.h>
 
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityMeasureAlgorithms::LocalClarity[] {
 	"LocalClarity"
 };
-static const char NFIQ2LCSFeaturePrefix[] { "LCS_Bin10_" };
+static const char NFIQ2LCSPrefix[] { "LCS_Bin10_" };
 const char
     NFIQ2::Identifiers::QualityMeasures::LocalClarity::Histogram::Bin0[] {
 	    "LCS_Bin10_0"
@@ -60,22 +60,22 @@ const char NFIQ2::Identifiers::QualityMeasures::LocalClarity::StdDev[] {
 double loclar(cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const int scres, const bool padFlag);
 
-NFIQ2::QualityMeasures::LCSFeature::LCSFeature(
+NFIQ2::QualityMeasures::LCS::LCS(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::LCSFeature::~LCSFeature() = default;
+NFIQ2::QualityMeasures::LCS::~LCS() = default;
 
 std::string
-NFIQ2::QualityMeasures::LCSFeature::getName() const
+NFIQ2::QualityMeasures::LCS::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::LocalClarity;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::LCSFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::LCS::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::LocalClarity::Histogram::Bin0,
 		Identifiers::QualityMeasures::LocalClarity::Histogram::Bin1,
@@ -92,7 +92,7 @@ NFIQ2::QualityMeasures::LCSFeature::getNativeQualityMeasureIDs()
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::LCSFeature::computeFeatureData(
+NFIQ2::QualityMeasures::LCS::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -223,7 +223,7 @@ NFIQ2::QualityMeasures::LCSFeature::computeFeatureData(
 		histogramBins10.push_back(LCSHISTLIMITS[6]);
 		histogramBins10.push_back(LCSHISTLIMITS[7]);
 		histogramBins10.push_back(LCSHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, NFIQ2LCSFeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2LCSPrefix,
 		    histogramBins10, dataVector, 10);
 
 		this->setSpeed(timerLCS.stop());

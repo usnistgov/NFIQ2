@@ -1,17 +1,17 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_qualitymeasures.hpp>
-#include <quality_modules/FDAFeature.h>
-#include <quality_modules/FJFXMinutiaeQualityFeatures.h>
-#include <quality_modules/FingerJetFXFeature.h>
-#include <quality_modules/ImgProcROIFeature.h>
-#include <quality_modules/LCSFeature.h>
+#include <quality_modules/FDA.h>
+#include <quality_modules/FJFXMinutiaeQuality.h>
+#include <quality_modules/FingerJetFX.h>
+#include <quality_modules/ImgProcROI.h>
+#include <quality_modules/LCS.h>
 #include <quality_modules/Module.h>
-#include <quality_modules/MuFeature.h>
-#include <quality_modules/OCLHistogramFeature.h>
-#include <quality_modules/OFFeature.h>
-#include <quality_modules/QualityMapFeatures.h>
-#include <quality_modules/RVUPHistogramFeature.h>
+#include <quality_modules/Mu.h>
+#include <quality_modules/OCLHistogram.h>
+#include <quality_modules/OF.h>
+#include <quality_modules/QualityMap.h>
+#include <quality_modules/RVUPHistogram.h>
 
 #include "nfiq2_qualitymeasures_impl.hpp"
 #include <iomanip>
@@ -113,8 +113,8 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 		if (feature->getName() ==
 		    Identifiers::QualityMeasureAlgorithms::Contrast) {
 			// Uniform and Contrast
-			const std::shared_ptr<MuFeature> muFeatureModule =
-			    std::dynamic_pointer_cast<MuFeature>(feature);
+			const std::shared_ptr<Mu> muFeatureModule =
+			    std::dynamic_pointer_cast<Mu>(feature);
 
 			// check for uniform image by using the Sigma value
 			bool isUniformImage = false;
@@ -162,10 +162,8 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 		} else if (feature->getName() ==
 		    Identifiers::QualityMeasureAlgorithms::MinutiaeCount) {
 			// Minutiae
-			const std::shared_ptr<FingerJetFXFeature>
-			    fjfxFeatureModule =
-				std::dynamic_pointer_cast<FingerJetFXFeature>(
-				    feature);
+			const std::shared_ptr<FingerJetFX> fjfxFeatureModule =
+			    std::dynamic_pointer_cast<FingerJetFX>(feature);
 
 			for (const auto &fjfxFeature :
 			    fjfxFeatureModule->getFeatures()) {
@@ -185,10 +183,8 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
 			       Identifiers::QualityMeasureAlgorithms::
 				   RegionOfInterestMean) == 0) {
 			// FP Foreground
-			const std::shared_ptr<ImgProcROIFeature>
-			    roiFeatureModule =
-				std::dynamic_pointer_cast<ImgProcROIFeature>(
-				    feature);
+			const std::shared_ptr<ImgProcROI> roiFeatureModule =
+			    std::dynamic_pointer_cast<ImgProcROI>(feature);
 
 			// add ROI information to actionable quality feedback
 			// absolute number of ROI pixels (foreground)
@@ -229,33 +225,31 @@ NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasureAlgorithms(
 	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    features {};
 
-	features.push_back(std::make_shared<FDAFeature>(croppedImage));
+	features.push_back(std::make_shared<FDA>(croppedImage));
 
-	std::shared_ptr<FingerJetFXFeature> fjfxFeatureModule =
-	    std::make_shared<FingerJetFXFeature>(croppedImage);
+	std::shared_ptr<FingerJetFX> fjfxFeatureModule =
+	    std::make_shared<FingerJetFX>(croppedImage);
 	features.push_back(fjfxFeatureModule);
 
-	features.push_back(
-	    std::make_shared<FJFXMinutiaeQualityFeature>(croppedImage,
-		fjfxFeatureModule->getMinutiaData()));
+	features.push_back(std::make_shared<FJFXMinutiaeQuality>(croppedImage,
+	    fjfxFeatureModule->getMinutiaData()));
 
-	std::shared_ptr<ImgProcROIFeature> roiFeatureModule =
-	    std::make_shared<ImgProcROIFeature>(croppedImage);
+	std::shared_ptr<ImgProcROI> roiFeatureModule =
+	    std::make_shared<ImgProcROI>(croppedImage);
 	features.push_back(roiFeatureModule);
 
-	features.push_back(std::make_shared<LCSFeature>(croppedImage));
+	features.push_back(std::make_shared<LCS>(croppedImage));
 
-	features.push_back(std::make_shared<MuFeature>(croppedImage));
+	features.push_back(std::make_shared<Mu>(croppedImage));
 
-	features.push_back(std::make_shared<OCLHistogramFeature>(croppedImage));
+	features.push_back(std::make_shared<OCLHistogram>(croppedImage));
 
-	features.push_back(std::make_shared<OFFeature>(croppedImage));
+	features.push_back(std::make_shared<OF>(croppedImage));
 
-	features.push_back(std::make_shared<QualityMapFeatures>(croppedImage,
+	features.push_back(std::make_shared<QualityMap>(croppedImage,
 	    roiFeatureModule->getImgProcResults()));
 
-	features.push_back(
-	    std::make_shared<RVUPHistogramFeature>(croppedImage));
+	features.push_back(std::make_shared<RVUPHistogram>(croppedImage));
 
 	return features;
 }
@@ -295,16 +289,16 @@ std::vector<std::string>
 NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureIDs()
 {
 	const std::vector<std::vector<std::string>> vov {
-		FDAFeature::getNativeQualityMeasureIDs(),
-		FingerJetFXFeature::getNativeQualityMeasureIDs(),
-		FJFXMinutiaeQualityFeature::getNativeQualityMeasureIDs(),
-		ImgProcROIFeature::getNativeQualityMeasureIDs(),
-		LCSFeature::getNativeQualityMeasureIDs(),
-		MuFeature::getNativeQualityMeasureIDs(),
-		OCLHistogramFeature::getNativeQualityMeasureIDs(),
-		OFFeature::getNativeQualityMeasureIDs(),
-		QualityMapFeatures::getNativeQualityMeasureIDs(),
-		RVUPHistogramFeature::getNativeQualityMeasureIDs()
+		FDA::getNativeQualityMeasureIDs(),
+		FingerJetFX::getNativeQualityMeasureIDs(),
+		FJFXMinutiaeQuality::getNativeQualityMeasureIDs(),
+		ImgProcROI::getNativeQualityMeasureIDs(),
+		LCS::getNativeQualityMeasureIDs(),
+		Mu::getNativeQualityMeasureIDs(),
+		OCLHistogram::getNativeQualityMeasureIDs(),
+		OF::getNativeQualityMeasureIDs(),
+		QualityMap::getNativeQualityMeasureIDs(),
+		RVUPHistogram::getNativeQualityMeasureIDs()
 	};
 
 	std::vector<std::string> qualityFeatureIDs {};

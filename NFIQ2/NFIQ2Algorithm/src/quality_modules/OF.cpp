@@ -2,8 +2,8 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
-#include <quality_modules/FeatureFunctions.h>
-#include <quality_modules/OFFeature.h>
+#include <quality_modules/OF.h>
+#include <quality_modules/common_functions.h>
 
 #include <cmath>
 #include <sstream>
@@ -11,7 +11,7 @@
 const char NFIQ2::Identifiers::QualityMeasureAlgorithms::OrientationFlow[] {
 	"OrientationFlow"
 };
-static const char NFIQ2OFFeaturePrefix[] { "OF_Bin10_" };
+static const char NFIQ2OFPrefix[] { "OF_Bin10_" };
 const char
     NFIQ2::Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin0[] {
 	    "OF_Bin10_0"
@@ -59,22 +59,22 @@ const char NFIQ2::Identifiers::QualityMeasures::OrientationFlow::StdDev[] {
 	"OF_Bin10_StdDev"
 };
 
-NFIQ2::QualityMeasures::OFFeature::OFFeature(
+NFIQ2::QualityMeasures::OF::OF(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::OFFeature::~OFFeature() = default;
+NFIQ2::QualityMeasures::OF::~OF() = default;
 
 std::string
-NFIQ2::QualityMeasures::OFFeature::getName() const
+NFIQ2::QualityMeasures::OF::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::OrientationFlow;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::OFFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::OF::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin0,
 		Identifiers::QualityMeasures::OrientationFlow::Histogram::Bin1,
@@ -91,7 +91,7 @@ NFIQ2::QualityMeasures::OFFeature::getNativeQualityMeasureIDs()
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::OFFeature::computeFeatureData(
+NFIQ2::QualityMeasures::OF::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -306,7 +306,7 @@ NFIQ2::QualityMeasures::OFFeature::computeFeatureData(
 		histogramBins10.push_back(OFHISTLIMITS[6]);
 		histogramBins10.push_back(OFHISTLIMITS[7]);
 		histogramBins10.push_back(OFHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, NFIQ2OFFeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2OFPrefix,
 		    histogramBins10, dataVector, 10);
 
 		this->setSpeed(timerOF.stop());

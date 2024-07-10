@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
-#include <quality_modules/MuFeature.h>
+#include <quality_modules/Mu.h>
 
 #include <sstream>
 
@@ -13,16 +13,16 @@ const char NFIQ2::Identifiers::QualityMeasures::Contrast::MeanOfBlockMeans[] {
 	"MMB"
 };
 
-NFIQ2::QualityMeasures::MuFeature::MuFeature(
+NFIQ2::QualityMeasures::Mu::Mu(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::MuFeature::~MuFeature() = default;
+NFIQ2::QualityMeasures::Mu::~Mu() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::MuFeature::computeFeatureData(
+NFIQ2::QualityMeasures::Mu::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -153,7 +153,7 @@ NFIQ2::QualityMeasures::MuFeature::computeFeatureData(
 }
 
 double
-NFIQ2::QualityMeasures::MuFeature::getSigma() const
+NFIQ2::QualityMeasures::Mu::getSigma() const
 {
 	if (!this->sigmaComputed)
 		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
@@ -163,13 +163,13 @@ NFIQ2::QualityMeasures::MuFeature::getSigma() const
 }
 
 std::string
-NFIQ2::QualityMeasures::MuFeature::getName() const
+NFIQ2::QualityMeasures::Mu::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::Contrast;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::MuFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::Mu::getNativeQualityMeasureIDs()
 {
 	std::vector<std::string> featureIDs;
 	featureIDs.push_back(

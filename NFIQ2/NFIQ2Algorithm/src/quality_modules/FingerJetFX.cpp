@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
-#include <quality_modules/FingerJetFXFeature.h>
+#include <quality_modules/FingerJetFX.h>
 
 #include <algorithm>
 #include <cstring>
@@ -19,17 +19,17 @@ const char NFIQ2::Identifiers::QualityMeasures::Minutiae::CountCOM[] {
 	"FingerJetFX_MinCount_COMMinRect200x200"
 };
 
-NFIQ2::QualityMeasures::FingerJetFXFeature::FingerJetFXFeature(
+NFIQ2::QualityMeasures::FingerJetFX::FingerJetFX(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::FingerJetFXFeature::~FingerJetFXFeature() = default;
+NFIQ2::QualityMeasures::FingerJetFX::~FingerJetFX() = default;
 
 std::pair<unsigned int, unsigned int>
-NFIQ2::QualityMeasures::FingerJetFXFeature::centerOfMinutiaeMass(
-    const std::vector<FingerJetFXFeature::Minutia> &minutiaData)
+NFIQ2::QualityMeasures::FingerJetFX::centerOfMinutiaeMass(
+    const std::vector<FingerJetFX::Minutia> &minutiaData)
 {
 	unsigned int lx { 0 }, ly { 0 };
 	for (const auto &m : minutiaData) {
@@ -42,8 +42,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::centerOfMinutiaeMass(
 }
 
 std::string
-NFIQ2::QualityMeasures::FingerJetFXFeature::parseFRFXLLError(
-    const FRFXLL_RESULT fxRes)
+NFIQ2::QualityMeasures::FingerJetFX::parseFRFXLLError(const FRFXLL_RESULT fxRes)
 {
 	switch (fxRes) {
 	case FRFXLL_ERR_FB_TOO_SMALL_AREA:
@@ -79,14 +78,14 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::parseFRFXLLError(
 	}
 }
 
-std::vector<NFIQ2::QualityMeasures::FingerJetFXFeature::Minutia>
-NFIQ2::QualityMeasures::FingerJetFXFeature::getMinutiaData() const
+std::vector<NFIQ2::QualityMeasures::FingerJetFX::Minutia>
+NFIQ2::QualityMeasures::FingerJetFX::getMinutiaData() const
 {
 	return (this->minutiaData_);
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
+NFIQ2::QualityMeasures::FingerJetFX::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -164,7 +163,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_CannotCreateFeatureSet,
 		    "Could not create feature set from raw data: " +
-			FingerJetFXFeature::parseFRFXLLError(fxRes));
+			FingerJetFX::parseFRFXLLError(fxRes));
 	}
 
 	// close handle
@@ -183,7 +182,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
 		    "Failed to obtain Minutia Info from feature set: " +
-			FingerJetFXFeature::parseFRFXLLError(fxResMin));
+			FingerJetFX::parseFRFXLLError(fxResMin));
 	}
 
 	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
@@ -202,7 +201,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 		throw NFIQ2::Exception(
 		    NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
 		    "Failed to parse Minutia Data into 19794 Minutia Struct: " +
-			FingerJetFXFeature::parseFRFXLLError(fxResData));
+			FingerJetFX::parseFRFXLLError(fxResData));
 	}
 
 	this->minutiaData_.clear();
@@ -243,14 +242,14 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 	}
 
 	// compute ROI and return features
-	std::vector<FingerJetFXFeature::Object> vecRectDimensions;
-	FingerJetFXFeature::Object rect200x200;
+	std::vector<FingerJetFX::Object> vecRectDimensions;
+	FingerJetFX::Object rect200x200;
 	rect200x200.comType = e_COMType_MinutiaeLocation;
 	rect200x200.width = 200;
 	rect200x200.height = 200;
 	vecRectDimensions.push_back(rect200x200);
 
-	FingerJetFXFeature::FJFXROIResults roiResults = computeROI(
+	FingerJetFX::FJFXROIResults roiResults = computeROI(
 	    Sizes::LocalRegionSquare, fingerprintImage, vecRectDimensions);
 	double noOfMinInRect200x200 = 0;
 	for (unsigned int i = 0;
@@ -283,21 +282,20 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::FingerJetFXFeature::getName() const
+NFIQ2::QualityMeasures::FingerJetFX::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::MinutiaeCount;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::FingerJetFXFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::FingerJetFX::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::Minutiae::CountCOM,
 		Identifiers::QualityMeasures::Minutiae::Count };
 }
 
 FRFXLL_RESULT
-NFIQ2::QualityMeasures::FingerJetFXFeature::createContext(
-    FRFXLL_HANDLE_PT phContext)
+NFIQ2::QualityMeasures::FingerJetFX::createContext(FRFXLL_HANDLE_PT phContext)
 {
 	FRFXLL_RESULT rc = FRFXLL_OK;
 
@@ -311,21 +309,21 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::createContext(
 	return rc;
 }
 
-NFIQ2::QualityMeasures::FingerJetFXFeature::FJFXROIResults
-NFIQ2::QualityMeasures::FingerJetFXFeature::computeROI(int bs,
+NFIQ2::QualityMeasures::FingerJetFX::FJFXROIResults
+NFIQ2::QualityMeasures::FingerJetFX::computeROI(int bs,
     const NFIQ2::FingerprintImageData &fingerprintImage,
-    std::vector<FingerJetFXFeature::Object> vecRectDimensions)
+    std::vector<FingerJetFX::Object> vecRectDimensions)
 {
 	unsigned int fpHeight = fingerprintImage.height;
 	unsigned int fpWidth = fingerprintImage.width;
 
-	FingerJetFXFeature::FJFXROIResults roiResults;
+	FingerJetFX::FJFXROIResults roiResults;
 	roiResults.chosenBlockSize = bs;
 
 	// compute Centre of Mass based on minutiae
 	std::tie(roiResults.centreOfMassMinutiae.x,
 	    roiResults.centreOfMassMinutiae.y) =
-	    FingerJetFXFeature::centerOfMinutiaeMass(this->minutiaData_);
+	    FingerJetFX::centerOfMinutiaeMass(this->minutiaData_);
 
 	// get number of minutiae that lie inside a block defined by the Centre
 	// of Mass (COM)
@@ -372,7 +370,7 @@ NFIQ2::QualityMeasures::FingerJetFXFeature::computeROI(int bs,
 			}
 		}
 
-		FingerJetFXFeature::MinutiaeInObjectInfo minObjInfo;
+		FingerJetFX::MinutiaeInObjectInfo minObjInfo;
 		minObjInfo.height = vecRectDimensions.at(i).height;
 		minObjInfo.width = vecRectDimensions.at(i).width;
 		minObjInfo.noOfMinutiae = noOfMinutiaeInRect;

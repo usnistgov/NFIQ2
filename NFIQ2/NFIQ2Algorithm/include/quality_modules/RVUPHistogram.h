@@ -1,5 +1,5 @@
-#ifndef LCSFEATURE_H
-#define LCSFEATURE_H
+#ifndef RVUPHISTOGRAMFEATURE_H
+#define RVUPHISTOGRAMFEATURE_H
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -10,13 +10,12 @@
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
-	0.87 };
+static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
-class LCSFeature : public Algorithm {
+class RVUPHistogram : public Algorithm {
     public:
-	LCSFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
-	virtual ~LCSFeature();
+	RVUPHistogram(const NFIQ2::FingerprintImageData &fingerprintImage);
+	virtual ~RVUPHistogram();
 
 	std::string getName() const override;
 
@@ -28,8 +27,13 @@ class LCSFeature : public Algorithm {
 
 	const int blocksize { Sizes::LocalRegionSquare };
 	const double threshold { .1 };
-	const int scannerRes { 500 };
-	const bool padFlag { false };
+	const int slantedBlockSizeX {
+		Sizes::VerticallyAlignedLocalRegionWidth
+	};
+	const int slantedBlockSizeY {
+		Sizes::VerticallyAlignedLocalRegionHeight
+	};
+	const bool padFlag { true };
 };
 
 }}

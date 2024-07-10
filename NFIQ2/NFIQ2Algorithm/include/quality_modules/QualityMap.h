@@ -6,7 +6,7 @@
 #include <opencv2/core.hpp>
 #include <quality_modules/Module.h>
 
-#include "ImgProcROIFeature.h"
+#include "ImgProcROI.h"
 
 #include <string>
 #include <vector>
@@ -17,11 +17,11 @@ namespace NFIQ2 { namespace QualityMeasures {
 #define LOW_FLOW_MAP_LOW_FLOW 127
 #define LOW_FLOW_MAP_HIGH_FLOW 255
 
-class QualityMapFeatures : public Algorithm {
+class QualityMap : public Algorithm {
     public:
-	QualityMapFeatures(const NFIQ2::FingerprintImageData &fingerprintImage,
-	    const ImgProcROIFeature::ImgProcROIResults &imgProcResults);
-	virtual ~QualityMapFeatures();
+	QualityMap(const NFIQ2::FingerprintImageData &fingerprintImage,
+	    const ImgProcROI::ImgProcROIResults &imgProcResults);
+	virtual ~QualityMap();
 
 	std::string getName() const override;
 
@@ -38,13 +38,13 @@ class QualityMapFeatures : public Algorithm {
 	// compute low flow map with ROI filter
 	static cv::Mat computeLowFlowMapWithROIFilter(cv::Mat &img,
 	    bool bUseSurroundingWindow, unsigned int bs,
-	    ImgProcROIFeature::ImgProcROIResults &roiResults,
+	    ImgProcROI::ImgProcROIResults &roiResults,
 	    unsigned int &noOfHighFlowBlocks, unsigned int &noOfLowFlowBlocks);
 
 	// compute orientation map
 	static cv::Mat computeOrientationMap(cv::Mat &img, bool bFilterByROI,
 	    double &coherenceSum, double &coherenceRel, unsigned int bs,
-	    ImgProcROIFeature::ImgProcROIResults roiResults);
+	    ImgProcROI::ImgProcROIResults roiResults);
 
 	// static helper functions for numberical gradient computation
 	static cv::Mat computeNumericalGradientX(const cv::Mat &mat);
@@ -55,7 +55,7 @@ class QualityMapFeatures : public Algorithm {
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
-	ImgProcROIFeature::ImgProcROIResults imgProcResults_ {};
+	ImgProcROI::ImgProcROIResults imgProcResults_ {};
 };
 
 }}

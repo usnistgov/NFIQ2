@@ -5,7 +5,7 @@
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <quality_modules/FingerJetFXFeature.h>
+#include <quality_modules/FingerJetFX.h>
 #include <quality_modules/Module.h>
 
 #include "FRFXLL.h"
@@ -20,7 +20,7 @@ namespace NFIQ2 { namespace QualityMeasures {
 /* Ideal Mean of pixel values in a neighborhood. */
 #define IDEALMEAN 127
 
-class FJFXMinutiaeQualityFeature : public Algorithm {
+class FJFXMinutiaeQuality : public Algorithm {
     public:
 	struct MinutiaData {
 		int x;		///< x-coordinate from top-left corner
@@ -28,11 +28,10 @@ class FJFXMinutiaeQualityFeature : public Algorithm {
 		double quality; ///< computed minutiae quality value
 	};
 
-	FJFXMinutiaeQualityFeature(
-	    const NFIQ2::FingerprintImageData &fingerprintImage,
-	    const std::vector<FingerJetFXFeature::Minutia> &minutiaData);
+	FJFXMinutiaeQuality(const NFIQ2::FingerprintImageData &fingerprintImage,
+	    const std::vector<FingerJetFX::Minutia> &minutiaData);
 
-	virtual ~FJFXMinutiaeQualityFeature();
+	virtual ~FJFXMinutiaeQuality();
 
 	std::string getName() const override;
 
@@ -41,13 +40,13 @@ class FJFXMinutiaeQualityFeature : public Algorithm {
 	/** @throw NFIQ2::Exception
 	 * Template could not be extracted.
 	 */
-	std::vector<FingerJetFXFeature::Minutia> getMinutiaData() const;
+	std::vector<FingerJetFX::Minutia> getMinutiaData() const;
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
-	std::vector<FingerJetFXFeature::Minutia> minutiaData_ {};
+	std::vector<FingerJetFX::Minutia> minutiaData_ {};
 	std::vector<MinutiaData> computeMuMinQuality(int bs,
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 

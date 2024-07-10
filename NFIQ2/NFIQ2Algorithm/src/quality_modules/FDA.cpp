@@ -1,8 +1,8 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
-#include <quality_modules/FDAFeature.h>
-#include <quality_modules/FeatureFunctions.h>
+#include <quality_modules/FDA.h>
+#include <quality_modules/common_functions.h>
 
 #include <cmath>
 #include <sstream>
@@ -11,7 +11,7 @@ const char
     NFIQ2::Identifiers::QualityMeasureAlgorithms::FrequencyDomainAnalysis[] {
 	    "FrequencyDomainAnalysis"
     };
-static const char NFIQ2FDAFeaturePrefix[] { "FDA_Bin10_" };
+static const char NFIQ2FDAPrefix[] { "FDA_Bin10_" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
     Histogram::Bin0[] { "FDA_Bin10_0" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
@@ -44,16 +44,16 @@ const char
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
     const int v1sz_y, const bool padFlag);
 
-NFIQ2::QualityMeasures::FDAFeature::FDAFeature(
+NFIQ2::QualityMeasures::FDA::FDA(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::FDAFeature::~FDAFeature() = default;
+NFIQ2::QualityMeasures::FDA::~FDA() = default;
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::FDAFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::FDA::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::FrequencyDomainAnalysis::
 		     Histogram::Bin0,
@@ -80,14 +80,14 @@ NFIQ2::QualityMeasures::FDAFeature::getNativeQualityMeasureIDs()
 }
 
 std::string
-NFIQ2::QualityMeasures::FDAFeature::getName() const
+NFIQ2::QualityMeasures::FDA::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
 	    FrequencyDomainAnalysis;
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::FDAFeature::computeFeatureData(
+NFIQ2::QualityMeasures::FDA::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -216,7 +216,7 @@ NFIQ2::QualityMeasures::FDAFeature::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[6]);
 		histogramBins10.push_back(FDAHISTLIMITS[7]);
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
-		addHistogramFeatures(featureDataList, NFIQ2FDAFeaturePrefix,
+		addHistogramFeatures(featureDataList, NFIQ2FDAPrefix,
 		    histogramBins10, dataVector, binCount);
 
 		this->setSpeed(timer.stop());

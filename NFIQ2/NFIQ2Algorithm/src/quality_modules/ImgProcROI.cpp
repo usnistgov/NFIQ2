@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/imgproc.hpp>
-#include <quality_modules/ImgProcROIFeature.h>
+#include <quality_modules/ImgProcROI.h>
 
 #include <sstream>
 
@@ -13,16 +13,16 @@ const char NFIQ2::Identifiers::QualityMeasures::RegionOfInterest::Mean[] {
 	"ImgProcROIArea_Mean"
 };
 
-NFIQ2::QualityMeasures::ImgProcROIFeature::ImgProcROIFeature(
+NFIQ2::QualityMeasures::ImgProcROI::ImgProcROI(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::ImgProcROIFeature::~ImgProcROIFeature() = default;
+NFIQ2::QualityMeasures::ImgProcROI::~ImgProcROI() = default;
 
-NFIQ2::QualityMeasures::ImgProcROIFeature::ImgProcROIResults
-NFIQ2::QualityMeasures::ImgProcROIFeature::getImgProcResults()
+NFIQ2::QualityMeasures::ImgProcROI::ImgProcROIResults
+NFIQ2::QualityMeasures::ImgProcROI::getImgProcResults()
 {
 	if (!this->imgProcComputed_) {
 		throw NFIQ2::Exception { NFIQ2::ErrorCode::NoDataAvailable,
@@ -33,7 +33,7 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::getImgProcResults()
 }
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
+NFIQ2::QualityMeasures::ImgProcROI::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -99,21 +99,20 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::ImgProcROIFeature::getName() const
+NFIQ2::QualityMeasures::ImgProcROI::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
 	    RegionOfInterestMean;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::ImgProcROIFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::ImgProcROI::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::RegionOfInterest::Mean };
 }
 
-NFIQ2::QualityMeasures::ImgProcROIFeature::ImgProcROIResults
-NFIQ2::QualityMeasures::ImgProcROIFeature::computeROI(cv::Mat &img,
-    unsigned int bs)
+NFIQ2::QualityMeasures::ImgProcROI::ImgProcROIResults
+NFIQ2::QualityMeasures::ImgProcROI::computeROI(cv::Mat &img, unsigned int bs)
 {
 	ImgProcROIResults roiResults;
 
@@ -286,7 +285,7 @@ NFIQ2::QualityMeasures::ImgProcROIFeature::computeROI(cv::Mat &img,
 }
 
 bool
-NFIQ2::QualityMeasures::ImgProcROIFeature::isBlackPixelAvailable(cv::Mat &img,
+NFIQ2::QualityMeasures::ImgProcROI::isBlackPixelAvailable(cv::Mat &img,
     cv::Point &point)
 {
 	bool found = false;

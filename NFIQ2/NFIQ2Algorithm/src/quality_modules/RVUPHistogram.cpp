@@ -1,8 +1,8 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
-#include <quality_modules/FeatureFunctions.h>
-#include <quality_modules/RVUPHistogramFeature.h>
+#include <quality_modules/RVUPHistogram.h>
+#include <quality_modules/common_functions.h>
 
 #include <cmath>
 #include <sstream>
@@ -44,16 +44,16 @@ void rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
     const int v1sz_y, bool padFlag, std::vector<double> &ratios,
     std::vector<uint8_t> &Nans);
 
-NFIQ2::QualityMeasures::RVUPHistogramFeature::RVUPHistogramFeature(
+NFIQ2::QualityMeasures::RVUPHistogram::RVUPHistogram(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::RVUPHistogramFeature::~RVUPHistogramFeature() = default;
+NFIQ2::QualityMeasures::RVUPHistogram::~RVUPHistogram() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::RVUPHistogramFeature::computeFeatureData(
+NFIQ2::QualityMeasures::RVUPHistogram::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -202,14 +202,14 @@ NFIQ2::QualityMeasures::RVUPHistogramFeature::computeFeatureData(
 }
 
 std::string
-NFIQ2::QualityMeasures::RVUPHistogramFeature::getName() const
+NFIQ2::QualityMeasures::RVUPHistogram::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
 	    RidgeValleyUniformity;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::RVUPHistogramFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::RVUPHistogram::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::RidgeValleyUniformity::
 		     Histogram::Bin0,

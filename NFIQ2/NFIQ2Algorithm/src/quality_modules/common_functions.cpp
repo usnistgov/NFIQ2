@@ -1,12 +1,12 @@
 
 #include <nfiq2_exception.hpp>
 #include <opencv2/imgproc.hpp>
-#include <quality_modules/FDAFeature.h>
-#include <quality_modules/FeatureFunctions.h>
-#include <quality_modules/LCSFeature.h>
-#include <quality_modules/OCLHistogramFeature.h>
-#include <quality_modules/OFFeature.h>
-#include <quality_modules/RVUPHistogramFeature.h>
+#include <quality_modules/FDA.h>
+#include <quality_modules/LCS.h>
+#include <quality_modules/OCLHistogram.h>
+#include <quality_modules/OF.h>
+#include <quality_modules/RVUPHistogram.h>
+#include <quality_modules/common_functions.h>
 
 #include <algorithm>
 #include <cmath>
@@ -681,7 +681,7 @@ NFIQ2::QualityMeasures::getQualityBlockValue(
 		constexpr double maxAngleDiffRadian { maxAngleDiffDegree *
 			deg2Rad };
 
-		constexpr double thetaMinDegree { OFFeature::angleMin };
+		constexpr double thetaMinDegree { OF::angleMin };
 		constexpr double thetaMinRadian { thetaMinDegree * deg2Rad };
 
 		constexpr double denominator = { (90.0 * deg2Rad) -

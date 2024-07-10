@@ -69,17 +69,17 @@ set(SOURCE_FILES
 
 set(FEATURES_FILES
     "src/quality_modules/Module.cpp"
-    "src/quality_modules/FDAFeature.cpp"
-    "src/quality_modules/FJFXMinutiaeQualityFeatures.cpp"
-    "src/quality_modules/FeatureFunctions.cpp"
-    "src/quality_modules/FingerJetFXFeature.cpp"
-    "src/quality_modules/ImgProcROIFeature.cpp"
-    "src/quality_modules/LCSFeature.cpp"
-    "src/quality_modules/MuFeature.cpp"
-    "src/quality_modules/OCLHistogramFeature.cpp"
-    "src/quality_modules/OFFeature.cpp"
-    "src/quality_modules/QualityMapFeatures.cpp"
-    "src/quality_modules/RVUPHistogramFeature.cpp")
+    "src/quality_modules/FDA.cpp"
+    "src/quality_modules/FJFXMinutiaeQuality.cpp"
+    "src/quality_modules/common_functions.cpp"
+    "src/quality_modules/FingerJetFX.cpp"
+    "src/quality_modules/ImgProcROI.cpp"
+    "src/quality_modules/LCS.cpp"
+    "src/quality_modules/Mu.cpp"
+    "src/quality_modules/OCLHistogram.cpp"
+    "src/quality_modules/OF.cpp"
+    "src/quality_modules/QualityMap.cpp"
+    "src/quality_modules/RVUPHistogram.cpp")
 
 set(PREDICTION_FILES
     "src/prediction/RandomForestML.cpp")

@@ -1,7 +1,7 @@
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
-#include <quality_modules/FeatureFunctions.h>
-#include <quality_modules/OCLHistogramFeature.h>
+#include <quality_modules/OCLHistogram.h>
+#include <quality_modules/common_functions.h>
 
 #include <sstream>
 
@@ -37,16 +37,16 @@ const char NFIQ2::Identifiers::QualityMeasures::OrientationCertainty::StdDev[] {
 	"OCL_Bin10_StdDev"
 };
 
-NFIQ2::QualityMeasures::OCLHistogramFeature::OCLHistogramFeature(
+NFIQ2::QualityMeasures::OCLHistogram::OCLHistogram(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
 
-NFIQ2::QualityMeasures::OCLHistogramFeature::~OCLHistogramFeature() = default;
+NFIQ2::QualityMeasures::OCLHistogram::~OCLHistogram() = default;
 
 std::unordered_map<std::string, double>
-NFIQ2::QualityMeasures::OCLHistogramFeature::computeFeatureData(
+NFIQ2::QualityMeasures::OCLHistogram::computeFeatureData(
     const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
@@ -145,8 +145,8 @@ NFIQ2::QualityMeasures::OCLHistogramFeature::computeFeatureData(
 }
 
 bool
-NFIQ2::QualityMeasures::OCLHistogramFeature::getOCLValueOfBlock(
-    const cv::Mat &block, double &ocl)
+NFIQ2::QualityMeasures::OCLHistogram::getOCLValueOfBlock(const cv::Mat &block,
+    double &ocl)
 {
 	double eigv_max = 0.0, eigv_min = 0.0;
 	// compute the numerical gradients of the block
@@ -188,14 +188,14 @@ NFIQ2::QualityMeasures::OCLHistogramFeature::getOCLValueOfBlock(
 }
 
 std::string
-NFIQ2::QualityMeasures::OCLHistogramFeature::getName() const
+NFIQ2::QualityMeasures::OCLHistogram::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
 	    OrientationCertainty;
 }
 
 std::vector<std::string>
-NFIQ2::QualityMeasures::OCLHistogramFeature::getNativeQualityMeasureIDs()
+NFIQ2::QualityMeasures::OCLHistogram::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::OrientationCertainty::Histogram::
 		     Bin0,

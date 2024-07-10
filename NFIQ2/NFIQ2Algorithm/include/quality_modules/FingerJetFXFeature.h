@@ -1,9 +1,9 @@
 #ifndef FINGERJETFXFEATURE_H
 #define FINGERJETFXFEATURE_H
 
-#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
+#include <quality_modules/Module.h>
 
 #include "FRFXLL.h"
 

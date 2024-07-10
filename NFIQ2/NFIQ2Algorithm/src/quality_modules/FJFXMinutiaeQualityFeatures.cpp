@@ -1,7 +1,7 @@
-#include <features/FJFXMinutiaeQualityFeatures.h>
-#include <features/OCLHistogramFeature.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
+#include <quality_modules/FJFXMinutiaeQualityFeatures.h>
+#include <quality_modules/OCLHistogramFeature.h>
 
 #include <sstream>
 

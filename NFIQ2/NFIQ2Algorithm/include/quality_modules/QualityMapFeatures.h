@@ -1,10 +1,10 @@
 #ifndef QUALITYMAPFEATURES_H
 #define QUALITYMAPFEATURES_H
 
-#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <opencv2/core.hpp>
+#include <quality_modules/Module.h>
 
 #include "ImgProcROIFeature.h"
 

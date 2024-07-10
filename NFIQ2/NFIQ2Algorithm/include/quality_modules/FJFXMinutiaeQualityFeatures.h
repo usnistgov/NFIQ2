@@ -1,12 +1,12 @@
 #ifndef FINGERJETFXMINUTIAEQUALITYFEATURE_H
 #define FINGERJETFXMINUTIAEQUALITYFEATURE_H
 
-#include <features/FingerJetFXFeature.h>
-#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <quality_modules/FingerJetFXFeature.h>
+#include <quality_modules/Module.h>
 
 #include "FRFXLL.h"
 

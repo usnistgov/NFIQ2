@@ -1,24 +1,26 @@
-#ifndef LCSFEATURE_H
-#define LCSFEATURE_H
+#ifndef MUFEATURE_H
+#define MUFEATURE_H
 
-#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
+#include <quality_modules/Module.h>
 
 #include <string>
 #include <vector>
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-static double LCSHISTLIMITS[9] = { 0, 0.70, 0.74, 0.77, 0.79, 0.81, 0.83, 0.85,
-	0.87 };
-
-class LCSFeature : public Algorithm {
+class MuFeature : public Algorithm {
     public:
-	LCSFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
-	virtual ~LCSFeature();
+	MuFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
+	virtual ~MuFeature();
 
 	std::string getName() const override;
+
+	/** @throw NFIQ2::Exception
+	 * Sigma has not yet been calculated.
+	 */
+	double getSigma() const;
 
 	static std::vector<std::string> getNativeQualityMeasureIDs();
 
@@ -26,10 +28,8 @@ class LCSFeature : public Algorithm {
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
 
-	const int blocksize { Sizes::LocalRegionSquare };
-	const double threshold { .1 };
-	const int scannerRes { 500 };
-	const bool padFlag { false };
+	bool sigmaComputed { false };
+	double sigma {};
 };
 
 }}

@@ -1,26 +1,32 @@
-#ifndef RVUPHISTOGRAMFEATURE_H
-#define RVUPHISTOGRAMFEATURE_H
-
-#include <features/Module.h>
+#ifndef FDAFEATURE_H
+#define FDAFEATURE_H
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
+#include <quality_modules/Module.h>
 
 #include <string>
 #include <vector>
 
+/**
+******************************************************************************
+* @class FDAFeature
+* @brief NFIQ2 Frequency Domain Analysis Quality Feature
+******************************************************************************/
+
 namespace NFIQ2 { namespace QualityMeasures {
 
-static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
+static double FDAHISTLIMITS[9] = { 0.268, 0.304, 0.33, 0.355, 0.38, 0.407, 0.44,
+	0.50, 1 };
 
-class RVUPHistogramFeature : public Algorithm {
+class FDAFeature : public Algorithm {
     public:
-	RVUPHistogramFeature(
-	    const NFIQ2::FingerprintImageData &fingerprintImage);
-	virtual ~RVUPHistogramFeature();
+	FDAFeature(const NFIQ2::FingerprintImageData &fingerprintImage);
+	virtual ~FDAFeature();
 
 	std::string getName() const override;
 
 	static std::vector<std::string> getNativeQualityMeasureIDs();
+	static const char moduleName[];
 
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
@@ -34,11 +40,8 @@ class RVUPHistogramFeature : public Algorithm {
 	const int slantedBlockSizeY {
 		Sizes::VerticallyAlignedLocalRegionHeight
 	};
-	const bool padFlag { true };
+	const bool padFlag { true }; // used by getRotatedBlock
 };
-
 }}
 
-#endif
-
-/******************************************************************************/
+#endif /* FDAFEATURE_H */

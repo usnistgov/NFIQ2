@@ -1,5 +1,5 @@
-#include <features/Module.h>
 #include <nfiq2_constants.hpp>
+#include <quality_modules/Module.h>
 
 #include <vector>
 

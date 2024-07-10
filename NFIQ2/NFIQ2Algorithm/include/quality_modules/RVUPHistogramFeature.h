@@ -1,37 +1,40 @@
-#ifndef OCLHISTOGRAMFEATURE_H
-#define OCLHISTOGRAMFEATURE_H
+#ifndef RVUPHISTOGRAMFEATURE_H
+#define RVUPHISTOGRAMFEATURE_H
 
-#define BS_OCL NFIQ2::Sizes::LocalRegionSquare // block size for OCL
-
-#include <features/Module.h>
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <opencv2/core.hpp>
+#include <quality_modules/Module.h>
 
 #include <string>
 #include <vector>
 
 namespace NFIQ2 { namespace QualityMeasures {
 
-static double OCLPHISTLIMITS[9] = { 0.337, 0.479, 0.579, 0.655, 0.716, 0.766,
-	0.81, 0.852, 0.898 };
+static double RVUPHISTLIMITS[9] = { 0.5, 0.667, 0.8, 1, 1.25, 1.5, 2, 24, 30 };
 
-class OCLHistogramFeature : public Algorithm {
+class RVUPHistogramFeature : public Algorithm {
     public:
-	OCLHistogramFeature(
+	RVUPHistogramFeature(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
-	virtual ~OCLHistogramFeature();
+	virtual ~RVUPHistogramFeature();
 
 	std::string getName() const override;
 
 	static std::vector<std::string> getNativeQualityMeasureIDs();
 
-	// compute OCL value of a given block with block size BSxBS
-	static bool getOCLValueOfBlock(const cv::Mat &block, double &ocl);
-
     private:
 	std::unordered_map<std::string, double> computeFeatureData(
 	    const NFIQ2::FingerprintImageData &fingerprintImage);
+
+	const int blocksize { Sizes::LocalRegionSquare };
+	const double threshold { .1 };
+	const int slantedBlockSizeX {
+		Sizes::VerticallyAlignedLocalRegionWidth
+	};
+	const int slantedBlockSizeY {
+		Sizes::VerticallyAlignedLocalRegionHeight
+	};
+	const bool padFlag { true };
 };
 
 }}

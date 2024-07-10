@@ -1,9 +1,9 @@
 #ifndef NFIQ2_QUALITYMEASURES_IMPL_HPP_
 #define NFIQ2_QUALITYMEASURES_IMPL_HPP_
 
-#include <features/Module.h>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_qualitymeasures.hpp>
+#include <quality_modules/Module.h>
 
 #include <list>
 #include <memory>

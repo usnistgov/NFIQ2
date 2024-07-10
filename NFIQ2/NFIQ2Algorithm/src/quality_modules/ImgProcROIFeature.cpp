@@ -1,7 +1,7 @@
-#include <features/ImgProcROIFeature.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/imgproc.hpp>
+#include <quality_modules/ImgProcROIFeature.h>
 
 #include <sstream>
 

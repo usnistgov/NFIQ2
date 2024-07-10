@@ -68,18 +68,18 @@ set(SOURCE_FILES
     "src/nfiq2/version.cpp")
 
 set(FEATURES_FILES
-    "src/features/Module.cpp"
-    "src/features/FDAFeature.cpp"
-    "src/features/FJFXMinutiaeQualityFeatures.cpp"
-    "src/features/FeatureFunctions.cpp"
-    "src/features/FingerJetFXFeature.cpp"
-    "src/features/ImgProcROIFeature.cpp"
-    "src/features/LCSFeature.cpp"
-    "src/features/MuFeature.cpp"
-    "src/features/OCLHistogramFeature.cpp"
-    "src/features/OFFeature.cpp"
-    "src/features/QualityMapFeatures.cpp"
-    "src/features/RVUPHistogramFeature.cpp")
+    "src/quality_modules/Module.cpp"
+    "src/quality_modules/FDAFeature.cpp"
+    "src/quality_modules/FJFXMinutiaeQualityFeatures.cpp"
+    "src/quality_modules/FeatureFunctions.cpp"
+    "src/quality_modules/FingerJetFXFeature.cpp"
+    "src/quality_modules/ImgProcROIFeature.cpp"
+    "src/quality_modules/LCSFeature.cpp"
+    "src/quality_modules/MuFeature.cpp"
+    "src/quality_modules/OCLHistogramFeature.cpp"
+    "src/quality_modules/OFFeature.cpp"
+    "src/quality_modules/QualityMapFeatures.cpp"
+    "src/quality_modules/RVUPHistogramFeature.cpp")
 
 set(PREDICTION_FILES
     "src/prediction/RandomForestML.cpp")

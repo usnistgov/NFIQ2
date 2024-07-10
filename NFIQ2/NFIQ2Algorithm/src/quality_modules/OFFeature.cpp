@@ -1,9 +1,9 @@
-#include <features/FeatureFunctions.h>
-#include <features/OFFeature.h>
 #include <math.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
+#include <quality_modules/FeatureFunctions.h>
+#include <quality_modules/OFFeature.h>
 
 #include <cmath>
 #include <sstream>

@@ -1,12 +1,12 @@
 
-#include <features/FDAFeature.h>
-#include <features/FeatureFunctions.h>
-#include <features/LCSFeature.h>
-#include <features/OCLHistogramFeature.h>
-#include <features/OFFeature.h>
-#include <features/RVUPHistogramFeature.h>
 #include <nfiq2_exception.hpp>
 #include <opencv2/imgproc.hpp>
+#include <quality_modules/FDAFeature.h>
+#include <quality_modules/FeatureFunctions.h>
+#include <quality_modules/LCSFeature.h>
+#include <quality_modules/OCLHistogramFeature.h>
+#include <quality_modules/OFFeature.h>
+#include <quality_modules/RVUPHistogramFeature.h>
 
 #include <algorithm>
 #include <cmath>

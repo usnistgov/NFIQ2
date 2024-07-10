@@ -1,8 +1,8 @@
-#include <features/FeatureFunctions.h>
-#include <features/LCSFeature.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
+#include <quality_modules/FeatureFunctions.h>
+#include <quality_modules/LCSFeature.h>
 
 #include <sstream>
 

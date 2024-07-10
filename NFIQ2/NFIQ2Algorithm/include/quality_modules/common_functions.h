@@ -80,18 +80,18 @@ double sigmoid(const double nativeQuality, const double inflectionPoint,
  *
  * @param nativeQuality
  * Native quality measure value.
- * @param minNativeQuality
- * Minimum observable value for the native quality value in question.
- * @param maxNativeQuality
- * Maximum observable value for the native quality value in question.
+ * @param min
+ * Minimum observable value for the native quality measure in question.
+ * @param max
+ * Maximum observable value for the native quality measure in question.
  *
  * @return
  * Mapping of `nativeQuality` between 0-100 inclusive.
  *
  * @see ISO/IEC 29794-4:2024, Clause 6.1.2.2.
  */
-uint8_t knownRange(const double nativeQuality, const double minNativeQuality,
-    const double maxNativeQuality);
+uint8_t knownRange(const double nativeQualityMeasure, const double min,
+    const double max);
 
 /**
  * @brief

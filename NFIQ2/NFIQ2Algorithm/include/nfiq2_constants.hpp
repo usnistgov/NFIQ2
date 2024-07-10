@@ -131,11 +131,14 @@ extern const char FingerprintImageWithMinutiae[];
 extern const char SufficientFingerprintForeground[];
 } /* ActionableQualityFeedback */
 
-/** Modules that combine features to compute a quality score. */
-namespace PredictionModules {
-/** Identifier for the RandomForest prediction module. */
+/**
+ * Algorithms that combine quality measures to compute a unified quality
+ * score.
+ */
+namespace PredictionAlgorithms {
+/** Identifier for the RandomForest prediction algorithm. */
 extern const char RandomForest[];
-} /* Identifiers::PredictionModules */
+} /* Identifiers::PredictionAlgorithms */
 
 /** Algorithms that compute one or more QualityMeasures. */
 namespace QualityMeasureAlgorithms {

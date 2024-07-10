@@ -1,5 +1,5 @@
-#ifndef FINGERJETFXFEATURE_H
-#define FINGERJETFXFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_FINGERJETFX_H_
+#define NFIQ2_QUALITYMODULES_FINGERJETFX_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -128,6 +128,6 @@ class FingerJetFX : public Algorithm {
 };
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_FINGERJETFX_H_ */
 
 /******************************************************************************/

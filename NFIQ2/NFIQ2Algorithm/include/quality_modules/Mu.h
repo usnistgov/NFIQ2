@@ -1,5 +1,5 @@
-#ifndef MUFEATURE_H
-#define MUFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_MU_H_
+#define NFIQ2_QUALITYMODULES_MU_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -34,6 +34,6 @@ class Mu : public Algorithm {
 
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_MU_H_ */
 
 /******************************************************************************/

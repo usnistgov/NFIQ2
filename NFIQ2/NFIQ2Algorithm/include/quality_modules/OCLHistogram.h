@@ -1,5 +1,5 @@
-#ifndef OCLHISTOGRAMFEATURE_H
-#define OCLHISTOGRAMFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_OCLHISTOGRAM_H_
+#define NFIQ2_QUALITYMODULES_OCLHISTOGRAM_H_
 
 #define BS_OCL NFIQ2::Sizes::LocalRegionSquare // block size for OCL
 
@@ -35,6 +35,6 @@ class OCLHistogram : public Algorithm {
 
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_OCLHISTOGRAM_H_ */
 
 /******************************************************************************/

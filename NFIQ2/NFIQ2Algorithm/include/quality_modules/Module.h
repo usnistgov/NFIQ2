@@ -1,5 +1,5 @@
-#ifndef QUALITYFEATURES_MODULE_H_
-#define QUALITYFEATURES_MODULE_H_
+#ifndef NFIQ2_QUALITYMODULES_MODULE_H_
+#define NFIQ2_QUALITYMODULES_MODULE_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -38,6 +38,6 @@ class Algorithm {
 
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_MODULE_H_ */
 
 /******************************************************************************/

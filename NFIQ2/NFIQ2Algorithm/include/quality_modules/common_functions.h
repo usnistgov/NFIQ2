@@ -1,5 +1,5 @@
-#ifndef FEATUREFUNCTIONS_H
-#define FEATUREFUNCTIONS_H
+#ifndef NFIQ2_QUALITYMODULES_COMMONFUNCTIONS_H_
+#define NFIQ2_QUALITYMODULES_COMMONFUNCTIONS_H_
 
 #include <nfiq2_constants.hpp>
 #include <opencv2/core.hpp>
@@ -112,4 +112,4 @@ uint8_t getQualityBlockValue(const std::string &featureIdentifier,
     const double native);
 
 }}
-#endif
+#endif /* NFIQ2_QUALITYMODULES_COMMONFUNCTIONS_H_ */

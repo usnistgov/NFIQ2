@@ -1,5 +1,5 @@
-#ifndef LCSFEATURE_H
-#define LCSFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_LCS_H_
+#define NFIQ2_QUALITYMODULES_LCS_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -34,6 +34,6 @@ class LCS : public Algorithm {
 
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_LCS_H_ */
 
 /******************************************************************************/

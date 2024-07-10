@@ -1,5 +1,5 @@
-#ifndef RANDOMFORESTML_H
-#define RANDOMFORESTML_H
+#ifndef NFIQ2_PREDICTION_RANDOMFORESTML_H_
+#define NFIQ2_PREDICTION_RANDOMFORESTML_H_
 
 #include <nfiq2_constants.hpp>
 #include <opencv2/ml.hpp>
@@ -58,4 +58,4 @@ class RandomForestML {
 
 }}
 
-#endif /* RANDOMFORESTML_H */
+#endif /* NFIQ2_PREDICTION_RANDOMFORESTML_H_ */

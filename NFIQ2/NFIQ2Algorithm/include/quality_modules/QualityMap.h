@@ -1,5 +1,5 @@
-#ifndef QUALITYMAPFEATURES_H
-#define QUALITYMAPFEATURES_H
+#ifndef NFIQ2_QUALITYMODULES_QUALITYMAP_H_
+#define NFIQ2_QUALITYMODULES_QUALITYMAP_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>

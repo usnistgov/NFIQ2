@@ -1,5 +1,5 @@
-#ifndef OF_FEATURE_H
-#define OF_FEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_OF_H_
+#define NFIQ2_QUALITYMODULES_OF_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -50,6 +50,6 @@ class OF : public Algorithm {
 };
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_OF_H_ */
 
 /******************************************************************************/

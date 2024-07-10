@@ -1,5 +1,5 @@
-#ifndef FDAFEATURE_H
-#define FDAFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_FDA_H_
+#define NFIQ2_QUALITYMODULES_FDA_H_
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <quality_modules/Module.h>
@@ -44,4 +44,4 @@ class FDA : public Algorithm {
 };
 }}
 
-#endif /* FDAFEATURE_H */
+#endif /* NFIQ2_QUALITYMODULES_FDA_H_ */

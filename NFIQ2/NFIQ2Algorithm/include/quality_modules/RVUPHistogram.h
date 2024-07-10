@@ -1,5 +1,5 @@
-#ifndef RVUPHISTOGRAMFEATURE_H
-#define RVUPHISTOGRAMFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_RVUPHISTOGRAM_H_
+#define NFIQ2_QUALITYMODULES_RVUPHISTOGRAM_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -38,6 +38,6 @@ class RVUPHistogram : public Algorithm {
 
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_RVUPHISTOGRAM_H_ */
 
 /******************************************************************************/

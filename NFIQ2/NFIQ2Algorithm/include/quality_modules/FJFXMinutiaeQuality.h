@@ -1,5 +1,5 @@
-#ifndef FINGERJETFXMINUTIAEQUALITYFEATURE_H
-#define FINGERJETFXMINUTIAEQUALITYFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_FINGERJETFXMINUTIAEQUALITY_H_
+#define NFIQ2_QUALITYMODULES_FINGERJETFXMINUTIAEQUALITY_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -59,6 +59,6 @@ class FJFXMinutiaeQuality : public Algorithm {
 };
 
 }}
-#endif
+#endif /* NFIQ2_QUALITYMODULES_FINGERJETFXMINUTIAEQUALITY_H_*/
 
 /******************************************************************************/

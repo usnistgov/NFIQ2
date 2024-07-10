@@ -1,5 +1,5 @@
-#ifndef IMGPROCROIFEATURE_H
-#define IMGPROCROIFEATURE_H
+#ifndef NFIQ2_QUALITYMODULES_IMGPROCROI_H_
+#define NFIQ2_QUALITYMODULES_IMGPROCROI_H_
 
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
@@ -60,6 +60,6 @@ class ImgProcROI : public Algorithm {
 
 }}
 
-#endif
+#endif /* NFIQ2_QUALITYMODULES_IMGPROCROI_H_ */
 
 /******************************************************************************/

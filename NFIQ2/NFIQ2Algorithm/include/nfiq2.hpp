@@ -42,6 +42,10 @@
  * the [releases page][2] and download a pre-compiled version of our example
  * application.
  *
+ * @subsection v23_changes_intro v2.3 API Changes
+ * Due to underlying terminology changes, the API changed in v2.3. A [crosswalk
+ * of the new public API methods](#v22tov23) is available.
+ *
  * @section quick_score Quick Start
  * Follow these high-level steps to compute an unified quality score in your own
  * application.

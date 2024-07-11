@@ -1,0 +1,50 @@
+/**
+@page v22tov23 v2.2 to v2.3 API Transition
+@brief Crosswalk of v2.2 to v2.3 Public APIs
+
+@section Introduction
+
+The v2.3.0 release of NFIQ 2 aligns with the release of [ISO/IEC 29794-4:2024]. Amongst other changes, an effort was made to align terminology to [ISO/IEC 29794-1:2024] for clarity. To better align the code with the text, the public API names within NFIQ 2 have also been modified to align with the text. A high-level summary of changes are shown in the following sections.
+
+@section coreapi Core API
+
+| v2.2 | v2.3 |
+|:-----|:-----|
+| [NFIQ2::Algorithm::computeQualityScore] | NFIQ2::Algorithm::computeUnifiedQualityScore |
+| [NFIQ2::QualityFeatures::getQualityModuleIDs] | NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithmIDs |
+| [NFIQ2::QualityFeatures::getQualityFeatureIDs] | NFIQ2::QualityMeasures::getNativeQualityMeasureIDs |
+| [NFIQ2::QualityFeatures::computeQualityModules] | NFIQ2::QualityMeasures::computeNativeQualityMeasureAlgorithms |
+| [NFIQ2::QualityFeatures::computeQualityFeatures] | NFIQ2::QualityMeasures::computeNativeQualityMeasures |
+| [NFIQ2::QualityFeatures::getQualityFeatureValues] | NFIQ2::QualityMeasures::getNativeQualityMeasures |
+| [NFIQ2::QualityFeatures::getQualityModules] | NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithms |
+| [NFIQ2::QualityFeatures::getQualityModuleSpeeds] | NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithmSpeeds |
+
+@section ids Identifiers
+
+Many of names and values constants in NFIQ2::Identifiers have changes to align with [ISO/IEC 29794-4:2024].
+
+| v2.2 | v2.3 |
+|:-----|:-----|
+| [NFIQ2::Identifiers::QualityModules] | NFIQ2::Identifiers::QualityMeasureAlgorithms |
+| [NFIQ2::Identifiers::QualityFeatures] | NFIQ2::Identifiers::QualityMeasures |
+
+
+@section csv_output CSV Output
+
+Despite the numerous API changes, the column headers of the NFIQ 2 command-line interface have remained the same. This was a purposeful choice to not break user scripts, since we know many users did not write scripts to run and parse NFIQ 2 output themselves. This will likely change in the future, but we should build an accompanying script to translate headers back and forth for those who do not have anyone to edit existing scripts.
+
+[ISO/IEC 29794-1:2024]: https://www.iso.org/standard/79519.html
+[ISO/IEC 29794-4:2024]: https://www.iso.org/standard/83827.html
+
+[NFIQ2::Algorithm::computeQualityScore]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/group__compute.html#gace5ee2071761ef1c588859205231220d
+[NFIQ2::QualityFeatures::getQualityModuleIDs]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_quality_features.html#a6ff5747d1bbbb489c570c3888fe858bd
+[NFIQ2::QualityFeatures::getQualityFeatureIDs]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_quality_features.html#a9e1718ac24eec6f8057c52d5811a6885
+[NFIQ2::QualityFeatures::computeQualityModules]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/group__compute.html#ga1f6fc23297d9486b4d5000915353fca3
+[NFIQ2::QualityFeatures::computeQualityFeatures]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/group__compute.html#ga786dcc52d3b821a7a30fd3a688d4c47e
+[NFIQ2::QualityFeatures::getQualityFeatureValues]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_quality_features.html#a1fba27671f5cdc4120018dc1148e5815
+[NFIQ2::QualityFeatures::getQualityModules]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_quality_features.html#a4474cf8c2569d7e81ab8fe0a33c88a73
+[NFIQ2::QualityFeatures::getQualityModuleSpeeds]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_quality_features.html#a148edc30264aafa3f37c34c5236c5544
+
+[NFIQ2::Identifiers::QualityModules]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_identifiers_1_1_quality_modules.html
+[NFIQ2::Identifiers::QualityFeatures]: https://pages.nist.gov/NFIQ2/docs/v2.2.0/namespace_n_f_i_q2_1_1_identifiers_1_1_quality_features.html
+ */

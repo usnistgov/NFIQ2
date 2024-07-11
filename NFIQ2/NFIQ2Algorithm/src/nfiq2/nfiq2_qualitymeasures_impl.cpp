@@ -74,9 +74,6 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
-	std::vector<std::string> qualityIdentifiers =
-	    NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureIDs();
-
 	std::unordered_map<std::string, double> quality {};
 
 	for (const auto &feature : features) {

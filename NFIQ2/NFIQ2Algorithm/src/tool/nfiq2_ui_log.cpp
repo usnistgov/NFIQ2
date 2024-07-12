@@ -102,6 +102,10 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 			*(this->out) << std::setprecision(5) << speed.at(i);
 		}
+		*(this->out)
+		    << "," << std::setprecision(5)
+		    << speed.at(
+			   NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3);
 
 		if (this->qbMapped) {
 			*(this->out) << ",";
@@ -156,7 +160,7 @@ NFIQ2UI::Log::padNA() const
 	}
 
 	if (this->speed) {
-		numCols += 10;
+		numCols += 11;
 	}
 
 	if (this->qbMapped) {
@@ -285,6 +289,11 @@ NFIQ2UI::Log::printCSVHeader() const
 			}
 			*(this->out) << *it << "Speed";
 		}
+		/* We compute this speed */
+		*(this->out)
+		    << ","
+		    << NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3
+		    << "Speed";
 
 		if (this->qbMapped) {
 			*(this->out) << ',';

@@ -18,6 +18,18 @@ static const int maxSampleCount = 50;
 
 static const char FeatureFunctionsStdDevSuffix[] = "StdDev";
 static const char FeatureFunctionsMeanSuffix[] = "Mean";
+const char NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev0[] {
+	"NFIQ2v2.0.0"
+};
+const char NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev1[] {
+	"NFIQ2v2.1.0"
+};
+const char NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev2[] {
+	"NFIQ2v2.2.0"
+};
+const char NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3[] {
+	"NFIQ2v2.3.0"
+};
 
 /***
 From the matlab code:

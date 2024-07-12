@@ -131,6 +131,18 @@ extern const char FingerprintImageWithMinutiae[];
 extern const char SufficientFingerprintForeground[];
 } /* ActionableQualityFeedback */
 
+/** Combinations of all quality measures via a pattern classifier. */
+namespace UnifiedQualityScores {
+/** Unified quality score (NFIQ 2.0). */
+extern const char NFIQ2Rev0[];
+/** Unified quality score (NFIQ 2.1). */
+extern const char NFIQ2Rev1[];
+/** Unified quality score (NFIQ 2.2). */
+extern const char NFIQ2Rev2[];
+/** Unified quality score (NFIQ 2.3). */
+extern const char NFIQ2Rev3[];
+}
+
 /**
  * Algorithms that combine quality measures to compute a unified quality
  * score.

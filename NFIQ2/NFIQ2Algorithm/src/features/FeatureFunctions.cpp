@@ -632,8 +632,6 @@ NFIQ2::QualityFeatures::getQualityBlockValue(
 	    (featureIdentifier ==
 		Identifiers::QualityFeatures::Contrast::MeanBlock) ||
 	    (featureIdentifier ==
-		Identifiers::QualityFeatures::Minutiae::QualityMu2) ||
-	    (featureIdentifier ==
 		Identifiers::QualityFeatures::RegionOfInterest::Mean)) {
 		return (NFIQ2::QualityFeatures::knownRange(native, 0, 255));
 	}
@@ -652,6 +650,11 @@ NFIQ2::QualityFeatures::getQualityBlockValue(
 
 	if (featureIdentifier ==
 	    Identifiers::QualityFeatures::RegionOfInterest::CoherenceMean) {
+		return (NFIQ2::QualityFeatures::knownRange(native, 0, 1));
+	}
+
+	if (featureIdentifier ==
+	    Identifiers::QualityFeatures::Minutiae::QualityMu2) {
 		return (NFIQ2::QualityFeatures::knownRange(native, 0, 1));
 	}
 

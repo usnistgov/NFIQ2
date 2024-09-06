@@ -1,4 +1,4 @@
-# NFIQ 2 <img src="cmake/nistident_flright_vec.svg" align="right" alt="NIST identifier" />
+# NFIQ 2 <img src="cmake/nist_itl_two_color.svg" align="right" alt="NIST Information Technology Laboratory" style="width:250px;" />
 
 [![Download Latest Version](https://img.shields.io/badge/download-v2.3-informational)](https://github.com/usnistgov/NFIQ2/releases)
 [![Build Libraries and CLI + Run CTS](https://github.com/usnistgov/NFIQ2/actions/workflows/build-member.yml/badge.svg)](https://github.com/usnistgov/NFIQ2/actions/workflows/build-member.yml)

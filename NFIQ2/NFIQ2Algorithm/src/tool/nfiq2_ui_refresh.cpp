@@ -18,7 +18,6 @@
 #include <be_io_utility.h>
 #include <be_sysdeps.h>
 #include <be_text.h>
-#include <be_time_timer.h>
 #include <nfiq2_algorithm.hpp>
 #include <nfiq2_modelinfo.hpp>
 #include <nfiq2_timer.hpp>
@@ -366,7 +365,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	    modules {};
 	unsigned int score {};
-	BE::Time::Timer timer {};
+	NFIQ2::Timer timer {};
 	try {
 		timer.start();
 		modules = NFIQ2::QualityMeasures::
@@ -396,7 +395,7 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		auto speeds = NFIQ2::QualityMeasures::
 		    getNativeQualityMeasureAlgorithmSpeeds(modules);
 		speeds[NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3] =
-		    timer.elapsed() * 0.001;
+		    timer.getElapsedTime();
 
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,

@@ -24,8 +24,11 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-14, arch: arm64, embed_rf: OFF }
           - { os: macOS-13, arch: x64, embed_rf: OFF }
           - { os: macOS-12, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
+          - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }
@@ -131,7 +134,7 @@ jobs:
           !${{ github.workspace }}/build/nfir*
           !${{ github.workspace }}/build/nfiq2api-prefix/src/nfiq2api-build/CMakeFiles/Nfiq2Api.dir/version.AppleClang.apple64.cpp.o*
           !${{ github.workspace }}/build/nfiq2-prefix/src/nfiq2-build/CMakeFiles/nfiq2-static-lib.dir/src/nfiq2/version.cpp.o*
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv49
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
 
     - name: Get CMake Version
       shell: bash

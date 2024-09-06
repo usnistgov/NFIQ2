@@ -409,6 +409,15 @@ if (APPLE)
 	set(CPACK_PACKAGE_FILE_NAME "nfiq2-${CPACK_PACKAGE_VERSION}-macos-${OSX_VERS}-${MAC_ARCH}")
 	set(CPACK_PRODUCTBUILD_IDENTIFIER "gov.nist.nfiq2")
 
+#	set(CPACK_PRODUCTBUILD_RESOURCES_DIR "productbuild_resources")
+#	file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PRODUCTBUILD_RESOURCES_DIR}")
+#	file(COPY "${ROOT_PATH}/cmake/nist_itl_two_color.svg" DESTINATION "${CPACK_PRODUCTBUILD_RESOURCES_DIR}")
+#	# https://developer.apple.com/library/archive/documentation/DeveloperTools/Reference/DistributionDefinitionRef/Chapters/Distribution_XML_Ref.html
+#	set(CPACK_PRODUCTBUILD_BACKGROUND "nist_itl_two_color.svg")
+#	set(CPACK_PRODUCTBUILD_BACKGROUND_MIME_TYPE "image/svg")
+#	set(CPACK_PRODUCTBUILD_BACKGROUND_ALIGNMENT "bottomleft")
+#	set(CPACK_PRODUCTBUILD_BACKGROUND_SCALING "none")
+
 	# macOS Code Signing
 	if (MACOS_CODESIGN)
 		if ("${MACOS_APPLICATION_SIGNING_IDENTITY}" STREQUAL "")

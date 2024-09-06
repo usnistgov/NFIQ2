@@ -1,5 +1,5 @@
-#ifndef RANDOMFORESTML_H
-#define RANDOMFORESTML_H
+#ifndef NFIQ2_PREDICTION_RANDOMFORESTML_H_
+#define NFIQ2_PREDICTION_RANDOMFORESTML_H_
 
 #include <nfiq2_constants.hpp>
 #include <opencv2/ml.hpp>
@@ -12,7 +12,7 @@ namespace NFIQ2 { namespace Prediction {
 
 /**
  * This class handles the Random Forest Machine Learning model used
- * to generate NFIQ 2 quality scores.
+ * to generate unified quality scores.
  */
 class RandomForestML {
 
@@ -24,7 +24,7 @@ class RandomForestML {
 	virtual ~RandomForestML();
 
 	/** Returns the Random Forest Module name. */
-	std::string getModuleName() const;
+	std::string getName() const;
 
 #ifdef NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS
 	/** Initializes module when parameters are embedded. */
@@ -58,4 +58,4 @@ class RandomForestML {
 
 }}
 
-#endif /* RANDOMFORESTML_H */
+#endif /* NFIQ2_PREDICTION_RANDOMFORESTML_H_ */

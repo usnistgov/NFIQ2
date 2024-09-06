@@ -14,7 +14,7 @@
 #include <nfiq2_constants.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_modelinfo.hpp>
-#include <nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualitymeasures.hpp>
 
 #include <memory>
 #include <string>
@@ -23,8 +23,8 @@
 namespace NFIQ2 {
 
 /**
- * Applies trained random forest parameters to quality features, computing an
- * overall quality score (i.e., NFIQ2).
+ * Applies trained random forest parameters to native quality measures,
+ * computing a unified quality score.
  */
 class Algorithm {
     public:
@@ -75,59 +75,60 @@ class Algorithm {
 
 	/**
 	 * @brief
-	 * Compute a NFIQ 2 quality score.
+	 * Compute a unified quality score.
 	 *
 	 * @param rawImage
 	 * Fingerprint image.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const NFIQ2::FingerprintImageData &rawImage) const;
 
 	/**
 	 * @brief
-	 * Compute a NFIQ 2 quality score.
+	 * Compute a unified quality score.
 	 *
-	 * @param modules
-	 * Computed quality modules.
+	 * @param algorithms
+	 * Computed quality measure algorithms.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
-	 * @see QualityFeatures::computeQualityModules
+	 * @see QualityMeasures::computeNativeQualityMeasureAlgorithms
 	 */
-	unsigned int computeQualityScore(
-	    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
-		&modules) const;
+	unsigned int computeUnifiedQualityScore(const std::vector<
+	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>> &algorithms)
+	    const;
 
 	/**
 	 * @brief
-	 * Compute a NFIQ 2 quality score.
+	 * Compute a unified quality score.
 	 *
 	 * @param features
-	 * Map of quality feature identifiers to quality feature values.
+	 * Map of quality measure algorithm identifiers to native quality
+	 * measures.
 	 *
 	 * @return
-	 * Computed NFIQ 2 quality score.
+	 * Computed unified quality score.
 	 *
 	 * @throw Exception
 	 * Called before random forest parameters were loaded.
 	 *
 	 * @ingroup compute
-	 * @see QualityFeatures::computeQualityFeatures
+	 * @see QualityMeasures::computeNativeQualityMeasures
 	 */
-	unsigned int computeQualityScore(
+	unsigned int computeUnifiedQualityScore(
 	    const std::unordered_map<std::string, double> &features) const;
 
 	/**
@@ -147,6 +148,8 @@ class Algorithm {
 	 *
 	 * @throw Exception
 	 * Unrecognized key value in `nativeQualityMeasureValues`
+	 *
+	 * @ingroup compute
 	 */
 	static std::unordered_map<std::string, unsigned int>
 	getQualityBlockValues(const std::unordered_map<std::string, double>
@@ -157,9 +160,9 @@ class Algorithm {
 	 * Obtain the quality block value (i.e., [0, 100]) for the native
 	 * quality measure value.
 	 *
-	 * @param featureIdentifier
+	 * @param nativeQualityMeasureIdentifier
 	 * Identifier for the native quality measure (from nfiq2_constants.hpp).
-	 * @param native
+	 * @param nativeQualityMeasureValue
 	 * Native quality measure value.
 	 *
 	 * @return
@@ -168,10 +171,12 @@ class Algorithm {
 	 * quality block.
 	 *
 	 * @throw Exception
-	 * Unrecognized value for `featureIdentifier`.
+	 * Unrecognized value for `nativeQualityMeasureIdentifier`.
+	 *
+	 * @ingroup compute
 	 */
 	static unsigned int
-	getQualityBlockValue(const std::string &featureIdentifier,
+	getQualityBlockValue(const std::string &nativeQualityMeasureIdentifier,
 	    const double nativeQualityMeasureValue);
 
 	/**

@@ -44,7 +44,7 @@ NFIQ2::Exception::defaultErrorMessage(const NFIQ2::ErrorCode errorCode)
 		{ NFIQ2::ErrorCode::UnknownError, "Unknown error" },
 		{ NFIQ2::ErrorCode::NotEnoughMemory, "Not enough memory" },
 		{ NFIQ2::ErrorCode::BadArguments, "Bad arguments" },
-		{ NFIQ2::ErrorCode::FeatureCalculationError,
+		{ NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "Feature calculation error" },
 		{ NFIQ2::ErrorCode::CannotWriteToFile, "Cannot write to file" },
 		{ NFIQ2::ErrorCode::CannotReadFromFile,
@@ -62,7 +62,8 @@ NFIQ2::Exception::defaultErrorMessage(const NFIQ2::ErrorCode errorCode)
 		    "Cannot create feature set from fingerprint data" },
 		{ NFIQ2::ErrorCode::FJFX_NoFeatureSetCreated,
 		    "No feature set could be created" },
-		{ NFIQ2::ErrorCode::InvalidNFIQ2Score, "Invalid NFIQ2 Score" },
+		{ NFIQ2::ErrorCode::InvalidUnifiedQualityScore,
+		    "Invalid NFIQ2 Score" },
 		{ NFIQ2::ErrorCode::InvalidImageSize, "Invalid Image Size" }
 	};
 

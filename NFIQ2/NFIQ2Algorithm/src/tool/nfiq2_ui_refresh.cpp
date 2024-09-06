@@ -362,15 +362,20 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		grayscaleRawData.size(), imageWidth, imageHeight,
 		fingerPosition, requiredPPI);
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	    modules {};
 	unsigned int score {};
+	NFIQ2::Timer timer {};
 	try {
-		modules = NFIQ2::QualityFeatures::computeQualityModules(
-		    wrappedImage);
-		score = model.computeQualityScore(modules);
+		timer.start();
+		modules = NFIQ2::QualityMeasures::
+		    computeNativeQualityMeasureAlgorithms(wrappedImage);
+		score = model.computeUnifiedQualityScore(modules);
+		timer.stop();
 	} catch (const NFIQ2::Exception &e) {
+		timer.stop();
 		std::string errStr {
-			"Error: NFIQ2 computeQualityScore returned an error code: "
+			"Error: NFIQ2 computeUnifiedQualityScore returned an error code: "
 		};
 		errStr = errStr.append(e.what());
 		if (singleImage) {
@@ -387,13 +392,17 @@ NFIQ2UI::executeSingle(std::shared_ptr<BE::Image::Image> img,
 		logger->printSingle(score);
 
 	} else {
+		auto speeds = NFIQ2::QualityMeasures::
+		    getNativeQualityMeasureAlgorithmSpeeds(modules);
+		speeds[NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3] =
+		    timer.getElapsedTime();
 
 		// Print full score with optional headers
 		logger->printScore(name, fingerPosition, score, warning,
 		    imageProps.quantized, imageProps.resampled,
-		    NFIQ2::QualityFeatures::getQualityFeatureValues(modules),
-		    NFIQ2::QualityFeatures::getQualityModuleSpeeds(modules),
-		    NFIQ2::QualityFeatures::getActionableQualityFeedback(
+		    NFIQ2::QualityMeasures::getNativeQualityMeasures(modules),
+		    speeds,
+		    NFIQ2::QualityMeasures::getActionableQualityFeedback(
 			modules));
 	}
 }

@@ -1,18 +1,18 @@
-#include <features/FDAFeature.h>
-#include <features/FJFXMinutiaeQualityFeatures.h>
-#include <features/FeatureFunctions.h>
-#include <features/FingerJetFXFeature.h>
-#include <features/ImgProcROIFeature.h>
-#include <features/LCSFeature.h>
-#include <features/MuFeature.h>
-#include <features/OCLHistogramFeature.h>
-#include <features/OFFeature.h>
-#include <features/QualityMapFeatures.h>
-#include <features/RVUPHistogramFeature.h>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
-#include <nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualitymeasures.hpp>
 #include <nfiq2_timer.hpp>
+#include <quality_modules/FDA.h>
+#include <quality_modules/FJFXMinutiaeQuality.h>
+#include <quality_modules/FingerJetFX.h>
+#include <quality_modules/ImgProcROI.h>
+#include <quality_modules/LCS.h>
+#include <quality_modules/Mu.h>
+#include <quality_modules/OCLHistogram.h>
+#include <quality_modules/OF.h>
+#include <quality_modules/QualityMap.h>
+#include <quality_modules/RVUPHistogram.h>
+#include <quality_modules/common_functions.h>
 
 #include "nfiq2_algorithm_impl.hpp"
 #include <iomanip>
@@ -77,19 +77,19 @@ NFIQ2::Algorithm::Impl::getQualityPrediction(
 }
 
 unsigned int
-NFIQ2::Algorithm::Impl::computeQualityScore(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features) const
 {
 	this->throwIfUninitialized();
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getQualityFeatureValues(features);
+	    NFIQ2::QualityMeasures::getNativeQualityMeasures(features);
 
 	if (quality.size() == 0) {
 		// no features have been computed
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "No features have been computed");
 	}
 
@@ -108,7 +108,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2::Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
     const NFIQ2::FingerprintImageData &rawImage) const
 {
 	this->throwIfUninitialized();
@@ -117,28 +117,30 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 	// compute quality features (including actionable feedback)
 	// --------------------------------------------------------
 
-	std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>> modules {};
+	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
+	    modules {};
 	try {
-		modules = NFIQ2::QualityFeatures::computeQualityModules(
-		    rawImage);
+		modules = NFIQ2::QualityMeasures::
+		    computeNativeQualityMeasureAlgorithms(rawImage);
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (const std::exception &e) {
 		/*
-		 * Nothing should get here, but computeQualityModules() calls
-		 * a lot of code...
+		 * Nothing should get here, but
+		 * computeNativeQualityMeasureAlgorithms() calls a lot of
+		 * code...
 		 */
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::UnknownError,
 		    e.what());
 	}
 
 	const std::unordered_map<std::string, double> quality =
-	    NFIQ2::QualityFeatures::getQualityFeatureValues(modules);
+	    NFIQ2::QualityMeasures::getNativeQualityMeasures(modules);
 
 	if (quality.size() == 0) {
 		// no features have been computed
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::FeatureCalculationError,
+		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
 		    "No features have been computed");
 	}
 
@@ -157,7 +159,7 @@ NFIQ2::Algorithm::Impl::computeQualityScore(
 }
 
 unsigned int
-NFIQ2::Algorithm::Impl::computeQualityScore(
+NFIQ2::Algorithm::Impl::computeUnifiedQualityScore(
     const std::unordered_map<std::string, double> &features) const
 {
 	this->throwIfUninitialized();
@@ -182,7 +184,7 @@ NFIQ2::Algorithm::Impl::getQualityBlockValue(
     const std::string &featureIdentifier,
     const double nativeQualityMeasureValue)
 {
-	return (QualityFeatures::getQualityBlockValue(featureIdentifier,
+	return (QualityMeasures::getQualityBlockValue(featureIdentifier,
 	    nativeQualityMeasureValue));
 }
 

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.11)
 project(examples)
 
 option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
+option(NFIQ2_EMBEDDED_MODEL "Link against library with embedded model (no NFIQ2::ModelInfo)" NO)
 
 # TODO: Add find_package for NFIQ2
 set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
@@ -62,17 +63,17 @@ set(ALL_TARGETS "")
 ################################################################################
 
 #
-# Tool that prints the names of all NFIQ 2 features.
+# Tool that prints the names of all NFIQ 2 native quality measures.
 #
 
-add_executable(print_feature_names print_feature_names.cpp)
-target_link_libraries(print_feature_names ${REQUIRED_LIBS})
-set_target_properties(print_feature_names PROPERTIES
+add_executable(print_native_quality_measure_names print_native_quality_measure_names.cpp)
+target_link_libraries(print_native_quality_measure_names ${REQUIRED_LIBS})
+set_target_properties(print_native_quality_measure_names PROPERTIES
 	MACOSX_RPATH YES
 	CXX_STANDARD 11
 	CXX_STANDARD_REQUIRED YES
 	CXX_EXTENSIONS NO)
-list(APPEND ALL_TARGETS print_feature_names)
+list(APPEND ALL_TARGETS print_native_quality_measure_names)
 
 #
 # Tool that computes quality scores
@@ -87,6 +88,10 @@ set_target_properties(example_api PROPERTIES
 	CXX_STANDARD_REQUIRED YES
 	CXX_EXTENSIONS NO)
 list(APPEND ALL_TARGETS example_api)
+
+if (NFIQ2_EMBEDDED_MODEL)
+	target_compile_definitions(example_api PUBLIC NFIQ2_EMBEDDED_MODEL)
+endif()
 
 ################################################################################
 

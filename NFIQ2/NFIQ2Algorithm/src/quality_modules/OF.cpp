@@ -224,7 +224,7 @@ NFIQ2::QualityMeasures::OF::computeFeatureData(
 
 				// Account for circularity of angles
 				blockAbsDiff.forEach<double>(
-				    [](double &angleDiff, const int *position) {
+				    [&](double &angleDiff, const int *position) {
 					    angleDiff = std::min(angleDiff,
 						ThreeSixtyRad - angleDiff);
 				    });

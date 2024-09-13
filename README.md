@@ -11,10 +11,11 @@ Fingerprint Image Quality (NFIQ) is software that links image
 quality of optical and ink plain impression 500 pixel per inch fingerprints to operational
 recognition performance. This allows quality values to be tightly defined and
 then numerically calibrated, which in turn allows for the standardization needed
-to support a worldwide deployment of fingerprint sensors with universally
-interpretable image qualities. NFIQ 2 quality features are formally standardized
-as part of [ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791).
-This repository serves as a formally recognized reference implementation of the
+to support a worldwide deployment of fingerprint sensors with
+universally-interpretable image qualities. NFIQ 2 quality features are formally
+standardized as part of
+[ISO/IEC 29794-4](http://www.iso.org/iso/catalogue_detail.htm?csnumber=62791).
+This repository serves as a formally-recognized reference implementation of the
 2024 international standard.
 
 Download
@@ -43,7 +44,7 @@ lower computation complexity, and support for quality assessment on mobile platf
 NFIQ 2 is formally recognized as a reference implementation of the normative
 metrics presented in
 [ISO/IEC 29794-4:2017](https://www.iso.org/standard/62791.html) and was updated
-in sync with the second edition revision effort,
+in sync as version 2.3 with the second edition revision effort,
 [ISO/IEC 29794-4:2024](https://www.iso.org/standard/83827.html).
 
 Operationally, NFIQ has increased the reliability, accuracy, and interoperability of fingerprint recognition
@@ -117,23 +118,29 @@ cmake --build .
 ### Build Notes:
  * Standard CMake arguments are interpreted.
    * On Windows, change architectures with `-A x64` or `-A Win32`
+   * On macOS, use the environment variable `CMAKE_OSX_ARCHITECTURES` to build
+     a universal binary. Ensure that all dependencies are built universally as
+     well.
    * Change generators with `-G`
    * Change build types with `-DCMAKE_CONFIGURATION_TYPES` or
      `-DCMAKE_BUILD_TYPE`
 
- * Dependencies for `libbiomeval` must be satisfied.
+ * Dependencies for [`libbiomeval`](https://github.com/usnistgov/libbiomeval)
+   must be satisfied.
     * On Windows with Visual Studio, this is done with
       [vcpkg](https://github.com/microsoft/vcpkg), which will require passing
       the vcpkg `CMAKE_TOOLCHAIN_FILE` and `VCPKG_TARGET_TRIPLET` options
       to CMake.
+      * For example, a 64-bit Release-only build with the default Visual
+        Studio generator might look like:
+        ```
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -A x64
+        cmake --build . --config Release
+        ```
+    * If building a macOS universal binary, be sure all dependencies are
+      universal as well. If installed via MacPorts, ensure the `+universal`
+      variants are used.
 
-For example, a 64-bit Release-only build with the default Visual Studio
-generator might look like:
-
-```
-cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_CONFIGURATION_TYPES=Release -A x64
-cmake --build . --config Release
-```
 
 Builds for other OS can typically find dependencies on the system without
 intervention.

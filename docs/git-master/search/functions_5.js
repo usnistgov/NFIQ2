@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['getactionablequalityfeedback_0',['getActionableQualityFeedback',['../namespace_n_f_i_q2_1_1_quality_features.html#a499b3ef9b5b413471d74348ed8b8dd80',1,'NFIQ2::QualityFeatures']]],
-  ['getactionablequalityfeedbackids_1',['getActionableQualityFeedbackIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a38f6a0e01c9d91c3e65736e06435aa0d',1,'NFIQ2::QualityFeatures']]],
+  ['getactionablequalityfeedback_0',['getActionableQualityFeedback',['../namespace_n_f_i_q2_1_1_quality_measures.html#a67a9c1b7c360408610b7e2615d9aa6cc',1,'NFIQ2::QualityMeasures']]],
+  ['getactionablequalityfeedbackids_1',['getActionableQualityFeedbackIDs',['../namespace_n_f_i_q2_1_1_quality_measures.html#adfbeb8e2ac005fa948fd78914dfb129b',1,'NFIQ2::QualityMeasures']]],
   ['getelapsedtime_2',['getElapsedTime',['../class_n_f_i_q2_1_1_timer.html#ad707777376b914e547941226850d4fe3',1,'NFIQ2::Timer']]],
   ['getembeddedfct_3',['getEmbeddedFCT',['../class_n_f_i_q2_1_1_algorithm.html#a3cb11fe5b2a309f437e47cc1a75afa70',1,'NFIQ2::Algorithm']]],
   ['geterrorcode_4',['getErrorCode',['../class_n_f_i_q2_1_1_exception.html#adae7305fdfa119afc6f36f95fc48081a',1,'NFIQ2::Exception']]],
@@ -12,10 +12,12 @@ var searchData=
   ['getmodelpath_9',['getModelPath',['../class_n_f_i_q2_1_1_model_info.html#a39709cad61e8c7193f9b5d1d1746dad2',1,'NFIQ2::ModelInfo']]],
   ['getmodeltrainer_10',['getModelTrainer',['../class_n_f_i_q2_1_1_model_info.html#a7ef8bd8c4f485d1ea59099c65477c723',1,'NFIQ2::ModelInfo']]],
   ['getmodelversion_11',['getModelVersion',['../class_n_f_i_q2_1_1_model_info.html#a5e0fea899851602ec9328564937af507',1,'NFIQ2::ModelInfo']]],
-  ['getparameterhash_12',['getParameterHash',['../class_n_f_i_q2_1_1_algorithm.html#a6db06604ab42e57ee56ba2434cedb3c8',1,'NFIQ2::Algorithm']]],
-  ['getqualityfeatureids_13',['getQualityFeatureIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a9e1718ac24eec6f8057c52d5811a6885',1,'NFIQ2::QualityFeatures']]],
-  ['getqualityfeaturevalues_14',['getQualityFeatureValues',['../namespace_n_f_i_q2_1_1_quality_features.html#a1fba27671f5cdc4120018dc1148e5815',1,'NFIQ2::QualityFeatures']]],
-  ['getqualitymoduleids_15',['getQualityModuleIDs',['../namespace_n_f_i_q2_1_1_quality_features.html#a6ff5747d1bbbb489c570c3888fe858bd',1,'NFIQ2::QualityFeatures']]],
-  ['getqualitymodules_16',['getQualityModules',['../namespace_n_f_i_q2_1_1_quality_features.html#a4474cf8c2569d7e81ab8fe0a33c88a73',1,'NFIQ2::QualityFeatures']]],
-  ['getqualitymodulespeeds_17',['getQualityModuleSpeeds',['../namespace_n_f_i_q2_1_1_quality_features.html#a148edc30264aafa3f37c34c5236c5544',1,'NFIQ2::QualityFeatures']]]
+  ['getnativequalitymeasurealgorithmids_12',['getNativeQualityMeasureAlgorithmIDs',['../namespace_n_f_i_q2_1_1_quality_measures.html#a4b84cee85be9f547c1593cc17999b867',1,'NFIQ2::QualityMeasures']]],
+  ['getnativequalitymeasurealgorithms_13',['getNativeQualityMeasureAlgorithms',['../namespace_n_f_i_q2_1_1_quality_measures.html#a82c90186ec3f4cafbd54404b8787d10a',1,'NFIQ2::QualityMeasures']]],
+  ['getnativequalitymeasurealgorithmspeeds_14',['getNativeQualityMeasureAlgorithmSpeeds',['../namespace_n_f_i_q2_1_1_quality_measures.html#a7e1168a3a39c6bea2e5c2376f5a0cfc7',1,'NFIQ2::QualityMeasures']]],
+  ['getnativequalitymeasureids_15',['getNativeQualityMeasureIDs',['../namespace_n_f_i_q2_1_1_quality_measures.html#a35a87a4afcdcfc355d89516b8d951060',1,'NFIQ2::QualityMeasures']]],
+  ['getnativequalitymeasures_16',['getNativeQualityMeasures',['../namespace_n_f_i_q2_1_1_quality_measures.html#af4baa5c20cce5a7fddb5776d66aee8fb',1,'NFIQ2::QualityMeasures']]],
+  ['getparameterhash_17',['getParameterHash',['../class_n_f_i_q2_1_1_algorithm.html#a6db06604ab42e57ee56ba2434cedb3c8',1,'NFIQ2::Algorithm']]],
+  ['getqualityblockvalue_18',['getQualityBlockValue',['../group__compute.html#ga49c5b1efdb14e45bb020c244e3296717',1,'NFIQ2::Algorithm']]],
+  ['getqualityblockvalues_19',['getQualityBlockValues',['../group__compute.html#gaa7b04e8aeb7d18e0c0df2e08cf8145e9',1,'NFIQ2::Algorithm']]]
 ];

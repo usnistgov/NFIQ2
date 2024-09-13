@@ -33,25 +33,40 @@ NFIQ2::Algorithm::operator=(const Algorithm &rhs)
 }
 
 unsigned int
-NFIQ2::Algorithm::computeQualityScore(
+NFIQ2::Algorithm::computeUnifiedQualityScore(
     const NFIQ2::FingerprintImageData &rawImage) const
 {
-	return (this->pimpl->computeQualityScore(rawImage));
+	return (this->pimpl->computeUnifiedQualityScore(rawImage));
 }
 
 unsigned int
-NFIQ2::Algorithm::computeQualityScore(
-    const std::vector<std::shared_ptr<NFIQ2::QualityFeatures::Module>>
+NFIQ2::Algorithm::computeUnifiedQualityScore(
+    const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features) const
 {
-	return (this->pimpl->computeQualityScore(features));
+	return (this->pimpl->computeUnifiedQualityScore(features));
 }
 
 unsigned int
-NFIQ2::Algorithm::computeQualityScore(
+NFIQ2::Algorithm::computeUnifiedQualityScore(
     const std::unordered_map<std::string, double> &features) const
 {
-	return (this->pimpl->computeQualityScore(features));
+	return (this->pimpl->computeUnifiedQualityScore(features));
+}
+
+std::unordered_map<std::string, unsigned int>
+NFIQ2::Algorithm::getQualityBlockValues(
+    const std::unordered_map<std::string, double> &nativeQualityMeasureValues)
+{
+	return (Impl::getQualityBlockValues(nativeQualityMeasureValues));
+}
+
+unsigned int
+NFIQ2::Algorithm::getQualityBlockValue(const std::string &featureIdentifier,
+    const double nativeQualityMeasureValue)
+{
+	return (Impl::getQualityBlockValue(featureIdentifier,
+	    nativeQualityMeasureValue));
 }
 
 std::string

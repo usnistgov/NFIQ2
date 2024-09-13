@@ -8,7 +8,7 @@
  * about its quality, reliability, or any other characteristic.
  ******************************************************************************/
 
-#include <nfiq2_qualityfeatures.hpp>
+#include <nfiq2_qualitymeasures.hpp>
 #include <tool/nfiq2_ui_exception.h>
 #include <tool/nfiq2_ui_log.h>
 #include <tool/nfiq2_ui_types.h>
@@ -26,6 +26,7 @@ NFIQ2UI::Log::Log(const Flags &flags, const std::string &path)
 	this->debug = flags.debug;
 	this->speed = flags.speed;
 	this->actionable = flags.actionable;
+	this->qbMapped = flags.qualityBlockValues;
 
 	if (path.empty()) {
 		out = &std::cout;
@@ -53,14 +54,15 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 		     << "," << std::to_string(fingerCode) << "," << score << ","
 		     << NFIQ2UI::sanitizeErrorMsg(errmsg) << "," << quantized
 		     << "," << resampled;
-	if (this->actionable || this->verbose || this->speed) {
+	if (this->actionable || this->verbose || this->speed ||
+	    this->qbMapped) {
 		*(this->out) << ",";
 	}
 
 	// Print out actionable first
 	if (this->actionable) {
 		const auto actionableIDs =
-		    NFIQ2::QualityFeatures::getActionableQualityFeedbackIDs();
+		    NFIQ2::QualityMeasures::getActionableQualityFeedbackIDs();
 		for (const auto &i : actionableIDs) {
 			if (i != actionableIDs.front()) {
 				*(this->out) << ",";
@@ -69,14 +71,14 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 			*(this->out)
 			    << NFIQ2UI::formatDouble(actionable.at(i), 5);
 		}
-		if (this->verbose || this->speed) {
+		if (this->verbose || this->speed || this->qbMapped) {
 			*(this->out) << ",";
 		}
 	}
 
 	if (this->verbose) {
 		const auto featureIDs =
-		    NFIQ2::QualityFeatures::getQualityFeatureIDs();
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
 		for (const auto &i : featureIDs) {
 			if (i != featureIDs.front()) {
 				*(this->out) << ",";
@@ -85,14 +87,14 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 			*(this->out)
 			    << NFIQ2UI::formatDouble(features.at(i), 5);
 		}
-		if (this->speed) {
+		if (this->speed || this->qbMapped) {
 			*(this->out) << ",";
 		}
 	}
 
 	if (this->speed) {
-		const auto moduleIDs =
-		    NFIQ2::QualityFeatures::getQualityModuleIDs();
+		const auto moduleIDs = NFIQ2::QualityMeasures::
+		    getNativeQualityMeasureAlgorithmIDs();
 		for (const auto &i : moduleIDs) {
 			if (i != moduleIDs.front()) {
 				*(this->out) << ",";
@@ -100,7 +102,40 @@ NFIQ2UI::Log::printScore(const std::string &name, uint8_t fingerCode,
 
 			*(this->out) << std::setprecision(5) << speed.at(i);
 		}
+		*(this->out)
+		    << "," << std::setprecision(5)
+		    << speed.at(
+			   NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3);
+
+		if (this->qbMapped) {
+			*(this->out) << ",";
+		}
 	}
+
+	if (this->qbMapped) {
+		const auto mappedValues =
+		    NFIQ2::Algorithm::getQualityBlockValues(features);
+		const auto featureIDs =
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
+		for (const auto &i : featureIDs) {
+			if (i != featureIDs.front()) {
+				*(this->out) << ",";
+			}
+
+			if (mappedValues.at(i) == 0xFF)
+				*(this->out) << "NA";
+			else
+				*(this->out) << mappedValues.at(i);
+
+			if (mappedValues.at(i) > 100 &&
+			    mappedValues.at(i) != 0xFF) {
+				throw std::runtime_error("QB_" + i +
+				    " value >100 (native value = " +
+				    std::to_string(features.at(i)));
+			}
+		}
+	}
+
 	*(this->out) << "\n";
 }
 
@@ -125,7 +160,11 @@ NFIQ2UI::Log::padNA() const
 	}
 
 	if (this->speed) {
-		numCols += 10;
+		numCols += 11;
+	}
+
+	if (this->qbMapped) {
+		numCols += 69;
 	}
 
 	const unsigned int padding = numCols - MIN_NUM_COLS;
@@ -203,13 +242,14 @@ NFIQ2UI::Log::printCSVHeader() const
 		     << "Quantized"
 		     << ","
 		     << "Resampled";
-	if (this->actionable || this->verbose || this->speed) {
+	if (this->actionable || this->verbose || this->speed ||
+	    this->qbMapped) {
 		*(this->out) << ",";
 	}
 
 	if (this->actionable) {
 		std::vector<std::string> vHeaders =
-		    NFIQ2::QualityFeatures::getActionableQualityFeedbackIDs();
+		    NFIQ2::QualityMeasures::getActionableQualityFeedbackIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -218,14 +258,14 @@ NFIQ2UI::Log::printCSVHeader() const
 			*(this->out) << *it;
 		}
 
-		if (this->verbose || this->speed) {
+		if (this->verbose || this->speed || this->qbMapped) {
 			*(this->out) << ',';
 		}
 	}
 
 	if (this->verbose) {
 		std::vector<std::string> vHeaders =
-		    NFIQ2::QualityFeatures::getQualityFeatureIDs();
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
 
 		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
 			if (it != vHeaders.begin()) {
@@ -234,14 +274,14 @@ NFIQ2UI::Log::printCSVHeader() const
 			*(this->out) << *it;
 		}
 
-		if (this->speed) {
+		if (this->speed || this->qbMapped) {
 			*(this->out) << ',';
 		}
 	}
 
 	if (this->speed) {
-		std::vector<std::string> sHeaders =
-		    NFIQ2::QualityFeatures::getQualityModuleIDs();
+		std::vector<std::string> sHeaders = NFIQ2::QualityMeasures::
+		    getNativeQualityMeasureAlgorithmIDs();
 
 		for (auto it = sHeaders.begin(); it != sHeaders.end(); ++it) {
 			if (it != sHeaders.begin()) {
@@ -249,7 +289,29 @@ NFIQ2UI::Log::printCSVHeader() const
 			}
 			*(this->out) << *it << "Speed";
 		}
+		/* We compute this speed */
+		*(this->out)
+		    << ","
+		    << NFIQ2::Identifiers::UnifiedQualityScores::NFIQ2Rev3
+		    << "Speed";
+
+		if (this->qbMapped) {
+			*(this->out) << ',';
+		}
 	}
+
+	if (this->qbMapped) {
+		std::vector<std::string> vHeaders =
+		    NFIQ2::QualityMeasures::getNativeQualityMeasureIDs();
+
+		for (auto it = vHeaders.begin(); it != vHeaders.end(); ++it) {
+			if (it != vHeaders.begin()) {
+				*(this->out) << ',';
+			}
+			*(this->out) << "QB_" << *it;
+		}
+	}
+
 	*(this->out) << "\n";
 }
 

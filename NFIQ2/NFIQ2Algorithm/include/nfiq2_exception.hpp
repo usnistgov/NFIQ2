@@ -21,7 +21,7 @@ enum class ErrorCode {
 	UnknownError,
 	NotEnoughMemory,
 	BadArguments,
-	FeatureCalculationError,
+	QualityMeasureCalculationError,
 	CannotWriteToFile,
 	CannotReadFromFile,
 	NoDataAvailable,
@@ -31,7 +31,7 @@ enum class ErrorCode {
 	FJFX_CannotCreateContext,
 	FJFX_CannotCreateFeatureSet,
 	FJFX_NoFeatureSetCreated,
-	InvalidNFIQ2Score,
+	InvalidUnifiedQualityScore,
 	InvalidImageSize
 };
 

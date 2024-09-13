@@ -110,7 +110,7 @@ jobs:
       shell: bash
       run: |
         HOMEBREW_NO_INSTALL_CLEANUP=1 HOMEBREW_NO_AUTO_UPDATE=1 \
-            HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 brew install \
+            HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 brew install --quiet \
             berkeley-db \
             hwloc \
             jpeg-turbo \
@@ -165,7 +165,7 @@ jobs:
       shell: bash
       run: |
         python -m pip install pandas==2.1.4 packaging
-        python conformance/diff.py -s conformance/conformance_expected_output.csv github.csv
+        python conformance/diff.py -s conformance/conformance_expected_output-v2.3.0.csv github.csv
 
     - name: Upload conformance output artifact
       uses: actions/upload-artifact@v4

@@ -31,8 +31,8 @@ extern const unsigned int NFIQ2Rev0;
 extern const unsigned int NFIQ2Rev1;
 /** Unified quality score (NFIQ 2.2). */
 extern const unsigned int NFIQ2Rev2;
-/** Unified quality score (ISO/IEC 29794-4). */
-extern const unsigned int UnifiedQualityScore;
+/** Unified quality score (NFIQ 2.3). */
+extern const unsigned int NFIQ2Rev3;
 
 /** Orientation certainty quality algorithm identifiers. */
 namespace OrientationCertainty {
@@ -77,9 +77,9 @@ extern const unsigned int StdDev;
 /** Image contrast quality algorithm identifiers. */
 namespace Contrast {
 /** Average contrast ("MU"). */
-extern const unsigned int Mean;
+extern const unsigned int ImageMean;
 /** Average of average constrasts ("MMB"). */
-extern const unsigned int MeanBlock;
+extern const unsigned int MeanOfBlockMeans;
 }
 
 /** Minutie-based quality algorithm identifiers. */
@@ -89,9 +89,9 @@ extern const unsigned int Count;
 /** Minutiae count in center of mass. */
 extern const unsigned int CountCOM;
 /** Minutiae quality based on image mean. */
-extern const unsigned int QualityMu2;
+extern const unsigned int PercentImageMean50;
 /** Minutiae quality based on orientation certainty level. */
-extern const unsigned int QualityOCL80;
+extern const unsigned int PercentOrientationCertainty80;
 }
 
 /** Region of interest quality algorithm identifiers. */
@@ -99,19 +99,15 @@ namespace RegionOfInterest {
 /** Region of interest image mean. */
 extern const unsigned int Mean;
 /** Region of interest orientation map coherence sum. */
-extern const unsigned int CoherenceSum;
+extern const unsigned int OrientationMapCoherenceSum;
 /** Region of interest relative orientation map coherence sum. */
-extern const unsigned int CoherenceMean;
+extern const unsigned int OrientationMapCoherenceMean;
 }
 
-/** Radial power spectrum. */
-extern const unsigned int RadialPowerSpectrum;
-/** Gabor quality score. */
-extern const unsigned int Gabor;
 }
 
 /**
- * Identifiers for interpretation of quality features that may indicated
+ * Identifiers for interpretation of quality measures that may indicate
  * corrective measures for subsequent captures of the same subject.
  */
 namespace ActionableQualityFeedback {
@@ -128,45 +124,60 @@ extern const char UniformImage[];
  * Number of minutia in image.
  *
  * @note
- * Equivalent to QualityFeatures::Features::Minutiae::Count.
+ * Equivalent to QualityMeasures::Algorithms::Minutiae::Count.
  */
 extern const char FingerprintImageWithMinutiae[];
 /** Number of pixels in the computed foreground. */
 extern const char SufficientFingerprintForeground[];
 } /* ActionableQualityFeedback */
 
-/** Modules that combine features to compute a quality score. */
-namespace PredictionModules {
-/** Identifier for the RandomForest prediction module. */
+/** Combinations of all quality measures via a pattern classifier. */
+namespace UnifiedQualityScores {
+/** Unified quality score (NFIQ 2.0). */
+extern const char NFIQ2Rev0[];
+/** Unified quality score (NFIQ 2.1). */
+extern const char NFIQ2Rev1[];
+/** Unified quality score (NFIQ 2.2). */
+extern const char NFIQ2Rev2[];
+/** Unified quality score (NFIQ 2.3). */
+extern const char NFIQ2Rev3[];
+}
+
+/**
+ * Algorithms that combine quality measures to compute a unified quality
+ * score.
+ */
+namespace PredictionAlgorithms {
+/** Identifier for the RandomForest prediction algorithm. */
 extern const char RandomForest[];
-} /* Identifiers::PredictionModules */
+} /* Identifiers::PredictionAlgorithms */
 
-/** Modules that compute one or more QualityFeatures. */
-namespace QualityModules {
-/** Identifier for the FrequencyDomainAnalysis feature module. */
+/** Algorithms that compute one or more QualityMeasures. */
+namespace QualityMeasureAlgorithms {
+/** Identifier for the FrequencyDomainAnalysis quality measure algorithm. */
 extern const char FrequencyDomainAnalysis[];
-/** Identifier for the MinutiaeCount feature module. */
+/** Identifier for the MinutiaeCount quality measure algorithm. */
 extern const char MinutiaeCount[];
-/** Identifier for the MinutiaeQuality feature module. */
+/** Identifier for the MinutiaeQuality quality measure algorithm. */
 extern const char MinutiaeQuality[];
-/** Identifier for the LocalClarity feature module. */
+/** Identifier for the LocalClarity quality measure algorithm. */
 extern const char LocalClarity[];
-/** Identifier for the Contrast feature module. */
+/** Identifier for the Contrast quality measure algorithm. */
 extern const char Contrast[];
-/** Identifier for the OrientationCertainty feature module. */
+/** Identifier for the OrientationCertainty quality measure algorithm. */
 extern const char OrientationCertainty[];
-/** Identifier for the OrientationFlow feature module. */
+/** Identifier for the OrientationFlow quality measure algorithm. */
 extern const char OrientationFlow[];
-/** Identifier for the RegionOfInterestMean feature module. */
+/** Identifier for the RegionOfInterestMean quality measure algorithm. */
 extern const char RegionOfInterestMean[];
-/** Identifier for the RegionOfInterestCoherence feature module. */
+/** Identifier for the RegionOfInterestCoherence quality measure algorithm. */
 extern const char RegionOfInterestCoherence[];
-/** Identifier for the RidgeValleyUniformity feature module. */
+/** Identifier for the RidgeValleyUniformity quality measure algorithm. */
 extern const char RidgeValleyUniformity[];
-} /* Identifiers::QualityModules */
+} /* Identifiers::QualityMeasureAlgorithms */
 
-/** Identifiers of individual quality features and modules. */
-namespace QualityFeatures {
+/** Identifiers of individual quality measures. */
+namespace QualityMeasures {
 /** Frequency of the sinusoid following the ridge-valley structure. */
 namespace FrequencyDomainAnalysis {
 /**
@@ -219,39 +230,39 @@ extern const char CountCOM[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by Contrast::Mean
- * of a 32x32 pixel region centered on the minutiae, is between 0-0.5.
+ * of a local region centered on the minutiae, is between 0-0.5.
  *
- * @see Contrast::Mean
+ * @see Contrast::ImageMean
  */
-extern const char QualityMu2[];
+extern const char PercentImageMean50[];
 
 /**
  * Percentage of minutiae whose quality value, as determined by the Orientation
- * Certainty Level of a 32x32 pixel region centered on the minutiae, is above
+ * Certainty Level of a local region centered on the minutiae, is above
  * 80.
  *
  * @see OrientationCertainty
  */
-extern const char QualityOCL80[];
+extern const char PercentOrientationCertainty80[];
 }
 
 /** Measures based on the foreground area of the image. */
 namespace RegionOfInterest {
 /**
- * Mean grayscale value of the number of 32x32 pixel regions having at least 1
- * pixel in the ROI.
+ * Mean grayscale value of the number of local regions having at least 1 pixel
+ * in the ROI.
  */
 extern const char Mean[];
 
-/** Sum of coherence values over all 16x16 pixel regions within the ROI. */
+/** Sum of coherence values over all local regions within the ROI. */
 extern const char CoherenceSum[];
 
 /**
- * Average of coherence values over all 16x16 pixel regions within the ROI.
+ * Average of coherence values over all local regions within the ROI.
  *
  * @details
- * This is computed as RegionOfInterest::CoherenceSum / (number of 16x16 pixel
- * regions that contain at least 1 pixel within the ROI).
+ * This is computed as RegionOfInterest::CoherenceSum / (number of local regions
+ * that contain at least 1 pixel within the ROI).
  *
  * @see CoherenceSum
  */
@@ -298,9 +309,9 @@ extern const char StdDev[];
 /** Measure of the gray levels of the image. */
 namespace Contrast {
 /** Arithmetic mean of the image. */
-extern const char Mean[];
+extern const char ImageMean[];
 /** Arithmetic mean of per-block means of the image. */
-extern const char MeanBlock[];
+extern const char MeanOfBlockMeans[];
 }
 
 /**
@@ -418,8 +429,8 @@ extern const char Bin9[];
 extern const char Mean[];
 /** Standard deviation of local quality values. */
 extern const char StdDev[];
-} /* Identifiers::QualityFeatures::RidgeValleyUniformity */
-} /* Identifiers::QualityFeatures */
+} /* Identifiers::QualityMeasures::RidgeValleyUniformity */
+} /* Identifiers::QualityMeasures */
 } /* Identifiers */
 
 /** Threshold constants. */
@@ -443,6 +454,23 @@ extern const double FingerprintImageWithMinutiae;
 extern const double SufficientFingerprintForeground;
 } /* Thresholds::ActionableQualityFeedback */
 } /* Thresholds */
+
+/** Block size constants. */
+namespace Sizes {
+/**
+ * Number of pixels (in width and height) comprising a local region.
+ *
+ * @details
+ * As defined by ISO/IEC 29794-4:202X, Section 5.1.2, "The size for each local
+ * region shall be 32 x 32 pixels, which is sufficient to cover 2 clear ridges."
+ */
+const unsigned int LocalRegionSquare { 32 };
+/** Width after rotating local region to vertically align ridges. */
+const unsigned int VerticallyAlignedLocalRegionWidth { 32 };
+/** Height after rotating local region to vertically align ridges. */
+const unsigned int VerticallyAlignedLocalRegionHeight { 16 };
+}
+
 } /* NFIQ2 */
 
 #endif /* NFIQ2_CONSTANTS_HPP_ */

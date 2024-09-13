@@ -61,25 +61,25 @@ set(SOURCE_FILES
     "src/nfiq2/nfiq2_modelinfo.cpp"
     "src/nfiq2/nfiq2_algorithm.cpp"
     "src/nfiq2/nfiq2_algorithm_impl.cpp"
-    "src/nfiq2/nfiq2_qualityfeatures.cpp"
-    "src/nfiq2/nfiq2_qualityfeatures_impl.cpp"
+    "src/nfiq2/nfiq2_qualitymeasures.cpp"
+    "src/nfiq2/nfiq2_qualitymeasures_impl.cpp"
     "src/nfiq2/nfiq2_timer.cpp"
     "src/nfiq2/nfiq2_exception.cpp"
     "src/nfiq2/version.cpp")
 
 set(FEATURES_FILES
-    "src/features/Module.cpp"
-    "src/features/FDAFeature.cpp"
-    "src/features/FJFXMinutiaeQualityFeatures.cpp"
-    "src/features/FeatureFunctions.cpp"
-    "src/features/FingerJetFXFeature.cpp"
-    "src/features/ImgProcROIFeature.cpp"
-    "src/features/LCSFeature.cpp"
-    "src/features/MuFeature.cpp"
-    "src/features/OCLHistogramFeature.cpp"
-    "src/features/OFFeature.cpp"
-    "src/features/QualityMapFeatures.cpp"
-    "src/features/RVUPHistogramFeature.cpp")
+    "src/quality_modules/Module.cpp"
+    "src/quality_modules/FDA.cpp"
+    "src/quality_modules/FJFXMinutiaeQuality.cpp"
+    "src/quality_modules/common_functions.cpp"
+    "src/quality_modules/FingerJetFX.cpp"
+    "src/quality_modules/ImgProcROI.cpp"
+    "src/quality_modules/LCS.cpp"
+    "src/quality_modules/Mu.cpp"
+    "src/quality_modules/OCLHistogram.cpp"
+    "src/quality_modules/OF.cpp"
+    "src/quality_modules/QualityMap.cpp"
+    "src/quality_modules/RVUPHistogram.cpp")
 
 set(PREDICTION_FILES
     "src/prediction/RandomForestML.cpp")
@@ -92,7 +92,7 @@ set(PUBLIC_HEADERS
     "include/nfiq2_modelinfo.hpp"
     "include/nfiq2_algorithm.hpp"
     "include/nfiq2_exception.hpp"
-    "include/nfiq2_qualityfeatures.hpp"
+    "include/nfiq2_qualitymeasures.hpp"
     "include/nfiq2_timer.hpp"
     "include/nfiq2_version.hpp")
 

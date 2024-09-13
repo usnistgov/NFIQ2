@@ -10,6 +10,7 @@ on:
       - '.gitignore'
       - '**.md'
       - 'conformance/**'
+      - 'NFIQ2/NFIQ2Algorithm/doc/**'
 
 env:
   CONFIGURATION: Release

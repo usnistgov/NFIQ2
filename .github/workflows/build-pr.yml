@@ -8,6 +8,7 @@ on:
       - '.gitignore'
       - '**.md'
       - 'conformance/**'
+      - 'NFIQ2/NFIQ2Algorithm/doc/**'
 
 env:
   CONFIGURATION: Release
@@ -22,8 +23,11 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-14, arch: arm64, embed_rf: OFF }
           - { os: macOS-13, arch: x64, embed_rf: OFF }
           - { os: macOS-12, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
+          - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-20.04, arch: x64, embed_rf: OFF }

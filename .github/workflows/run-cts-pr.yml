@@ -5,21 +5,13 @@ on:
     workflows: ["Build PR"]
     types:
       - completed
-    paths-ignore:
-      - '.github/**'
-      - '!.github/workflows/run-cts-pr.yml'
-      - '.gitignore'
-      - '**.md'
-      - 'NFIQ2/NFIQ2Algorithm/doc/**'
 
 jobs:
   runcts:
     name: Run CTS
 
     runs-on: ${{ matrix.config.os }}
-    if: >
-      ${{ github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     strategy:
       fail-fast: false
       matrix:
@@ -180,68 +172,132 @@ jobs:
         if-no-files-found: error
         overwrite: true
 
-    - name: Failed the CTS
+    - name: Write test result summary
+      shell: bash
+      run: |
+        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "PASS"}' > cts_status.json
+      if: ${{ success() }}
+
+    - name: Write test result summary (failure)
+      shell: bash
+      run: |
+        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "FAIL"}' > cts_status.json
       if: ${{ failure() }}
-      uses: actions/github-script@v6
+
+    - name: Upload test result summary
+      uses: actions/upload-artifact@v4
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          var fs = require('fs');
-          var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
-          await github.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issue_number,
-            body: ':x: Conformance regression test for ${{ matrix.config.os }} (${{ matrix.config.arch }}) failed. Please review the artifacts for this run.'
-          });
+        name: cts_status-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}
+        path: cts_status.json
+        retention-days: 3
 
   comment_on_pr:
     name: Comment on PR
+    runs-on: ubuntu-24.04
     needs: runcts
-    runs-on: ${{ matrix.config.os }}
-    strategy:
-      matrix:
-        config:
-          - { os: ubuntu-22.04, arch: x64 }
     steps:
-    - name: Download install_staging artifact
-      uses: actions/github-script@v7
-      with:
-        script: |
-          var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             run_id: ${{github.event.workflow_run.id}},
-          });
-          var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}"
-          })[0];
-          var download = await github.rest.actions.downloadArtifact({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             artifact_id: matchArtifact.id,
-             archive_format: 'zip',
-          });
-          var fs = require('fs');
-          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip', Buffer.from(download.data));
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
 
-    - name: Unzip install_staging
-      run: |
-        mkdir install_staging
-        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip install_staging
-        cd install_staging
-        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}.zip
+      - name: Get PR number from triggering workflow
+        id: get_pr_number
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const runId = ${{ github.event.workflow_run.id }};
+            const { data: jobs } = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: runId
+            });
 
-    - name: Passed the CTS
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          var fs = require('fs');
-          var issue_number = Number(fs.readFileSync('install_staging/pr_number'));
-          await github.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issue_number,
-            body: ':white_check_mark: Conformance regression test passed on all tested platforms.'
-          });
+            let pr = null;
+
+            for (const job of jobs.jobs) {
+              if (job.head_sha !== '${{ github.event.workflow_run.head_sha }}') continue;
+              if (job.pull_requests && job.pull_requests.length > 0) {
+                pr = job.pull_requests[0].number;
+                break;
+              }
+            }
+
+            if (!pr) {
+              // fallback: use checks API
+              const checks = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: '${{ github.event.workflow_run.head_sha }}'
+              });
+
+              for (const run of checks.data.check_runs) {
+                if (run.pull_requests && run.pull_requests.length > 0) {
+                  pr = run.pull_requests[0].number;
+                  break;
+                }
+              }
+            }
+
+            if (!pr) {
+              throw new Error("Failed to determine PR number.");
+            }
+
+            core.setOutput("pr_number", pr.toString());
+
+      - name: Collect test results and generate comment
+        id: generate_comment
+        run: |
+          echo "Aggregating test results..."
+          results=""
+          pass_count=0
+          fail_count=0
+
+          for f in artifacts/cts_status-*/cts_status.json; do
+            os=$(jq -r '.os' "$f")
+            arch=$(jq -r '.arch' "$f")
+            embed_rf=$(jq -r '.embed_rf' "$f")
+            status=$(jq -r '.status' "$f")
+
+            if [ "$status" = "PASS" ]; then
+              emoji="✅"
+              ((pass_count++))
+            else
+              emoji="❌"
+              ((fail_count++))
+            fi
+
+            if [ "$embed_rf" = "ON" ]; then
+              model_label=" (Embedded Model)"
+            else
+              model_label=""
+            fi
+
+            results="${results}- ${emoji} ${os} ${arch}${model_label}\n"
+          done
+
+          echo -e "$results" > summary.txt
+          echo "pr_number=${{ steps.get_pr_number.outputs.pr_number }}" >> $GITHUB_OUTPUT
+
+          if [ "$fail_count" -gt 0 ]; then
+            echo "One or more CTS configurations failed."
+            exit 1
+          fi
+
+      - name: Comment on PR with results
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const pr = process.env.PR_NUMBER;
+            const summary = fs.readFileSync('summary.txt', 'utf-8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(pr),
+              body: `:white_check_mark: Conformance regression test summary:\n\n**Results:**\n${summary}`
+            });
+        env:
+          PR_NUMBER: ${{ steps.get_pr_number.outputs.pr_number }}

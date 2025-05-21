@@ -116,6 +116,8 @@ def load_csv(path):
 	if missing:
 		raise ValueError(f"Error: The following required columns are missing in {path}:\n{missing}")
 
+	return df
+
 
 def perform_diff(csv1_path, csv2_path, output_diffs):
 	df1 = load_csv(csv1_path)

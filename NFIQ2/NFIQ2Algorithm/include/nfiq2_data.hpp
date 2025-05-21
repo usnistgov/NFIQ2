@@ -21,7 +21,7 @@
 namespace NFIQ2 {
 
 /** Binary data */
-class Data : public std::basic_string<uint8_t> {
+class Data {
     public:
 	/** Default Data constructor. */
 	Data();
@@ -36,22 +36,41 @@ class Data : public std::basic_string<uint8_t> {
 	 * @param dataSize
 	 * Size of data at data pointer.
 	 */
-	Data(const uint8_t *pData, uint32_t dataSize);
-
-	/** Copy constructor. */
-	Data(const Data &otherData);
-
-	/**
-	 * @brief
-	 * Constructor with string-based data.
-	 *
-	 * @param otherData
-	 * Binary data in string format.
-	 */
-	explicit Data(const std::basic_string<uint8_t> &otherData);
+	Data(const std::uint8_t *pData, std::uint32_t dataSize);
 
 	/** Destructor. */
 	virtual ~Data();
+
+	/**
+	 * @return
+	 * Pointer to underlying storage.
+	 */
+	const std::uint8_t *data() const;
+
+	/**
+	 * @return
+	 * Number of elements in underlying storage.
+	 */
+	std::vector<std::uint8_t>::size_type size() const;
+
+	/**
+	 * @return
+	 * Reference to the element at pos in underlying storage, with
+	 * bounds checking.
+	 *
+	 * @throw std::out_of_range
+	 * pos is not within range of underlying storage.
+	 */
+	std::vector<std::uint8_t>::reference at(
+	    std::vector<std::uint8_t>::size_type pos);
+
+	/**
+	 * Resize the underlying storage container.
+	 *
+	 * @param count
+	 * Number of elements underlying storage will hold.
+	 */
+	void resize(std::vector<std::uint8_t>::size_type count);
 
 	/**
 	 * @brief
@@ -109,7 +128,15 @@ class Data : public std::basic_string<uint8_t> {
 	 * The content of the buffer as Base64 encoded string.
 	 */
 	std::string toBase64String() const;
+
+    private:
+	std::vector<std::uint8_t> buffer {};
 };
 } // namespace NFIQ
+
+static_assert(std::is_same<std::uint8_t, char>::value ||
+	std::is_same<std::uint8_t, unsigned char>::value,
+    "Implementation requires std::uint8_t to be implemented as char or "
+    "unsigned char.");
 
 #endif /* NFIQ2_DATA_HPP_ */

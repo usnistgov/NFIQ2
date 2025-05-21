@@ -5,22 +5,39 @@
 
 NFIQ2::Data::Data() = default;
 
-NFIQ2::Data::Data(const uint8_t *pData, uint32_t dataSize)
-    : std::basic_string<uint8_t>(pData, dataSize)
+NFIQ2::Data::Data(const std::uint8_t *pData, std::uint32_t dataSize)
+    : buffer(dataSize)
 {
-}
-
-NFIQ2::Data::Data(const Data &otherData)
-    : std::basic_string<uint8_t>(otherData)
-{
-}
-
-NFIQ2::Data::Data(const std::basic_string<uint8_t> &otherData)
-    : std::basic_string<uint8_t>(otherData)
-{
+	if ((pData == nullptr) || (dataSize == 0))
+		return;
+	this->buffer = std::vector<std::uint8_t>(pData, pData + dataSize);
 }
 
 NFIQ2::Data::~Data() = default;
+
+const std::uint8_t *
+NFIQ2::Data::data() const
+{
+	return (this->buffer.data());
+}
+
+std::vector<std::uint8_t>::size_type
+NFIQ2::Data::size() const
+{
+	return (this->buffer.size());
+}
+
+void
+NFIQ2::Data::resize(std::vector<std::uint8_t>::size_type count)
+{
+	this->buffer.resize(count);
+}
+
+std::vector<std::uint8_t>::reference
+NFIQ2::Data::at(std::vector<std::uint8_t>::size_type pos)
+{
+	return (this->buffer.at(pos));
+}
 
 void
 NFIQ2::Data::writeToFile(const std::string &filename) const
@@ -30,8 +47,8 @@ NFIQ2::Data::writeToFile(const std::string &filename) const
 		std::ofstream f;
 		f.open(filename.c_str(), std::ios::out | std::ios::binary);
 		if (f.is_open()) {
-			f.write((char *)this->data(),
-			    static_cast<std::streamsize>(this->size()));
+			f.write((char *)this->buffer.data(),
+			    static_cast<std::streamsize>(this->buffer.size()));
 			success = !f.bad(); // badbit is set if write was
 					    // incomplete or failed
 			f.close();
@@ -48,58 +65,34 @@ NFIQ2::Data::writeToFile(const std::string &filename) const
 void
 NFIQ2::Data::readFromFile(const std::string &filename)
 {
-	bool success = false;
-	if (!filename.empty()) {
-		unsigned long len;
-		unsigned char *pBuffer;
-		std::ifstream f;
-		f.open(filename.c_str(), std::ios::binary | std::ios::in);
-		if (f.is_open()) {
-			// detecting size
-			f.seekg(0, std::ios::end);
-			len = (unsigned long)f.tellg();
-			f.seekg(0, std::ios::beg);
-			if (len > 0) {
-				pBuffer = new unsigned char[len];
-				f.read((char *)pBuffer, len);
-				this->assign(pBuffer, len);
-				delete[] pBuffer;
-				success = !f.fail(); // failbit is set if read
-						     // was incomplete or failed
-				f.close();
-			} else {
-				// must be zero since type is unsigned
-				this->clear();
-				// empty file is no error
-				success = true;
-			}
-		} else {
-			throw NFIQ2::Exception(
-			    NFIQ2::ErrorCode::CannotReadFromFile);
-		}
-	}
-	if (!success) {
+	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+	if (!file)
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::CannotReadFromFile);
-	}
+
+	const auto size = file.tellg();
+	this->buffer.reserve(size);
+	file.seekg(0, std::ios::beg);
+	if (!file.read(reinterpret_cast<char *>(this->buffer.data()), size))
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::CannotReadFromFile);
 }
 
 std::string
 NFIQ2::Data::toHexString() const
 {
-	if (this->size() <= 0) {
+	if (this->buffer.size() <= 0) {
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::NoDataAvailable);
 	}
 
 	std::stringstream ss;
 	ss << std::setfill('0') << std::right;
 
-	for (unsigned long nPos = 0; nPos < this->size(); nPos++) {
+	for (unsigned long nPos = 0; nPos < this->buffer.size(); nPos++) {
 		if (nPos > 0) {
 			ss << " "; // separator
 		}
 
 		ss << std::setw(2) << std::uppercase << std::hex
-		   << (unsigned int)this->at(nPos);
+		   << (unsigned int)this->buffer[nPos];
 	}
 	return ss.str();
 }
@@ -110,7 +103,7 @@ NFIQ2::Data::fromBase64String(const std::string &base64String)
 	const char *ptr = base64String.data();
 	size_t len = base64String.size();
 
-	this->clear();
+	this->buffer.clear();
 
 	bool ok = true, end = false;
 	int bits = 0, data = 0;
@@ -150,7 +143,9 @@ NFIQ2::Data::fromBase64String(const std::string &base64String)
 			// extract full characters
 			if (bits >= 8) {
 				bits -= 8;
-				*this += (unsigned char)(data >> bits);
+				// 				*this +=
+				// (unsigned char)(data >> bits);
+				this->buffer.push_back(data >> bits);
 			}
 		}
 	}
@@ -170,8 +165,8 @@ NFIQ2::Data::toBase64String() const
 		'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7',
 		'8', '9', '+', '/', '=' };
 
-	unsigned int size = static_cast<unsigned int>(this->size());
-	const unsigned char *input = this->data();
+	unsigned int size = static_cast<unsigned int>(this->buffer.size());
+	const unsigned char *input = this->buffer.data();
 
 	// calculate number of blocks (each block has 4 characters)
 	unsigned int numberOfBlocks = size % 3 == 0 ? size / 3 : size / 3 + 1;

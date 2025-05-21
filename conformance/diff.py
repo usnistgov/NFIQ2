@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pandas as pd
+import os
 import sys
 import argparse
 
@@ -128,6 +129,12 @@ def perform_diff(csv1_path, csv2_path, output_diffs):
 
 	df1 = df1[REQUIRED_COLUMNS]
 	df2 = df2[REQUIRED_COLUMNS]
+
+	# Replace the full filename path with just the file base name for both dataframes
+	df1 = df1.assign(Filename = lambda dataframe: dataframe['Filename'].map(
+	    lambda path: os.path.basename(path.replace('\\', os.sep).replace('/', os.sep))))
+	df2 = df2.assign(Filename = lambda dataframe: dataframe['Filename'].map(
+	    lambda path: os.path.basename(path.replace('\\', os.sep).replace('/', os.sep))))
 
 	merged = pd.merge(
 		df1, df2, on="Filename", suffixes=("_1", "_2"), how="outer", indicator=True

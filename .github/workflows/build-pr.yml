@@ -26,7 +26,6 @@ jobs:
           - { os: macOS-15, arch: arm64, embed_rf: OFF }
           - { os: macOS-14, arch: arm64, embed_rf: OFF }
           - { os: macOS-13, arch: x64, embed_rf: OFF }
-          - { os: macOS-12, arch: x64, embed_rf: OFF }
           - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }

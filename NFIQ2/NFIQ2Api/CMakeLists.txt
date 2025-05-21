@@ -89,6 +89,7 @@ elseif("${TARGET_PLATFORM}" MATCHES "android*")
   find_package(Threads REQUIRED)
   set( PROJECT_LIBS ${PROJECT_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
+    android
     log
   )
 else()

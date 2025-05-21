@@ -122,6 +122,63 @@ NFIQ2::Prediction::RandomForestML::initModule(const std::string &fileName,
 	return hash;
 }
 
+#ifdef __ANDROID__
+std::string
+NFIQ2::Prediction::RandomForestML::initModule(AAssetManager *assets,
+    const std::string &fileName, const std::string &fileHash)
+{
+	if (assets == nullptr) {
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::BadArguments,
+		    "Prediction::RandomForestML::initModule: AAssetManager is null");
+	}
+	if (fileName.empty()) {
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::BadArguments,
+		    "Prediction::RandomForestML::initModule: "
+		    "file name is empty");
+	}
+	if (fileHash.empty()) {
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::BadArguments,
+		    "Prediction::RandomForestML::initModule: "
+		    "hash value is empty");
+	}
+	AAsset *asset = AAssetManager_open(assets, fileName.c_str(),
+	    AASSET_MODE_STREAMING);
+	if (asset == nullptr) {
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
+		    "Prediction::RandomForestML::initModule: "
+		    "requested asset not found");
+	}
+	// reading the file with the asset manager
+	std::stringstream ss;
+	char buffer[BUFSIZ + 1]; // BUFSIZ defined in stdio.h
+	int cnt = AAsset_read(asset, buffer, BUFSIZ);
+	while (cnt > 0 && cnt <= BUFSIZ) {
+		buffer[cnt] = 0; // add terminating '\0'
+		ss << buffer;
+		cnt = AAsset_read(asset, buffer, BUFSIZ);
+	}
+	AAsset_close(asset);
+	// verify the read data and initialize model
+	std::string params = ss.str();
+	if (params.size() == 0) {
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
+		    "The trained network could not be initialized!"
+		    "Invalid model");
+	}
+	// calculate and compare the hash
+	std::string hash = calculateHashString(params);
+	if (fileHash.compare(hash) != 0) {
+		m_pTrainedRF->clear();
+		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
+		    "The trained network could not be initialized! "
+		    "Error: " +
+			hash);
+	}
+	initModule(params);
+	return hash;
+}
+#endif
+
 void
 NFIQ2::Prediction::RandomForestML::evaluate(
     const std::unordered_map<std::string, double> &features,

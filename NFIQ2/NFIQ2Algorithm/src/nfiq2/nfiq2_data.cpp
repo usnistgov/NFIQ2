@@ -143,8 +143,6 @@ NFIQ2::Data::fromBase64String(const std::string &base64String)
 			// extract full characters
 			if (bits >= 8) {
 				bits -= 8;
-				// 				*this +=
-				// (unsigned char)(data >> bits);
 				this->buffer.push_back(data >> bits);
 			}
 		}

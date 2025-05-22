@@ -13,6 +13,7 @@ NFIQ2::Data::Data(const std::uint8_t *pData, std::uint32_t dataSize)
 	this->buffer = std::vector<std::uint8_t>(pData, pData + dataSize);
 }
 
+
 NFIQ2::Data::~Data() = default;
 
 const std::uint8_t *

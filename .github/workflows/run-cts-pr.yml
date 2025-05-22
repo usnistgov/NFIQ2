@@ -254,13 +254,27 @@ jobs:
           pass_count=0
           fail_count=0
 
-          for f in artifacts/cts_status-*/cts_status.json; do
-            os=$(jq -r '.os' "$f")
-            arch=$(jq -r '.arch' "$f")
-            embed_rf=$(jq -r '.embed_rf' "$f")
-            status=$(jq -r '.status' "$f")
+          cat artifacts/cts_status-*/cts_status.json
 
-            if [ "$status" = "PASS" ]; then
+          for f in artifacts/cts_status-*/cts_status.json; do
+            if [ ! -s "$f" ]; then
+              echo "⚠️ Warning: $f is empty or missing. Counting as FAIL."
+              ((fail_count++))
+              continue
+            fi
+
+            os=$(jq -r '.os // "UNKNOWN"' "$f")
+            arch=$(jq -r '.arch // "UNKNOWN"' "$f")
+            embed_rf=$(jq -r '.embed_rf // "UNKNOWN"' "$f")
+            status=$(jq -r '.status // empty' "$f")
+
+            echo "DEBUG: status=$status, os=$os, arch=$arch, embed_rf=$embed_rf"
+
+            if [ -z "$status" ]; then
+              echo "⚠️ Warning: $f has missing 'status' field. Counting as FAIL."
+              emoji="❌"
+              ((fail_count++))
+            elif [ "$status" = "PASS" ]; then
               emoji="✅"
               ((pass_count++))
             else
@@ -278,12 +292,8 @@ jobs:
           done
 
           echo -e "$results" > summary.txt
+          echo "fail_count=${fail_count}" >> $GITHUB_OUTPUT
           echo "pr_number=${{ steps.get_pr_number.outputs.pr_number }}" >> $GITHUB_OUTPUT
-
-          if [ "$fail_count" -gt 0 ]; then
-            echo "One or more CTS configurations failed."
-            exit 1
-          fi
 
       - name: Comment on PR with results
         uses: actions/github-script@v7
@@ -301,3 +311,7 @@ jobs:
             });
         env:
           PR_NUMBER: ${{ steps.get_pr_number.outputs.pr_number }}
+
+      - name: Fail if any config failed
+        if: ${{ steps.generate_comment.outputs.fail_count != '0' }}
+        run: exit 1

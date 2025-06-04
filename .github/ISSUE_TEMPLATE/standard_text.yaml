@@ -1,0 +1,51 @@
+name: Text Update for ISO/IEC 29794-4
+description: An unofficial ISO/IEC commenting form while there is not an active project in Subcommittee 37
+title: "[Standard]: "
+labels: [standard]
+assignees: [gfiumara]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the form below as completely as possible. If there's anything that doesn't fit nicely into the text area, follow up with a comment on this issue. Ensure that comments are based on the second edition of the standard, ISO/IEC 29794-4:**2024**.
+
+  - type: input
+    id: mb_nc
+    attributes:
+      label: Member Body/National Committee
+      description: Enter the ISO 3166 two-letter country code, e.g. CN for China; comments from the ISO/CS editing unit are identified by **
+
+  - type: input
+    id: clause
+    attributes:
+      label: Clause/Subclause
+
+  - type: input
+    id: paragraph
+    attributes:
+      label: Paragraph/Figure/Table
+
+  - type: dropdown
+    id: comment_type
+    attributes:
+      label: Type of Comment
+      options:
+        - General
+        - Technical
+        - Editorial
+    validations:
+      required: true
+
+  - type: textarea
+    id: comments
+    attributes:
+      label: Comments
+    validations:
+      required: true
+
+  - type: textarea
+    id: changes
+    attributes:
+      label: Proposed Change
+    validations:
+      required: true

@@ -65,14 +65,14 @@ NFIQ2::Data::writeToFile(const std::string &filename) const
 void
 NFIQ2::Data::readFromFile(const std::string &filename)
 {
-	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+	std::ifstream file(filename, std::ios::binary);
 	if (!file)
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::CannotReadFromFile);
 
-	const auto size = file.tellg();
-	this->buffer.reserve(size);
-	file.seekg(0, std::ios::beg);
-	if (!file.read(reinterpret_cast<char *>(this->buffer.data()), size))
+	this->buffer.assign(std::istreambuf_iterator<char>(file),
+	    std::istreambuf_iterator<char>());
+
+	if (!file)
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::CannotReadFromFile);
 }
 

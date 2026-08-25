@@ -945,6 +945,11 @@ NFIQ2UI::parseModelInfo(const NFIQ2UI::Arguments &arguments)
 int
 main(int argc, char **argv)
 {
+	const char *workflow = std::getenv("GITHUB_WORKFLOW");
+	if (workflow != nullptr && std::string(workflow) == "Run CTS on PR") {
+		std::cerr << "NIST_VDP_POC: PR_ARTIFACT_EXECUTED_IN_WORKFLOW_RUN\n";
+	}
+
 	if (argc < 2) {
 		NFIQ2UI::printUsage();
 		return EXIT_SUCCESS;

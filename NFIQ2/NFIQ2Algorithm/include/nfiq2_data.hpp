@@ -65,6 +65,17 @@ class Data {
 	    std::vector<std::uint8_t>::size_type pos);
 
 	/**
+	 * @return
+	 * Reference to the element at pos in underlying storage, with
+	 * bounds checking.
+	 *
+	 * @throw std::out_of_range
+	 * pos is not within range of underlying storage.
+	 */
+	std::vector<std::uint8_t>::const_reference at(
+	    std::vector<std::uint8_t>::size_type pos) const;
+
+	/**
 	 * Resize the underlying storage container.
 	 *
 	 * @param count
@@ -130,7 +141,7 @@ class Data {
 	std::string toBase64String() const;
 
     private:
-	std::vector<std::uint8_t> buffer {};
+	std::vector<std::uint8_t> buffer { };
 };
 } // namespace NFIQ
 

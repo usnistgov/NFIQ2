@@ -38,6 +38,12 @@ NFIQ2::Data::at(std::vector<std::uint8_t>::size_type pos)
 	return (this->buffer.at(pos));
 }
 
+std::vector<std::uint8_t>::const_reference
+NFIQ2::Data::at(std::vector<std::uint8_t>::size_type pos) const
+{
+	return (this->buffer.at(pos));
+}
+
 void
 NFIQ2::Data::writeToFile(const std::string &filename) const
 {

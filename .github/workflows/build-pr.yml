@@ -23,9 +23,8 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-26, arch: arm64, embed_rf: OFF }
           - { os: macOS-15, arch: arm64, embed_rf: OFF }
-          - { os: macOS-14, arch: arm64, embed_rf: OFF }
-          - { os: macOS-13, arch: x64, embed_rf: OFF }
           - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
@@ -36,7 +35,7 @@ jobs:
 
     steps:
     - name: Checkout Code and Submodules
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         submodules: true
 
@@ -51,15 +50,19 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
+        mkdir -p "${VCPKG_INSTALLATION_ROOT}/downloads"
         mkdir -p "${VCPKG_INSTALLATION_ROOT}/bincache"
+        echo "VCPKG_DOWNLOADS=${VCPKG_INSTALLATION_ROOT}/downloads" >> ${GITHUB_ENV}
         echo "VCPKG_DEFAULT_BINARY_CACHE=${VCPKG_INSTALLATION_ROOT}/bincache" >> ${GITHUB_ENV}
 
     - name: Package Cache (Windows)
       if: ${{ runner.os == 'Windows' }}
       id: vcpkg-cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: |
+          ${{ env.VCPKG_DOWNLOADS }}
+          ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
         key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
         restore-keys: |
           pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
@@ -125,7 +128,7 @@ jobs:
 
     - name: Build Directory Cache
       id: builddir-cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: |
           ${{ github.workspace }}/build
@@ -204,7 +207,7 @@ jobs:
       run: echo ${{ github.event.number }} > install_staging/pr_number
 
     - name: Upload install_staging artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}
         path: ${{ github.workspace }}/build/install_staging

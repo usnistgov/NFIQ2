@@ -17,9 +17,8 @@ jobs:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
+          - { os: macOS-26, arch: arm64, embed_rf: OFF }
           - { os: macOS-15, arch: arm64, embed_rf: OFF }
-          - { os: macOS-14, arch: arm64, embed_rf: OFF }
-          - { os: macOS-13, arch: x64, embed_rf: OFF }
           - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
@@ -30,7 +29,7 @@ jobs:
 
     steps:
     - name: Checkout Conformance Test Script
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         submodules: false
 
@@ -121,7 +120,7 @@ jobs:
       run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: '3.x'
 
@@ -162,7 +161,7 @@ jobs:
         python conformance/diff.py -o conformance/conformance_expected_output-v2.3.0.csv github.csv
 
     - name: Upload conformance output artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       if: always()  # Upload even if test failed
       with:
         name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
@@ -184,7 +183,7 @@ jobs:
       if: ${{ failure() }}
 
     - name: Upload test result summary
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       if: always()  # Upload even if test failed
       with:
         name: cts_status-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}

@@ -6,7 +6,6 @@
 NFIQ2::Data::Data() = default;
 
 NFIQ2::Data::Data(const std::uint8_t *pData, std::uint32_t dataSize)
-    : buffer(dataSize)
 {
 	if ((pData == nullptr) || (dataSize == 0))
 		return;

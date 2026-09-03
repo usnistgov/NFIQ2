@@ -1,7 +1,13 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.28)
 
 project( NFIQ2_SUPERBUILD )
 
+option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+if(MSVC)
+	# Default is on because of FJFX build
+	option(BUILD_WITH_STATIC_CRT "Use the Windows static runtime" ON)
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>$<$<NOT:$<BOOL:${BUILD_WITH_STATIC_CRT}>>:DLL>" CACHE STRING "")
+endif()
 string(REPLACE ";" "$<SEMICOLON>" EXTERNALPROJECT_SAFE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
 
 message(STATUS "NFIQ 2 Superbuild")
@@ -24,10 +30,6 @@ set(MACOS_APPLICATION_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for a
 set(MACOS_INSTALLER_SIGNING_IDENTITY "" CACHE STRING "Apple Developer ID for installers")
 set(MACOS_NOTARYTOOL_PROFILE "" CACHE STRING "Name of notarytool credential profile stored in Keychain (insert these with `xcrun notarytool store-credentials')")
 
-option(MACOS_FORCE_STATIC "Force static library dependencies only" OFF)
-
-set( NO_SEARCH TRUE )
-
 set( ROOT_PATH ${PROJECT_SOURCE_DIR} )
 set( BUILD_PATH  ${CMAKE_CURRENT_BINARY_DIR} )
 
@@ -40,15 +42,6 @@ set(NFIQ2_CONTAINER_DIR "nfiq2")
 set(INSTALL_STAGING_DIR "${CMAKE_CURRENT_BINARY_DIR}/install_staging/${NFIQ2_CONTAINER_DIR}")
 
 set(CMAKE_CXX_STANDARD 11)
-
-# set colors for cmake comand line
-include( "${ROOT_PATH}/cmake/colors.cmake" )
-
-# detect target platform
-include( "${ROOT_PATH}/cmake/target.cmake" )
-
-# setup compiler
-include( "${ROOT_PATH}/cmake/compiler.cmake" )
 
 # include special settings for fingerjetfxose
 include( "${ROOT_PATH}/cmake/fingerjetfxose.cmake" )
@@ -68,7 +61,7 @@ endforeach(flag_var)
 
 # forwarding android build flags
 if( NOT "${ANDROID_ABI}" STREQUAL "")
-  message( STATUS "${Gn}-- Forwarding Android build flags to the external projects${Na}" )
+  message( STATUS "Forwarding Android build flags to the external projects" )
   set(ANDROID_CMAKE_ARGS
     -DANDROID_ABI=${ANDROID_ABI}
     -DANDROID_PLATFORM=${ANDROID_PLATFORM}
@@ -80,7 +73,7 @@ endif()
 
 # forwarding iOS build flags
 if( APPLE AND NOT ( "${CMAKE_TOOLCHAIN_FILE}" STREQUAL ""))
-  message( STATUS "${Gn}-- Forwarding IOS build flags to the external projects${Na}" )
+  message( STATUS "Forwarding IOS build flags to the external projects" )
   set(IOS_CMAKE_ARGS
     -DPLATFORM=${PLATFORM}
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
@@ -136,7 +129,6 @@ else()
 endif()
 
 set(OPENCV_CMAKE_ARGS
-	-DBUILD_SHARED_LIBS=OFF
 	-DBUILD_OPENCV_APPS=OFF
 	-DBUILD_opencv_apps=OFF #opencv 4.5.4 seems to use this flag with lower case, keeping both entries to anticipate future fix
 	-DBUILD_ANDROID_EXAMPLES=OFF
@@ -182,28 +174,26 @@ set(OPENCV_CMAKE_ARGS
 	-DWITH_OBSENSOR=OFF
 	-DBUILD_LIST=core,ml,imgproc,imgcodecs)
 
-if("${TARGET_PLATFORM}" MATCHES "win*")
-list(APPEND OPENCV_CMAKE_ARGS
-	-DBUILD_WITH_STATIC_CRT=ON)
-endif("${TARGET_PLATFORM}" MATCHES "win*")
-
-if ("${TARGET_PLATFORM}" MATCHES "apple32")
+if (APPLE)
 	list(APPEND OPENCV_CMAKE_ARGS -DWITH_LAPACK=OFF)
 endif ()
 
-# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
-# or we'll have to redistribute them. If you're building for your own machine,
-# link whatever you find. macOS 11+ hides zlib and other system libraries.
-if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
-	list(APPEND OPENCV_CMAKE_ARGS -DBUILD_ZLIB=ON)
+if(MSVC)
+	list(APPEND OPENCV_CMAKE_ARGS -DBUILD_WITH_STATIC_CRT="${BUILD_WITH_STATIC_CRT}")
 endif()
 
 set(VCPKG_CMAKE_ARGS)
-if (MSVC)
-	list(APPEND VCPKG_CMAKE_ARGS
-		-DVCPKG_VERBOSE=${VCPKG_VERBOSE}
-		-DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
-		)
+if (WIN32)
+	if (VCPKG_VERBOSE)
+		list(APPEND VCPKG_CMAKE_ARGS -DVCPKG_VERBOSE=${VCPKG_VERBOSE})
+	endif()
+	if (VCPKG_TARGET_TRIPLET)
+		list(APPEND VCPKG_CMAKE_ARGS -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET})
+
+		if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static" AND NOT VCPKG_TARGET_TRIPLET MATCHES "static-md" AND CMAKE_MSVC_RUNTIME_LIBRARY MATCHES "DLL")
+			message(WARNING "Triplet implies static runtime but CMAKE_MSVC_RUNTIME_LIBRARY is dynamic.")
+		endif()
+	endif()
 endif()
 
 ExternalProject_Add(OpenCV
@@ -214,34 +204,30 @@ ExternalProject_Add(OpenCV
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+		-DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
 		-DCMAKE_OSX_ARCHITECTURES=${EXTERNALPROJECT_SAFE_OSX_ARCHITECTURES}
 )
 
 if (BUILD_NFIQ2_CLI)
-
-# For releases, we must not have dynamic lib dependencies from MacPorts/Homebrew
-# or we'll have to redistribute them. If you're building for your own machine,
-# link whatever you find
-if (MACOS_FORCE_STATIC OR (APPLE AND MACOS_CODESIGN))
-	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS -DFORCE_STATIC_DEPENDENCIES=YES)
-endif()
-if (NOT "${OPENSSL_ROOT_DIR}" STREQUAL "")
-	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS "-DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR}")
+set(EXTRA_BIOMEVAL_CMAKE_ARGS)
+if (MSVC)
+	list(APPEND EXTRA_BIOMEVAL_CMAKE_ARGS "-DSTATIC_CRT=${BUILD_WITH_STATIC_CRT}")
 endif()
 
 ExternalProject_Add(libbiomeval
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/libbiomeval
-	INSTALL_COMMAND ""
 	CMAKE_ARGS
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
 		-DBUILD_BIOMEVAL_TESTS=OFF
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
-		-DBUILD_SHARED_LIBS=OFF
+		-DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
 		-DWITH_HWLOC=OFF
 		-DWITH_MPI=OFF
 		-DWITH_FFMPEG=OFF
 		-DWITH_PCSC=OFF
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
 		${VCPKG_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 		${EXTRA_BIOMEVAL_CMAKE_ARGS}
@@ -253,8 +239,9 @@ ExternalProject_Add(nfir
 	CMAKE_ARGS
 		-DCMAKE_OSX_ARCHITECTURES=${EXTERNALPROJECT_SAFE_OSX_ARCHITECTURES}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
 		-DOpenCV_DIR=${BUILD_PATH}/OpenCV-prefix/src/OpenCV-build
-		-DFORCE_WIN_STATIC_RUNTIME=ON
+		-DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
 		${MULTI_CONFIG_ARGS}
 )
 
@@ -268,8 +255,8 @@ ExternalProject_Add(nfiq2
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
 		-DBUILD_NFIQ2_CLI=${BUILD_NFIQ2_CLI}
 		-DSUPERBUILD_ROOT_PATH=${ROOT_PATH}
-		-DTARGET_PLATFORM=${TARGET_PLATFORM}
 		${COMPILER_CMAKE_ARGS}
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
@@ -277,6 +264,7 @@ ExternalProject_Add(nfiq2
 		${MULTI_CONFIG_ARGS}
 		${EMBEDDING_CMAKE_ARGS}
 		-DCMAKE_OSX_ARCHITECTURES=${EXTERNALPROJECT_SAFE_OSX_ARCHITECTURES}
+		-DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2 build OpenCV FRFXLL FRFXLL_static)
@@ -292,10 +280,12 @@ ExternalProject_Add(nfiq2api
 		${COMPILER_CMAKE_ARGS}
 		${MULTI_CONFIG_ARGS}
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_STAGING_DIR}
+		-DCMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}
 		${ANDROID_CMAKE_ARGS}
 		${IOS_CMAKE_ARGS}
 		${EMBEDDING_CMAKE_ARGS}
 		-DCMAKE_OSX_ARCHITECTURES=${EXTERNALPROJECT_SAFE_OSX_ARCHITECTURES}
+		-DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
 	BUILD_ALWAYS	YES
 )
 ExternalProject_Add_StepDependencies(nfiq2api build nfiq2)

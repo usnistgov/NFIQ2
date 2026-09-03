@@ -111,19 +111,18 @@ jobs:
         vcpkg install --recurse \
           --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
+          getopt \
           hwloc \
           libjpeg-turbo \
           liblzma \
           libpng \
           openjpeg \
           openssl \
+          pkgconf \
           sqlite3 \
           tiff \
           zlib \
           zstd
-        # getopt is not static
-        vcpkg install --recurse \
-          --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Build Directory Cache
       id: builddir-cache

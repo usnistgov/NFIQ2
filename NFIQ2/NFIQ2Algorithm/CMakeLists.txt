@@ -1,44 +1,24 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.28)
 
 project( nfiq2 )
 
 set (CMAKE_CXX_STANDARD 11)
 
-# FIXME: Prefer static libs on macOS and Windows, since it's "easy" on Linux to
-#        install the dependencies. Once we have a shared lib, we should reverse
-#        this during that build
-if (APPLE OR WIN32)
-	set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX};${CMAKE_SHARED_LIBRARY_SUFFIX})
-endif()
-
 include(GNUInstallDirs)
 
+# Find external projects (e.g., OpenCV, libbiomeval) in the location where
+# CMake has installed them (vs hardcoding the build paths)
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_INSTALL_PREFIX})
 
-if (${CMAKE_VERSION} VERSION_GREATER "3.8.99999")
-	get_cmake_property(IS_MULTI_CONFIG GENERATOR_IS_MULTI_CONFIG)
-elseif (MSVC OR Xcode)
-	set(IS_MULTI_CONFIG "ON")
-else()
-	set(IS_MULTI_CONFIG "OFF")
-endif()
-
-include( "${SUPERBUILD_ROOT_PATH}/cmake/colors.cmake" )
-include( "${SUPERBUILD_ROOT_PATH}/cmake/target.cmake" )
-include( "${SUPERBUILD_ROOT_PATH}/cmake/compiler.cmake" )
+get_cmake_property(IS_MULTI_CONFIG GENERATOR_IS_MULTI_CONFIG)
 
 # Configure version header
 include("${SUPERBUILD_ROOT_PATH}/NFIQ2/version.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/nfiq2/version.cpp")
 
-# add include directories
-include_directories("${CMAKE_BINARY_DIR}")
-
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-# add libbiomeval include directories
-include_directories("${SUPERBUILD_ROOT_PATH}/libbiomeval/src/include")
-
+# FIXME: FingerJet does not properly install headers
 include_directories("${SUPERBUILD_ROOT_PATH}/fingerjetfxose/FingerJetFXOSE/libFRFXLL/include")
 
 include_directories("${SUPERBUILD_ROOT_PATH}/digestpp")
@@ -47,11 +27,11 @@ option(EMBED_RANDOM_FOREST_PARAMETERS "Embed random forest parameters in library
 set(EMBEDDED_RANDOM_FOREST_PARAMETER_FCT "0" CACHE STRING
     "ANSI/NIST-ITL 1-2011: Update 2015 friction ridge capture technology (FRCT) code for parameters to embed")
 
-set( OpenCV_DIR ${CMAKE_BINARY_DIR}/../../../OpenCV-prefix/src/OpenCV-build)
-find_package(OpenCV REQUIRED NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH HINTS ${OpenCV_DIR})
-set(OpenCV_SHARED ON)
+find_package(OpenCV REQUIRED)
+set(OpenCV_SHARED ${BUILD_SHARED_LIBS})
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+# FIXME: NFIR does not properly install headers
 include_directories("${SUPERBUILD_ROOT_PATH}/NFIR/include")
 
 set(SOURCE_FILES
@@ -96,35 +76,56 @@ set(PUBLIC_HEADERS
     "include/nfiq2_timer.hpp"
     "include/nfiq2_version.hpp")
 
-set(NFIQ2_STATIC_LIBRARY_TARGET "nfiq2-static-lib")
-add_library( ${NFIQ2_STATIC_LIBRARY_TARGET} STATIC
+# FIXME: Some files use M_PI, which under Windows needs special handling
+if (MSVC)
+	set_source_files_properties(
+		"src/quality_modules/common_functions.cpp"
+		"src/quality_modules/FDA.cpp"
+		"src/quality_modules/OF.cpp"
+		"src/quality_modules/QualityMap.cpp"
+		PROPERTIES
+		COMPILE_DEFINITIONS _USE_MATH_DEFINES)
+endif()
+
+set(NFIQ2_LIBRARY_TARGET "nfiq2-lib")
+add_library( ${NFIQ2_LIBRARY_TARGET}
   ${SOURCE_FILES}
   ${FEATURES_FILES}
   ${PREDICTION_FILES}
 )
 
-set_target_properties(${NFIQ2_STATIC_LIBRARY_TARGET} PROPERTIES
+set_target_properties(${NFIQ2_LIBRARY_TARGET} PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
     OUTPUT_NAME "nfiq2"
 )
 
 if (EMBED_RANDOM_FOREST_PARAMETERS)
-	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS")
-	target_compile_definitions(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT=${EMBEDDED_RANDOM_FOREST_PARAMETER_FCT}")
+	target_compile_definitions(${NFIQ2_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBED_RANDOM_FOREST_PARAMETERS")
+	target_compile_definitions(${NFIQ2_LIBRARY_TARGET} PUBLIC "NFIQ2_EMBEDDED_RANDOM_FOREST_PARAMETERS_FCT=${EMBEDDED_RANDOM_FOREST_PARAMETER_FCT}")
 endif()
 
-# FIXME: Change to "${CMAKE_INSTALL_PREFIX}/lib" once FJFX builds
-# FIXME: are updated.
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
-link_directories("${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<BOOL:${IS_MULTI_CONFIG}>:$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>>")
-target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} PUBLIC
-	FRFXLL_static
+# FIXME: 1. FingerJet does not install cleantly to expected directory, so we
+#           need to make an imported target.
+# FIXME: 2. FingerJet always builds both static and shared, so let's just always
+#           link since there's no external dependencies in the code.
+add_library(fingerjet_lib STATIC IMPORTED)
+if (IS_MULTI_CONFIG)
+	foreach(cfg ${CMAKE_CONFIGURATION_TYPES})
+		find_library(fingerjet_lib_${cfg} FRFXLL_static HINTS
+			"${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/${cfg}")
+		string(TOUPPER ${cfg} CFG_UPPER)
+		set_target_properties(fingerjet_lib PROPERTIES IMPORTED_LOCATION_${CFG_UPPER} "${fingerjet_lib_${cfg}}")
+	endforeach()
+else()
+	find_library(fingerjet_lib_path FRFXLL_static HINTS
+		"${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src")
+	set_target_properties(fingerjet_lib PROPERTIES IMPORTED_LOCATION "${fingerjet_lib_path}")
+endif()
+
+target_link_libraries(${NFIQ2_LIBRARY_TARGET} PUBLIC
+	fingerjet_lib
 	${OpenCV_LIBS}
 )
-
-if(USE_SANITIZER)
-	target_link_libraries(${NFIQ2_STATIC_LIBRARY_TARGET} "asan")
-endif()
 
 # New NFIQ2 TOOL
 if (BUILD_NFIQ2_CLI)
@@ -145,13 +146,13 @@ if (BUILD_NFIQ2_CLI)
 	endif()
 
 	# set the required libraries
-	add_dependencies(${NFIQ2_TEST_APP} ${NFIQ2_STATIC_LIBRARY_TARGET})
-	set( PROJECT_LIBS ${NFIQ2_STATIC_LIBRARY_TARGET} )
+	add_dependencies(${NFIQ2_TEST_APP} ${NFIQ2_LIBRARY_TARGET})
+	set( PROJECT_LIBS ${NFIQ2_LIBRARY_TARGET} )
 
-	if("${TARGET_PLATFORM}" MATCHES "win*")
+	if(WIN32)
 	  add_definitions("-DNOMINMAX")
 	  set( PROJECT_LIBS ${PROJECT_LIBS} ws2_32 )
-	elseif("${TARGET_PLATFORM}" MATCHES "android*")
+	elseif(ANDROID)
 	  find_package(Threads REQUIRED)
 	  set( PROJECT_LIBS ${PROJECT_LIBS}
 	    ${CMAKE_THREAD_LIBS_INIT}
@@ -173,23 +174,16 @@ if (BUILD_NFIQ2_CLI)
 	  target_link_libraries(${NFIQ2_TEST_APP} "crypt32")
 	endif()
 
-	if(MSVC)
-	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/$<CONFIGURATION>/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
-	else()
-	  target_link_libraries(${NFIQ2_TEST_APP} ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/${CMAKE_STATIC_LIBRARY_PREFIX}nfir${CMAKE_STATIC_LIBRARY_SUFFIX})
-	endif()
+	find_library(LIBNFIR nfir PATHS
+	    ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/
+	    ${CMAKE_BINARY_DIR}/../../../nfir-prefix/src/nfir-build/$<CONFIGURATION>)
+	target_link_libraries(${NFIQ2_TEST_APP} ${LIBNFIR})
 
-	find_package(biomeval REQUIRED PATHS ${CMAKE_BINARY_DIR}/../../../libbiomeval-prefix/src/libbiomeval-build)
+	find_package(biomeval REQUIRED)
 	target_link_libraries(${NFIQ2_TEST_APP} biomeval::biomeval)
 
 	# Getopt for Windows
 	if(MSVC)
-	  if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-	    list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x86-windows/)
-	  elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	    list(APPEND CMAKE_PREFIX_PATH ${_VCPKG_INSTALLED_DIR}/x64-windows/)
-	  endif()
-
 	  find_library(GETOPT_LIB getopt REQUIRED)
 	  find_file(GETOPT_HEADER getopt.h REQUIRED)
 	  get_filename_component(GETOPT_HEADER_DIR "${GETOPT_HEADER}" DIRECTORY)
@@ -224,23 +218,61 @@ if (BUILD_NFIQ2_CLI)
 	  COMPONENT install_staging)
 	endif()
 
-	# Copies getopt dll for Windows builds
-	if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-		install(FILES
-		    ${_VCPKG_INSTALLED_DIR}/x86-windows/bin/getopt.dll
-		    DESTINATION ${CMAKE_INSTALL_BINDIR}
-		    COMPONENT install_staging)
-	endif()
+if(WIN32)
+	# copy runtime DLLs next to the exe
+	install(TARGETS ${NFIQ2_TEST_APP}
+		RUNTIME_DEPENDENCY_SET app_deps
+	)
+	install(RUNTIME_DEPENDENCY_SET app_deps
+		PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+		POST_EXCLUDE_REGEXES ".*system32.*"
+		DIRECTORIES
+			$<TARGET_FILE_DIR:${NFIQ2_TEST_APP}>
+			# FIXME: FingerJet required link_directories() which doesn't propagate here
+			"${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src"
+			"${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<BOOL:${IS_MULTI_CONFIG}>:$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>>"
+)
+elseif(APPLE)
+	# bundle dylibs
+	set_target_properties(${NFIQ2_TEST_APP} PROPERTIES
+	    INSTALL_RPATH "@executable_path/../lib"
+	    BUILD_WITH_INSTALL_RPATH FALSE)
 
-	if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-		install(FILES
-		    ${_VCPKG_INSTALLED_DIR}/x64-windows/bin/getopt.dll
-		    DESTINATION ${CMAKE_INSTALL_BINDIR}
-		    COMPONENT install_staging)
-	endif()
+	install(TARGETS ${NFIQ2_TEST_APP}
+	    RUNTIME_DEPENDENCY_SET deps
+	    RUNTIME DESTINATION bin)
+
+	install(RUNTIME_DEPENDENCY_SET deps
+	    DESTINATION lib
+	    PRE_EXCLUDE_REGEXES "^/usr/lib" "^/System")
+
+	# fix install names at install time
+	set(_app_filename "$<TARGET_FILE_NAME:${NFIQ2_TEST_APP}>")
+	install(CODE "set(_app_filename \"${_app_filename}\")")
+	install(CODE [[
+	  file(GLOB _dylibs "${CMAKE_INSTALL_PREFIX}/lib/*.dylib")
+	  foreach(_lib IN LISTS _dylibs)
+	    # give the copied lib an @rpath id
+	    get_filename_component(_name "${_lib}" NAME)
+	    execute_process(COMMAND install_name_tool -id "@rpath/${_name}" "${_lib}")
+	  endforeach()
+
+	  # rewrite MacPorts/Homrebew references in the app and every copied dylib
+	  foreach(_bin ${_dylibs} "${CMAKE_INSTALL_PREFIX}/bin/${_app_filename}")
+	    execute_process(COMMAND otool -L "${_bin}" OUTPUT_VARIABLE _out)
+	    string(REGEX MATCHALL "(/opt/local|/opt/homebrew|/usr/local)/[^ ]+\\.dylib" _refs "${_out}")
+	    foreach(_ref IN LISTS _refs)
+	      get_filename_component(_refname "${_ref}" NAME)
+	      execute_process(COMMAND install_name_tool -change
+		"${_ref}" "@rpath/${_refname}" "${_bin}")
+	    endforeach()
+	  endforeach()
+	]])
+endif()
+
 endif(BUILD_NFIQ2_CLI)
 
-install(TARGETS ${NFIQ2_STATIC_LIBRARY_TARGET}
+install(TARGETS ${NFIQ2_LIBRARY_TARGET}
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
@@ -252,3 +284,9 @@ install(FILES
 	${CMAKE_BINARY_DIR}/../../../fingerjetfxose/FingerJetFXOSE/libFRFXLL/src/$<$<BOOL:${IS_MULTI_CONFIG}>:$<$<CONFIG:Debug>:Debug/>$<$<CONFIG:Release>:Release/>>${CMAKE_SHARED_LIBRARY_PREFIX}FRFXLL${CMAKE_SHARED_LIBRARY_SUFFIX}
 	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 	COMPONENT install_staging)
+
+# Include VC++ redistributable if needed
+if (WIN32 AND "${CMAKE_MSVC_RUNTIME_LIBRARY}" MATCHES "DLL")
+	set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+	include(InstallRequiredSystemLibraries)
+endif()

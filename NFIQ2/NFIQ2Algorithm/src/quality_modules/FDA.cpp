@@ -8,44 +8,44 @@
 #include <sstream>
 
 const char
-    NFIQ2::Identifiers::QualityMeasureAlgorithms::FrequencyDomainAnalysis[] {
-	    "FrequencyDomainAnalysis"
-    };
+	NFIQ2::Identifiers::QualityMeasureAlgorithms::FrequencyDomainAnalysis[] {
+		"FrequencyDomainAnalysis"
+	};
 static const char NFIQ2FDAPrefix[] { "FDA_Bin10_" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin0[] { "FDA_Bin10_0" };
+	Histogram::Bin0[] { "FDA_Bin10_0" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin1[] { "FDA_Bin10_1" };
+	Histogram::Bin1[] { "FDA_Bin10_1" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin2[] { "FDA_Bin10_2" };
+	Histogram::Bin2[] { "FDA_Bin10_2" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin3[] { "FDA_Bin10_3" };
+	Histogram::Bin3[] { "FDA_Bin10_3" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin4[] { "FDA_Bin10_4" };
+	Histogram::Bin4[] { "FDA_Bin10_4" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin5[] { "FDA_Bin10_5" };
+	Histogram::Bin5[] { "FDA_Bin10_5" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin6[] { "FDA_Bin10_6" };
+	Histogram::Bin6[] { "FDA_Bin10_6" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin7[] { "FDA_Bin10_7" };
+	Histogram::Bin7[] { "FDA_Bin10_7" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin8[] { "FDA_Bin10_8" };
+	Histogram::Bin8[] { "FDA_Bin10_8" };
 const char NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-    Histogram::Bin9[] { "FDA_Bin10_9" };
+	Histogram::Bin9[] { "FDA_Bin10_9" };
 const char
-    NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::Mean[] {
-	    "FDA_Bin10_Mean"
-    };
+	NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::Mean[] {
+		"FDA_Bin10_Mean"
+	};
 const char
-    NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::StdDev[] {
-	    "FDA_Bin10_StdDev"
-    };
+	NFIQ2::Identifiers::QualityMeasures::FrequencyDomainAnalysis::StdDev[] {
+		"FDA_Bin10_StdDev"
+	};
 
 double fda(const cv::Mat &block, const double orientation, const int v1sz_x,
-    const int v1sz_y, const bool padFlag);
+	const int v1sz_y, const bool padFlag);
 
 NFIQ2::QualityMeasures::FDA::FDA(
-    const NFIQ2::FingerprintImageData &fingerprintImage)
+	const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	this->setFeatures(computeFeatureData(fingerprintImage));
 }
@@ -56,25 +56,25 @@ std::vector<std::string>
 NFIQ2::QualityMeasures::FDA::getNativeQualityMeasureIDs()
 {
 	return { Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		     Histogram::Bin0,
+			 Histogram::Bin0,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin1,
+			Histogram::Bin1,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin2,
+			Histogram::Bin2,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin3,
+			Histogram::Bin3,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin4,
+			Histogram::Bin4,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin5,
+			Histogram::Bin5,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin6,
+			Histogram::Bin6,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin7,
+			Histogram::Bin7,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin8,
+			Histogram::Bin8,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::
-		    Histogram::Bin9,
+			Histogram::Bin9,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::Mean,
 		Identifiers::QualityMeasures::FrequencyDomainAnalysis::StdDev };
 }
@@ -83,26 +83,26 @@ std::string
 NFIQ2::QualityMeasures::FDA::getName() const
 {
 	return NFIQ2::Identifiers::QualityMeasureAlgorithms::
-	    FrequencyDomainAnalysis;
+		FrequencyDomainAnalysis;
 }
 
 std::unordered_map<std::string, double>
 NFIQ2::QualityMeasures::FDA::computeFeatureData(
-    const NFIQ2::FingerprintImageData &fingerprintImage)
+	const NFIQ2::FingerprintImageData &fingerprintImage)
 {
 	std::unordered_map<std::string, double> featureDataList;
 
 	// check if input image has 500 dpi
 	if (fingerprintImage.ppi !=
-	    NFIQ2::FingerprintImageData::Resolution500PPI) {
+		NFIQ2::FingerprintImageData::Resolution500PPI) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
-		    "Only 500 dpi fingerprint images are supported!");
+			NFIQ2::ErrorCode::QualityMeasureCalculationError,
+			"Only 500 dpi fingerprint images are supported!");
 	}
 
 	// get matrix from fingerprint image
 	cv::Mat img = cv::Mat(fingerprintImage.height, fingerprintImage.width,
-	    CV_8UC1, (void *)fingerprintImage.data());
+		CV_8UC1, (void *)fingerprintImage.data());
 
 	// ----------------------------
 	// compute Fda (taken from Rvu)
@@ -120,24 +120,24 @@ NFIQ2::QualityMeasures::FDA::computeFeatureData(
 		assert((blksize > 0) && (this->threshold > 0));
 
 		ridgesegment(img, blksize, this->threshold, cv::noArray(),
-		    maskim, cv::noArray());
+			maskim, cv::noArray());
 
 		int rows = img.rows;
 		int cols = img.cols;
 		double blk = static_cast<double>(blksize);
 
 		double sumSQ = static_cast<double>(
-		    (v1sz_x * v1sz_x) + (v1sz_y * v1sz_y));
+			(v1sz_x * v1sz_x) + (v1sz_y * v1sz_y));
 		double eblksz = ceil(
-		    sqrt(sumSQ)); // block size for extraction of slanted block
+			sqrt(sumSQ)); // block size for extraction of slanted block
 		double diff = (eblksz - blk);
 		int blkoffset = static_cast<int>(
-		    ceil(diff / 2)); // overlapping border
+			ceil(diff / 2)); // overlapping border
 
 		int mapRows = static_cast<int>(
-		    (static_cast<double>(rows) - diff) / blk);
+			(static_cast<double>(rows) - diff) / blk);
 		int mapCols = static_cast<int>(
-		    (static_cast<double>(cols) - diff) / blk);
+			(static_cast<double>(cols) - diff) / blk);
 
 		cv::Mat fdas = cv::Mat::zeros(mapRows, mapCols, CV_64F);
 		cv::Mat blkorient = cv::Mat::zeros(mapRows, mapCols, CV_64F);
@@ -153,42 +153,42 @@ NFIQ2::QualityMeasures::FDA::computeFeatureData(
 		int br = 0;
 		int bc = 0;
 		for (int r = blkoffset; r < rows - (blksize + blkoffset - 1);
-		     r += blksize) {
+			 r += blksize) {
 			for (int c = blkoffset;
-			     c < cols - (blksize + blkoffset - 1);
-			     c += blksize) {
+				 c < cols - (blksize + blkoffset - 1);
+				 c += blksize) {
 				im_roi = img(cv::Range(r,
 						 cv::min(r + blksize,
-						     img.rows)),
-				    cv::Range(c,
+							 img.rows)),
+					cv::Range(c,
 					cv::min(c + blksize, img.cols)));
 				maskB1 = maskim(cv::Range(r,
-						    cv::min(r + blksize,
+							cv::min(r + blksize,
 							maskim.rows)),
-				    cv::Range(c,
+					cv::Range(c,
 					cv::min(c + blksize, maskim.cols)));
 				uint8_t mask = allfun(maskB1);
 				if (mask == 1) {
 					covcoef(im_roi, cova, covb, covc,
-					    CENTERED_DIFFERENCES);
+						CENTERED_DIFFERENCES);
 
 					// ridge ORIENT local
 					blkorient.at<double>(br,
-					    bc) = ridgeorient(cova, covb, covc);
+						bc) = ridgeorient(cova, covb, covc);
 					// overlapping windows (border =
 					// blkoffset)
 					blkwim = img(cv::Range(r - blkoffset,
 							 cv::min(r + blksize +
 								 blkoffset,
-							     img.rows)),
-					    cv::Range(c - blkoffset,
+								 img.rows)),
+						cv::Range(c - blkoffset,
 						cv::min(c + blksize + blkoffset,
-						    img.cols)));
+							img.cols)));
 					fdas.at<double>(br, bc) = fda(blkwim,
-					    blkorient.at<double>(br, bc),
-					    v1sz_x, v1sz_y, this->padFlag);
+						blkorient.at<double>(br, bc),
+						v1sz_x, v1sz_y, this->padFlag);
 					dataVector.push_back(
-					    fdas.at<double>(br, bc));
+						fdas.at<double>(br, bc));
 				}
 				bc = bc + 1;
 			}
@@ -217,22 +217,22 @@ NFIQ2::QualityMeasures::FDA::computeFeatureData(
 		histogramBins10.push_back(FDAHISTLIMITS[7]);
 		histogramBins10.push_back(FDAHISTLIMITS[8]);
 		addHistogramFeatures(featureDataList, NFIQ2FDAPrefix,
-		    histogramBins10, dataVector, binCount);
+			histogramBins10, dataVector, binCount);
 
 		this->setSpeed(timer.stop());
 	} catch (const cv::Exception &e) {
 		std::stringstream ssErr;
 		ssErr << "Cannot compute Frequency Domain Analysis (FDA): "
-		      << e.what();
+			  << e.what();
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
-		    ssErr.str());
+			NFIQ2::ErrorCode::QualityMeasureCalculationError,
+			ssErr.str());
 	} catch (const NFIQ2::Exception &) {
 		throw;
 	} catch (...) {
 		throw NFIQ2::Exception(
-		    NFIQ2::ErrorCode::QualityMeasureCalculationError,
-		    "Unknown exception occurred!");
+			NFIQ2::ErrorCode::QualityMeasureCalculationError,
+			"Unknown exception occurred!");
 	}
 
 	return featureDataList;
@@ -266,7 +266,7 @@ perpendicular to the ridge direction %                     within the block
 */
 double
 fda(const cv::Mat &block, const double orientation, const int v1sz_x,
-    const int v1sz_y, const bool padFlag)
+	const int v1sz_y, const bool padFlag)
 {
 	// sanity check: check block size
 	float cBlock = static_cast<float>(block.rows) / 2; // square block
@@ -276,7 +276,7 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 			NFIQ2::ErrorCode::QualityMeasureCalculationError,
 			"Wrong block size! Consider block with size of even number "
 			"(block rows = " +
-			    std::to_string(block.rows) + ')'
+				std::to_string(block.rows) + ')'
 		};
 	}
 
@@ -284,7 +284,7 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	// interpolation
 	cv::Mat blockRotated;
 	NFIQ2::QualityMeasures::getRotatedBlock(block, orientation + (M_PI / 2),
-	    padFlag, blockRotated);
+		padFlag, blockRotated);
 
 	//% set x and y
 	int xoff = v1sz_x / 2;
@@ -299,19 +299,19 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	// 0. Also, OpenCV ranges are open-ended on the upper end.
 
 	cv::Mat blockCropped = blockRotated(
-	    cv::Range((icBlock - (xoff - 1) - 1), (icBlock + xoff)),
-	    cv::Range((icBlock - (yoff - 1) - 1), (icBlock + yoff))); // v2
+		cv::Range((icBlock - (xoff - 1) - 1), (icBlock + xoff)),
+		cv::Range((icBlock - (yoff - 1) - 1), (icBlock + yoff))); // v2
 
 	cv::Mat t = cv::Mat::zeros(blockCropped.rows, 1, CV_64F);
 	for (int r = 0; r < blockCropped.rows; r++) {
 		// get ROI for current row
 		cv::Mat roi = cv::Mat(blockCropped,
-		    cv::Rect(0, r, blockCropped.cols,
+			cv::Rect(0, r, blockCropped.cols,
 			1)); // x,y, width, height
 		cv::Scalar s = mean(roi);
 		t.at<double>(r, 0) = s.val[0];
 		roi.release(); // is this required or does it auto clean when
-			       // done?
+				   // done?
 	}
 
 	// compute dft on transposed t (so using transposed dimensions)
@@ -320,35 +320,74 @@ fda(const cv::Mat &block, const double orientation, const int v1sz_x,
 	int n = cv::getOptimalDFTSize(t.rows); // t' cols (t rows)
 	// create output
 	cv::copyMakeBorder(t.t(), tmpM, 0, m - t.cols, 0, n - t.rows,
-	    cv::BORDER_CONSTANT, cv::Scalar::all(0));
+		cv::BORDER_CONSTANT, cv::Scalar::all(0));
 	// copy the source, on the border adding zero values
 	cv::Mat planes[] = { tmpM, cv::Mat::zeros(tmpM.size(), CV_64F) };
 	cv::Mat complex;
 	cv::merge(planes, 2, complex);
 	cv::dft(complex, complex,
-	    cv::DFT_COMPLEX_OUTPUT | cv::DFT_ROWS); // fourier transform
+		cv::DFT_COMPLEX_OUTPUT | cv::DFT_ROWS); // fourier transform
 
 	// Get Amplitude (Magnitude), cutting out DC (index 0,0)
 	// dftAmp = abs(cv::dft(1, 2:end));
 	cv::split(complex, planes);
 	cv::magnitude(planes[0], planes[1],
-	    planes[0]); // sqrt(Re(DFT(I))^2 + Im(DFT(I))^2)
+		planes[0]); // sqrt(Re(DFT(I))^2 + Im(DFT(I))^2)
 	cv::Mat absMag = abs(planes[0]);
 	cv::Mat amp(absMag,
-	    cv::Rect(1, 0, absMag.cols - 1, 1)); // set ROI, cutting out DC
+		cv::Rect(1, 0, absMag.cols - 1, 1)); // set ROI, cutting out DC
 	double mVal;
 	cv::Point mLoc;
-	cv::minMaxLoc(amp, 0, &mVal, 0, &mLoc);
-	cv::Mat ampDenom(amp,
-	    cv::Rect(0, 0, (int)floor((double)(amp.cols / 2)), 1));
+	// amp is a vector of odd length - 31 elements in this case - and is
+	// symmetric around the center.
+	// In fact all information is contained in the first (N+1)/2 - 16, in this
+	// case - elements.
+	// The first element (index 0) represents an image that is 50% black, 50%
+	// white, while the 16th element (index 15) represents an image made from
+	// alternating black and white stripes.
+	// Both would, obviously, correspond to very poor finger-image blocks (which
+	// will become important later).
+	//
+	// only keep the relevant half of the spectrum
+	// ranges in cv::Rect are exclusive the upper border, we need to add 1
+	cv::Mat ampDenom(amp, cv::Rect(0, 0, (int)ceil((double)amp.cols / 2.), 1));
+	cv::minMaxLoc(ampDenom, 0, &mVal, 0, &mLoc);
 	cv::Scalar iqmDenom = sum(ampDenom);
-	if (mLoc.x == 0 || mLoc.x + 1 >= amp.cols) {
-		// ?????? FIXME
-		return 1.0;
+	// This deals with the special case where the maximum is at either end of the
+	// spectrum, either a 50% black, 50% white image - two blocks - or one with
+	// alternating stripes.  As the formula we will use below calculates
+	//
+	// 0.3*A_{m-1} + A_m + 0.3*A_{m+1}
+	//
+	// but either A_{m+1} or A_{m-1} does not exist, we could substitute this
+	// with something like
+	//
+	// A_m + 0.6*A_{m+/-1}
+	//
+	// This would be consistent with the computation done for all other cases.
+	//
+	// There is, however, also the argument that both these cases represent
+	// unlikely ridge-valley structures in fingerprint images, and that
+	// therefore we could just as well return a quality of 0 in both cases.
+	//
+	// However, in that case , we should probably also consider returning 0
+	// for pretty much every maximum outside the range of index 1-5 or
+	// thereabouts, where an index value of 1 represents very wide ridges/valleys
+	// (low frequency, ridge distance 32/(1+1)=16), and an index value of 5
+	// represents quite narrow ridges/valleys (higher frequency, ridge distance
+	// 32/(5+1)=5.33).
+	if (mLoc.x == 0 || mLoc.x == ampDenom.cols - 1) {
+		if (mLoc.x == 0)
+		{
+			return (mVal + 0.6 * (amp.at<double>(0, mLoc.x + 1))) / iqmDenom.val[0];
+		}
+		else // if (mLoc.x == ampDenom.cols - 1)
+		{
+			return (mVal + 0.6 * (amp.at<double>(0, mLoc.x - 1))) / iqmDenom.val[0];
+		}
+		// return 0.0;
 	}
 	return (mVal +
-		   0.3 *
-		       (amp.at<double>(0, mLoc.x - 1) +
-			   amp.at<double>(0, mLoc.x + 1))) /
-	    iqmDenom.val[0];
+		0.3 * (amp.at<double>(0, mLoc.x - 1) + amp.at<double>(0, mLoc.x + 1))) /
+		iqmDenom.val[0];
 }

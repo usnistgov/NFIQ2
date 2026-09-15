@@ -94,6 +94,8 @@ cmake .. -DBUILD_NFIQ2_CLI=OFF
 cmake --build .
 ```
 
+For Android library builds with the NDK, see [Android build instructions](docs/ANDROID.md).
+
 Quick Build: Library + Command-line Interface
 ---------------------------------------------
 

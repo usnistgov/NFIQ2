@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Fingerprint Quality</string>
+    <string name="eyebrow">NFIQ 2 · FINGERPRINT ANALYSIS</string>
+    <string name="headline">Every fingerprint\nhas a quality.</string>
+    <string name="intro">Choose a fingerprint image and measure its quality on this device.</string>
+    <string name="preview_description">Selected fingerprint image</string>
+    <string name="empty_preview">Your image will appear here</string>
+    <string name="choose">Choose image from gallery</string>
+    <string name="confirm_ppi">My fingerprint scans are captured at 500 PPI</string>
+    <string name="ppi_note">This setting is remembered for future images. Clear it if you switch to a different image source. PPI cannot be verified automatically. Use a scanner image containing one finger; phone photos are not valid NFIQ 2 inputs.</string>
+    <string name="analyze">Calculate quality</string>
+    <string name="score_title">NFIQ 2 QUALITY SCORE</string>
+    <string name="score_empty">—</string>
+    <string name="score_value">%1$d</string>
+    <string name="score_scale">/ 100</string>
+    <string name="score_note">A higher score indicates higher fingerprint image quality. The app does not perform identity verification.</string>
+    <string name="ready">Choose an image to get started.</string>
+    <string name="loading">Preparing image…</string>
+    <string name="loaded">Image ready. Start the analysis.</string>
+    <string name="loaded_needs_ppi">Image ready. Confirm the 500 PPI source setting to continue.</string>
+    <string name="analyzing">Calculating quality… The first analysis may take longer while the model loads.</string>
+    <string name="complete">Analysis complete · %1$.2f seconds</string>
+    <string name="dimensions">Dimensions: %1$d × %2$d px · Original size preserved</string>
+    <string name="image_error">Could not open this image. Try a supported PNG or JPEG file.</string>
+    <string name="size_error">The image must be 32–4096 pixels wide and high, with no more than 4 million pixels. Choose the original scan.</string>
+    <string name="analysis_error">Analysis failed. Try a light-background scan containing a single fingerprint.\n%1$s</string>
+    <string name="memory_error">There is not enough memory for this image. Choose a smaller original scan.</string>
+    <string name="native_error">The native library could not be loaded. Reinstall the ARM64 build.</string>
+    <string name="picker_error">No image picker is available on this device.</string>
+    <string name="privacy">OFFLINE · Images never leave this device</string>
+</resources>

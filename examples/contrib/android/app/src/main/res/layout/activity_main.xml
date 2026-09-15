@@ -1,0 +1,57 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="24dp">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/eyebrow" android:textSize="11sp" android:letterSpacing="0.12"
+            android:textStyle="bold" android:textColor="#087F76" android:layout_marginTop="12dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/headline" android:textSize="34sp" android:fontFamily="sans-serif-medium"
+            android:textColor="#14332F" android:layout_marginTop="14dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/intro" android:textSize="15sp" android:textColor="#52645E"
+            android:layout_marginTop="10dp" android:layout_marginBottom="22dp" />
+        <FrameLayout android:layout_width="match_parent" android:layout_height="220dp"
+            android:background="@drawable/card" android:padding="16dp">
+            <ImageView android:id="@+id/preview" android:layout_width="match_parent" android:layout_height="match_parent"
+                android:scaleType="fitCenter" android:contentDescription="@string/preview_description" />
+            <TextView android:id="@+id/placeholder" android:layout_width="match_parent" android:layout_height="match_parent"
+                android:text="@string/empty_preview" android:gravity="center" android:textColor="#667D72" android:textSize="14sp" />
+        </FrameLayout>
+        <TextView android:id="@+id/dimensions" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="#52645E" android:textSize="12sp" android:layout_marginTop="8dp" />
+        <Button android:id="@+id/choose" android:layout_width="match_parent" android:layout_height="56dp"
+            android:text="@string/choose" android:textAllCaps="false" android:textColor="#123D3B"
+            android:backgroundTint="#DFEDE4" android:layout_marginTop="6dp" />
+        <CheckBox android:id="@+id/confirm" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:minHeight="48dp" android:text="@string/confirm_ppi" android:textColor="#203E35" android:textSize="14sp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/ppi_note" android:textColor="#52645E" android:textSize="12sp" />
+        <Button android:id="@+id/analyze" android:layout_width="match_parent" android:layout_height="56dp"
+            android:text="@string/analyze" android:textAllCaps="false" android:textColor="#FFFFFF"
+            android:backgroundTint="#087F76" android:enabled="false" android:layout_marginTop="14dp" />
+        <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent" android:layout_height="4dp" android:indeterminate="true"
+            android:visibility="invisible" android:layout_marginTop="8dp" />
+        <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/ready" android:textColor="#52645E" android:textSize="13sp"
+            android:accessibilityLiveRegion="polite" android:layout_marginTop="8dp" android:layout_marginBottom="18dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="24dp" android:background="@drawable/score_card">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/score_title" android:textColor="#B6F2CF" android:textSize="11sp" android:letterSpacing="0.1" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView android:id="@+id/score" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/score_empty" android:textSize="64sp" android:textColor="#FFFFFF" android:fontFamily="sans-serif-light" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/score_scale" android:textSize="20sp" android:textColor="#B6F2CF" android:layout_marginStart="12dp" />
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/score_note" android:textColor="#D4E7DE" android:textSize="13sp" />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/privacy" android:textColor="#52645E" android:textSize="11sp"
+            android:gravity="center" android:layout_marginTop="22dp" android:layout_marginBottom="12dp" />
+    </LinearLayout>
+</ScrollView>

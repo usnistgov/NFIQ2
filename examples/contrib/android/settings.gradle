@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories { google(); mavenCentral(); gradlePluginPortal() }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories { google(); mavenCentral() }
+}
+rootProject.name = 'FingerprintQuality'
+include ':app', ':nfiq2-android'
+project(':nfiq2-android').projectDir = file('../../../NFIQ2/NFIQ2Android')

@@ -113,7 +113,9 @@ NFIQ2::Prediction::RandomForestML::initModule(const std::string &fileName,
 	// calculate and compare the hash
 	std::string hash = calculateHashString(params);
 	if (fileHash.compare(hash) != 0) {
-		m_pTrainedRF->clear();
+		if (!m_pTrainedRF.empty()) {
+			m_pTrainedRF->clear();
+		}
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized! "
 		    "Error: " +
@@ -168,7 +170,9 @@ NFIQ2::Prediction::RandomForestML::initModule(AAssetManager *assets,
 	// calculate and compare the hash
 	std::string hash = calculateHashString(params);
 	if (fileHash.compare(hash) != 0) {
-		m_pTrainedRF->clear();
+		if (!m_pTrainedRF.empty()) {
+			m_pTrainedRF->clear();
+		}
 		throw NFIQ2::Exception(NFIQ2::ErrorCode::InvalidConfiguration,
 		    "The trained network could not be initialized! "
 		    "Error: " +

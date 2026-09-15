@@ -15,6 +15,7 @@ on:
 env:
   CONFIGURATION: Release
   BUILD_NFIQ2_CLI: ON
+  CMAKE_POLICY_VERSION_MINIMUM: 3.5
 
 jobs:
   build:
@@ -29,6 +30,7 @@ jobs:
           - { os: macOS-15, arch: arm64, embed_rf: OFF }
           - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
+          - { os: ubuntu-24.04, arch: arm64-v8a, embed_rf: OFF, platform: android, android_api: 21 }
           - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
           - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
           - { os: windows-2025, arch: x64, embed_rf: OFF }
@@ -68,7 +70,7 @@ jobs:
         key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
 
     - name: Install Packages (Linux)
-      if: ${{ runner.os == 'Linux' }}
+      if: ${{ runner.os == 'Linux' && matrix.config.platform != 'android' }}
       shell: bash
       run: |
         sudo apt -y update
@@ -126,6 +128,8 @@ jobs:
           --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Build Directory Cache
+      # The runner's latest NDK can change between runs.
+      if: ${{ matrix.config.platform != 'android' }}
       id: builddir-cache
       uses: actions/cache@v6
       with:
@@ -145,13 +149,27 @@ jobs:
       run: cmake -E make_directory ${{ github.workspace }}/build
 
     - name: Configure CMake (Single-config Generator)
-      if: ${{ runner.os != 'Windows' }}
+      if: ${{ runner.os != 'Windows' && matrix.config.platform != 'android' }}
       shell: bash
       working-directory: ${{ github.workspace }}/build
       run: |
         cmake \
             -DCMAKE_BUILD_TYPE="${CONFIGURATION}" \
             -DBUILD_NFIQ2_CLI="${BUILD_NFIQ2_CLI}" \
+            -DEMBED_RANDOM_FOREST_PARAMETERS="${{ matrix.config.embed_rf }}" \
+            ${GITHUB_WORKSPACE}
+
+    - name: Configure CMake (Android)
+      if: ${{ matrix.config.platform == 'android' }}
+      shell: bash
+      working-directory: ${{ github.workspace }}/build
+      run: |
+        cmake \
+            -DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" \
+            -DANDROID_ABI="${{ matrix.config.arch }}" \
+            -DANDROID_PLATFORM="android-${{ matrix.config.android_api }}" \
+            -DCMAKE_BUILD_TYPE="${CONFIGURATION}" \
+            -DBUILD_NFIQ2_CLI=OFF \
             -DEMBED_RANDOM_FOREST_PARAMETERS="${{ matrix.config.embed_rf }}" \
             ${GITHUB_WORKSPACE}
 
@@ -186,10 +204,25 @@ jobs:
       run: cmake --build . --config ${CONFIGURATION}
 
     - name: Show Dependencies (Linux)
-      if: ${{ runner.os == 'Linux' }}
+      if: ${{ runner.os == 'Linux' && matrix.config.platform != 'android' }}
       working-directory: ${{ github.workspace }}/build
       shell: bash
       run: ldd install_staging/nfiq2/bin/nfiq2
+
+    - name: Verify Android Libraries
+      if: ${{ matrix.config.platform == 'android' }}
+      working-directory: ${{ github.workspace }}/build
+      shell: bash
+      run: |
+        install_dir="install_staging/nfiq2"
+        test -s "${install_dir}/lib/libnfiq2.a"
+        test -s "${install_dir}/include/nfiq2.hpp"
+        "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar" \
+            t "${install_dir}/lib/libnfiq2.a" | \
+            awk '/\.o$/ { found = 1 } END { exit !found }'
+        "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readelf" \
+            -h "${install_dir}/lib/libnfiq2.a" | \
+            awk '/Machine:/ { found = 1; if ($0 !~ /AArch64/) bad = 1 } END { exit (!found || bad) }'
 
     - name: Show Dependencies (macOS)
       if: ${{ runner.os == 'macOS' }}
@@ -198,32 +231,34 @@ jobs:
       run: otool -L install_staging/nfiq2/bin/nfiq2
 
     - name: Download Conformance Test
+      if: ${{ matrix.config.platform != 'android' }}
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
 
     - name: Set up Python
+      if: ${{ matrix.config.platform != 'android' }}
       uses: actions/setup-python@v7
       with:
         python-version: '3.x'
 
     - name: Set up external model argument (Windows)
-      if: matrix.config.embed_rf == 'OFF' && runner.os == 'Windows'
+      if: matrix.config.platform != 'android' && matrix.config.embed_rf == 'OFF' && runner.os == 'Windows'
       shell: bash
       run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m ../build/install_staging/nfiq2/bin/nist_plain_tir-ink.txt" >> $GITHUB_ENV
 
     - name: Set up external model argument (Linux/macOS)
-      if: matrix.config.embed_rf == 'OFF' && runner.os != 'Windows'
+      if: matrix.config.platform != 'android' && matrix.config.embed_rf == 'OFF' && runner.os != 'Windows'
       shell: bash
       run: echo "NFIQ2_CLI_MODEL_ARGUMENT=-m ../build/install_staging/nfiq2/share/nist_plain_tir-ink.txt" >> $GITHUB_ENV
 
     - name: Set up embedded model argument
-      if: ${{ matrix.config.embed_rf == 'ON' }}
+      if: ${{ matrix.config.platform != 'android' && matrix.config.embed_rf == 'ON' }}
       shell: bash
       run: echo "NFIQ2_CLI_MODEL_ARGUMENT=" >> $GITHUB_ENV
 
     - name: Run Conformance Test (Windows)
-      if: ${{ runner.os == 'Windows' }}
+      if: ${{ matrix.config.platform != 'android' && runner.os == 'Windows' }}
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
@@ -231,7 +266,7 @@ jobs:
         ../build/install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Run Conformance Test (Linux)
-      if: ${{ runner.os != 'Windows' }}
+      if: ${{ matrix.config.platform != 'android' && runner.os != 'Windows' }}
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |
@@ -239,6 +274,7 @@ jobs:
         ../build/install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Diff Conformance Test
+      if: ${{ matrix.config.platform != 'android' }}
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
       run: |

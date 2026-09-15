@@ -1,0 +1,76 @@
+plugins { id 'com.android.application' }
+
+def local = new Properties()
+def localFile = rootProject.file('local.properties')
+if (localFile.exists()) localFile.withInputStream { local.load(it) }
+def repo = rootProject.projectDir.parentFile.parentFile.parentFile
+def embedModel = providers.gradleProperty('nfiq2.embedModel')
+    .map { it.toBoolean() }.getOrElse(false)
+def generatedModelAssets = layout.buildDirectory.dir('generated/nfiq2-model-assets')
+def modelSource = new File(repo, 'NFIQ2/nist_plain_tir-ink.yaml')
+def modelOutput = generatedModelAssets.map { it.file('nist_plain_tir-ink.yaml') }
+def modelHash = 'b4a1e7586b3be906f9770e4b77768038'
+def copyNfiq2Model = tasks.register('copyNfiq2Model') {
+    inputs.file modelSource
+    inputs.property 'lineEndings', 'LF'
+    inputs.property 'modelHash', modelHash
+    outputs.file modelOutput
+    doLast {
+        def output = modelOutput.get().asFile
+        output.parentFile.mkdirs()
+        def normalized = modelSource.getText('UTF-8')
+            .replace('\r\n', '\n').replace('\r', '\n')
+        output.setText(normalized, 'UTF-8')
+        def actualHash = java.security.MessageDigest.getInstance('MD5')
+            .digest(output.bytes).encodeHex().toString()
+        if (actualHash != modelHash) {
+            throw new GradleException("Unexpected NFIQ2 model hash: ${actualHash}")
+        }
+    }
+}
+
+android {
+    namespace = 'org.nfiq2.demo'
+    compileSdk = 36
+    ndkVersion = '29.0.14206865'
+    if (local.getProperty('nfiq2.ndkPath')) {
+        ndkPath = local.getProperty('nfiq2.ndkPath')
+    }
+    defaultConfig {
+        applicationId = 'org.nfiq2.demo'
+        minSdk = 28
+        targetSdk = 36
+        versionCode = 1
+        versionName = '1.0'
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+        buildConfigField 'boolean', 'NFIQ2_EMBED_MODEL', embedModel.toString()
+    }
+    buildFeatures { buildConfig = true }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildTypes {
+        release { minifyEnabled = false }
+    }
+    lint {
+        warningsAsErrors = true
+        disable += 'AndroidGradlePluginVersion'
+    }
+    if (!embedModel) {
+        sourceSets {
+            main.assets.srcDir files(generatedModelAssets).builtBy(copyNfiq2Model)
+        }
+    }
+}
+
+if (!embedModel) {
+    tasks.named('preBuild').configure { dependsOn copyNfiq2Model }
+}
+
+dependencies {
+    implementation project(':nfiq2-android')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+}

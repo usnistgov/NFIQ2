@@ -14,6 +14,10 @@ on:
       - '!conformance/**'
       - '!NFIQ2/NFIQ2Algorithm/doc/**'
 
+concurrency:
+  group: build-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 env:
   CONFIGURATION: Release
   BUILD_NFIQ2_CLI: ON

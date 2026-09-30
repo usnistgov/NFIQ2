@@ -69,7 +69,7 @@ jobs:
         path: |
           ${{ env.VCPKG_DOWNLOADS }}
           ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg-${{ hashFiles('.github/workflows/build-pr.yml') }}
         restore-keys: |
           pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
@@ -140,10 +140,10 @@ jobs:
           !${{ github.workspace }}/build/nfir*
           !${{ github.workspace }}/build/nfiq2api-prefix/src/nfiq2api-build/CMakeFiles/Nfiq2Api.dir/version.AppleClang.apple64.cpp.o*
           !${{ github.workspace }}/build/nfiq2-prefix/src/nfiq2-build/CMakeFiles/nfiq2-static-lib.dir/src/nfiq2/version.cpp.o*
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir-${{ github.sha }}
         restore-keys: |
-          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir
 
     - name: Get CMake Version
       shell: bash

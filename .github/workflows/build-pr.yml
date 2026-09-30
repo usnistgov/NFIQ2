@@ -21,23 +21,21 @@ jobs:
   build:
     name: Build Matrix
 
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.gh_runner }}
     strategy:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-26, arch: arm64, embed_rf: OFF }
-          - { os: macOS-15, arch: arm64, embed_rf: OFF }
-          - { os: ubuntu-26.04-arm, arch: arm64, embed_rf: OFF }
-          - { os: ubuntu-26.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-26.04, arch: x64, embed_rf: OFF }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
-          - { os: windows-2025, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { gh_runner: macOS-26,         os: macOS-26,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: macOS-15,         os: macOS-15,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04-arm, os: ubuntu-26.04, arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2025,     os: windows-2025, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x86,   embed_rf: OFF }
 
     steps:
     - name: Checkout Code and Submodules

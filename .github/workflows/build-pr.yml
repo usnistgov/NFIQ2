@@ -84,7 +84,7 @@ jobs:
       run: |
         sudo apt -y update
         sudo apt -y install \
-            libdb++-dev \
+            libdb5.3++-dev \
             libhwloc-dev \
             libjbig-dev \
             libjpeg-dev \

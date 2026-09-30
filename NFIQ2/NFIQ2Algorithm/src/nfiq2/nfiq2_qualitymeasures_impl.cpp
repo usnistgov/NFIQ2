@@ -1,6 +1,3 @@
-#include <iomanip>
-#include <list>
-#include <memory>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_fingerprintimagedata.hpp>
 #include <nfiq2_qualitymeasures.hpp>
@@ -15,11 +12,14 @@
 #include <quality_modules/OF.h>
 #include <quality_modules/QualityMap.h>
 #include <quality_modules/RVUPHistogram.h>
+
+#include "nfiq2_qualitymeasures_impl.hpp"
+#include <iomanip>
+#include <list>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-#include "nfiq2_qualitymeasures_impl.hpp"
 
 const char NFIQ2::Identifiers::ActionableQualityFeedback::
     EmptyImageOrContrastTooLow[] { "EmptyImageOrContrastTooLow" };
@@ -50,7 +50,7 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithmSpeeds(
 	std::vector<std::string> speedIdentifiers =
 	    NFIQ2::QualityMeasures::getNativeQualityMeasureAlgorithmIDs();
 
-	std::unordered_map<std::string, double> speedMap { };
+	std::unordered_map<std::string, double> speedMap {};
 
 	for (std::vector<std::string>::size_type i = 0;
 	    i < speedIdentifiers.size(); i++) {
@@ -74,7 +74,7 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasures(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
-	std::unordered_map<std::string, double> quality { };
+	std::unordered_map<std::string, double> quality {};
 
 	for (const auto &feature : features) {
 		const auto moduleFeatures = feature->getFeatures();
@@ -98,7 +98,7 @@ NFIQ2::QualityMeasures::Impl::getActionableQualityFeedback(
     const std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
 	&features)
 {
-	std::unordered_map<std::string, double> actionableMap { };
+	std::unordered_map<std::string, double> actionableMap {};
 
 	/* Pre-populate the map */
 	for (const auto &id : getActionableQualityFeedbackIDs()) {
@@ -220,7 +220,7 @@ NFIQ2::QualityMeasures::Impl::computeNativeQualityMeasureAlgorithms(
 	    rawImage.copyRemovingNearWhiteFrame();
 
 	std::vector<std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	    features { };
+	    features {};
 
 	features.push_back(std::make_shared<FDA>(croppedImage));
 
@@ -259,7 +259,7 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithms(
 {
 	std::unordered_map<std::string,
 	    std::shared_ptr<NFIQ2::QualityMeasures::Algorithm>>
-	    ret { };
+	    ret {};
 	for (const auto &feature : features)
 		ret[feature->getName()] = feature;
 
@@ -298,7 +298,7 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureIDs()
 		RVUPHistogram::getNativeQualityMeasureIDs()
 	};
 
-	std::vector<std::string> qualityFeatureIDs { };
+	std::vector<std::string> qualityFeatureIDs {};
 
 	for (auto &vec : vov) {
 		qualityFeatureIDs.insert(qualityFeatureIDs.end(), vec.cbegin(),

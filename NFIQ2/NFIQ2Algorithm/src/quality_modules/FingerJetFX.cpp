@@ -1,10 +1,11 @@
-#include <algorithm>
-#include <cstring>
-#include <memory>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
 #include <quality_modules/FingerJetFX.h>
+
+#include <algorithm>
+#include <cstring>
+#include <memory>
 #include <sstream>
 #include <tuple>
 
@@ -97,7 +98,7 @@ NFIQ2::QualityMeasures::FingerJetFX::computeFeatureData(
 	 */
 	static const uint32_t fingerJetMinWidth { 196 };
 	static const uint32_t fingerJetMinHeight { 196 };
-	cv::Mat biggerImageCV { };
+	cv::Mat biggerImageCV {};
 	const bool imageTooSmall { (fingerprintImage.width <
 				       fingerJetMinWidth) ||
 		(fingerprintImage.height < fingerJetMinHeight) };
@@ -184,7 +185,7 @@ NFIQ2::QualityMeasures::FingerJetFX::computeFeatureData(
 			FingerJetFX::parseFRFXLLError(fxResMin));
 	}
 
-	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata { };
+	std::unique_ptr<FRFXLL_Basic_19794_2_Minutia[]> mdata {};
 	try {
 		mdata.reset(new FRFXLL_Basic_19794_2_Minutia[minCnt]);
 	} catch (const std::bad_alloc &) {

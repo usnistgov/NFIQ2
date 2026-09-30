@@ -9,8 +9,9 @@
  ******************************************************************************/
 
 #include <be_io_recordstore.h>
-#include <string>
 #include <tool/nfiq2_ui_types.h>
+
+#include <string>
 #include <vector>
 
 namespace BE = BiometricEvaluation;

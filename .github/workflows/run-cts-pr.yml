@@ -176,13 +176,13 @@ jobs:
     - name: Write test result summary
       shell: bash
       run: |
-        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "PASS"}' > cts_status.json
+        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "PASS", "job_total": ${{ strategy.job-total }}}' > cts_status.json
       if: ${{ success() }}
 
     - name: Write test result summary (failure)
       shell: bash
       run: |
-        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "FAIL"}' > cts_status.json
+        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "FAIL", "job_total": ${{ strategy.job-total }}}' > cts_status.json
       if: ${{ failure() }}
 
     - name: Upload test result summary
@@ -238,7 +238,7 @@ jobs:
           # Check if any status files exist
           if ! ls artifacts/cts_status-*/cts_status.json 1> /dev/null 2>&1; then
             echo "No test result files found!" >> summary.md
-            fail_count=10  # Assuming 10 configs from matrix
+            fail_count=1
             echo "fail_count=${fail_count}" >> $GITHUB_OUTPUT
             exit 0
           fi
@@ -290,6 +290,14 @@ jobs:
 
             echo "- ${emoji} **${os} ${arch}**${model_label} - ${status}" >> summary.md
           done
+
+          expected=$(jq -s 'map(.job_total // 0) | max' artifacts/cts_status-*/cts_status.json 2>/dev/null || echo 0)
+          missing=$(( expected - total_count ))
+          if (( missing > 0 )); then
+            echo "- ❌ **${missing} configuration(s) produced no result**" >> summary.md
+            fail_count=$(( fail_count + missing ))
+            total_count=$expected
+          fi
 
           echo "" >> summary.md
           echo "**Summary:** ${pass_count} passed, ${fail_count} failed (${total_count} total)" >> summary.md

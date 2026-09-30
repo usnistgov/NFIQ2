@@ -177,7 +177,7 @@ jobs:
       uses: actions/upload-artifact@v7
       if: always()  # Upload even if test failed
       with:
-        name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
+        name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}
         path: github.csv
         retention-days: 7
         if-no-files-found: error

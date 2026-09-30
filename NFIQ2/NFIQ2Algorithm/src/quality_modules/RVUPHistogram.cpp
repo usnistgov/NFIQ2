@@ -129,10 +129,10 @@ NFIQ2::QualityMeasures::RVUPHistogram::computeFeatureData(
 		std::vector<double> rvures;
 		std::vector<uint8_t> NanVec;
 		for (int r = blkoffset; r < rows - (blksize + blkoffset - 1);
-		     r += blksize) {
+		    r += blksize) {
 			for (int c = blkoffset;
-			     c < cols - (blksize + blkoffset - 1);
-			     c += blksize) {
+			    c < cols - (blksize + blkoffset - 1);
+			    c += blksize) {
 				im_roi = img(cv::Range(r,
 						 cv::min(r + blksize,
 						     img.rows)),
@@ -327,7 +327,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> changeIndex;
 	for (unsigned int i = 1; i < change.size();
-	     i++) // skip the first element, same effect
+	    i++) // skip the first element, same effect
 	{
 		// as "change(1) = []" in Matlab.
 		if (change[i] == 1) {
@@ -344,7 +344,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 		// ridges/valleys occurring at the border of the original block.
 		std::vector<uint8_t> ridvalComplete;
 		for (int i = changeIndex[0] + 1;
-		     i < changeIndex[changeIndex.size() - 1]; i++) {
+		    i < changeIndex[changeIndex.size() - 1]; i++) {
 			ridvalComplete.push_back(ridval[i]);
 		}
 		//  Likewise, remove corresponding changes from the change index
@@ -354,7 +354,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 		//          value
 		std::vector<uint8_t> changeIndexComplete;
 		for (unsigned int i = 1; i < changeIndex.size();
-		     i++) // skip the first value
+		    i++) // skip the first value
 		{
 			changeIndexComplete.push_back(
 			    changeIndex[i] - changeIndex[0]);
@@ -399,7 +399,7 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 
 				double r;
 				for (unsigned int m = 0;
-				     m < changeComplete2.size() - 1; m++) {
+				    m < changeComplete2.size() - 1; m++) {
 					r = static_cast<double>(
 						changeComplete2[m]) /
 					    static_cast<double>(
@@ -417,14 +417,14 @@ rvuhist(cv::Mat block, const double orientation, const int v1sz_x,
 				//    ratios(begrid+1:2:end) = 1 ./
 				//    ratios(begrid+1:2:end);
 				for (unsigned int i = begrid; i < ratios.size();
-				     i += 2) {
+				    i += 2) {
 					ratios[i] = 1 / ratios[i];
 				}
 			}
 
 			if (!ratios.empty()) {
 				for (unsigned int i = 0; i < ratios.size();
-				     i++) {
+				    i++) {
 					rvures.push_back(ratios[i]);
 				}
 			}

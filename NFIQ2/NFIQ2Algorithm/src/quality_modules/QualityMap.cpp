@@ -130,7 +130,7 @@ NFIQ2::QualityMeasures::QualityMap::computeOrientationMap(cv::Mat &img,
 				// search for ROI block
 				bool bBlockFound = false;
 				for (unsigned int k = 0;
-				     k < roiResults.vecROIBlocks.size(); k++) {
+				    k < roiResults.vecROIBlocks.size(); k++) {
 					if (roiResults.vecROIBlocks.at(k).x ==
 						j &&
 					    roiResults.vecROIBlocks.at(k).y ==
@@ -147,10 +147,9 @@ NFIQ2::QualityMeasures::QualityMap::computeOrientationMap(cv::Mat &img,
 
 				if (!bBlockFound) {
 					for (int k = i; k < (i + actualBS_Y);
-					     k++) {
+					    k++) {
 						for (int l = j;
-						     l < (j + actualBS_X);
-						     l++) {
+						    l < (j + actualBS_X); l++) {
 							omImg.at<uchar>(k,
 							    l) = 255; // set
 								      // value

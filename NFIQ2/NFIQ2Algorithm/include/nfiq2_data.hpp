@@ -141,7 +141,7 @@ class Data {
 	std::string toBase64String() const;
 
     private:
-	std::vector<std::uint8_t> buffer { };
+	std::vector<std::uint8_t> buffer {};
 };
 } // namespace NFIQ
 

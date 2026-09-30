@@ -50,32 +50,12 @@ jobs:
       run: sudo rm -rf /Library/Frameworks/Mono.framework
 
     - name: Download install_staging artifact
-      uses: actions/github-script@v7
+      uses: actions/download-artifact@v8
       with:
-        script: |
-          var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             run_id: ${{github.event.workflow_run.id}},
-          });
-          var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}"
-          })[0];
-          var download = await github.rest.actions.downloadArtifact({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             artifact_id: matchArtifact.id,
-             archive_format: 'zip',
-          });
-          var fs = require('fs');
-          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip', Buffer.from(download.data));
-
-    - name: Unzip install_staging
-      run: |
-        mkdir install_staging
-        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip install_staging
-        cd install_staging
-        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip
+        name: install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}
+        path: install_staging
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}
 
     - name: Show Dependencies (Linux)
       if: ${{ runner.os == 'Linux' }}

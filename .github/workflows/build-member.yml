@@ -1,5 +1,8 @@
 name: Build Libraries and CLI + Run CTS
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -43,6 +46,7 @@ jobs:
       uses: actions/checkout@v7
       with:
         submodules: true
+        persist-credentials: false
 
     # The Mono framework on macOS GitHub Runners provides some really old and
     # conflicting libraries at high precedence, so remove it.
@@ -202,7 +206,9 @@ jobs:
     - name: Download Conformance Test
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
-      run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      env:
+        DATASET_URL: ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      run: curl -o nfiq2_conformance.zip -fsSL --retry 3 "${DATASET_URL}"
 
     - name: Set up Python
       uses: actions/setup-python@v7

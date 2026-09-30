@@ -6,8 +6,13 @@ on:
     types:
       - completed
 
+permissions: {}
+
 jobs:
   runcts:
+    permissions:
+      contents: read
+      actions: read
     name: Run CTS
 
     runs-on: ${{ matrix.config.os }}
@@ -35,6 +40,7 @@ jobs:
       uses: actions/checkout@v7
       with:
         submodules: false
+        persist-credentials: false
 
     # The Mono framework on macOS GitHub Runners provides some really old and
     # conflicting libraries at high precedence, so remove it.
@@ -120,7 +126,9 @@ jobs:
 
     - name: Download Conformance Test
       shell: bash
-      run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      env:
+        DATASET_URL: ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      run: curl -o nfiq2_conformance.zip -fsSL --retry 3 "${DATASET_URL}"
 
     - name: Set up Python
       uses: actions/setup-python@v7
@@ -143,6 +151,7 @@ jobs:
       run: echo "NFIQ2_CLI_MODEL_ARGUMENT=" >> $GITHUB_ENV
 
     - name: Run Conformance Test (Windows)
+      timeout-minutes: 15
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
@@ -150,6 +159,7 @@ jobs:
         install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Run Conformance Test (Linux)
+      timeout-minutes: 15
       if: ${{ runner.os != 'Windows' }}
       shell: bash
       run: |
@@ -195,7 +205,11 @@ jobs:
 
   comment_on_pr:
     name: Comment on PR
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
     needs: runcts
     if: ${{ always() && needs.runcts.result != 'skipped' }}  # Run even if some matrix jobs failed
     steps:
@@ -216,6 +230,22 @@ jobs:
           [[ $n =~ ^[1-9][0-9]{0,9}$ ]] || \
               { echo "::error ::Invalid PR number"; exit 1; }
           echo "pr_number=$n" >> "$GITHUB_OUTPUT"
+
+      - name: Verify PR matches triggering commit
+        uses: actions/github-script@v9
+        env:
+          PR_NUMBER: ${{ steps.get_pr_number.outputs.pr_number }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: Number(process.env.PR_NUMBER),
+            });
+            if (pr.head.sha !== process.env.HEAD_SHA) {
+              core.setFailed(`PR #${pr.number} head (${pr.head.sha}) does not match tested commit (${process.env.HEAD_SHA})`);
+            }
 
       - name: Download all CTS status JSON files
         uses: actions/download-artifact@v8
@@ -308,7 +338,7 @@ jobs:
           echo "total_count=${total_count}" >> $GITHUB_OUTPUT
 
       - name: Comment on PR with results
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

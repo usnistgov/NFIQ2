@@ -1,9 +1,8 @@
+#include <cmath>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <quality_modules/ImgProcROI.h>
 #include <quality_modules/QualityMap.h>
-
-#include <cmath>
 #include <sstream>
 
 const char

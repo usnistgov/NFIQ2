@@ -203,11 +203,6 @@ jobs:
       shell: bash
       run: otool -L install_staging/nfiq2/bin/nfiq2
 
-    - name: Save PR number and artifacts
-      working-directory: ${{ github.workspace }}/build
-      shell: bash
-      run: echo ${{ github.event.number }} > install_staging/pr_number
-
     - name: Upload install_staging artifact
       uses: actions/upload-artifact@v7
       with:
@@ -216,3 +211,18 @@ jobs:
         retention-days: 7
         if-no-files-found: error
         overwrite: true
+
+  save_pr_number:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+    - shell: bash
+      run: |
+        mkdir -p pr
+        echo "${{ github.event.number }}" > pr/pr_number
+    - uses: actions/upload-artifact@v7
+      with:
+        name: pr_number
+        path: pr/
+        retention-days: 7
+        if-no-files-found: error

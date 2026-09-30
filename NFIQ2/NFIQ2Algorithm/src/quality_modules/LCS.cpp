@@ -3,7 +3,6 @@
 #include <opencv2/core.hpp>
 #include <quality_modules/LCS.h>
 #include <quality_modules/common_functions.h>
-
 #include <sstream>
 
 const char NFIQ2::Identifiers::QualityMeasureAlgorithms::LocalClarity[] {
@@ -418,7 +417,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 		// of all if all(NWr >= NWrmin) && all(NWr <= NWrmax) && all(NWv
 		// >= NWvmin) && all(NWv <= NWvmax)
 
-		cv::Scalar muNWr {}, muNWv {};
+		cv::Scalar muNWr { }, muNWv { };
 		if (!NWr.empty()) {
 			muNWr = cv::mean(NWr, cv::noArray());
 		}

@@ -1,10 +1,9 @@
+#include <cmath>
 #include <nfiq2_exception.hpp>
 #include <nfiq2_timer.hpp>
 #include <opencv2/core.hpp>
 #include <quality_modules/RVUPHistogram.h>
 #include <quality_modules/common_functions.h>
-
-#include <cmath>
 #include <sstream>
 
 const char

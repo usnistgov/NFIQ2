@@ -13,13 +13,12 @@
 #include <be_image_image.h>
 #include <be_image_raw.h>
 #include <be_io_utility.h>
+#include <cmath>
+#include <string>
 #include <tool/nfiq2_ui_image.h>
 #include <tool/nfiq2_ui_log.h>
 #include <tool/nfiq2_ui_types.h>
 #include <tool/nfiq2_ui_utils.h>
-
-#include <cmath>
-#include <string>
 #include <vector>
 
 namespace BE = BiometricEvaluation;
@@ -30,7 +29,7 @@ NFIQ2UI::getImages(const BE::Memory::uint8Array &dataArray,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	logger->debugMsg("Obtaining FileType from data: " + name);
-	std::vector<NFIQ2UI::ImgCouple> vecCouple {};
+	std::vector<NFIQ2UI::ImgCouple> vecCouple { };
 
 	switch (NFIQ2UI::getFileType(dataArray)) {
 	// Standard Image Case
@@ -64,7 +63,7 @@ NFIQ2UI::getImages(const std::string &path,
     std::shared_ptr<NFIQ2UI::Log> logger)
 {
 	logger->debugMsg("Trying to obtain data from path: " + path);
-	std::vector<NFIQ2UI::ImgCouple> vecCouple {};
+	std::vector<NFIQ2UI::ImgCouple> vecCouple { };
 
 	try {
 		// Directory Paths do not contain images
@@ -90,7 +89,7 @@ std::vector<NFIQ2UI::ImgCouple>
 NFIQ2UI::getImagesFromImage(const BE::Memory::uint8Array &dataArray,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger)
 {
-	std::vector<NFIQ2UI::ImgCouple> vecCouple {};
+	std::vector<NFIQ2UI::ImgCouple> vecCouple { };
 
 	try {
 		std::shared_ptr<BE::Image::Image> img =
@@ -116,7 +115,7 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 {
 	logger->debugMsg(
 	    "Trying to obtain images from ANSI/NIST Record: " + name);
-	std::vector<NFIQ2UI::ImgCouple> vecCouple {};
+	std::vector<NFIQ2UI::ImgCouple> vecCouple { };
 	std::shared_ptr<BE::DataInterchange::AN2KRecord> an2k;
 
 	try {
@@ -222,9 +221,9 @@ std::vector<NFIQ2UI::ImgCouple>
 NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
     const std::string &name, std::shared_ptr<NFIQ2UI::Log> logger)
 {
-	std::vector<NFIQ2UI::ImgCouple> vecCouple {};
+	std::vector<NFIQ2UI::ImgCouple> vecCouple { };
 
-	BiometricEvaluation::Memory::uint8Array empty {};
+	BiometricEvaluation::Memory::uint8Array empty { };
 
 	std::shared_ptr<BE::DataInterchange::ANSI2004Record> ansi2004;
 

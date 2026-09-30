@@ -11,10 +11,9 @@
 #ifndef NFIQ2_DATA_HPP_
 #define NFIQ2_DATA_HPP_
 
-#include <nfiq2_exception.hpp>
-
 #include <cstdint>
 #include <fstream>
+#include <nfiq2_exception.hpp>
 #include <string>
 #include <vector>
 
@@ -141,7 +140,7 @@ class Data {
 	std::string toBase64String() const;
 
     private:
-	std::vector<std::uint8_t> buffer {};
+	std::vector<std::uint8_t> buffer { };
 };
 } // namespace NFIQ
 

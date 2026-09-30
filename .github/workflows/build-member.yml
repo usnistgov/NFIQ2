@@ -166,7 +166,7 @@ jobs:
       shell: bash
       env:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
-      working-directory: ${{ github.workspace }}\build
+      working-directory: ${{ github.workspace }}/build
       run: |
         cmake \
             -A ${cmake_arch_flag} \

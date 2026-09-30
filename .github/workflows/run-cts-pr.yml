@@ -197,7 +197,7 @@ jobs:
     name: Comment on PR
     runs-on: ubuntu-24.04
     needs: runcts
-    if: always()  # Run even if some matrix jobs failed
+    if: ${{ always() && needs.runcts.result != 'skipped' }}  # Run even if some matrix jobs failed
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4

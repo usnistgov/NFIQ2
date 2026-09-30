@@ -199,10 +199,6 @@ jobs:
     needs: runcts
     if: ${{ always() && needs.runcts.result != 'skipped' }}  # Run even if some matrix jobs failed
     steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts/
 
       - name: Download PR number artifact
         uses: actions/download-artifact@v8
@@ -221,6 +217,11 @@ jobs:
               { echo "::error ::Invalid PR number"; exit 1; }
           echo "pr_number=$n" >> "$GITHUB_OUTPUT"
 
+      - name: Download all CTS status JSON files
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts/
+          pattern: cts_status-*
 
       - name: Collect test results and generate comment
         id: generate_comment

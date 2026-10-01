@@ -152,13 +152,6 @@ writing. **Using a different version of OpenCV may result in unstable NFIQ 2
 scores and is not supported.** Future updates to OpenCV versions should run the
 conformance test and larger sequestered tests without differences.
 
-Known Limitations
------------------
-
- * **macOS**:
-   * Xcode 10 and later does not support 32-bit applications. In order to build
-     NFIQ 2 for 32-bit macOS, use Xcode 9.4.x.
-
 Build Options
 -------------
 The CMake builds supports the following options:

@@ -6,32 +6,39 @@ on:
     types:
       - completed
 
+permissions: {}
+
 jobs:
   runcts:
+    permissions:
+      contents: read
+      actions: read
     name: Run CTS
 
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.gh_runner }}
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.pull_requests[0].base.ref != 'ad-hoc-group' }}
     strategy:
       fail-fast: false
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-26, arch: arm64, embed_rf: OFF }
-          - { os: macOS-15, arch: arm64, embed_rf: OFF }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
-          - { os: windows-2025, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { gh_runner: macOS-26,         os: macOS-26,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: macOS-15,         os: macOS-15,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04-arm, os: ubuntu-26.04, arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2025,     os: windows-2025, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x86,   embed_rf: OFF }
 
     steps:
     - name: Checkout Conformance Test Script
       uses: actions/checkout@v7
       with:
         submodules: false
+        persist-credentials: false
 
     # The Mono framework on macOS GitHub Runners provides some really old and
     # conflicting libraries at high precedence, so remove it.
@@ -41,32 +48,12 @@ jobs:
       run: sudo rm -rf /Library/Frameworks/Mono.framework
 
     - name: Download install_staging artifact
-      uses: actions/github-script@v7
+      uses: actions/download-artifact@v8
       with:
-        script: |
-          var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             run_id: ${{github.event.workflow_run.id}},
-          });
-          var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-            return artifact.name == "install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}"
-          })[0];
-          var download = await github.rest.actions.downloadArtifact({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             artifact_id: matchArtifact.id,
-             archive_format: 'zip',
-          });
-          var fs = require('fs');
-          fs.writeFileSync('install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip', Buffer.from(download.data));
-
-    - name: Unzip install_staging
-      run: |
-        mkdir install_staging
-        mv install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip install_staging
-        cd install_staging
-        unzip install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}.zip
+        name: install_staging-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}
+        path: install_staging
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}
 
     - name: Show Dependencies (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -84,7 +71,7 @@ jobs:
       run: |
         sudo apt -y update
         sudo apt -y install \
-            libdb++-dev \
+            libdb5.3++-dev \
             libhwloc-dev \
             libjbig-dev \
             libjpeg-dev \
@@ -117,7 +104,9 @@ jobs:
 
     - name: Download Conformance Test
       shell: bash
-      run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      env:
+        DATASET_URL: ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      run: curl -o nfiq2_conformance.zip -fsSL --retry 3 "${DATASET_URL}"
 
     - name: Set up Python
       uses: actions/setup-python@v7
@@ -140,6 +129,7 @@ jobs:
       run: echo "NFIQ2_CLI_MODEL_ARGUMENT=" >> $GITHUB_ENV
 
     - name: Run Conformance Test (Windows)
+      timeout-minutes: 15
       if: ${{ runner.os == 'Windows' }}
       shell: bash
       run: |
@@ -147,6 +137,7 @@ jobs:
         install_staging/nfiq2/bin/nfiq2 ${{ env.NFIQ2_CLI_MODEL_ARGUMENT }} -i nfiq2_conformance/images -a -v -q -o github.csv
 
     - name: Run Conformance Test (Linux)
+      timeout-minutes: 15
       if: ${{ runner.os != 'Windows' }}
       shell: bash
       run: |
@@ -164,7 +155,7 @@ jobs:
       uses: actions/upload-artifact@v7
       if: always()  # Upload even if test failed
       with:
-        name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}
+        name: conformance_output-${{ matrix.config.os }}-${{ matrix.config.arch }}-embedded_${{ matrix.config.embed_rf }}
         path: github.csv
         retention-days: 7
         if-no-files-found: error
@@ -173,13 +164,13 @@ jobs:
     - name: Write test result summary
       shell: bash
       run: |
-        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "PASS"}' > cts_status.json
+        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "PASS", "job_total": ${{ strategy.job-total }}}' > cts_status.json
       if: ${{ success() }}
 
     - name: Write test result summary (failure)
       shell: bash
       run: |
-        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "FAIL"}' > cts_status.json
+        echo '{"os": "${{ matrix.config.os }}", "arch": "${{ matrix.config.arch }}", "embed_rf": "${{ matrix.config.embed_rf }}", "status": "FAIL", "job_total": ${{ strategy.job-total }}}' > cts_status.json
       if: ${{ failure() }}
 
     - name: Upload test result summary
@@ -192,59 +183,53 @@ jobs:
 
   comment_on_pr:
     name: Comment on PR
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
     needs: runcts
-    if: always()  # Run even if some matrix jobs failed
+    if: ${{ always() && needs.runcts.result != 'skipped' }}  # Run even if some matrix jobs failed
     steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts/
 
-      - name: Get PR number from triggering workflow
-        id: get_pr_number
-        uses: actions/github-script@v7
+      - name: Download PR number artifact
+        uses: actions/download-artifact@v8
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: pr_number
+          path: pr
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Read PR number from downloaded artifact
+        id: get_pr_number
+        shell: bash
+        run: |
+          n=$(tr -d '[:space:]' < pr/pr_number)
+          [[ $n =~ ^[1-9][0-9]{0,9}$ ]] || \
+              { echo "::error ::Invalid PR number"; exit 1; }
+          echo "pr_number=$n" >> "$GITHUB_OUTPUT"
+
+      - name: Verify PR matches triggering commit
+        uses: actions/github-script@v9
+        env:
+          PR_NUMBER: ${{ steps.get_pr_number.outputs.pr_number }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        with:
           script: |
-            const runId = ${{ github.event.workflow_run.id }};
-            const { data: jobs } = await github.rest.actions.listJobsForWorkflowRun({
+            const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              run_id: runId
+              pull_number: Number(process.env.PR_NUMBER),
             });
-
-            let pr = null;
-
-            for (const job of jobs.jobs) {
-              if (job.head_sha !== '${{ github.event.workflow_run.head_sha }}') continue;
-              if (job.pull_requests && job.pull_requests.length > 0) {
-                pr = job.pull_requests[0].number;
-                break;
-              }
+            if (pr.head.sha !== process.env.HEAD_SHA) {
+              core.setFailed(`PR #${pr.number} head (${pr.head.sha}) does not match tested commit (${process.env.HEAD_SHA})`);
             }
 
-            if (!pr) {
-              // fallback: use checks API
-              const checks = await github.rest.checks.listForRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: '${{ github.event.workflow_run.head_sha }}'
-              });
-
-              for (const run of checks.data.check_runs) {
-                if (run.pull_requests && run.pull_requests.length > 0) {
-                  pr = run.pull_requests[0].number;
-                  break;
-                }
-              }
-            }
-
-            if (!pr) {
-              throw new Error("Failed to determine PR number.");
-            }
-
-            core.setOutput("pr_number", pr.toString());
+      - name: Download all CTS status JSON files
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts/
+          pattern: cts_status-*
 
       - name: Collect test results and generate comment
         id: generate_comment
@@ -262,9 +247,8 @@ jobs:
           # Check if any status files exist
           if ! ls artifacts/cts_status-*/cts_status.json 1> /dev/null 2>&1; then
             echo "No test result files found!" >> summary.md
-            fail_count=10  # Assuming 10 configs from matrix
+            fail_count=1
             echo "fail_count=${fail_count}" >> $GITHUB_OUTPUT
-            echo "pr_number=${{ steps.get_pr_number.outputs.pr_number }}" >> $GITHUB_OUTPUT
             exit 0
           fi
 
@@ -316,6 +300,14 @@ jobs:
             echo "- ${emoji} **${os} ${arch}**${model_label} - ${status}" >> summary.md
           done
 
+          expected=$(jq -s 'map(.job_total // 0) | max' artifacts/cts_status-*/cts_status.json 2>/dev/null || echo 0)
+          missing=$(( expected - total_count ))
+          if (( missing > 0 )); then
+            echo "- ❌ **${missing} configuration(s) produced no result**" >> summary.md
+            fail_count=$(( fail_count + missing ))
+            total_count=$expected
+          fi
+
           echo "" >> summary.md
           echo "**Summary:** ${pass_count} passed, ${fail_count} failed (${total_count} total)" >> summary.md
 
@@ -324,7 +316,7 @@ jobs:
           echo "total_count=${total_count}" >> $GITHUB_OUTPUT
 
       - name: Comment on PR with results
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

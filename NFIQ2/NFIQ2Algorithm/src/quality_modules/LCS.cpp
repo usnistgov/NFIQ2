@@ -168,10 +168,10 @@ NFIQ2::QualityMeasures::LCS::computeFeatureData(
 		int bc = 0;
 
 		for (int r = blkoffset; r < rows - (blocksize + blkoffset - 1);
-		     r += blocksize) {
+		    r += blocksize) {
 			for (int c = blkoffset;
-			     c < cols - (blocksize + blkoffset - 1);
-			     c += blocksize) {
+			    c < cols - (blocksize + blkoffset - 1);
+			    c += blocksize) {
 				im_roi = img(cv::Range(r,
 						 cv::min(r + blocksize,
 						     img.rows)),
@@ -336,7 +336,7 @@ loclar(cv::Mat &block, const double orientation, const int v1sz_x,
 
 	std::vector<uint8_t> changeIndex;
 	for (unsigned int i = 1; i < change.size();
-	     i++) // skip the first element, same effect
+	    i++) // skip the first element, same effect
 	{
 		// as "change(1) = []" in Matlab.
 		if (change[i] == 1) {

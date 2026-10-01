@@ -53,7 +53,7 @@ NFIQ2::QualityMeasures::Impl::getNativeQualityMeasureAlgorithmSpeeds(
 	std::unordered_map<std::string, double> speedMap {};
 
 	for (std::vector<std::string>::size_type i = 0;
-	     i < speedIdentifiers.size(); i++) {
+	    i < speedIdentifiers.size(); i++) {
 		speedMap[speedIdentifiers.at(i)] = features.at(i)->getSpeed();
 	}
 

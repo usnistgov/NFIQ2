@@ -153,10 +153,10 @@ NFIQ2::QualityMeasures::FDA::computeFeatureData(
 		int br = 0;
 		int bc = 0;
 		for (int r = blkoffset; r < rows - (blksize + blkoffset - 1);
-		     r += blksize) {
+		    r += blksize) {
 			for (int c = blkoffset;
-			     c < cols - (blksize + blkoffset - 1);
-			     c += blksize) {
+			    c < cols - (blksize + blkoffset - 1);
+			    c += blksize) {
 				im_roi = img(cv::Range(r,
 						 cv::min(r + blksize,
 						     img.rows)),

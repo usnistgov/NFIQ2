@@ -1,14 +1,22 @@
 name: Build PR
 
+permissions:
+  contents: read
+
 on:
   pull_request:
-    paths-ignore:
-      - '.github/**'
-      - '!.github/workflows/build-pr.yml'
-      - '.gitignore'
-      - '**.md'
-      - 'conformance/**'
-      - 'NFIQ2/NFIQ2Algorithm/doc/**'
+    paths:
+      - '**'
+      - '!.github/**'
+      - '.github/workflows/build-pr.yml'
+      - '!.gitignore'
+      - '!**.md'
+      - '!conformance/**'
+      - '!NFIQ2/NFIQ2Algorithm/doc/**'
+
+concurrency:
+  group: build-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 env:
   CONFIGURATION: Release
@@ -18,26 +26,28 @@ jobs:
   build:
     name: Build Matrix
 
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.gh_runner }}
     strategy:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-26, arch: arm64, embed_rf: OFF }
-          - { os: macOS-15, arch: arm64, embed_rf: OFF }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
-          - { os: windows-2025, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { gh_runner: macOS-26,         os: macOS-26,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: macOS-15,         os: macOS-15,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04-arm, os: ubuntu-26.04, arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2025,     os: windows-2025, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x86,   embed_rf: OFF }
 
     steps:
     - name: Checkout Code and Submodules
       uses: actions/checkout@v7
       with:
         submodules: true
+        persist-credentials: false
 
     # The Mono framework on macOS GitHub Runners provides some really old and
     # conflicting libraries at high precedence, so remove it.
@@ -63,7 +73,7 @@ jobs:
         path: |
           ${{ env.VCPKG_DOWNLOADS }}
           ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg-${{ hashFiles('.github/workflows/build-pr.yml') }}
         restore-keys: |
           pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
           ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
@@ -74,7 +84,7 @@ jobs:
       run: |
         sudo apt -y update
         sudo apt -y install \
-            libdb++-dev \
+            libdb5.3++-dev \
             libhwloc-dev \
             libjbig-dev \
             libjpeg-dev \
@@ -134,10 +144,10 @@ jobs:
           !${{ github.workspace }}/build/nfir*
           !${{ github.workspace }}/build/nfiq2api-prefix/src/nfiq2api-build/CMakeFiles/Nfiq2Api.dir/version.AppleClang.apple64.cpp.o*
           !${{ github.workspace }}/build/nfiq2-prefix/src/nfiq2-build/CMakeFiles/nfiq2-static-lib.dir/src/nfiq2/version.cpp.o*
-        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
+        key: pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir-${{ github.sha }}
         restore-keys: |
-          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
-          ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
+          pr-${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir
+          ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir
 
     - name: Get CMake Version
       shell: bash
@@ -200,11 +210,6 @@ jobs:
       shell: bash
       run: otool -L install_staging/nfiq2/bin/nfiq2
 
-    - name: Save PR number and artifacts
-      working-directory: ${{ github.workspace }}/build
-      shell: bash
-      run: echo ${{ github.event.number }} > install_staging/pr_number
-
     - name: Upload install_staging artifact
       uses: actions/upload-artifact@v7
       with:
@@ -213,3 +218,18 @@ jobs:
         retention-days: 7
         if-no-files-found: error
         overwrite: true
+
+  save_pr_number:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+    - shell: bash
+      run: |
+        mkdir -p pr
+        echo "${{ github.event.number }}" > pr/pr_number
+    - uses: actions/upload-artifact@v7
+      with:
+        name: pr_number
+        path: pr/
+        retention-days: 7
+        if-no-files-found: error

@@ -196,3 +196,7 @@ TypenameMacros:
   - TAILQ_CLASS_HEAD
   - TAILQ_ENTRY
   - TAILQ_HEAD
+
+# Addition to FreeBSD to restore no space in empty initializers:
+Cpp11BracedListStyle: false   # keeps `{ 1 }`
+SpaceInEmptyBraces: Never     # gives `{}`

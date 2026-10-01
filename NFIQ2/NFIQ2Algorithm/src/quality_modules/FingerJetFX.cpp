@@ -253,7 +253,7 @@ NFIQ2::QualityMeasures::FingerJetFX::computeFeatureData(
 	    Sizes::LocalRegionSquare, fingerprintImage, vecRectDimensions);
 	double noOfMinInRect200x200 = 0;
 	for (unsigned int i = 0;
-	     i < roiResults.vecNoOfMinutiaeInRectangular.size(); i++) {
+	    i < roiResults.vecNoOfMinutiaeInRectangular.size(); i++) {
 		if (roiResults.vecNoOfMinutiaeInRectangular.at(i).comType ==
 		    e_COMType_MinutiaeLocation) {
 			if (roiResults.vecNoOfMinutiaeInRectangular.at(i)

@@ -91,7 +91,7 @@ InitNfiq2(char **hash)
 #else
 			g_nfiq2 = std::unique_ptr<NFIQ2::Algorithm>(
 			    new NFIQ2::Algorithm(GetYamlFilePath(),
-				"ccd75820b48c19f1645ef5e9c481c592"));
+				"b4a1e7586b3be906f9770e4b77768038"));
 #endif
 			*hash = (char *)malloc(
 			    g_nfiq2->getParameterHash().length() + 1);

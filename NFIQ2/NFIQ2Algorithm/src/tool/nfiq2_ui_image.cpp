@@ -154,13 +154,11 @@ NFIQ2UI::getImagesFromAN2K(const BE::Memory::uint8Array &dataArray,
 			std::string warning = "NA";
 
 			const uint16_t imagePPI = static_cast<uint16_t>(
-			    std::round(
-				img->getResolution()
+			    std::round(img->getResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
 				    .xRes));
 			const uint16_t an2kPPI = static_cast<uint16_t>(
-			    std::round(
-				cap.getImageResolution()
+			    std::round(cap.getImageResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
 				    .xRes));
 
@@ -269,13 +267,11 @@ NFIQ2UI::getImagesFromANSI2004(const BE::Memory::uint8Array &dataArray,
 			std::string warning = "NA";
 
 			const uint16_t imagePPI = static_cast<uint16_t>(
-			    std::round(
-				img->getResolution()
+			    std::round(img->getResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
 				    .xRes));
 			const uint16_t an2kPPI = static_cast<uint16_t>(
-			    std::round(
-				cap.getImageResolution()
+			    std::round(cap.getImageResolution()
 				    .toUnits(BE::Image::Resolution::Units::PPI)
 				    .xRes));
 

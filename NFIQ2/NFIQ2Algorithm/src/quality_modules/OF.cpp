@@ -163,10 +163,10 @@ NFIQ2::QualityMeasures::OF::computeFeatureData(
 		int bc = 0;
 
 		for (int r = blkoffset; r < rows - (blocksize + blkoffset - 1);
-		     r += blocksize) {
+		    r += blocksize) {
 			for (int c = blkoffset;
-			     c < cols - (blocksize + blkoffset - 1);
-			     c += blocksize) {
+			    c < cols - (blocksize + blkoffset - 1);
+			    c += blocksize) {
 				im_roi = img(cv::Range(r,
 						 cv::min(r + blocksize,
 						     img.rows)),

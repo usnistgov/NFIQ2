@@ -31,7 +31,7 @@ NFIQ2UI::SafeSplitPathsQueue::SafeSplitPathsQueue(
 		std::vector<std::string> split;
 
 		for (std::vector<std::string>::size_type i { 0 };
-		     i < std::min(splittingFactor, content.size()); ++i) {
+		    i < std::min(splittingFactor, content.size()); ++i) {
 			split.emplace_back(content.back());
 			content.pop_back();
 		}
@@ -56,7 +56,7 @@ NFIQ2UI::SafeSplitPathsQueue::SafeSplitPathsQueue(
 		std::vector<std::string> split;
 
 		for (std::vector<std::string>::size_type i { 0 };
-		     i < std::min(splittingFactor, content.size()); ++i) {
+		    i < std::min(splittingFactor, content.size()); ++i) {
 			split.emplace_back(content.back());
 			content.pop_back();
 		}

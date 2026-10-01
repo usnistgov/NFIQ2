@@ -1,63 +1,33 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.28)
 
 project(examples)
 
-option(LINK_AGAINST_STATIC_LIBNFIQ2 "Link against static (vs shared) libnfiq2" YES)
 option(NFIQ2_EMBEDDED_MODEL "Link against library with embedded model (no NFIQ2::ModelInfo)" NO)
 
 # TODO: Add find_package for NFIQ2
-set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE STRING "Location of NFIQ 2 installation")
-include_directories(${NFIQ2_INSTALL_DIR}/include)
+set(NFIQ2_INSTALL_DIR /usr/local/nfiq2 CACHE PATH "Location of NFIQ 2 installation")
+include_directories(${NFIQ2_INSTALL_DIR}/include ${NFIQ2_INSTALL_DIR}/nfiq2/include)
 ################################################################################
 set(REQUIRED_LIBS "")
 
-if (LINK_AGAINST_STATIC_LIBNFIQ2)
-	find_library(LIBNFIQ2_STATIC
-		${CMAKE_STATIC_LIBRARY_PREFIX}nfiq2${CMAKE_STATIC_LIBRARY_SUFFIX}
-		PATHS
-			${NFIQ2_INSTALL_DIR}/lib
-		REQUIRED)
-	find_library(LIBFRFXLL_STATIC
-		${CMAKE_STATIC_LIBRARY_PREFIX}FRFXLL_static${CMAKE_STATIC_LIBRARY_SUFFIX}
-		PATHS
-			${NFIQ2_INSTALL_DIR}/lib
-		REQUIRED)
+find_library(LIBNFIQ2 nfiq2
+	PATHS
+		${NFIQ2_INSTALL_DIR}/lib
+		${NFIQ2_INSTALL_DIR}/nfiq2/lib
+	REQUIRED)
+list(APPEND REQUIRED_LIBS ${LIBNFIQ2})
 
-	set(OpenCV_STATIC ON)
-	find_package(OpenCV REQUIRED
-		HINTS
-			${NFIQ2_INSTALL_DIR}/lib/cmake/opencv4
-			${NFIQ2_INSTALL_DIR})
 
-	list(APPEND REQUIRED_LIBS
-		${LIBNFIQ2_STATIC}
-		${LIBFRFXLL_STATIC}
-		${OpenCV_LIBS})
+cmake_path(SET OpenCV_DIR NORMALIZE ${LIBNFIQ2}/../cmake/opencv4)
+find_package(OpenCV REQUIRED)
+list(APPEND REQUIRED_LIBS ${OpenCV_LIBS})
 
-	# Static Windows runtime
-	if (MSVC)
-		foreach(flag_var
-		    CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-		    CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-			if(${flag_var} MATCHES "/MD")
-				string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-			endif()
-			if(${flag_var} MATCHES "/MDd")
-				string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
-			endif()
-		endforeach(flag_var)
-	endif()
-else()
-	find_library(LIBNFIQ2_SHARED
-		nfiq2
-		PATHS
-			${NFIQ2_INSTALL_DIR}/lib
-			${NFIQ2_INSTALL_DIR}/nfiq2/lib
-		REQUIRED)
-
-	list(APPEND REQUIRED_LIBS
-		${LIBNFIQ2_SHARED})
-endif()
+find_library(FJFX FRFXLL_static
+	PATHS
+		${NFIQ2_INSTALL_DIR}/lib
+		${NFIQ2_INSTALL_DIR}/nfiq2/lib
+	REQUIRED)
+list(APPEND REQUIRED_LIBS ${FJFX})
 
 set(ALL_TARGETS "")
 ################################################################################

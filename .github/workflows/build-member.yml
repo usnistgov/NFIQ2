@@ -1,16 +1,19 @@
 name: Build Libraries and CLI + Run CTS
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
       - master
-    paths-ignore:
-      - '.github/**'
-      - '!.github/workflows/build-member.yml'
-      - '.gitignore'
-      - '**.md'
-      - 'conformance/**'
-      - 'NFIQ2/NFIQ2Algorithm/doc/**'
+    paths:
+      - '**'
+      - '!.github/**'
+      - '.github/workflows/build-member.yml'
+      - '!.gitignore'
+      - '!**.md'
+      - '!NFIQ2/NFIQ2Algorithm/doc/**'
 
 env:
   CONFIGURATION: Release
@@ -20,26 +23,28 @@ jobs:
   build:
     name: Build Matrix + CTS
 
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.gh_runner }}
     strategy:
       matrix:
         config:
           # https://github.com/actions/virtual-environments
-          - { os: macOS-26, arch: arm64, embed_rf: OFF }
-          - { os: macOS-15, arch: arm64, embed_rf: OFF }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-24.04, arch: x64, embed_rf: OFF }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: ON }
-          - { os: ubuntu-22.04, arch: x64, embed_rf: OFF }
-          - { os: windows-2025, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x64, embed_rf: OFF }
-          - { os: windows-2022, arch: x86, embed_rf: OFF }
+          - { gh_runner: macOS-26,         os: macOS-26,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: macOS-15,         os: macOS-15,     arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04-arm, os: ubuntu-26.04, arch: arm64, embed_rf: OFF }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-26.04,     os: ubuntu-26.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: ON }
+          - { gh_runner: ubuntu-24.04,     os: ubuntu-24.04, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2025,     os: windows-2025, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x64,   embed_rf: OFF }
+          - { gh_runner: windows-2022,     os: windows-2022, arch: x86,   embed_rf: OFF }
 
     steps:
     - name: Checkout Code and Submodules
       uses: actions/checkout@v7
       with:
         submodules: true
+        persist-credentials: false
 
     # The Mono framework on macOS GitHub Runners provides some really old and
     # conflicting libraries at high precedence, so remove it.
@@ -65,7 +70,8 @@ jobs:
         path: |
           ${{ env.VCPKG_DOWNLOADS }}
           ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg-${{ hashFiles('.github/workflows/build-member.yml') }}
+        restore-keys: ${{ matrix.config.os }}-${{ matrix.config.arch }}-vcpkg
 
     - name: Install Packages (Linux)
       if: ${{ runner.os == 'Linux' }}
@@ -73,7 +79,7 @@ jobs:
       run: |
         sudo apt -y update
         sudo apt -y install \
-            libdb++-dev \
+            libdb5.3++-dev \
             libhwloc-dev \
             libjbig-dev \
             libjpeg-dev \
@@ -111,19 +117,18 @@ jobs:
         vcpkg install --recurse \
           --triplet=${{ matrix.config.arch }}-windows-static \
           berkeleydb \
+          getopt \
           hwloc \
           libjpeg-turbo \
           liblzma \
           libpng \
           openjpeg \
           openssl \
+          pkgconf \
           sqlite3 \
           tiff \
           zlib \
           zstd
-        # getopt is not static
-        vcpkg install --recurse \
-          --triplet=${{ matrix.config.arch }}-windows getopt
 
     - name: Build Directory Cache
       id: builddir-cache
@@ -134,7 +139,8 @@ jobs:
           !${{ github.workspace }}/build/nfir*
           !${{ github.workspace }}/build/nfiq2api-prefix/src/nfiq2api-build/CMakeFiles/Nfiq2Api.dir/version.AppleClang.apple64.cpp.o*
           !${{ github.workspace }}/build/nfiq2-prefix/src/nfiq2-build/CMakeFiles/nfiq2-static-lib.dir/src/nfiq2/version.cpp.o*
-        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-builddir-ocv410
+        key: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir-${{ github.sha }}
+        restore-keys: ${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.embed_rf }}-builddir
 
     - name: Get CMake Version
       shell: bash
@@ -160,7 +166,7 @@ jobs:
       shell: bash
       env:
         cmake_arch_flag: ${{ matrix.config.arch == 'x86' && 'Win32' || 'x64' }}
-      working-directory: ${{ github.workspace }}\build
+      working-directory: ${{ github.workspace }}/build
       run: |
         cmake \
             -A ${cmake_arch_flag} \
@@ -200,7 +206,9 @@ jobs:
     - name: Download Conformance Test
       working-directory: ${{ github.workspace }}/conformance
       shell: bash
-      run: curl -o nfiq2_conformance.zip -L ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      env:
+        DATASET_URL: ${{ secrets.NFIQ2_CONFORMANCE_DATASET_URL }}
+      run: curl -o nfiq2_conformance.zip -fsSL --retry 3 "${DATASET_URL}"
 
     - name: Set up Python
       uses: actions/setup-python@v7

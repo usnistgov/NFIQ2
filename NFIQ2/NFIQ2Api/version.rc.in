@@ -16,8 +16,8 @@ BEGIN
             VALUE "CompanyName", "@NFIQ2_PRODUCT_VENDOR@\0"
             VALUE "FileDescription", "@NFIQ2_PRODUCT_DESCRIPTION_SHORT@\0"
             VALUE "FileVersion", "@NFIQ2_VERSION_FULL@\0"
-            VALUE "InternalName", "NFIQ 2 (OpenCV @OPENCV_VERSION@; @CMAKE_CXX_COMPILER_ID@; @TARGET_PLATFORM@)\0"
-            VALUE "OriginalFileName", "NFIQ 2 (OpenCV @OPENCV_VERSION@; @CMAKE_CXX_COMPILER_ID@; @TARGET_PLATFORM@)\0"
+            VALUE "InternalName", "NFIQ 2 (OpenCV @OPENCV_VERSION@; @CMAKE_CXX_COMPILER_ID@; @CMAKE_SYSTEM_NAME@)\0"
+            VALUE "OriginalFileName", "NFIQ 2 (OpenCV @OPENCV_VERSION@; @CMAKE_CXX_COMPILER_ID@; @CMAKE_SYSTEM_NAME@)\0"
             VALUE "ProductName", "@NFIQ2_PRODUCT_NAME@\0"
             VALUE "ProductVersion", "@NFIQ2_VERSION_PRETTY@\0"
         END

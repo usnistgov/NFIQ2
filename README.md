@@ -165,7 +165,7 @@ The CMake builds supports the following options:
 
  * `BUILD_NFIQ2_CLI` (default: `ON`)
    * Whether or not to build the standalone command-line executable.
- * `BUILD_SHARED_LIBS (default: `OFF`)
+ * `BUILD_SHARED_LIBS` (default: `OFF`)
    * Build libnfiq2 as a shared (or static) library.
  * `BUILD_WITH_STATIC_CRT` (default: `ON`)
    * On Windows, link against the static C runtime.

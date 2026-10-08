@@ -422,8 +422,9 @@ if (APPLE)
 		set(CPACK_PKGBUILD_IDENTITY_NAME "${MACOS_INSTALLER_SIGNING_IDENTITY}")
 		ExternalProject_Add_Step(nfiq2api codesign
 		    DEPENDEES install
-		    COMMAND codesign --prefix "${CPACK_PRODUCTBUILD_IDENTIFIER}." -f --options runtime --sign "${MACOS_APPLICATION_SIGNING_IDENTITY}" ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}/nfiq2 ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libFRFXLL.dylib ${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}/libNfiq2Api.dylib
-		    COMMENT "Codesigning all binaries and dylibs...")
+		    COMMAND sh -c "find '${INSTALL_STAGING_DIR}/${INSTALL_STAGING_BINDIR}' '${INSTALL_STAGING_DIR}/${INSTALL_STAGING_LIBDIR}' \\( -name nfiq2 -o -name '*.dylib' \\) -type f -exec codesign --prefix '${CPACK_PRODUCTBUILD_IDENTIFIER}.' -f --options runtime --sign '${MACOS_APPLICATION_SIGNING_IDENTITY}' {} +"
+		    COMMENT "Codesigning all binaries and dylibs..."
+		    VERBATIM)
 
 		# Notarize the installer
 		# XXX: Use CPACK_POST_BUILD_SCRIPTS instead, since this can't depend on packaging
